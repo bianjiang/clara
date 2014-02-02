@@ -1,0 +1,46 @@
+
+.minutes-page{
+	page-break-after:always;	
+	margin-bottom:40px;
+}
+
+.minutes-header-left{
+	float:left;
+	font-size:10px;
+	font-weight:200;
+	color:#777;
+	text-transform:uppercase;
+}
+.minutes-header-right{
+	float:right;
+	text-align:right;
+	font-size:10px;
+	font-weight:200;
+	color:#777;
+	text-transform:uppercase;
+}
+
+@media print{
+	
+	body{
+	font-size: 11px;
+    line-height: 14px;
+    }
+    .tools-locked-page,.tools-edit-page{
+    	display:none;
+    }
+	.navbar-fixed-top, .navbar-fixed-bottom {
+	    left: 0;
+	    margin-bottom: 0;
+	    position: absolute;
+	    right: 0;
+	    z-index: 1030;
+	}
+	.navbar-search, #report-nav-actions{
+		display:none;
+	}
+	
+	[class^="icon-"]:before, [class*=" icon-"]:before {
+		content:"*";
+	}
+}

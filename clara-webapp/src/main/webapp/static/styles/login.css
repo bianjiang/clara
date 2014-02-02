@@ -1,0 +1,23 @@
+body {
+	background:#000;
+	font:13px Helvetica,Arial,Sans-Serif;
+	margin:0;
+}
+
+.wrap {
+	white-space:normal !important;
+}
+
+.news-panel{
+}
+
+.news-post h1{
+	font-size:18px;
+	line-height:20px;
+	margin-bottom:8px;
+}
+
+.news-post .news-post-message{
+	font-size:14px;
+	line-height:20px;
+}

@@ -1,0 +1,190 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title/text())" />
+	<x:set var="studyNature"
+		select="string($protocolInstance/protocol/study-nature/text())" />
+	<x:set var="studyType"
+		select="string($protocolInstance/protocol/study-type/text())" />
+	<x:set var="hasNewContractCreated"
+		select="string($protocolInstance/protocol/contract/have-new-contract/text())" />
+	<x:set var="signedByPiOrNot"
+		select="string($protocolInstance/protocol/signed-by/text())" />
+	<x:set var="primaryRespons"
+		select="string($protocolInstance/protocol/site-responsible/text())" />
+	<x:set var="toModify"
+		select="string($protocolInstance/protocol/modification/to-modify-sections/text())" />
+	<x:set var="modiWorkFlow"
+		select="string($protocolInstance/protocol/workflow/text())" />
+
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<!-- // -->
+	</div>
+
+	<c:set var="formType" value="${protocolFormXmlData.protocolForm.protocolFormType}"/>
+
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			
+					
+				<c:set var="messageId" value="signed-no-messages"/>
+				<c:if test='${formType == "NEW_SUBMISSION"}'>
+					<c:if test='${hasNewContractCreated == "y"}'>
+						<c:set var="messageId" value="signed-warning-messages"/>
+					</c:if>
+				</c:if>
+				<div id="${messageId}">
+				
+				<c:if test='${formType == "NEW_SUBMISSION"}'>
+					<c:choose>
+						<c:when test='${studyNature == "hud-use"}'>
+							Your HUD form has been signed and submitted!
+						</c:when>
+						<c:otherwise>
+							Your New Submission form has been signed and submitted!
+						<!-- 
+							<c:choose>
+								<c:when test='${hasNewContractCreated == "y"}'>
+									<span style="color:red;">Your New Submission form has been signed and submitted, <strong>but you are not finished yet!</strong></span>
+								</c:when>
+								<c:otherwise>
+									Your New Submission form has been signed and submitted!
+								</c:otherwise>
+							</c:choose>
+						-->
+						</c:otherwise>
+					</c:choose>
+				</c:if>
+				<c:if test='${formType == "MODIFICATION"}'>
+					Your modification request form has been signed and submitted!
+				</c:if>
+				
+				<ul class="signed-information">
+				<li class="bulletitem" style="font-size:12px;color:#000;">
+
+				<c:choose>
+					<c:when test='${signedByPiOrNot == "IS_NOT_PI"}'>
+						Since the study is not signed by Principal Investigator, the study will wait for PI's endorsement.
+					</c:when>
+					<c:when test='${signedByPiOrNot == "IS_NOT_TP"}'>
+						Since the study is not signed by Treating Physician, the study will wait for TP's endorsement.
+					</c:when>
+					<c:otherwise>
+						<c:if test='${formType == "NEW_SUBMISSION"}'>
+							<c:choose>
+								<c:when test='${studyNature == "hud-use"}'>
+									Since this is a HUD study, the study will go to the Budget Review Manager for review.
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test='${primaryRespons == "ach-achri"}'>
+											Since ACHRI is primarily responsible for this study, the study will go to the ACHRI for review.
+										</c:when>
+										<c:otherwise>
+											<c:choose>
+												<c:when test='${studyType == "investigator-initiated"}'>
+													Since the study is ${studyType}, the study will go to the Gatekeeper for review.
+												</c:when>
+												<c:otherwise>
+													Since the study is ${studyType}, the study will go to the Budget Review Manager for review.
+												</c:otherwise>
+											</c:choose>
+										</c:otherwise>	
+									</c:choose>
+								</c:otherwise>	
+							</c:choose>
+						</c:if>
+						<c:if test='${formType == "MODIFICATION"}'>
+							<c:choose>
+								<c:when test='${modiWorkFlow == "BUDGET_ONLY"}'>
+									The study will go to the Budget Review Manager for review.
+								</c:when>
+								<c:when test='${modiWorkFlow == "GATEKEEPER"}'>
+									The study will go to the Gatekeeper for review.
+								</c:when>
+								<c:when test='${modiWorkFlow == "IRB"}'>
+									The study will go to the IRB Prereview for review.
+								</c:when>
+								<c:when test='${modiWorkFlow == "COMPLIANCE"}'>
+									The study will go to the Hospital Compliance for review.
+								</c:when>
+								<c:otherwise>
+									The study will go to the IRB Prereview for review.
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+					</c:otherwise>
+				</c:choose>
+				
+				</li>
+				<!-- 
+				<c:if test='${formType == "NEW_SUBMISSION"}'>
+					<c:if test='${hasNewContractCreated == "y"}'>
+						<spring:url var="contractform_url" value="/contracts/edit-new-contract-form-by-protocol-id/${protocolId}" />
+											
+						<li class="bulletitem" style="font-size:12px;color:#000;">
+						
+							
+							You must submit information and documents for a New Contract for Legal Review. Please <a href="${contractform_url}">click here</a> to go to your contract.  Please submit relevant documents using the "Upload New Document" button within your contract. 
+						
+							Since there is a <b>Contract</b> associated with this New Submission, you will need to fill out a Contract form and submitted to the Legal group for review.
+							<div class="helptext" style="font-weight:100;">
+								A contract form has already been created by the system automatically in the Contract module, and pending for submission in your queue. <br/>
+								Failure to submit a New Contract will not prohibit this New Submission from moving to other committees for review. However, you will not be able to open your study without a negotiated and signed contract by UAMS.
+							</div>
+						</li>
+					</c:if>
+				</c:if>
+				-->
+				</ul>
+				<div style="clear:both;"><!-- // --></div> 
+			</div>
+			
+			<div style="clear:both;"><!-- // --></div> 
+			
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"></div>
+		<div id="btnNextPage">
+			<spring:url var="home" value="/" />
+			<a href="${home}">Return to Home</a>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Form Already Signed":"<strong>New Submission</strong>: Form Already Signed"
+									);
+						});
+	</script>
+</div>
+

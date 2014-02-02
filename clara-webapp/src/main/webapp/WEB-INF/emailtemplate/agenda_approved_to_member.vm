@@ -1,0 +1,34 @@
+<html>
+<head><link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/></head>
+<body>
+<div class="email-template">
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>	
+	<strong>Institutional Review Board</strong><br/>
+	4301 West Markham, #636<br/>
+	Little Rock, AR 72205-7199<br/>
+	501-686-5667<br/>
+	501-686-7265 (fax)<br/>
+	<a href="http://www.uams.edu/irb/irb.asp" target = "_blank">www.uams.edu/irb/irb.asp</a>
+	
+	<br/><br/>FWA00001119
+	
+	<br/><br/>$currentDate
+	
+	<br/><br/>Full Board Reviewers
+	
+	<br/><br/>The IRB Chair has approved the agenda for $agendaDate. Please log into CLARA (you can use the link below) and go to your <strong>IRB Reviewer</strong> queue to work on the items that have been assigned to you. 
+	
+	<br/><br/><a href="https://clara.uams.edu">https://clara.uams.edu</a>
+	
+	<br/><br/>Access the rest of the agenda items in CLARA on the <strong>Agendas</strong> page.
+	
+	<br/></br>If you have any questions, please contact an IRB administrator at 501-686-5667.<br/>
+	
+	<br/><a href=$agendaSummaryLink>Click here to see Agenda Summary</a>
+	
+	<br/><br/>
+	$signature
+
+</div>
+</body>
+</html>

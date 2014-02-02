@@ -1,0 +1,28 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr>
+			<th id="college"><b>College</b></th>
+			<th id="department"><b>Department</b></th>
+			<th id="subdepartment"><b>Sub-department</b></th>
+		</tr>
+		<x:forEach var="reponsibleDepart" select="$value">
+			<tr>
+				<td headers="college" valign="top"><x:out select="string($reponsibleDepart/@collegedesc)" /></td>
+				<td headers="department" valign="top"><x:out select="string($reponsibleDepart/@deptdesc)" /></td>
+				<td headers="subdepartment" valign="top"><x:out select="string($reponsibleDepart/@subdeptdesc)" /></td>
+			</tr>
+		</x:forEach>
+	</table>
+
+</jsp:root>

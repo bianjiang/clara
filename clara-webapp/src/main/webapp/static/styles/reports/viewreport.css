@@ -1,0 +1,42 @@
+body{
+	background-color: white;
+    padding-top: 60px;
+}
+
+.report-navbar-title{
+	padding-left:32px !important;
+}
+
+td.field-summary{
+	background-color:#eee;
+	border-top:1px solid black;
+}
+
+.table-stats {
+	font-size:13px;
+}
+
+.field-detail {
+	font-weight:800;
+}
+
+@media print{
+	
+	body{
+	font-size: 11px;
+    line-height: 14px;
+    }
+    .tools-locked-page,.tools-edit-page{
+    	display:none;
+    }
+	.navbar-fixed-top, .navbar-fixed-bottom {
+	    left: 0;
+	    margin-bottom: 0;
+	    position: absolute;
+	    right: 0;
+	    z-index: 1030;
+	}
+	.navbar-search, #report-nav-actions{
+		display:none;
+	}
+}

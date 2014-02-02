@@ -1,0 +1,1632 @@
+<div class="clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title)" />
+	<x:set var="studyType"
+		select="string($protocolInstance/protocol/study-nature/text())" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+
+	<x:out escapeXml="false" select="string($protocolInstance/text())" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="subjects"
+			protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+
+		<div class="formArea">
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+			<div class="question" id="question-total-number-subjects">
+				<div class="questionIdentifier">Subjects-1</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Provide the total number
+						of subjects (or number of participant records, specimens, etc.)
+						for whom you are seeking UAMS IRB oversight.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="totalNumber"
+						select="string($protocolInstance/protocol/subjects/total-number/text())" />
+					<uams:textbox id="total-number"
+						instancepath="/protocol/subjects/total-number"
+						validation="number required" value="${totalNumber}" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="total-number-subjects" />
+				</div>
+			</div>
+
+			<div class="question" id="question-total-accural-goal-for-all-sites">
+				<div class="questionIdentifier">Subjects-2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this is a multi-site study, please answer the following
+						question:</h1>
+					<span class="question-label-text">What is the total subject
+						accrual goal for all sites for this study (if available)?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="totalAccuralGoalForAllSites"
+						select="string($protocolInstance/protocol/subjects/multiple-sites/y/total-accrual-goal-for-all-sites/text())" />
+					<uams:textbox id="total-accural-goal-for-all-sites"
+						instancepath="/protocol/subjects/multiple-sites/y/total-accrual-goal-for-all-sites"
+						value="${totalAccuralGoalForAllSites}" />
+				</div>
+			</div>
+			
+			<div class="question clearfix"
+				id="question-age-ranges">
+				<div class="questionIdentifier">Subjects-3</div>
+				<div class="questionLabel">
+					<span class="question-label-text">What age range(s) do the subjects fall into?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="ageRanges"
+						select="$protocolInstance/protocol/subjects/age-ranges/age-range" />
+					<uams:checkbox id="age-ranges"
+						value="${ageRanges}" newColumnEvery="5"
+						lookuppath="age-ranges"
+						instancepath="/protocol/subjects/age-ranges/age-range"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="age-ranges" />
+				</div>
+			</div>
+			
+
+			<div class="question" id="question-subject-population">
+				<div class="questionIdentifier">Subjects-4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this is a social
+						behavioral education related study, please answer the following
+						question:</h1>
+					<span class="question-label-text">Name and describe the
+						subject population(s) for the study. </span>
+				</div>
+				<div class="questionValue">
+					<input type="hidden"
+						class="question-el dummy-field-for-rule-activation"
+						name="/protocol/study-subject-populations/population" />
+					<div id="multiple-population-list">
+						<!-- // -->
+					</div>
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="target-multiple-populations" />
+				</div>
+			</div>
+			
+			<div class="question clearfix"
+				id="question-vulnerable-populations-included">
+				<div class="questionIdentifier">Subjects-5</div>
+				<div class="questionLabel">
+					<span class="question-label-text"> Select all of the
+						vulnerable populations that will be, or potentially could be,
+						included in the study:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="vulnerablepopulationsIncluded"
+						select="$protocolInstance/protocol/subjects/vulnerable-populations/included" />
+					
+					<uams:checkbox id="vulnerable-populations-included"
+						value="${vulnerablepopulationsIncluded}" newColumnEvery="5"
+						allowcustom="true" lookuppath="vulnerable-populations"
+						instancepath="/protocol/subjects/vulnerable-populations/included"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="vulnerable-populations" />
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-vulnerable-populations-targeted">
+				<div class="questionIdentifier">Subjects-6</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Select all of the
+						vulnerable populations that will be targeted for participation in
+						the study: </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="vulnerablepopulationsTargeted"
+						select="$protocolInstance/protocol/subjects/vulnerable-populations/targeted" />
+					<uams:checkbox id="vulnerable-populations-targeted"
+						value="${vulnerablepopulationsTargeted}" newColumnEvery="5"
+						allowcustom="true" lookuppath="vulnerable-populations-targeted"
+						instancepath="/protocol/subjects/vulnerable-populations/targeted"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="vulnerable-populations-targeted" />
+				</div>
+			</div>
+
+			<!-- APPENDIX A Pregnant Women, Fetuses -->
+			<div class="question clearfix"
+				data-subsection-title="Pregnant Women, Fetuses"
+				id="question-pregnant-women-studies-for-assessing-risks">
+				<div class="questionIdentifier">Subjects-Appx.A-1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Pregnant
+						Women/Fetuses will be potentially included in this study, answer the
+						following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe preclinical
+						studies (including studies on pregnant animals) and clinical
+						studies (including studies on non-pregnant women), that provide data for assessing
+						potential risks to pregnant women and fetuses.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="studiesForAssessingRisks" select="string($protocolInstance/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/studies-for-assessing-risks/text())" />
+					<uams:textarea validation="required"
+						instancepath="/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/studies-for-assessing-risks"
+						id="women-studies-for-assessing-risks" value="${studiesForAssessingRisks}" hasNA="true" />
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo
+						lookupid="pregnant-women-studies-for-assessing-risks" />
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				data-subsection-title="Pregnant Women, Fetuses"
+				id="question-pregnant-women-direct-benefit">
+				<div class="questionIdentifier">Subjects-Appx.A-2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Pregnant
+						Women/Fetuses will be potentially included in this study, answer the
+						following question:</h1>
+				</div>
+				<div class="questionLabel">
+					Indicate for whom the prospect of <b>direct benefit</b> exists:
+				</div>
+				<div class="questionValue">
+					<x:set var="directBenefit"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/direct-benefit-exist-for-whom/text())" />
+					<uams:radio id="pregnant-women-direct-benefit"
+						value="${directBenefit}" lookuppath="subject-direct-benefit"
+						instancepath="/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/direct-benefit-exist-for-whom"
+						validation="required" />
+				</div>
+				<div class="questionHelp">
+					<ul class="questionHelp-list">
+						<li>The father's consent must be obtained for research that
+							holds the prospect of direct benefit solely to the fetus, unless
+							he is unable to consent because of unavailability, incompetence,
+							or temporary incapacity or the pregnancy resulted from rape or
+							incest.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				data-subsection-title="Pregnant Women, Fetuses"
+				id="question-fetus-risk">
+				<div class="questionIdentifier">Subjects-Appx.A-3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Pregnant
+						Women/Fetuses will be potentially included in this study, answer the
+						following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">The risk to the fetus is
+						(check one):</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="riskFetus"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/risk-to-fetus/text())" />
+					<uams:radio id="fetus-risk" value="${riskFetus}"
+						lookuppath="subject-risk-fetus"
+						instancepath="/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/risk-to-fetus"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				data-subsection-title="Pregnant Women, Fetuses"
+				id="question-pregnant-wormen-least-possibel-for-achiveving">
+				<div class="questionIdentifier">Subjects-Appx.A-4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Pregnant
+						Women/Fetuses will be potentially included in this study, answer the
+						following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Explain how the risks are
+						the least possible for achieving the objectives of the research.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="leastPossibleForAchieving" select="string($protocolInstance/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/least-possible-for-achieving/text())" />
+					<uams:textarea validation="required"
+						instancepath="/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/least-possible-for-achieving"
+						id="pregnant-wormen-least-possible-for-achiveving" value="${leastPossibleForAchieving}" hasNA="false" />
+				</div>
+			</div>
+
+			<!-- APPENDIX B (Neonates)-->
+			<div class="question clearfix" data-subsection-title="Neonates"
+				id="question-neonates-determine-person">
+				<div class="questionIdentifier">Subjects-Appx.B-1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Neonates will be
+						potentially included in this study, answer the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">State who (other than
+						investigators and key personnel) will determine the viability of a
+						neonate and describe what procedures will be used to determine
+						viability.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="determinePerson" select="string($protocolInstance/protocol/subjects/vulnerable-populations/neonates/determine-person/text())" />
+					<uams:textarea validation="required"
+						instancepath="/protocol/subjects/vulnerable-populations/neonates/determine-person"
+						id="neonates-determine-person" value="${determinePerson}" hasNA="false" />
+				</div>
+			</div>
+
+			<div class="question clearfix" data-subsection-title="Neonates"
+				id="question-neonates-studies-for-assessing-risks">
+				<div class="questionIdentifier">Subjects-Appx.B-2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Neonates will be
+						potentially included in this study, answer the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe preclinical
+						studies and clinical studies, where scientifically appropriate,
+						that provide data for assessing potential risks to neonates.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="studiesForAssessingRisks" select="string($protocolInstance/protocol/subjects/vulnerable-populations/neonates/studies-for-assessing-risks/text())" />
+					<uams:textarea validation="required"
+						instancepath="/protocol/subjects/vulnerable-populations/neonates/studies-for-assessing-risks"
+						id="neonates-studies-for-assessing-risks" value="${studiesForAssessingRisks}" hasNA="false" />
+				</div>
+			</div>
+
+			<div class="question clearfix" data-subsection-title="Neonates"
+				id="question-neonates-viability">
+				<div class="questionIdentifier">Subjects-Appx.B-3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Neonates will be
+						potentially included in this study, answer the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">The viability of neonates
+						to be involved in the research is (Check one):</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="viabilityNeonates"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/neonates/viability/text())" />
+					<uams:radio id="neonates-viability"
+						lookuppath="subject-viability-neonates"
+						instancepath="/protocol/subjects/vulnerable-populations/neonates/viability"
+						value="${viabilityNeonates}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question clearfix" data-subsection-title="Neonates"
+				id="question-neonates-uncertain-viability-risk">
+				<div class="questionIdentifier">Subjects-Appx.B-3.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since neonates of
+						uncertain viability will be potentially included in this study,
+						answer the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">For neonates of uncertain
+						viability, the risk to the neonate is (check one):</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="uncertainViabilityNeonatesRisk"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/neonates/viability/uncertain-viability/risk-to-neonate/text())" />
+					<uams:radio id="neonates-uncertain-viability-risk"
+						value="${uncertainViabilityNeonatesRisk}"
+						lookuppath="subject-neonates-uncertain-viability-risk"
+						instancepath="/protocol/subjects/vulnerable-populations/neonates/viability/uncertain-viability/risk-to-neonate"
+						validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">
+					<span class="question-label-text">Explain how the research
+						meets the condition selected above:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="howResearchMeetRiskConditions" select="string($protocolInstance/protocol/subjects/vulnerable-populations/neonates/viability/uncertain-viability/how-research-meet-risk-conditions/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/neonates/viability/uncertain-viability/how-research-meet-risk-conditions"
+						value="${howResearchMeetRiskConditions}" hasNA="true" id="how-research-meet-risk-conditions" />
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="neonates-uncertain-viability-risk" />
+				</div>
+			</div>
+
+			<div class="question clearfix" data-subsection-title="Neonates"
+				id="question-neonates-nonviable-research-inclusion">
+				<div class="questionIdentifier">Subjects-Appx.B-3.2.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since "nonviable
+						neonates" will be potentially included in this study, please
+						answer the following question:</h1>
+					<span class="question-label-text">For nonviable neonates,
+						explain how EACH of the following 4 conditions for inclusion is
+						met:</span><br /> 1. Vital functions of the neonate will not be
+					artificially maintained.
+				</div>
+				<div class="questionValue">
+					<x:set var="vitalFunctions" select="string($protocolInstance/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/vital-functions/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/vital-functions"
+						id="vital-functions" value="${vitalFunctions}" hasNA="false"/>
+				</div>
+				<br />
+				<div class="questionLabel">2. The research will not terminate
+					the heartbeat or respiration of the neonate.</div>
+				<div class="questionValue">
+					<x:set var="terminateHeartbeat" select="string($protocolInstance/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/terminate-heartbeat/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/terminate-heartbeat"
+						id="terminate-heartbeat" value="${terminateHeartbeat}" hasNA="false"/>
+				</div>
+				<br />
+				<div class="questionLabel">3. There will be no added risk to
+					the neonate resulting from the research; and</div>
+				<div class="questionValue">
+					<x:set var="noAddedRisk" select="string($protocolInstance/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/no-added-risk/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/no-added-risk"
+						id="no-added-risk" value="${noAddedRisk}" hasNA="false"/>
+				</div>
+				<br />
+				<div class="questionLabel">4. The purpose of the research is
+					the development of important knowledge that cannot be obtained by
+					other means.</div>
+				<div class="questionValue">
+					<x:set var="developmentOfImportantKnowledge" select="string($protocolInstance/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/development-of-important-knowledge/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/development-of-important-knowledge"
+						id="development-of-important-knowledge" value="${developmentOfImportantKnowledge}" hasNA="false"/>
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="neonates-nonviable-research-inclusion" />
+				</div>
+			</div>
+
+
+
+			<!-- APPENDIX  D (Prisoners)-->
+			<div class="question clearfix" data-subsection-title="Prisoners"
+				id="question-prisoners-involvement-categories">
+				<div class="questionIdentifier">Subjects-Appx.D-1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Prisoners will be
+						potentially included in this study, answer the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Indicate the category(ies)
+						that best describes the involvement of prisoners in the research:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="involvementPrisoners"
+						select="$protocolInstance/protocol/subjects/vulnerable-populations/prisoners/involvement-of-prisoners-categories" />
+					<uams:checkbox value="${involvementPrisoners}"
+						id="prisoners-involvement-categories"
+						lookuppath="subject-involvement-prisoners"
+						instancepath="/protocol/subjects/vulnerable-populations/prisoners/involvement-of-prisoners-categories"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question clearfix" data-subsection-title="Prisoners"
+				id="question-prisoners-describe-facility">
+				<div class="questionIdentifier">Subjects-Appx.D-2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Prisoners will be
+						potentially included in this study, answer the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Provide the name, type of
+						facility and location of each local, state, or federal facility to
+						be used.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="describeFacility" select="string($protocolInstance/protocol/subjects/vulnerable-populations/prisoners/describe-facility/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/prisoners/describe-facility"
+						id="describe-facility" value="${describeFacility}" hasNA="false"/>
+				</div>
+			</div>
+
+
+			<div class="question" data-subsection-title="Prisoners"
+				id="question-prisoners-advantages-to-participating-prisoners">
+				<div class="questionIdentifier">Subjects-Appx.D-3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Prisoners will be
+						potentially included in this study, answer the following question:</h1>
+					<span class="question-label-text">Describe the possible
+						advantages to participating prisoners (i.e., compared to the
+						general living conditions, medical care, quality of food,
+						amenities, and opportunity for earnings in the prison).</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="advantagesToParticipatingPrisoners" select="string($protocolInstance/protocol/subjects/vulnerable-populations/prisoners/advantages-to-participating-prisoners/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/prisoners/advantages-to-participating-prisoners"
+						id="advantages-to-participating-prisoners" value="${advantagesToParticipatingPrisoners}" hasNA="true"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Prisoners"
+				id="question-prisoners-plans-to-avoid-undue-influence">
+				<div class="questionIdentifier">Subjects-Appx.D-4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Prisoners will be
+						potentially included in this study, answer the following question:</h1>
+					<span class="question-label-text">Describe any additional
+						steps that will be taken to avoid undue influence (i.e.,
+						considering the limited choice environment of the prison).</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="plansToAvoidUndueInfluence" select="string($protocolInstance/protocol/subjects/vulnerable-populations/prisoners/plans-to-avoid-undue-influence/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/prisoners/plans-to-avoid-undue-influence"
+						id="plans-to-avoid-undue-influence" value="${plansToAvoidUndueInfluence}" hasNA="true"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Prisoners"
+				id="question-prisoners-similar-risk">
+				<div class="questionIdentifier">Subjects-Appx.D-5</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Prisoners will be
+						potentially included in this study, answer the following question:</h1>
+					<span class="question-label-text">Explain how the risks
+						involved in the research are similar to risks that would be
+						accepted by non-prisoner volunteers.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="similarRiskByNonprisonerVolunteers" select="string($protocolInstance/protocol/subjects/vulnerable-populations/prisoners/similar-risk-by-nonprisoner-volunteers/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/prisoners/similar-risk-by-nonprisoner-volunteers"
+						id="similar-risk-by-nonprisoner-volunteers" value="${similarRiskByNonprisonerVolunteers}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Prisoners"
+				id="question-prisoners-selection">
+				<div class="questionIdentifier">Subjects-Appx.D-6</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Prisoners will be
+						potentially included in this study, answer the following question:</h1>
+					<span class="question-label-text">Explain how prisoners will
+						be selected for the study and/or assigned to treatment groups.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="prisonerSelectionForStudy" select="string($protocolInstance/protocol/subjects/vulnerable-populations/prisoners/prisoner-selection-for-study/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/prisoners/prisoner-selection-for-study"
+						id="prisoner-selection-for-study" value="${prisonerSelectionForStudy}" hasNA="false"/>
+				</div>
+				<div class="questionHelp">
+					<ul class="questionHelp-list">
+						<li>The selection of participants within the prison and
+							procedures for assignment to various groups within the research
+							(e.g., experimental vs. control groups) should be designed to be
+							fair to all prisoners and immune from arbitrary intervention by
+							prison authorities or prisoners.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Prisoners"
+				id="question-prisoners-safeguards-to-provide-assureances">
+				<div class="questionIdentifier">Subjects-Appx.D-7</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Prisoners will be
+						potentially included in this study, answer the following question:</h1>
+					<span class="question-label-text">Describe safeguards in
+						place to provide assurances that parole boards will not take into
+						account a prisoner's participation in the research when making
+						decisions regarding parole.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="safeguardsToProvideAssureances" select="string($protocolInstance/protocol/subjects/vulnerable-populations/prisoners/safeguards-to-provide-assureances/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/prisoners/safeguards-to-provide-assureances"
+						id="safeguards-to-provide-assureances" value="${safeguardsToProvideAssureances}" hasNA="false"/>
+				</div>
+				<div class="questionHelp">
+					<ul class="questionHelp-list">
+						<li>Prisoners must be clearly informed in advance that
+							participation in the research will have no effect on their
+							parole.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Prisoners"
+				id="question-prisoners-followup-exams">
+				<div class="questionIdentifier">Subjects-Appx.D-8</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Prisoners will be
+						potentially included in this study, answer the following question:</h1>
+					<span class="question-label-text">Describe follow-up
+						examinations or care of participants to be provided after their
+						participation has ended (including frequency and duration they
+						will be available), as applicable, taking into account the varying
+						lengths of individual prisoners' sentences.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="followupExams" select="string($protocolInstance/protocol/subjects/vulnerable-populations/prisoners/followup-exams/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/prisoners/followup-exams"
+						id="followup-exams" value="${followupExams}" hasNA="true"/>
+				</div>
+			</div>
+
+			<!-- APPENDIX C (Children)-->
+			<div class="question clearfix" data-subsection-title="Children"
+				id="question-children-risk-category">
+				<div class="questionIdentifier">Subjects-Appx.C-1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Children will be
+						potentially included in this study, answer the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Select the category that
+						best describes the research and provide the corresponding
+						information:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="childrenCategory"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/children/risk-category/text())" />
+					<uams:radio id="children-risk-category" value="${childrenCategory}"
+						lookuppath="subject-corresponding-informaiton-category"
+						instancepath="/protocol/subjects/vulnerable-populations/children/risk-category"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Children"
+				id="question-children-justify-risk-by-anticipated-benefit">
+				<div class="questionIdentifier">Subjects-Appx.C-1.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Children will be
+						potentially included in this study and More than minimal risk is
+						presented by an intervention or procedure that holds the prospect
+						of direct benefit for the individual child, or by a monitoring
+						procedure that is likely to contribute to the child's well-being,
+						answer the following question:</h1>
+					<span class="question-label-text">Explain how the risk is
+						justified by the anticipated benefit to the individual child.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="justifyRiskByAnticipatedBenefit" select="string($protocolInstance/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-direct-benefit/justify-risk-by-anticipated-benefit/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-direct-benefit/justify-risk-by-anticipated-benefit"
+						id="justify-risk-by-anticipated-benefit" value="${justifyRiskByAnticipatedBenefit}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Children"
+				id="question-children-anticipated-benefit-relation-to-risk">
+				<div class="questionIdentifier">Subjects-Appx.C-1.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Children will be
+						potentially included in this study and More than minimal risk is
+						presented by an intervention or procedure that holds the prospect
+						of direct benefit for the individual child, or by a monitoring
+						procedure that is likely to contribute to the child's well-being,
+						answer the following question:</h1>
+					<span class="question-label-text">Explain how the relation
+						of the anticipated benefit to the risk is at least as favorable to
+						the child as that which would be presented by available
+						alternative approaches (e.g., other treatments).</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="anticipatedBenefitRelationToRisk" select="string($protocolInstance/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-direct-benefit/anticipated-benefit-relation-to-risk/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-direct-benefit/anticipated-benefit-relation-to-risk"
+						id="anticipated-benefit-relation-to-risk" value="${anticipatedBenefitRelationToRisk}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Children"
+				id="question-children-risk-minor-increase">
+				<div class="questionIdentifier">Subjects-Appx.C-1.2.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Children will be
+						potentially included in this study and More than minimal risk is
+						presented by an intervention or procedure that does not hold the
+						prospect of direct benefit for the individual child, or by a
+						monitoring procedure that is not likely to contribute to the
+						child's well-being, answer the following question:</h1>
+					<span class="question-label-text">Explain how the risk
+						represents a minor increase over minimal risk.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="riskMinorIncrease" select="string($protocolInstance/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-no-direct-benefit/risk-minor-increase/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-no-direct-benefit/risk-minor-increase"
+						id="risk-minor-increase" value="${riskMinorIncrease}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Children"
+				id="question-children-intervention-or-procedure">
+				<div class="questionIdentifier">Subjects-Appx.C-1.2.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Children will be
+						potentially included in this study and More than minimal risk is
+						presented by an intervention or procedure that does not hold the
+						prospect of direct benefit for the individual child, or by a
+						monitoring procedure that is not likely to contribute to the
+						child's well-being, answer the following question:</h1>
+					<span class="question-label-text">Describe how the study interventions or procedures are reasonably equivalent to actual or expected medical, dental, psychological, social or educational situations for the children.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="interventionOrProcedure" select="string($protocolInstance/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-no-direct-benefit/intervention-or-procedure/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-no-direct-benefit/intervention-or-procedure"
+						id="intervention-or-procedure" value="${interventionOrProcedure}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Children"
+				id="question-children-intervention-or-procedure-disorder">
+				<div class="questionIdentifier">Subjects-Appx.C-1.2.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Children will be
+						potentially included in this study and More than minimal risk is
+						presented by an intervention or procedure that does not hold the
+						prospect of direct benefit for the individual child, or by a
+						monitoring procedure that is not likely to contribute to the
+						child's well-being, answer the following question:</h1>
+					<span class="question-label-text">Explain how the
+						intervention or procedure is likely to yield generalizable
+						knowledge about the child's disorder or condition that is of vital
+						importance for the understanding or amelioration of the child's
+						disorder or condition.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="howInterventionProduceGeneralizableKnowledge" select="string($protocolInstance/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-no-direct-benefit/how-intervention-produce-generalizable-knowledge/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-no-direct-benefit/how-intervention-produce-generalizable-knowledge"
+						id="how-intervention-produce-generalizable-knowledge" value="${howInterventionProduceGeneralizableKnowledge}" hasNA="false"/>
+				</div>
+			</div>
+			
+			<div class="question" id="question-present-with-child" data-subsection-title="Children">
+				<div class="questionIdentifier">Subjects-Appx.C-2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Children will be
+						potentially included in this study, answer the following
+						question:</h1>
+					<span class="question-label-text">Will the parents or
+						guardians be present with the child during discussions of
+						the research?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="presentWithChild"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/children/present-with-child/text())" />
+					<uams:yesno id="present-with-child"
+						instancepath="/protocol/subjects/vulnerable-populations/children/present-with-child"
+						value="${presentWithChild}" validation="required" hasNA="true" />
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Children"
+				id="question-children-is-private-info-shared">
+				<div class="questionIdentifier">Subjects-Appx.C-3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Children will be
+						potentially included in this study, answer the following question:</h1>
+					<span class="question-label-text">Will sensitive or private
+						information (e.g., questionnaires, test results) be shared with
+						the parents/guardians?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="sensitivePrivate"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/children/is-private-info-shared/text())" />
+					<x:set var="sensitivePrivateExplainText"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/children/is-private-info-shared/y/explain/text())" />
+					<uams:yesno id="children-is-private-info-shared"
+						instancepath="/protocol/subjects/vulnerable-populations/children/is-private-info-shared"
+						value="${sensitivePrivate}" validation="required"
+						showTextArea="true" textValue="${sensitivePrivateExplainText}"
+						textValidation="required" otherType="textarea"
+						textAreaTitle="Please explain:" valueToShowTextArea="y" />
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Children"
+				id="question-children-wards-of-participants">
+				<div class="questionIdentifier">Subjects-Appx.C-4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Children will be
+						potentially included in this study, answer the following question:</h1>
+					<span class="question-label-text">Is there a possibility
+						that any of the research participants will be wards of the State
+						or any other agency or institution?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="otherwardsofParticipants"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/children/is-wards-of-the-state/text())" />
+					<uams:yesno id="children-wards-of-participants"
+						instancepath="/protocol/subjects/vulnerable-populations/children/is-wards-of-the-state"
+						value="${otherwardsofParticipants}" validation="required" />
+				</div>
+			</div>
+
+
+
+			<!-- APPENDIX E (Non-English Speaking)-->
+			<div class="question" data-subsection-title="Non-English Speaking"
+				id="question-non-english-speaking-languages">
+				<div class="questionIdentifier">Subjects-Appx.E-1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Non-English
+						Speaking will be potentially included in this study, answer the
+						following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Which language(s) other
+						than English will be spoken by study participants?</span>
+				</div>
+
+				<div class="questionValue">
+					<x:set var="languages"
+						select="$protocolInstance/protocol/subjects/vulnerable-populations/non-english-speaking/languages/language" />
+					<uams:checkbox value="${languages}" newColumnEvery="3"
+						lookuppath="languages" allowcustom="true"
+						instancepath="/protocol/subjects/vulnerable-populations/non-english-speaking/languages/language"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Non-English Speaking"
+				id="question-list-translators">
+				<div class="questionIdentifier">Subjects-Appx.E-2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Non-English
+						Speaking will be potentially included in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">List any investigator(s)
+						and/or key personnel who are fluent in the language(s) of the
+						participants.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="listTranslators" select="string($protocolInstance/protocol/subjects/vulnerable-populations/non-english-speaking/list-translators/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/non-english-speaking/list-translators"
+						id="list-translators" value="${listTranslators}" hasNA="true"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Non-English Speaking"
+				id="question-translation-services-recruitmentconsent">
+				<div class="questionIdentifier">Subjects-Appx.E-3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Non-English
+						Speaking will be potentially included in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe the provisions in
+						place to provide interpretive services during the participant
+						recruitment and consent processes.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="translationServicesRecruitmentconsent" select="string($protocolInstance/protocol/subjects/vulnerable-populations/non-english-speaking/translation-services-recruitmentconsent/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/non-english-speaking/translation-services-recruitmentconsent"
+						id="translation-services-recruitmentconsent" value="${translationServicesRecruitmentconsent}" hasNA="false"/>
+				</div>
+				<div class="questionHelp">
+					<ul class="questionHelp-list">
+						<li>When a potential research subject expresses interest in
+							participating in a study and is unable to speak or read English,
+							they must be presented with a translated informed consent
+							document unless the IRB has approved the use of a short form.</li>
+						<li>The informed consent process is the same as for English
+							speaking subjects; however, a qualified interpreter must be
+							present to facilitate the consent conversation between the
+							investigator and the potential subject prior to enrollment.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Non-English Speaking"
+				id="question-translation-services-duration">
+				<div class="questionIdentifier">Subjects-Appx.E-4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Non-English
+						Speaking will be potentially included in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe the provisions in
+						place to provide interpretive services throughout the
+						participants' duration in the study.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="translationServicesThroughoutDuration" select="string($protocolInstance/protocol/subjects/vulnerable-populations/non-english-speaking/translation-services-throughout-duration/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/non-english-speaking/translation-services-throughout-duration"
+						id="translation-services-throughout-duration" value="${translationServicesThroughoutDuration}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Non-English Speaking"
+				id="question-emergency-contacts">
+				<div class="questionIdentifier">Subjects-Appx.E-5</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Non-English
+						Speaking will be potentially included in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe the provisions in
+						place to handle emergency contacts (i.e., questions, problems)
+						from non-English speaking participants.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="emergencyContacts" select="string($protocolInstance/protocol/subjects/vulnerable-populations/non-english-speaking/emergency-contacts/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/non-english-speaking/emergency-contacts"
+						id="emergency-contacts" value="${emergencyContacts}" hasNA="false"/>
+				</div>
+			</div>
+
+			<!-- APPENDIX F (Cognitively Impaired)-->
+			<div class="question" data-subsection-title="Cognitively Impaired"
+				id="question-cognitively-impaired-range-participant-impairment">
+				<div class="questionIdentifier">Subjects-Appx.F-1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Cognitively
+						Impaired will be potentially included in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe the expected
+						range of participant impairment. Explain how, and by whom, the
+						capacity to consent/assent will be determined.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="expectedRangeOfImpairment" select="string($protocolInstance/protocol/subjects/vulnerable-populations/cognitively-impaired/expected-range-of-impairment/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/cognitively-impaired/expected-range-of-impairment"
+						id="expected-range-of-impairment" value="${expectedRangeOfImpairment}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Cognitively Impaired"
+				id="question-cognitively-impaired-obtain-assent">
+				<div class="questionIdentifier">Subjects-Appx.F-2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Cognitively
+						Impaired will be potentially included in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Indicate whether assent
+						will be obtained and if so, describe the process. If assent will
+						not be obtained, explain.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="obtaionAssent" select="string($protocolInstance/protocol/subjects/vulnerable-populations/cognitively-impaired/obtaion-assent/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/cognitively-impaired/obtaion-assent"
+						id="obtaion-assent" value="${obtaionAssent}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Cognitively Impaired"
+				id="question-cognitively-impaired-ensuring-ongoing-consent">
+				<div class="questionIdentifier">Subjects-Appx.F-3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Cognitively
+						Impaired will be potentially included in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">If capacity is expected to
+						fluctuate during research participation, describe the process for
+						ensuring ongoing consent.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="ensuringOngoingConsent" select="string($protocolInstance/protocol/subjects/vulnerable-populations/cognitively-impaired/ensuring-ongoing-consent/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/cognitively-impaired/ensuring-ongoing-consent"
+						id="ensuring-ongoing-consent" value="${ensuringOngoingConsent}" hasNA="true"/>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				data-subsection-title="Cognitively Impaired"
+				id="question-cognitively-impaired-category">
+				<div class="questionIdentifier">Subjects-Appx.F-4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Cognitively
+						Impaired will be potentially included in this study, complete the
+						following:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Select the one category
+						that best describes the research and provide the corresponding
+						information:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="riskCategory"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/cognitively-impaired/risk-category/text())" />
+					<uams:radio id="cognitively-impaired-category"
+						value="${riskCategory}"
+						lookuppath="subject-bestdescription-correspondingInfo"
+						instancepath="/protocol/subjects/vulnerable-populations/cognitively-impaired/risk-category"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Cognitively Impaired"
+				id="question-cognitively-impaired-anticipated-benefits">
+				<div class="questionIdentifier">Subjects-Appx.F-4.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Cognitively
+						Impaired will be potentially included in this study and the
+						research and the provided corresponding information is greater
+						than minimal risk with the prospect of direct benefit for the
+						individual, answer the following question:</h1>
+					<span class="question-label-text">Explain how anticipated
+						benefits, compared to risks, are as favorable as the alternatives
+						(e.g., other treatments).</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="anticipatedBenefit" select="string($protocolInstance/protocol/subjects/vulnerable-populations/cognitively-impaired/risk-category/greater-than-min-risk-with-direct-benefit/anticipated-benefit/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/cognitively-impaired/risk-category/greater-than-min-risk-with-direct-benefit/anticipated-benefit"
+						id="anticipated-benefit" value="${anticipatedBenefit}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Cognitively Impaired"
+				id="question-cognitively-impaired-greater-than-min-risk-without-direct-benefit-explain">
+				<div class="questionIdentifier">Subjects-Appx.F-4.2.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Cognitively
+						Impaired will be potentially included in this study and the
+						research and the provided corresponding information is greater
+						than minimal risk without the prospect of direct benefit for the
+						individual, answer the following question:</h1>
+					<span class="question-label-text">Explain how the risk
+						presents only a minor increase over minimal risk.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="cognitivelyImpairedRiskMinorIncrease" select="string($protocolInstance/protocol/subjects/vulnerable-populations/cognitively-impaired/risk-category/greater-than-min-risk-without-direct-benefit/explain/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/cognitively-impaired/risk-category/greater-than-min-risk-without-direct-benefit/explain"
+						id="cognitively-impaired-risk-minor-increase" value="${cognitivelyImpairedRiskMinorIncrease}" hasNA="false"/>
+				</div>
+			</div>
+
+			<!-- APPENDIX G (Research in International Setting)-->
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-international-sites-info">
+				<div class="questionIdentifier">Subjects-Appx.G-1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe the international
+						sites(s). Provide location, name of local contact or investigator,
+						and local contact information, as applicable.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="internationalSites" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/international-sites/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/international-sites"
+						id="international-sites" value="${internationalSites}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-ethics-board-or-irb">
+				<div class="questionIdentifier">Subjects-Appx.G-2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Is there an Ethics Board
+						or IRB at the international site(s)?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="ethicsBoardOrIrb"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/ethics-board-or-irb/text())" />
+					<uams:yesno id="ethicsBoardOrIrb"
+						instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/ethics-board-or-irb"
+						value="${ethicsBoardOrIrb}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-contact-information-for-board">
+				<div class="questionIdentifier">Subjects-Appx.G-3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since there is an
+						Ethics Board or IRB at the international site(s), answer the
+						following question:</h1>
+					<span class="question-label-text">List contact information
+						for the Board:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="contactInformationForBoard" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/ethics-board-or-irb/y/contact-information-for-board/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/ethics-board-or-irb/y/contact-information-for-board"
+						id="contact-information-for-board" value="${contactInformationForBoard}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-address-cultural-differences">
+				<div class="questionIdentifier">Subjects-Appx.G-4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe any cultural,
+						political, religious, or other local influences that may affect
+						conduct of the proposed research and how these will be addressed
+						(e.g. issues posing potential threats, requiring changes in
+						recruitment methods, etc.)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="addressCulturalDifferences" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/address-cultural-differences/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/address-cultural-differences"
+						id="address-cultural-differences" value="${addressCulturalDifferences}" hasNA="true"/>
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-local-exceptions-to-consent">
+				<div class="questionIdentifier">Subjects-Appx.G-5</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe any local
+						exceptions to the required consent/assent/permission process(es), and how these will be
+						addressed (e.g., a request from outsiders to sign documents would
+						be treated with suspicion based on customs, previous history,
+						etc.)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="localExceptionsToConsent" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/local-exceptions-to-consent/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/local-exceptions-to-consent"
+						id="local-exceptions-to-consent" value="${localExceptionsToConsent}" hasNA="true"/>
+				</div>
+			</div>
+
+			<!-- <div class="question clearfix"
+				data-subsection-title="Research in International Setting"
+				id="question-research-in-international-setting-children-enrollin">
+				<div class="questionIdentifier">Subjects-Appx.G-6</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">If children will be
+						enrolled in the study, describe any local exceptions regarding the
+						requirements for adult permission and child assent and how these
+						will be addressed.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="willEnrollChildren" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/will-enroll-children/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/will-enroll-children"
+						id="will-enroll-children" value="${willEnrollChildren}" hasNA="true"/>
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-compensation-appropriateness">
+				<div class="questionIdentifier">Subjects-Appx.G-7</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">If compensation is being
+						offered, describe its appropriateness for the setting.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="compensationAppropriateness" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/compensation-appropriateness/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/compensation-appropriateness"
+						id="compensation-appropriateness" value="${compensationAppropriateness}" hasNA="true"/>
+				</div>
+			</div> -->
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-benefits-to-local-community">
+				<div class="questionIdentifier">Subjects-Appx.G-6</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Explain any benefits to
+						the local community that will remain with the community once the
+						research is complete.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="benefitsToLocalCommunity" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/benefits-to-local-community/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/benefits-to-local-community"
+						id="benefits-to-local-community" value="${benefitsToLocalCommunity}" hasNA="true"/>
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-researcher-experience">
+				<div class="questionIdentifier">Subjects-Appx.G-7</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe the researchers'
+						experience with conducting research (or studying or residing) in
+						the research setting, including any relationship(s) with the
+						community from which participants will be recruited.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="researcherExperience" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/researcher-experience/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/researcher-experience"
+						id="researcher-experience" value="${researcherExperience}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-info-of-not-affiliated-consultants">
+				<div class="questionIdentifier">Subjects-Appx.G-8</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Provide the name, title,
+						and contact information (including email addresses) for two
+						individuals who are not affiliated with the research, who are
+						knowledgeable about the location and population, and who could serve as
+						consultant(s) regarding the proposed research.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="infoOfNotAffiliatedConsultants" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/info-of-not-affiliated-consultants/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/info-of-not-affiliated-consultants"
+						id="info-of-not-affiliated-consultants" value="${infoOfNotAffiliatedConsultants}" hasNA="false"/>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="info-of-not-affiliated-consultants" />
+				</div>
+			</div>
+
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-communication-oversight-plans">
+				<div class="questionIdentifier">Subjects-Appx.G-9</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe communication and
+						oversight plans between the researcher(s) who will be on-site and
+						those at UAMS.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="communicationAndOversightPlans" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/communication-and-oversight-plans/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/communication-and-oversight-plans"
+						id="communication-and-oversight-plans" value="${communicationAndOversightPlans}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-procedures-storage-data">
+				<div class="questionIdentifier">Subjects-Appx.G-10</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe procedures for
+						the transfer of data between the local setting and UAMS.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="proceduresForDataStorage" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/procedures-for-data-storage/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/procedures-for-data-storage"
+						id="procedures-for-data-storage" value="${proceduresForDataStorage}" hasNA="false"/>
+				</div>
+			</div>
+
+			<!-- <div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-medical-procedures-and-or-treatment">
+				<div class="questionIdentifier">Subjects-Appx.G-13</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study, answer the
+						following question:</h1>
+					<span class="question-label-text">Will the research involve
+						medical procedures and/or treatment?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="medicalproceduresandorTreatment"
+						select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/has-medical-procedures/text())" />
+					<uams:yesno id="medical-procedures-and-or-treatment"
+						instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/has-medical-procedures"
+						value="${medicalproceduresandorTreatment}" validation="required" />
+				</div>
+			</div> -->
+
+			<div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-procedures-standard">
+				<div class="questionIdentifier">Subjects-Appx.G-11</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Indicate if any planned
+						research procedures are considered to be standard of care in the
+						country or location.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="proceduresAsStandardOfCare" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/procedures-as-standard-of-care/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/procedures-as-standard-of-care"
+						id="procedures-as-standard-of-care" value="${proceduresAsStandardOfCare}" hasNA="true"/>
+				</div>
+			</div>
+
+			<!-- <div class="question"
+				data-subsection-title="Research in International Setting"
+				id="question-provisions-emergency-treatment">
+				<div class="questionIdentifier">Subjects-Appx.G-13.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are doing
+						"Research in International Setting" in this study and the research
+						will involve medical procedures and/or treatment, answer the
+						following question:</h1>
+					<span class="question-label-text">Describe provisions for
+						emergency treatment that are available in the location.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="provisionsForEmergencyTreatment" select="string($protocolInstance/protocol/subjects/vulnerable-populations/research-in-international-settings/has-medical-procedures/y/provisions-for-emergency-treatment/text())" />
+					<uams:textarea instancepath="/protocol/subjects/vulnerable-populations/research-in-international-settings/has-medical-procedures/y/provisions-for-emergency-treatment"
+						id="provisions-for-emergency-treatment" value="${provisionsForEmergencyTreatment}" hasNA="true"/>
+				</div>
+			</div> -->
+
+			<div class="question"
+				data-subsection-title="Excluding Pregnant Women"
+				id="question-is-pregnant-exluded">
+				<div class="questionIdentifier">Subjects-7</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Will pregnant women be
+						excluded from participation in this research?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="isPregnantExcluded"
+						select="string($protocolInstance/protocol/subjects/is-pregnant-excluded/text())" />
+					<uams:yesno id="is-pregnant-exluded"
+						instancepath="/protocol/subjects/is-pregnant-excluded"
+						value="${isPregnantExcluded}" validation="required" hasNA="true" />
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Excluding Pregnant Women"
+				id="question-pregnant-excluded-justification">
+				<div class="questionIdentifier">Subjects-7.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you chose to
+						exclude pregnant women, answer the following question:</h1>
+					<span class="question-label-text">Explain how the nature of
+						the research requires/justifies their exclusion. Address means of
+						pregnancy screening.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="justification" select="string($protocolInstance/protocol/subjects/is-pregnant-excluded/y/justification/text())" />
+					<uams:textarea instancepath="/protocol/subjects/is-pregnant-excluded/y/justification"
+						id="justification" value="${justification}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Excluding Non-English Speaking"
+				id="question-is-non-english-speaking-exluded">
+				<div class="questionIdentifier">Subjects-8</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Will non-English speaking
+						subjects be excluded from participation in this research?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="isNonEnglishSpeakingExcluded"
+						select="string($protocolInstance/protocol/subjects/is-non-english-speaking-exluded/text())" />
+					<uams:yesno id="is-non-english-speaking-exluded"
+						instancepath="/protocol/subjects/is-non-english-speaking-exluded"
+						value="${isNonEnglishSpeakingExcluded}" validation="required" hasNA="true" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="is-non-english-speaking-exluded" />
+				</div>
+			</div>
+
+			<div class="question"
+				data-subsection-title="Excluding Non-English Speaking"
+				id="question-non-english-speaking-excluded-justification">
+				<div class="questionIdentifier">Subjects-8.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you chose to
+						exclude Non-English speaking population, answer the following
+						question:</h1>
+					<span class="question-label-text">Explain how the nature of
+						the research requires/justifies their exclusion. Address means of
+						screening.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="nonEnglishSpeakingExcludedJustification" select="string($protocolInstance/protocol/subjects/is-non-english-speaking-exluded/y/justification/text())" />
+					<uams:textarea instancepath="/protocol/subjects/is-non-english-speaking-exluded/y/justification"
+						id="non-english-speaking-excluded-justification" value="${nonEnglishSpeakingExcludedJustification}" hasNA="false"/>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo
+						lookupid="non-english-speaking-excluded-justification" />
+				</div>
+			</div>
+
+			<div class="question clearfix" data-subsection-title="Identification"
+				id="question-subjects-identified">
+				<div class="questionIdentifier">Subjects-9</div>
+				<div class="questionLabel">
+					<span class="question-label-text">How will potential
+						subjects be identified?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="potentialSubject" select="string($protocolInstance/protocol/subjects/how-subjects-identified/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/how-subjects-identified"
+						id="potential-subject" value="${potentialSubject}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question clearfix" data-subsection-title="Advertising"
+				id="question-advertising-type">
+				<div class="questionIdentifier">Subjects-10</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Which types of advertising
+						will be directed at research subjects?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="advertisingType"
+						select="$protocolInstance/protocol/subjects/types-of-advertising/type" />
+					<uams:checkbox newColumnEvery="5" lookuppath="advertising-types"
+						allowcustom="false" id="advertising-types"
+						value="${advertisingType}"
+						instancepath="/protocol/subjects/types-of-advertising/type"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question clearfix" data-subsection-title="Advertising"
+				id="quesiton-websites-url-list">
+				<div class="questionIdentifier">Subjects-10.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you checked the
+						Websites or Social Media, please answer the following question:</h1>
+					<span class="question-label-text">List Websites and their
+						URLs (e.g. UAMSHealth.com)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="websitesUrlList" select="string($protocolInstance/protocol/subjects/types-of-advertising/websites/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/types-of-advertising/websites"
+						id="websites-url-list" value="${websitesUrlList}" hasNA="false"/>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="websites-url-list" />
+				</div>
+			</div>
+
+			<div class="question clearfix" data-subsection-title="Advertising"
+				id="question-advertised-criteria">
+				<div class="questionIdentifier">Subjects-11</div>
+				<div class="questionLabel">
+					<span class="question-label-text">What are the <i>advertised</i>
+						criteria for this study?
+					</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="advertisedCriteria" select="string($protocolInstance/protocol/subjects/advertised-criteria/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/advertised-criteria"
+						id="advertised-criteria" value="${advertisedCriteria}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Compensation"
+				id="question-compensation-provided-to-subjects">
+				<div class="questionIdentifier">Subjects-12</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Will compensation be
+						provided to the subjects?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="compensationProvidedToSubjects"
+						select="string($protocolInstance/protocol/subjects/compensation-provided-to-subjects/text())" />
+					<uams:yesno id="compensation-provided-to-subjects"
+						instancepath="/protocol/subjects/compensation-provided-to-subjects"
+						value="${compensationProvidedToSubjects}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="compensation-provided-to-subjects" />
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Compensation"
+				id="question-method-and-amount-of-compensation">
+				<div class="questionIdentifier">Subjects-12.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since compensation will
+						be provided to the subjects, answer the following question:</h1>
+					<span class="question-label-text">Describe the method and amount of compensation, and its appropriateness
+					 for the research setting.  Identify the recipient of the compensation (participant and/or parent/guardian).  
+					 Outline plans to pro-rate the compensation, if necessary.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="methodAndAmountOfCompensation" select="string($protocolInstance/protocol/subjects/compensation-provided-to-subjects/y/method-and-amount-of-compensation/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/subjects/compensation-provided-to-subjects/y/method-and-amount-of-compensation"
+						id="method-and-amount-of-compensation" value="${methodAndAmountOfCompensation}" hasNA="false"/>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+
+							//var scpanel = new Clara.NewSubmission.SubjectCriteriaPanel({renderTo:'enumerated-inclusion-exclusion', width:800, height:300});
+
+							// 							var dpanel = new Clara.ProtocolForm.ProtocolDiseasePanel({renderTo:'disease-ontology'});
+
+							popCriteriaPanel = new Clara.NewSubmission.SubjectPopulation.GridPanel(
+									{
+										renderTo : 'multiple-population-list',
+										store : new Ext.data.GroupingStore(
+												{
+													autoLoad : false,
+													groupField : 'type',
+													proxy : new Ext.data.HttpProxy(
+															{
+																url : appContext
+																		+ "/ajax/protocols/"
+																		+ claraInstance.id
+																		+ "/protocol-forms/"
+																		+ claraInstance.form.id
+																		+ "/protocol-form-xml-datas/"
+																		+ claraInstance.form.xmlDataId
+																		+ "/xml-elements/list",
+																method : "GET",
+																headers : {
+																	'Accept' : 'application/xml;'
+																}
+															}),
+													reader : new Ext.data.XmlReader(
+															{
+																record : 'population',
+																fields : [
+																		{
+																			name : 'id',
+																			mapping : '@id'
+																		},
+																		{
+																			name : 'name',
+																			mapping : '@name'
+																		},
+																		{
+																			name : 'description',
+																			mapping : 'description'
+																		},
+																		{
+																			name : 'type',
+																			mapping : '@type'
+																		},
+																		{
+																			name : 'criterias',
+																			mapping : 'criterias',
+																			convert : function(
+																					v,
+																					node) {
+																				return new Ext.data.XmlReader(
+																						{
+																							record : 'criteria',
+																							fields : [
+																									{
+																										name : 'id',
+																										mapping : '@id'
+																									},
+																									{
+																										name : 'index',
+																										mapping : '@index'
+																									},
+																									{
+																										name : 'type',
+																										mapping : '@type'
+																									},
+																									{
+																										name : 'value',
+																										mapping : 'value'
+																									} ]
+																						})
+																						.readRecords(node).records;
+																			}
+																		} ]
+															})
+												})
+									});
+
+							//renderSubjectPopulationPanel( {renderTo:'multiple-population-list'});
+
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'staff',
+										nextTab : ('${studyType}' == 'hud-use')?'drugs-devices':'hipaa',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Subjects":"<strong>New Submission</strong>: Subjects",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+							//Clara.NewSubmission.ReloadCriteria();
+							//renderQuestionWizard('page-wizard-wrapper', 'question', true, 'staff', 'hipaa');
+						});
+	</script>
+</div>

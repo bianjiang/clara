@@ -1,0 +1,177 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${contractFormXmlData.xmlData}" var="contractInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" />
+	<x:set var="contractTitle"
+		select="string($contractInstance/contract/basic-information/nature)" />
+
+<x:set var="protocolId" select="string($contractInstance/contract/protocol/text())" />
+						<c:if test="${empty protocolId or protocolId eq ''}">
+							<c:set var="protocolId" value="0" />
+						</c:if>
+
+						
+						
+	<div id="clara-form-pagelist">
+		<uams:newcontracttab name="study-information" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+
+	<div style="display: none;">
+		<div id="clara-form-help">
+			<x:out escapeXml="false"
+				select="string($help/help/pages/first-page/text())" />
+		</div>
+		<div id="validation-error-box">
+			<h3>Errors</h3>
+			<div id="validation-error-label-box">
+				<!-- // -->
+			</div>
+			<div id="validation-footer">
+				<a href="#" onclick="jQuery('#validation-error-box').slideUp();">Close
+					this message</a>
+			</div>
+		</div>
+	</div>
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(contractTitle, '\\n',' ')))}"/></div>
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Contract":jQuery("#claraFormTitle").text();
+							
+							
+							var protocolId = ${protocolId};	
+							var dp = new Clara.Contract.StudyDetailPanel({iconCls:'icn-book',protocolId:protocolId});
+							var rp = new Ext.grid.GridPanel({
+								title:'Reviewers assigned to this study',
+								iconCls:'icn-users',
+								id:'clara-contract-protocol-assignedgridpanel',
+								xtype:'grid',
+								border:false,
+							    listeners:{
+							    	afterrender:function(gp){
+							    		queueitem = {roleId:'ROLE_CONTRACT_LEGAL_REVIEW',formTypeId:claraInstance.form.urlName,formId:claraInstance.form.id,committee:'CONTRACT_LEGAL_REVIEW',objectType:'Protocol'};
+							    		//gp.getStore().load(Clara.Queues.GetQueueItemAssignmentArrayStore(queueitem));
+							    		Clara.Queues.GetQueueItemAssignmentArrayStore(queueitem);
+							    	}
+								},
+								view: new Ext.grid.GridView({
+						    		forceFit:true,
+						    		emptyText:'There are no reviewers assigned to this item.'
+						    	}),
+								//store:{
+								//	xtype:'arraystore',
+								//	fields:['reviewerid','reviewerName','reviewerRoleId','reviewerRoleName','assigningCommittee'],
+								//},
+								store:{
+									// xtype:'arraystore',
+									// fields:['reviewerid','reviewerName','reviewerRoleId','reviewerRoleName','assigningCommittee'],
+									xtype:'xmlstore',
+									proxy : new Ext.data.HttpProxy({
+										url : appContext + "/",	// changes dynamically
+										method : "GET",
+										data : {
+											userId : claraInstance.user.id
+										},
+										headers : {
+											'Accept' : 'application/xml;charset="utf-8"'
+										}
+									}),
+									autoLoad : false,
+									record : 'assigned-reviewer',
+									root : 'assigned-reviewers',
+									sortInfo:{
+										field:'reviewerName',direction:'ASC'
+									},
+									fields : [ {
+										name : 'reviewerName',
+										mapping : '@user-fullname'
+									}, {
+										name : 'reviewerid',
+										mapping : '@user-id'
+									}, {
+										name : 'reviewerRoleId',
+										mapping : '@user-role-id'
+									}, {
+										name : 'reviewerRoleName',
+										mapping : '@user-role'
+									}, {
+										name : 'assigningCommittee',
+										mapping : '@assigning-committee'
+									} ]
+								
+								},
+								tbar:[{
+									iconCls:'icn-user--pencil',
+									text:'Edit..',
+									handler:function(){
+										queueitem = {roleId:'ROLE_CONTRACT_LEGAL_REVIEW',formTypeId:'new-contract-studyinfo',formId:claraInstance.form.id,committee:'CONTRACT_LEGAL_REVIEW',objectType:'Protocol'};
+										clog("queueitem",queueitem);
+										Clara.Queues.Reassign(queueitem,{objectType:'Protocol'},function(){
+											var gp = Ext.getCmp("clara-contract-protocol-assignedgridpanel");
+											clog("edit reviewer callback: refreshing gp",gp);
+											queueitem = {roleId:'ROLE_CONTRACT_LEGAL_REVIEW',formTypeId:claraInstance.form.urlName,formId:claraInstance.form.id,committee:'CONTRACT_LEGAL_REVIEW',objectType:'Protocol'};
+								    		//gp.getStore().load(Clara.Queues.GetQueueItemAssignmentArrayStore(queueitem));
+								    		gp.getStore().removeAll();
+											Clara.Queues.GetQueueItemAssignmentArrayStore(queueitem);
+										},false);
+									}
+								}],
+						        columns: [
+								            {header: 'Reviewer &gt; Reviewer Role', sortable: true, dataIndex: 'id',renderer:Clara.Queues.RenderAssignedReviewerRow}
+								        ]
+							
+							});
+							var fsp = new Clara.NewSubmission.FundingSourcePanel({iconCls:'icn-money',title:'Funding Sources',readOnly:true,formBaseTag:'contract'});
+							var tp = new Ext.TabPanel({id:'question-study-info',border:false, activeTab:0,items:[dp,fsp,rp]
+								});//,fsp,rp]});
+							var c = new Ext.Panel({layout:'fit',border:false,items:[tp],tbar: new Ext.Toolbar({
+							  	items:[{xtype:'button',iconCls:'icn-arrow-180',text:'Back',handler:function(){gotoPage('first-page');}},'->',{xtype:'button',iconCls:'icn-arrow',text:'Next',handler:function(){gotoPage('sponsor-contacts');}}]
+							  })});
+
+							
+							renderFormViewport((claraInstance.form.type == 'amendment')?"<strong>Amendment</strong>: Funding Sources":"<strong>Contract</strong>: Funding Sources",c);
+
+						});
+	</script>
+
+
+
+</div>

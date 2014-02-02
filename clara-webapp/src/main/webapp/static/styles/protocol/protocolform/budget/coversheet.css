@@ -1,0 +1,33 @@
+h4{
+margin:0;
+	margin-bottom:4px;
+}
+
+td{
+	border-bottom:1px solid #444;
+}
+
+.table-striped tbody tr:nth-child(2n+1) td, .table-striped tbody tr:nth-child(2n+1) th {
+    background-color: #fff;
+}
+
+.totalcost{
+	text-align:right !important;
+}
+.waived-total {
+	color:red !important;
+	font-weight:100 !important;
+	text-decoration:line-through;
+}
+
+.capital{
+	text-transform:capitalize;
+}
+
+.upper{
+	text-transform:uppercase;
+}
+
+#totals td{
+	font-weight:800;
+}

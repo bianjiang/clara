@@ -1,0 +1,7 @@
+{
+	recipients: [
+		{id:1, desc:'Matt Baker',address:'mbaker@uams.edu'},
+		{id:2, desc:'Jiang Bian',address:'jbian@uams.edu'},
+		{id:3, desc:'IRB Office',address:''}
+	]
+}

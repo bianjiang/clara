@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reports>
+	<report type="Audit">
+		<fields>
+			<field identifier="protocolid" />
+			<field identifier="protocalTitle" />
+			<field identifier="piname" />
+			<field identifier="studycoordinatorname" />
+			<field identifier="staffname" />
+			<field identifier="protocolstatus" />
+			<field identifier="reviewtype" />
+			<field identifier="originalapprovaldate" />
+			<field identifier="recentapprovaldate" />
+			<field identifier="drug" />
+			<field identifier="primaryresponsible" />
+			<field identifier="sites" />
+			<field identifier="college" />
+			<field identifier="studynature" />
+			<field identifier="druganddevice" />
+			<field identifier="studytype" />
+			<field identifier="creationtimespan" />
+			<field identifier="submissiontimespan" />
+			<field identifier="completetimespan" />
+			<field identifier="approvalstatus" />
+			<field identifier="queuecommittee" />
+			<field identifier="studysubmissionstatus" />
+			<field identifier="reviewedcommittee" />
+			<field identifier="nct" />
+			<field identifier="iscancerstudy" />
+			<!-- <field identifier="clinicaltrailgov" /> -->
+			<!-- <field identifier="protocolformstatus" /> -->
+		</fields>
+		<results>
+			<field order="0" defaultDisplay="true" identifier="protocolid"
+				alias="protocolId" desc="IRB Protocol Number" hidden="false"
+				value="&lt;a target=&quot;_blank&quot; href=&quot;{application.host}/clara-webapp/protocols/{protocolId}/dashboard&quot;&gt;{protocolId}&lt;/a&gt;" />
+			<field order="0" defaultDisplay="true" identifier="protocalTitle"
+				alias="protocalTitle" desc="Study Title" hidden="false" />
+			<field order="0" defaultDisplay="true" identifier="piname"
+				alias="piName" desc="PI Name" hidden="false" />
+			<field order="0" defaultDisplay="true" identifier="protocolstatus"
+				alias="protocolStatus" desc="Protocol Status" hidden="false" />
+			<field order="0" defaultDisplay="true" identifier="studynature"
+				alias="studyNature" desc="Study Nature" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="stafflist"
+				alias="staffList" desc="Staff List On Study" hidden="false"
+				queryCrossCondition="OUTER APPLY meta_data_xml.nodes('/protocol/staffs/staff/user') as T3(Loc) " />
+			<field order="0" defaultDisplay="false" identifier="studycoordinatorname"
+				alias="studyCoordinatorName" desc="Study Coordinator Name" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="studycoordinatorphone"
+				alias="studyCoordinatorPhone" desc="Study Coordinator Phone" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="nct" alias="nct"
+				desc="NCT Number" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="druganddevice"
+				alias="drugAndDevice" desc="Including (Drug, Nutritional Products, Devices)"
+				hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="reviewtype"
+				alias="reviewType" desc="IRB Review Type" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="studytype"
+				alias="studyType" desc="Study Type" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="substudytype"
+				alias="subStudyType" desc="Sub Study Type" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="recentapprovaldate"
+				alias="recentApprovalDate" desc="Continuing Review Approval Date"
+				hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="primaryresponsible"
+				alias="primaryResponsible" desc="Primary Responsible" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="sites"
+				alias="sites" desc="Sites" hidden="false"
+				queryCrossCondition="OUTER APPLY meta_data_xml.nodes('//protocol/study-sites/site') as T1(Loc) " />
+			<field order="0" defaultDisplay="false" identifier="sitelocation"
+				alias="siteLocation" desc="Site Location" hidden="false"
+				queryCrossCondition="OUTER APPLY meta_data_xml.nodes('//protocol/study-sites/site') as T1(Loc) " />
+			<field order="0" defaultDisplay="false" identifier="originalapprovaldate"
+				alias="originalApprovaldate" desc="Original Approval Date" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="insuranceplancode"
+				alias="insurancePlanCode" desc="Insurance Plan Code" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="corporateguarantorcode"
+				alias="corporateGuarantorCode" desc="Corporate Guarantor Code"
+				hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="funding"
+				alias="funding" desc="Funding" hidden="false"
+				queryCrossCondition="OUTER APPLY meta_data_xml.nodes('//protocol/funding/funding-source') as T2(Loc) " />
+
+			<!-- <field order ="0" defaultDisplay ="false" identifier="approvalstatus" 
+				alias="approvalStatus" desc="Approval Status" hidden="false" /> <field order 
+				="0" defaultDisplay ="false" identifier="queuecommittee" alias="queueCommittee" 
+				desc="Committee" hidden="false" /> -->
+		</results>
+		<queries>
+			<!-- <query type="sub" id="protocolId">SELECT protocol.id FROM protocol 
+				WHERE xxx</query> -->
+			<query type="main">
+				SELECT distinct {reportstatment} FROM protocol WHERE 
+				retired = 0 AND {conditions}
+			</query>
+			<conditions>
+				<condition involve="{protocolid.search-xpath}">{protocolid.search-xpath}</condition>
+				<condition involve="{protocalTitle.search-xpath}">{protocalTitle.search-xpath}
+				</condition>
+				<condition involve="{piname.search-xpath}">{piname.search-xpath}</condition>
+				<condition involve="{protocolstatus.search-xpath}">id IN (SELECT protocol_id FROM
+					protocol_status WHERE retired = 0 AND {protocolstatus.search-xpath}
+					and id in (SELECT MAX(id) FROM protocol_status where retired =0
+					group by protocol_id ))
+				</condition>
+				<condition involve="{reviewtype.search-xpath}">{reviewtype.search-xpath}</condition>
+				<condition involve="{staffname.search-xpath}">{staffname.search-xpath}</condition>
+				<condition involve="{originalapprovaldate.search-xpath}">{originalapprovaldate.search-xpath}
+				</condition>
+				<condition involve="{recentapprovaldate.search-xpath}">{recentapprovaldate.search-xpath}
+				</condition>
+				<condition involve="{drug.search-xpath}">{drug.search-xpath}</condition>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+				<!-- <condition involve="{clinicaltrailgov.search-xpath}">{clinicaltrailgov.search-xpath}</condition> -->
+				<condition involve="{studynature.search-xpath}">{studynature.search-xpath}</condition>
+				<condition involve="{studytype.search-xpath}">{studytype.search-xpath}</condition>
+				<condition involve="{creationtimespan.search-xpath}">{creationtimespan.search-xpath}
+				</condition>
+				<condition involve="{approvalstatus.search-xpath}">{approvalstatus.search-xpath}
+				</condition>
+				<condition involve="{queuecommittee.search-xpath}">{queuecommittee.search-xpath}
+				</condition>
+				<condition involve="{substudytype.search-xpath}">{substudytype.search-xpath}</condition>
+				<condition involve="{studysubmissionstatus.search-xpath}">{studysubmissionstatus.search-xpath}
+				</condition>
+				<condition involve="{reviewedcommittee.search-xpath}">{reviewedcommittee.search-xpath}
+				</condition>
+				<condition involve="{submissiontimespan.search-xpath}">{submissiontimespan.search-xpath}
+				</condition>
+				<condition involve="{druganddevice.search-xpath}">{druganddevice.search-xpath}
+				</condition>
+				<condition involve="{completetimespan.search-xpath}">{completetimespan.search-xpath}
+				</condition>
+				<condition involve="{studycoordinatorname.search-xpath}">{studycoordinatorname.search-xpath}
+				</condition>
+				<condition involve="{nct.search-xpath}">{nct.search-xpath}</condition>
+				<condition involve="{sites.search-xpath}">{sites.search-xpath}</condition>
+				<condition involve="{iscancerstudy.search-xpath}">{iscancerstudy.search-xpath}</condition>
+			</conditions>
+		</queries>
+	</report>
+	<report type="Time in Review On Action">
+		<fields>
+			<field identifier="protocolid" />
+			<field identifier="creationtimespan" />
+			<field identifier="submissiontimespan" />
+			<field identifier="completetimespan" />
+			<field identifier="sites" />
+			<field identifier="college" />
+			<field identifier="studytype" />
+			<field identifier="approvalstatus" />
+			<field identifier="protocalTitle" />
+			<field identifier="piname" />
+			<field identifier="studycoordinatorname" />
+			<field identifier="staffname" />
+			<field identifier="protocolstatus" />
+			<field identifier="reviewtype" />
+			<field identifier="originalapprovaldate" />
+			<field identifier="recentapprovaldate" />
+			<field identifier="drug" />
+			<field identifier="primaryresponsible" />
+			<field identifier="studynature" />
+			<field identifier="druganddevice" />
+			<field identifier="queuecommittee" />
+			<field identifier="studysubmissionstatus" />
+			<field identifier="reviewedcommittee" />
+			<field identifier="nct" />
+			<!-- <field identifier="clinicaltrailgov" /> -->
+		</fields>
+		<results>
+			 <field order="0" defaultDisplay="true" identifier="protocolid"
+				alias="protocolId" desc="IRB Protocol Number" hidden="false"
+				value="&lt;a target=&quot;_blank&quot; href=&quot;{application.host}/clara-webapp/protocols/{protocolId}/dashboard&quot;&gt;{protocolId}&lt;/a&gt;" />
+			<field order="0" defaultDisplay="true" identifier="reviewentity"
+				alias="reviewEntity" desc="Review Entity" hidden="false" />
+			<field order="0" defaultDisplay="true" identifier="timespent"
+				alias="timeSpent" desc="Time Spent (in Days)" hidden="false" />
+		</results>
+		<queries>
+			<!-- <query type="sub" id="protocolId">SELECT protocol.id FROM protocol 
+				WHERE xxx</query> -->
+			<query type="main">
+				SELECT {reportstatment} FROM protocol WHERE 
+				id>200000 AND retired = 0 AND {conditions}
+			</query>
+			<conditions>
+				<condition involve="{protocolid.search-xpath}">{protocolid.search-xpath}</condition>
+				<condition involve="{protocalTitle.search-xpath}">{protocalTitle.search-xpath}
+				</condition>
+				<condition involve="{piname.search-xpath}">{piname.search-xpath}</condition>
+				<condition involve="{protocolstatus.search-xpath}">id IN (SELECT protocol_id FROM
+					protocol_status WHERE retired = 0 AND {protocolstatus.search-xpath}
+					and id in (SELECT MAX(id) FROM protocol_status where retired =0
+					group by protocol_id ))
+				</condition>
+				<condition involve="{reviewtype.search-xpath}">{reviewtype.search-xpath}</condition>
+				<condition involve="{staffname.search-xpath}">{staffname.search-xpath}</condition>
+				<condition involve="{originalapprovaldate.search-xpath}">{originalapprovaldate.search-xpath}
+				</condition>
+				<condition involve="{recentapprovaldate.search-xpath}">{recentapprovaldate.search-xpath}
+				</condition>
+				<condition involve="{drug.search-xpath}">{drug.search-xpath}</condition>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+				<condition involve="{studynature.search-xpath}">{studynature.search-xpath}</condition>
+				<condition involve="{studytype.search-xpath}">{studytype.search-xpath}</condition>
+				<condition involve="{creationtimespan.search-xpath}">{creationtimespan.search-xpath}
+				</condition>
+				<condition involve="{approvalstatus.search-xpath}">{approvalstatus.search-xpath}
+				</condition>
+				<condition involve="{queuecommittee.search-xpath}">{queuecommittee.search-xpath}
+				</condition>
+				<condition involve="{substudytype.search-xpath}">{substudytype.search-xpath}</condition>
+				<condition involve="{studysubmissionstatus.search-xpath}">{studysubmissionstatus.search-xpath}
+				</condition>
+				<condition involve="{reviewedcommittee.search-xpath}">{reviewedcommittee.search-xpath}
+				</condition>
+				<condition involve="{submissiontimespan.search-xpath}">{submissiontimespan.search-xpath}
+				</condition>
+				<condition involve="{druganddevice.search-xpath}">{druganddevice.search-xpath}
+				</condition>
+				<condition involve="{completetimespan.search-xpath}">{completetimespan.search-xpath}
+				</condition>
+				<condition involve="{studycoordinatorname.search-xpath}">{studycoordinatorname.search-xpath}
+				</condition>
+				<condition involve="{sites.search-xpath}">{sites.search-xpath}</condition>
+				<condition involve="{nct.search-xpath}">{nct.search-xpath}</condition>
+
+			</conditions>
+		</queries>
+	</report>
+	<report type="Human Subject Research Dashboard-Summary of protocols by type of review and initiator">
+		<fields>
+			<!--<field identifier="hsrreport" />
+			 <field identifier="creationtimespan" />
+			<field identifier="completetimespan" /> -->
+			<field identifier="primaryresponsible" />
+			<field identifier="submissiontimespan" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+				{conditions}
+			</query>
+			<conditions>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+				<condition involve="{submissiontimespan.search-xpath}">{submissiontimespan.search-xpath} 
+				</condition>
+				<!-- <condition involve="{creationtimespan.search-xpath}">{creationtimespan.search-xpath}
+				</condition>
+				<condition involve="{completetimespan.search-xpath}">{completetimespan.search-xpath}
+				</condition>
+				
+				<condition involve="{hsrreport.search-xpath}">{hsrreport.search-xpath}
+				</condition>-->
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Human Subject Research Dashboard-Summary of protocols by type of review and sources of funding">
+		<fields>
+			<field identifier="primaryresponsible" />
+			<field identifier="submissiontimespan" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+				{conditions}
+			</query>
+			<conditions>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+				<condition involve="{submissiontimespan.search-xpath}">{submissiontimespan.search-xpath} 
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Human Subject Research Dashboard-Summary of Principal Investigators">
+		<fields>
+			<field identifier="primaryresponsible" />
+			<field identifier="submissiontimespan" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+				{conditions}
+			</query>
+			<conditions>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+				<condition involve="{submissiontimespan.search-xpath}">{submissiontimespan.search-xpath} 
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Human Subject Research Dashboard-Summary of Protocols Open">
+		<fields>
+			<field identifier="primaryresponsible" />
+			<field identifier="daterange" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+				{conditions}
+			</query>
+			<conditions>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Human Subject Research Dashboard-Studies Submitted for Continuing Review">
+		<fields>
+			<field identifier="primaryresponsible" />
+			<field identifier="daterange" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+				{conditions}
+			</query>
+			<conditions>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Human Subject Research Dashboard-Patient Enrollment on Studies Submitted for Continuing Review">
+		<fields>
+			<field identifier="primaryresponsible" />
+			<field identifier="daterange" /> 
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+				{conditions}
+			</query>
+			<conditions>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Human Subject Research Dashboard-Protocols closed to enrollment and follow-up">
+		<fields>
+			<field identifier="primaryresponsible" />
+			<field identifier="daterange" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+				{conditions}
+			</query>
+			<conditions>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Human Subject Research Dashboard-Full Review Studies Closed-Reasons for Closure">
+		<fields>
+			<field identifier="primaryresponsible" />
+			<field identifier="daterange" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+				{conditions}
+			</query>
+			<conditions>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Human Subject Research Dashboard-Full Review Studies Closed-Cumulative Patients Enrolled">
+		<fields>
+			<field identifier="primaryresponsible" />
+			<field identifier="daterange" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+				{conditions}
+			</query>
+			<conditions>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+	
+	<report type="Human Subject Research Dashboard-Process Measures">
+		<fields>
+			<field identifier="primaryresponsible" />
+			<field identifier="submissiontimespan" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+				{conditions}
+			</query>
+			<conditions>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+				<condition involve="{submissiontimespan.search-xpath}">{submissiontimespan.search-xpath} 
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+
+	<report type="Summary Information">
+		<fields>
+			<field identifier="protocolid" />
+			<field identifier="protocalTitle" />
+			<field identifier="piname" />
+			<field identifier="studycoordinatorname" />
+			<field identifier="staffname" />
+			<field identifier="protocolstatus" />
+			<field identifier="reviewtype" />
+			<field identifier="originalapprovaldate" />
+			<field identifier="recentapprovaldate" />
+			<field identifier="drug" />
+			<field identifier="primaryresponsible" />
+			<field identifier="college" />
+			<field identifier="studynature" />
+			<field identifier="druganddevice" />
+			<field identifier="studytype" />
+			<field identifier="creationtimespan" />
+			<field identifier="submissiontimespan" />
+			<field identifier="completetimespan" />
+			<field identifier="approvalstatus" />
+			<field identifier="queuecommittee" />
+			<field identifier="studysubmissionstatus" />
+			<field identifier="reviewedcommittee" />
+			<field identifier="nct" />
+			<!-- <field identifier="clinicaltrailgov" /> -->
+			<!-- <field identifier="protocolformstatus" /> -->
+		</fields>
+		<results>
+			<field order="0" defaultDisplay="false" identifier="protocolid"
+				alias="protocolId" desc="IRB Protocol Number" hidden="false"
+				value="&lt;a target=&quot;_blank&quot; href=&quot;{application.host}/clara-webapp/protocols/{protocolId}/dashboard&quot;&gt;{protocolId}&lt;/a&gt;" />
+		</results>
+		<queries>
+			<!-- <query type="sub" id="protocolId">SELECT protocol.id FROM protocol 
+				WHERE xxx</query> -->
+			<query type="main">
+				SELECT {reportstatment} FROM protocol WHERE 
+				id>200000 AND retired = 0 AND {conditions}
+			</query>
+			<conditions>
+				<condition involve="{protocolid.search-xpath}">{protocolid.search-xpath}</condition>
+				<condition involve="{protocalTitle.search-xpath}">{protocalTitle.search-xpath}
+				</condition>
+				<condition involve="{piname.search-xpath}">{piname.search-xpath}</condition>
+				<condition involve="{protocolstatus.search-xpath}">id IN (SELECT protocol_id FROM
+					protocol_status WHERE retired = 0 AND {protocolstatus.search-xpath}
+					and id in (SELECT MAX(id) FROM protocol_status where retired =0
+					group by protocol_id ))
+				</condition>
+				<condition involve="{reviewtype.search-xpath}">{reviewtype.search-xpath}</condition>
+				<condition involve="{staffname.search-xpath}">{staffname.search-xpath}</condition>
+				<condition involve="{originalapprovaldate.search-xpath}">{originalapprovaldate.search-xpath}
+				</condition>
+				<condition involve="{recentapprovaldate.search-xpath}">{recentapprovaldate.search-xpath}
+				</condition>
+				<condition involve="{drug.search-xpath}">{drug.search-xpath}</condition>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}
+				</condition>
+				<condition involve="{studynature.search-xpath}">{studynature.search-xpath}</condition>
+				<condition involve="{studytype.search-xpath}">{studytype.search-xpath}</condition>
+				<condition involve="{creationtimespan.search-xpath}">{creationtimespan.search-xpath}
+				</condition>
+				<condition involve="{approvalstatus.search-xpath}">{approvalstatus.search-xpath}
+				</condition>
+				<condition involve="{queuecommittee.search-xpath}">{queuecommittee.search-xpath}
+				</condition>
+				<condition involve="{substudytype.search-xpath}">{substudytype.search-xpath}</condition>
+				<condition involve="{studysubmissionstatus.search-xpath}">{studysubmissionstatus.search-xpath}
+				</condition>
+				<condition involve="{reviewedcommittee.search-xpath}">{reviewedcommittee.search-xpath}
+				</condition>
+				<condition involve="{submissiontimespan.search-xpath}">{submissiontimespan.search-xpath}
+				</condition>
+				<condition involve="{druganddevice.search-xpath}">{druganddevice.search-xpath}
+				</condition>
+				<condition involve="{completetimespan.search-xpath}">{completetimespan.search-xpath}
+				</condition>
+				<condition involve="{studycoordinatorname.search-xpath}">{studycoordinatorname.search-xpath}
+				</condition>
+				<condition involve="{nct.search-xpath}">{nct.search-xpath}</condition>
+			</conditions>
+		</queries>
+	</report>
+	<report type="Contract Worklist">
+		<fields>
+			<field identifier="legalreviewer" />
+			<field identifier="contractadminreviewer" />
+		</fields>
+		<queries>
+			<!-- <query type="sub" id="protocolId">SELECT protocol.id FROM protocol 
+				WHERE xxx</query> -->
+			<query type="main">
+				SELECT {customreportstatment} FROM contract_form
+				WHERE retired = 0 AND {conditions}
+			</query>
+			<conditions>
+				<condition involve="{legalreviewer.search-xpath}">{legalreviewer.search-xpath}
+				</condition>
+				<condition involve="{contractadminreviewer.search-xpath}">{contractadminreviewer.search-xpath}
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	<report type="Cancer Related COM Study">
+		<fields>
+		<field identifier="submissiontimespan" />
+			<!-- <field identifier="protocolid" />
+			<field identifier="protocalTitle" />
+			<field identifier="piname" />
+			<field identifier="studytype" /> -->
+		</fields>
+		<results>
+			<field order="0" defaultDisplay="true" identifier="protocolid"
+				alias="protocolId" desc="IRB Protocol Number" hidden="false"
+				value="&lt;a target=&quot;_blank&quot; href=&quot;{application.host}/clara-webapp/protocols/{protocolId}/dashboard&quot;&gt;{protocolId}&lt;/a&gt;" />
+			<field order="0" defaultDisplay="true" identifier="piname"
+				alias="piName" desc="PI Name" hidden="false" />
+			<field order="0" defaultDisplay="true" identifier="studytype"
+				alias="studyType" desc="Study Type" hidden="false" />
+			<field order="0" defaultDisplay="true" identifier="substudytype"
+				alias="subStudyType" desc="Sub Study Type" hidden="false" />
+			<field order="0" defaultDisplay="true" identifier="funding"
+				alias="funding" desc="Funding" hidden="false"
+				queryCrossCondition="OUTER APPLY meta_data_xml.nodes('//protocol/funding/funding-source') as T2(Loc) " />
+			<field order="0" defaultDisplay="true" identifier="protocalTitle"
+				alias="protocalTitle" desc="Study Title" hidden="false" />
+		</results>
+		<queries>
+			<query type="main">
+				SELECT distinct {reportstatment} FROM protocol WHERE 
+				meta_data_xml.exist('/protocol/extra/prmc-related-or-not/text()[fn:contains(fn:upper-case(.),"Y")]')=1 AND meta_data_xml.exist('/protocol/responsible-department[@collegeid = "5"]')=1 AND retired = 0 AND {conditions}
+			</query>
+			<conditions>
+			<condition involve="{submissiontimespan.search-xpath}">{submissiontimespan.search-xpath}
+				</condition>
+				<!-- <condition involve="{protocolid.search-xpath}">{protocolid.search-xpath}</condition>
+				<condition involve="{protocalTitle.search-xpath}">{protocalTitle.search-xpath}</condition>
+				<condition involve="{piname.search-xpath}">{piname.search-xpath}</condition>
+				<condition involve="{studytype.search-xpath}">{studytype.search-xpath}</condition> -->
+			</conditions>
+		</queries>
+	</report>
+</reports>

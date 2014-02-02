@@ -1,0 +1,7 @@
+[
+		{"id":"1000-1000","type":"SNOMED","shortDesc":"Blood test 1","longDesc":"Long description here.1"},
+		{"id":"1123-1000","type":"SNOMED","shortDesc":"Blood test 2","longDesc":"Long description here.2"},
+		{"id":"2344-1000","type":"SNOMED","shortDesc":"Blood test 3","longDesc":"Long description here.3"},
+		{"id":"3455-1000","type":"SOFTID","shortDesc":"Blood test 4 SOFT","longDesc":"Long description here.4"},
+		{"id":"4566-1000","type":"SOFTID","shortDesc":"Blood test 5 SOFT","longDesc":"Long description here.5"},
+]

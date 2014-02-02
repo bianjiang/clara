@@ -1,0 +1,35 @@
+<html>
+<head><link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/></head>
+<body>
+<div class="email-template">
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	<br/><br/>A modification to the following study has been submitted to the Gatekeeper for review in CLARA:
+		
+	<br/><br/><strong>IRB Number:</strong> $protocolId
+	<br/><strong>Study Title:</strong> $protocolTitle
+	
+	#if ($hudOrNot == 'hud-use')
+		<br/><strong>TP Name:</strong>  $treatingPhysicianUser.person.getFullname() e-mail:<a href="mailto:$treatingPhysicianUser.person.getEmail()">$treatingPhysicianUser.person.getEmail()</a> phone:$treatingPhysicianUser.person.getWorkphone()
+	#else
+		<br/><strong>PI Name:</strong>  $piUser.person.getFullname() e-mail:<a href="mailto:$piUser.person.getEmail()">$piUser.person.getEmail()</a> phone:$piUser.person.getWorkphone()
+	#end
+	<br/><br/><strong>Study Contact:</strong> 
+	<br/>
+	#if ($studyCoordinatorLst.size() == 0)
+		N/A. 
+	#end
+	
+	<ul>
+	#foreach($studyCoordinator in ${studyCoordinatorLst})
+	<li>$studyCoordinator.person.getFullname() </li> #end
+	</ul> 
+	
+	<br/><br/><a href=$queueLink>Click here to the queue.</a>
+	
+	<br/><br/><strong>Committee Notes/Comments:</strong>
+	<br/>
+	$emailComment
+	{0}
+</div>
+</body>
+</html>

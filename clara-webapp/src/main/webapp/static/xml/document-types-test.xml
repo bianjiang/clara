@@ -1,0 +1,85 @@
+<result>
+<document-types>
+<document-type read="true" write="true" update="true" category="Consent, Assent and HIPAA" desc="Informed Consent - Addendum" value="informed-consent-addendum"></document-type>
+<document-type read="true" write="true" update="true" category="Consent, Assent and HIPAA" contract-validation-value="consent" desc="Consent/Assent/Parental Permission Form (including HIPAA authorization)" value="consent-assent-parental-permission-form-including-hipaa"></document-type>
+<document-type read="true" write="true" update="true" category="Consent, Assent and HIPAA" contract-validation-value="consent" desc="Consent/Assent/Parental Permission Form (NOT including HIPAA authorization)" value="consent-assent-parental-permission-form-not-including-hipaa"></document-type>
+<document-type read="true" write="true" update="true" category="Consent, Assent and HIPAA" contract-validation-value="consent" desc="Consent/Assent/Parental Permission Verbal Script" value="consent-assent-parental-permission-verbal-script"></document-type>
+<document-type read="true" write="true" update="true" category="Consent, Assent and HIPAA" desc="Translated Consent/Assent/Parental Permission Form (including HIPAA authorization)" value="translated-consent-assent-parental-permission-form-including-hipaa"></document-type>
+<document-type read="true" write="true" update="true" category="Consent, Assent and HIPAA" desc="Translated Consent/Assent/Parental Permission Form (NOT including HIPAA authorization)" value="translated-consent-assent-parental-permission-form-not-including-hipaa"></document-type>
+<document-type read="true" write="true" update="true" category="Consent, Assent and HIPAA" desc="HIPAA Authorization" value="hipaa-authorization"></document-type>
+<document-type read="true" write="true" update="true" category="Consent, Assent and HIPAA" desc="Limited Data Set Use Agreement" value="limited-data-set-use-agreement"></document-type>
+<document-type read="true" write="true" update="true" category="HUD" desc="Treatment Plan" value="treatment-plan"></document-type>
+<document-type read="true" write="true" update="true" category="HUD" desc="HDE Determination Letter" value="hde-determination-letter"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" contract-validation-value="budget" desc="Budget Spreadsheet" value="budget-spreadsheet"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" contract-validation-value="budget" desc="Budget Exhibit" value="budget-exhibit"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" contract-validation-value="contract" desc="Contract" descCls="documentfeatured" value="contract"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" contract-validation-value="contract" desc="Contract Request" descCls="documentfeatured" value="contract-request"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" contract-validation-value="research-summary" desc="Research Summary" descCls="documentfeatured" protocol="false" value="research-summary"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" desc="Contract Amendment" value="contract-amendment"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" desc="Indirect Cost Waiver" value="indirect-cost-waiver"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" desc="Insurance" value="insurance"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" desc="Pharmacy Cost Impact Form" value="pharmacy-cost-impact-form"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" desc="PI Certification" value="pi-certification"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" desc="W9" value="w9"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" desc="Subcontract Agreement" value="subcontract-agreement"></document-type>
+<document-type read="true" write="true" update="true" category="Correspondence" desc="Letter to IRB" value="letter-to-irb"></document-type>
+<document-type read="true" write="true" update="true" category="Correspondence" desc="Project Cancellation Email" value="project-cancellation-email"></document-type>
+<document-type read="true" write="true" update="true" category="Correspondence" desc="Project Initiation Email" value="project-initiation-email"></document-type>
+<document-type read="true" write="true" update="true" category="Data Collection" desc="Case Report Form" value="case-report-form"></document-type>
+<document-type read="true" write="true" update="true" category="Data Collection" desc="Evaluation Instrument" value="eval-instrument"></document-type>
+<document-type read="true" write="true" update="true" category="Data Collection" desc="Interview / Focus Group Questions" value="interview-focus-group-questions"></document-type>
+<document-type read="true" write="true" update="true" category="Data Collection" desc="Questionnaire / Survey" value="questionnaire-survey"></document-type>
+<document-type read="true" write="true" update="true" category="Drug / Device" desc="Acknowledgement of Device Responsibility" value="ack-of-device-responsibility"></document-type>
+<document-type read="true" write="true" update="true" category="Drug / Device" desc="Regulatory Analysis" value="regulatory-analysis"></document-type>
+<document-type read="true" write="true" update="true" category="Drug / Device" desc="Risk Determination Letter" value="risk-determination-letter"></document-type>
+<document-type read="true" write="true" update="true" category="Drug / Device" desc="FDA Correspondence" value="fda-correspondence"></document-type>
+<document-type read="true" write="true" update="true" category="Drug / Device" desc="Manual" value="manual"></document-type>
+<document-type read="true" write="true" update="true" category="Drug / Device" desc="Investigators Brochure" value="investigators-brochure">
+<filters>
+<filter committee="MONITORING_REGULATORY_QA" sort-value="-200" status="*" visible="true"></filter>
+</filters>
+</document-type>
+<document-type read="true" write="true" update="true" category="Drug / Device" desc="Outpatient Investigational Drug Storage Information Form" value="outpatient-investigational-drug-storage-information-form"></document-type>
+<document-type read="true" write="true" update="true" category="Drug / Device" desc="Package Insert" value="package-insert">
+<filters>
+<filter committee="MONITORING_REGULATORY_QA" sort-value="-200" status="*" visible="true"></filter>
+</filters>
+</document-type>
+<document-type read="true" write="false" update="true" category="Protocol" default-sort="-100" desc="Protocol" descCls="documentfeatured" protocol-validation-value="protocol" value="protocol">
+<filters>
+<filter committee="PI" sort-value="-100" status="*" visible="true"></filter>
+</filters>
+</document-type>
+<document-type read="true" write="true" update="true" category="Subjects" desc="Recruitment Material" value="recruitment-material"></document-type>
+<document-type read="true" write="true" update="true" category="Subjects" desc="Translation Document" value="translation-document"></document-type>
+<document-type read="true" write="true" update="true" category="Audit" desc="Audit Report" value="audit-report"></document-type>
+<document-type read="true" write="true" update="true" category="Audit" desc="Assessment of Non-Compliance" value="noncompliance-assessment"></document-type>
+<document-type read="true" write="true" update="true" category="Data and Safety Monitoring" desc="Data Safety Monitoring Board Letter" value="letter-data-safety-monitoring-board"></document-type>
+<document-type read="true" write="true" update="true" category="Data and Safety Monitoring" desc="Data Safety Monitoring Plan" value="data-safety-monitoring-plan"></document-type>
+<document-type read="true" write="true" update="true" category="Data and Safety Monitoring" desc="Safety Report" value="safety-report"></document-type>
+<document-type read="true" write="true" update="true" category="Staff" desc="Conflict of Interest Plan" value="coi-plan"></document-type>
+<document-type read="true" write="true" update="true" category="Staff" desc="Intellectual Property Waiver" value="intellectual-property-waiver"></document-type>
+<document-type read="true" write="true" update="true" category="Staff" desc="CV" value="cv"></document-type>
+<document-type read="true" write="true" update="true" category="Staff" desc="Training Documentation" value="training-documentation"></document-type>
+<document-type read="true" write="true" update="true" category="Miscellaneous" desc="Committee Approval Letter" value="letter-committee-approval"></document-type>
+<document-type read="true" write="true" update="true" category="Miscellaneous" desc="Memorandum of Understanding" value="memorandum-of-understanding"></document-type>
+<document-type read="true" write="true" update="true" category="Miscellaneous" desc="Email" value="email"></document-type>
+<document-type read="true" write="true" update="true" category="Miscellaneous" desc="Related Grant" value="related-grant"></document-type>
+<document-type read="true" write="true" update="true" category="Miscellaneous" desc="Other (please specify)" value="other"></document-type>
+<!-- // These are for lookups only, they are NOT selectable by the user // -->
+<document-type read="true" write="true" update="true" category="Contract and Budget" default-visible="false" desc="Budget Document (All)" protocol="false" value="budget-document-full"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" default-visible="false" desc="Budget Document (Calendar Only)" protocol="false" value="budget-document-calendar-only"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" default-visible="false" desc="Budget Document (Price Only)" protocol="false" value="budget-document-price-only"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" default-visible="false" desc="Budget Document (No Notes)" protocol="false" value="budget-document-no-notes"></document-type>
+<document-type read="true" write="true" update="true" category="Contract and Budget" default-visible="false" desc="Budget Document (Notes Only)" protocol="false" value="budget-document-notes-only"></document-type>
+<document-type read="true" write="true" update="true" category="Packet" desc="Written Consent" value="packet-written-consent"></document-type>
+<document-type read="true" write="true" update="true" category="Packet" desc="Packet" value="packet-packet"></document-type>
+<document-type read="true" write="true" update="true" category="Packet" desc="HIPAA Certificate" value="packet-hipaa-certificate"></document-type>
+<document-type read="true" write="true" update="true" category="Packet" desc="Protocol" value="packet-protocol"></document-type>
+<document-type read="true" write="true" update="true" category="Packet" desc="Investigators Brochure" value="packet-investigators-brochure"></document-type>
+<document-type read="true" write="true" update="true" category="Packet" desc="Study Calendar and Schema" value="packet-study-calendar-and-schema"></document-type>
+<document-type read="true" write="true" update="true" category="Packet" desc="Drug Information" value="packet-study-drug-information"></document-type>
+<document-type read="true" write="true" update="true" category="Packet" desc="Eligibility Information" value="packet-eligibility-information"></document-type>
+<document-type read="true" write="true" update="true" category="Packet" desc="Special Instructions" value="packet-special-instructions"></document-type>
+</document-types>
+</result>

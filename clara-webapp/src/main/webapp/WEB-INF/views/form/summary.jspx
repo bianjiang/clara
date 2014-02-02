@@ -1,0 +1,360 @@
+<div class="container-fluid clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:uamsx="http://java.sun.com/jsp/jstl/xml-uams"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+	<c:set var="summaryTemplateXmlPath" value="/static/xml/form-templates/${formUrlName}.xml"/>
+	<c:import url="${summaryTemplateXmlPath}"
+		var="summarytemplatexml" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+
+	<x:parse doc="${summarytemplatexml}" var="sTemplate" />
+    <x:parse doc="${formXmlData}" var="n" />
+    
+    <c:if test="${not empty historyXml}">
+    	<x:parse doc="${historyXml}" var="history" />
+    </c:if>
+    
+    
+	
+
+	<x:parse doc="${objectMetaDataXml}" var="metaData" />	
+	<x:parse doc="${objectFormMetaDataXml}" var="formMetaData" />
+	<c:set var="rule_js" value="" />
+	<c:if test="${objectType eq 'protocol'}">
+		<x:set var="objectId" select="string($metaData/protocol/@id)"/>
+		<x:set var="objectIdentifier" select="string($metaData/protocol/@identifier)"/>
+		<x:set var="hasBudget" select="boolean($n/protocol/budget-created)"/>
+		<x:set var="hasPharmacy" select="boolean($n/protocol/pharmacy-created)"/>
+		
+		<spring:url value="/static/js/protocol/protocolform/rules.js" var="form_rules_js" />
+		<script type="text/javascript" src="${form_rules_js}?ts=${claraBuildNumber}"><!-- // --></script>  
+		
+		<c:if test="${formUrlName eq 'modification'}"> <!-- Modificaiton should have extended new submission form... -->
+			<spring:url value="/static/js/protocol/protocolform/newsubmission/newsubmission-rules.js" var="newsubmission_rule_js" />
+		
+			<script type="text/javascript" src="${newsubmission_rule_js}?ts=${claraBuildNumber}"><!-- // --></script>  
+		</c:if>
+		<c:if test="${formUrlName ne 'archive'}">
+		<spring:url value="/static/js/protocol/protocolform/${fn:replace(formUrlName, '-', '')}/${fn:replace(formUrlName, '-', '')}-rules.js" var="rule_js" />
+		</c:if>
+	</c:if>
+	<c:if test="${objectType eq 'contract'}">
+		<x:set var="objectId" select="string($metaData/contract/@id)"/>
+		<x:set var="objectIdentifier" select="string($metaData/contract/@identifier)"/>
+		<c:set var="hasBudget" value="false"/>
+		<c:set var="hasPharmacy" value="false"/>
+		
+		<spring:url value="/static/js/contract/contractform/rules.js" var="form_rules_js" />
+		<script type="text/javascript" src="${form_rules_js}?ts=${claraBuildNumber}"><!-- // --></script> 
+		
+		<spring:url value="/static/js/contract/contractform/newcontract/newcontract-rules.js" var="rule_js" />
+		
+	</c:if>
+	
+	<c:if test="${not empty rule_js}">
+		<script type="text/javascript" src="${rule_js}?ts=${claraBuildNumber}"><!-- // --></script>  
+	</c:if>
+
+	<script type="text/javascript">
+
+		claraInstance.setType("${objectType}"); // protocol or contract
+		claraInstance.setId("${objectId}");
+		claraInstance.setForm({
+			id:${form.id},
+			urlName:"${formUrlName}",
+			type: "${formType}",
+			xmlBaseTag: "${formBasetag}",
+			xmlDataId: ${formXmlDataId}
+		});
+		claraInstance.setUser({
+			committee : "${committee}",
+			id : ${!empty user?user.id:0}
+		});
+		
+		var editUrlContext = appContext + "/${objectType}s/"+claraInstance.id+"/${objectType}-forms/"+claraInstance.form.id + "/"+claraInstance.form.urlName+"/${objectType}-form-xml-datas/";
+		editUrlContext = editUrlContext + claraInstance.form.xmlDataId;
+
+		var isLocked = ${isLocked};
+		var lockedUserId = ${isLockedUserId};
+		
+		var hasBudget = ${hasBudget?'true':'false'};
+		var hasPharmacy = ${hasPharmacy?'true':'false'};
+		
+		</script>
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<a class="brand summary-navbar-title" href="#"><x:out
+					escapeXml="false" select="string($sTemplate/form/@name)" /><small>
+					for 
+					<c:if test="${objectType eq 'protocol'}">
+						IRB #
+					</c:if>
+					${objectIdentifier}
+					</small></a>
+
+			<ul class="nav">
+					<li><a href="javascript:window.print();"><i class="icon-print"><!-- // --></i> Print</a></li>
+					<li id="nav-compare" class="noprint"><a href="#versionModal" data-toggle="modal"><i class="icon-random"><!-- // --></i> Compare versions..</a></li>
+				</ul>
+			<form class="navbar-search pull-right">
+				<input type="text" id="search" class="input-medium search-query"
+					placeholder="Search this page" />
+			</form>
+			<ul class="nav pull-right">
+				<li><a href="javascript:;" style="display:none;" id="budget-matrix-link">Budget Matrix</a></li>
+				<li><a href="javascript:;" style="display:none;" id="pharmacy-form-link">Pharmacy Form</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="summary-header-locked alert alert-error"
+		style="display: none;">
+		<h1>This form is opened by ${isLockedUserString} and cannot be edited.</h1>
+	</div>
+
+<c:if test="${formBasetag eq 'archive'}">
+	<div class="summary-header-locked alert alert-error">
+		<h4>This is an Archived Form from ARIA / Crimson and cannot be edited.</h4>
+	</div>
+</c:if>
+
+<c:if test="${not empty historyXml}">
+	<x:if select="boolean($history/logs/log/@id)">
+		<div class="summary-header-history alert alert-info">
+			<h5><x:out select="$history/logs/log/@actor"/> signed this form on <x:out select="$history/logs/log/@date-time"/>.</h5>
+		</div>
+	</x:if>
+</c:if>
+
+
+
+	<div id="loading" style="text-align: center; margin-top: 48px;">
+		<h2>Loading page, please wait..</h2>
+		<div class="progress progress-striped active">
+			<div class="bar" style="width: 100%;">
+				<!-- // -->
+			</div>
+		</div>
+	</div>
+
+	<div id="summary-content">
+
+	<div id="alert-compare-info" class="alert alert-info" style="padding-right:7px;">
+		<!-- // -->
+	</div>
+
+    
+    
+		<x:forEach var="page" select="$sTemplate/form/page">
+			<x:set var="pageId" select="string($page/@id)" />
+			<x:set var="pagePermission" select="string($page/@edit-permission)" />
+			<c:set var="canEditPage" value="false" />
+			<c:forEach var="permission" items="${user.authorities}">
+				<c:if test="${permission eq pagePermission}">
+					<c:set var="canEditPage" value="true" />
+				</c:if>
+			</c:forEach>
+			<div class="summary-page" id="summary-page-${pageId}">
+				<div class="row-fluid summary-row">
+					<div class="span8">
+						<h4>
+							<x:out escapeXml="false" select="string($page/@name)" />
+						</h4>
+					</div>
+					<div class="span4 pull-right" style="text-align: right;">
+						<div class="tools-edit-page">
+							<c:if test="${pageId ne ''}">
+								<a href="javascript:;"
+								onclick="switchToEditView(editUrlContext+'/${pageId}');">Edit
+								this page</a>
+							</c:if>
+						</div>
+						<div class="tools-locked-page" style="display: none;">
+							read-only
+							<!-- // -->
+						</div>
+					</div>
+				</div>
+				<x:forEach var="section" select="$page/section">
+					<x:forEach var="question" select="$section/question">
+						<x:set var="editPossibleValues"
+								select="$question/question-value/possible-values" />
+						<x:set var="qPath"
+							select="string($question/question-value/@instance-path)" />
+						<x:set var="qId" select="string($question/@id)" />
+						<x:set var="qLabel"
+							select="string($question/question-label/text())" />
+						<x:set var="qValueOuterClass"
+							select="string($question/@value-outerclass)" />
+						<x:set var="qHeader" select="string($question/@header)" />
+						<x:set var="qEditable"
+							select="string($question/question-value/@editable)" />
+						<!-- /* UAMSX tag is SAME as X tag, but allows real-time variable expressions in the "select" attribute.  */ -->
+						<uamsx:set var="qValue" select="$n${qPath}" />
+						<x:set var="qValueType"
+							select="string($question/question-value/@value-type)" />
+						<x:set var="qLookupPath"
+							select="string($question/question-value/@lookup-path)" />
+						<x:set var="fromMetaData"
+							select="string($question/question-value/@from-metadata)" />
+						<x:set var="fromFormMetaData"
+							select="string($question/question-value/@from-form-metadata)" />
+							
+						<c:if test="${fromMetaData eq 'true'}">
+							<uamsx:set var="qValue" select="$metaData${qPath}" />
+						</c:if>
+						<c:if test="${fromFormMetaData eq 'true'}">
+							<uamsx:set var="qValue" select="$formMetaData${qPath}" />
+						</c:if>
+						<c:set var="canEditQuestion" value="false" />
+						<c:if test="${canEditPage eq 'true' and qEditable eq 'true' }">
+							<c:set var="canEditQuestion" value="true" />
+						</c:if>
+						<c:if test="${not empty qPath or qPath ne ''}">
+							<uams:summary-row path="${qPath}" id="${qId}" type="${qValueType}"
+							value="${qValue}" label="${qLabel}" lookuppath="${qLookupPath}"
+							relatedsection="${qHeader}" valuestyle="text-align:left;"  valueouterclass="${qValueOuterClass}" 
+							editable="${canEditQuestion}" shownovalue="true" editPossibleValues="${editPossibleValues}"/>
+						</c:if>
+						
+						
+						
+							
+							<x:forEach var="subquestion" select="$question/sub-questions/question">
+							
+
+								<x:set var="sqPath"
+								select="string($subquestion/question-value/@instance-path)" />
+								
+								<uamsx:set var="sqPathExists" select="boolean($n${sqPath})" />
+							
+								<c:if test="${sqPathExists eq true}">
+									<x:set var="sqId" select="string($subquestion/@id)" />
+									<x:set var="sqLabel"
+										select="string($subquestion/question-label/text())" />
+									<x:set var="sqValueOuterClass"
+										select="string($subquestion/@value-outerclass)" />
+									<c:set var="sqHeader" value="" />
+									<!-- /* UAMSX tag is SAME as X tag, but allows real-time variable expressions in the "select" attribute.  */ -->
+									<uamsx:set var="sqValue" select="$n${sqPath}" />
+									<x:set var="sqValueType"
+										select="string($subquestion/question-value/@value-type)" />
+									<x:set var="sqLookupPath"
+										select="string($subquestion/question-value/@lookup-path)" />
+									<x:set var="sfromMetaData"
+										select="string($subquestion/question-value/@from-metadata)" />
+									<x:set var="sfromFormMetaData"
+										select="string($subquestion/question-value/@from-form-metadata)" />
+			
+									<c:if test="${sfromMetaData eq 'true'}">
+										<uamsx:set var="sqValue" select="$metaData${sqPath}" />
+									</c:if>
+									
+									<c:if test="${sfromFormMetaData eq 'true'}">
+										<uamsx:set var="sqValue" select="$formMetaData${sqPath}" />
+									</c:if>
+	
+									<uams:summary-row path="${sqPath}" id="${sqId}" type="${sqValueType}"
+										value="${sqValue}" label="${sqLabel}" lookuppath="${sqLookupPath}"
+										relatedsection="${sqHeader}" valuestyle="text-align:left;"  valueouterclass="${sqValueOuterClass}" 
+										editable="false"  shownovalue="true" issubquestion="true"/>
+								</c:if>
+
+							</x:forEach>
+					</x:forEach>
+				</x:forEach>
+			</div>
+		</x:forEach>
+
+	<c:if test="${not empty documentsXml}">
+    	<x:parse doc="${documentsXml}" var="documents" />
+    	
+    	<div class="summary-page" id="summary-page-${pageId}">
+				<div class="row-fluid summary-row">
+					<div class="span8">
+						<h4>
+							Documents (this form only)
+						</h4>
+					</div>
+					<div class="span4 pull-right" style="text-align: right;">
+						<div class="tools-edit-page">
+							<c:if test="${pageId ne ''}">
+								<a href="javascript:;"
+								onclick="switchToEditView(editUrlContext+'/documents');">Edit
+								this page</a>
+							</c:if>
+						</div>
+						<div class="tools-locked-page" style="display: none;">
+							read-only
+							<!-- // -->
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid summary-row">
+					<div class="span12">
+				    	<uams:document value="${documents}" />
+			    	</div>
+		    	</div>
+    	</div>
+    	
+    </c:if>
+
+
+	</div>
+
+
+	<script type="text/javascript">
+		compareFormB = {
+				type: "${compareFormB.formType}",
+				id:    ${!empty compareFormB.id?compareFormB.id:0},
+				created: "${compareFormB.created}"
+		};
+		compareFormA = {
+				type: "${compareFormA.formType}",
+				id:    ${!empty compareFormA.id?compareFormA.id:0},
+				created: "${compareFormA.created}"
+		};
+		prepareFormSummaryPage();
+	</script>
+	
+	<!-- Modal -->
+	
+	
+<div id="versionModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="versionModalLabel" aria-hidden="true">
+  <div class="modal-header">
+     <h3 id="versionModal">Compare Versions</h3>
+  </div>
+  <div class="modal-body">
+    <table class="table table-condensed" id="version-table">
+    	<thead>
+    		<tr>
+    			<th>Form</th>
+    			<th>Submitted</th>
+    			<th>Status</th>
+    			<th><!-- // --></th>
+    		</tr>
+    	</thead>
+    	<tbody id="version-table-body">
+    		<!-- // -->
+    	</tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">Close</button>
+  </div>
+</div>
+
+</div>
+

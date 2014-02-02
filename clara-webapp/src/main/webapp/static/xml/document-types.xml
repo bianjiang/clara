@@ -1,0 +1,87 @@
+<document-types>
+<document-type update="false" write="false" read="true" enabled="true" category="Consent, Assent and HIPAA" value="informed-consent-addendum" desc="Informed Consent - Addendum" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Consent, Assent and HIPAA" contract-validation-value="consent" value="consent-assent-parental-permission-form-including-hipaa" desc="Consent/Assent/Parental Permission Form (including HIPAA authorization)" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Consent, Assent and HIPAA" contract-validation-value="consent" value="consent-assent-parental-permission-form-not-including-hipaa" desc="Consent/Assent/Parental Permission Form (NOT including HIPAA authorization)" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Consent, Assent and HIPAA" contract-validation-value="consent" value="consent-assent-parental-permission-verbal-script" desc="Consent/Assent/Parental Permission Verbal Script" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Consent, Assent and HIPAA" value="translated-consent-assent-parental-permission-form-including-hipaa" desc="Translated Consent/Assent/Parental Permission Form (including HIPAA authorization)" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Consent, Assent and HIPAA" value="translated-consent-assent-parental-permission-form-not-including-hipaa" desc="Translated Consent/Assent/Parental Permission Form (NOT including HIPAA authorization)" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Consent, Assent and HIPAA" value="hipaa-authorization" desc="HIPAA Authorization" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="HUD" value="treatment-plan" desc="Treatment Plan" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="HUD" value="hde-determination-letter" desc="HDE Determination Letter" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" contract-validation-value="budget" value="budget-spreadsheet" desc="Sponsor Provided Budget or  Co-Op Group Term Sheet" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" contract-validation-value="budget" value="budget-exhibit" desc="Sponsor Budget Exhibit or Non-Clinical Study Budget" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" contract-validation-value="contract" value="contract" desc="Contract" descCls="documentfeatured" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" contract-validation-value="contract" value="contract-request" desc="Contract Request" descCls="documentfeatured" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" contract-validation-value="research-summary" value="research-summary" desc="Research Summary used for MTAs and non-clinical trial Research" descCls="documentfeatured" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="contract-amendment" desc="Contract Amendment" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="indirect-cost-waiver" desc="Indirect Cost Waiver" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="insurance" desc="PI Certificate of Insurance" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="pharmacy-cost-impact-form" desc="Pharmacy Cost Impact Form" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="pi-certification" desc="PI Certification" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="w9" desc="W9" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="subcontract-agreement" desc="Subcontract Agreement" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="limited-data-set-use-agreement" desc="Limited Data Set Use Agreement" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="intellectual-property-waiver" desc="Intellectual Property Waiver" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="memorandum-of-understanding" desc="Memorandum of Understanding" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="related-grant" desc="Related Grant Award" protocol="false" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Correspondence" value="letter-to-irb" desc="Letter to IRB" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Correspondence" value="letter-to-participants" desc="Letter to Participants" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Correspondence" value="project-cancellation-email" desc="Project Cancellation Email" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Correspondence" value="project-initiation-email" desc="Project Initiation Email" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Data Collection" value="case-report-form" desc="Case Report Form" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Data Collection" value="eval-instrument" desc="Evaluation Instrument" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Data Collection" value="interview-focus-group-questions" desc="Interview / Focus Group Questions" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Data Collection" value="questionnaire-survey" desc="Questionnaire / Survey" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Drug / Device" value="ack-of-device-responsibility" desc="Acknowledgement of Device Responsibility" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Drug / Device" value="regulatory-analysis" desc="Regulatory Analysis" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Drug / Device" value="risk-determination-letter" desc="Risk Determination Letter" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Drug / Device" value="fda-correspondence" desc="FDA Correspondence" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Drug / Device" value="manual" desc="Manual" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Drug / Device" value="investigators-brochure" desc="Investigators Brochure" protocol="true" default-visible="true" contract="true">
+		<filters>
+			<filter committee="MONITORING_REGULATORY_QA" status="*" sort-value="-200" visible="true"/>
+		</filters>
+</document-type>
+<document-type update="false" write="false" read="true" enabled="true" category="Drug / Device" value="outpatient-investigational-drug-storage-information-form" desc="Outpatient Investigational Drug Storage Information Form" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Drug / Device" value="package-insert" desc="Package Insert" protocol="true" default-visible="true" contract="true">
+		<filters>
+			<filter committee="MONITORING_REGULATORY_QA" status="*" sort-value="-200" visible="true"/>
+		</filters>
+</document-type>
+<document-type update="false" write="false" read="true" enabled="true" category="Protocol" protocol-validation-value="protocol" value="protocol" desc="Protocol" descCls="documentfeatured" default-sort="-100" protocol="true" contract="true">
+		<filters>
+			<filter committee="PI" status="*" sort-value="-100" visible="true"/>
+		</filters>
+</document-type>
+<document-type update="false" write="false" read="true" enabled="true" category="Subjects" value="recruitment-material" desc="Recruitment Material" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Subjects" value="translation-document" desc="Translation Document" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Audit" value="audit-report" desc="Audit Report" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Audit" value="noncompliance-assessment" desc="Assessment of Non-Compliance" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Data and Safety Monitoring" value="letter-data-safety-monitoring-board" desc="Data Safety Monitoring Board Letter" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Data and Safety Monitoring" value="data-safety-monitoring-plan" desc="Data Safety Monitoring Plan" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Data and Safety Monitoring" value="safety-report" desc="Safety Report" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Staff" value="coi-plan" desc="Conflict of Interest Plan" protocol="true" default-visible="true" contract="false"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Staff" value="cv" desc="CV" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Staff" value="training-documentation" desc="Training Documentation" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Miscellaneous" value="letter-committee-approval" desc="Committee Approval Letter" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Miscellaneous" value="email" desc="Email" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Miscellaneous" value="other" desc="Other (please specify)" protocol="true" default-visible="true" contract="true"/>
+
+<!-- // These are for lookups only, they are NOT selectable by the user // -->
+<document-type update="false" write="false" read="false" enabled="true" category="Budget Document" value="budget-document-full" desc="Budget Document (All)" protocol="false" default-visible="false" contract="false" only-for-display="true" />
+<document-type update="false" write="false" read="false" enabled="true" category="Budget Document" value="budget-document-calendar-only" desc="Budget Document (Calendar Only)" protocol="false" default-visible="false" contract="false" only-for-display="true" />
+<document-type update="false" write="false" read="false" enabled="true" category="Budget Document" value="budget-document-price-only" desc="Budget Document (Price Only)" protocol="false" default-visible="false" contract="false" only-for-display="true" />
+<document-type update="false" write="false" read="false" enabled="true" category="Budget Document" default-visible="false" desc="Budget Document (No Notes)" protocol="false" value="budget-document-no-notes" only-for-display="true"></document-type>
+<document-type update="false" write="false" read="false" enabled="true" category="Budget Document" default-visible="false" desc="Budget Document (Notes Only)" protocol="false" value="budget-document-notes-only" only-for-display="true"></document-type>
+
+
+<document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-written-consent" desc="Packet - Written Consent" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-packet" desc="Packet" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-hipaa-certificate" desc="Packet - HIPAA Certificate" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-protocol" desc="Packet - Protocol" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-investigators-brochure" desc="Packet - Investigators Brochure" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-study-calendar-and-schema" desc="Packet - Study Calendar and Schema" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-study-drug-information" desc="Packet - Drug Information" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-eligibility-information" desc="Packet - Eligibility Information" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-special-instructions" desc="Packet - Special Instructions" protocol="true" default-visible="true" contract="true"/>
+</document-types>

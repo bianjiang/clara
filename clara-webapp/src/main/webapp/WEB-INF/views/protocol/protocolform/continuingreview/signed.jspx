@@ -1,0 +1,80 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="crInstance" />
+	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
+	
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title/text())" />
+	<x:set var="signedByPiOrNot"
+		select="string($crInstance/continuing-review/signed-by/text())" />
+
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<!-- // -->
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<div id="signed-no-messages">
+				Your Continuing Review form has been signed and submitted!
+				
+				<ul class="signed-information">
+					<li class="bulletitem">
+					<c:choose>
+						<c:when test='${signedByPiOrNot == "IS_NOT_PI"}'>
+							Since the study is not signed by Principal Investigator, the study will wait for PI's endorsement.
+						</c:when>
+						<c:otherwise>
+							The study will go to the IRB office for review.
+						</c:otherwise>
+					</c:choose>
+					
+					</li>
+				</ul>
+				<div style="clear:both;"><!-- // --></div> 
+			</div>
+			
+			<div style="clear:both;"><!-- // --></div> 
+			
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"></div>
+		<div id="btnNextPage">
+			<spring:url var="home" value="/" />
+			<a href="${home}">Return to Home</a>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+							renderFormViewport(
+									"<strong>Continuing Review</strong>: Form Already Signed"
+									);
+						});
+	</script>
+</div>
+

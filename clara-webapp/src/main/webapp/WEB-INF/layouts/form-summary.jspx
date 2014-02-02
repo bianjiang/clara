@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:dynform="urn:jsptagdir:/WEB-INF/tags"
+	version="2.0">
+	<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+	<jsp:directive.page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"/>
+	
+<html lang="en">	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />		
+		
+		
+		<tiles:useAttribute id="styles" name="styles" ignore="true" classname="java.util.List" />
+		
+		<spring:url value="/static/styles/bootstrap.css" var="css_url"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="${css_url}" />
+		<link rel="stylesheet" type="text/css" media="print" href="${css_url}" />
+		<spring:url value="/static/styles/tablecloth.css" var="css_tcurl"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="${css_tcurl}" />
+		<link rel="stylesheet" type="text/css" media="print" href="${css_tcurl}" />
+		<spring:url value="/static/styles/datepicker.css" var="css_urldp"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="${css_urldp}" />
+		
+		<c:forEach var="style" items="${styles}">
+			<spring:url value="${style}" var="css_url" />
+			<link rel="stylesheet" type="text/css" media="all" href="${css_url}" />
+			<link rel="stylesheet" type="text/css" media="print" href="${css_url}" />
+		</c:forEach>
+		
+		<tiles:useAttribute id="ie_styles" name="ie_styles" ignore="true" classname="java.util.List" />
+		
+		
+
+		<!-- app-config.js -->
+		<spring:url value="/static/js/app-config.js" var="js_app_config" />
+		<c:if test="${pageContext.request.serverName == 'localhost'}">
+			<spring:url value="/static/js/app-config-dev.js" var="js_app_config" />
+		</c:if>
+		
+		<c:if test="${pageContext.request.serverName == 'clara-training.uams.edu'}">
+				
+				<spring:url value="/static/js/app-config-training.js" var="js_app_config" />
+			
+			</c:if>
+			
+		<![CDATA[
+		<!--[if lt IE 9]> 
+		]]>
+			<spring:url value="/static/js/html5shiv.js" var="js_html5shiv" />
+			<script type="text/javascript" src="${js_html5shiv}?ts=${claraBuildNumber}"><!-- // --></script>    
+		<![CDATA[
+		<![endif]-->
+		]]>
+		
+		<!-- jQuery and jQuery UI are required! -->
+		<spring:url value="/static/js/jquery/jquery-1.7.min.js" var="js_jquery" />
+		<spring:url value="/static/js/bootstrap.min.js" var="js_bootstrap" />
+		<spring:url value="/static/js/jquery/plugin/jquery.metadata.js" var="js_md" />
+		<spring:url value="/static/js/jquery/plugin/jquery.tablesorter.min.js" var="js_ts" />
+		<spring:url value="/static/js/jquery/plugin/jquery.tablecloth.js" var="js_tc" />
+		<spring:url value="/static/js/bootstrap-datepicker.js" var="js_bootstrapdp" />
+		<spring:url value="/static/js/ext/ext-jquery-adapter.js" var="js_ext_adapter"/>
+		<spring:url value="/static/js/ext/ext-all-debug.js" var="js_ext"/><spring:url value="/static/js/ext/ext-uams.js" var="js_ext_uams"/>
+		<spring:url value="/static/js/json2.js" var="js_json2" />
+		<spring:url value="/static/js/clara-config.js" var="js_clara_config" />
+		
+		<script type="text/javascript" src="${js_jquery}?ts=${claraBuildNumber}"><!-- // --></script>    
+		<script type="text/javascript" src="${js_bootstrap}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_md}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_ts}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_tc}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_bootstrapdp}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_ext_adapter}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_ext}?ts=${claraBuildNumber}"><!-- // --></script>  <script type="text/javascript" src="${js_ext_uams}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_json2}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_app_config}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_clara_config}?ts=${claraBuildNumber}"><!-- // --></script>  
+		
+		
+		<tiles:useAttribute id="javascripts" name="javascripts" ignore="true" classname="java.util.List" />
+		
+		<c:forEach var="javascript" items="${javascripts}">
+			<spring:url value="${javascript}" var="javascript_url" />
+			<script type="text/javascript" src="${javascript_url}?ts=${claraBuildNumber}"><!-- // --></script>  
+		</c:forEach>
+		
+
+		<spring:url value="/static/images/" var="images_dir" />
+		<link rel="icon" href="${images_dir}/favicon.ico" />
+  		
+		<script type="text/javascript"><![CDATA[
+			jQuery.noConflict();
+		
+		]]>
+		
+		<c:forEach var="permission" items="${user.authorities}">
+		<![CDATA[
+			claraInstance.addUserPermission('${permission}');
+		]]>
+		</c:forEach>
+		
+		<c:forEach var="permission" items="${objectPermissions}">
+			<![CDATA[
+				claraInstance.addUserPermission('${permission}');
+			]]>
+		</c:forEach>
+		
+		</script>
+
+		<title><spring:message code="welcome.h3" arguments="${application.app_name}" /></title>
+	</head>
+   	<body class="summary-body">		
+	    	<div id="main">	    		
+	    		<tiles:insertAttribute name="body" />
+	    		<div class="clear"><!-- // --></div>
+			</div>
+			<script>
+
+			jQuery(document).ready(function() {
+				clog("Tablecloth and AJAX for staff training..");
+				jQuery(".summary-table").tablecloth({sortable:true});
+			
+				
+				
+				var staffIds = [];
+				
+				jQuery("tr.staffrow").each(function(idx){
+					staffIds.push(jQuery(this).attr("id").split("-")[1]);
+				});
+				if (staffIds.length > 0){
+					<![CDATA[
+					jQuery.ajax({
+						url:appContext+"/ajax/users/validate-training",
+						data:{
+							userList:staffIds
+						},
+						type: "POST",
+						async: true,
+						dataType:'json',
+						success: function(resp){
+							var data = resp.data;
+							clog("Staff training AJAX: Got response from server",data);
+							for (var i=0,l=staffIds.length;i<l;i++){
+								if (data[staffIds[i]] == false){
+									if (!(jQuery("#staffrow-"+staffIds[i]).hasClass('row-diff-A') || jQuery("#staffrow-"+staffIds[i]).hasClass('row-diff-D') || jQuery("#staffrow-"+staffIds[i]).hasClass('row-diff-M'))) jQuery("#staffrow-"+staffIds[i]).addClass("warning");
+									jQuery("#staffrow-"+staffIds[i]+" td.staffcell-training div.statusicon").html("Missing or expired CITI training.");
+								}
+								jQuery("#staffrow-"+staffIds[i]+" td.staffcell-training div.statusicon").addClass((data[staffIds[i]] == false)?"statusicon-warning":"statusicon-ok");
+							}
+						}
+					});
+					]]>
+				}
+			});
+			
+			</script>
+	</body>
+</html>
+</jsp:root>

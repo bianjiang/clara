@@ -1,0 +1,1096 @@
+<div class="clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title)" />
+
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="risks"
+			protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+
+			<div class="question"
+				id="question-resource-to-protect-human-study-participants"
+				data-subsection-title="Study Procedure">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">Study Procedure</h1>
+					<div class="questionIdentifier">Risks-1</div>
+					<span class="question-label-text">List the resources
+						available to protect human study participants in the research
+						settings.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="resourceToProtectHumanStudyParticipants" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/resource-to-protect-human-study-participants/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/resource-to-protect-human-study-participants"
+						id="resource-to-protect-human-study-participants" value="${resourceToProtectHumanStudyParticipants}" hasNA="false"/>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo
+						lookupid="resource-to-protect-human-study-participants" />
+				</div>
+			</div>
+
+			
+			<div class="question"
+				id="question-research-records"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-2</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Indicate whether the research records will be:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="researchRecords"
+						select="string($protocolInstance/protocol/risks/storage-of-biological-materials/research-records/text())" />
+					<uams:radio value="${researchRecords}"
+						lookuppath="specimens-identification"
+						instancepath="/protocol/risks/storage-of-biological-materials/research-records"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo
+						lookupid="specimens-be-obtained-specimen-identification" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-research-records-process"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-2.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since research records will
+						be coded or de-identified, answer the following question:</h1>
+					<span class="question-label-text">Describe the process used
+						to code or de-identify the research records.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="researchRecordsProcess" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/research-records/coded-or-deidentified/process/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/research-records/coded-or-deidentified/process"
+						id="research-records-process" value="${researchRecordsProcess}"/>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-explain-research-records-process"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-2.2.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since research records will
+						be neither coded nor de-identified, answer the following question:</h1>
+					<span class="question-label-text">Please explain.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="explainResearchRecordsProcess" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/research-records/neither/explain/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/research-records/neither/explain"
+						id="explain-research-records-process" value="${explainResearchRecordsProcess}"/>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-desc-procedures-for-data-storage"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-3</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe the procedures for record storage.  Where will electronic and/or hard copy 
+						research records be stored?  Who will have access to them?  When and how will they be destroyed?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="descProceduresForDataStorage" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/desc-procedures-for-data-storage/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/desc-procedures-for-data-storage"
+						id="desc-procedures-for-data-storage" value="${descProceduresForDataStorage}"/>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo
+						lookupid="desc-procedures-for-data-storage" />
+				</div>
+			</div>
+			
+			<!-- <div class="question"
+				id="question-desc-plan-destroy-research-records"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe the plan to destroy the research records at the earliest opportunity 
+						consistent with the conduct of the research.  Include when and how the records will be destroyed.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="descPlanDestroyResearchRecords" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/desc-plan-destroy-research-records/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/desc-plan-destroy-research-records"
+						id="desc-plan-destroy-research-records" value="${descPlanDestroyResearchRecords}"/>
+				</div>
+			</div> -->
+
+			<div class="question"
+				id="question-storage-of-biological-materials-specimens-be-obtained"
+				data-subsection-title="Study Procedure">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">Study Procedure</h1>
+					<div class="questionIdentifier">Risks-4</div>
+					<span class="question-label-text">Will biological specimens
+						(tissue, blood, saliva, etc.) be obtained?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="specimensbeObtained"
+						select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/text())" />
+					<uams:yesno
+						id="storage-of-biological-materials-specimens-be-obtained"
+						instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained"
+						value="${specimensbeObtained}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-storage-of-biological-materials-specimens-be-collected"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained, answer the following question:</h1>
+					<span class="question-label-text">Will the specimens be
+						collected directly from participants (as opposed to being obtained
+						from a secondary source)?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="specimensbeCollected"
+						select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/text())" />
+					<uams:yesno
+						id="storage-of-biological-materials-specimens-be-collected"
+						instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected"
+						value="${specimensbeCollected}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-types-of-specimens"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.1.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained and collected directly from
+						participants, answer the following question:</h1>
+					<span class="question-label-text">Check all the type(s) of
+						specimens to be collected.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="specimensType"
+						select="$protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/type" />
+					<uams:checkbox value="${specimensType}" lookuppath="specimens-type"
+						allowcustom="false"
+						instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/type"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-types-of-specimens-blood"
+				data-subsection-title="Study Procedure">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since blood will be obtained, please answer the following
+						questions: <br />
+					</h1>
+				</div>
+				<div class="questionLabel">
+					<div class="questionIdentifier">Risks-4.1.1.1.1.1.1</div>
+					<span class="question-label-text">Who is drawing the blood?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="whoDrawsTheBlood" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/who-draws-the-blood/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/who-draws-the-blood"
+						id="who-draws-the-blood" value="${whoDrawsTheBlood}" hasNA="false"/>
+				</div>
+				<br />
+				<br />
+				<div class="questionLabel">
+					<div class="questionIdentifier">Risks-4.1.1.1.1.1.2</div>
+					<span class="question-label-text">How much and over what
+						period of time?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="bloodAmount" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/amount/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/amount"
+						id="blood-amount" value="${bloodAmount}" hasNA="false"/>
+				</div>
+				<br />
+				<br />
+				<div class="questionLabel">
+					<div class="questionIdentifier">Risks-4.1.1.1.1.1.3</div>
+					<span class="question-label-text">List specific physical
+						location(s) (Lab, Clinic, Office Name, e.g.) where blood draw is
+						to take place</span>
+				</div>
+
+				<div class="questionValue">
+					<x:set var="bloodLocations" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/locations/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/locations"
+						id="blood-locations" value="${bloodLocations}" hasNA="false"/>
+				</div>
+				<br />
+				<br />
+				<div class="questionLabel">
+					<div class="questionIdentifier">Risks-4.1.1.1.1.1.4</div>
+					<span class="question-label-text">List resources available
+						to ensure participant safety (i.e. specific to blood drawn)</span>
+				</div>
+
+				<div class="questionValue">
+					<x:set var="resourcesForSafety" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/resources-for-safety/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/resources-for-safety"
+						id="resources-for-safety" value="${resourcesForSafety}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-specimens-be-obtained-specimen-identification"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained, answer the following question:</h1>
+					<span class="question-label-text">Indicate whether the
+						specimen to be collected and/or stored will be:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="specimensIdentification"
+						select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/specimen-identification/text())" />
+					<uams:radio value="${specimensIdentification}"
+						lookuppath="specimens-identification"
+						instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/specimen-identification"
+						validation="required" />
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo
+						lookupid="specimens-be-obtained-specimen-identification" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-specimen-identification-de-identify-process"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.2.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since the specimen will
+						be coded or de-identified, answer the following question:</h1>
+					<span class="question-label-text">Describe the process used
+						to code or de-identify the specimens.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="deIdentifyProcess" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/specimen-identification/de-identified/de-identify-process/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/specimen-identification/de-identified/de-identify-process"
+						id="de-identify-process" value="${deIdentifyProcess}" hasNA="false"/>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-specimen-neither-explain"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.2.2.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since the specimen will
+						be neither coded nor de-identified, answer the following question:</h1>
+					<span class="question-label-text">Please explain.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="specimenNeitherExplain" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/specimen-identification/neither/specimen-neither-explain/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/specimen-identification/neither/specimen-neither-explain"
+						id="specimen-neither-explain" value="${specimenNeitherExplain}" hasNA="false"/>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-describe-physical-location"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained, answer the following question:</h1>
+					<span class="question-label-text">Describe the physical location/equipment and security provisions where the specimens will be stored. </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="describePhysicalLocation" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/describe-physical-location/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/describe-physical-location"
+						id="describe-physical-location" value="${describePhysicalLocation}" hasNA="false"/>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-who-manage-speciments"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained, answer the following question:</h1>
+					<span class="question-label-text">Explain who will manage the stored specimens. </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="whoManageSpeciments" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/who-manage-speciments/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/who-manage-speciments"
+						id="who-manage-speciments" value="${whoManageSpeciments}" hasNA="false"/>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-how-long-specimens-stored"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.5</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained, answer the following question:</h1>
+					<span class="question-label-text">Indicate how long the specimens will be stored (e.g., Indefinitely, etc.). </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="howLongSpecimensStored" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/how-long-specimens-stored/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/how-long-specimens-stored"
+						id="how-long-specimens-stored" value="${howLongSpecimensStored}" hasNA="false"/>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-process-for-destruction"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.6</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained, answer the following question:</h1>
+					<span class="question-label-text">Describe the process for destruction or de-identification of identified/coded specimens at the end of the retention periods (as applicable) or if the PI leaves the University.  </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="processForDestruction" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/process-for-destruction/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/process-for-destruction"
+						id="process-for-destruction" value="${processForDestruction}" hasNA="false"/>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-sample-related-to-other-investigators"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.7</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained, answer the following question:</h1>
+					<span class="question-label-text">Will samples be released to other investigators?  </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="sampleRelatedToOtherInvestigators"
+						select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/text())" />
+					<uams:yesno id="sample-related-to-other-investigators"
+						instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators"
+						value="${sampleRelatedToOtherInvestigators}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-whom-will-be-released-to"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.7.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained and samples will be released to other investigators, answer the following question:</h1>
+					<span class="question-label-text">To whom will the samples be released? </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="whomWillBeReleasedTo"
+						select="$protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whom-will-be-released-to" />
+					<x:set var="whomWillBeReleasedToOtherText"
+						select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whom-will-be-released-to/other/text/text())" />
+					<uams:checkbox value="${whomWillBeReleasedTo}" lookuppath="whom-will-be-released-to"
+						allowcustom="false"
+						instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whom-will-be-released-to"
+						validation="required"
+						allowOther="true" otherTextValue="${whomWillBeReleasedToOtherText}"
+						otherType="textarea" otherOptionValue="other" otherTextAreaTitle="Please describe:"
+						otherTextValidation="required" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-whether-sample-will-be-released-to"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.7.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained and samples will be released to other investigators, answer the following question:</h1>
+					<span class="question-label-text">Indicate whether samples to be released will be: </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="whetherSampleWillBeReleasedTo"
+						select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whether-sample-will-be-released-to/text())" />
+					<uams:radio value="${whetherSampleWillBeReleasedTo}"
+						lookuppath="specimens-identification"
+						instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whether-sample-will-be-released-to"
+						validation="required" />
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo
+						lookupid="specimens-be-obtained-specimen-identification" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-process-used-to-code-records"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.7.1.2.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained and samples will be released to other investigators and the samples released will be coded or de-identified, answer the following question:</h1>
+					<span class="question-label-text">Describe the process used to code or de-identify the records. </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="processUsedToCodeRecords" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whether-sample-will-be-released-to/coded/process-used-to-code-records/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whether-sample-will-be-released-to/coded/process-used-to-code-records"
+						id="process-used-to-code-records" value="${processUsedToCodeRecords}" hasNA="false"/>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-neither-coded-nor-deidentified-desc"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.7.1.2.2.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained and samples will be released to other investigators and the samples released will be neither coded nor de-identified, answer the following question:</h1>
+					<span class="question-label-text">Please describe. </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="neitherCodedNorDeidentifiedDesc" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whether-sample-will-be-released-to/neither/neither-coded-nor-deidentified-desc/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whether-sample-will-be-released-to/neither/neither-coded-nor-deidentified-desc"
+						id="neither-coded-nor-deidentified-desc" value="${neitherCodedNorDeidentifiedDesc}" hasNA="false"/>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-process-for-request-and-release-samples"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.7.1.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained and samples will be released to other investigators, answer the following question:</h1>
+					<span class="question-label-text">Describe the process for requesting and releasing samples. State the individual(s) responsible for verifying IRB approval (or exemption) before specimen release and his/her qualifications or training. </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="processForRequestAndReleaseSamples" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/process-for-request-and-release-samples/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/process-for-request-and-release-samples"
+						id="process-for-request-and-release-samples" value="${processForRequestAndReleaseSamples}" hasNA="false"/>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="process-for-request-and-release-samples" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-biological-materials-for-future-research"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-4.1.8</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since biological
+						specimens will be obtained, answer the following question:</h1>
+					<span class="question-label-text">Will the specimens be
+						collected and/or stored for use in future research (research that
+						falls outside the purview of this protocol)? </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="biologicalMaterialsForFutureResearch"
+						select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/text())" />
+					<uams:yesno id="biological-materials-for-future-research"
+						instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research"
+						value="${biologicalMaterialsForFutureResearch}"
+						validation="required" />
+				</div>
+			</div>
+
+
+			<!-- APPENDIX I Storage of Biological Materials for future research use -->
+			<div class="question clearfix"
+				id="question-storage-of-biologicals-for-future-use-purpose"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-Appx.I-1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Storage of
+						Biological Materials will be used for future research in this
+						study, please answer the following question:</h1>
+					<span class="question-label-text">Describe the purpose of
+						collecting and storing the specimens for future use.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="storageOfBiologicalsForFutureUsePurpose" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/purpose/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/purpose"
+						id="storage-of-biologicals-for-future-use-purpose" value="${storageOfBiologicalsForFutureUsePurpose}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-storage-of-biologicals-for-future-use-limits-exist"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-Appx.I-2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Storage of
+						Biological Materials will be used for future research in this
+						study, please answer the following question:</h1>
+					<span class="question-label-text">Will there be limits on
+						the specimen's intended future use (e.g., for cancer research
+						only)?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="areLimitsExist"
+						select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/are-limits-exist/text())" />
+					<uams:yesno id="storage-of-biologicals-for-future-use-limits-exist"
+						instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/are-limits-exist"
+						value="${areLimitsExist}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">Please explain why or why not</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/are-limits-exist/reason"
+						rows="4"
+						id="storage-of-biologicals-for-future-use-limits-exist-reason">
+						<x:out
+							select="$protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/are-limits-exist/reason" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-storage-of-biologicals-for-future-use-specify-procedures-of-withdraw"
+				data-subsection-title="Study Procedure">
+				<div class="questionIdentifier">Risks-Appx.I-3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Storage of
+						Biological Materials for future research use will be used in this
+						study, answer the following question:</h1>
+					<span class="question-label-text">Specify the procedures by
+						which participants can withdraw their specimens from storage for
+						future research.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="specifyProceduresOfWithdraw" select="string($protocolInstance/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/specify-procedures-of-withdraw/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/specify-procedures-of-withdraw"
+						id="specify-procedures-of-withdraw" value="${specifyProceduresOfWithdraw}" hasNA="false"/>
+				</div>
+			</div>
+
+
+			<!-- Genetic Testing -->
+			<div class="question" id="question-genetic-testing-is-planned"
+				data-subsection-title="Genetic Testing">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">Genetic Testing</h1>
+					<div class="questionIdentifier">Risks-5</div>
+					<span class="question-label-text">Is there any genetic
+						testing planned for this study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="genetictestingPlanned"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/text())" />
+					<uams:yesno id="genetic-testing-is-planned"
+						instancepath="/protocol/risks/genetic-testing/is-planned"
+						value="${genetictestingPlanned}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-genetic-research-type"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since there is genetic
+						testing, answer the following question:</h1>
+					<span class="question-label-text">What type(s) of genetic
+						research will be performed?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="genetictestingType"
+						select="$protocolInstance/protocol/risks/genetic-testing/is-planned/y/genetic-research-type" />
+					<x:set var="genetictestingTypeOtherTextValue"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/genetic-research-type/other/text/text())" />
+					<uams:checkbox id="genetic-testing-type"
+						value="${genetictestingType}" lookuppath="genetic-testing-type"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/genetic-research-type"
+						allowOther="true" otherTextValue="${genetictestingTypeOtherTextValue}"
+						otherOptionValue="other"
+						otherTextValidation="required"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-genetic-therapy-type"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.1.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since gene therapy
+						research will be performed, please answer the following question:</h1>
+					<span class="question-label-text">What type(s) of gene
+						therapy will be performed? (Check all that apply)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="geneticTherapyType"
+						select="$protocolInstance/protocol/risks/genetic-testing/is-planned/y/genetic-research-type/gene-therapy-research/genetic-therapy-type" />
+					<uams:checkbox id="genetic-therapy-type"
+						lookuppath="genetic-therapy-type"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/genetic-research-type/gene-therapy-research/genetic-therapy-type"
+						value="${geneticTherapyType}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-genetic-testing-clinically-available"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing, please answer the following
+						question: <br />
+					</h1>
+					<span class="question-label-text">Are any proposed tests
+						also clinically available assays?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="genetictestingPlanned"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/clinically-available/text())" />
+					<x:set var="genetictestingPlannedExplainText"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/clinically-available/y/explain/text())" />
+					<uams:yesno id="genetic-testing-clinically-available"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/clinically-available"
+						value="${genetictestingPlanned}" validation="required"
+						showTextArea="true"
+						textValue="${genetictestingPlannedExplainText}"
+						textValidation="required" otherType="textarea"
+						textAreaTitle="Please specify:" valueToShowTextArea="y" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-genetic-testing-exist-incidential-findings"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing, please answer the following
+						question: <br />
+					</h1>
+					<span class="question-label-text">Could proposed testing
+						result in incidental (i.e., unintended) findings?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="genetictestingexistincidentialFindings"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/exist-incidential-findings/text())" />
+					<x:set var="genetictestingexistincidentialFindingsExplainText"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/exist-incidential-findings/y/explain/text())" />
+					<uams:yesno id="genetic-testing-exist-incidential-findings"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/exist-incidential-findings"
+						value="${genetictestingexistincidentialFindings}"
+						validation="required" showTextArea="true"
+						textValue="${genetictestingexistincidentialFindingsExplainText}"
+						textValidation="required" otherType="textarea"
+						textAreaTitle="Please specify:" valueToShowTextArea="y" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-inform-participants-testing-results"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing, please answer the following
+						question: <br />
+					</h1>
+					<span class="question-label-text">Will participants be
+						informed of gene testing results?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="informparticipantstestingResults"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/text())" />
+					<uams:yesno id="inform-participants-testing-results"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results"
+						value="${informparticipantstestingResults}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">Please explain why or why not.</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/reason"
+						rows="4" id="inform-participants-testing-results-reason">
+						<x:out
+							select="$protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/reason" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-inform-participants-testing-results-plan"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.4.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing and participants will be informed
+						of gene testing results, please answer the following question: <br />
+					</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe the plan for
+						informing participants of gene testing results.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="informParticipantsTestingResultsPlan" select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/plan/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/plan"
+						id="inform-participants-testing-results-plan" value="${informParticipantsTestingResultsPlan}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-inform-participants-testing-results-opt-out-procedures"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.4.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing and participants will be informed
+						of gene testing results, please answer the following question: <br />
+					</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Specify the procedures
+						that afford participants a way to opt out of receiving their gene
+						testing results.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="optOutProcedures" select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/opt-out-procedures/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/opt-out-procedures"
+						id="opt-out-procedures" value="${optOutProcedures}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-inform-participants-testing-results-clinical-significance"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.4.1.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing, participants will be informed of
+						gene testing results, please answer the following question: <br />
+					</h1>
+					<span class="question-label-text">Will the results have
+						clinical significance for participants?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="clinicalSignificance"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/have-clinical-significance/text())" />
+					<x:set var="clinicalSignificanceExplainText"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/have-clinical-significance/y/explain/text())" />
+					<uams:yesno
+						id="inform-participants-testing-results-clinical-significance"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/have-clinical-significance"
+						value="${clinicalSignificance}" validation="required"
+						showTextArea="true" textValue="${clinicalSignificanceExplainText}"
+						textValidation="required" otherType="textarea"
+						textAreaTitle="Please describe:" valueToShowTextArea="y" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-inform-participants-testing-results-implications-for-others"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.4.1.3.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing, participants will be informed of
+						gene testing results and the result will have clinical
+						significance, please answer the following question: <br />
+					</h1>
+					<span class="question-label-text">Could the results have
+						implications for others (e.g. family members)?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="implicationsforOthers"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/have-implications-for-others/text())" />
+					<x:set var="implicationsforOthersExplainText"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/have-implications-for-others/y/explain/text())" />
+					<uams:yesno
+						id="inform-participants-testing-results-implications-for-others"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/have-implications-for-others"
+						value="${implicationsforOthers}" validation="required"
+						showTextArea="true"
+						textValue="${implicationsforOthersExplainText}"
+						textValidation="required" otherType="textarea"
+						textAreaTitle="Please describe:" valueToShowTextArea="y" />
+				</div>
+			</div>
+
+			<div class="question" id="question-genetic-testing-provide-conseling"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.5</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since there is genetic
+						testing, please answer the following question:</h1>
+					<span class="question-label-text">Will counseling, pre-
+						and/or post-, be provided to the participants?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="provideConseling"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-provide-conseling/text())" />
+					<uams:yesno id="genetic-testing-provide-conseling"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/will-provide-conseling"
+						value="${provideConseling}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-provide-conseling-counselor-and-qualifications"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.5.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing and counseling, pre- and/or post-
+						will be provided to the participants, please answer the following
+						question: <br />
+					</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe, specifying who
+						will perform counseling and the counselor's qualifications.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="counselorAndQualifications" select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-provide-conseling/y/counselor-and-qualifications/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/genetic-testing/is-planned/y/will-provide-conseling/y/counselor-and-qualifications"
+						id="counselor-and-qualifications" value="${counselorAndQualifications}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-provide-conseling-cost-participants"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.5.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since there is genetic
+						testing and counseling, pre- and/or post- will be provided to the
+						participants, please answer the following question:</h1>
+					<span class="question-label-text">Will the participants (or
+						their insurers) incur any costs for the conunseling?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="provideconselingcostParticipants"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-provide-conseling/y/will-cost-participants/text())" />
+					<uams:yesno id="provide-conseling-cost-participants"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/will-provide-conseling/y/will-cost-participants"
+						value="${provideconselingcostParticipants}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-inform-participants-new-developments"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.6</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing, please answer the following
+						question: <br />
+					</h1>
+					<span class="question-label-text">Will participants be
+						informed of new developments?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="informparticipantsnewDevelopments"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-new-developments/text())" />
+					<uams:yesno id="inform-participants-new-developments"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-new-developments"
+						value="${informparticipantsnewDevelopments}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">Please explain why or why not.</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-new-developments/reason"
+						rows="4" id="inform-participants-new-developments-reason">
+						<x:out
+							select="$protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-new-developments/reason" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-inform-participants-involve-family-member"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.7</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing, please answer the following
+						question: <br />
+					</h1>
+					<span class="question-label-text">Will family members (or
+						their data) be involved in the research?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="informparticipantsinvolvefamilyMember"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/text())" />
+					<uams:yesno id="inform-participants-involve-family-member"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members"
+						value="${informparticipantsinvolvefamilyMember}"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-inform-participants-involve-family-member-readily-identifiable"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.7.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing and family members will be involved
+						in, please answer the following question:<br />
+					</h1>
+					<span class="question-label-text">Will family member(s) be
+						readily identifiable?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="readilyIdentifiable"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/readily-identifiable/text())" />
+					<uams:yesno
+						id="inform-participants-involve-family-member-readily-identifiable"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/readily-identifiable"
+						value="${readilyIdentifiable}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">Please explain why or why not.</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/readily-identifiable/reason"
+						rows="4"
+						id="inform-participants-involve-family-member-readily-identifiable-reason">
+						<x:out
+							select="$protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/readily-identifiable/reason" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-involve-family-members-require-private-information"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.7.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since there is genetic
+						testing and family members will be involved in, please answer the
+						following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Will the primary
+						participant be asked to provide any private information (e.g.,
+						health status, health or behavior history) about his/her family
+						member(s)?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="requireprivateInformation"
+						select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/will-require-private-information/text())" />
+					<uams:yesno id="involve-family-members-require-private-information"
+						instancepath="/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/will-require-private-information"
+						value="${requireprivateInformation}" validation="required" />
+				</div>
+			</div>
+
+
+			<div class="question clearfix"
+				id="question-methods-form-recruiting-family-members"
+				data-subsection-title="Genetic Testing">
+				<div class="questionIdentifier">Risks-5.1.7.1.2.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since there is genetic testing and family members will be involved
+						in, the members will be readily indetifiable, and will be asked
+						to provide any private information, please answer the following
+						question: <br />
+					</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Specify methods for
+						recruiting family members (e.g., how, when, where and by whom).</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="methodsFormRecruitingFamilyMembers" select="string($protocolInstance/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/methods-form-recruiting-family-members/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/methods-form-recruiting-family-members"
+						id="methods-form-recruiting-family-members" value="${methodsFormRecruitingFamilyMembers}" hasNA="false"/>
+				</div>
+			</div>
+
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'consent',
+										nextTab : 'monitoring',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Risks":"<strong>New Submission</strong>: Risks",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+						});
+	</script>
+</div>

@@ -1,0 +1,138 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="scInstance" />
+	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:studyclosuretab name="general-study-information" scInstance="${scInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+			<div class="question" id="question-study-status">
+				<div class="questionLabel">What is the status of the study?</div>
+				<div class="questionValue">
+					<x:set var="studyStatus"
+						select="string($scInstance/study-closure/study-status/text())" />
+					<uams:radio value="${studyStatus}"
+						lookuppath="study-closure-study-status"
+						instancepath="/study-closure/study-status"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-study-closure-reason">
+				<div class="questionLabel">What is the reason for the study closure?</div>
+				<div class="questionValue">
+					<x:set var="studyClosureReason"
+						select="string($scInstance/study-closure/study-status/permanently-closed-to-enrollment/reason/text())" />
+					<uams:radio value="${studyClosureReason}"
+						lookuppath="study-closure-reason"
+						instancepath="/study-closure/study-status/permanently-closed-to-enrollment/reason"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-study-closure-any-change-affect-study-exempt-review-classification">
+				<div class="questionLabel">		
+					Has there been any change, in the opinion of the investigator, which affects this study's exempt review classification?
+				</div>
+				<div class="questionValue">
+					<x:set var="studyClosureAnyChangeAffectStudyExemptReviewClassification"
+						select="string($scInstance/study-closure/general-study-info/any-change-affect-study-exempt-review-classification/text())" />
+					<x:set var="studyClosureAnyChangeAffectStudyExemptReviewClassificationExplainText"
+						select="string($scInstance/study-closure/general-study-info/any-change-affect-study-exempt-review-classification/y/explain/text())" />
+					<uams:yesno
+						id="study-closure-any-change-affect-study-exempt-review-classification"
+						instancepath="/study-closure/general-study-info/any-change-affect-study-exempt-review-classification"
+						value="${studyClosureAnyChangeAffectStudyExemptReviewClassification}" validation="required"
+						showTextArea="true"
+						textValue="${studyClosureAnyChangeAffectStudyExemptReviewClassificationExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please describe:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+
+	<div style="display: none;">
+		
+		<div id="validation-error-box">
+			<h3>Errors</h3>
+			<div id="validation-error-label-box">
+				<!-- // -->
+			</div>
+			<div id="validation-footer">
+				<a href="#" onclick="jQuery('#validation-error-box').slideUp();">Close
+					this message</a>
+			</div>
+		</div>
+	</div>
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+							
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : '',
+										nextTab : 'accrual-of-subjects',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									"<strong>Study Closure</strong>: General Study Information",
+									wiz);
+
+							Clara.ProtocolForm.Rules.processPage();
+
+							jQuery(".question-el").change(function() {
+								Clara.ProtocolForm.Rules.processPage();
+								wiz.refreshLayout();
+							});
+
+						});
+	</script>
+
+
+
+</div>

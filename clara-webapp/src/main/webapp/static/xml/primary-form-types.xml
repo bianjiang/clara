@@ -1,0 +1,68 @@
+	<!-- // primary-forms -- for first page wizard (TODO) -->
+<forms>
+	<form type="protocol" id="new-submission" title="New Study">
+		<description>
+			<span class="newform-longdesc">
+				<h3>Use this form to submit a new research protocols and HUD
+					requests.</h3>
+				<ul>
+					<li>This includes expanded access studies (compassionate use,
+						single use).</li>
+				</ul>
+			</span>
+		</description>
+	</form>
+	<form type="protocol" id="human-subject-research-determination"
+		title="Human Subject Research Determination Request">
+		<description>
+			<span class="newform-longdesc">
+				Uncertain whether your research involves the
+				<strong>use of human subjects</strong>
+				? Begin by filling out this form.
+			</span>
+		</description>
+	</form>
+	<form type="protocol" id="emergency-use"
+		title="Emergency Use Notification/Follow-up Report">
+		<description>
+			<span class="newform-longdesc">This includes notifications and follow-up reports.
+			</span>
+		</description>
+	</form>
+	<form type="contract" id="new-contract" title="New Contract">
+		<description>
+			<span class="newform-longdesc">
+				<h2>A contract is required if one of the following conditions
+					exists:</h2>
+				<ul>
+					<li>You are receiving funding from an individual or an entity
+						outside of UAMS.</li>
+					<li>You are receiving a drug from an individual or an entity
+						outside of UAMS.</li>
+					<li>You are receiving a device from an individual or an entity
+						outside of UAMS.</li>
+					<li>You are providing research data to an individual or an entity
+						outside of UAMS.</li>
+					<li>You are providing or receiving any biological materials,
+						animals or other materials to or from an individual or an entity
+						outside of UAMS.</li>
+					<li>You are in a collaborative research arrangement with an
+						individual or an entity outside of UAMS.</li>
+					<li>You are providing a Limited Data Set of Protected Health
+						Information to or from an entity outside of UAMS.</li>
+					<li>You are using an individual or an entity outside of UAMS as a
+						subcontractor.</li>
+					<li>You are subcontractor doing work for an individual or entity
+						outside of UAMS.</li>
+				</ul>
+				<br>
+					<h2>Please follow the quesitons and instructions in the New
+						Contract form.</h2>
+					<br>
+						If you are not sure, please send your contract request to
+						<a href="mailto:ResearchContracts@uams.edu">ResearchContracts@uams.edu</a>
+						or contact (501)526-6808
+			</span>
+		</description>
+	</form>
+</forms>

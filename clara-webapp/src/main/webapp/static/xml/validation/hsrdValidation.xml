@@ -1,0 +1,61 @@
+<rules>
+	<rule path="/hsrd/title" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="The title of the project is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/hsrd/project-take-place" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicate where the project will take place is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/hsrd/project-take-place/other/desc" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To explain why the project will take place at other place is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/hsrd/project-take-place" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="other" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/hsrd/basic-details/study-lay-summary" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="The lay summary of the project is required!" level="ERROR"/>
+	</rule>	
+	<rule path="/hsrd/basic-details/project-primary-intent" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the primary intent of the project is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/basic-details/still-conducted-as-proposed" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if this project would still be conducted as proposed if there were no possibility of any form of academic recognition for the project is required!" level="ERROR"/>
+	</rule>	
+	<rule path="/hsrd/subject-data-collection/involve-obtaining-information" value-type="java.lang.String" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the project involves obtaining information about living individuals is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/subject-data-collection/involve-obtaining-information/explain" value-type="java.lang.String" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To explain why or why not the project involves obtaining information about living individuals is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/subject-data-collection/involve-intervention-or-interaction" value-type="java.lang.String" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the project involves intervention or interaction with living individuals is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/subject-data-collection/involve-intervention-or-interaction/explain" value-type="java.lang.String" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To explain why or why not the project involves intervention or interaction with living individuals is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/subject-data-collection/readily-ascertained-or-associated" value-type="java.lang.String" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the information that will be obtained individually is identifiable is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/subject-data-collection/readily-ascertained-or-associated/explain" value-type="java.lang.String" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To explain why or why not the information that will be obtained individually is identifiable is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/subject-data-collection/no-observation-or-recording" value-type="java.lang.String" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the information about behaviors that occur in contexts in which individuals can reasonably expect that no observation or recording is taking place is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/subject-data-collection/no-observation-or-recording/explain" value-type="java.lang.String" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To explain why or why not the information about behaviors that occur in contexts in which individuals can reasonably expect that no observation or recording is taking place is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/subject-data-collection/specific-purposes" value-type="java.lang.String" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the information provided by individuals for specific purposes, and can individuals reasonably expect the information will not be made public is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/subject-data-collection/specific-purposes/explain" value-type="java.lang.String" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To explain why or why not the information provided by individuals for specific purposes, and can individuals reasonably expect the information will not be made public is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/subject-data-collection/study-involves" value-type="java.util.List" pagename="Data Collection" pageref="subject-data-collection">
+		<constraint type="REQUIRED" data="" error-msg="To indicate what the project will involve is required!" level="ERROR"/>
+	</rule>
+	<rule path="/hsrd/staffs/staff/user/roles/role" value-type="java.util.List" pagename="Staff" pageref="staff">
+		<constraint type="CONTAINS" data="Principal Investigator" error-msg="Project Leader is required for the study!" level="ERROR"/>		
+	</rule>
+</rules>

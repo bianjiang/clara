@@ -1,0 +1,564 @@
+<div class="clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title)" />
+	<x:out escapeXml="false" select="string($protocolInstance/text())" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="hipaa"
+			protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+			<div class="question" id="question-hipaa-is-phi-obtained">
+				<div class="questionIdentifier">HIPAA-1</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Are you obtaining Protected Health Information (PHI) directly from subjects 
+					during the course of this research project?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="isPHIObtained"
+						select="string($protocolInstance/protocol/hipaa/is-phi-obtained/text())" />
+					<uams:yesno id="hipaa-is-phi-obtained"
+						instancepath="/protocol/hipaa/is-phi-obtained"
+						value="${isPHIObtained}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="hipaa-is-phi-obtained" />
+				</div>
+			</div>
+			
+			<div class="question clearfix" id="question-describe-phi">
+				<div class="questionIdentifier">HIPAA-1.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are obtaining
+							PHI, please answer the following question:</h1>
+					<span class="question-label-text">Describe the PHI that will be obtained/recorded for the research.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="describePhi" select="string($protocolInstance/protocol/hipaa/is-phi-obtained/y/desc/text())" />
+					<uams:textarea instancepath="/protocol/hipaa/is-phi-obtained/y/desc"
+						id="describe-phi" value="${describePhi}" hasNA="false"/>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="describe-phi" />
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-hipaa-phi-details">
+				<div class="questionIdentifier">HIPAA-1.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						<span class="question-label-text">Since you are obtaining
+							PHI, please answer the following question:</span>
+					</h1>
+					Select the identifiers that will be captured for this study.  Check all that apply:
+				</div>
+				<div class="questionValue">
+					<x:set var="phiDetails"
+						select="$protocolInstance/protocol/hipaa/is-phi-obtained/y/identifiers/identifier" />
+					<x:set var="phiDetailsOtherText"
+						select="string($protocolInstance/protocol/hipaa/is-phi-obtained/y/identifiers/identifier/other/text/text())" />
+					<uams:checkbox value="${phiDetails}" lookuppath="hipaa-phi-details"  id="hipaa-phi-details-1"
+						instancepath="/protocol/hipaa/is-phi-obtained/y/identifiers/identifier"
+						allowOther="true" otherTextValue="${phiDetailsOtherText}"
+						otherType="textarea" otherOptionValue="other" otherTextAreaTitle="Please describe:"
+						otherTextValidation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="hipaa-phi-details" />
+				</div>
+			</div>
+
+			<div class="question" id="question-access-existing-phi">
+				<div class="questionIdentifier">HIPAA-2</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Are you accessing existing
+						PHI for this research project?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="accessExistingPHI"
+						select="string($protocolInstance/protocol/hipaa/access-existing-phi/text())" />
+					<uams:yesno id="access-existing-phi"
+						instancepath="/protocol/hipaa/access-existing-phi"
+						value="${accessExistingPHI}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="access-existing-phi" />
+				</div>
+			</div>
+			
+			<div class="question clearfix"
+				id="question-hipaa-access-existing-phi-data-source">
+				<div class="questionIdentifier">HIPAA-2.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you will access
+						existing PHI please answer the following:</h1>
+					<span class="question-label-text">Where is your data source?
+						(Check all that apply)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="dataSources"
+						select="$protocolInstance/protocol/hipaa/access-existing-phi/y/data-source" />
+					<x:set var="dataSourcesOtherText"
+						select="string($protocolInstance/protocol/hipaa/access-existing-phi/y/data-source/other/text/text())" />
+					<uams:checkbox value="${dataSources}"
+						lookuppath="hipaa-access-existing-phi-data-source"
+						instancepath="/protocol/hipaa/access-existing-phi/y/data-source"
+						allowOther="true" otherTextValue="${dataSourcesOtherText}"
+						otherType="textarea" otherOptionValue="other"
+						otherTextValidation="required" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question clearfix" id="question-describe-phi-accessed">
+				<div class="questionIdentifier">HIPAA-2.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you will access
+						existing PHI please answer the following:</h1>
+					<span class="question-label-text">Describe the PHI that will be accessed for the research.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="describePhiAccessed" select="string($protocolInstance/protocol/hipaa/access-existing-phi/y/desc/text())" />
+					<uams:textarea instancepath="/protocol/hipaa/access-existing-phi/y/desc"
+						id="describe-phi-accessed" value="${describePhiAccessed}" hasNA="false" validation="required"/>
+				</div>
+			</div>
+			
+			<div class="question clearfix" id="question-existing-hipaa-phi-details">
+				<div class="questionIdentifier">HIPAA-2.1.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						<span class="question-label-text">Since you will access
+						existing PHI please answer the following:</span>
+					</h1>
+					Select the identifiers that will be recorded for this study.  Check all that apply:
+				</div>
+				<div class="questionValue">
+					<x:set var="existingHipaaPhiDetails"
+						select="$protocolInstance/protocol/hipaa/access-existing-phi/y/existing-hipaa-phi-details" />
+					<x:set var="existingHipaaPhiDetailsOtherText"
+						select="string($protocolInstance/protocol/hipaa/access-existing-phi/y/existing-hipaa-phi-details/other/text/text())" />
+					
+					<uams:checkbox value="${existingHipaaPhiDetails}" 
+					    lookuppath="hipaa-phi-details" id="hipaa-phi-details-2"
+						instancepath="/protocol/hipaa/access-existing-phi/y/existing-hipaa-phi-details"
+						allowOther="true" otherTextValue="${existingHipaaPhiDetailsOtherText}"
+						otherType="textarea" otherOptionValue="other" 
+						otherTextValidation="required" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="existing-hipaa-phi-details" />
+				</div>
+			</div>
+
+			<div class="question" id="question-access-phi-contact-subject">
+				<div class="questionIdentifier">HIPAA-3</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Are you contacting
+						subjects from PHI? </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="accessPHIcontactSubject"
+						select="string($protocolInstance/protocol/hipaa/will-contact-subjects)" />
+					<uams:yesno id="accessPHIcontactSubject"
+						instancepath="/protocol/hipaa/will-contact-subjects"
+						value="${accessPHIcontactSubject}" />
+				</div>
+			</div>
+
+			<div class="question" id="question-disclose-limited-data-set">
+				<div class="questionIdentifier">HIPAA-4</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Are you receiving or
+						planning on disclosing a limited data set as defined by UAMS
+						POLICY (<a
+						href="http://www.uams.edu/irb/03-23-2011%20IRB%20Policy%20Updates/UAMS%20Admin%20Guide%203.1.27.pdf"
+						target="_blank">3.1.27 admin guide</a>)?
+					</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="receiveDataset"
+						select="string($protocolInstance/protocol/hipaa/will-disclose-limited-data-set/text())" />
+					<uams:yesno id="disclose-limited-data-set"
+						instancepath="/protocol/hipaa/will-disclose-limited-data-set"
+						value="${receiveDataset}" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="disclose-limited-data-set" />
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-disclose-data-list">
+				<div class="questionIdentifier">HIPAA-4.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are receiving
+						or planning on disclosing a limited data set, answer the following
+						question:</h1>
+					<span class="question-label-text">Please list the data files
+						and who is supplying or receiving the data sets.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="listDataFiles" select="string($protocolInstance/protocol/hipaa/will-disclose-limited-data-set/y/list-data-files/text())" />
+					<uams:textarea instancepath="/protocol/hipaa/will-disclose-limited-data-set/y/list-data-files"
+						id="list-data-files" value="${listDataFiles}" hasNA="false"/>
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="disclose-data-list" />
+				</div>
+			</div>
+
+			<div class="question" id="question-requesting-hipaa-waiver">
+				<div class="questionIdentifier">HIPAA-5</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Are you requesting a HIPAA
+						authorization waiver/alteration?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="requestinghipaaWaiver"
+						select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/text())" />
+					<uams:yesno id="requesting-hipaa-waiver"
+						instancepath="/protocol/hipaa/is-requesting-hipaa-waiver"
+						value="${requestinghipaaWaiver}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="requesting-hipaa-waiver" />
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-requesting-hipaa-waiver-type">
+				<div class="questionIdentifier">HIPAA-5.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						requesting a HIPAA authorization waiver/alteration please answer
+						the following:</h1>
+					<span class="question-label-text">What is the type of
+						waiver/alteration requested?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="authorizationwaiverType"
+						select="$protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/type" />
+					<uams:checkbox value="${authorizationwaiverType}"
+						lookuppath="hipaa-authorization-waiver-type"
+						instancepath="/protocol/hipaa/is-requesting-hipaa-waiver/y/type"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="requesting-hipaa-waiver-type" />
+				</div>
+			</div>
+
+			<!-- <div class="question clearfix" id="question-phi-involved-info"> -->
+				<!-- <div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						requesting a HIPAA authorization waiver/alteration, please answer
+						the following question:</h1>
+					<span class="question-label-text">Provide information below
+						about the PHI involved in the research (e.g., medical record
+						number, health history, diagnosis, test results, etc.). Be as
+						specific as possible.</span> <br /> <br />
+					<div class="questionIdentifier">HIPAA-4.1.2</div>
+					<div class="questionLabel">Describe the PHI accessed for the
+						research.</div>
+				</div>
+				<div class="questionValue">
+					<x:set var="describeAccessedPhi" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/describe-accessed-phi/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/hipaa/is-requesting-hipaa-waiver/y/describe-accessed-phi"
+						id="describe-accessed-phi" value="${describeAccessedPhi}" hasNA="false"/>
+				</div>
+				<br />
+				<br /> -->
+				<!-- <div class="questionLabel">
+					<span class="question-label-text"><div
+							class="questionIdentifier">HIPAA-4.1.3</div>Describe the PHI 
+						that will be recorded for the research.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="describeInformationCollected" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/describe-information-collected/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/hipaa/is-requesting-hipaa-waiver/y/describe-information-collected"
+						id="describe-information-collected" value="${describeInformationCollected}" hasNA="false"/>
+				</div>
+				<div style="clear: both;"> -->
+				
+					<!-- // -->
+				<!-- </div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="phi-description" />
+				</div> -->
+			<!-- </div> -->
+
+			<div class="question clearfix" id="question-reason-to-access-phi">
+				<div class="questionIdentifier">HIPAA-5.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						requesting a HIPAA authorization waiver/alteration, please answer
+						the following question:</h1>
+					<h1 class="conditional-question-label">Provide information below
+						about the PHI involved in the research (e.g., medical record
+						number, health history, diagnosis, test results, etc.). Be as
+						specific as possible.</h1>
+					<span class="question-label-text">Explain why access to
+						and/or use of the PHI is essential to conduct the research.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="reasonToAccessPhi" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-to-access-phi/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-to-access-phi"
+						id="reason-to-access-phi" value="${reasonToAccessPhi}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-min-necessary-informaiton-required">
+				<div class="questionIdentifier">HIPAA-5.1.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						requesting a HIPAA authorization waiver/alteration, please answer
+						the following question:</h1>
+					<h1 class="conditional-question-label">Provide information below
+						about the PHI involved in the research (e.g., medical record
+						number, health history, diagnosis, test results, etc.). Be as
+						specific as possible.</h1>
+					<span class="question-label-text">Explain how the PHI
+						described above represents the minimum necessary information to
+						accomplish the objectives of the research.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="minNecessaryInformaitonRequired" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/min-necessary-informaiton-required/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/hipaa/is-requesting-hipaa-waiver/y/min-necessary-informaiton-required"
+						id="min-necessary-informaiton-required" value="${minNecessaryInformaitonRequired}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-no-more-than-minimal-risk-to-privacy">
+				<div class="questionIdentifier">HIPAA-5.1.4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						requesting a HIPAA authorization waiver/alteration, please answer
+						the following question:</h1>
+					<h1 class="conditional-question-label">Provide information below
+						about the PHI involved in the research (e.g., medical record
+						number, health history, diagnosis, test results, etc.). Be as
+						specific as possible.</h1>
+					<span class="question-label-text">Explain how the access to,
+						use of, or disclosure of PHI presents no more than a minimal risk to
+						the privacy of the individual.</span>
+
+				</div>
+				<div class="questionValue">
+					<x:set var="noMoreThanMinimalRiskToPrivacy" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/no-more-than-minimal-risk-to-privacy/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/hipaa/is-requesting-hipaa-waiver/y/no-more-than-minimal-risk-to-privacy"
+						id="no-more-than-minimal-risk-to-privacy" value="${noMoreThanMinimalRiskToPrivacy}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-identifiers-protection-plan">
+				<div class="questionIdentifier">HIPAA-5.1.5</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						requesting a HIPAA authorization waiver/alteration, please answer
+						the following:</h1>
+					<h1 class="conditional-question-label">Provide information below
+						about the PHI involved in the research (e.g., medical record
+						number, health history, diagnosis, test results, etc.). Be as
+						specific as possible.</h1>
+					<span class="question-label-text">Describe your plan to
+						protect the identifiers (or links to identifiable data) associated
+						with the PHI from improper use and disclosure, including where PHI
+						will be stored, what security measures will be applied, and who
+						will have access to the information. Describe the safeguards for
+						electronic and/or hard copy records.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="identifiersProtectionPlan" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/identifiers-protection-plan/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/hipaa/is-requesting-hipaa-waiver/y/identifiers-protection-plan"
+						id="identifiers-protection-plan" value="${identifiersProtectionPlan}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" id="question-identifiers-destroyed">
+				<div class="questionIdentifier">HIPAA-5.1.6</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						requesting a HIPAA authorization waiver/alteration, please answer
+						the following:</h1>
+					<h1 class="conditional-question-label">Provide information below
+						about the PHI involved in the research (e.g., medical record
+						number, health history, diagnosis, test results, etc.). Be as
+						specific as possible.</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Will identifiers (or links
+						to identifiable data) be destroyed?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="identifiersDestroyed"
+						select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/will-identifiers-be-destroyed/text())" />
+					<uams:yesno id="identifiersDestroyed" hasNA="true"
+						instancepath="/protocol/hipaa/is-requesting-hipaa-waiver/y/will-identifiers-be-destroyed"
+						value="${identifiersDestroyed}" validation="required" />
+				</div>
+				<div style="clear: both; margin-bottom: 20px;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<ul class="questionHelp-list">
+						<li><strong>N/A:</strong> Will not record identifiers or
+							create links or codes to connect the data.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-phi-destroyed-plan">
+				<div class="questionIdentifier">HIPAA-5.1.6.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						requesting a HIPAA authorization waiver/alteration and identifiers
+						will be destroyed, answer the following question:</h1>
+					<span class="question-label-text">Describe the plan to
+						destroy the identifiers at the earliest opportunity consistent
+						with the conduct of the research. Include <b>when</b> and <b>how</b>
+						identifiers will be destroyed.
+					</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="phiDestroyedPlan" select="string($protocolInstance/protocol/hipaa/is-authorization-waiver/y/will-identifiers-be-destroyed/y/plan/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/hipaa/is-authorization-waiver/y/will-identifiers-be-destroyed/y/plan"
+						id="phi-destroyed-plan" value="${phiDestroyedPlan}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-phi-justicication-identifiers">
+				<div class="questionIdentifier">HIPAA-5.1.6.2.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						requesting a HIPAA authorization waiver/alteration and identifiers
+						will not be destroyed, answer the following question:</h1>
+					<span class="question-label-text">Provide the legal, health,
+						or research justification for retaining the identifiers. Legal
+						justification should include brief description/citation of the
+						legal requirement.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="phiJusticicationIdentifiers" select="string($protocolInstance/protocol/hipaa/is-authorization-waiver/y/will-identifiers-be-destroyed/n/justification/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/hipaa/is-authorization-waiver/y/will-identifiers-be-destroyed/n/justification"
+						id="phi-justicication-identifiers" value="${phiJusticicationIdentifiers}" hasNA="false"/>
+				</div>
+			</div>
+
+
+			<div class="question clearfix" id="question-reason-for-waiver">
+				<div class="questionIdentifier">HIPAA-5.1.7</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						requesting a HIPAA authorization waiver/alteration, please answer
+						the following:</h1>
+					<h1 class="conditional-question-label">Provide information below
+						about the PHI involved in the research (e.g., medical record
+						number, health history, diagnosis, test results, etc.). Be as
+						specific as possible.</h1>
+					<span class="question-label-text">Explain why the research
+						could not practicably be conducted without the waiver/alteration of HIPAA authorization.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="reasonForWaiver" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-for-waiver/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-for-waiver"
+						id="reason-for-waiver" value="${reasonForWaiver}" hasNA="false"/>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'subjects',
+										nextTab : 'consent',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: HIPAA":"<strong>New Submission</strong>: HIPAA",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+							//renderQuestionWizard('page-wizard-wrapper', 'question', true, 'staff', 'hipaa');
+						});
+	</script>
+</div>
+

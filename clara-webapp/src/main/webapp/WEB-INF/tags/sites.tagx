@@ -1,0 +1,43 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+
+	
+
+	<div class="clearall">
+		<!-- // -->
+	</div>
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr>
+			<th id="name"><b>Site Name</b></th>
+			<th id="addr"><b>Address</b></th>
+			<th id="city"><b>City</b></th>
+			<th id="state"><b>State</b></th>
+			<th id="zip"><b>Zip</b></th>
+			<th id="contact"><b>Site Contact</b></th>
+		</tr>
+		<x:forEach var="site" select="$value">
+			<x:set var="diff" select="string($site/@diff)" />
+			<c:if test="${!empty diff}">
+				<c:set var="diffclass" value="row-diff-${diff}"/>
+			</c:if>
+			<tr class="${diffclass}">
+				<td headers="name" valign="top" class="${diffclass}"><x:out select="site-name" /></td>
+				<td headers="addr" valign="top" class="${diffclass}"><x:out select="address" /></td>
+				<td headers="city" valign="top" class="${diffclass}"><x:out select="city" /></td>
+				<td headers="state" valign="top" class="${diffclass}"><x:out select="state" /></td>
+				<td headers="zip" valign="top" class="${diffclass}"><x:out select="zip" /></td>
+				<td headers="contact" valign="top" class="${diffclass}"><x:out select="site-contact" />
+				</td>
+			</tr>
+		</x:forEach>
+	</table>
+</jsp:root>

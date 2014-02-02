@@ -1,0 +1,71 @@
+{
+    "error": false,
+    "message": "",
+    "redirect": "",
+    "data": [
+        {
+            "id": 38,
+            "concurrentVersion": 0,
+            "retired": false,
+            "typeId": "Clara.Reports.view.forms.Audit",
+            "typeDescription": "Protocol: Audit",
+            "description": "Audit Report",
+            "created": 1366141462423,
+            "parameters": "<report name=\"Clara.Reports.view.forms.Audit\"><fields operator=\"all\"><field operator=\"before\" displayname=\"Next CD Date\" name=\"ContinuingReviewNextApprovalDate\"><value displayvalue=\"12/31/2011\">2011-12-31</value></field></fields></report>",
+            "user": {
+                "id": 3,
+                "concurrentVersion": 2,
+                "retired": false,
+                "userType": "LDAP_USER",
+                "username": "bakermatt",
+                "password": null,
+                "person": {
+                    "id": 3,
+                    "concurrentVersion": 1,
+                    "retired": false,
+                    "username": "bakermatt",
+                    "sap": "27647",
+                    "firstname": "Matt",
+                    "lastname": "Baker",
+                    "middlename": null,
+                    "email": "mbaker@uams.edu",
+                    "workphone": "(501) 686-5418",
+                    "department": "INFO Research Programs",
+                    "jobTitle": "Client Server Web Developer - Senior",
+                    "streetAddress": null,
+                    "state": null,
+                    "zipCode": null,
+                    "annualSalary": "61200.00",
+                    "userId": 3,
+                    "fullname": "Baker, Matt"
+                },
+                "trained": true,
+                "profile": "<metadata><is-trained>false</is-trained><is-citi-trained>false</is-citi-trained><nationality-changed>false</nationality-changed><citizenship-status>U.S. Citizen</citizenship-status></metadata>",
+                "uploadedFile": {
+                    "id": 748,
+                    "concurrentVersion": 0,
+                    "retired": false,
+                    "size": 17984,
+                    "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "identifier": "b362a9353c23f006027b4b018edeb8549d1f6e927a1b08df35994ae56d0bb31c",
+                    "path": "~/Data/upload",
+                    "filename": "Test HIPAA Data Use Agreement.docx",
+                    "created": 1351096262457,
+                    "extension": "docx"
+                },
+                "signaturePath": null,
+                "userPermissions": [
+                    "PUSH_TO_PSC",
+                    "ROLE_SECRET_ADMIN"
+                ],
+                "data": null,
+                "accountNonExpired": true,
+                "accountNonLocked": true,
+                "credentialsNonExpired": true,
+                "enabled": true
+            },
+            "status": "READY"
+        }
+    ],
+    "shouldRedirect": false
+}

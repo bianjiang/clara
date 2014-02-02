@@ -1,0 +1,189 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty"/>
+	<jsp:directive.attribute name="instancepath" type="java.lang.String" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="lookuppath" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="usefloat" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="id" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="validation" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="newColumnEvery" type="java.lang.Integer" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="allowcustom" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="allowOther" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="otherType" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="otherTextValue" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="otherOptionValue" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="otherTextInstancePath" type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="otherTextValidation" type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="otherTextAreaTitle" type="java.lang.String" required="false" rtexprvalue="true"/>
+
+	<c:if test="${empty id or id eq ''}">
+		<c:set var="id" value="${lookuppath}"/>
+	</c:if>
+	
+	<c:set var="jsid" value="${fn:replace(id,'-','_')}"/>
+	<c:set var="jsid" value="${fn:replace(jsid,'/','_')}"/>
+	
+	<c:if test="${empty otherOptionValue or otherOptionValue eq ''}">
+		<c:set var="otherOptionValue" value="other"/>
+	</c:if>
+
+	<c:set var="otherId" value="${id}_other" />
+	
+	<c:if test="${empty otherTextInstancePath or otherTextInstancePath eq ''}">
+		<c:set var="otherTextInstancePath" value="${instancepath}/other/text" />
+	</c:if>
+	
+	<c:if test="${empty otherType}">
+		<c:set var="otherType" value="textarea" />
+	</c:if>
+
+	<c:if test="${newColumnEvery > 0}">
+		<![CDATA[<div class="cb_column_${newColumnEvery}">]]>
+	</c:if>
+
+	<script>
+		var fireNA_${jsid}=false;
+		var fireNA_${jsid}_id = "";
+	</script>
+
+	<x:forEach var="n" select="$lookup/lookup/*[local-name()=$lookuppath]/option" varStatus="i">
+	
+		<x:set var="lookupValue" select="string($n/value/text())"/>
+		<x:set var="lookupDescription" select="string($n/desc/text())"/>
+		<x:set var="lookupIsNA" select="string($n/isna/text())"/>
+		
+		<c:set var="ld" value="${lookupDescription}"/>
+		<c:set var="lv" value="${lookupValue}"/>
+		<c:set var="lna" value="${lookupIsNA}"/>
+		
+		<c:if test="${lv == ''}">
+			<c:set var="lv" value="${lookupDescription}"/>
+		</c:if>
+
+		<c:set var="tId" value="${id}_${i.index}" />
+								
+		<c:if test="${lv eq otherOptionValue &amp;&amp; allowOther eq 'true'}">
+			<c:set var="tId" value="${otherId}" />					
+		</c:if>
+		
+		<c:choose>
+			<c:when test="${lna eq 'y'}">
+				<c:set var="onclickFunction" value="javascript:toggleCheckboxNAValue('${tId}', '${instancepath}');" />
+			</c:when>
+			<c:otherwise>
+				<c:set var="onclickFunction" value="javascript:processOther(this, '${otherId}', '${otherType}', '${otherTextInstancePath}', '${otherOptionValue}', '${otherTextValidation}');" />
+			</c:otherwise>
+		</c:choose>
+		
+		<c:choose>
+			<c:when test="${lna eq 'y' &amp;&amp; lv eq 'na'}">
+				<script>
+					fireNA_${jsid} = true;
+					fireNA_${jsid}_id = '${tId}';
+				</script>
+			</c:when>
+		</c:choose>
+
+		<c:set var="isChecked" value="false" />				
+		<x:forEach var="cbSavedValue" select="$value">
+			<x:set select="string($cbSavedValue[not(@type='custom')]/text())" var="cbSavedValueText"/>
+			<c:if test="${lv eq cbSavedValueText}">
+  					<c:set var="isChecked" value="true" />
+			</c:if>		
+		</x:forEach>
+		<c:if test="${newColumnEvery > 0}">
+			<c:if test="${i.index > 0}">
+				<c:if test="${i.index mod newColumnEvery == 0}">
+					<![CDATA[</div><div class="cb_column_${newColumnEvery}">]]>
+				</c:if>
+			</c:if>
+		</c:if>
+		<c:choose>
+			<c:when test="${usefloat == 'true'}">
+				<div class='clara-form-checkbox' style="margin-right:16px;float:left;">
+					<c:choose>					
+						<c:when test="${isChecked}">
+							<label for="${tId}"><input onclick="${onclickFunction}" id="${tId}" checked="checked" type="checkbox" class="question-el largeControl ${not empty validation and i.index == 0?validation:''}" name="${instancepath}" value="${lv}"/> ${ld}</label>
+						</c:when>
+						<c:otherwise>
+							<label for="${tId}"><input onclick="${onclickFunction}" id="${tId}" type="checkbox" class="question-el largeControl ${not empty validation and i.index == 0?validation:''}" name="${instancepath}" value="${lv}"/> ${ld}</label>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</c:when>
+			<c:otherwise>	
+				<div class='clara-form-checkbox'>		
+				<c:choose>					
+					<c:when test="${isChecked}">
+						<label for="${tId}"><input onclick="${onclickFunction}" id="${tId}" checked="checked" type="checkbox" class="question-el largeControl ${not empty validation and i.index == 0?validation:''}" name="${instancepath}" value="${lv}"/> ${ld}</label>
+					</c:when>				
+					<c:otherwise>
+						<label for="${tId}"><input onclick="${onclickFunction}" id="${tId}"  type="checkbox" class="question-el largeControl ${not empty validation and i.index == 0?validation:''}" name="${instancepath}" value="${lv}"/> ${ld}</label>
+					</c:otherwise>
+				</c:choose>
+				</div>
+			</c:otherwise>
+		</c:choose>
+		
+		<c:if test="${isChecked &amp;&amp; lv eq otherOptionValue &amp;&amp; allowOther eq 'true'}">
+			<div class="questionValue">
+			<c:choose>				
+				<c:when test="${otherType eq 'textarea'}">
+					<div class="questionLabel">${otherTextAreaTitle}</div>
+					<textarea class="question-el question-el-radio-other ${not empty otherTextValidation?otherTextValidation:''}" id="${otherId}_text" name="${otherTextInstancePath}">${otherTextValue}</textarea>
+				</c:when>
+				<c:when test="${otherType eq 'text'}">
+					<input class="question-el question-el-radio-other ${not empty otherTextValidation?otherTextValidation:''}" type="text" id="${otherId}_text" name="${otherTextInstancePath}" value="${otherTextValue}" /> 
+				</c:when>
+			</c:choose>	
+			</div>									
+		</c:if>
+		
+	</x:forEach>
+
+	<c:if test="${newColumnEvery > 0}">
+		<![CDATA[</div>]]>
+	</c:if>
+
+	<c:set var="lastCustomRowIndex" value="0" />
+	
+	<c:if test="${allowcustom == 'true'}">
+		<div style="clear:both;"><!-- // --></div>
+		<div class="cb-custom-wrapper" id="cb-custom-wrapper-${id}">
+		
+		<x:forEach var="cbSavedValue" select="$value" varStatus="i">
+			<x:set select="string($cbSavedValue[@type='custom']/text())" var="cbCustomValueText"/>
+			<c:if test="${lv eq cbSavedValueText}">
+  					<c:set var="isChecked" value="true" />
+			</c:if>	
+			<c:if test="${not empty cbCustomValueText}">
+			<div id="custom_${id}_${i.index}">
+			<label for="${id}_${i.index}">
+			<input id="${id}_${i.index}" name="${instancepath}" data-attributes="type:'custom'" class="question-el" value="${cbCustomValueText}"/>
+			<button id="btnRemove_${id}_${i.index}"  onclick="confirmAndRemoveCustomValue('#custom_${id}_${i.index}');return false;">Remove</button>
+			</label>
+			</div>
+			</c:if>
+			<c:set var="lastCustomRowIndex" value="${i.index}" />
+			
+		</x:forEach>
+		
+		
+
+			<script>
+				var lastCustomRowIndex = ${lastCustomRowIndex};
+			</script>
+
+		</div>
+		<button onclick="javascript:lastCustomRowIndex++;addCustomValue('${instancepath}',lastCustomRowIndex,'${id}','#cb-custom-wrapper-${id}');return false;" value="other">Other..</button>
+	</c:if>
+	
+	<script>
+		if (fireNA_${jsid}) toggleCheckboxNAValue(fireNA_${jsid}_id, '${instancepath}');
+	</script>
+</jsp:root>

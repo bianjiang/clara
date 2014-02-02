@@ -1,0 +1,246 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="euInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle" select="string($euInstance/emergency-use/basic-details/eu-title)" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:emergencyusetab name="follow-up-report" euInstance="${euInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+			
+			<div class="question" id="question-received-prior-to-eu">
+				<div class="questionLabel">Was an IRB acknowledgment of intended emergency use received prior to the date of emergency use? </div>
+				<div class="questionValue">
+					<x:set var="receivedPriorToEu"
+						select="string($euInstance/emergency-use/follow-up-report/received-prior-to-eu/text())" />
+					<uams:yesno id="received-prior-to-eu" 
+						instancepath="/emergency-use/follow-up-report/received-prior-to-eu" value="${receivedPriorToEu}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question clearfix" id="question-irb-acknowledgement-date">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since an IRB acknowledgment of intended emergency use was received prior to the date of emergency use, please answer the following question:</h1>
+					Date of IRB acknowledgment:
+				</div>
+				<div class="questionValue">
+					<x:set var="irbAcknowledgementDate"
+							select="string($euInstance/emergency-use/follow-up-report/received-prior-to-eu/y/irb-acknowledgement-date/text())" />
+					<uams:datetime id="irb-acknowledgement-date" instancepath="/emergency-use/follow-up-report/received-prior-to-eu/y/irb-acknowledgement-date" 
+							value="${irbAcknowledgementDate}" />
+				</div>
+			</div>
+			
+			<div class="question clearfix" id="question-followup-test-article-date">
+				<div class="questionLabel">
+					Date Test Article was used:
+				</div>
+				<div class="questionValue">
+					<x:set var="followupTestArticleDate"
+							select="string($euInstance/emergency-use/follow-up-report/notification-test-article-date/text())" />
+					<uams:datetime id="followup-test-article-date" instancepath="/emergency-use/follow-up-report/notification-test-article-date" 
+							value="${followupTestArticleDate}" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-was-life-threatening">
+				<div class="questionLabel">Was the patient in a life-threatening or severely debilitating situation? </div>
+				<div class="questionValue">
+					<x:set var="wasLifeThreatening"
+						select="string($euInstance/emergency-use/follow-up-report/life-threatening/text())" />
+					<uams:yesno id="life-threatening"
+						instancepath="/emergency-use/follow-up-report/life-threatening"
+						value="${wasLifeThreatening}" validation="required" />
+				</div>
+				<div style="clear:both;"><!-- // --></div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="life-threatening" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-was-standard-acceptable-treatment-available">
+				<div class="questionLabel">Was standard acceptable treatment available for the patient? </div>
+				<div class="questionValue">
+					<x:set var="wasStandardAcceptableTreatmentAvailable"
+						select="string($euInstance/emergency-use/follow-up-report/standard-acceptable-treatment-available/text())" />
+					<uams:yesno id="was-standard-acceptable-treatment-available"
+						instancepath="/emergency-use/follow-up-report/standard-acceptable-treatment-available"
+						value="${wasStandardAcceptableTreatmentAvailable}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-was-sufficient-time-obtain-irb-approval">
+				<div class="questionLabel">Was there sufficient time to obtain IRB approval? </div>
+				<div class="questionValue">
+					<x:set var="wasSufficientTimeObtainIrbApproval"
+						select="string($euInstance/emergency-use/follow-up-report/sufficient-time-obtain-irb-approval/text())" />
+					<uams:yesno id="was-sufficient-time-obtain-irb-approval"
+						instancepath="/emergency-use/follow-up-report/sufficient-time-obtain-irb-approval"
+						value="${wasSufficientTimeObtainIrbApproval}" validation="required" />
+				</div>
+				<div style="clear:both;"><!-- // --></div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="sufficient-time-obtain-irb-approval" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-followup-describe-rationale-for-emergency-use">
+				<div class="questionLabel">Describe the rationale for emergency use of this test article: </div>
+				<div class="questionValue">
+					<textarea class="question-el required" name="/emergency-use/follow-up-report/describe-rationale-for-emergency-use"
+						rows="4" id="followup-describe-rationale-for-emergency-use">
+						<x:out escapeXml="false" select="$euInstance/emergency-use/follow-up-report/describe-rationale-for-emergency-use" />
+					</textarea>
+				</div>
+			</div>
+			
+			<div class="question" id="question-initial-treatement-results-available">
+				<div class="questionLabel">Are initial treatment results available now? </div>
+				<div class="questionValue">
+					<x:set var="treatementResultsAvailable"
+						select="string($euInstance/emergency-use/follow-up-report/initial-treatement-results-available/text())" />
+					<x:set var="treatementResultsAvailableExplainText"
+						select="string($euInstance/emergency-use/follow-up-report/initial-treatement-results-available/y/explain/text())" />
+					<uams:yesno id="treatement-results-available" 
+						instancepath="/emergency-use/follow-up-report/initial-treatement-results-available" value="${treatementResultsAvailable}"
+						validation="required"
+						showTextArea="true"
+						textValue="${treatementResultsAvailableExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please describe:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question clearfix" id="question-report-initial-treatement-results-date">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since initial treatment results are not available now, please answer the following question:</h1>
+					I will submit a report of initial results by the following date:
+				</div>
+				<div class="questionValue">
+					<x:set var="reportInitialTreatementResultsDate"
+							select="string($euInstance/emergency-use/follow-up-report/initial-treatement-results-available/n/report-initial-treatement-results-date/text())" />
+					<uams:datetime id="report-initial-treatement-results-date" instancepath="/emergency-use/follow-up-report/initial-treatement-results-available/n/report-initial-treatement-results-date" 
+							value="${reportInitialTreatementResultsDate}" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-adverse-events-or-unanticipated-problems-occurs-in-eu">
+				<div class="questionLabel">Did any adverse events or unanticipated problems occur as a result of the emergency use? </div>
+				<div class="questionValue">
+					<x:set var="adverseEventsOrUnanticipatedProblemsOccursInEu"
+						select="string($euInstance/emergency-use/follow-up-report/adverse-events-or-unanticipated-problems-occurs-in-eu/text())" />
+					<x:set var="adverseEventsOrUnanticipatedProblemsOccursInEuExplainText"
+						select="string($euInstance/emergency-use/follow-up-report/adverse-events-or-unanticipated-problems-occurs-in-eu/y/explain/text())" />
+					<uams:yesno id="adverse-events-or-unanticipated-problems-occurs-in-eu" 
+						instancepath="/emergency-use/follow-up-report/adverse-events-or-unanticipated-problems-occurs-in-eu" value="${adverseEventsOrUnanticipatedProblemsOccursInEu}"
+						validation="required"
+						showTextArea="true"
+						textValue="${adverseEventsOrUnanticipatedProblemsOccursInEuExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please describe:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-informed-consent-obtained">
+				<div class="questionLabel">Was informed consent obtained? </div>
+				<div class="questionValue">
+					<x:set var="informedConsentObtained"
+						select="string($euInstance/emergency-use/follow-up-report/informed-consent-obtained/text())" />
+					<uams:yesno id="informed-consent-obtained" 
+						instancepath="/emergency-use/follow-up-report/informed-consent-obtained" value="${informedConsentObtained}"
+						validation="required" />
+				</div>
+			</div>		
+			
+			<div id="question-informed-consent-obtained-answer" class="question floatlabel clearfix informed-consent-obtained-answer">
+				<div class="question-el">
+					<div  class="question-informed-consent-obtained-yes">
+					Please upload a copy of the signed consent document in the Documents section.<br/>
+					</div>
+					<div  class="question-informed-consent-obtained-no">
+						<span>Please upload assurance letters in the Documents section, from the Principal Investigator and the independent physician, attesting that the following conditions were met:
+						<ol>
+							<li>1. Patient was in a life threatening situation;</li>
+							<li>2. All other available treatments were either unproven or unsatisfactory;</li>
+							<li>3. Patient was unable to give consent due to their medical condition; and</li>
+							<li>4. There was no time to obtain consent from a legally authorized representative (LAR).</li>
+						</ol>	
+						<br/>
+						<b>An independent physician is one who is not otherwise participating in the decision related to the emergency use.</b><br/>
+						</span>				
+					</div>
+				</div>
+			</div> 
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'first-page',
+										nextTab : 'staff',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									"<strong>Emergency Use</strong>: Follow-up Report",
+									wiz);
+
+							Clara.ProtocolForm.Rules.processPage();
+
+							jQuery(".question-el").change(function() {
+								Clara.ProtocolForm.Rules.processPage();
+								wiz.refreshLayout();
+							});
+
+						});
+	</script>
+
+
+
+</div>

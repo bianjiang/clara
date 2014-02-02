@@ -1,0 +1,17 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty"/>
+	<jsp:directive.attribute name="id" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="validation" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="instancepath" type="java.lang.String" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="value" required="false" rtexprvalue="true"/>
+	
+	
+	<input id="${id}" name="${instancepath}" value="${value}" class="question-el extdatefield ${not empty validation?validation:''}" />
+
+	
+	
+</jsp:root>

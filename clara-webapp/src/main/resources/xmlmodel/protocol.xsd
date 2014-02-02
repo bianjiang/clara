@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.uams.edu/iris"
+    xmlns="http://www.uams.edu/iris" elementFormDefault="qualified">
+    <xs:element name="protocol">
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="1">
+                <xs:element name="title" type="xs:string" minOccurs="1"/>
+                <xs:element name="is-multisite" type="xs:boolean"/>
+                <xs:element name="accrual">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="0" maxOccurs="1">
+                            <xs:element name="local" type="xs:integer"/>
+                            <xs:element name="total" type="xs:integer"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

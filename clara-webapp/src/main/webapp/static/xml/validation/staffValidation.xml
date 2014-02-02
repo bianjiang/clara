@@ -1,0 +1,11 @@
+<rules>
+	<rule path="/staff/modification/pi-modified" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if this modification request involve a change in PI is required!" level="ERROR"/>	
+	</rule>
+	<rule path="/staff/staffs/staff/user/roles/role" value-type="java.util.List" pagename="Staff" pageref="staff">
+		<constraint type="CONTAINS" data="Principal Investigator" error-msg="Principal Investigator is required for the study!" level="ERROR"/>		
+	</rule>	
+	<rule path="/protocol/staffs/staff/user/roles/role" value-type="java.util.List" pagename="Staff" pageref="staff">
+		<constraint type="NOTCONTAINSMULTIPLE" data="Principal Investigator" error-msg="Multiple staffs with Principal Investigator role is not allowed!" level="ERROR"/>		
+	</rule>	
+</rules>

@@ -1,0 +1,326 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="scInstance" />
+	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" />
+
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+	<x:set var="multiSitesOrSingle" select="string($protocolInstance/protocol/sites/single-or-multi/text())" />
+	
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:studyclosuretab name="accrual-of-subjects" scInstance="${scInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+			
+			<div class="question"
+				id="question-chart-review-study-only">
+				<div class="questionLabel">		
+					Is this a chart review study only?
+				</div>
+				<div class="questionValue">
+					<x:set var="chartReviewStudyOnly"
+						select="string($scInstance/study-closure/subject-accrual/chart-review-study-only/text())" />
+					<uams:yesno
+						id="chart-review-study-only"
+						instancepath="/study-closure/subject-accrual/chart-review-study-only"
+						value="${chartReviewStudyOnly}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-number-of-charts-reviewed">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since this is a chart review study only, please answer the following question:<br />
+					</h1>
+					How many charts have you reviewed?
+				</div>
+				<div class="questionValue">
+					<x:set var="numberOfChartsReviewed"
+						select="string($scInstance/study-closure/subject-accrual/chart-review-study-only/y/number-of-charts-reviewed/text())" />
+					<uams:textbox id="number-of-charts-reviewed"
+						instancepath="/study-closure/subject-accrual/chart-review-study-only/y/number-of-charts-reviewed"
+						validation="number required" value="${numberOfChartsReviewed}" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-study-closure-subject-array">
+				<div class="questionLabel">
+					Provide enrollment status for the following:
+				</div>
+				<div class="questionValue">
+					<x:set var="lsa" select="string($scInstance/study-closure/subject-accrual/enrollment/local/since-activation/text())" />
+					<x:set var="lsp" select="string($scInstance/study-closure/subject-accrual/enrollment/local/since-approval/text())" />
+					<x:set var="lsmsa" select="string($scInstance/study-closure/subject-accrual/enrollment/local/multi-site-since-activation/text())" />
+					<x:set var="lm" select="string($scInstance/study-closure/subject-accrual/enrollment/local/male/text())" />
+					<x:set var="lf" select="string($scInstance/study-closure/subject-accrual/enrollment/local/female/text())" />
+					<x:set var="lo" select="string($scInstance/study-closure/subject-accrual/enrollment/local/gender-other/text())" />
+					<x:set var="lrc" select="string($scInstance/study-closure/subject-accrual/enrollment/local/caucasion/text())" />
+					<x:set var="lrb" select="string($scInstance/study-closure/subject-accrual/enrollment/local/black/text())" />
+					<x:set var="lrh" select="string($scInstance/study-closure/subject-accrual/enrollment/local/hispanic/text())" />
+					<x:set var="lrnh" select="string($scInstance/study-closure/subject-accrual/enrollment/local/not-hispanic/text())" />
+					<x:set var="lrapi" select="string($scInstance/study-closure/subject-accrual/enrollment/local/asian-pacific-islander/text())" />
+					<x:set var="lraian" select="string($scInstance/study-closure/subject-accrual/enrollment/local/american-indian-alaska-native/text())" />
+					<x:set var="lro" select="string($scInstance/study-closure/subject-accrual/enrollment/local/race-other/text())" />
+					<x:set var="lvpc" select="string($scInstance/study-closure/subject-accrual/enrollment/local/children/text())" />
+					<x:set var="lvpp" select="string($scInstance/study-closure/subject-accrual/enrollment/local/prisoners/text())" />
+					<x:set var="lvpfp" select="string($scInstance/study-closure/subject-accrual/enrollment/local/fetuses-pregnant/text())" />
+					<x:set var="lvpci" select="string($scInstance/study-closure/subject-accrual/enrollment/local/cognitively-impaired/text())" />
+					<x:set var="lvpse" select="string($scInstance/study-closure/subject-accrual/enrollment/local/student-employees/text())" />
+					<x:set var="lnhopi" select="string($scInstance/study-closure/subject-accrual/enrollment/local/native-hawaiian-pacific-islander/text())" />
+					<x:set var="lrmto" select="string($scInstance/study-closure/subject-accrual/enrollment/local/more-than-one-race/text())" />
+					<x:set var="leu" select="string($scInstance/study-closure/subject-accrual/enrollment/local/ethnicity-unknown/text())" />
+					<!-- <x:set var="tsa" select="string($scInstance/study-closure/subject-accrual/enrollment/total/since-activation/text())" />
+					<x:set var="tsp" select="string($scInstance/study-closure/subject-accrual/enrollment/total/since-approval/text())" />
+					<x:set var="tm" select="string($scInstance/study-closure/subject-accrual/enrollment/total/male/text())" />
+					<x:set var="tf" select="string($scInstance/study-closure/subject-accrual/enrollment/total/female/text())" />
+					<x:set var="to" select="string($scInstance/study-closure/subject-accrual/enrollment/total/other/text())" /> -->
+					<h3>Number of Subjects Enrolled:</h3>
+					<table>		
+					<tr>
+					<thead>
+					<th></th>
+					<th class="cr-number-validate cr-number-validate-ok">Since activation</th>
+					<th>Since last approval</th>
+					<!-- <th>Male</th>
+					<th>Female</th>
+					<th>Other</th> -->
+					</thead>
+					</tr>
+					<tr><td class="cr-number-validate cr-number-validate-ok">Local</td>
+					<td class="cr-number-validate cr-number-validate-ok">
+					<uams:textbox id="lsa"
+						instancepath="/study-closure/subject-accrual/enrollment/local/since-activation"
+						validation="number required" value="${lsa}" cls="enrollment-array-element cr-number-validate cr-number-validate-ok" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="lsp"
+						instancepath="/study-closure/subject-accrual/enrollment/local/since-approval"
+						validation="number required" value="${lsp}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					</tr>
+					<c:if test="${multiSitesOrSingle eq 'multiple-sites'}">
+						<tr><td>At all sites (if available)</td>
+						<td>
+						<uams:textbox id="lsmsa"
+							instancepath="/study-closure/subject-accrual/enrollment/local/multi-site-since-activation"
+							validation="number required" value="${lsmsa}" cls="enrollment-array-element" defaultValue="0" />
+						</td>
+						</tr>
+					</c:if>
+					</table>
+					<br/>
+					<h3>Number of subjects enrolled research locally since activation of the study:</h3>
+					<br/>
+					<h3>By Gender</h3>
+					<table>					
+					<tr>
+					<thead>
+					<th>Male</th>
+					<th>Female</th>
+					<th>Unknown/Not Reported</th>
+					</thead>
+					</tr>
+					<tr>
+					<td>
+					<uams:textbox id="lm"
+						instancepath="/study-closure/subject-accrual/enrollment/local/male"
+						validation="number required" value="${lm}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="lf"
+						instancepath="/study-closure/subject-accrual/enrollment/local/female"
+						validation="number required" value="${lf}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="lo"
+						instancepath="/study-closure/subject-accrual/enrollment/local/gender-other"
+						validation="number required" value="${lo}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					</tr>
+					</table>
+					<br/>
+					<h3>By Race</h3>
+					<table>
+					<tr>
+					<thead>
+					<th>White</th>
+					<th>Black or African American</th>
+					<th>Asian</th>
+					<th>American Indian or Alaska Native</th>
+					<th>Native Hawaiian or other Pacific Islander</th>
+					<th>More Than One Race</th>
+					<th>Unknown/Not Reported</th>
+					</thead>
+					</tr>
+					<tr>
+					<td>
+					<uams:textbox id="lrc"
+						instancepath="/study-closure/subject-accrual/enrollment/local/caucasion"
+						validation="number required" value="${lrc}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="lrb"
+						instancepath="/study-closure/subject-accrual/enrollment/local/black"
+						validation="number required" value="${lrb}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="lrapi"
+						instancepath="/study-closure/subject-accrual/enrollment/local/asian-pacific-islander"
+						validation="number required" value="${lrapi}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="lraian"
+						instancepath="/study-closure/subject-accrual/enrollment/local/american-indian-alaska-native"
+						validation="number required" value="${lraian}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="lnhopi"
+						instancepath="/study-closure/subject-accrual/enrollment/local/native-hawaiian-pacific-islander"
+						validation="number required" value="${lnhopi}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="lrmto"
+						instancepath="/study-closure/subject-accrual/enrollment/local/more-than-one-race"
+						validation="number required" value="${lrmto}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="lro"
+						instancepath="/study-closure/subject-accrual/enrollment/local/race-other"
+						validation="number required" value="${lro}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					</tr>
+					</table>
+					<br/>
+					<h3>By Ethnicity</h3>
+					<table>
+					<tr>
+					<thead>
+					<th>Hispanic or Latino</th>
+					<th>Not Hispanic or Latino</th>
+					<th>Unknown/Not Reported</th>
+					</thead>
+					</tr>
+					<tr>
+					<td>
+					<uams:textbox id="lrh"
+						instancepath="/study-closure/subject-accrual/enrollment/local/hispanic"
+						validation="number required" value="${lrh}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="lrnh"
+						instancepath="/study-closure/subject-accrual/enrollment/local/not-hispanic"
+						validation="number required" value="${lrnh}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					<td>
+					<uams:textbox id="leu"
+						instancepath="/study-closure/subject-accrual/enrollment/local/ethnicity-unknown"
+						validation="number required" value="${leu}" cls="enrollment-array-element" defaultValue="0" />
+					</td>
+					</tr>
+					</table>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-reach-uams-enrollment-goal">
+				<div class="questionLabel">		
+					Did study reach the UAMS Enrollment Goal? 
+				</div>
+				<div class="questionValue">
+					<x:set var="reachUamsEnrollmentGoal"
+						select="string($scInstance/study-closure/subject-accrual/reach-uams-enrollment-goal/text())" />
+					<uams:yesno
+						id="reach-uams-enrollment-goal"
+						instancepath="/study-closure/subject-accrual/reach-uams-enrollment-goal"
+						value="${reachUamsEnrollmentGoal}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question clearfix"
+				id="question-vulnerable-populations-since-activation">
+				<div class="questionLabel"><span class="question-label-text">Select all of the vulnerable populations from which you've enrolled subjects locally, since activation of the study. </span></div>
+				<div class="questionValue">
+					<x:set var="vulnerablePopulationsSinceActivation"
+						select="$scInstance/study-closure/subject-accrual/vulnerable-populations-since-activation" />
+					<uams:checkbox id="vulnerable-populations-since-activation"
+						value="${vulnerablePopulationsSinceActivation}" newColumnEvery="3"
+						allowcustom="true" lookuppath="vulnerable-populations-since-activation"
+						instancepath="/study-closure/subject-accrual/vulnerable-populations-since-activation"
+						validation="required" />
+				</div>
+			</div>
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+clog("Xmldata:");
+
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'general-study-information',
+										nextTab : 'study-report',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									"<strong>Study Closure</strong>: Accrual of Subjects",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+							//renderQuestionWizard('page-wizard-wrapper', 'question', true, 'staff', 'hipaa');
+						});
+	</script> 
+</div>
+

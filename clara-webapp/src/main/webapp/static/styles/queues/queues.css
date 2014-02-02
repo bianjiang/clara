@@ -1,0 +1,74 @@
+.form-list-row{
+    font-size: 13px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+
+.formmetatype{
+	text-transform:capitalize;
+}
+
+.queues-assign-window-body{
+	background: transparent url(../../images/queues-assign-window-body-bkg.png) repeat-x top left;
+}
+
+.reviewer-row h2{
+	font-weight:800;
+}
+
+.x-datepickerplus-eventdates a{
+	background-color:white;
+	border:0px;
+}
+
+.cbqueuelist input{
+	font-size:10px;
+}
+
+.form-date-added{
+	font-size:12px;
+	color:#5a606b;
+}
+
+.form-assigned-reviewer{
+	font-size:10px;
+	color:#5a606b;
+	padding-left:18px;
+	background: transparent url(../../images/icn/user-silhouette.png) no-repeat top left;
+}
+
+.expedited-exempt-reviewer{
+	margin-top:4px;
+}
+
+.queueitem-logs{
+	display:none;
+	margin-top:4px;
+	border:1px solid #999;
+	background-color:#eee;
+	color:#333333;
+	padding:4px;
+}
+.hasLogs{
+	background: transparent url(../../images/icn/sticky-note-small.png) no-repeat top left;
+	padding-left:20px;
+}
+.queueitem-logs h1{
+	font-size:13px;
+	margin-bottom:8px;
+}
+.queueitem-logs ol{
+	list-style: decimal inside;
+}
+.queueitem-logs ol li{
+	margin-bottom:6px;
+}
+
+
+.protocol-form-warnings{
+    font-weight:100;
+}
+.protocol-form-warnings h1{
+    font-weight:800;
+    text-decoration: underline;
+}

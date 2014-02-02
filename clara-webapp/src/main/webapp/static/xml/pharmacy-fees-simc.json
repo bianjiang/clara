@@ -1,0 +1,10 @@
+[{"exptype":"simc","expdesc":"Study Initiation, Management and Closeout", "id":"refrigerated-storage", "description":"Refrigerated storage","cost":"250", "editable":"false"},
+{"exptype":"simc","expdesc":"Study Initiation, Management and Closeout", "id":"randomizing", "description":"Randomization, blinding, or placebo control","cost":"500", "editable":"false"},
+{"exptype":"simc","expdesc":"Study Initiation, Management and Closeout", "id":"schedule-ii-drugs", "description":"Schedule II drug(s) involved","cost":"250", "editable":"false"},
+{"exptype":"simc","expdesc":"Study Initiation, Management and Closeout", "id":"used-bottle-storage", "description":"Storage of used bottles or vials","cost":"100", "editable":"false"},
+{"exptype":"simc","expdesc":"Study Initiation, Management and Closeout", "id":"multiple-drugs", "description":"Multiple Drugs","cost":"500", "editable":"false"},
+{"exptype":"simc","expdesc":"Study Initiation, Management and Closeout", "id":"ivrs", "description":"IVRS System","cost":"250", "editable":"false"},
+{"exptype":"simc","expdesc":"Study Initiation, Management and Closeout", "id":"other-mailing-drugs-to-sites", "description":"Other: Mailing drug shipments to other sites","cost":"0", "editable":"true"},
+{"exptype":"simc","expdesc":"Study Initiation, Management and Closeout", "id":"other-init-travel-expense", "description":"Other: site initiation visit travel expense","cost":"0", "editable":"true"},
+{"exptype":"simc","expdesc":"Study Initiation, Management and Closeout", "id":"other-supplies", "description":"Other: Supplies","cost":"0", "editable":"true"},
+{"exptype":"simc","expdesc":"Study Initiation, Management and Closeout", "id":"other-drug-purchases", "description":"Other: Drug Purchases","cost":"0", "editable":"true"}]

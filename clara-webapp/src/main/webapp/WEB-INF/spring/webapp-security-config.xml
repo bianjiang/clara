@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<security:global-method-security
+	secured-annotations="enabled"
+		pre-post-annotations="enabled">
+		<!-- AspectJ pointcut expression that locates our "post" method and applies 
+			security that way <protect-pointcut expression="execution(* bigbank.*Service.post*(..))" 
+			access="ROLE_TELLER"/> -->
+	</security:global-method-security>
+
+	<security:http use-expressions="true" access-denied-page="/login"
+		entry-point-ref="ajaxAwareAuthenticationEntryPoint">
+		<security:intercept-url pattern="/static/**"
+			access="permitAll" />
+		<security:intercept-url pattern="/super/**" access="hasAnyRole('ROLE_SECRET_ADMIN','ROLE_PREVIOUS_ADMINISTRATOR')" />
+		<security:intercept-url pattern="/j_spring_security_*"
+			access="permitAll" />
+		<security:intercept-url pattern="/login*"
+			access="permitAll" />
+		<security:intercept-url pattern="/ajax/users/resetpassword"
+			access="permitAll" />
+		<security:intercept-url pattern="/ajax/posts/list-current"
+			access="permitAll" />
+		<security:intercept-url pattern="/ajax/users/changepasswordfromuser"
+			access="permitAll" />
+		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/admin/**"
+			access="hasRole('ROLE_SYSTEM_ADMIN')" />		
+		<security:form-login login-processing-url="/j_spring_security_check"
+			login-page="/login" authentication-failure-url="/login?error=loginFailed"
+			default-target-url="/index" always-use-default-target="false"
+			authentication-success-handler-ref="ajaxAwareSavedRequestAwareAuthenticationSuccessHandler" />
+
+		<security:remember-me user-service-ref="userDetailsService"
+			key="claraSpringSecurityRememberMeKey" />
+			<!-- Need to drop the concurrent session per user to 1 -->
+		<security:session-management
+			invalid-session-url="/login?error=sessionExpired" session-authentication-error-url="/login?error=alreadyLogin" >
+			<security:concurrency-control  session-registry-alias="sessionRegistry"
+				max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login?error=sessionExpired" />
+		</security:session-management>
+		<security:custom-filter position="LOGOUT_FILTER"
+			ref="logoutFilter" />
+		<security:custom-filter position="PRE_AUTH_FILTER"
+			ref="htmlToPDFFilter" />
+		<security:custom-filter after="FILTER_SECURITY_INTERCEPTOR" ref="switchUserProcessingFilter" />
+	</security:http>
+
+	<bean id="htmlToPDFFilter"
+		class="org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter">
+		<property name="principalRequestHeader" value="SERVICE_USER" />
+		<property name="exceptionIfHeaderMissing" value="false" />
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+
+	<bean id="preauthAuthenticationProvider"
+		class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+		<property name="preAuthenticatedUserDetailsService">
+			<bean id="userDetailsServiceWrapper"
+				class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+				<property name="userDetailsService" ref="userDetailsService" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ajaxAwareSavedRequestAwareAuthenticationSuccessHandler"
+		class="edu.uams.clara.webapp.common.security.authentication.AjaxAwareSavedRequestAwareAuthenticationSuccessHandler" />
+
+	<bean id="ajaxAwareAuthenticationEntryPoint"
+		class="edu.uams.clara.webapp.common.security.authentication.AjaxAwareAuthenticationEntryPoint">
+		<constructor-arg value="/login" />
+		<!-- <property name="loginFormUrl" value="/login" />-->
+		<property name="forceHttps" value="false" />
+		<property name="hostUrl" value="${application.host}" />
+	</bean>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider
+			ref="preauthAuthenticationProvider" />
+		<security:authentication-provider
+			ref="daoAuthenticationProvider" />
+		<security:authentication-provider
+			ref="ldapAuthenticationProvider" />
+	</security:authentication-manager>
+	
+	<!-- 
+	<bean id="accessDecisionManager"
+		class="org.springframework.security.access.vote.AffirmativeBased">
+		<constructor-arg>
+		<list>
+				<ref bean="roleVoter" />
+			</list>
+		</constructor-arg>
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter" />
+			</list>
+		</property>
+	 </bean>
+
+	<bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter" />
+	-->
+	<bean id="logoutFilter"
+		class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg value="/login?error=logoutSuccessfully"></constructor-arg>
+		<constructor-arg>
+			<list>
+				<bean
+					class="edu.uams.clara.webapp.common.security.AuditableSecurityContextLogoutHandler">
+					<constructor-arg index="0" ref="auditService" />
+					<property name="invalidateHttpSession" value="false" />
+				</bean>
+				<bean class="org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler">
+					<constructor-arg index="0" value="JSESSIONID" />
+				</bean>
+			</list>
+		</constructor-arg>
+		<property name="filterProcessesUrl" value="/j_spring_security_logout" />
+	</bean>
+
+
+	<!-- local dao authentication provider -->
+	<bean id="daoAuthenticationProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="hideUserNotFoundExceptions" value="true" />
+		<property name="saltSource" ref="saltSource" />
+		<property name="passwordEncoder" ref="md5PasswordEncoder" />
+	</bean>
+
+	<bean id="md5PasswordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+
+	<bean id="saltSource"
+		class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		<property name="userPropertyToUse" value="username" />
+	</bean>
+
+
+	<!-- ldap authentication configurations -->
+	<bean id="springSecurityLdapContextSource"
+		class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
+		<constructor-arg value="${ldap.provider-url}" />
+		<property name="userDn" value="${ldap.manager-dn}" />
+		<property name="password" value="${ldap.manager-password}" />
+	</bean>
+
+	<bean id="ldapUserSearch"
+		class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+		<constructor-arg index="0" value="${ldap.user-search-base}" />
+		<constructor-arg index="1" value="${ldap.user-search-filter}" />
+		<constructor-arg index="2"
+			ref="springSecurityLdapContextSource" />
+	</bean>
+
+	<bean id="ldapAuthenticationProvider"
+		class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+		<constructor-arg>
+			<bean
+				class="org.springframework.security.ldap.authentication.BindAuthenticator">
+				<constructor-arg ref="springSecurityLdapContextSource" />
+				<property name="userSearch" ref="ldapUserSearch" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg>
+			<bean
+				class="org.springframework.security.ldap.authentication.UserDetailsServiceLdapAuthoritiesPopulator">
+				<constructor-arg ref="userDetailsService" />
+			</bean>
+		</constructor-arg>
+		<property name="userDetailsContextMapper" ref="userDetailsContextMapper" />
+	</bean>
+
+	<bean id="userDetailsContextMapper"
+		class="edu.uams.clara.webapp.common.service.impl.UserDetailsContextMapperImpl" />
+
+	<bean id="userDetailsService"
+		class="edu.uams.clara.webapp.common.service.impl.UserDetailsServiceImpl">
+		<property name="userService" ref="userService" />
+	</bean>
+
+	<bean id="applicationAuthenticationListener"
+		class="edu.uams.clara.webapp.common.security.ApplicationAuthenticationListener">
+		<property name="auditService" ref="auditService" />
+	</bean>
+	
+	<bean id="userAuthenticationService"
+		class="edu.uams.clara.webapp.common.service.impl.UserAuthenticationServiceImpl"
+	/>
+	
+	<bean id="switchUserProcessingFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter">
+        <property name="userDetailsService" ref="userDetailsService" />
+        <property name="switchUserUrl" value="/super/j_spring_security_switch_user" />
+        <property name="exitUserUrl" value="/super/j_spring_security_exit_user" />
+        <property name="targetUrl" value="/index" />
+</bean>
+
+</beans>

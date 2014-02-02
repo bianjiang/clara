@@ -1,0 +1,345 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="modification" protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+			
+			<div class="question" id="question-is-audit">
+				<div class="questionIdentifier">Modification-1</div>
+				<div class="questionLabel"><span class="question-label-text">Is this modification request in response to an audit? </span></div>
+				<div class="questionValue">
+					<x:set var="isAudit"
+						select="string($protocolInstance/protocol/modification/to-modify-section/is-audit/text())" />
+					<uams:yesno id="is-audit"
+						instancepath="/protocol/modification/to-modify-section/is-audit"
+						value="${isAudit}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-complete-migration">
+				<div class="questionIdentifier">Modification-2</div>
+				<div class="questionLabel"><span class="question-label-text">Is the sole purpose of this modification to complete data migration for an ARIA/CRIMSON study?</span></div>
+				<div class="questionValue">
+					<x:set var="completeMigration"
+						select="string($protocolInstance/protocol/modification/to-modify-section/complete-migration/text())" />
+					<uams:yesno id="complete-migration"
+						instancepath="/protocol/modification/to-modify-section/complete-migration"
+						value="${completeMigration}"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo
+						lookupid="complete-migration" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-complete-budget-migration">
+				<div class="questionIdentifier">Modification-3</div>
+				<div class="questionLabel"><span class="question-label-text">Are you only converting an approved CRIMSON study budget into CLARA?</span></div>
+				<div class="questionValue">
+					<x:set var="completeBudgetMigration"
+						select="string($protocolInstance/protocol/modification/to-modify-section/complete-budget-migration/text())" />
+					<uams:yesno id="complete-budget-migration"
+						instancepath="/protocol/modification/to-modify-section/complete-budget-migration"
+						value="${completeBudgetMigration}"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo
+						lookupid="complete-budget-migration" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-involve-change-in">
+				<div class="questionIdentifier">Modification-4</div>
+				<div class="questionLabel"><span class="question-label-text">Does this modification request involve a change in:</span></div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionLabel"><span class="question-label-text">a. Study budget</span></div>
+				<div class="questionValue">
+					<x:set var="budgetModified"
+						select="string($protocolInstance/protocol/modification/to-modify-section/involve-change-in/budget-modified/text())" />
+					<uams:yesno id="budget-modified"
+						instancepath="/protocol/modification/to-modify-section/involve-change-in/budget-modified"
+						value="${budgetModified}"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionLabel"><span class="question-label-text">b. Study contract </span></div>
+				<div class="questionValue">
+					<x:set var="contractModified"
+						select="string($protocolInstance/protocol/modification/to-modify-section/involve-change-in/contract-modified/text())" />
+					<uams:yesno id="contract-modified"
+						instancepath="/protocol/modification/to-modify-section/involve-change-in/contract-modified"
+						value="${contractModified}"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionLabel"><span class="question-label-text">c. Principal investigator</span></div>
+				<div class="questionValue">
+					<x:set var="piModified"
+						select="string($protocolInstance/protocol/modification/to-modify-section/involve-change-in/pi-modified/text())" />
+					<uams:yesno id="pi-modified"
+						instancepath="/protocol/modification/to-modify-section/involve-change-in/pi-modified"
+						value="${piModified}"
+						validation="required" />
+				</div>
+				<x:set var="notifyContract"
+						select="string($protocolInstance/protocol/modification/notify-contract/text())" />
+					<input class="question-el dummy-field-for-rule-activation"
+						id="notify-contract" name="/protocol/modification/notify-contract"
+						type="hidden" value="${notifyContract}" />
+			</div>
+			
+			<div class="question" id="question-involve-addition-deletion-of">
+				<div class="questionIdentifier">Modification-5</div>
+				<div class="questionLabel"><span class="question-label-text">Does this modification request involve a change to:</span></div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionLabel"><span class="question-label-text">a.	Procedures, tests or services provided by the UAMS hospital or clinics</span></div>
+				<div class="questionValue">
+					<x:set var="procedure"
+						select="string($protocolInstance/protocol/modification/to-modify-section/involve-addition-deletion-of/procedure/text())" />
+					<uams:yesno id="procedure"
+						instancepath="/protocol/modification/to-modify-section/involve-addition-deletion-of/procedure"
+						value="${procedure}"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionLabel"><span class="question-label-text">b.	Physician or pharmacy services </span></div>
+				<div class="questionValue">
+					<x:set var="pharmacy"
+						select="string($protocolInstance/protocol/modification/to-modify-section/involve-addition-deletion-of/pharmacy/text())" />
+					<uams:yesno id="pharmacy"
+						instancepath="/protocol/modification/to-modify-section/involve-addition-deletion-of/pharmacy"
+						value="${pharmacy}"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionLabel"><span class="question-label-text">c.	Number of study subjects</span></div>
+				<div class="questionValue">
+					<x:set var="subjects"
+						select="string($protocolInstance/protocol/modification/to-modify-section/involve-addition-deletion-of/number-of-subjects/text())" />
+					<uams:yesno id="subjects"
+						instancepath="/protocol/modification/to-modify-section/involve-addition-deletion-of/number-of-subjects"
+						value="${subjects}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-amendment-to-injury">
+				<div class="questionIdentifier">Modification-6</div>
+				<div class="questionLabel"><span class="question-label-text">Does this modification request involve amendment to the injury or cost statement in the study consent documents? </span></div>
+				<div class="questionValue">
+					<x:set var="amendmentToInjury"
+						select="string($protocolInstance/protocol/modification/to-modify-section/amendment-to-injury/text())" />
+					<uams:yesno id="amendment-to-injury"
+						instancepath="/protocol/modification/to-modify-section/amendment-to-injury"
+						value="${amendmentToInjury}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-submit-to-medicare">
+				<div class="questionIdentifier">Modification-7</div>
+				<div class="questionLabel"><span class="question-label-text">Was this study previously submitted to Medicare for an Approval Letter? </span></div>
+				<div class="questionValue">
+					<x:set var="submitToMedicare"
+						select="string($protocolInstance/protocol/modification/to-modify-section/submit-to-medicare/text())" />
+					<uams:yesno id="submit-to-medicare"
+						instancepath="/protocol/modification/to-modify-section/submit-to-medicare"
+						value="${submitToMedicare}"
+						validation="required" />
+					<x:set var="budgetReview"
+						select="string($protocolInstance/protocol/modification/require-budget-review/text())" />
+					<input class="question-el dummy-field-for-rule-activation"
+						id="require-budget-review" name="/protocol/modification/require-budget-review"
+						type="hidden" value="${budgetReview}" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-conduct-under-uams">
+				<div class="questionIdentifier">Modification-8</div>
+				<div class="questionLabel"><span class="question-label-text">Is this study being conducted under a UAMS held IND or IDE?</span></div>
+				<div class="questionValue">
+					<x:set var="conductUnderUams"
+						select="string($protocolInstance/protocol/modification/to-modify-section/conduct-under-uams/text())" />
+					<uams:yesno id="conduct-under-uams"
+						instancepath="/protocol/modification/to-modify-section/conduct-under-uams"
+						value="${conductUnderUams}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-desc-requested-change">
+				<div class="questionIdentifier">Modification-9</div>
+				<div class="questionLabel"><span class="question-label-text">Please describe the requested change.</span></div>
+				<div class="questionValue">
+					<textarea class="question-el required" name="/protocol/modification/to-modify-section/desc-requested-change"
+						rows="4" id="title">
+						<x:out escapeXml="false" select="$protocolInstance/protocol/modification/to-modify-section/desc-requested-change" />
+					</textarea>
+				</div>
+			</div>
+			<!-- 
+			<div class="question" id="question-reason-for-requested-change">
+				<div class="questionIdentifier">Modification-10</div>
+				<div class="questionLabel"><span class="question-label-text">What is the reason for the requested change?</span></div>
+				<div class="questionValue">
+					<textarea class="question-el required" name="/protocol/modification/to-modify-section/reason-for-requested-change"
+						rows="4" id="title">
+						<x:out escapeXml="false" select="$protocolInstance/protocol/modification/to-modify-section/reason-for-requested-change" />
+					</textarea>
+				</div>
+			</div>
+			 -->
+			<div class="question" id="question-affect-risk">
+				<div class="questionIdentifier">Modification-11</div>
+				<div class="questionLabel"><span class="question-label-text">In the opinion of the Principal Investigator, does the requested change affect the risk/benefit ratio of the study? </span></div>
+				<div class="questionValue">
+					<x:set var="affectRisk"
+						select="string($protocolInstance/protocol/modification/to-modify-section/affect-risk/text())" />
+					<uams:yesno id="affect-risk"
+						instancepath="/protocol/modification/to-modify-section/affect-risk"
+						value="${affectRisk}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-describe-requested-change">
+				<div class="questionIdentifier">Modification-11.1.1</div>
+				<div class="questionLabel"><h1 class="conditional-question-label">Since the requested change affects the risk/benefit ratio of the study, please answer the following question:</h1>
+				<span class="question-label-text">Describe the changes to the risk/benefit ratio resulting from the modification: </span></div>
+				<div class="questionValue">
+					<textarea class="question-el required" name="/protocol/modification/to-modify-section/affect-risk/y/describe-requested-change"
+						rows="4" id="title">
+						<x:out escapeXml="false" select="$protocolInstance/protocol/modification/to-modify-section/affect-risk/y/describe-requested-change" />
+					</textarea>
+				</div>
+			</div>
+			
+			<div id="question-modification-instruction"
+				class="question" data-subsection-title="Modification Form Instruction">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">Modification Form Instruction</h1>
+					<div class="questionLabel"><span class="question-label-text">Please read carefully:</span></div>
+				</div>
+				<div class="questionValue">
+					<div class="question-el budget-determination-answer">
+						<div class="question-budget-builder-yes">
+							<ul class="showbullets">
+								<li>Make your requested modification(s) in the submission form for this study, which begins on the next page. Click on a section name in the right hand column to go directly to that section of the form.</li>
+
+							  	<li>Please be sure that any changes made in this form are also made in the protocol and the informed consent documents for the study, as applicable.</li>
+
+								<li>Inconsistent information across the submission form, the protocol, and the informed consent documents will delay approval.</li>
+								
+								<li>Upload any study documents (or new versions of study documents) in the Documents section of this form.  Please be sure to upload your audit response document if this modification request is in response to an audit.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+
+	<div style="display: none;">
+		
+		<div id="validation-error-box">
+			<h3>Errors</h3>
+			<div id="validation-error-label-box">
+				<!-- // -->
+			</div>
+			<div id="validation-footer">
+				<a href="#" onclick="jQuery('#validation-error-box').slideUp();">Close
+					this message</a>
+			</div>
+		</div>
+	</div>
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+	
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : '',
+										nextTab : 'first-page',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									"<strong>Modification</strong>: Modification",
+									wiz);
+
+							Clara.ProtocolForm.Rules.processPage();
+
+							jQuery(".question-el").change(function() {
+								Clara.ProtocolForm.Rules.processPage();
+								wiz.refreshLayout();
+							});
+
+						});
+	</script>
+
+
+
+</div>

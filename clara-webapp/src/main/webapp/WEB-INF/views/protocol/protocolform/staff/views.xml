@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+  
+    <definition extends="protocol/protocolform/staff" name="protocol/protocolform/staff/first-page">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/staff/first-page.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+            <add-attribute value="/static/js/common/wizard.js" />
+            <add-attribute value="/static/js/common/summary.js" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/staff" name="protocol/protocolform/staff/staff">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/staff/staff.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+			<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/staff" name="protocol/protocolform/staff/documents">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/staff/documents.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+       
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/staff" name="protocol/protocolform/staff/review">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/staff/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/staff" name="protocol/protocolform/staff/signed">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/staff/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+   		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/staff-noheader" name="protocol/protocolform/staff/first-page-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/staff/first-page.jspx"/>
+         <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/department-panel.js" />
+  		</put-list-attribute>
+  		  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/staff-noheader" name="protocol/protocolform/staff/staff-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/staff/staff.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+			<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/staff-noheader" name="protocol/protocolform/staff/documents-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/staff/documents.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+       
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/staff-noheader" name="protocol/protocolform/staff/review-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/staff/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        <!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/staff-noheader" name="protocol/protocolform/staff/signed-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/staff/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        <!--<add-attribute value="/static/js/encoder.js" />-->  
+   		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+</tiles-definitions>

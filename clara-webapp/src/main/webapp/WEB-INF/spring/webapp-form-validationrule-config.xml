@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<bean id="constraintHandler" class="edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.impl.ConstraintHandlerImpl"  />
+	<bean id="prerequisiteRuleHandler" class="edu.uams.clara.webapp.common.businesslogic.form.validator.impl.PrerequisiteRuleHandlerImpl"  />
+	<bean id="validationRuleHandler" class="edu.uams.clara.webapp.common.businesslogic.form.validator.impl.ValidationRuleHandlerImpl"  />
+
+	<bean id="validationRuleContainer" class="edu.uams.clara.webapp.common.businesslogic.form.validator.impl.ValidationRuleContainerImpl" init-method="init">
+		<property name="valudationRuleInitiators">
+			<map>
+				<entry key="protocolValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.ProtocolValidationRuleInitiator" />
+				</entry>
+				<entry key="hsrdValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.HumanSubjectResearchDeterminationValidationRuleInitiator" />
+				</entry>
+				<entry key="continuingReviewValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.ContinuingReviewValidationRuleInitiator" />
+				</entry>
+				<entry key="reportableNewInformationValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.ReportableNewInformationValidationRuleInitiator" />
+				</entry>
+				<entry key="studyClosureValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.StudyClosureValidationRuleInitiator" />
+				</entry>
+				<entry key="auditValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.AuditValidationRuleInitiator" />
+				</entry>
+				<entry key="staffValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.StaffValidationRuleInitiator" />
+				</entry>
+				<entry key="modificationValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.ModificationValidationRuleInitiator" />
+				</entry>
+				<entry key="emergencyUseValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.EmergencyUseValidationRuleInitiator" />
+				</entry>
+				<entry key="hudValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.HUDValidationRuleInitiator" />
+				</entry>
+				<entry key="hudRenewalValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.HUDRenewalValidationRuleInitiator" />
+				</entry>
+				<entry key="contractValidationRules">
+					<bean class="edu.uams.clara.webapp.contract.businesslogic.contractform.validator.ruleinitiator.ContractValidationRuleInitiator" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="validationXmlParser"
+		class="edu.uams.clara.webapp.common.businesslogic.form.validator.util.ValidationXmlParser" />
+
+</beans>

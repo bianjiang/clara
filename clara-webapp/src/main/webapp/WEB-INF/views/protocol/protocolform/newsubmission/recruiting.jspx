@@ -1,0 +1,87 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+	<x:out escapeXml="false" select="string($protocolInstance/text())" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="recruiting" protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+
+		<div class="formArea">
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+			
+		</div>
+		
+		<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+							//var scpanel = new Clara.NewSubmission.SubjectCriteriaPanel({renderTo:'enumerated-inclusion-exclusion', width:800, height:300});
+							
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										//itemsToAdd:[{index:1, panel: scpanel}],
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'drugs-devices',
+										nextTab : 'funding-sources',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							
+							renderFormViewport(
+									"<strong>New Submission</strong>: Recruiting",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+							
+							//Clara.NewSubmission.ReloadCriteria();
+							
+							//renderQuestionWizard('page-wizard-wrapper', 'question', true, 'staff', 'hipaa');
+						});
+	</script>
+</div>
+

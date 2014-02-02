@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+
+	 <definition extends="default-ext4" name="reports/index">
+        <put-attribute name="body" value="/WEB-INF/views/reports/index.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/app/config.js" />
+        	<add-attribute value="/static/js/app/reports/app.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/reports/reports.css" />
+        	
+  		</put-list-attribute>
+    </definition>    
+	
+	<definition extends="report-template" name="report/results/view">
+        <put-attribute name="body" value="/WEB-INF/views/reports/view.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">  
+        	<add-attribute value="/static/js/fast-encoder.js" />  
+        	<add-attribute value="/static/js/json2.js" />  
+        	<add-attribute value="/static/js/bootstrap.min.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/icons.css" />
+        	<add-attribute value="/static/styles/bootstrap.css" />
+        	<add-attribute value="/static/styles/reports/viewreport.css" />
+  		</put-list-attribute>
+    </definition>
+  
+    <definition extends="excelhtml-blank" name="report/results/view-excelhtml">
+        <put-attribute name="body" value="/WEB-INF/views/reports/view-table.jspx"/>
+    </definition>
+    
+    <definition extends="report-template" name="report/results/view-detail">
+        <put-attribute name="body" value="/WEB-INF/views/reports/view.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">  
+        	<add-attribute value="/static/js/fast-encoder.js" />  
+        	<add-attribute value="/static/js/json2.js" />  
+        	<add-attribute value="/static/js/bootstrap.min.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/icons.css" />
+        	<add-attribute value="/static/styles/bootstrap.css" />
+        	<add-attribute value="/static/styles/reports/viewreport.css" />
+  		</put-list-attribute>
+    </definition>
+	
+</tiles-definitions>

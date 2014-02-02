@@ -1,0 +1,100 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:uamsx="http://java.sun.com/jsp/jstl/xml-uams"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="xml" type="java.lang.String" required="true" rtexprvalue="true" />
+<x:parse doc="${xml}" var="n" />
+<x:forEach var="table" select="$n/report-results/report-result">
+			<x:set var="fieldCount" select="count($table/fields/field)" />
+			<fmt:parseNumber var="fieldCount" integerOnly="true"  type="number" value="${fieldCount}" />
+			<h4>
+				<x:out select="string($table/title/text())" />
+			</h4>
+			<table class="table table-condensed report-table">
+				<thead>
+					<tr>
+						<x:forEach var="field" select="$table/fields/field">
+							<x:set var="fid" select="string($field/@id)" />
+							<th id="header-field-${fid}" title="Click header to sort"><x:out
+									escapeXml="false" select="string($field/@desc)" /></th>
+						</x:forEach>
+					</tr>
+				</thead>
+				<tbody>
+					<x:forEach var="item" select="$table/report-items/report-item">
+						<x:set var="isSpannedRow" select="boolean($item/@spanrow)" />
+
+
+						<c:choose>
+							<c:when test="${isSpannedRow == true }">
+								<x:set var="field" select="$item/field" />
+								<x:set var="fieldClass" select="string($field/@class)" />
+								<x:set var="fieldId" select="string($field/@id)" />
+
+								<tr class="report-row whole-row">
+									
+									<td class="field-${fieldId} ${fieldClass}" colspan="${fieldCount}">
+										<x:set var="hasList" select="boolean($field/list)" />
+										<c:choose>
+											<c:when test="${hasList == true}">
+											<x:out escapeXml="false" select="string($field/text())" />
+												<ul>
+													<x:forEach var="listitem" select="$field/list/item">
+														<li><x:out escapeXml="false"
+																select="string($listitem)" /></li>
+													</x:forEach>
+												</ul>
+											</c:when>
+											<c:otherwise>
+												<x:out escapeXml="false" select="string($field)" />
+											</c:otherwise>
+										</c:choose>
+									</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<tr class="report-row">
+									<x:forEach var="field" select="$item/field">
+										<x:set var="fieldClass" select="string($field/@class)" />
+										<x:set var="fieldId" select="string($field/@id)" />
+										<td class="field-${fieldId} ${fieldClass}">
+											<x:set var="hasList" select="boolean($field/list)" />
+
+												<c:choose>
+													<c:when test="${hasList == true}">
+													<x:out escapeXml="false" select="string($field/text())" />
+														<ul>
+															<x:forEach var="listitem" select="$field/list/item">
+																<li><x:out escapeXml="false"
+																		select="string($listitem)" /></li>
+															</x:forEach>
+														</ul>
+													</c:when>
+													<c:otherwise>
+														<x:out escapeXml="false" select="string($field)" />
+													</c:otherwise>
+												</c:choose>
+
+											</td>
+									</x:forEach>
+								</tr>
+							</c:otherwise>
+						</c:choose>
+
+					</x:forEach>
+
+				</tbody>
+
+			</table>
+	</x:forEach>
+</jsp:root>

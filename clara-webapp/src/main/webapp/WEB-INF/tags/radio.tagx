@@ -1,0 +1,86 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty"/>
+	<jsp:directive.attribute name="id" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="validation" required="false" rtexprvalue="true"/>	
+	<jsp:directive.attribute name="instancepath" type="java.lang.String" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="lookuppath" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="value" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="allowOther" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="otherType" type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="otherTextInstancePath" type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="otherTextValue" type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="otherOptionValue" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="otherTextValidation" type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="textAreaTitle" type="java.lang.String" required="false" rtexprvalue="true"/>
+	
+	<c:if test="${empty id or id eq ''}">
+		<c:set var="id" value="${lookuppath}"/>
+	</c:if>
+	
+	<c:if test="${empty otherOptionValue or otherOptionValue eq ''}">
+		<c:set var="otherOptionValue" value="other"/>
+	</c:if>
+	
+	<c:set var="otherId" value="${id}_other" />
+	
+	<c:if test="${empty otherTextInstancePath or otherTextInstancePath eq ''}">
+		<c:set var="otherTextInstancePath" value="${instancepath}/other/text" />
+	</c:if>
+	
+	<c:if test="${empty otherType}">
+		<c:set var="otherType" value="textarea" />
+	</c:if>
+	
+	<ul class="form-radio-group">
+		<x:forEach var="n" select="$lookup/lookup/*[local-name()=$lookuppath]/option" varStatus="i">
+				<x:set var="lookupValue" select="string($n/value/text())"/>
+				<x:set var="lookupDescription" select="string($n/desc/text())"/>
+				
+				<c:set var="ld" value="${lookupDescription}"/>
+				<c:set var="lv" value="${lookupValue}"/>
+				
+				<c:if test="${lv == ''}">
+					<c:set var="lv" value="${lookupDescription}"/>
+				</c:if>
+				
+				<c:set var="tId" value="${id}_${i.index}" />
+								
+				<c:if test="${lv eq otherOptionValue &amp;&amp; allowOther eq 'true'}">
+					<c:set var="tId" value="${otherId}" />					
+				</c:if>
+				
+				<c:set var="onclickFunction" value="javascript:processOther(this, '${otherId}', '${otherType}', '${otherTextInstancePath}', '${otherOptionValue}', '${otherTextValidation}');" />
+								
+				<c:choose>					
+					<c:when test="${lv eq value}">
+					   <li class="question-el-radio-row">
+					   	<label class="question-el-radio-label" for="${tId}"><input onclick="${onclickFunction}" checked="checked" type="radio" id="${tId}" name="${instancepath}" class="question-el largeControl question-el-radio ${not empty validation?(validation):''}" value="${lv}"/> ${ld}</label>
+					   	<c:if test="${lv eq otherOptionValue &amp;&amp; allowOther eq 'true'}">
+							<br/>
+							<c:choose>				
+								<c:when test="${otherType eq 'textarea'}">
+									<div class="questionLabel">${textAreaTitle}</div>
+									<textarea class="question-el question-el-radio-other ${not empty otherTextValidation?otherTextValidation:''}" id="${otherId}_text" name="${otherTextInstancePath}">${otherTextValue}</textarea>
+								</c:when>
+								<c:when test="${otherType eq 'text'}">
+									<input class="question-el question-el-radio-other ${not empty otherTextValidation?otherTextValidation:''}" type="text" id="${otherId}_text" name="${otherTextInstancePath}" value="${otherTextValue}" /> 
+								</c:when>
+							</c:choose>											
+						</c:if>
+					   </li>
+					</c:when>
+					<c:otherwise>
+					   <li class="question-el-radio-row"><label class="question-el-radio-label" for="${tId}"><input onclick="${onclickFunction}" type="radio" id="${tId}" name="${instancepath}" class="question-el largeControl question-el-radio ${not empty validation?(validation):''}" value="${lv}"/> ${ld}</label></li>
+					</c:otherwise>
+				</c:choose>
+
+		</x:forEach>
+	</ul> 
+
+
+</jsp:root>

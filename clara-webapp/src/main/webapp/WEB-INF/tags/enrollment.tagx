@@ -1,0 +1,94 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+	
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr><strong>Number of Subjects Enrolled:</strong></tr>
+		<tr>
+			<th></th>
+			<th id="activation"><b>Since activation</b></th>
+			<th id="lastapproval"><b>Since last approval</b></th>
+		</tr>
+		<x:forEach var="local" select="$value">
+			<tr>
+				<td>Local</td>
+				<td headers="activation" valign="top"><x:out select="since-activation" /></td>
+				<td headers="lastapproval" valign="top"><x:out select="since-approval" />
+				</td>
+			</tr>
+			<!-- <tr>
+				<td>At all sites (if available)</td>
+				<td headers="activation" valign="top"><x:out select="multi-site-since-activation" /></td>
+				<td></td>
+			</tr> -->
+			
+		</x:forEach>
+	</table>
+	
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr><strong>Number of subjects enrolled locally since activation of the study:</strong></tr>
+		<br/>
+		<tr><strong>By Gender:</strong></tr>
+		<tr>
+			<th id="male"><b>Male</b></th>
+			<th id="female"><b>Female</b></th>
+			<th id="unknown"><b>Unknown/Not Reported</b></th>
+		</tr>
+		<x:forEach var="local" select="$value">
+			<tr>
+				<td headers="male" valign="top"><x:out select="male" /></td>
+				<td headers="female" valign="top"><x:out select="female" /></td>
+				<td headers="unknown" valign="top"><x:out select="gender-other" /></td>
+			</tr>
+		</x:forEach>
+	</table>
+	
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr><strong>By Race</strong></tr>
+		<tr>
+			<th id="caucasian"><b>White</b></th>
+			<th id="black"><b>Black or African American</b></th>
+			<th id="islander"><b>Asian</b></th>
+			<th id="alaska"><b>Native American or Alaska Native</b></th>
+			<th id="native-hawaiian-pacific-islander"><b>Native Hawaiian or other Pacific Islander</b></th>
+			<th id="more-than-one-race"><b>More Than One Race</b></th>
+			<th id="other"><b>Unknown/Not Reported</b></th>
+		</tr>
+		<x:forEach var="local" select="$value">
+			<tr>
+				<td headers="caucasian" valign="top"><x:out select="caucasion" /></td>
+				<td headers="black" valign="top"><x:out select="black" /></td>
+				<td headers="islander" valign="top"><x:out select="asian-pacific-islander" /></td>
+				<td headers="alaska" valign="top"><x:out select="american-indian-alaska-native" /></td>
+				<td headers="native-hawaiian-pacific-islander" valign="top"><x:out select="native-hawaiian-pacific-islander" /></td>
+				<td headers="more-than-one-race" valign="top"><x:out select="more-than-one-race" /></td>
+				<td headers="other" valign="top"><x:out select="race-other" /></td>
+			</tr>
+		</x:forEach>
+	</table>
+	
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr><strong>By Ethnicity</strong></tr>
+		<tr>
+			<th id="hispanic"><b>Hispanic or Latino</b></th>
+			<th id="not-hispanic"><b>Not Hispanic or Latino</b></th>
+			<th id="ethnicity-unknown"><b>Unknown/Not Reported</b></th>
+		</tr>
+		<x:forEach var="local" select="$value">
+			<tr>
+				<td headers="hispanic" valign="top"><x:out select="hispanic" /></td>
+				<td headers="not-hispanic" valign="top"><x:out select="not-hispanic" /></td>
+				<td headers="ethnicity-unknown" valign="top"><x:out select="ethnicity-unknown" /></td>
+			</tr>
+		</x:forEach>
+	</table>
+
+</jsp:root>

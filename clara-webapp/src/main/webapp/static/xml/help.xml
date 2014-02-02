@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<help>
+	<study-nature>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li><strong>Please note:</strong> If the study is research that includes a drug/biologic, nutritional product, or device, it is biomedical research. HUD use is not research.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</study-nature>
+	<college-form>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>ACH/ACHRI should choose the college/department the PI is associated with at UAMS.</li>
+                	<li>AHEC should choose Regional Program as its college.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</college-form>
+	<study-title>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Make your title specific and detailed. If your application is a revision, do NOT change the title.</li>
+                	<li>Try to stay within the 50-word limitation.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</study-title>
+	<study-type>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li><strong>Initiated:</strong> Provided the protocol.</li>
+                	<li><strong>Industry:</strong> A manufacturer of a drug, biological, or device who will act as the study sponsor. Examples include Merck, Pfizer, Celgene, and Medtronic.</li>
+                	<li><strong>Cooperative group:</strong> A group established for the purpose of conducting multi-center trials. Most, but not all, cooperative groups are established by the 
+                		National Cancer Institute to conduct multi-center oncology trials. Examples of cooperative groups include NSABP, SWOG, GOG, and ECOG. </li>
+                	<li><strong>Investigator:</strong> An individual who is involved in conducting human subject research. Investigators can include physicians, scientists, nurses, 
+                		administrative staff, teachers, and students, among others. Some research studies are conducted by more than one investigator, and usually 
+                		one investigator is designated the "principal investigator" with overall responsibilities for the study.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</study-type>
+	<study-subtypes>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li><strong>Non-federal grants:</strong> Includes foundation grants, awards, and gifts.</li>
+                	<li><strong>Internal support:</strong> Examples include TRI pilot grants and departmental funds.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</study-subtypes>
+	<study-phases>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li><strong>Phase 0</strong><br/>Early clinical proof-of-concept studies that offer no possibility of direct clinical benefit, and that require serial blood (and often tumor) samples.</li>
+					<li><strong>Phase I</strong><br/>Researchers test an experimental drug or treatment in a small group of people 
+						(20-80) for the first time to evaluate its safety, determine a safe dosage range, and identify side effects.</li>
+					<li><strong>Phase II</strong><br/>The experimental study drug or treatment is given to a larger group of people (100-300) 
+						to see if it is effective and to further evaluate its safety.</li>
+					<li><strong>Phase III</strong><br/>The experimental study drug or treatment is given to large groups of people (1,000-3,000) 
+						to confirm its effectiveness, monitor side effects, compare it to commonly used treatments, and collect information that will allow 
+						the experimental drug or treatment to be used safely.</li>
+					<li><strong>Phase IV</strong><br/>Researchers study the side effects of a drug after it is approved and being marketed.</li>
+					<li><strong>Feasibility (Pilot) Study</strong><br/>A smaller version of a larger study that is conducted to prepare for that study.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</study-phases>
+	<study-uses>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li><strong>Observation:</strong> Watching behavior and/or measuring outcomes.</li>
+                	<li><strong>Intervention:</strong> Manipulations of the subject's environment that are performed for research purposes.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</study-uses>
+	<locations-resources>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Resources include, but are not limited to, appropriately qualified research team members, adequate facilities (equipment and space), 
+                		and availability of medical or psychosocial services that participants may need as a consequence of the research.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</locations-resources>
+	<lay-summary>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>This section must be understandable to the general public.  Use simple, non-technical, common-language at a high-school level.  
+                	This section can often be taken from the study description in the informed consent document.</li>
+                	<li>Failure to make this section understandable to non-scientists will delay approval.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</lay-summary>
+	<multisite-is-local-lead-entity>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Lead entity:</strong> ACH/ACHRI/UAMS is the lead entity for a multi-site study when the PI is the lead researcher 
+                		for the entire study, or when the site provides study-wide services, such as data coordination.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</multisite-is-local-lead-entity>
+	<dsmp-in-place>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>A DSMP describes how accumulating data will be monitored throughout the study to ensure that continuation of research activities is appropriate scientifically and ethically.</li>
+                	<li>A DSMP should be tailored to fit the expected risk level, complexity, phase and size of the particular study.</li>
+                	<li>If this protocol is considered to be more than minimal risk, a DSMP is required.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</dsmp-in-place>
+	<monitored-by-dsmb>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>All phase-III studies require a DSMB, which may mean the
+							establishment of a DSMB at the study site, sponsoring institute
+							or lead institution of a multi-center trial. Low-risk behavioral
+							and nutritional trials may not require a DSMB.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</monitored-by-dsmb>
+	<study-involves>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>Includes both investigational and FDA-approved drugs/biologicals and devices, for approved and non-approved uses. </li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</study-involves>
+	<disclose-data-list>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>A Data Set Use Agreement is required for all studies receiving or planning on disclosing a limited data set. Please contact the Research Support Center for more information.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</disclose-data-list>
+	<sites>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>A single-site study may have more than one location (for example, ACH, ACHRI, and UAMS can each be a separate location, if the study is conducted by one investigator).</li>
+                	<li>Industry-sponsored studies should list only those locations that are under UAMS IRB oversight.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</sites>
+	<target-multiple-populations>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>Subject Population: A group of subjects that share a role relevant to the research (for example, "providers", "community leaders", etc.).  A single study may involve multiple subject populations.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</target-multiple-populations>
+	<inclusion-exclustion-criteria>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Inclusion/exclusion criteria:</strong> The characteristics determining whether a person may or may not be allowed to enter a clinical trial. Examples include age, state of health, the type and stage of a disease, previous treatment history, and other medical conditions.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</inclusion-exclustion-criteria>
+	<vulnerable-populations>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+		 			<li>A population is potentially included in a study when its members are present in the recruitment pool, and they are not specifically excluded from the study.</li>
+		 			<li>A population is targeted in a study when its members will definitely be selected as study subjects, because of the nature of the research.</li>
+                	<br/>
+                	<li><strong>Pregnancy:</strong> The period of time from implantation until delivery. A woman shall be assumed to be pregnant if she exhibits any 
+                		of the pertinent presumptive signs of pregnancy, such as missed menses, until the results of a pregnancy test are negative 
+                		or until delivery.</li>
+                	<li><strong>Neonate:</strong> A newborn, from birth to four weeks old.</li>
+                	<li><strong>Fetus:</strong> The product of conception from implantation until delivery.</li>              	
+                	<li><strong>Prisoner:</strong> Any individual involuntarily confined or detained in a penal institution. The term is intended to encompass individuals 
+                		sentenced to such an institution under a criminal or civil statute, individuals detained in other facilities by virtue of statutes 
+                		or commitment procedures which provide alternatives to criminal prosecution or incarceration in a penal institution, and individuals 
+                		detained pending arraignment, trial, or sentencing.</li>
+                	<li><strong>Children:</strong> Persons who have not attained the legal age for consent to treatments or procedures involved in the research, under the 
+                		applicable law of the jurisdiction in which the research will be conducted.</li>
+                	<li><strong>Ward of the State:</strong> a child who is placed in the legal custody of the state or other agency, institution, or entity consistent with applicable federal, state, or local law.</li>
+                	<li><strong>Cognitively Impaired:</strong> Lacking the capacity to consent, as a result of trauma, mental retardation, some forms of mental illness, or dementia, whether temporary, progressive, or permanent.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</vulnerable-populations>
+	<vulnerable-populations-targeted>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>A population is targeted in a study when its members will definitely be selected as study subjects, because of the nature of the research.</li>
+                	<li>Select College Students only if member of study team is targeting his/her own students.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</vulnerable-populations-targeted>
+	<is-non-english-speaking-exluded>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>The IRB prohibits the exclusion of non-English speaking persons in research studies that have the prospect of direct benefit to subjects, 
+                		unless there is a compelling justification for their exclusion.</strong></li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</is-non-english-speaking-exluded>
+	<non-english-speaking-excluded-justification>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+		 			<strong>Examples of acceptable justifications include:</strong>
+                	<li>Study requires use of data collection instruments that have not been validated scientifically in languages other than English;</li>
+                	<li>Study will include participants who are already known to the PI and who all speak English (for "follow-up" studies in which only a known group of current subjects will be eligible to participate); or</li>
+                	<li>Study is of a disease or disorder so rare that local enrollment is expected to be five or less.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</non-english-speaking-excluded-justification>
+	<hipaa-is-phi-obtained>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Protected Health Information (PHI):</strong> Information that identifies an individual, or that could reasonably be used to identify an 
+                	individual, and that 
+                	<br/>(i) relates to the past, present or future physical or mental health or condition of the individual; 
+                	<br/>(ii) relates to the provision of health care services to the individual; or 
+                	<br/>(iii) relates to the past, present, or future payment for the provision of health care services to an individual.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</hipaa-is-phi-obtained>
+	<hipaa-is-phi-obtained-risk>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Protected Health Information (PHI):</strong> Information that identifies an individual, or that could reasonably be used to identify an 
+                	individual, and that 
+                	<br/>(i) relates to the past, present or future physical or mental health or condition of the individual; 
+                	<br/>(ii) relates to the provision of health care services to the individual; or 
+                	<br/>(iii) relates to the past, present, or future payment for the provision of health care services to an individual.</li>
+                	<li>HIPAA Authorization is required for storage of data that includes PHI.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</hipaa-is-phi-obtained-risk>
+	<disclose-limited-data-set>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>A limited data set must exclude a number of direct identifiers of the subject and of the subject's relatives, employers, or household members. Follow the policy link above for more information.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</disclose-limited-data-set>
+	<requesting-hipaa-waiver>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>If you plan to use or disclose PHI for research purposes without obtaining a signed HIPAA authorization from each individual 
+                	who is the subject of the information, prior to undertaking the research, you need to request a waiver/alteration of HIPAA authorization 
+                	from the IRB.</li>
+                	<li><strong>PLEASE NOTE</strong> Obtaining a waiver of authorization does not waive other requirements of HIPAA (such as the minimum necessary rule or accounting for disclosures). It only waives or alters the requirement that each subject sign an Authorization form.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</requesting-hipaa-waiver>
+	<requesting-hipaa-waiver-type>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Full Waiver:</strong>  A removal of the requirement that HIPAA authorization be obtained before use and disclosure of PHI for a particular research project.</li>
+                	<li><strong>Partial Waiver:</strong>  A removal of the requirement that HIPAA authorization be obtained for some PHI uses and disclosures in a particular research project, such as disclosing PHI for research recruitment purposes.</li>
+                	<li><strong>Alteration:</strong> A change to the HIPAA authorization requirements for a particular research project, such as not requiring written documentation of authorization.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</requesting-hipaa-waiver-type>
+	<consent-process-included>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>If the research involves a product regulated by the FDA, or the results of the research may be submitted to the FDA as part of 
+                		a marketing application, the consent process cannot be waived.</li>
+                	<li>Includes both full and partial waivers.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</consent-process-included>
+	<request-waiver-of-consent-documentation>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>Includes both full and partial waivers.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</request-waiver-of-consent-documentation>
+	<go-through-doc>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>Disease Oriented Committees (DOCs): Disease Oriented Committees (DOCs) 
+                		serve to optimize resources and support collaborative research ideas focused on distinct 
+                		cancer-related disease sites. Research projects that are chart reviews, 
+                		request the use of specimens from the UAMS Biorepository or propose banking specimens are 
+                		required to obtain approval from the appropriate DOC before study activation. 
+                		For a list of DOCs and contact information, go to <a href="http://www.cancer.uams.edu/docs" target="_blank">http://www.cancer.uams.edu/docs.</a></li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</go-through-doc>
+	<prmc-study-type>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Therapeutic Trial</strong>: Clinical trial with therapeutic intent
+							using drugs, radiation, surgery, other biological agents or
+							behavioral or other interventions.</li>
+					<li><strong>Prevention Trial:</strong> Clinical trial for the modulation of
+							cancer risk and inhibition of cancer progression using chemo
+							prevention drugs, nutritional, dietary, behavioral, or other
+							interventions.</li>		
+					<li><strong>Supportive Care Trial</strong>: Clinical trials intended to
+						improve the comfort and quality of life for the patient using
+						drugs, nutritional, dietary, behavioral or other interventions.</li>
+					<li><strong>Screening, Early Detection, or Diagnostic Trials</strong>:
+							Clinical trials directly testing the efficacy of devices,
+							techniques, procedures; or tests for earlier or more accurate
+							detection or diagnosis of disease.</li>
+					<li><strong>Epidemiologic/Observational, or Outcome</strong>: Studies among
+							cancer patients and health populations that involve no
+							intervention or alteration in the status of the participants,
+							e.g., surveillance risk assessment, outcome, environment, and
+							behavioral studies.</li>
+					<li><strong>Ancillary</strong>: Auxiliary studies that are stimulated by, but
+							not a required part of , a main clinical trial/study, and that
+							utilize patient or other resources of the main trail to generate
+							information relevant to it. Studies must be linked to an active
+							trial or epidemiologic or other study and should include only
+							patients accurate to that trial/study. Only studies that can
+							linked to individual patient or participants data should be reported.</li>
+					<li><strong>Correlative</strong>: Laboratory based studies using specimens to
+							assess cancer risk, clinical outcomes, response to therapies,
+							etc. Only studies that can be linked to individual patient or
+							participant data should be reported.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</prmc-study-type>
+	<pregnant-women-studies-for-assessing-risks>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>You may reference specific pages or sections of the protocol or supporting documents (e.g., package inserts, investigator brochure, etc. Please remember to upload these documents.)</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</pregnant-women-studies-for-assessing-risks>
+	<neonates-uncertain-viability-risk>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>The consent of either parent or either parent's legally authorized representative 
+                	(if neither parent is able to consent because of unavailability, incompetence, or temporary incapacity) is 
+                	required, except that the consent of the father (or his legally authorized representative) need not be obtained if the pregnancy resulted from rape or incest.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</neonates-uncertain-viability-risk>
+	<neonates-nonviable-research-inclusion>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>The consent of both parents is required.  The consent of a legally authorized representative of either or both of the parents 
+                		of a nonviable neonate will not suffice.  If either parent is unable to consent because of unavailability, incompetence, or temporary 
+                		incapacity, the consent of one parent will suffice, except that the consent of the father need not be obtained if the pregnancy resulted 
+                		from rape or incest.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</neonates-nonviable-research-inclusion>
+	<total-number-subjects>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>The number of subjects is defined as the number of
+							individuals who agree to participate (i.e., those who provide
+							consent or whose records are accessed, etc.) even if all do not
+							prove eligible or complete the study. The total number of
+							research participants may be increased only with prior IRB
+							approval.</li>
+					<li>For HUDs, provide the total number of patients who will be receiving treatment or diagnosis involving the device.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</total-number-subjects>
+	<external-review-bodies>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Be sure to include UAMS Research Support Center if UAMS is study sponsor.</strong></li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</external-review-bodies>
+	<info-of-not-affiliated-consultants>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>It is not required that these individuals reside or work in the research location.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</info-of-not-affiliated-consultants>
+	<websites-url-list>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>Social media (e.g., Facebook, Twitter, etc. Please indicate the owner of the page, such as "ACH Facebook")</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</websites-url-list>
+	<access-existing-phi>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Existing PHI:</strong></br>Protected health information that exists in the databases, charts, records, etc. being accessed for the research, at the time the research is proposed to an institutional official or IRB. </li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</access-existing-phi>
+	<waiver-or-alteration-of-consent-process-fda-regulations>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>DHHS regulations permit waivers (or alterations) of the consent process if the research meets certain conditions; however, 
+                		FDA has no provision for waiver or alteration of consent. If the research involves a product regulated by FDA or the results 
+                		of the research may be submitted to FDA as part of a marketing application, consent cannot be waived.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</waiver-or-alteration-of-consent-process-fda-regulations>
+	<resource-to-protect-human-study-participants>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>Resources include, but are not limited to, appropriatedly qualified research team members, adequate facilities (equipment and space), 
+                		availability of medical or psychosocial services, and provisions for emergency treatment that are available in the location.</li>
+                	<li>For studies with no subject interaction, please enter N/A.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</resource-to-protect-human-study-participants>
+	<event-information-unexpected>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Unanticipated:</strong> Unforeseeable at the time it occurred.</li>
+					<li><strong>Unexpected:</strong> The specificity, nature, severity or incidences are not accurately captured in the approved consent form.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</event-information-unexpected>
+	<event-information-related-to-the-research>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Related to the research:</strong> Caused by participation in the research activity, or there is a reasonable possibility that the event may have been caused by the procedures involved in the research.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</event-information-related-to-the-research>
+	<event-information-involve-new-or-increased-risks>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Risks:</strong> The probability of harm or injury occurring as a result of participation in the research study.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</event-information-involve-new-or-increased-risks>
+	<clinicaltrials>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>All studies that may be published in any of the International Committee for Medical Journal Editors (ICMJE) publications are required to be registered in a publically accessible database, like ClinicalTrials.gov.</li>
+                	<li>All studies using a drug or device must be registered in ClinicalTrials.gov to comply with federal law.</li>
+                	<li>For information regarding registration of UAMS studies, please contact the Research Support Center at 501-686-6803 or <a href="mailto:tlgatlin@uams.edu">tlgatlin@uams.edu</a>.</li>
+                	<li>For information regarding registration of ACH/ACHRI studies not using a drug or device, please contact the ACHRI Clinical Trials Administrator at 501-364-2760 or <a href="mailto:StormentJanetS@uams.edu">StormentJanetS@uams.edu</a>.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</clinicaltrials>
+	<trialsearch>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>TrialSearch is the UAMS clinical trial registry.  See the TrailSearch's <a href="http://sharepoint.uams.edu/sites/caBIG/caBIG%20Tools%20Wiki%20Library/TrialSearch.aspx" target="_blank">End User Manual</a> for more information.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</trialsearch>
+	<initial-hud-or-hud-renewal-application>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>Per FDA regulation 21 CFR 814.124(a), the HUD Application must be completed before initiating use of an HUD, and annually thereafter. </li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</initial-hud-or-hud-renewal-application>
+	<describe-process-of-consent>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>Include personnel obtaining consent, assessment of the patient’s capacity to consent, conditions under which consent will be obtained, any 
+                		steps to minimize undue influence and any steps to enhance the patient's independent decision-making, such as a waiting period. </li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</describe-process-of-consent>
+	<ieu-or-eu>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>Whenever possible, notify the IRB prior to the emergency use of a test article.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</ieu-or-eu>
+	<systematic-investigation>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Systematic:</strong> Uses predetermined methods to answer specific questions or test hypotheses/theories.</li>
+                	<li><strong>Designed:</strong> Intended.</li>
+                	<li><strong>Generalizable:</strong> Extends beyond internal or department use.</li>
+                	<li>Quality assurance activities that are intended to improve the performance of a unit, division, or department only are not designed to be generalizable, and therefore are not considered research.</li>
+                	<li>Most thesis, dissertation or preceptorship projects are intended to be generalizable, and therefore are considered research.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</systematic-investigation>
+	<to-generalizable-knowledge>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Generalizable Knowledge:</strong> Activities must contribute to generalizable knowledge or have an intent to extend beyond an internal use or department. 
+                		Many thesis, dissertation or preceptorship projects are intended to extend beyond the graduate's department and therefore are considered research. 
+                		Activities that are typically not generalizable are course evaluations that cannot be generalized to others and quality assurance type activities 
+                		that are only intended to improve the performance of a unit, division, or department.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</to-generalizable-knowledge>
+	<involve-intervention-or-interaction>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Intervention:</strong> Physical procedures by which data are gathered (for example, venipuncture) and manipulations of the subject's environment that are performed for research purposes.</li>
+                	<li><strong>Interaction:</strong> Communication or interpersonal contact.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</involve-intervention-or-interaction>
+	<consist-existingdata-doc-records-specimens>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li><strong>Existing:</strong> Present in the databases, charts, records, etc. being accessed for the research, at the time the research is proposed to an institutional official or IRB.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</consist-existingdata-doc-records-specimens>
+	<life-threatening>
+		<helpcontent>
+		 <![CDATA[
+		 		<span>
+                	<li>Life threatening means diseases or conditions where the likelihood of death is high unless the course of the disease is interrupted and diseases 
+                		or conditions with potentially fatal outcomes, where the end point of clinical trial analysis is survival. </li>
+                	<li>The criteria for life threatening do not require the condition to be immediately life threatening or to immediately result in death. Rather, the 
+                		subjects must be in a life-threatening situation requiring intervention <strong>before review at a convened meeting of the IRB</strong> is feasible.</li>
+                	<li>Severely debilitating means diseases or conditions that cause major irreversible morbidity. Examples of severely debilitating conditions include blindness, 
+                		loss of arm, leg, hand or foot, loss of hearing, paralysis or stroke.</li>
+                </span> 
+                ]]>
+		</helpcontent>
+	</life-threatening>
+	<specimens-be-obtained-specimen-identification>
+		<helpcontent>
+		 <![CDATA[
+		 		 <span>
+                	<li><strong>Coded:</strong> Identifying information that would enable anyone involved in conducting the 
+                		research to readily ascertain the identity of the individual to whom the private information or 
+                		specimens pertain is replaced with a number, letter, symbol, or combination thereof (i.e., the code); 
+                		and a key to decipher the code exists, enabling linkage of the identifying information to the private information 
+                		or speciments.</li>
+                	<li><strong>De-identified:</strong> The following identifiers of the individual and the individual's relatives, 
+                		employers, or household members of the individual are removed:
+                		<br/>A. Names; dates; phone numbers; email addresses; street addresses; cities; zip codes; social security numbers; medical records numbers.
+                		<br/>B. Ages over 89; fax numbers; countries; precincts; health plan beneficiary numbers; account numbers.
+                		<br/>C. Voices; images; other biometric identifiers, including finger prints and retinal prints.
+                		<br/>D. Certificates/license numbers; device identifiers and serial numbers; URLs; IP addresses.
+                		<br/>E. Any other unique identifying number or characteristic.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</specimens-be-obtained-specimen-identification>
+	<contract-types>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	Please use the following descriptions of the different types of contracts you may need.  If it does not fit into any category below, please choose "Other".  If you do not have a contract available, please notify choose the type of contract and notify legal at ResearchContracts@uams.edu. 
+                	<li><strong>Confidentiality Disclosure Agreement (CDA)</strong><br/>
+                		The CDA is used when UAMS provides or receives confidential (non published) information to and from another entity.</li>
+                	<li><strong>Material Transfer Agreement (MTA)</strong><br/>The MTA is used when biological materials, animals, research data are transferred between UAMS and another entity.</li>
+                	<li><strong>Research Agreement or Collaborative Research (non clinical trial)</strong><br/>Any research related work that is not a clinical trial where 
+                	the scope of work is written by UAMS employees or students; or in collaboration with an outside entity; or research that is supported by an outside entity 
+                	with money, drug or device; or any research where UAMS will provide any data to an outside entity. </li>
+                	<li><strong>Memorandum of Understanding (MOU) for research related work</strong><br/>MOUs are generally not legally binding but sets forth each party&#180;s 
+                	intent to proceed with any research related work where the parties have obligations to perform. Letters of Intents may be included in this category.  </li>
+                	<li><strong>Data Use Agreement (when human subject samples or data are transferred and received but not fully de- identified)</strong><br/>A Data Use Agreement is required when 
+                	a Limited Data Set of human subject information is provided or received by UAMS.  Examples of information transferred  may include the following information which will require a Data Use Agreement:
+                	<br/>Dates of birth<br/>Dates of death<br/>Dates of service<br/>Town or city<br/>State<br/>Zip Code</li>
+                	<li><strong>Subcontractor Agreements (UAMS Subcontractoris providing research service for another entity or another entity is providing research service to UAMS; non-clinical trial)</strong><br/>This agreement is used when UAMS is performing research related work 
+                	for another outside entity where the scope of work is created by the outside entity or where UAMS created the scope of work and the outside entity is providing research related work to UAMS.  </li>
+                </span>
+                ]]>
+		</helpcontent>
+	</contract-types>
+	<have-new-contract>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	A contract is required if <strong>one</strong> of the following conditions exists:
+                	<li>You are receiving funding  from an individual or an entity outside of UAMS</li>
+                	<li>You are receiving a drug from an individual or an entity outside of UAMS</li>
+                	<li>You are receiving a device from an individual or an entity outside of UAMS</li>
+                	<li>You are providing research data to an individual or an entity outside of UAMS</li>
+                	<li>You are providing funding to an individual or an entity outside of UAMS</li>
+                	<li>You are providing or receiving any biological materials, animals or other materials to or from an individual or an entity outside of UAMS</li>
+                	<li>You are in a collaborative research arrangement with an individual or an entity outside of UAMS</li>
+                	<li>You are providing a Limited Data Set of Protected Health Information to or from an entity outside of UAMS</li>
+                	<li>You are using an individual or an entity outside of UAMS as a subcontractor </li>
+                	<li>You are subcontractor doing work for an individual or entity outside of UAMS</li>
+                	If you have any questions, please contact (501)526-6808 or send your request to <a href="mailto:ResearchContracts@uams.edu">ResearchContracts@uams.edu</a>.
+                </span>
+                ]]>
+		</helpcontent>
+	</have-new-contract>
+	<name-of-company>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li><strong>Please provide full contact information including name, address, phone number and email.</strong></li>
+                </span>
+                ]]>
+		</helpcontent>
+	</name-of-company>
+	<contract-nature>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>If a contract has been provided to you by an entity outside of UAMS, please provide the nature of the contract and the title of the contract.  Please upload the contract for review.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</contract-nature>
+	<test-article>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Test article means any drug, biological product or medical device for human use, human food additive, color additive, electronic product, or any other article subject to FDA regulations.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</test-article>
+	<hud-device>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Describe the device and the indication for use approved by the FDA. Include information on previous use.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</hud-device>
+	<sufficient-time-obtain-irb-approval>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>The IRB meets the first four Tuesdays of every month.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</sufficient-time-obtain-irb-approval>
+	<tri-involved>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>CRSC provides infrastructure for investigators conducting human-based research, including specialized research space, nursing support, lab processing, dietary consultation, regulatory assistance, subject recruitment and more. </li>
+                	<li>Investigators seeking CRSC services should complete and submit a CRSC Resource Request Form at <a href="https://ucore.uams.edu/" target="_blank">UAMS UCORE</a></li>
+                </span>
+                ]]>
+		</helpcontent>
+	</tri-involved>
+	<info-category>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Examples of "Other New Information" that are reportable include MedWatch reports indicating that a side effect is more frequent or severe than expected, or a publication showing that an arm of a study is of no therapeutic value.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</info-category>
+	<to-modify-sections>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Please be sure that information remains consistent across the submission form, the protocol, and the informed consent documents. This may require making multiple modifications. Failure to do so will delay approval. </li>
+                	<li>Please remember to update the Budget section of the submission form if you are adding or deleting any procedures for a UAMS study.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</to-modify-sections>
+	<single-or-multi>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>A single-site study is conducted by one investigator, at locations under the purview of one IRB.</li>
+                	<li>A multi-site study is conducted by more than one investigator, at locations under the purview of separate IRBs.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</single-or-multi>
+	<cancer-study>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Research related to the etiology, prevention, treatment, survival or complications of cancer.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</cancer-study>
+	<irb-fee>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>The fees above are determined by the answers provided about this study (study type, etc.)</li>
+                	<li><strong>If there are no fees listed,</strong> that doesn't mean there will not be a fee. It means Clara cannot determine the fee because some questions have not been answered (like study type).</li>
+                	<li>If you have any questions regarding IRB fees, please contact the IRB Office at <a href="mailto:irb@uams.edu">irb@uams.edu</a>.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</irb-fee>
+	<budget>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>If you have any questions, please contact (501)526-6808 or send your request to <a href="mailto:CLARABudgetHelp@uams.edu">CLARABudgetHelp@uams.edu</a></li>
+                </span>
+                ]]>
+		</helpcontent>
+	</budget>
+	<budget-involves>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>If you have any questions, please contact (501)526-6808 or send your request to <a href="mailto:CLARABudgetHelp@uams.edu">CLARABudgetHelp@uams.edu</a></li>
+                </span>
+                ]]>
+		</helpcontent>
+	</budget-involves>
+	<biosafety-bio-hazard-materials-material>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	Please fill out the appropriate form(s) and submit to the Biosafety Committee for review.
+                	<li>BL2/BL3 infectious agents - <a href="http://intranet.uams.edu/safety/policy/Infectious_agents_form.pdf" target="_blank">Infectious Agents Form</a></li>
+                	<li>Recombinant DNA (rDNA) - <a href="http://intranet.uams.edu/safety/policy/Recombinant_DNA_form.pdf" target="_blank">Recombinant DNA Form</a></li>
+                	<li>Human gene therapy procedures - <a href="http://intranet.uams.edu/safety/policy/Recombinant_DNA_form.pdf" target="_blank">Recombinant DNA Form</a></li>
+                	<li>Experimentation using carcinogenic (known or suspected) compounds - <a href="http://intranet.uams.edu/safety/policy/Toxin_carcinogen_form.pdf" target="_blank">Toxic and Carcinogenic Agents Form</a></li>
+                	<li>Regulated Toxins - <a href="http://intranet.uams.edu/safety/policy/Toxin_carcinogen_form.pdf" target="_blank">Toxic and Carcinogenic Agents Form</a></li>
+                </span>
+                ]]>
+		</helpcontent>
+	</biosafety-bio-hazard-materials-material>
+	<site-responsible>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>If you choose "Other", please provide details in the Sites section.</li>
+                	<li>Select the institution associated with the Principal Investigator (PI). The Principal Investigator is the individual with overall responsibility for the study. For human subject protection purposes, all studies must have one investigator designated as PI.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</site-responsible>
+	<hipaa-phi-details>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>The initial three digits of a zip code would not be considered identifying, if the geographic unit formed by combining all the zip codes with 
+                		the same three initial digits would contain more than 20,000 people, according to the current publically available data from the Bureau of the Census.</li>
+                	<li>Ages over 89 would not be considered identifying if they were aggregated into a single category of age 90 or older.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</hipaa-phi-details>
+	<samples-be-releasesd-sample-identification>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li><strong>Coded:</strong> Identifying information that would enable anyone involved in conducting the 
+                		research to readily ascertain the identity of the individual to whom the private information or 
+                		specimens pertain is replaced with a number, letter, symbol, or combination thereof (i.e., the code); 
+                		and a key to decipher the code exists, enabling linkage of the identifying information to the private information 
+                		or speciments.</li>
+                	<li><strong>De-identified:</strong> The following identifiers of the individual and the individual's relatives, 
+                		employers, or household members of the individual are removed:
+                		<br/>A. Names; dates; phone numbers; email addresses; street addresses; cities; zip codes; social security numbers; medical records numbers.
+                		<br/>B. Ages over 89; fax numbers; countries; precincts; health plan beneficiary numbers; account numbers.
+                		<br/>C. Voices; images; other biometric identifiers, including finger prints and retinal prints.
+                		<br/>D. Certificates/license numbers; device identifiers and serial numbers; URLs; IP addresses.
+                		<br/>E. Any other unique identifying number or characteristic.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</samples-be-releasesd-sample-identification>
+	<readily-ascertained-or-associated>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li><strong>Individually identifiable:</strong> Information that allows, or could allow, the investigator to ascertain the identity of individuals, or information that is associated with the identities of individuals. </li>
+                </span>
+                ]]>
+		</helpcontent>
+	</readily-ascertained-or-associated>
+	<age-ranges>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Selection of an age range <strong>does not necessitate inclusion of that entire age range</strong> in the study.</li>
+                	<li>For HUDs, please select the age range(s) for patients who will be receiving treatment or diagnosis involving the device.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</age-ranges>
+	<compensation-provided-to-subjects>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Compensation may be of a monetary or non-monetary nature.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</compensation-provided-to-subjects>
+	<phi-description>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Please upload a copy of the data collection form(s) to be used in the Documents section.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</phi-description>
+	<how-to-undue-influence>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Coercion occurs when an overt threat of harm is intentionally presented by one person to another to obtain compliance.</li>
+                	<li>Undue influence occurs through an offer of an excessive, unwarranted, inappropriate or improper reward or other overture in order to obtain compliance.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</how-to-undue-influence>
+	<children-continue>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>N/A: Will not enroll children as research subjects.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</children-continue>
+	<involve-change-in>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Please be sure that information remains consistent across the submission form, the protocol, and the informed consent documents. Failure to do so will delay approval.  
+					</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</involve-change-in>
+	<involve-addition-deletion-of>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Please be sure that information remains consistent across the submission form, the protocol, and the informed consent documents. Failure to do so will delay approval.  
+					</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</involve-addition-deletion-of>
+	<amendment-to-injury>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Please be sure that information remains consistent across the submission form, the protocol, and the informed consent documents. Failure to do so will delay approval. 
+					</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</amendment-to-injury>
+	<describe-phi>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Please upload a copy of the data collection form(s) to be used in the Documents section. 
+					</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</describe-phi>
+	<desc-procedures-for-data-storage>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Data retention requirements vary based on type of data collected, subject population, grant or contract terms and FDA regulations, as applicable.  
+                		Prior to transfer or destruction of any data, you must verify the data retention requirements that apply to your study. 
+					</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</desc-procedures-for-data-storage>
+	<process-for-request-and-release-samples>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Provide copies of all applicable forms/agreements that will be used to request and release samples. 
+					</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</process-for-request-and-release-samples>
+	<describe-specific-data>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>This should always include safety and efficacy data, and any associated events. 
+					</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</describe-specific-data>
+	<who-is-monitoring>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>A DSMB is an independent committee set up to monitor accumulating data throughout the study.</li>
+                	<li>A DSM is an individual assigned to monitor accumulating data throughout the study. In some studies, the investigator, or other member of the study team, may serve as monitor. </li>
+                </span>
+                ]]>
+		</helpcontent>
+	</who-is-monitoring>
+	<procedure-for-communication>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>The IRB should be promptly provided with information from the monitor. This may be the normal processes for communicating with the IRB, if the monitor is part of the study team, or it may require that the investigator provide the IRB with monitoring reports from an outside monitor.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</procedure-for-communication>
+	<summarize-study-progress>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Be sure to include progress made toward subject accrual goals and anticipated study end date.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</summarize-study-progress>
+	<title-help>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>If this information needs to be updated, you must submit a Modification prior to submitting the Renewal Application. </li>
+                </span>
+                ]]>
+		</helpcontent>
+	</title-help>
+	<epic-desc>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>This information appears in the chart of any patient who is linked to the study and can be as informative as is appropriate for the study.</li>
+                	<li>This field is often used to list contact information in case a physician has concerns about patient care that might be related to the patient's participation in a study.</li>
+                	<li>EMR study contact information will auto-populate in UConnect (Epic) description field.  This contact information will display in the eMR system for studies requiring a CLARA budget.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</epic-desc>
+	<epic-title>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>This information appears in the chart of any patient who is linked to the study and can be as informative as is appropriate for the study.  The study title will auto-populate in this field; however, studies with sensitive information may only wish to enter IRB# or a study identifier in this field.</li>
+                	<li><strong>200 character limit</strong></li>
+                </span>
+                ]]>
+		</helpcontent>
+	</epic-title>
+	<data-and-safety-monitor-desc>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>If the Data Safety Monitor is hired by the study sponsor, please list here the CRO or sponsor responsible for monitoring.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</data-and-safety-monitor-desc>
+	<complete-migration>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Please complete the information for this study beginning on the next page. Click on a section name in the right hand column to go directly to that section of the form. </li>
+                </span>
+                ]]>
+		</helpcontent>
+	</complete-migration>
+
+	<any-adverse-events>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>If you answer Yes, please upload the Continuing Review Assessment Form in the Documents section, as part of this submission. The form can be found at <a href="http://www.uams.edu/irb/Reporting%20Events%20and%20Deviations.asp" target="_blank">http://www.uams.edu/irb/Reporting%20Events%20and%20Deviations.asp.</a></li>
+                </span>
+                ]]>
+		</helpcontent>
+	</any-adverse-events>
+	<irb-number>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>If this contract is related to an existing protocol or to the one you just submitted in CLARA, please enter the IRB number assigned and click "Update Study Information". This will auto populate certain study information into the Contract Module here.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</irb-number>
+	<existing-hipaa-phi-details>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>Please Note: Recording includes noting items in your files, even if you do not plan to share the information with anyone.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</existing-hipaa-phi-details>
+	<complete-budget-migration>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li><strong>If your study involves pharmacy services, please select 'Request Pharmacy Review' within the Drugs and Device section prior to budget conversion modification submission.</strong></li>
+                	<li><strong>No other modifications to study may be included in this submission. Please note that only one modification may be active at a time.</strong></li>
+                </span>
+                ]]>
+		</helpcontent>
+	</complete-budget-migration>
+	<nct-number>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+ <ul><li>
+ If your study involves a drug or device, regardless of IND/IDE status, or if your study includes a budget or financial aspect where potential charges could be added to a subjects account and  billed to Medicare, you must register your study with the ClinicalTrials.gov database under the law. It is not necessary to have your IRB approval in order to register a study. Once your study is registered, it will undergo a QA review and the database will assign an NCT number.  If you do not have this number when your study is entered into CLARA, leave that field blank as the number can be entered at a later date.<br/>
+ <strong>If you are new to using the ClinicalTrials.gov database and need a new user account, have questions about registering or are not sure if your study should be registered, please contact the UAMS ClinicalTrials.gov Administrator, Tracy Gatlin, 686-6803 or tlgatlin@uams.edu</strong>
+ </li></ul>
+                 </span>
+                ]]>
+		</helpcontent>
+	</nct-number>
+</help>

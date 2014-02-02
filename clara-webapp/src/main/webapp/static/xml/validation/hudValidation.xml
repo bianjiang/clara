@@ -1,0 +1,5 @@
+<rules>
+	<rule path="/hud/title" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="The title of the study is required!" level="ERROR"/>		
+	</rule>
+</rules>

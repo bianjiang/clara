@@ -1,0 +1,482 @@
+<div class="clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title)" />
+	<x:set var="studyNature"
+		select="string($protocolInstance/protocol/study-nature/text())" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="misc"
+			protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+
+			<div class="question" id="question-tri-involved">
+				<div class="questionIdentifier">Misc-1</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Will this research be
+						conducted in conjunction with the Translational Research Institute
+						(TRI) Clinical Research Services Core (CRSC)? </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="triInvolved"
+						select="string($protocolInstance/protocol/misc/is-tri-involved/text())" />
+					<uams:yesno id="triInvolved"
+						instancepath="/protocol/misc/is-tri-involved"
+						value="${triInvolved}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="tri-involved" />
+				</div>
+			</div>
+
+			<div class="question" id="question-is-registered-at-clinicaltrials">
+				<div class="questionIdentifier">Misc-2</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Does this study require
+						registration with ClinicalTrials.gov?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="isRegisteredAtClinicalTrials"
+						select="string($protocolInstance/protocol/misc/is-registered-at-clinical-trials/text())" />
+					<uams:yesno id="is-registered-at-researchmatch"
+						instancepath="/protocol/misc/is-registered-at-clinical-trials"
+						value="${isRegisteredAtClinicalTrials}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="clinicaltrials" />
+				</div>
+			</div>
+			
+			<div class="question clearfix"
+				id="question-nct-number">
+				<div class="questionIdentifier">Misc-2.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this study requires registration with ClinicalTrials.gov, answer the following question:</h1>
+					<span class="question-label-text">Please enter the NCT number.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="nctNumber" select="string($protocolInstance/protocol/misc/is-registered-at-clinical-trials/nct-number/text())" />
+					<uams:textbox instancepath="/protocol/misc/is-registered-at-clinical-trials/nct-number"
+						id="nct-number" value="${nctNumber}" validation="nctNumber"/>
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="nct-number" />
+				</div>
+			</div>	
+
+			<div class="question" id="question-is-registered-at-trialsearch">
+				<div class="questionIdentifier">Misc-3</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Will this study be
+						registered at TrialSearch?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="isRegisteredAtTrialsearch"
+						select="string($protocolInstance/protocol/misc/is-registered-at-trialsearch/text())" />
+					<uams:yesno id="is-registered-at-trialsearch"
+						instancepath="/protocol/misc/is-registered-at-trialsearch"
+						value="${isRegisteredAtTrialsearch}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="trialsearch" />
+				</div>
+			</div>
+			
+			<div class="question clearfix"
+				id="question-inclusion-exclusion-criteria-for-this-study">
+				<div class="questionIdentifier">Misc-3.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this study will be registered at TrialSearch and it is a biomedical study, answer the following question:</h1>
+					<span class="question-label-text">List the
+						inclusion criteria for this study.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="inclusionCritieria" select="string($protocolInstance/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion"
+						id="inclusion-critieria" value="${inclusionCritieria}" hasNA="false"/>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">List the
+						exclusion criteria for this study.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="exclusionCritieria" select="string($protocolInstance/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion"
+						id="exclusion-critieria" value="${exclusionCritieria}" hasNA="false"/>
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="inclusion-exclustion-criteria" />
+				</div>
+			</div>	
+			<!-- 
+			<div class="question clearfix" id="question-condition-ontology">
+				<div class="questionIdentifier">Misc-3.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this is social behavioral study, answer the following
+						question:</h1>
+					<span class="question-label-text">Conditions</span>
+				</div>
+				<div class="questionValue">
+					<div id="condition-ontology">
+					
+					</div>
+					<input type="hidden"
+						class="question-el dummy-field-for-rule-activation"
+						name="/protocol/misc/condition-ontology" />
+				</div>
+			</div>		
+			-->
+			<div class="question" id="question-cancer-study">
+				<div class="questionIdentifier">Misc-4</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Is the study cancer
+						research or cancer-related research?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="cancerStudy"
+						select="string($protocolInstance/protocol/misc/is-cancer-study/text())" />
+					<uams:yesno id="cancerStudy"
+						instancepath="/protocol/misc/is-cancer-study"
+						value="${cancerStudy}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="cancer-study" />
+				</div>
+			</div>
+			
+			<div class="question clearfix" id="question-disease-ontology">
+				<div class="questionIdentifier">Misc-4.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this is a cancer
+						research or cancer-related research, answer the following
+						question:</h1>
+					<span class="question-label-text">Disease ontology/Conditions</span>
+				</div>
+				<div class="questionValue">
+					<div id="disease-ontology">
+						<!--  // -->
+					</div>
+
+					<input type="hidden"
+						class="question-el dummy-field-for-rule-activation"
+						name="/protocol/misc/disease-ontology" />
+				</div>
+			</div>
+			
+			
+			<!-- <div class="question clearfix" id="question-cancer-codes">
+				<div class="questionIdentifier">Misc-5.1.1a</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this is a cancer
+						research or cancer-related research, answer the following
+						question:</h1>
+					<span class="question-label-text">If you have any ICD-9 codes to attach to this study, you can search and add them below.</span>
+				</div>
+				<div class="questionValue">
+					<div id="icd9-list"> -->
+					<!-- // -->
+					<!-- </div>
+					<input type="hidden"
+						class="question-el dummy-field-for-rule-activation"
+						name="/protocol/codes" />
+				</div>
+			</div> -->
+
+
+			<div class="question clearfix" id="question-uses">
+				<div class="questionIdentifier">Misc-4.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this is a cancer
+						research or cancer-related research, answer the following
+						question:</h1>
+					<span class="question-label-text">What is the primary
+						activity of this study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="uses"
+						select="string($protocolInstance/protocol/misc/is-cancer-study/y/study-uses/use/text())" />
+					<uams:radio value="${uses}" lookuppath="study-uses"
+						instancepath="/protocol/misc/is-cancer-study/y/study-uses/use" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="study-uses" />
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-observation-goal">
+				<div class="questionIdentifier">Misc-4.2.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this is a
+						cancer-related research and will use observation:</h1>
+					<span class="question-label-text">What is the goal for this
+						study? (Check all that apply)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="observationGoal"
+						select="$protocolInstance/protocol/misc/is-cancer-study/y/study-uses/observation/observation-goal" />
+					<uams:checkbox value="${observationGoal}"
+						lookuppath="observation-goal" newColumnEvery="8"
+						instancepath="/protocol/misc/is-cancer-study/y/study-uses/observation/observation-goal"
+						validation="required" otherTextValidation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-intervention-goal">
+				<div class="questionIdentifier">Misc-4.2.2.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this is a
+						cancer-related research and will use intervention:</h1>
+					<span class="question-label-text">What is the intervention
+						goal for this study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="interventionGoal"
+						select="$protocolInstance/protocol/misc/is-cancer-study/y/study-uses/intervention/intervention-goal" />
+					<uams:checkbox value="${interventionGoal}"
+						lookuppath="intervention-goal" newColumnEvery="8"
+						instancepath="/protocol/misc/is-cancer-study/y/study-uses/intervention/intervention-goal"
+						validation="required" otherTextValidation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-go-through-doc">
+				<div class="questionIdentifier">Misc-4.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since this is
+						cancer-related research, answer the following question:</h1>
+					<span class="question-label-text">Has this study gone
+						through a Disease-Oriented Committee (DOC)?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="goThroughDoc"
+						select="string($protocolInstance/protocol/misc/is-cancer-study/y/go-through-doc/text())" />
+					<uams:yesno id="go-through-doc"
+						instancepath="/protocol/misc/is-cancer-study/y/go-through-doc"
+						hasNA="true" value="${goThroughDoc}" validation="required" />
+				</div>
+				<br />
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="go-through-doc" />
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-biosafety-bio-hazard-materials-material">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">Biosafety</h1>
+					<div class="questionIdentifier">Misc-5</div>
+					<span class="question-label-text">Does the study involve the
+						use of any of the following bio-hazardous materials?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="biosafetybiohazardmaterialsMaterial"
+						select="$protocolInstance/protocol/misc/biosafety/bio-hazard-materials/material" />
+					<uams:checkbox id="biosafety-bio-hazard-materials-material"
+						value="${biosafetybiohazardmaterialsMaterial}" allowcustom="true"
+						lookuppath="bio-hazard-materials-material"
+						instancepath="/protocol/misc/biosafety/bio-hazard-materials/material"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="biosafety-bio-hazard-materials-material" />
+				</div>
+			</div>
+
+			<div class="question" id="question-regulated-toxins-list">
+				<div class="questionIdentifier">Misc-5.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since the study
+						involves the use of regulated toxins, please answer the following:</h1>
+					<span class="question-label-text">Please list all regulated
+						toxins.</span>
+				</div>
+				<input type="hidden"
+					class="question-el dummy-field-for-rule-activation"
+					name="/protocol/study-toxins/toxin" />
+				<div id="regulated-toxins-list">
+					<!-- // -->
+				</div>
+			</div>
+
+			<div class="question" id="question-radiation-safety-involve">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">Radiation Safety</h1>
+					<div class="questionIdentifier">Misc-6</div>
+					<span class="question-label-text">Does the study involve the
+						use of radiation?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="radiationsafetyInvolve"
+						select="string($protocolInstance/protocol/misc/radiation-safety/involve-the-use-of-radiation/text())" />
+					<uams:yesno id="radiation-safety-involve"
+						instancepath="/protocol/misc/radiation-safety/involve-the-use-of-radiation"
+						value="${radiationsafetyInvolve}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-radiation-exceed-standard-of-care">
+				<div class="questionIdentifier">Misc-6.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since the study involves the use of radiation, please answer the
+						following question: <br />
+					</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Does the radiation used in
+						the research exceed what is considered "Standard of Care"?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="radiationexceedstandardofCare"
+						select="string($protocolInstance/protocol/misc/radiation-safety/involve-the-use-of-radiation/y/exceed-standard-of-care/text())" />
+					<uams:yesno id="radiation-exceed-standard-of-care"
+						instancepath="/protocol/misc/radiation-safety/involve-the-use-of-radiation/y/exceed-standard-of-care"
+						value="${radiationexceedstandardofCare}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-involve-use-of-strenuous-exercise">
+				<div class="questionIdentifier">Misc-7</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Does the study involve the
+						use of strenuous exercise? </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="involveUseOfStrenuousExercise"
+						select="string($protocolInstance/protocol/misc/radiation-safety/involve-use-of-strenuous-exercise/text())" />
+					<uams:yesno id="involve-use-of-strenuous-exercise"
+						instancepath="/protocol/misc/radiation-safety/involve-use-of-strenuous-exercise"
+						value="${involveUseOfStrenuousExercise}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-nature-of-study-exercise">
+				<div class="questionIdentifier">Misc-7.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since the study
+						involves the use of strenuous exercise, please answer the
+						following question:</h1>
+					<span class="question-label-text">Describe the nature of the
+						study exercise. Include where the study exercise will take place,
+						the resources available to ensure participant safety during the
+						study exercise, and the qualifications of the personnel who will
+						be present during the study exercise.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="natureOfStudyExercise" select="string($protocolInstance/protocol/misc/radiation-safety/involve-use-of-strenuous-exercise/y/nature-of-study-exercise/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/misc/radiation-safety/involve-use-of-strenuous-exercise/y/nature-of-study-exercise"
+						id="nature-of-study-exercise" value="${natureOfStudyExercise}" hasNA="true"/>
+				</div>
+			</div>
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+							// Add protocol type variable to determine which disiease/condition list to show.
+							claraInstance.studyNature = "${studyNature}";
+							
+							Clara.NewSubmission.DiseaseOntologyTemplateStore = new Clara.TemplateStore({userId:claraInstance.user.id,templateType: "DISEASE_ONTOLOGY", baseParams: {
+								templateType: "DISEASE_ONTOLOGY",
+								userId: claraInstance.user.id
+							}});
+							
+							var dpanel = new Clara.ProtocolForm.ProtocolDiseasePanel(
+									{
+										studyNature : claraInstance.studyNature,
+										renderTo : 'disease-ontology',
+										height : 300
+									});
+							
+
+							
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										//itemsToAdd:[{index:0, panel: dpanel}],
+										
+										questionCls : 'question',
+										saveBetween : true,
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderPage(null);
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Miscellaneous":"<strong>New Submission</strong>: Miscellaneous",
+									wiz);
+
+							jQuery(".question-el").change(function() { processDependencies("#pageForm"); });
+
+	
+							jQuery.validator.addMethod("nctNumber", function(value, element) {
+								return this.optional(element) || /^NCT[0-9]{8}$/.test(value);
+							}, "Invalid NCT Number. NCT Numbers must start with 'NCT' and contain an 8-number code, like 'NCT12345678'.");
+							
+							jQuery.validator.addClassRules("nctNumber", {
+								  nctNumber: true,
+								  minlength: 11
+								});
+							
+							processDependencies("#pageForm");
+							Clara.NewSubmission.ReloadCriteria();
+						
+						});
+	</script>
+</div>

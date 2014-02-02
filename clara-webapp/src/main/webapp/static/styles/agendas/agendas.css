@@ -1,0 +1,357 @@
+strong {
+	font-weight:800;	
+}
+
+.agenda-list-row-pi{
+}
+
+.disabled-row{
+	color:#999;
+}
+
+.agenda-row-INCOMPLETE, .agenda-row-PENDING_CHAIR_APPROVAL {
+	background-color:#f7f7f7;	
+}
+
+.agenda-list-row span{
+	font-weight:100;
+}
+.agendaStatus_AGENDA_INCOMPLETE, .agendaStatus_AGENDA_APPROVED,.agendaStatus_MEETING_IN_PROGRESS{
+	font-weight:800 !important;
+}
+.agendaStatus_MEETING_IN_PROGRESS{
+	color:green;
+}
+.agendaStatus_CANCELLED{
+	text-decoration: line-through !important;
+	color:red;
+}
+
+#meeting-irb-logo{
+	background-image:url(../../images/uams-irb-logo.png);
+	width:400px;
+	height:38px;
+	text-indent:-10000px;
+}
+
+.roster-row-exists{
+	color:#ccc;	
+	display:none;
+}
+.agenda-list-row{
+	font-size: 13px;
+}
+
+.agenda-row-title{
+	font-size:15px;	
+	line-height:18px;
+	color:#000;
+}
+.agenda-row-type{
+	font-size:14px;	
+	color:#666;
+	width:150px;
+	float:left;
+	text-align:left;
+}
+
+.agenda-row-irbnumber{
+	font-weight:800;
+	color:#000;	
+	width:90px;
+	text-align:right;
+	float:right;
+}
+
+.agenda-row-status, .agenda-reviewer-row-alternative-reason{
+	background-color:#e3e9ed;
+	padding:2px;
+	text-align:right;
+	border:1px solid #c6d5de;
+	border-top:1px solid #eff4f8;
+	border-left:1px solid #eff4f8;
+	font-weight:100;
+	font-size:14px;
+	color:#738997;	
+	margin-bottom:4px;
+}
+
+.agenda-list-row-status{
+	color:#333;
+    font-size:12px;
+    font-weight:100;
+}
+
+.agenda-row-CANCELLED .agenda-list-row-status {
+	font-weight:100;
+	color:red;
+	text-decoration: line-through !important;
+}
+
+.agenda-list-row-date h1{
+	font-weight:800;	
+	font-size:13px;
+}
+
+.agenda-list-row-date h2{
+	font-weight:100;
+	color:#aaa;
+	font-size:11px;	
+}
+
+.agenda-row-CANCELLED h1,.agenda-row-CANCELLED h2{
+	text-decoration: line-through !important;
+	color:red;
+}
+
+.agenda-list-row-details{
+	width:116px;	
+}
+.agenda-category{
+	color:#000;
+	font-weight:800;
+}
+.agenda-form-type{
+	color:#999;
+}
+
+.agenda-item-row-noreviewers{
+	color:#666;
+	background-color:#ffcccc;	
+}
+
+.agenda-row-reviewers {
+	line-height:0.9em;
+}
+
+.agenda-items-group-header{
+	font-size:12px;
+}
+
+.x-grid3-cell-inner, .x-grid3-hd-inner {
+  white-space: normal !important; /* changed from nowrap */
+}
+
+.x-grid3-col-numberer{
+	font-size:24px;
+	line-height: 28px;
+}
+
+.x-grid3-body .x-grid3-td-numberer .x-grid3-cell-inner {color:#879dbb;}
+
+.meeting-agenda-items-count{font-weight:800 !important;color:#990000;}
+.meeting-contingency-row{font-size:22px;line-height:24px;}
+.meeting-contingency-row-user, .meeting-contingency-row-type, .meeting-contingency-row-status{
+	font-size:11px;
+	line-height:12px;	
+	color:#999;
+}
+.meeting-contingency-row-user{
+	color:#000;
+}
+div.motion-details h1{
+	font-size:16px;
+	margin:8px;
+}
+div.motion-details dl dt{
+	width:200px;
+}
+
+.meeting-agenda-date{
+	font-weight:800;
+	color:black;
+}
+.meeting-agenda-list-title{
+	font-size:16px;
+	font-weight:100 !important;
+	width:100%;
+	text-align:center;
+}
+@keyframes itemPulse {
+   0% { background-color: #ccccff; }
+  50% { background-color: #6699ff; }
+  100% { background-color: #ccccff; }
+}
+@-webkit-keyframes itemPulse {
+   0% { background-color: #ccccff; }
+  50% { background-color: #6699ff; }
+  100% { background-color: #ccccff; }
+}
+.meeting-selected-agenda-item{
+ 	background-color: #ccccff;
+ 	border:1px solid #6699ff;
+	-webkit-animation: itemPulse 2s infinite;
+	animation: itemPulse 2s infinite;
+}
+.meeting-agenda-item-status{
+	padding:8px;
+	font-size:18px;	
+	width:100%;
+}
+.meeting-agenda-item-actions{
+	font-weight:800;
+	font-size:14px;	
+	padding-top:2px;
+	margin-top:2px;
+	padding-right:16px;
+	float:right;
+}
+.meeting-agenda-item-title{
+    border-bottom:1px solid #999;
+    	padding-bottom:2px;
+	margin-bottom:2px;
+}
+.meeting-agenda-item-irbnumber{
+	font-weight:800;
+}
+
+.meeting-agenda-item-type{
+	font-weight:100;
+	font-size:14px;	
+	padding-top:2px;
+	margin-top:2px;
+	float:left;
+	color:#999999;
+}
+
+.meeting-contingency-row-user-committee{
+	background-color:#ffffcc;
+	text-transform:capitalize;
+	color:black;
+	font-size:12px;
+	line-height:13px;
+	font-weight:800;
+	border-bottom: 1px solid #cccc33;
+}
+
+.meeting-contingency-row-type-NOTE_MAJOR, .meeting-contingency-row-type-CONTINGENCY_MAJOR,.meeting-contingency-row-type-NOTE_MINOR, .meeting-contingency-row-type-CONTINGENCY_MINOR,.meeting-contingency-row-type-STUDYWIDE {
+	padding-left:20px;
+	background-repeat:no-repeat;
+	background-position:center left;
+	font-size:14px;
+	margin-bottom:4px;
+}
+.meeting-contingency-row-type-NOTE_MAJOR{
+	font-weight:800;
+	background-image:url(../../images/icn/balloon--exclamation.png);
+}
+
+#contingencyGridPanel .review-comment-row-text{
+    font-size:16px;
+    line-height:20px;
+}
+
+.meeting-contingency-row-type-CONTINGENCY_MAJOR{
+	font-weight:800;
+	color:red;
+	background-image:url(../../images/icn/exclamation-red.png);
+}
+
+.meeting-contingency-row-type-NOTE_MINOR{
+	background-image:url(../../images/icn/balloon.png);
+}
+
+.meeting-contingency-row-type-CONTINGENCY_MINOR{
+	background-image:url(../../images/icn/exclamation.png);
+    color:black;
+}
+
+.meeting-contingency-row-type-STUDYWIDE{
+	background-image:url(../../images/icn/report--exclamation.png);
+}
+
+.meeting-contingency-row-commentstatus-MET,.meeting-contingency-row-commentstatus-NOT_MET,.meeting-contingency-row-commentstatus-null,.meeting-contingency-row-letter-false,.meeting-contingency-row-letter-true{
+	text-indent:-10000px;
+	width:16px;
+	height:16px;
+	background-repeat:no-repeat;
+	margin-top:4px;
+}
+
+.meeting-contingency-row-commentstatus-MET{
+	background-image:url(../../images/icn/tick.png);
+}
+
+.meeting-contingency-row-letter-true{
+	background-image:url(../../images/icn/mail--plus.png);
+}
+
+
+.meeting-in-progress{
+	font-size:18px !important;
+	color:green;
+}
+
+.meeting-ended,.meeting-not-started{
+	font-size:18px !important;
+	color:black;
+}
+.agenda-list-row{
+	font-size:12px;
+	font-weight:800;
+}
+.agenda-list-row.agenda-list-row-visited{
+	font-size:12px;
+	font-weight:100;
+	color:#777;
+}
+.agenda-list-row.agenda-list-row-lettersent{
+	background-image:url(../../images/icn/mail-tick.png);
+	background-repeat:no-repeat;
+	background-position:0px 13px;
+	padding-left:24px;
+}
+
+.agenda-list-row-irb{
+	float:left;
+	margin-right:8px;
+	font-weight:800;
+}
+.agenda-list-row-title{
+	font-weight:100;
+	max-height:40px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}
+
+.agenda-list-row-notvisited,.agenda-list-row-notvisited table{
+	background-color:#ffdcdc;
+}
+
+.agenda-list-row-notvisited table{
+	border-left:4px solid red;
+	}
+
+.agenda-list-row-notvisited .agenda-list-row-id{
+	font-weight:800;
+	color:red;
+}
+.agenda-list-row-visited .agenda-list-row-id{
+	font-weight:100;
+}
+.agenda-list-row-type{
+	font-weight:800;
+	font-size:14px;
+	line-height:18px;
+	text-align:right;
+	color:#333;
+}
+
+.attend-row-note{
+	font-weight:100;
+	color:#666;
+}
+.attend-row-note span{
+	color:#000;
+}
+
+.vote-row-not-voting{
+	color:#999;
+	font-weight:100;
+}
+
+.vote-row-voting{
+	color:#000;
+	font-weight:800 !important;
+}

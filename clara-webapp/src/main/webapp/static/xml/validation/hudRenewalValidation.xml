@@ -1,0 +1,27 @@
+<rules>
+	<rule path="/hud-renewal/renewal-application/device-has-been-used-for" value-type="java.lang.String" pagename="Renewal Application" pageref="renewal-application">
+		<constraint type="REQUIRED" data="" error-msg="To indiciate how many times the device has been used in the past year is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/hud-renewal/renewal-application/unanticipated-problems-occurred" value-type="java.lang.String" pagename="Renewal Application" pageref="renewal-application">
+		<constraint type="REQUIRED" data="" error-msg="To indiciate if any unanticipated problems have occurred in the past year is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/hud-renewal/renewal-application/unanticipated-problems-occurred/y/explain" value-type="java.lang.String" pagename="Renewal Application" pageref="renewal-application">
+		<constraint type="REQUIRED" data="" error-msg="To describe why some unanticipated problems have occurred in the past year is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/hud-renewal/renewal-application/unanticipated-problems-occurred" value-type="java.lang.String" pagename="Renewal Application" pageref="renewal-application">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/hud-renewal/renewal-application/change-in-fda-approval" value-type="java.lang.String" pagename="Renewal Application" pageref="renewal-application">
+		<constraint type="REQUIRED" data="" error-msg="To indiciate if there has been any change in the FDA approval status of the device is required!" level="ERROR"/>	
+	</rule>
+	<rule path="/hud-renewal/renewal-application/change-in-fda-approval/y/explain" value-type="java.lang.String" pagename="Renewal Application" pageref="renewal-application">
+		<constraint type="REQUIRED" data="" error-msg="To describe why there has been any change in the FDA approval status of the device is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/hud-renewal/renewal-application/change-in-fda-approval" value-type="java.lang.String" pagename="Renewal Application" pageref="renewal-application">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+</rules>

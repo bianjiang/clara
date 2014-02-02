@@ -1,0 +1,106 @@
+<form name="Human Subject Research Determination" id="human-subject-research-determination" type="HUMAN_SUBJECT_RESEARCH_DETERMINATION">
+	<page name="Start" id="first-page">
+		<section>
+			<question id="question-study-title" parent-id="" parent-value="" header="">
+				<question-label>What is the title of the project?</question-label>
+				<question-value instance-path="/hsrd/title" value-type="textarea" />
+			</question>
+			<question id="question-project-take-place" parent-id="" parent-value="" header="">
+				<question-label>Where will the project take place?</question-label>
+				<question-value  instance-path="/hsrd/project-take-place" lookup-path="site-responsible" value-type="select" />
+			</question>
+			<question id="question-project-take-place-other-desc" parent-id="question-project-take-place" parent-value="other" header="Other">
+				<question-label>Please describe:</question-label>
+				<question-value  instance-path="/hsrd/project-take-place/other/desc" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="Basic Details" id="basic-details">
+		<section>
+			<question id="question-study-lay-summary" parent-id="" parent-value="" header="">
+				<question-label>What is the lay summary of the project?</question-label>
+				<question-value instance-path="/hsrd/basic-details/study-lay-summary" value-type="textarea" />
+			</question>
+			<question id="question-project-primary-intent" parent-id="" parent-value="" header="">
+				<question-label>What is the primary intent of the project?</question-label>
+				<question-value  instance-path="/hsrd/basic-details/project-primary-intent" lookup-path="project-primary-intent" value-type="select" />
+				<sub-questions>
+					<question id="question-project-primary-intent-other" parent-id="" parent-value="" header="Other">
+						<question-label>Please describe:</question-label>
+						<question-value  instance-path="/hsrd/basic-details/project-primary-intent/other/text" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			
+			<question id="question-still-conducted-as-proposed" parent-id="" parent-value="" header="">
+				<question-label>Would this project still be conducted as proposed if there were no possibility of any form of academic recognition for the project (for example, no possibility of publication in a journal or presentation at a conference)?</question-label>
+				<question-value instance-path="/hsrd/basic-details/still-conducted-as-proposed" value-type="yesNo" />
+			</question>
+		</section>
+	</page>
+	<page name="Data Collection" id="subject-data-collection">
+		<section>
+			<question id="question-involve-obtaining-information" parent-id="" parent-value="" header="">
+				<question-label>Does the project involve obtaining information about living individuals?</question-label>
+				<question-value  instance-path="/hsrd/subject-data-collection/involve-obtaining-information" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-involve-obtaining-information-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Please explain why or why not</question-label>
+						<question-value  instance-path="/hsrd/subject-data-collection/involve-obtaining-information/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-involve-intervention-or-interaction" parent-id="" parent-value="" header="">
+				<question-label>Does the project involve intervention or interaction with living individuals?</question-label>
+				<question-value  instance-path="/hsrd/subject-data-collection/involve-intervention-or-interaction" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-involve-intervention-or-interaction-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Please explain why or why not</question-label>
+						<question-value  instance-path="/hsrd/subject-data-collection/involve-intervention-or-interaction/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-readily-ascertained-or-associated" parent-id="" parent-value="" header="">
+				<question-label>Is the information that will be obtained individually identifiable?</question-label>
+				<question-value  instance-path="/hsrd/subject-data-collection/readily-ascertained-or-associated" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-readily-ascertained-or-associated-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Please explain why or why not</question-label>
+						<question-value  instance-path="/hsrd/subject-data-collection/readily-ascertained-or-associated/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-no-observation-or-recording" parent-id="" parent-value="" header="">
+				<question-label>Is the information about behaviors that occur in contexts in which individuals can reasonably expect that no observation or recording is taking place?</question-label>
+				<question-value  instance-path="/hsrd/subject-data-collection/no-observation-or-recording" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-no-observation-or-recording-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Please explain why or why not</question-label>
+						<question-value  instance-path="/hsrd/subject-data-collection/no-observation-or-recording/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-specific-purposes" parent-id="" parent-value="" header="">
+				<question-label>Is the information provided by individuals for specific purposes, and can individuals reasonably expect the information will not be made public?</question-label>
+				<question-value  instance-path="/hsrd/subject-data-collection/specific-purposes" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-specific-purposes-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Please explain why or why not</question-label>
+						<question-value  instance-path="/hsrd/subject-data-collection/specific-purposes/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-hsrd-study-involves" parent-id="" parent-value="" header="">
+				<question-label>Check all of the following that the project will involve.</question-label>
+				<question-value  instance-path="/hsrd/subject-data-collection/study-involves" lookup-path="hsrd-study-involves" value-type="checkbox" />
+			</question>
+		</section>
+	</page>
+	<page name="Staff" id="staff">
+		<section>
+			<question id="question-staff" parent-id="" parent-value="" header="">
+				<question-value instance-path="/hsrd/staffs/staff" value-type="staff" />
+			</question>
+		</section>
+	</page>
+</form>

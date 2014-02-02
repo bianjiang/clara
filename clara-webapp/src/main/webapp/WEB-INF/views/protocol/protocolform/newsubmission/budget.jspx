@@ -1,0 +1,458 @@
+<div class="clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title)" />
+
+	<x:set var="hasClaraBudget" select="string($protocolInstance/protocol/budget-created)"/>
+	<x:set var="hasCrimsonBudget" select="string($protocolInstance/protocol/crimson/has-budget)"/>
+	<x:set var="crimsonId" select="string($protocolInstance/protocol/crimson/crimsonId)"/>
+	<x:set var="crimsonStatus" select="string($protocolInstance/protocol/crimson/crimson-status)"/>
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="budget"
+			protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+			<div class="question" id="bq00">
+				<h1 class="subsection-question-label">IRB Fees</h1>
+				<div class="questionIdentifier" style="display:none;">Budget-0.</div>
+				<div class="questionLabel"><span class="question-label-text" style="display:none;">IRB Fees</span></div>
+				<div class="questionValue">
+				<h4>Please review the following IRB fees that will be associated with this study (see help below for details)</h4><br/>
+					<div id="budget-irb-fee-panel"><!-- // --></div>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="irb-fee" />
+				</div>
+			</div>
+
+			
+			<div class="question" id="question-bq01">
+				<div class="questionIdentifier">Budget-1.1-1.12.</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Does your research involve any of the following:</h1>
+				</div>
+				
+				<div class="questionValue">
+					<x:set var="q"
+						select="string($protocolInstance/protocol/budget/potentially-billed/text())" />
+					<uams:yesno id="q1"
+						instancepath="/protocol/budget/potentially-billed" value="${q}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>Procedures that could potentially be billed to a UAMS patient or a third party payer?</strong></span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				
+				<div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/uams-clinics/text())" />
+					<uams:yesno id="involves-uams-clinics"
+						instancepath="/protocol/budget/involves/uams-clinics" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Clinics</strong>?</span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				
+				<div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/uams-inpatient-units/text())" />
+					<uams:yesno id="involves-uams-inpatient-units"
+						instancepath="/protocol/budget/involves/uams-inpatient-units" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Inpatient Units</strong>?</span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				
+				<div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/uams-ss-ou/text())" />
+					<uams:yesno id="involves-uams-ss-ou"
+						instancepath="/protocol/budget/involves/uams-ss-ou" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Short Stay or Infusion Center</strong>?</span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				
+				<!-- <div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/uams-infusion/text())" />
+					<uams:yesno id="involves-uams-infusion"
+						instancepath="/protocol/budget/involves/uams-infusion" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text">Does your protocol involve <strong>Infusion Center</strong>?</span></div>
+				<div class="clearQuestionRow"> -->
+				
+					<!-- // -->
+				<!-- </div> -->
+				
+				<div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/uams-clinicallab/text())" />
+					<uams:yesno id="involves-uams-clinicallab"
+						instancepath="/protocol/budget/involves/uams-clinicallab" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Clinical Laboratory Services</strong>?</span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				
+				<div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/uams-radiology/text())" />
+					<uams:yesno id="involves-uams-radiology"
+						instancepath="/protocol/budget/involves/uams-radiology" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Radiology Procedures and Services</strong>?</span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				
+				<div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/uams-pharmacy/text())" />
+					<uams:yesno id="involves-uams-pharmacy"
+						instancepath="/protocol/budget/involves/uams-pharmacy" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Pharmacy (Research, Inpatient, or Outpatient) Services</strong>?</span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				
+				<div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/uams-other/text())" />
+					<uams:yesno id="involves-uams-other"
+						instancepath="/protocol/budget/involves/uams-other" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>Other UAMS Clinical, Diagnostic, or Therapeutic Services (ECG, Pulmonary Functions, ECHO, etc.)</strong>?</span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				
+				<div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/uams-supplies/text())" />
+					<uams:yesno id="involves-uams-supplies"
+						instancepath="/protocol/budget/involves/uams-supplies" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>Any supplies from UAMS Central Supply</strong>?</span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				
+				<div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/fgp-fees/text())" />
+					<uams:yesno id="involves-fgp-fees"
+						instancepath="/protocol/budget/involves/fgp-fees" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>Professional fees billed through the Faculty Group Practice</strong>?</span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				
+				<div class="questionValue">
+					<x:set var="bq2"
+						select="string($protocolInstance/protocol/budget/involves/industry-support/text())" />
+					<uams:yesno id="involves-industry-support"
+						instancepath="/protocol/budget/involves/industry-support" value="${bq2}"
+						validation="required" />
+				</div><div class="questionLabel"><span class="question-label-text"><strong>Funds, drugs, devices, or other support from industry</strong>?</span></div>
+				<div class="clearQuestionRow">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="budget-involves" />
+				</div>
+			</div>
+			
+			
+			
+			
+			<div class="question" id="question-charge-for-device">
+				<div class="questionIdentifier">Budget-2.</div>
+				<div class="questionLabel"><span class="question-label-text">Does the device manufacturer plan to charge 
+				UAMS for the device?</span></div>
+				<div class="questionValue">
+					<x:set var="chargeForDevice"
+						select="string($protocolInstance/protocol/budget/charge-for-device/text())" />
+					<uams:yesno id="charge-for-device"
+						instancepath="/protocol/budget/charge-for-device" value="${chargeForDevice}"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-test-intervention" data-subsection-title="National Coverage Determination">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">National Coverage Determination</h1>
+					<div class="questionIdentifier">Budget-3.</div>
+					<div class="questionLabel"><span class="question-label-text">Does the principal purpose of the
+						trial test whether the intervention potentially improve the
+						participants' health outcomes?</span></div>
+				</div>
+				<div class="questionValue">
+					<x:set var="testIntervention"
+						select="string($protocolInstance/protocol/budget/test-intervention/text())" />
+					<uams:yesno id="test-intervention"
+						instancepath="/protocol/budget/test-intervention"
+						value="${testIntervention}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionLabel">Please explain (required if answer is No)</div>
+				<div class="questionValue">
+					<x:set var="testInterventionExplain" select="string($protocolInstance/protocol/budget/test-intervention/explain/text())" />
+					<uams:textarea instancepath="/protocol/budget/test-intervention/explain" value="${testInterventionExplain}" id="test-intervention-explain" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" id="question-is-trial-well-supported" data-subsection-title="National Coverage Determination">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">National Coverage Determination</h1>
+					<div class="questionIdentifier">Budget-4.</div>
+					<div class="questionLabel"><span class="question-label-text">Is the trial well-supported by
+						available scientific and medical information or intended to clarify
+						or establish the health outcomes of interventions already in common
+						clinical use?</span></div>
+				</div>
+				<div class="questionValue">
+					<x:set var="isTrialWellSupported"
+						select="string($protocolInstance/protocol/budget/is-trial-well-supported/text())" />
+					<uams:yesno id="is-trial-well-supported"
+						instancepath="/protocol/budget/is-trial-well-supported"
+						value="${isTrialWellSupported}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-duplicate-existing-studies" data-subsection-title="National Coverage Determination">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">National Coverage Determination</h1>
+					<div class="questionIdentifier">Budget-5.</div>
+					<div class="questionLabel"><span class="question-label-text">Does the trial unjustifiably duplicate any existing studies?</span></div>
+				</div>
+				<div class="questionValue">
+					<x:set var="notDuplicateExistingStudies"
+						select="string($protocolInstance/protocol/budget/duplicate-existing-studies/text())" />
+					<uams:yesno id="duplicate-existing-studies"
+						instancepath="/protocol/budget/duplicate-existing-studies"
+						value="${notDuplicateExistingStudies}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionLabel">Please explain (required if answer is Yes)</div>
+				<div class="questionValue">
+					<x:set var="notDuplicateExistingStudiesExplain" select="string($protocolInstance/protocol/budget/duplicate-existing-studies/explain/text())" />
+					<uams:textarea instancepath="/protocol/budget/duplicate-existing-studies/explain" value="${notDuplicateExistingStudiesExplain}" id="duplicate-existing-studies-explain" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-trial-design-appropriate-to-answer" data-subsection-title="National Coverage Determination">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">National Coverage Determination</h1>
+					<div class="questionIdentifier">Budget-6.</div>
+					<div class="questionLabel"><span class="question-label-text">Is the trial design appropriate to answer the research question?</span></div>
+				</div>
+				<div class="questionValue">
+					<x:set var="trialDesignAppropriateToAnswer"
+						select="string($protocolInstance/protocol/budget/trial-design-appropriate-to-answer/text())" />
+					<uams:yesno id="trial-design-appropriate-to-answer"
+						instancepath="/protocol/budget/trial-design-appropriate-to-answer"
+						value="${trialDesignAppropriateToAnswer}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-trial-sponsored-by-organization" data-subsection-title="National Coverage Determination">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">National Coverage Determination</h1>
+					<div class="questionIdentifier">Budget-7.</div>
+					<div class="questionLabel"><span class="question-label-text">Is the trial sponsored by a
+						credible organization or individual capable of executing the
+						proposed trial successfully?</span></div>
+				</div>
+				<div class="questionValue">
+					<x:set var="trialSponsoredByOrganization"
+						select="string($protocolInstance/protocol/budget/trial-sponsored-by-organization/text())" />
+					<uams:yesno id="trial-sponsored-by-organization"
+						instancepath="/protocol/budget/trial-sponsored-by-organization"
+						value="${trialSponsoredByOrganization}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-trial-in-compliance" data-subsection-title="National Coverage Determination">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">National Coverage Determination</h1>
+					<div class="questionIdentifier">Budget-8.</div>
+					<div class="questionLabel"><span class="question-label-text">Is the trial in compliance with
+						Federal regulations relating to the protection of human subjects?</span></div>
+				</div>
+				<div class="questionValue">
+					<x:set var="trialInCompliance"
+						select="string($protocolInstance/protocol/budget/trial-in-compliance/text())" />
+					<uams:yesno id="trial-in-compliance"
+						instancepath="/protocol/budget/trial-in-compliance"
+						value="${trialInCompliance}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-all-aspects-according-to-standards" data-subsection-title="National Coverage Determination">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">National Coverage Determination</h1>
+					<div class="questionIdentifier">Budget-9.</div>
+					<div class="questionLabel"><span class="question-label-text">Are all aspects of the trial
+						conducted according to the appropriate standards of scientific
+						integrity?</span></div>
+				</div>
+				<div class="questionValue">
+					<x:set var="allAspectsAccordingToStandards"
+						select="string($protocolInstance/protocol/budget/all-aspects-according-to-standards/text())" />
+					<uams:yesno id="all-aspects-according-to-standards"
+						instancepath="/protocol/budget/all-aspects-according-to-standards"
+						value="${allAspectsAccordingToStandards}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-need-budget-in-clara">
+				<div class="questionLabel">
+					<div class="questionIdentifier">Budget-10.</div>
+					<div class="questionLabel"><span class="question-label-text">Would you like to recreate the budget for this study in CLARA? Doing so will require one-time manual entry of a budget into the CLARA system. </span></div>
+				</div>
+				<div class="questionValue">
+					<x:set var="needBudgetInClara"
+						select="string($protocolInstance/protocol/budget/need-budget-in-clara/text())" />
+					<uams:yesno id="need-budget-in-clara"
+						instancepath="/protocol/budget/need-budget-in-clara"
+						value="${needBudgetInClara}" validation="required" />
+				</div>
+			</div>
+
+			<div id="question-budget-determination-answer"
+				class="question" data-subsection-title="Budget Requirement Determination">
+				<div class="questionLabel">
+					<h1 class="subsection-question-label">Budget Requirement Determination</h1>
+					<div class="questionIdentifier">Budget-11.</div>
+					<div class="questionLabel question-label-text" style="display:none;">Is a budget required for this study?</div>
+				</div>
+				<div class="questionValue">
+					<div class="question-el budget-determination-answer">
+						<div class="question-budget-builder-yes">
+							Based on your response to the billing questions, <strong>a budget and budget review is required for this study</strong>.
+							<c:if test="${hasClaraBudget ne 'y'}">
+								<a class="question-budget-builder-openlink" target="_blank" href="#"><span id="budget-builder-link-text">Click here to open the Clara Budget Builder</span></a>
+							</c:if>
+							
+						</div>
+						<div class="question-budget-builder-no">Based on the NO responses to the preceding questions, <strong>you are not required to submit a budget for this study</strong>.</div>
+						<div class="question-budget-builder-created">
+							
+							<c:if test="${hasCrimsonBudget eq 'yes'}">
+								<c:set var="crimsonUrl" value="http://crms.uams.edu"/>
+								<div style="margin-top:16px;margin-bottom:16px;"><a class="question-budget-crimson-openlink" style="color:#0066FF;" target="_blank" href="${crimsonUrl}">To view the budget <span style="font-weight:800;color:#000099;">in CRIMSON</span>, click here.</a></div>
+							</c:if>
+							
+							<a class="question-budget-builder-openlink" style="color:#0066FF;" 
+								target="_blank" href="#">
+								<c:if test="${hasCrimsonBudget eq 'yes'}">If you want to create a new budget for this study <span style="font-weight:800;color:#000099;">in Clara</span>, </c:if> Click here to open the Clara Budget Builder.</a>
+						</div>
+					</div>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="budget" />
+				</div>
+			</div>
+
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							
+							var budUrl = appContext + "/protocols/"
+									+ claraInstance.id + "/protocol-forms/"
+									+ claraInstance.form.id
+									+ "/budgets/budgetbuilder";
+							jQuery(".question-budget-builder-openlink").attr(
+									"href", budUrl);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+
+							claraInstance.budget.defaultFA = parseFloat('${defaultFA}');
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'funding-sources',
+										nextTab : 'contract',
+										renderTo : 'page-wizard-wrapper'
+									});
+							renderIrbFeePanel();
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Budget and Coverage":"<strong>New Submission</strong>: Budget and Coverage",
+									wiz);
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+							//renderQuestionWizard('page-wizard-wrapper', 'question', true, 'advertising', 'documents');
+						});
+	</script>
+</div>
+

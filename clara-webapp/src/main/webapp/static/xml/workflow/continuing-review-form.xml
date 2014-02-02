@@ -1,0 +1,1451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<business-object-status>
+	<business-object type="PROTOCOL">
+		<form type="CONTINUING_REVIEW">
+			<form-status value="" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="">
+						<actions>
+							<action type="CREATE" condition="">
+								<change-status>
+									<!-- <status status="DRAFT" /> -->									
+									<form-status status="DRAFT" />
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="NEW_CONTINUING_REVIEW_CREATED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A continuing review form has been created by {USER_WITH_EMAIL_LINK}.</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="DRAFT" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="review">
+						<actions>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing review has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_PI" set-form-submit-date="true" email-template-identifier="">
+								<change-status>
+									<!-- <status status="UNDER_IRB_PREREVIEW" /> -->
+									<form-status status="UNDER_IRB_PREREVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_ASSIGNER" status="PENDING_REVIEWER_ASSIGNMENT" />
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event>SET_FORM_SUBMIT_DATE</event>
+								</events>
+								<notifications>
+									<!-- <notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_TO_IRB_PREREVIEW">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_SUBMITTED_TO_IRB_PREREVIEW" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review has been submitted to IRB for pre-review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	 -->
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review Form has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and (count(/drug[@status[.=&quot;FDA-Approved Drug for Non-Approved Use&quot;]])>0 or count(/drug[@status[.=&quot;Investigational New Drug&quot;]])>0 or count(/device[@status[.=&quot;FDA-Approved Device for Non-approved Use&quot;]])>0 or count(/device[@status[.=&quot;Investigational New Device&quot;]])>0))" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMIT_TO_REGULATORY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review has been submitted to IRB Assigner for reviewer assignment by PI ({USER_WITH_EMAIL_LINK}) and Regulatory group is notified. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
+									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review has been submitted and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT">
+								<change-status>
+									<!-- <status status="PENDING_PI_ENDORSEMENT" /> -->
+									<form-status status="PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="PENDING_PI_ENDORSEMENT" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="review">
+						<actions>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing review has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_PI" set-form-submit-date="true" email-template-identifier="">
+								<change-status>
+									<!-- <status status="UNDER_IRB_PREREVIEW" /> -->
+									<form-status status="UNDER_IRB_PREREVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_ASSIGNER" status="PENDING_REVIEWER_ASSIGNMENT" />
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event>SET_FORM_SUBMIT_DATE</event>
+								</events>
+								<notifications>
+									<!-- <notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_TO_IRB_PREREVIEW">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_SUBMITTED_TO_IRB_PREREVIEW" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review has been submitted to IRB for pre-review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification> -->		
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review Form has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and (count(/drug[@status[.=&quot;FDA-Approved Drug for Non-Approved Use&quot;]])>0 or count(/drug[@status[.=&quot;Investigational New Drug&quot;]])>0 or count(/device[@status[.=&quot;FDA-Approved Device for Non-approved Use&quot;]])>0 or count(/device[@status[.=&quot;Investigational New Device&quot;]])>0))" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMIT_TO_REGULATORY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review has been submitted to IRB Assigner for reviewer assignment by PI ({USER_WITH_EMAIL_LINK}) and Regulatory group is notified. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review has been submitted and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT">
+								<change-status>
+									<!-- <status status="PENDING_PI_ENDORSEMENT" /> -->
+									<form-status status="PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="REVISION_REQUESTED" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="">
+						<actions>
+							<action type="REVISE">
+								<change-status>
+									<!-- <status status="UNDER_REVISION" /> -->									
+									<form-status status="UNDER_REVISION" />
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="PROTOCOL_BEING_REVISED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The IRB# {PROTOCOL_IDENTIFIER} is being revised by {USER_WITH_EMAIL_LINK}.</span></log>
+								</logs>
+							</action>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="UNDER_REVISION" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>SIGN_SUBMIT</value>
+								<desc>Sign and Submit</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing review has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="CONTINUING_REVIEW_REVISION_SUBMITTED">
+								<change-status>
+									<!-- <status status="BEFORE_REVISION_REQUESTED_STATUS" /> -->
+									<form-status status="BEFORE_REVISION_REQUESTED_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_REVISION_SUBMITTED">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_REVISION_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} revision has been submitted to {REVISION_REQUEST_COMMITTEE} for review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review Form has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="CONTINUING_REVIEW_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+								<change-status>
+									<!-- <status status="REVISION_PENDING_PI_ENDORSEMENT" /> -->
+									<form-status status="REVISION_PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} revision has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="REVISION_PENDING_PI_ENDORSEMENT" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>SIGN_SUBMIT</value>
+								<desc>Sign and Submit</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing review has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="CONTINUING_REVIEW_REVISION_SUBMITTED">
+								<change-status>
+									<!-- <status status="BEFORE_REVISION_REQUESTED_STATUS" /> -->
+									<form-status status="BEFORE_REVISION_REQUESTED_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_REVISION_SUBMITTED">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_REVISION_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} revision has been submitted to {REVISION_REQUEST_COMMITTEE} for review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review Form has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="CONTINUING_REVIEW_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+								<change-status>
+									<!-- <status status="REVISION_PENDING_PI_ENDORSEMENT" /> -->
+									<form-status status="REVISION_PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} revision has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="">
+						<actions>
+							<action type="REVISE">
+								<change-status>
+									<!-- <status status="UNDER_REVISION_MAJOR_CONTINGENCIES" /> -->									
+									<form-status status="UNDER_REVISION_MAJOR_CONTINGENCIES" />
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="PROTOCOL_BEING_REVISED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The IRB# {PROTOCOL_IDENTIFIER} is being revised by {USER_WITH_EMAIL_LINK}.</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="IRB_DEFERRED_WITH_MINOR_CONTINGENCIES" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="">
+						<actions>
+							<action type="REVISE">
+								<change-status>
+									<!-- <status status="UNDER_REVISION_MINOR_CONTINGENCIES" /> -->									
+									<form-status status="UNDER_REVISION_MINOR_CONTINGENCIES" />
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="PROTOCOL_BEING_REVISED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The IRB# {PROTOCOL_IDENTIFIER} is being revised by {USER_WITH_EMAIL_LINK}.</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="UNDER_REVISION_MAJOR_CONTINGENCIES" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>SIGN_SUBMIT</value>
+								<desc>Sign and Submit</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="">
+								<change-status>
+									<!-- <status status="PENDING_IRB_REVIEW_ASSIGNMENT" /> -->
+									<form-status status="PENDING_IRB_REVIEW_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_ASSIGNMENT" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_TO_IRB_OFFICE">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_TO_IRB_OFFICE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to major contingencies has been submitted to IRB Office for review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review Form has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="">
+								<change-status>
+									<!-- <status status="REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT" /> -->
+									<form-status status="REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to major contingencies has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>SIGN_SUBMIT</value>
+								<desc>Sign and Submit</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="">
+								<change-status>
+									<!-- <status status="PENDING_IRB_REVIEW_ASSIGNMENT" /> -->
+									<form-status status="PENDING_IRB_REVIEW_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_ASSIGNMENT" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_TO_IRB_OFFICE">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_TO_IRB_OFFICE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to major contingencies has been submitted to IRB Office for review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review Form has been submitted PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="">
+								<change-status>
+									<!-- <status status="REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT" /> -->
+									<form-status status="REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to major contingencies has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="UNDER_REVISION_MINOR_CONTINGENCIES" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>SIGN_SUBMIT</value>
+								<desc>Sign and Submit</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="">
+								<change-status>
+									<!-- <status status="PENDING_IRB_REVIEW_ASSIGNMENT" /> -->
+									<form-status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT"
+											store-xml-data="True" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to minor contingencies has been submitted to IRB Office for expedited review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review Form has been submitted by PI ({USER_WITH_EMAIL_LINK})s. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="">
+								<change-status>
+									<!-- <status status="REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT" /> -->
+									<form-status status="REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to minor contingencies has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>SIGN_SUBMIT</value>
+								<desc>Sign and Submit</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="">
+								<change-status>
+									<!-- <status status="PENDING_IRB_REVIEW_ASSIGNMENT" /> -->
+									<form-status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT"
+											store-xml-data="True" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to minor contingencies has been submitted to IRB Office for expedited review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review Form has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="">
+								<change-status>
+									<!-- <status status="REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT" /> -->
+									<form-status status="REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to minor contingencies has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="UNDER_IRB_PREREVIEW" form-committee-status="PENDING_REVIEWER_ASSIGNMENT">
+				<committee name="IRB_ASSIGNER">
+					<review-page page-name="null">
+						<!-- no review page, assign reviewer only -->
+						<actions>
+							<action type="ASSIGN_REVIEWER" condition="NO_CONSENT">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_ASSIGNER" status="REVIEWER_ASSIGNED" />
+<!-- 										<form-committee-status -->
+<!-- 											involved-committee="IRB_PROTOCOL_REVIEWER" status="IN_REVIEW" /> -->
+										<form-committee-status
+											involved-committee="IRB_PREREVIEW" status="IN_REVIEW"
+											/>
+									</form-committee-statuses>
+								</change-status>
+								<!-- <notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="IRB_REVIEWER_ASSIGNED">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="IRB_REVIEWER_ASSIGNED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">{IRB_ASSIGNER_ASSIGNED_REVIEWER} has been assigned to the study. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications> -->
+								<logs>
+									<log log-type="ACTION" event-type="IRB_ASSIGNER_ASSIGNED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">{IRB_ASSIGNER_ASSIGNED_REVIEWER} has been assigned to the study.</span></log>
+								</logs>
+							</action>								
+							<action type="ASSIGN_REVIEWER" condition="WITH_CONSENT">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_ASSIGNER" status="REVIEWER_ASSIGNED" />
+										<!-- <form-committee-status
+											involved-committee="IRB_PROTOCOL_REVIEWER" status="IN_REVIEW" /> -->
+										<form-committee-status
+											involved-committee="IRB_CONSENT_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_ASSIGNER_ASSIGNED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">{IRB_ASSIGNER_ASSIGNED_REVIEWER} has been assigned to IRB# {PROTOCOL_IDENTIFIER}.</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="ANY" form-committee-status="ANY">
+				<committee name="IRB_ASSIGNER">
+					<review-page page-name="null">
+						<!-- no review page, assign reviewer only -->
+						<actions>								
+							<action type="UPDATE_REVIEWER" condition="">
+								<logs>
+									<log log-type="ACTION" event-type="IRB_ASSIGNER_ASSIGNED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">{IRB_ASSIGNER_ASSIGNED_REVIEWER} has been assigned to IRB# {PROTOCOL_IDENTIFIER}.</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="UNDER_IRB_PREREVIEW" form-committee-status="ANY">
+				<!-- <committee name="IRB_PROTOCOL_REVIEWER">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>CHECK_PROTOCOL_AND_OTHER_DOCUMENTS</value>
+								<desc>Protocol Checked</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="CHECK_PROTOCOL_AND_OTHER_DOCUMENTS"
+								condition="IRB_PREREVIEW_COMPLETED">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_PROTOCOL_REVIEWER" status="APPROVED"
+											/>
+										<form-committee-status
+											involved-committee="IRB_PREREVIEW" status="IN_REVIEW"
+											/>
+									</form-committee-statuses>
+								</change-status>
+							</action>
+							<action type="CHECK_PROTOCOL_AND_OTHER_DOCUMENTS"
+								condition="IRB_PREREVIEW_NOT_COMPLETED">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_PROTOCOL_REVIEWER" status="APPROVED" />
+									</form-committee-statuses>
+								</change-status>
+							</action>
+						</actions>
+					</review-page>
+				</committee>	 -->			
+				<committee name="IRB_CONSENT_REVIEWER">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>CHECK_CONSENT_FORMS</value>
+								<desc>Consent Checked</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="CHECK_CONSENT_FORMS" condition="">
+								<change-status>									
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_CONSENT_REVIEWER" status="APPROVED"
+											note="" />
+										<form-committee-status
+											involved-committee="IRB_PREREVIEW" status="IN_REVIEW"
+											/>
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_CONSENT_REVIEWER_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB Consent Reviewer has completed review. IRB Consent Reviewer ({USER_WITH_EMAIL_LINK}) has checked the consent of the study.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>							
+								</logs>
+							</action>
+							<!-- <action type="CHECK_CONSENT_FORMS" condition="IRB_PREREVIEW_NOT_COMPLETED">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_CONSENT_REVIEWER" status="APPROVED"
+											note="" />
+									</form-committee-statuses>
+								</change-status>
+							</action> -->
+						</actions>
+					</review-page>
+				</committee>
+				<committee name="IRB_PREREVIEW">
+					<review-page page-name="committee-review" review-form-name="cr-irb-prereview">
+						<decisions>
+							<decision>
+								<value>APPROVED</value>
+								<desc>Approved and move to Pending IRB Review Assignment</desc>
+							</decision>
+							<decision>
+								<value>REVISION_REQUESTED</value>
+								<desc>Revision Requested (Send back to PI with a IRB Pre-review Contingencies Letter)</desc>
+								<email-template-identifiers>
+									<email-template-identifier>IRB_PREREVIEW_CONTINGENCIES_LETTER</email-template-identifier>
+								</email-template-identifiers>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="APPROVED">
+								<change-status>				
+									<!-- <status status="PENDING_IRB_REVIEW_ASSIGNMENT" /> -->
+									<form-status status="PENDING_IRB_REVIEW_ASSIGNMENT" />					
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_ASSIGNMENT"
+											note="" />
+										<form-committee-status
+											involved-committee="IRB_PREREVIEW" status="APPROVED"
+											/>
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_PREREVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by the IRB Pre-review ({USER_WITH_EMAIL_LINK}). &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; </span></log>							
+								</logs>
+							</action>
+							<action type="REVISION_REQUESTED">
+								<change-status>
+									<!-- <status status="REVISION_REQUESTED" /> -->
+									<form-status status="REVISION_REQUESTED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_PREREVIEW" status="REVISION_REQUESTED"
+											/>
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="IRB Pre-review Contingencies Letter" doc-type="IRB Pre-review Contingencies Letter" email-template-identifier="IRB_PREREVIEW_CONTINGENCIES_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="IRB_PREREVIEW_CONTINGENCIES_LETTER" event-type="IRB_PREREVIEW_REVISION_REQUESTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been rejected by the IRB Pre-review. A IRB Pre-review Contingencies Letter ({LETTER_LINK}) has been sent to the PI. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>		
+			</form-status>
+			<form-status value="PENDING_IRB_REVIEW_ASSIGNMENT" form-committee-status="ANY"> <!-- the status of the Protocol is PENDING_IRB_REVIEW_ASSIGNMENT -->
+				<committee name="IRB_OFFICE"> <!-- the committee that's able to make these actions -->				
+					<review-page page-name="agenda-queue">
+						<!-- no review page, assign reviewer only -->
+						<actions>
+							<action type="FULL_BOARD">
+								<change-status>
+									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
+									<form-status status="IRB_AGENDA_ASSIGNED" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_AGENDA_ASSIGNED"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}"
+										date-time="{NOW_DATETIME}"><span class="history-log-message">
+										IRB# {PROTOCOL_IDENTIFIER} has been assigned to agenda.
+									</span></log>
+								</logs>
+							</action>
+							<action type="EXEMPT">
+								<change-status>
+									<!-- <status status="EXEMPT_IRB_REVIEW" /> -->
+									<form-status status="PENDING_EXEMPT_IRB_REVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXEMPT_REVIEWER" status="PENDING_EXEMPT_IRB_REVIEW"
+											store-xml-data="True" />
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="EXEMPT_IRB_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_EXEMPT_AND_REVIEWER_ASSIGNED"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}"
+										date-time="{NOW_DATETIME}"><span class="history-log-message">
+										IRB# {PROTOCOL_IDENTIFIER} has been determined to be qualified for
+										exempted review. A exempt IRB reviewer
+										({ASSIGNED_EXEMPT_REVIEWER_FULLNAME})
+										has been assigned to review the study.
+									</span></log>
+								</logs>
+							</action>
+							<action type="EXPEDITED">
+								<change-status>
+									<!-- <status status="EXPEDITED_IRB_REVIEW" /> -->
+									<form-status status="PENDING_EXPEDITED_IRB_REVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXPEDITED_REVIEWER" status="PENDING_EXPEDITED_IRB_REVIEW"
+											store-xml-data="True" />
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="EXPEDITED_IRB_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_EXPEDITED_AND_REVIEWER_ASSIGNED"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}"
+										date-time="{NOW_DATETIME}"><span class="history-log-message">
+										IRB# {PROTOCOL_IDENTIFIER} has been determined to be qualified for
+										expedited review. A expedited IRB reviewer
+										({ASSIGNED_EXPEDITED_REVIEWER_FULLNAME})
+										has been assigned to review the study.
+									</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="IRB_AGENDA_ASSIGNED" form-committee-status="ANY">
+				<committee name="IRB_REVIEWER">
+					<review-page page-name="committee-review">
+						<actions>
+							<action type="ASSIGN_REVIEWER" email-template-identifier="AGENDA_ITEM_REVIEWER_ASSIGNED_LETTER">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_REVIEWR_ASSIGNED_AND_UNDER_REVIEW"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}"
+										date-time="{NOW_DATETIME}"><span class="history-log-message">
+										IRB# {PROTOCOL_IDENTIFIER} is being reviewed by IRB Reviewer(s).
+									</span></log>
+								</logs>
+							</action>
+							<action type="APPROVE" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_APPROVED_LETTER" update-meta-data="true">
+								<change-status>
+									<!-- <status status="IRB_APPROVED" /> -->
+									<status status="OPEN" />
+									<form-status status="IRB_APPROVED" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="APPROVED" />
+										<form-committee-status involved-committee="IRB_REVIEWER" status="APPROVED" />
+									</form-committee-statuses>
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+								</change-status>
+								<events>
+									<event clock-start="Full Board">UPDATE_APPROVAL_DATE_STATUS</event>
+								</events>
+								<notifications>
+									<notification xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with major contingencies'])=0)" notification-type="LETTER" letter-name="Continuing Review Full Board Approved Letter" doc-type="Continuing Review Full Board Approved Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_APPROVED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_APPROVED_LETTER" event-type="CONTINUING_REVIEW_FULL_BOARD_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by the IRB. An IRB Full Board Approval letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with major contingencies'])>0)" notification-type="LETTER" letter-name="Continuing Review Full Board Approved Major Met Letter" doc-type="Continuing Review Full Board Approved Major Met Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_APPROVED_MAJOR_MET_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_APPROVED_MAJOR_MET_LETTER" event-type="CONTINUING_REVIEW_FULL_BOARD_APPROVED_MAJOR_MET_LETTER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The contuning review has been approved by IRB Full Board of Major met. An IRB Full Board Major Contingency letter ({LETTER_LINK}) has been sent to the PI.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0)" notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_APPROVED_TO_ACH">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_FULL_BOARD_APPROVED_TO_ACH" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review of IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Full Board and a notification has been sent to ACH.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
+										</logs>
+									</notification>
+									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_APROVAL_TO_ACH_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENENRIC_APROVAL_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review of IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Full Board and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='uams'])>0 and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review of IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Full Board and Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>							
+								</notifications>
+							</action>
+							<action type="DECLINE" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_DECLINED_LETTER">
+								<change-status>
+									<!-- <status status="IRB_DECLINED" /> -->
+									<form-status status="IRB_DECLINED" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="DECLINED" />
+										<form-committee-status involved-committee="IRB_REVIEWER" status="DECLINED" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Continuing Review Full Board Declined Letter" doc-type="Continuing Review Full Board Declined Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_DECLINED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_DECLINED_LETTER" event-type="CONTINUING_REVIEW_FULL_BOARD_DECLINED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been declined by the IRB. An IRB Full Board Declined letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="DEFER_WITH_MAJOR" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_DEFERRED_WITH_MAJOR_CONTINGENCIES_LETTER">
+								<change-status>
+									<!-- <status status="IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES" /> -->
+									<form-status status="IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="DEFERRED_WITH_MAJOR_CONTINGENCIES" />
+										<form-committee-status involved-committee="IRB_REVIEWER" status="DEFERRED_WITH_MAJOR_CONTINGENCIES" />
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event>UPDATE_APPROVAL_DATE_STATUS</event>
+								</events>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Continuing Review Full Board Deferred With Contingencies Letter" doc-type="Continuing Review Full Board Deferred With Contingencies Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_DEFERRED_WITH_MAJOR_CONTINGENCIES_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_DEFERRED_WITH_MAJOR_CONTINGENCIES_LETTER" event-type="CONTINUING_REVIEW_FULL_BOARD_DEFERRED_WITH_MAJOR_CONTINGENCIES" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been deferred with major contingencies by the IRB. An IRB Full Board Deferred letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="DEFER_WITH_MINOR" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_DEFERRED_WITH_MINOR_CONTINGENCIES_LETTER">
+								<change-status>
+									<!-- <status status="IRB_DEFERRED_WITH_MINOR_CONTINGENCIES" /> -->
+									<form-status status="IRB_DEFERRED_WITH_MINOR_CONTINGENCIES" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="DEFERRED_WITH_MINOR_CONTINGENCIES" />
+										<form-committee-status involved-committee="IRB_REVIEWER" status="DEFERRED_WITH_MINOR_CONTINGENCIES" />
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event>UPDATE_APPROVAL_DATE_STATUS</event>
+								</events>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Continuing Review Full Board Deferred With Contingencies Letter" doc-type="Continuing Review Full Board Deferred With Contingencies Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_DEFERRED_WITH_MINOR_CONTINGENCIES_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_DEFERRED_WITH_MINOR_CONTINGENCIES_LETTER" event-type="CONTINUING_REVIEW_FULL_BOARD_DEFERRED_WITH_MINOR_CONTINGENCIES" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been deferred with minor contingencies by the IRB. An IRB Full Board Deferred letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="WITHDRAW" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_WITHDRAWN">
+								<change-status>
+									<!-- <status status="PENDING_IRB_REVIEW_ASSIGNMENT" /> -->
+									<form-status status="PENDING_IRB_REVIEW_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_ASSIGNMENT" />
+										<form-committee-status involved-committee="IRB_REVIEWER" status="REMOVED_FROM_IRB_AGENDA" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_WITHDRAWN">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_FULL_BOARD_WITHDRAWN" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been removed from Full Board by the IRB and is pending agenda assignment. An IRB Full Board Withdrawn notification ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="TABLE" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_TABLED_LETTER">
+								<change-status>
+									<!-- <status status="IRB_TABLED" /> -->
+									<form-status status="IRB_TABLED" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="TABLED" />
+										<form-committee-status involved-committee="IRB_REVIEWER" status="TABLED" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Continuing Review Full Board Tabled Letter" doc-type="Continuing Review Full Board Tabled Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_TABLED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_TABLED_LETTER" event-type="CONTINUING_REVIEW_FULL_BOARD_TABLED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been tabled by the IRB. An IRB Full Board Tabled letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="ACKNOWLEDGE" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_ACKNOWLEDGED_LETTER">
+								<change-status>
+									<!-- <status status="IRB_ACKNOWLEDGED" /> -->
+									<form-status status="IRB_ACKNOWLEDGED" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="ACKNOWLEDGED" />
+										<form-committee-status involved-committee="IRB_REVIEWER" status="ACKNOWLEDGED" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Continuing Review Full Board acknowledged Letter" doc-type="Continuing Review Full Board acknowledged Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_ACKNOWLEDGED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_ACKNOWLEDGED_LETTER" event-type="CONTINUING_REVIEW_FULL_BOARD_ACKNOWLEDGED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been acknowledged by the IRB. An IRB Full Board Acknowledged letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SUSPENDED_FOR_CAUSE" email-template-identifier="CONTINUING_REVIEW_SUSPENDED_FOR_CAUSE_LETTER">
+								<change-status>
+									<status status="SUSPENDED" />
+									<form-status status="IRB_SUSPENDED" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="SUSPENDED_FOR_CAUSE" />
+										<form-committee-status involved-committee="IRB_REVIEWER" status="SUSPENDED_FOR_CAUSE" />
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event>UPDATE_APPROVAL_DATE_STATUS</event>
+								</events>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Continuing Review Full Board Suspended Letter" doc-type="Continuing Review Full Board Suspended Letter" email-template-identifier="CONTINUING_REVIEW_SUSPENDED_FOR_CAUSE_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_SUSPENDED_FOR_CAUSE_LETTER" event-type="IRB_SUSPENDED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been suspended by the IRB. An IRB Full Board Suspend for Cause letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/drugs/drug[@type[.=&quot;investigational&quot;]])>0 and (count(/protocol/site-responsible[text()='uams'])>0 or count(/protocol/study-sites/site[@site-id=&quot;7&quot;])>0))" notification-type="NOTIFICATION" email-template-identifier="FULL_BOARD_SUSPENDED_FOR_CAUSE_TO_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="FULL_BOARD_SUSPENDED_FOR_CAUSE_TO_PHARMACY" event-type="FULL_BOARD_SUSPENDED_FOR_CAUSE_TO_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The study has been suspended by the IRB Full Board and a notification has been send to the research pharmacist.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0)" notification-type="NOTIFICATION" email-template-identifier="FULL_BOARD_SUSPENDED_FOR_CAUSE_TO_MONITORING">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="FULL_BOARD_SUSPENDED_FOR_CAUSE_TO_MONITORING" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The study has been suspended by the IRB Full Board and a notification has been send to the Monitoring.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>							
+								</notifications>
+							</action>
+							<action type="TERMINATED_FOR_CAUSE" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER">
+								<change-status>
+									<!-- <status status="IRB_TERMINATED" /> -->
+									<status status="TERMINATED" />
+									<form-status status="IRB_TERMINATED" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="TERMINATED_FOR_CAUSE" />
+										<form-committee-status involved-committee="IRB_REVIEWER" status="TERMINATED_FOR_CAUSE" />
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event>UPDATE_APPROVAL_DATE_STATUS</event>
+								</events>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Continuing Review Full Board Terminated for Cause Letter" doc-type="Continuing Review Full Board Terminated for Cause Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER" event-type="IRB_TERMINATED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been terminated by the IRB. An IRB Full Board Study Closed for Cause letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="IRB_AGENDA_ASSIGNED" form-committee-status="IN_REVIEW">
+				<commitee name="IRB_REVIEWER">
+					<review-page page-name="committee-review" >
+						<decisions>
+							<decision>
+								<value>SAVE</value>
+								<desc>Save Contingencies and Notes</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="SAVE">
+								<logs>
+									<log log-type="ACTION" event-type="IRB_REVIEWER_SAVE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB REVIEWER ({USER_WITH_EMAIL_LINK}) has updated the contingecies and notes.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>	
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</commitee>
+			</form-status>
+			<form-status value="PENDING_EXPEDITED_IRB_REVIEW" form-committee-status="ANY">
+				<committee name="IRB_EXPEDITED_REVIEWER">
+					<!-- <review-page page-name="committee-review" review-form-name="irb-expedited-review"> -->
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>APPROVE</value>
+								<desc>Approve</desc>
+								<email-template-identifiers>
+									<email-template-identifier form-xpath-condition="boolean(count(/continuing-review/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)">CONTINUING_REVIEW_EXPEDITED_APPROVED_LETTER</email-template-identifier>
+									<email-template-identifier form-xpath-condition="boolean(count(/continuing-review/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])>0)">CONTINUING_REVIEW_FULL_BOARD_APPROVED_MINOR_MET_LETTER</email-template-identifier>
+								</email-template-identifiers>
+							</decision>
+							<decision>
+								<value>REVISION_REQUESTED</value>
+								<desc>Revision Requested</desc>
+								<email-template-identifiers>
+									<email-template-identifier>CONTINUING_REVIEW_EXPEDITED_REVIEW_REVISION_REQUESTED_LETTER</email-template-identifier>
+								</email-template-identifiers>
+							</decision>
+							<decision>
+								<value>RETURN_BACK</value>
+								<desc>Propose New Review Type (return to IRB Review Assignment)</desc>
+							</decision>
+						</decisions>						
+						<actions>
+							<action type="APPROVE" condition="" update-meta-data="true">
+								<change-status>
+									<!-- <status status="EXPEDITED_APPROVED" /> -->
+									<status status="OPEN" />
+									<form-status status="EXPEDITED_APPROVED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXPEDITED_REVIEWER" status="APPROVED"
+											note="" />
+									</form-committee-statuses>
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+								</change-status>
+								<events>
+									<event>ASSIGN_TO_AGENDA</event>
+									<!-- <event>CLEAN_RECENT_MOTION</event> -->
+									<event clock-start="Expedited">UPDATE_APPROVAL_DATE_STATUS</event>
+									<event>PUSH_TO_EPIC</event>
+								</events>
+								<notifications>
+									<notification form-xpath-condition="boolean(count(/continuing-review/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)" notification-type="LETTER" letter-name="Continuing Review Expedited Approved Letter" doc-type="Continuing Review Expedited Approved Letter" email-template-identifier="CONTINUING_REVIEW_EXPEDITED_APPROVED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_EXPEDITED_APPROVED_LETTER" event-type="IRB_EXPEDITED_REVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by the IRB Expedited Review. A Continuing Review Expedited Approved Letter ({LETTER_LINK}) has been sent to the PI. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>	
+									<notification form-xpath-condition="boolean(count(/continuing-review/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])>0)" notification-type="LETTER" letter-name="Continuing Review Full Board Approved Minor Met Letter" doc-type="Continuing Review Full Board Approved Minor Met Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_APPROVED_MINOR_MET_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_APPROVED_MINOR_MET_LETTER" event-type="CONTINUING_REVIEW_FULL_BOARD_APPROVED_MINOR_MET_LETTER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The contuning review has been approved by IRB Full Board of Minor met. A Continuing Review Minor Contingency Met Letter ({LETTER_LINK}) has been sent to the PI. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0)" notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_IRB_EXPEDITED_APPROVED_TO_ACH">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_IRB_EXPEDITED_APPROVED_TO_ACH" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review of IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Expedited Review and a notification has been sent to ACH.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; </span></log>
+										</logs>
+									</notification>
+									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_APROVAL_TO_ACH_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENENRIC_APROVAL_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review of IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Expedited Review and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>		
+									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='uams'])>0 and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review of IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Expedited Review and Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>								
+								</notifications>
+							</action>
+							<action type="REVISION_REQUESTED" condition="">
+								<change-status>
+									<!-- <status status="REVISION_REQUESTED" /> -->
+									<form-status status="REVISION_REQUESTED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXPEDITED_REVIEWER" status="REVISION_REQUESTED"
+											note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="IRB Expedited Review Revision Requested Letter" doc-type="Letter" email-template-identifier="CONTINUING_REVIEW_EXPEDITED_REVIEW_REVISION_REQUESTED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_EXPEDITED_REVIEW_REVISION_REQUESTED_LETTER" event-type="IRB_EXPEDITED_REVIEW_REVISION_REQUESTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The IRB Expedited Reviewer has requested changes to IRB# {PROTOCOL_IDENTIFIER}. A letter ({LETTER_LINK}) containing requested changes has been sent to the PI. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="RETURN_BACK" condition="">
+								<change-status>
+									<!-- <status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" /> -->
+									<form-status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT"
+											note="" />
+										<form-committee-status
+											involved-committee="IRB_EXPEDITED_REVIEWER" status="NOT_APPLICABLE_TO_EXPEDITED_IRB_REVIEW"
+											note="" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="CONTINUING_REVIEW_EXPEDITED_REVIEW_SEND_BACK" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review Form has been sent back to IRB Office for review assignment by the IRB Expedtied Review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>	
+								</logs>
+								<!-- <notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_EXPEDITED_REVIEW_SEND_BACK">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_EXPEDITED_REVIEW_SEND_BACK" event-type="IRB_EXPEDITED_REVIEW_RETURN_BACK" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been sent back to IRB Office for agenda assignment by the IRB Expedtied Review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications> -->
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="PENDING_EXEMPT_IRB_REVIEW" form-committee-status="ANY">
+				<committee name="IRB_EXEMPT_REVIEWER">
+					<!-- <review-page page-name="committee-review" review-form-name="irb-exempt-review"> -->
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>APPROVE</value>
+								<desc>Approve</desc>
+								<email-template-identifiers>
+									<email-template-identifier>CONTINUING_REVIEW_EXEMPT_APPROVED_LETTER</email-template-identifier>
+								</email-template-identifiers>
+							</decision>
+							<decision>
+								<value>IS_NOT_HSR</value>
+								<desc>Not Human Subject Research</desc>
+							</decision>
+							<decision>
+								<value>REVISION_REQUESTED</value>
+								<desc>Revision Requested</desc>
+								<email-template-identifiers>
+									<email-template-identifier>IRB_EXEMPT_REVIEW_REVISION_REQUESTED_LETTER</email-template-identifier>
+								</email-template-identifiers>
+							</decision>
+							<!-- <decision>
+								<value>RETURN_BACK</value>
+								<desc>Propose New Review Type (return to IRB Reviewer Assignment)</desc>
+							</decision> -->
+							<decision>
+								<value>DECLINED</value>
+								<desc>Declined</desc>
+							</decision>
+						</decisions>						
+						<actions>
+							<action type="APPROVE" condition="" update-meta-data="true">
+								<change-status>
+									<!-- <status status="EXEMPT_APPROVED" /> -->
+									<status status="OPEN" />
+									<form-status status="EXEMPT_APPROVED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXEMPT_REVIEWER" status="APPROVED"
+											note="" />
+									</form-committee-statuses>
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+								</change-status>
+								<events>
+									<event clock-start="Exempt">UPDATE_APPROVAL_DATE_STATUS</event>
+									<event>PUSH_TO_EPIC</event>
+								</events>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Continuing Review Exempt Approved Letter" doc-type="Continuing Review Exempt Approved Letter" email-template-identifier="CONTINUING_REVIEW_EXEMPT_APPROVED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_EXEMPT_APPROVED_LETTER" event-type="IRB_EXEMPT_REVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by the IRB Exempt Review. A Continuing Review Exempt Approved Letter ({LETTER_LINK}) has been sent to the PI. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0)" notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_IRB_EXEMPT_APPROVED_TO_ACH">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_IRB_EXEMPT_APPROVED_TO_ACH" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review of IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Exempt Review and a notification has been sent to ACH.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; </span></log>
+										</logs>
+									</notification>
+									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_APROVAL_TO_ACH_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENENRIC_APROVAL_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review of IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Exempt Review and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
+									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='uams'])>0 and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review of IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Exempt Review and Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="IS_NOT_HSR" condition="" email-template-identifier="NOT_HSR_DETERMINATION_LETTER">
+								<change-status>
+									<status status="CLOSED" />
+									<form-status status="DETERMINED_NOT_HUMAN_SUBJECT_RESEARCH" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXEMPT_REVIEWER" status="COMPLETED" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event>UPDATE_APPROVAL_DATE_STATUS</event>
+								</events>
+								<!-- <logs>
+									<log log-type="ACTION" event-type="IRB_PREREVIEW_IS_NOT_HSR" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB Prereview ({USER_WITH_EMAIL_LINK}) has determined the study as Not Human Subject Research.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>							
+								</logs> -->
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Not Human Subject Research Determination letter" doc-type="Letter" email-template-identifier="NOT_HSR_DETERMINATION_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="NOT_HSR_DETERMINATION_LETTER" event-type="NOT_HSR_DETERMINATION_LETTER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB Exempt Reviewer {USER_WITH_EMAIL_LINK} has determined the study as not Human Subject Research. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  A letter ({LETTER_LINK}) has been sent to the PI.  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="REVISION_REQUESTED" condition="">
+								<change-status>
+									<!-- <status status="REVISION_REQUESTED" /> -->
+									<form-status status="REVISION_REQUESTED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXEMPT_REVIEWER" status="REVISION_REQUESTED"
+											note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="IRB Exempt Review Revision Requested Letter" doc-type="Letter" email-template-identifier="IRB_EXEMPT_REVIEW_REVISION_REQUESTED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="IRB_EXEMPT_REVIEW_REVISION_REQUESTED_LETTER" event-type="IRB_EXEMPT_REVIEW_REVISION_REQUESTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The IRB Exempt Reviewer has requested changes to IRB# {PROTOCOL_IDENTIFIER}. A letter ({LETTER_LINK}) containing requested changes has been sent to the PI. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<!-- <action type="RETURN_BACK" condition="">
+								<change-status>
+									<form-status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT"
+											note="" />
+										<form-committee-status
+											involved-committee="IRB_EXEMPT_REVIEWER" status="NOT_APPLICABLE_TO_EXEMPT_IRB_REVIEW"
+											note="" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="CONTINUING_REVIEW_EXEMPT_REVIEW_SEND_BACK" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review Form has been sent back to IRB Office for review assignment by the IRB Exempt Review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>	
+								</logs>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_EXEMPT_REVIEW_SEND_BACK">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_EXEMPT_REVIEW_SEND_BACK" event-type="IRB_EXEMPT_REVIEW_RETURN_BACK" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been sent back to IRB Office for agenda assignment by the IRB Exempt Review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action> -->
+							<action type="DECLINED" condition="" update-approval-date-or-status="true">
+								<change-status>
+									<form-status status="IRB_DECLINED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXEMPT_REVIEWER" status="DECLINED"
+											note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_EXEMPT_DECLINED">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_EXEMPT_DECLINED" event-type="IRB_EXEMPT_REVIEW_DECLINED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Continuing Review has been declined by the IRB Exempt Review. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>	
+			<form-status value="PENDING_IRB_REVIEW_RE_ASSIGNMENT" form-committee-status="ANY"> <!-- the status of the Protocol is PENDING_IRB_REVIEW_RE_ASSIGNMENT -->
+				<committee name="IRB_OFFICE"> <!-- the committee that's able to make these actions -->				
+					<review-page page-name="agenda-queue">
+						<!-- no review page, assign reviewer only -->
+						<actions>
+							<action type="FULL_BOARD">
+								<change-status>
+									<form-status status="IRB_AGENDA_ASSIGNED" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_AGENDA_ASSIGNED"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}"
+										date-time="{NOW_DATETIME}"><span class="history-log-message">
+										Protocol has been re-assigned to agenda.
+									</span></log>
+								</logs>
+							</action>
+							<action type="EXEMPT">
+								<change-status>
+									<form-status status="PENDING_EXEMPT_IRB_REVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXEMPT_REVIEWER" status="PENDING_EXEMPT_IRB_REVIEW"
+											store-xml-data="True" />
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="EXEMPT_IRB_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_EXEMPT_AND_REVIEWER_ASSIGNED"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}"
+										date-time="{NOW_DATETIME}"><span class="history-log-message">
+										Protocol has been determined to be qualified for
+										exempted review. A exempt IRB reviewer
+										({ASSIGNED_EXEMPT_REVIEWER_FULLNAME})
+										has been assigned to review the study.
+									</span></log>
+								</logs>
+							</action>
+							<action type="EXPEDITED">
+								<change-status>
+									<form-status status="PENDING_EXPEDITED_IRB_REVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXPEDITED_REVIEWER" status="PENDING_EXPEDITED_IRB_REVIEW"
+											store-xml-data="True" />
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="EXPEDITED_IRB_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_EXPEDITED_AND_REVIEWER_ASSIGNED"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}"
+										date-time="{NOW_DATETIME}"><span class="history-log-message">
+										Protocol has been determined to be qualified for
+										expedited review. A expedited IRB reviewer
+										({ASSIGNED_EXPEDITED_REVIEWER_FULLNAME})
+										has been assigned to review the study.
+									</span></log>
+								</logs>
+							</action>
+							<action type="REPORTED">
+								<change-status>
+									<form-status status="IRB_AGENDA_ASSIGNED" />
+									<form-committee-statuses>
+										<form-committee-status involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_AGENDA_ASSIGNED"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}"
+										date-time="{NOW_DATETIME}"><span class="history-log-message">
+										Protocol has been re-assigned to agenda as reported.
+									</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>	
+			<form-status value="ANY" form-committee-status="ANY">
+				<committee name="ANY" default="true">
+					<review-page page-name="committee-review" >
+						<decisions>
+							<decision>
+								<value>UPDATE</value>
+								<desc>Update Note</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="UPDATE" condition="">
+								<logs>
+									<log log-type="ACTION" event-type="NEW_NOTE_ADDED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} committee note has been updated by the {COMMITTEE_DESC} ({USER_WITH_EMAIL_LINK}).  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>							
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="ANY" form-committee-status="ANY">
+				<committee name="IRB_OFFICE">
+					<review-page page-name="null">
+						<!-- no review page, assign reviewer only -->
+						<actions>							
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification form has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+		</form>
+	</business-object>
+</business-object-status>

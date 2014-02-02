@@ -1,0 +1,153 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<x:parse doc="${contractForm.contract.metaDataXml}"
+		var="contractInstance" />
+	<x:parse doc="${reviewPageXml}" var="reviewPageXml" />
+	
+	<x:set var="reviewFormName" select="string($reviewPageXml/review-page/@review-form-name)" />
+	
+	<div class="center-element"
+		style="width:600px;margin-top:16px;text-align:center;margin-bottom:8px;color:white;">
+		<spring:url value="/static/images/clara-logo.png" var="logo_url"/>
+		<div style="text-align: left; width: 100%;">
+			<div style="float: left; width: 150px; overflow: hidden;">
+				<img src="${logo_url}" />
+			</div>
+			<h1 class="review-instructions-header">Fill out the following form and click 'Complete' to continue.</h1>
+		</div>
+	</div>
+	<div id="protocol-form-final-review" class="center-element">
+		<div id="review-form" style="padding-bottom: 12px;">
+			<div id="review-form-metadata"
+				style="margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #ccc;">
+				<h1>
+					CONTRACT# <strong>${contractForm.contract.id}</strong>
+				</h1>
+				<h2>
+					<x:out escapeXml="false" select="$contractInstance/contract/title" />
+				</h2>
+			</div>
+
+			<div style="width: 100%; text-align: right;">
+				<a href="javascript:;"
+					onclick="Clara.Reviewer.ClearFormValues();">Clear
+					form</a>
+			</div>
+		</div>
+		<div class="section">
+			<h2 class="section-title">
+				<span><!-- // --></span>
+			</h2>
+			<div id="extra-information-form">
+				<!-- // -->
+			</div>
+		</div>
+		<div class="section">
+			<h2 class="section-title">
+				<h1>Notes on Action:</h1><span class="section-help">These notes (along with the committee action) will appear in the history log.</span>
+			</h2>
+			<div id="committee_notes_div">
+				<textarea id="committee_notes" name="committeeNotes"
+					class="form-val-el val-el">
+					<!-- // -->
+				</textarea>
+				<!-- // -->
+			</div>
+		</div>
+		<div class="section">
+			<h2 class="section-title">
+				<span>${committee.description}: Committee Action:</span>
+			</h2>
+			<ul class="review-decisions" id="review-decisions">
+				<x:forEach var="action" select="$reviewPageXml/review-page/decisions/decision"
+					varStatus="i">
+					<x:set var="actionValue" select="string($action/value/text())" />
+					<x:set var="actionDesc" select="string($action/desc/text())" />
+					<x:set var="actionEmailTemplate" select="string($action/email-template-identifier/text())" />
+					<li><uams:review-decision id="action_${actionValue}"
+							value="${actionValue}" label="${actionDesc}" emailtemplate="${actionEmailTemplate}" /></li>
+				</x:forEach>
+			</ul>
+		</div>
+		
+		
+		<div id="sign-review-form">
+			<!-- // -->
+		</div>
+	</div>
+	<div id="review-complete-action-buttons" class="center-element">
+		<button id="btnCompleteReview" class="review-button button green" onClick="submitReview();">Complete</button>
+		<button id="btnCancelReview" class="review-button button white" onClick="history.back();">Cancel</button>
+	</div>
+	
+	<![CDATA[
+	<script type="text/javascript">
+		var delayedSendObject = {};
+		var reviewerDecision = '';
+
+		function submitReview() {
+			var action = jQuery(".action:checked").val();
+			
+			if (action == null) alert("Please choose an action.");
+			else {
+			
+				var uname = jQuery('input[name=fldReviewSignUsername]').val();
+				var pw = jQuery('input[name=fldReviewSignPassword]').val();
+				var url = appContext + "/ajax/contracts/"
+						+ claraInstance.id
+						+ "/contract-forms/"
+						+ claraInstance.form.id
+						+ "/review/"+claraInstance.form.urlName+"/${committeeReviewPage}/sign";
+	
+				var note = jQuery("#committee_notes").val();
+	
+				//clog(jQuery("#committee_notes").val());
+				
+				if (uname != '' && pw != '') {
+					if (action == "") {
+						alert("Choose a committee decision.");
+					} else {
+						jQuery("#btnCompleteReview").attr("disabled","disabled");
+						currentFormReviewSession.action = action;
+						var xmlData = Clara.Reviewer.GetFinalReviewXml(currentFormReviewSession, delayedSendObject.message);
+	
+						if (Clara.Reviewer.SignReviewForm(url, xmlData, uname, pw, action, note)) {
+							redirectAfterReviewSignoff();
+						}
+	
+					}
+	
+				} else {
+					alert("Enter your username and password before submitting.");
+				}
+			}
+		}
+
+		jQuery(document).ready(function() { fromQueue='${fromQueue}';
+			claraInstance.setId("${contractForm.contract.id}");
+			Ext.ns('Clara.Reviewer');
+			var reviewFormName = '${reviewFormName}';
+			fromQueue = '${fromQueue}';
+			
+			//clog(reviewFormName);
+			if(reviewFormName != ""){			
+				finalPanel = new Clara.Reviewer.FinalReviewPanel({reviewFormName:reviewFormName,renderTo:'extra-information-form'});
+			}
+			rSignPanel = new Clara.Reviewer.ReviewSignPanel({
+				renderTo : 'sign-review-form'
+			});
+		});
+	</script>
+	]]>
+</div>

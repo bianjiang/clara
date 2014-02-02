@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+
+	 <definition extends="default-ext4" name="user/profile">
+        <put-attribute name="body" value="/WEB-INF/views/user/index.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/app/config.js" />
+        	<add-attribute value="/static/js/app/user/app.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<!-- <add-attribute value="/static/styles/user/user.css" />-->
+  		</put-list-attribute>
+    </definition>    
+	
+	
+</tiles-definitions>

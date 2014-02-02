@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:dynform="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:sec="http://www.springframework.org/security/tags" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags"
+	version="2.0">
+	<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+	
+	<jsp:directive.page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"/>
+	
+<html lang="en">	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />		
+		
+		
+		<tiles:useAttribute id="styles" name="styles" ignore="true" classname="java.util.List" />
+		
+		
+		
+		
+		<spring:url value="/static/styles/ext4/ext-all.css" var="css_url"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="${css_url}" />
+		
+		<c:forEach var="style" items="${styles}">
+			<spring:url value="${style}" var="css_url" />
+			<link rel="stylesheet" type="text/css" media="screen" href="${css_url}" />
+		</c:forEach>
+		
+		<tiles:useAttribute id="ie_styles" name="ie_styles" ignore="true" classname="java.util.List" />
+		
+		<spring:url value="/static/js/app-config.js" var="js_app_config" />
+		<c:if test="${pageContext.request.serverName == 'localhost'}">
+				
+				<spring:url value="/static/js/app-config-dev.js" var="js_app_config" />
+			
+			</c:if>
+			
+		<c:if test="${pageContext.request.serverName == 'clara-training.uams.edu'}">
+				
+				<spring:url value="/static/js/app-config-training.js" var="js_app_config" />
+			
+			</c:if>
+			
+			
+		<spring:url value="/static/js/security.js" var="js_security" />
+		
+		<![CDATA[
+		<!--[if lt IE 9]> 
+		]]>
+			<spring:url value="/static/js/html5shiv.js" var="js_html5shiv" />
+			<script type="text/javascript" src="${js_html5shiv}?ts=${claraBuildNumber}"><!-- // --></script>    
+		<![CDATA[
+		<![endif]-->
+		]]>
+		
+		<spring:url value="/static/js/jquery/jquery-1.7.min.js" var="js_jquery" />
+		
+		<spring:url value="/static/js/ext4/ext-all-debug-w-comments.js" var="js_ext"/>
+		<spring:url value="/static/js/ext4/override.js" var="js_extov"/>
+		<spring:url value="/static/js/json2.js" var="js_json2" />
+		<spring:url value="/static/js/clara-config.js" var="js_clara_config" />
+		
+		<script type="text/javascript" src="${js_jquery}?ts=${claraBuildNumber}"><!-- // --></script>    
+		<script type="text/javascript" src="${js_ext}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_extov}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_json2}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_app_config}?ts=${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_clara_config}?ts=${claraBuildNumber}"><!-- // --></script>  
+		
+		
+		<script type="text/javascript"><![CDATA[
+			jQuery.noConflict();
+			
+
+		]]>
+		
+		<c:forEach var="permission" items="${user.authorities}">
+			<![CDATA[
+				claraInstance.addUserPermission('${permission}');
+			]]>
+		</c:forEach>
+		Ext.ns("Clara");
+		
+				claraInstance.setUser({
+					committee:'PI',
+					id: ${!empty user?user.id:0}
+				});
+		
+		</script>
+		
+		<script type="text/javascript" src="${js_security}?ts=${claraBuildNumber}"><!-- // --></script>  
+		
+		<tiles:useAttribute id="javascripts" name="javascripts" ignore="true" classname="java.util.List" />
+				
+		<c:forEach var="javascript" items="${javascripts}">
+			<spring:url value="${javascript}" var="javascript_url" />
+			<script type="text/javascript" src="${javascript_url}?ts=${claraBuildNumber}"><!-- // --></script>  
+		</c:forEach>
+		
+		<!-- Include role-specific JS -->
+		<c:forEach var="role" items="${roles}">
+			<spring:url value="/static/js/role/${role}.js" var="javascript_url" />
+			<script type="text/javascript" src="${javascript_url}?ts=${claraBuildNumber}"><!-- // --></script>  
+		</c:forEach>
+		
+		<!-- Include committee-specific JS -->
+		<c:forEach var="committee" items="${committees}">
+			<spring:url value="/static/js/committee/${committee}.js" var="javascript_url" />
+			<script type="text/javascript" src="${javascript_url}?ts=${claraBuildNumber}"><!-- // --></script>  
+		</c:forEach>
+
+		<spring:url value="/static/images/" var="images_dir" />
+		<link rel="icon" href="${images_dir}/favicon.ico" />
+  		
+		<title>CLARA - CLinicAl Research Administration</title>
+		<script type="text/javascript"><![CDATA[
+				jQuery.noConflict();
+
+				var usingNoHeaderTemplate = true;
+				
+
+
+				claraInstance.setType("protocol");
+				claraInstance.setId("${!empty protocolId?protocolId:0}");
+				claraInstance.xmlDataId = ${!empty protocolXmlData.id?protocolXmlData.id:0};
+				claraInstance.budget.id = ${!empty budgetXmlData.id?budgetXmlData.id:0};
+				claraInstance.budget.defaultFA= parseFloat('${defaultFA}');
+				claraInstance.budget.studyType= '${studyType}';
+				claraInstance.setForm({
+					id: ${!empty protocolForm.id?protocolForm.id:0},
+					urlName: "${!empty protocolFormXmlData.protocolForm.protocolFormType?protocolFormXmlData.protocolForm.protocolFormType.urlEncoded:0}",
+					type: "${!empty protocolFormXmlData.protocolForm.protocolFormType?protocolFormXmlData.protocolForm.protocolFormType:0}"
+				});
+				claraInstance.setUser({
+					id: ${!empty user?user.id:0},
+					committee: 'PI'
+				});
+
+			]]>
+			</script>
+	</head>
+   	<body>		
+   		<spring:url value="/j_spring_security_logout" var="url_logout"/>
+	    	<div id="main">
+	    		
+	    		<tiles:insertAttribute name="body" />
+
+			</div>
+	</body>
+</html>
+</jsp:root>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<committees>
+	<committee name="PHARMACY_REVIEW" desc="UAMS Pharmacy" individual-assignment="false" assigned-by="GATEKEEPER"/>	
+	<committee name="CONTRACT_MANAGER" desc="Contract" individual-assignment="true" assigned-by="GATEKEEPER" />
+	<committee name="BUDGET_REVIEW" desc="Budget Review" individual-assignment="false" assigned-by="GATEKEEPER" />	
+	<committee name="COVERAGE_REVIEW" order="3" individual-assignment="false" required="TRUE" desc="Coverage Review" assigned-by="BUDGET" />
+	<committee name="HOSPITAL_SERVICES" order="4" individual-assignment="false" required="TRUE" desc="Hospital Services" assigned-by="BUDGET" />
+	<committee name="DEPARTMENT_CHAIR" order="5" individual-assignment="false" required="TRUE" desc="Colledge Adminstration" assigned-by="BUDGET" />
+	<committee name="PROTOCOL_LEGAL_REVIEW" desc="Protocol Legal Review" individual-assignment="true" assigned-by="GATEKEEPER" />
+	<!-- <committee name="COLLEGE_DEAN" order="6" required="TRUE" desc="College" assigned-by="BUDGET" />	-->
+	<committee name="COMPLIANCE_REVIEW" desc="UAMS Compliance Review" individual-assignment="true" assigned-by="BUDGET,IRB,GATEKEEPER" />	
+	<committee name="BIOSAFETY" desc="UAMS Biosafety" individual-assignment="true" assigned-by="IRB,GATEKEEPER" />
+	<committee name="PRMC" desc="UAMS PRMC" individual-assignment="true" assigned-by="IRB,GATEKEEPER" />
+	<committee name="RADIATION_SAFETY" desc="UAMS Radiation Safety" individual-assignment="true" assigned-by="IRB,GATEKEEPER" />
+	<committee name="COI" desc="UAMS COI" individual-assignment="true" assigned-by="IRB,GATEKEEPER" />
+	<committee name="MONITORING_REGULATORY_QA" desc="UAMS Monitoring/Regulatory/QA" individual-assignment="true" assigned-by="IRB,GATEKEEPER" />
+	<committee name="CLINICAL_TRIALS_REVIEW" desc="ClinialTrials.gov" individual-assignment="true" assigned-by="IRB,GATEKEEPER,ACHRI" />
+	<committee name="ACHRI" desc="ACHRI" individual-assignment="true" assigned-by="IRB,GATEKEEPER" />
+<!-- 	<committee name="IRB_ASSIGNER" order="7" required="TRUE" desc="IRB Office Review" assigned-by="BUDGET" checked="true" /> -->
+	<committee name="PI" order="7" required="TRUE" desc="PI (Sign Off)" assigned-by="BUDGET" individual-assignment="false" checked="true" />
+</committees>

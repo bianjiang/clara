@@ -1,0 +1,2011 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lookup>
+	<prmc-disease-sites-hematological>
+		<option>
+			<value>hodgkins-lymphoma</value>
+			<desc>Hodgkin's Lymphoma</desc>
+		</option>
+		<option>
+			<value>non-hodgkins-lymphoma</value>
+			<desc>Non-Hodgkin's Lymphoma</desc>
+		</option>
+		<option>
+			<value>multiple-myeloma</value>
+			<desc>Multiple Myeloma</desc>
+		</option>
+		<option>
+			<value>myeloid-monocytic-leukemia</value>
+			<desc>Myeloid/Monocytic Leukemia</desc>
+		</option>
+		<option>
+			<value>leukemia-not-specified</value>
+			<desc>Leukemia, not specified</desc>
+		</option>
+		<option>
+			<value>leukemia-lymphoid</value>
+			<desc>Lymphoid Leukemia</desc>
+		</option>
+	</prmc-disease-sites-hematological>
+	<prmc-disease-sites-solid>
+		<option>
+			<value>anus</value>
+			<desc>Anus</desc>
+		</option>
+		<option>
+			<value>bladder</value>
+			<desc>Bladder</desc>
+		</option>
+		<option>
+			<value>bones-joints</value>
+			<desc>Bones and Joints</desc>
+		</option>
+		<option>
+			<value>brain-nervous</value>
+			<desc>Brain, Nervous System</desc>
+		</option>
+	</prmc-disease-sites-solid>
+	<study-natures>
+		<option>
+			<value>social-behavioral-education</value>
+			<desc>Social / Behavioral / Education</desc>
+		</option>
+		<option>
+			<value>biomedical-clinical</value>
+			<desc>Biomedical / Clinical</desc>
+		</option>
+		<option>
+			<value>hud-use</value>
+			<desc>HUD Use for Treatment/Diagnosis</desc>
+		</option>
+		<!--
+		<option>
+			<value>chart-review</value>
+			<desc>Chart Review Only (No subject interactions)</desc>
+		</option>
+		 -->
+	</study-natures>
+	<site-responsible>
+		<option>
+			<value>uams</value>
+			<desc>University of Arkansas for Medical Sciences</desc>
+		</option>
+		<option>
+			<value>ach-achri</value>
+			<desc>ACH/ACHRI</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</site-responsible>
+	<treatment-location>
+		<option>
+			<value>uams</value>
+			<desc>University of Arkansas for Medical Sciences</desc>
+		</option>
+		<option>
+			<value>ach-achri</value>
+			<desc>ACH/ACHRI</desc>
+		</option>
+	</treatment-location>
+	<study-involves>
+		<option>
+			<value>drugs</value>
+			<desc>Drugs/Biologics (Includes both investigational and non-investigational products)</desc>
+		</option>
+		<option>
+			<value>dietary-supplement</value>
+			<desc>Nutritional Products (includes dietary supplements, medical foods, and infant formulas)  </desc>
+		</option>
+		<option>
+			<value>devices</value>
+			<desc>Devices (Includes both unapproved products and approved products used in non-approved ways)</desc>
+		</option>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A (Includes chart reviews and other biomedical/clinical research that does not involve drugs/biologics, nutritional products, or devices)</desc>
+		</option>
+	</study-involves>
+
+	<document-categories>
+		<option>
+			<value>assent-form</value>
+			<desc>Assent- FORM</desc>
+		</option>
+		<option>
+			<value>assent-verbal-script</value>
+			<desc>Assent- VERBAL SCRIPT</desc>
+		</option>
+		<option>
+			<value>consent-for-pediatric-populations-form</value>
+			<desc>Consent for Pediatric Populations/ Parental Permission- FORM</desc>
+		</option>
+		<option>
+			<value>consent-for-pediatric-populations-verbal-script</value>
+			<desc>Consent for Pediatric Populations/ Parental Permission- VERBAL SCRIPT</desc>
+		</option>
+		<option>
+			<value>informed-consent-addendum-form</value>
+			<desc>Informed Consent Addendum- FORM</desc>
+		</option>
+		<option>
+			<value>informed-consent-including-hipaa-form</value>
+			<desc>Informed Consent (including HIPAA authorization)- FORM</desc>
+		</option>
+		<option>
+			<value>informed-consent-not-including-hipaa-form</value>
+			<desc>Informed Consent (NOT including HIPAA authorization)- FORM</desc>
+		</option>
+		<option>
+			<value>informed-consent-verbal-script</value>
+			<desc>Informed Consent- VERBAL SCRIPT</desc>
+		</option>
+		<option>
+			<value>translated-informed-consent-including-hipaa-form</value>
+			<desc>Translated Informed Consent/Assent (including HIPAA authorization)- FORM</desc>
+		</option>
+		<option>
+			<value>translated-informed-consent-not-including-hipaa-form</value>
+			<desc>Translated Informed Consent/Assent (NOT including HIPAA authorization)- FORM</desc>
+		</option>
+		<option>
+			<value>hipaa-authorization</value>
+			<desc>HIPAA Authorization</desc>
+		</option>
+		<option>
+			<value>limited-data-set-use-agreement-translation</value>
+			<desc>Limited Data Set Use Agreement Translation</desc>
+		</option>
+		<option>
+			<value>limited-data-set-use-agreement</value>
+			<desc>Limited Data Set Use Agreement</desc>
+		</option>
+		<option>
+			<value>documents</value>
+			<desc>Documents</desc>
+		</option>
+		<option>
+			<value>budget-exhibit</value>
+			<desc>Budget Exhibit</desc>
+		</option>
+		<option>
+			<value>budget-spread-sheet</value>
+			<desc>Budget Spread Sheet</desc>
+		</option>
+		<option>
+			<value>contract</value>
+			<desc>Contract</desc>
+		</option>
+		<option>
+			<value>contract-amendment</value>
+			<desc>Contract Amendment</desc>
+		</option>
+		<option>
+			<value>indirect-cost-waiver</value>
+			<desc>Indirect Cost Waiver</desc>
+		</option>
+		<option>
+			<value>insurance</value>
+			<desc>Insurance</desc>
+		</option>
+		<option>
+			<value>letter-of-intent</value>
+			<desc>Letter of Intent</desc>
+		</option>
+		<option>
+			<value>pharmacy-cost-impact-form</value>
+			<desc>Pharmacy Cost Impact Form</desc>
+		</option>
+		<option>
+			<value>pi-certification</value>
+			<desc>PI Certification</desc>
+		</option>
+		<option>
+			<value>w9</value>
+			<desc>W9</desc>
+		</option>
+		<option>
+			<value>contract-budget-other-specify</value>
+			<desc>Other (specify)</desc>
+		</option>
+		<option>
+			<value>letter-to-irb</value>
+			<desc>Letter to IRB</desc>
+		</option>
+		<option>
+			<value>project-cancellation-email</value>
+			<desc>Project Cancellation Email</desc>
+		</option>
+		<option>
+			<value>project-initiation-email</value>
+			<desc>Project Initiation Email</desc>
+		</option>
+		<option>
+			<value>correspondence-other-specify</value>
+			<desc>Other (specify)</desc>
+		</option>
+		<option>
+			<value>case-report-form</value>
+			<desc>Case Report Form</desc>
+		</option>
+		<option>
+			<value>evaluation-instrument-tool</value>
+			<desc>Evaluation Instrument/Tool</desc>
+		</option>
+		<option>
+			<value>interview-focus-group-questions</value>
+			<desc>Interview/ Focus Group Questions</desc>
+		</option>
+		<option>
+			<value>questionnaire-survey</value>
+			<desc>Questionnaire/Survey</desc>
+		</option>
+	</document-categories>
+	<staff-responsibilities>
+		<option>
+			<desc>Subject Recruitment</desc>
+		</option>
+		<option>
+			<desc>Perform Disease Assessments</desc>
+		</option>
+		<option>
+			<desc>Regulatory Documentation</desc>
+		</option>
+		<option>
+			<desc>Dispense Investigational Product</desc>
+		</option>
+		<option>
+			<desc>Study Administration and Support</desc>
+		</option>
+		<option>
+			<desc>Collect Blood / Lab Samples</desc>
+		</option>
+		<option>
+			<desc>Obtain Informed Consent</desc>
+		</option>
+		<option>
+			<desc>Assess Inclusion / Exclusion</desc>
+		</option>
+		<option>
+			<desc>Physical Exam</desc>
+		</option>
+		<option>
+			<desc>CRF Completion</desc>
+		</option>
+		<option>
+			<desc>CRF / Query Sign-off</desc>
+		</option>
+		<option>
+			<desc>SAE Sign-off</desc>
+		</option>
+		<option>
+			<desc>Lead Subject Interviews / Focus Groups</desc>
+		</option>
+		<option>
+			<desc>Initiate / Perform Follow-up Contacts</desc>
+		</option>
+		<option>
+			<desc>Perform Non-Medical Study Interventions</desc>
+		</option>
+	</staff-responsibilities>
+	<staff-roles>
+		<option>
+			<value>pi</value>
+			<desc>Principal Investigator</desc>
+		</option>
+		<option>
+			<value>sub-pi</value>
+			<desc>Sub-investigator</desc>
+		</option>
+		<option>
+			<value>co-pi</value>
+			<desc>Co-investigator</desc>
+		</option>
+		<option>
+			<value>research-staff</value>
+			<desc>Research Staff</desc>
+		</option>
+		<option>
+			<value>faculty-advisor</value>
+			<desc>Faculty Advisor</desc>
+		</option>
+	</staff-roles>
+	<subject-direct-benefit>
+		<option>
+			<value>pregnant-woman</value>
+			<desc>Pregnant woman</desc>
+		</option>
+		<option>
+			<value>fetus</value>
+			<desc>Fetus</desc>
+		</option>
+		<option>
+			<value>both</value>
+			<desc>Both</desc>
+		</option>
+		<option>
+			<value>neither</value>
+			<desc>Neither</desc>
+		</option>
+	</subject-direct-benefit>
+	<subject-risk-fetus>
+		<option>
+			<value>not-greater-than-minimal-risk-direct-benefit</value>
+			<desc>Not greater than minimal risk---prospect of direct benefit for
+				the woman and/or fetus
+			</desc>
+		</option>
+		<option>
+			<value>not-greater-than-minimal-risk-without-direct-benefit</value>
+			<desc>Not greater than minimal risk---without prospect of direct
+				benefit but the purpose of
+				the research is development of important
+				knowledge that cannot be
+				obtained by any other means
+			</desc>
+		</option>
+		<option>
+			<value>greater-than-minimal-risk</value>
+			<desc>Greater than minimal risk---caused solely by procedures that
+				hold the prospect of direct benefit
+				for the woman and/or fetus
+			</desc>
+		</option>
+	</subject-risk-fetus>
+	<subject-viability-neonates>
+		<option>
+			<value>uncertain-viability</value>
+			<desc>Uncertain Viability</desc>
+		</option>
+		<option>
+			<value>nonviable</value>
+			<desc>Nonviable</desc>
+		</option>
+		<option>
+			<value>both</value>
+			<desc>Both</desc>
+		</option>
+	</subject-viability-neonates>
+	<subject-neonates-uncertain-viability-risk>
+		<option>
+			<value>least-possible</value>
+			<desc>The least possible risk to achieve the research objective and the research holds the prospect of
+				enhancing the
+				probability of survival to the point of viability
+			</desc>
+		</option>
+		<option>
+			<value>no-added-risk</value>
+			<desc>No added risk will result from the research and the purpose of
+				the research
+				is development of important knowledge that cannot be
+				obtained by other
+				means
+			</desc>
+		</option>
+	</subject-neonates-uncertain-viability-risk>
+	<subject-involvement-prisoners>
+		<option>
+			<value>examine-criminal-behavior-and-no-more-than-min-risk</value>
+			<desc>This research will examine the possible causes, effects, or
+				processes of incarceration and/or criminal behavior, provided the
+				study presents no more than minimal risk or inconvenience to the
+				participants.
+			</desc>
+		</option>
+		<option>
+			<value>examine-as-incarcerated-person-and-no-more-than-min-risk
+			</value>
+			<desc>This research will examine prisons as institutional structures
+				or prisoners as incarcerated persons, provided the study presents no
+				more than minimal risk or inconvenience to the participants.
+			</desc>
+		</option>
+		<option>
+			<value>examine-conditions-affecting-prisoners</value>
+			<desc>This research will examine a condition(s) particularly
+				affecting prisoners as a class of people (for example, vaccine
+				trials and other research on hepatitis which is much more prevalent
+				in prisons than elsewhere; and research on social and psychological
+				problems such as alcoholism, drug addiction, and sexual assaults).
+			</desc>
+		</option>
+		<option>
+			<value>examine-practices-improving-health</value>
+			<desc>This research will examine practices, both innovative and
+				accepted, which have the intent and reasonable probability of
+				improving the health or well-being of the participant.
+			</desc>
+		</option>
+		<option>
+			<value>is-epidemiologic-study</value>
+			<desc>This research is an epidemiologic study (1) to describe the
+				prevalence or incidence of a disease by identifying all cases, or
+				(2) to examine potential risk factor associations for a disease,
+				provided the study presents no more than minimal risk or
+				inconvenience to the participants and prisoners are not a particular
+				focus of the research.
+			</desc>
+		</option>
+	</subject-involvement-prisoners>
+	<subject-corresponding-informaiton-category>
+		<option>
+			<value>not-greater-than-min-risk</value>
+			<desc>Not greater than minimal risk</desc>
+		</option>
+		<option>
+			<value>more-than-min-risk-has-direct-benefit</value>
+			<desc>More than minimal risk is presented by an intervention or
+				procedure that holds the prospect of direct benefit for the
+				individual child, or by a monitoring procedure that is likely to
+				contribute to the child's well-being.
+			</desc>
+		</option>
+		<option>
+			<value>more-than-min-risk-has-no-direct-benefit</value>
+			<desc>More than minimal risk is presented by an intervention or
+				procedure that does not hold the prospect of direct benefit for the
+				individual child, or by a monitoring procedure that is not likely to
+				contribute to the child's well-being.
+			</desc>
+		</option>
+	</subject-corresponding-informaiton-category>
+	<subject-incentives-offered-to-whom>
+		<option>
+			<value>child</value>
+			<desc>Child</desc>
+		</option>
+		<option>
+			<value>parent</value>
+			<desc>Parent</desc>
+		</option>
+	</subject-incentives-offered-to-whom>
+	<subject-bestdescription-correspondingInfo>
+		<option>
+			<value>minimal-risk</value>
+			<desc>Minimal risk</desc>
+		</option>
+		<option>
+			<value>greater-than-min-risk-with-direct-benefit</value>
+			<desc>Greater than minimal risk with the prospect of direct benefit
+				for the individual
+			</desc>
+		</option>
+		<option>
+			<value>greater-than-min-risk-without-direct-benefit</value>
+			<desc>Greater than minimal risk without the prospect of direct
+				benefit for the individual
+			</desc>
+		</option>
+	</subject-bestdescription-correspondingInfo>
+	<hipaa-phi-details>
+		<option>
+			<value>names</value>
+			<desc>Names; dates; phone numbers; email addresses; street addresses; cities; zip codes; social security numbers; medical records numbers</desc>
+		</option>
+		<option>
+			<value>ages-over-89</value>
+			<desc>Ages over 89; fax numbers; counties; precincts; health plan beneficiary numbers; account numbers
+			</desc>
+		</option>
+		<option>
+			<value>voices</value>
+			<desc>Voices; images; other biometric identifiers, including finger prints and retinal prints
+			</desc>
+		</option>
+		<option>
+			<value>phone-numbers</value>
+			<desc>Certificates/license numbers; vehicle identifiers and serial numbers, including license place numbers; device identifiers and serial numbers; URLs; IP addresses</desc>
+		</option>
+		<option>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other identifier</desc>
+		</option>
+	</hipaa-phi-details>
+	<hipaa-access-existing-phi-data-source>
+		<option>
+			<value>uams-medical-records-him</value>
+			<desc>UAMS Medical Records /HIM</desc>
+		</option>
+		<option>
+			<value>ach-medical-records</value>
+			<desc>ACH Medical Records</desc>
+		</option>
+		<option>
+			<value>uams-data-extract-request</value>
+			<desc>UAMS Data Extract Request</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc><![CDATA[Other <br/>Please explain what other data sources you are using.]]>
+			</desc>
+		</option>
+	</hipaa-access-existing-phi-data-source>
+	<hipaa-authorization-waiver-type>
+		<option>
+			<value>partial-waiver</value>
+			<desc>Partial Waiver (recruitment purposes only)</desc>
+		</option>
+		<option>
+			<value>full-waiver</value>
+			<desc>Full Waiver (entire research study)</desc>
+		</option>
+		<option>
+			<value>alteration</value>
+			<desc>Alteration (written documentation)</desc>
+		</option>
+	</hipaa-authorization-waiver-type>
+
+	<hipaa-phi-investigatorAssurance>
+		<option>
+			<desc>I aggree</desc>
+		</option>
+		<option>
+			<desc>I don't agree</desc>
+		</option>
+	</hipaa-phi-investigatorAssurance>
+
+
+
+	<device-type>
+		<option>
+			<value>investigational-new-device</value>
+			<desc>Investigational New Device</desc>
+		</option>
+		<option>
+			<value>device-approved-for-approved</value>
+			<desc>FDA-Approved Device for Approved Use</desc>
+		</option>
+		<option>
+			<value>device-approved-for-not-approved</value>
+			<desc>FDA-Approved Device for Non-approved Use</desc>
+		</option>
+		<option>
+			<value>hud</value>
+			<desc>Humanitarian Use Device (HUD)</desc>
+		</option>
+	</device-type>
+	<drug-status>
+		<option>
+			<value>investigational</value>
+			<desc>Investigational New Drug</desc>
+		</option>
+		<option>
+			<value>fda-approved-for-approved</value>
+			<desc>FDA-Approved Drug for Approved Use</desc>
+		</option>
+		<option>
+			<value>fda-approved-for-not-approved</value>
+			<desc>FDA-Approved Drug for Non-Approved Use</desc>
+		</option>
+	</drug-status>
+	<drug-administration>
+		<option>
+			<desc>IV</desc>
+			<value>IV</value>
+		</option>
+		<option>
+			<desc>IM</desc>
+			<value>IM</value>
+		</option>
+		<option>
+			<desc>IP</desc>
+			<value>IP</value>
+		</option>
+		<option>
+			<desc>PO</desc>
+			<value>PO</value>
+		</option>
+		<option>
+			<desc>SC</desc>
+			<value>SC</value>
+		</option>
+		<option>
+			<desc>PR</desc>
+			<value>PR</value>
+		</option>
+		<option>
+			<desc>Inhalation</desc>
+			<value>Inhalation</value>
+		</option>
+		<option>
+			<desc>Patch/Topical</desc>
+			<value>Patch / Topical</value>
+		</option>
+		<option>
+			<desc>IT</desc>
+			<value>IT</value>
+		</option>
+		<option>
+			<desc>Other</desc>
+			<value>Other</value>
+		</option>
+	</drug-administration>
+	<drug-pharmacies>
+		<option>
+			<desc>UAMS Outpatient</desc>
+		</option>
+		<option>
+			<desc>UAMS Inpatient</desc>
+		</option>
+		<option>
+			<desc>ACH Outpatient</desc>
+		</option>
+		<option>
+			<desc>ACH Inpatient</desc>
+		</option>
+		<option>
+			<desc>CAVHS Outpatient</desc>
+		</option>
+		<option>
+			<desc>CAVHS Inpatient</desc>
+		</option>
+	</drug-pharmacies>
+	<advertising-types>
+		<option>
+			<value>brochure</value>
+			<desc>Brochure</desc>
+		</option>
+		<option>
+			<value>posting-circulars</value>
+			<desc>Posting circulars</desc>
+		</option>
+		<option>
+			<value>newspaper</value>
+			<desc>Newspaper</desc>
+		</option>
+		<option>
+			<value>magazine</value>
+			<desc>Magazine</desc>
+		</option>
+		<option>
+			<value>television</value>
+			<desc>Television</desc>
+		</option>
+		<option>
+			<value>radio</value>
+			<desc>Radio</desc>
+		</option>
+		<option>
+			<value>websites</value>
+			<desc>Websites</desc>
+		</option>
+		<option>
+			<value>phone-screen</value>
+			<desc>Phone Screen</desc>
+		</option>
+		<option>
+			<value>dear-participant-letter</value>
+			<desc>"Dear Participant" Letter</desc>
+		</option>
+		<option>
+			<value>information-article</value>
+			<desc>Information Article</desc>
+		</option>
+		<option>
+			<value>public-service-announcement</value>
+			<desc>Public Service Announcement</desc>
+		</option>
+		<option>
+			<value>social-media</value>
+			<desc>Social Media (Facebook, Twitter)</desc>
+		</option>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+	</advertising-types>
+	<languages>
+		<option>
+			<value>spanish</value>
+			<desc>Spanish</desc>
+		</option>
+		<option>
+			<value>chinese</value>
+			<desc>Chinese</desc>
+		</option>
+		<option>
+			<value>hindi</value>
+			<desc>Hindi</desc>
+		</option>
+		<option>
+			<value>arabic</value>
+			<desc>Arabic</desc>
+		</option>
+		<option>
+			<value>russian</value>
+			<desc>Russian</desc>
+		</option>
+		<option>
+			<value>japanese</value>
+			<desc>Japanese</desc>
+		</option>
+		<option>
+			<value>german</value>
+			<desc>German</desc>
+		</option>
+		<option>
+			<value>french</value>
+			<desc>French</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</languages>
+	<vulnerable-populations>
+		<option>
+			<value>pregnant-women</value>
+			<desc>Pregnant Women</desc>
+		</option>
+		<option>
+			<value>neonates</value>
+			<desc>Nonviable Neonates/Neonates of Uncertain Viability</desc>
+		</option>
+		<option>
+			<value>prisoners</value>
+			<desc>Prisoners</desc>
+		</option>
+		<option>
+			<value>fetuses</value>
+			<desc>Fetuses</desc>
+		</option>
+		<option>
+			<value>children</value>
+			<desc>Children</desc>
+		</option>
+		<option>
+			<value>non-english-speaking</value>
+			<desc>Non-English Speaking</desc>
+		</option>
+		<option>
+			<value>wards-of-the-state</value>
+			<desc>Wards of the State</desc>
+		</option>
+		<option>
+			<value>cognitively-impaired</value>
+			<desc>Cognitively Impaired</desc>
+		</option>
+		<option>
+			<value>research-subjects-in-international-setting</value>
+			<desc>Research Subjects in International Setting</desc>
+		</option>
+		<option>
+			<value>unknown</value>
+			<desc>Unknown (for chart review studies only)</desc>
+		</option>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+	</vulnerable-populations>
+	<vulnerable-populations-targeted>
+		<option>
+			<value>pre-k-12-students</value>
+			<desc>Pre-K-12 Students</desc>
+		</option>
+		<option>
+			<value>college-students</value>
+			<desc>College Students</desc>
+		</option>	
+		<option>
+			<value>homeless</value>
+			<desc>Homeless</desc>
+		</option>
+		<option>
+			<value>educationally-disadvantaged</value>
+			<desc>Educationally Disadvantaged</desc>
+		</option>
+		<option>
+			<value>financially-impaired</value>
+			<desc>Financially Impaired</desc>
+		</option>
+		<option>
+			<value>terminally-iii</value>
+			<desc>Terminally III</desc>
+		</option>
+		<option>
+			<value>substance-abusers</value>
+			<desc>Substance Abusers</desc>
+		</option>
+		<option>
+			<value>minorities</value>
+			<desc>Minorities</desc>
+		</option>
+		<option>
+			<value>victims-of-sexual-abuse</value>
+			<desc>Victims of Sexual Abuse</desc>
+		</option>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+	</vulnerable-populations-targeted>
+	<vulnerable-populations-since-activation>
+		<option>
+			<value>children</value>
+			<desc>Children</desc>
+		</option>
+		<option>
+			<value>prisoners</value>
+			<desc>Prisoners</desc>
+		</option>
+		<option>
+			<value>fetuses-pregnant-women</value>
+			<desc>Fetuses/Pregnant women</desc>
+		</option>
+		<option>
+			<value>cognitively-impaired-persons</value>
+			<desc>Cognitively Impaired Persons</desc>
+		</option>
+		<option>
+			<value>students</value>
+			<desc>Students</desc>
+		</option>
+		<option>
+			<value>employees</value>
+			<desc>Employees</desc>
+		</option>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+	</vulnerable-populations-since-activation>
+	<who-is-monitoring>
+		<option>
+			<value>data-safety-monitoring-board</value>
+			<desc>Data and Safety Monitoring Board (DSMB)</desc>
+		</option>
+		<option>
+			<value>data-and-safety-monitor</value>
+			<desc>Data and Safety Monitor (DSM)</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</who-is-monitoring>
+	<age-units>
+		<option>
+			<desc>Years</desc>
+		</option>
+		<option>
+			<desc>Months</desc>
+		</option>
+		<option>
+			<desc>Weeks</desc>
+		</option>
+		<option>
+			<desc>Days</desc>
+		</option>
+	</age-units>
+	<study-sites>
+		<option>
+			<desc>UAMS - Main Campus</desc>
+		</option>
+		<option>
+			<desc>Arkansas Childrens Hospital</desc>
+		</option>
+		<option>
+			<desc>Arkansas Childrens Hospital Research Institute</desc>
+		</option>
+		<option>
+			<desc>AHEC: Fort Smith</desc>
+		</option>
+		<option>
+			<desc>AHEC: Pine Bluff</desc>
+		</option>
+		<option>
+			<desc>AHEC: North Central</desc>
+		</option>
+		<option>
+			<desc>AHEC: Delta</desc>
+		</option>
+		<option>
+			<desc>AHEC: Northeast</desc>
+		</option>
+		<option>
+			<desc>AHEC: South Arkansas</desc>
+		</option>
+		<option>
+			<desc>AHEC: Northwest</desc>
+		</option>
+		<option>
+			<desc>AHEC: Southwest</desc>
+		</option>
+
+	</study-sites>
+	<submission-types>
+		<option>
+			<desc>Full Protocol</desc>
+		</option>
+		<option>
+			<desc>Emergency Use</desc>
+		</option>
+		<option>
+			<desc>Humanitarian Use Device</desc>
+		</option>
+		<option>
+			<desc>Human Subject Research Determination</desc>
+		</option>
+	</submission-types>
+	<study-types>
+		<option>
+			<value>industry-sponsored</value>
+			<desc>Industry</desc>
+		</option>
+		<option>
+			<value>cooperative-group</value>
+			<desc>Cooperative Group</desc>
+		</option>
+		<option>
+			<value>investigator-initiated</value>
+			<desc>Investigator</desc>
+		</option>
+	</study-types>
+	<cooperative-groups>
+		<option>
+			<value>acrin</value>
+			<desc>ACRIN - American College of Radiology Imaging Network</desc>
+		</option>
+		<option>
+			<value>gog</value>
+			<desc>GOG - Gynecologic Oncology Group</desc>
+		</option>
+		<option>
+			<value>acosog</value>
+			<desc>ACOSOG - American College of Surgeons Oncology Group</desc>
+		</option>
+		<option>
+			<value>ncic-ctg</value>
+			<desc>NCIC-CTG - National Cancer Institute of Canada, Clinical Trials Group</desc>
+		</option>
+		<option>
+			<value>calgb</value>
+			<desc>CALGB - Cancer and Leukemia Group B</desc>
+		</option>
+		<option>
+			<value>nsabp</value>
+			<desc>NSABP - National Surgical Adjuvant Breast and Bowel Project</desc>
+		</option>
+		<option>
+			<value>cog</value>
+			<desc>COG - Children's Oncology Group</desc>
+		</option>
+		<option>
+			<value>ncctg</value>
+			<desc>NCCTG - North Central Cancer Treatment Group</desc>
+		</option>
+		<option>
+			<value>ecog</value>
+			<desc>ECOG - Eastern Cooperative Oncology Group</desc>
+		</option>
+		<option>
+			<value>rtog</value>
+			<desc>RTOG - Radiation Therapy Oncology Group</desc>
+		</option>
+		<option>
+			<value>swog</value>
+			<desc>SWOG - Southwest Oncology Group</desc>
+		</option>
+		<option>
+			<value>alliance</value>
+			<desc>Alliance</desc>
+		</option>
+		<option>
+			<value>ctsu-cancer-trials-support-unit</value>
+			<desc>CTSU Cancer Trials Support Unit</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</cooperative-groups>
+	<study-subtypes>
+		<option>
+			<value>industry-support-full-funding</value>
+			<desc>Industry Support, full funding</desc>
+		</option>
+		<option>
+			<value>industry-support-partial-funding</value>
+			<desc>Industry Support, partial funding</desc>
+		</option>
+		<option>
+			<value>industry-support-drug-device-only</value>
+			<desc>Industry Support, providing drug/device</desc>
+		</option>
+		<option>
+			<value>federal-grant-directly-to-uams-achri</value>
+			<desc>Federal grant directly to UAMS/ACHRI</desc>
+		</option>
+		<option>
+			<value>federal-sub-contract-from-another-institution</value>
+			<desc>Federal sub-contract from another institution</desc>
+		</option>
+		<option>
+			<value>non-federal-grant</value>
+			<desc>Non-federal grant</desc>
+		</option>
+		<option>
+			<value>internal-support</value>
+			<desc>Internal support</desc>
+		</option>
+		<option>
+			<value>no-designated-support</value>
+			<desc>No designated support for this study</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</study-subtypes>
+	<sites-single-or-multi>
+		<option>
+			<value>single-site</value>
+			<desc>Single-site</desc>
+		</option>
+		<option>
+			<value>multiple-sites</value>
+			<desc>Multi-site</desc>
+		</option>
+	</sites-single-or-multi>
+	<phases>
+		<option>
+			<value>0</value>
+			<desc>Phase 0</desc>
+		</option>
+		<option>
+			<value>i</value>
+			<desc>Phase I</desc>
+		</option>
+		<option>
+			<value>i-ii</value>
+			<desc>Phase I/II</desc>
+		</option>
+		<option>
+			<value>ii</value>
+			<desc>Phase II</desc>
+		</option>
+		<option>
+			<value>ii-iii</value>
+			<desc>Phase II/III</desc>
+		</option>
+		<option>
+			<value>iii</value>
+			<desc>Phase III</desc>
+		</option>
+		<option>
+			<value>iv</value>
+			<desc>Phase IV</desc>
+		</option>
+		<option>
+			<value>feasibility-pilot</value>
+			<desc>Feasibility (Pilot) Study</desc>
+		</option>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>Not Applicable</desc>
+		</option>
+	</phases>
+	<patient-locations>
+		<option>
+			<value>inpatient</value>
+			<desc>Inpatient</desc>
+		</option>
+		<option>
+			<value>outpatient</value>
+			<desc>Outpatient</desc>
+		</option>
+		<option>
+			<value>community-based</value>
+			<desc>Community-based (Schools, Nursing Homes, Churches, etc.)</desc>
+		</option>
+		<option>
+			<value>long-term-care-facility</value>
+			<desc>Research Labs (e.g., exercise facility, BioMed I, etc.)</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+	</patient-locations>
+	<study-uses>
+		<option>
+			<value>observation</value>
+			<desc>Observation only</desc>
+		</option>
+		<option>
+			<value>intervention</value>
+			<desc>Intervention</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</study-uses>
+	<observation-goal>
+		<option>
+			<value>determine-incidentc-prevalence-of-disease</value>
+			<desc>To determine incidence/prevalence of disease (epidemiologic trial)</desc>
+		</option>
+		<option>
+			<value>determine-risk-factors-for-disease</value>
+			<desc>To determine risk factors for disease/outcomes (epidemiologic trial)</desc>
+		</option>
+		<option>
+			<value>study-natural-history-of-disease</value>
+			<desc>To study natural history of disease (epidemiologic trial)</desc>
+		</option>
+		<option>
+			<value>study-behavior</value>
+			<desc>To study behavior (observational trial)</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</observation-goal>
+	<intervention-goal>
+		<option>
+			<value>treat-disease</value>
+			<desc>To treat disease (therapeutic trial)</desc>
+		</option>
+		<option>
+			<value>prevent-disease</value>
+			<desc>To prevent disease (prevention trial) </desc>
+		</option>
+		<option>
+			<value>ameliorate-disease-effects</value>
+			<desc>To ameliorate disease effects (supportive care trial)</desc>
+		</option>
+		<option>
+			<value>detect-disease-in-preclinical-course</value>
+			<desc>To detect disease in preclinical course (screening trial)</desc>
+		</option>
+		<option>
+			<value>detect-disease-with-improved-accuracy</value>
+			<desc>To detect disease with improved accuracy (diagnostic trial)</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</intervention-goal>
+	<samples-be-released-to-whom>
+		<option>
+			<value>pharmaceutical-company</value>
+			<desc>Pharmaceutical Company</desc>
+		</option>
+		<option>
+			<value>local-investigators</value>
+			<desc>Local Investigators (e.g., researchers at UAMS, ACH) </desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</samples-be-released-to-whom>
+	<samples-be-released-sample-identification>
+		<option>
+			<value>coded</value>
+			<desc>Coded</desc>
+		</option>
+		<option>
+			<value>de-identified</value>
+			<desc>De-Identified</desc>
+		</option>
+		<option>
+			<value>neither</value>
+			<desc>Neither</desc>
+		</option>
+	</samples-be-released-sample-identification>
+
+	<exempt-categories>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+		<option>
+			<value>1</value>
+			<desc>1</desc>
+		</option>
+		<option>
+			<value>2</value>
+			<desc>2</desc>
+		</option>
+		<option>
+			<value>3</value>
+			<desc>3</desc>
+		</option>
+		<option>
+			<value>4</value>
+			<desc>4</desc>
+		</option>
+		<option>
+			<value>5</value>
+			<desc>5</desc>
+		</option>
+		<option>
+			<value>6</value>
+			<desc>6</desc>
+		</option>
+	</exempt-categories>
+	<expedited-categories>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+		<option>
+			<value>1</value>
+			<desc>1</desc>
+		</option>
+		<option>
+			<value>2</value>
+			<desc>2</desc>
+		</option>
+		<option>
+			<value>3</value>
+			<desc>3</desc>
+		</option>
+		<option>
+			<value>4</value>
+			<desc>4</desc>
+		</option>
+		<option>
+			<value>5</value>
+			<desc>5</desc>
+		</option>
+		<option>
+			<value>6</value>
+			<desc>6</desc>
+		</option>
+		<option>
+			<value>7</value>
+			<desc>7</desc>
+		</option>
+	</expedited-categories>
+	<expedited-categories-cr>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+		<option>
+			<value>1</value>
+			<desc>1</desc>
+		</option>
+		<option>
+			<value>2</value>
+			<desc>2</desc>
+		</option>
+		<option>
+			<value>3</value>
+			<desc>3</desc>
+		</option>
+		<option>
+			<value>4</value>
+			<desc>4</desc>
+		</option>
+		<option>
+			<value>5</value>
+			<desc>5</desc>
+		</option>
+		<option>
+			<value>6</value>
+			<desc>6</desc>
+		</option>
+		<option>
+			<value>7</value>
+			<desc>7</desc>
+		</option>
+		<option>
+			<value>8</value>
+			<desc>8</desc>
+		</option>
+		<option>
+			<value>9</value>
+			<desc>9</desc>
+		</option>
+	</expedited-categories-cr>
+	<consent-process-include>
+		<option>
+			<value>assent-process</value>
+			<desc>Assent</desc>
+		</option>
+		<option>
+			<value>parental-permission-process</value>
+			<desc>Parental Permission (Pediatric Consent)</desc>
+		</option>
+		<option>
+			<value>information-consent-process</value>
+			<desc>Informed Consent</desc>
+		</option>
+		<option>
+			<value>none</value>
+			<desc>Requesting Waiver of Consent Process</desc>
+		</option>
+	</consent-process-include>
+	<consent-provider>
+		<option>
+			<value>participant</value>
+			<desc>Participant</desc>
+		</option>
+		<option>
+			<value>legally-authorized-representative</value>
+			<desc>Legally authorized representative</desc>
+		</option>
+		<option>
+			<value>parents-and-or-guardian</value>
+			<desc>Parent and/or guardian</desc>
+		</option>
+	</consent-provider>
+	<location-of-consent-process>
+		<option>
+			<value>private-room</value>
+			<desc>In a private room</desc>
+		</option>
+		<option>
+			<value>over-phone</value>
+			<desc>Over the phone</desc>
+		</option>
+		<option>
+			<value>via-mail</value>
+			<desc>Via mail</desc>
+		</option>
+		<option>
+			<value>in-group-setting</value>
+			<desc>In a group setting</desc>
+		</option>
+		<option>
+			<value>via-internet</value>
+			<desc>Via the Internet</desc>
+		</option>
+	</location-of-consent-process>
+	<dsmb-review-frequency>
+		<option>
+			<value>monthly</value>
+			<desc>Monthly</desc>
+		</option>
+		<option>
+			<value>quarterly</value>
+			<desc>Quarterly</desc>
+		</option>
+		<option>
+			<value>bi-annually</value>
+			<desc>Bi-annually</desc>
+		</option>
+		<option>
+			<value>annually</value>
+			<desc>Annually</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other, please explain (i.e. by dosing level, number of subjects
+				enrolled, etc.)</desc>
+		</option>
+	</dsmb-review-frequency>
+	<misc-nontreatment-type>
+		<option>
+			<value>retrospective-study</value>
+			<desc>Retrospective study using existing data (chart review, sample
+				bank, etc.)
+			</desc>
+		</option>
+		<option>
+			<value>study-collecting-specimen</value>
+			<desc>Study collecting tissue or blood for in vitro experiments not
+				related to patient data or outcome.
+			</desc>
+		</option>
+		<option>
+			<value>repository</value>
+			<desc>Study assembling repositories (banking) tissue, data, or
+				samples for unspecified future use.
+			</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other, please describe</desc>
+		</option>
+	</misc-nontreatment-type>
+	<misc-prmc-type>
+		<option>
+			<value>therapeutic-trial</value>
+			<desc>Therapeutic Trial</desc>
+		</option>
+		<option>
+			<value>prevention-trail</value>
+			<desc>Prevention Trail</desc>
+		</option>
+		<option>
+			<value>supportive-care-trial</value>
+			<desc>Supportive Care Trial</desc>
+		</option>
+		<option>
+			<value>screening</value>
+			<desc>Screening</desc>
+		</option>
+		<option>
+			<value>epidemiologic</value>
+			<desc>Epidemiologic</desc>
+		</option>
+		<option>
+			<value>ancillary</value>
+			<desc>Ancillary</desc>
+		</option>
+		<option>
+			<value>correlative</value>
+			<desc>Correlative</desc>
+		</option>
+	</misc-prmc-type>
+	<specimens-type>
+		<option>
+			<value>blood</value>
+			<desc>Blood</desc>
+		</option>
+		<option>
+			<value>tissue</value>
+			<desc>Tissue</desc>
+		</option>
+		<option>
+			<value>others</value>
+			<desc>Others (urine, saliva, semen, etc)</desc>
+		</option>
+	</specimens-type>
+	<specimens-identification>
+		<option>
+			<value>coded</value>
+			<desc>Coded</desc>
+		</option>
+		<option>
+			<value>de-identified</value>
+			<desc>De-identified</desc>
+		</option>
+		<option>
+			<value>neither</value>
+			<desc>Neither</desc>
+		</option>
+	</specimens-identification>
+	<samples-released-type>
+		<option>
+			<desc>Coded</desc>
+		</option>
+		<option>
+			<desc>De-identified</desc>
+		</option>
+	</samples-released-type>
+	<genetic-testing-type>
+		<option>
+			<value>pedigree-study</value>
+			<desc>Pedigree study (to discover the pattern of inheritance of a disease and to catalog the range of symptoms involved)</desc>
+		</option>
+		<option>
+			<value>positional-cloning-study</value>
+			<desc>Positional cloning study (to localize and identify specific genes)
+			</desc>
+		</option>
+		<option>
+			<value>dna-diagnostic-study</value>
+			<desc>DNA diagnostic study (to develop techniques for determining the presence of specific DNA mutations</desc>
+		</option>
+		<option>
+			<value>gene-therapy-research</value>
+			<desc>Gene therapy research (to develop treatments for genetic disease at the DNA level)</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other
+			</desc>
+		</option>
+	</genetic-testing-type>
+	<genetic-therapy-type>
+		<option>
+			<value>germline</value>
+			<desc>Germline (inherited mutation or genotype)</desc>
+		</option>
+		<option>
+			<value>somatic</value>
+			<desc>Somatic (non-inherited mutation expected to be present only in the tissue being studied)
+			</desc>
+		</option>
+		<option>
+			<value>unknown</value>
+			<desc>Unknown</desc>
+		</option>
+	</genetic-therapy-type>
+	<bio-hazard-materials-material>
+		<option>
+			<value>bl2-bl3-infectious-agents</value>
+			<desc>BL2/BL3 infectious agents </desc>
+		</option>
+		<option>
+			<value>r-dna</value>
+			<desc>Recombinant DNA (rDNA) </desc>
+		</option>
+		<option>
+			<value>human-gene-therapy-procedures</value>
+			<desc>Human gene therapy procedures </desc>
+		</option>
+		<option>
+			<value>carcinogenic-compounds</value>
+			<desc>Experimentation using carcinogenic (known or suspected)
+				compounds </desc>
+		</option>
+		<option>
+			<value>regulated-toxins</value>
+			<desc>Regulated Toxins (e.g. Botulinum Toxin) </desc>
+		</option>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+	</bio-hazard-materials-material>
+	<criteria-claimed>
+		<option>
+			<value>study-closed</value>
+			<desc><![CDATA[All of the following accurately describe your research
+						<ul class="option-description-list">
+						<li>a.	The research is permanently closed to the enrollment of new subjects</li>
+						<li>b.	All subjects have completed all research related interventions</li>
+						<li>c.	The research remains active only for long-term follow-up of subjects</li>
+						</ul> ]]></desc>
+		</option>
+		<option>
+			<value>data-analysis-only</value>
+			<desc>The remaining research activities are limited to data analysis
+				only.</desc>
+		</option>
+		<option>
+			<value>no-subject-no-risk</value>
+			<desc>No subject has been enrolled, no risk has been identified.</desc>
+		</option>
+	</criteria-claimed>
+	<study-status>
+		<option>
+			<value>study-no-initiated</value>
+			<desc>Study not initiated.</desc>
+		</option>
+		<option>
+			<value>no-subjects-enrolled</value>
+			<desc>No subjects have been enrolled, no risks have been identified. </desc>
+		</option>
+		<option>
+			<value>research-permanently-closed-remains-active</value>
+			<desc>The research is permanently closed to the enrollment of new subjects, all subjects have completed all research related interventions, and the research remains active only for long-term follow-up of subjects.</desc>
+		</option>
+		<option>
+			<value>research-permanently-closed-limited-to-data</value>
+			<desc>The research is permanently closed to the enrollment of new subjects, all subjects have completed all research related interventions, and the remaining research activities are limited to data analysis only. </desc>
+		</option>
+		<option>
+			<value>research-permanently-closed-private-identifiable-information</value>
+			<desc>The research is permanently closed to the enrollment of new subjects, all subjects have completed all research related interventions, and collection and analysis of private identifiable information is completed.</desc>
+		</option>
+		<option>
+			<value>study-open-accrual-ongoing</value>
+			<desc>The study is open and accrual is ongoing.</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</study-status>
+	<info-category>
+		<option>
+			<value>non-local-adverse-events</value>
+			<desc>Non-local adverse event</desc>
+		</option>
+		<option>
+			<value>local-adverse-events</value>
+			<desc>Local adverse event</desc>
+		</option>
+		<option>
+			<value>accidental-or-unintentional-protocol-deviation</value>
+			<desc>Accidental or unintentional protocol deviation</desc>
+		</option>
+		<option>
+			<value>unanticipated-adverse-device-effects</value>
+			<desc>Unanticipated adverse device effect</desc>
+		</option>
+		<option>
+			<value>protocol-deviation-to-eliminate-immediate-apparent-harm</value>
+			<desc>Protocol deviation to eliminate immediate apparent harm</desc>
+		</option>
+		<option>
+			<value>breach-of-confidentiality</value>
+			<desc>Breach of confidentiality </desc>
+		</option>
+		<option>
+			<value>participant-complaint</value>
+			<desc>Participant complaint</desc>
+		</option>
+		<option>
+			<value>incarceration-of-subject</value>
+			<desc>Incarceration of a subject in a study not approved for the enrollment of prisoners</desc>
+		</option>
+		<option>
+			<value>change-in-fda</value>
+			<desc>Change in FDA labeling or withdrawal of drug, device, or biologic used in the research protocol</desc>
+		</option>
+		<option>
+			<value>restriction-suspension-termination-of-study</value>
+			<desc>Restriction, suspension or termination of the study</desc>
+		</option>
+		<option>
+			<value>premature-completion</value>
+			<desc>Premature completion of the study </desc>
+		</option>
+		<option>
+			<value>notification-of-audits</value>
+			<desc>Notification of pending audit, inquiry or investigation by federal agency </desc>
+		</option>
+		<option>
+			<value>written-report-from-monitor</value>
+			<desc>Written reports from study monitor </desc>
+		</option>
+		<option>
+			<value>new-information</value>
+			<desc>Other new information</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other problem</desc>
+		</option>
+	</info-category>
+	<study-closure-study-status>
+		<option>
+			<value>never-initiated</value>
+			<desc>Study never initiated.</desc>
+		</option>
+		<option>
+			<value>no-subject-no-risk</value>
+			<desc>No subjects have been enrolled, no risks have been identified.</desc>
+		</option>
+		<option>
+			<value>permanently-closed-to-enrollment</value>
+			<desc>The research is permanently closed to the enrollment of new subjects, all subjects have completed all research related interventions, and collection and analysis of private identifiable information is completed.</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</study-closure-study-status>
+	<study-closure-reason>
+		<option>
+			<value>completed-as-planned</value>
+			<desc>Study completed as planned</desc>
+		</option>
+		<option>
+			<value>terminated-early-due-to-safety-concerns</value>
+			<desc>Study terminated early due to safety concerns</desc>
+		</option>
+		<option>
+			<value>terminated-early-due-to-slow-accrual</value>
+			<desc>Study terminated early due to slow accrual</desc>
+		</option>
+		<option>
+			<value>due-to-sponsor-withdrawal</value>
+			<desc>Study closed due to sponsor withdrawal</desc>
+		</option>
+	</study-closure-reason>
+	<contract-types>
+		<option>
+			<value>confidentiality-disclosure-agreement</value>
+			<desc>Confidentiality Disclosure Agreement (CDA)</desc>
+		</option>
+		<option>
+			<value>clinical-trial-agreement</value>
+			<desc>Clinical Trial Agreement (CTA)</desc>
+		</option>
+		<option>
+			<value>material-transfer-agreement</value>
+			<desc>Material Transfer Agreement (MTA)</desc>
+		</option>
+		<option>
+			<value>research-agreement</value>
+			<desc>Research Agreement</desc>
+		</option>
+		<option>
+			<value>subcontracts</value>
+			<desc>Subcontracts</desc>
+		</option>
+		<option>
+			<value>hipaa-data-use-agreement</value>
+			<desc>HIPAA Data Use Agreement (Limited Data Set)</desc>
+		</option>
+		<option>
+			<value>license</value>
+			<desc>License</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</contract-types>
+	<confidentiality-disclosure-agreement-sub-type>
+		<option>
+			<value>sponsor-provided-cda</value>
+			<desc>Sponsor Provided CDA</desc>
+		</option>
+		<option>
+			<value>uams-cda</value>
+			<desc>UAMS CDA </desc>
+		</option>
+	</confidentiality-disclosure-agreement-sub-type>
+	<clinical-trial-agreement-sub-type>
+		<option>
+			<value>sponsored-cta</value>
+			<desc>Sponsored CTA: Protocol created by sponsor</desc>
+		</option>
+		<option>
+			<value>pi-initiated-cta</value>
+			<desc>PI Initiated CTA:  Protocol created by UAMS PI (externally funded or drug/device provided by company)</desc>
+		</option>
+		<option>
+			<value>master-cta</value>
+			<desc>Master CTA</desc>
+		</option>
+		<option>
+			<value>compassionate-use-cta</value>
+			<desc>Compassionate Use CTA</desc>
+		</option>
+		<option>
+			<value>expanded-access-use-cta</value>
+			<desc>Expanded Access use CTA</desc>
+		</option>
+		<option>
+			<value>emergence-use-cta</value>
+			<desc>Emergence Use CTA</desc>
+		</option>
+		<option>
+			<value>cooperative-group-cta</value>
+			<desc>Cooperative Group CTA (SWOG, GOG, NSABP, etc)</desc>
+		</option>
+	</clinical-trial-agreement-sub-type>
+	<material-transfer-agreement-sub-type>
+		<option>
+			<value>uams-as-provider-mta</value>
+			<desc>UAMS as provider MTA </desc>
+		</option>
+		<option>
+			<value>uams-as-recipient-mta</value>
+			<desc>UAMS as recipient MTA</desc>
+		</option>
+	</material-transfer-agreement-sub-type>
+	<research-agreement-sub-type>
+		<option>
+			<value>collaborative-research-agreement</value>
+			<desc>Collaborative Research Agreement (Joint protocol)</desc>
+		</option>
+		<option>
+			<value>pi-initiated-research</value>
+			<desc>PI Initiated Research: Scope of Work created by UAMS PI (externally funded or drug/device provided by company)</desc>
+		</option>
+		<option>
+			<value>sponsored-research</value>
+			<desc>Sponsored Research: Protocol created by Sponsor</desc>
+		</option>
+		<option>
+			<value>testing-agreement</value>
+			<desc>Testing Agreement</desc>
+		</option>
+		<option>
+			<value>master-agreement</value>
+			<desc>Master Agreement</desc>
+		</option>
+	</research-agreement-sub-type>
+	<subcontracts-sub-type>
+		<option>
+			<value>uams-as-subcontractor</value>
+			<desc>UAMS as a subcontractor </desc>
+		</option>
+		<option>
+			<value>uams-is-primary-contractor</value>
+			<desc>UAMS is primary contactor (subcontract covers work done for UAMS by another party) </desc>
+		</option>
+	</subcontracts-sub-type>
+	<license-sub-type>
+		<option>
+			<value>uams-as-licensee</value>
+			<desc>UAMS as Licensee</desc>
+		</option>
+		<option>
+			<value>uams-as-licensor</value>
+			<desc>UAMS as Licensor</desc>
+		</option>
+	</license-sub-type>
+	<to-modify-sections>
+		<option>
+			<value>staff-documents-only</value>
+			<desc>Staff and Documents ONLY</desc>
+		</option>
+		<option>
+			<value>budget-documents-only</value>
+			<desc>Budget and Documents ONLY</desc>
+		</option>
+		<option>
+			<value>documents-only</value>
+			<desc>Documents ONLY </desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</to-modify-sections>
+	<investigator-description>
+		<option>
+			<value>local-faculty</value>
+			<desc>Local faculty (UAMS, ACH/ACHRI)</desc>
+		</option>
+		<option>
+			<value>non-local-faculty</value>
+			<desc>Non-local faculty</desc>
+		</option>
+		<option>
+			<value>student-fellow-resident-post-doc</value>
+			<desc>Student/Fellow/Resident/Post-doc</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</investigator-description>
+	<children-incentives-offered>
+		<option>
+			<value>parents-only</value>
+			<desc>Parents only</desc>
+		</option>
+		<option>
+			<value>children-only</value>
+			<desc>Children only</desc>
+		</option>
+		<option>
+			<value>both-parents-and-children</value>
+			<desc>Both parents and children</desc>
+		</option>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+	</children-incentives-offered>
+	<initial-hud-or-hud-renewal-application>
+		<option>
+			<value>initial</value>
+			<desc>Initial</desc>
+		</option>
+		<option>
+			<value>renewal</value>
+			<desc>Renewal</desc>
+		</option>
+	</initial-hud-or-hud-renewal-application>
+	<ieu-or-eu>
+		<option>
+			<value>intended-emergency-use</value>
+			<desc>Intended emergency use </desc>
+		</option>
+		<option>
+			<value>emergency-use-follow-up-report</value>
+			<desc>Emergency use follow-up report</desc>
+		</option>
+	</ieu-or-eu>
+	<hsrd-study-involves>
+		<option>
+			<value>hesc</value>
+			<desc>Human embryonic stem cells (hESC), adult human stem cells, pluripotent cells or somatic nuclear transplantation</desc>
+		</option>
+		<option>
+			<value>fetal-issue</value>
+			<desc>Fetal issue</desc>
+		</option>
+		<option>
+			<value>biohazardous-infectious-agents</value>
+			<desc>Biohazardous/infectious agents</desc>
+		</option>
+		<option>
+			<value>va-sites-resources-personnel</value>
+			<desc>VA sites, resources, or personnel</desc>
+		</option>
+		<option>
+			<isna>y</isna>
+			<value>na</value>
+			<desc>N/A</desc>
+		</option>
+	</hsrd-study-involves>
+	<age-ranges>
+		<option>
+			<value>in-utero</value>
+			<desc>In utero</desc>
+		</option>
+		<option>
+			<value>birth-6</value>
+			<desc>Birth-6 years old</desc>
+		</option>
+		<option>
+			<value>7-17</value>
+			<desc>7-17 years old</desc>
+		</option>
+		<option>
+			<value>18+</value>
+			<desc>18+ years old</desc>
+		</option>
+		<option>
+			<value>unknown</value>
+			<desc>Unkown</desc>
+		</option>
+	</age-ranges>
+	<hud-be-used>
+		<option>
+			<value>uams</value>
+			<desc>UAMS</desc>
+		</option>
+		<option>
+			<value>ach/achri</value>
+			<desc>ACH/ACHRI</desc>
+		</option>
+	</hud-be-used>
+	<whom-will-be-released-to>
+		<option>
+			<value>pharmaceutical-company</value>
+			<desc>Pharmaceutical Company </desc>
+		</option>
+		<option>
+			<value>local-investigators</value>
+			<desc>Local Investigators (e.g., researchers at UAMS, ACH) </desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other </desc>
+		</option>
+	</whom-will-be-released-to>
+	<audit-type>
+		<option>
+			<value>random</value>
+			<desc>Random</desc>
+		</option>
+		<option>
+			<value>requested</value>
+			<desc>Requested</desc>
+		</option>
+		<option>
+			<value>for-cause</value>
+			<desc>For Cause</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other </desc>
+		</option>
+	</audit-type>
+	<project-primary-intent>
+		<option>
+			<value>develop-contribute-to-generalizable-knowledge</value>
+			<desc>To develop or contribute to generalizable knowledge (to extend outside the local context)</desc>
+		</option>
+		<option>
+			<value>evaluate-existing-program</value>
+			<desc>To evaluate an existing program or practice and to use the findings within the institution to improve the practice or program (note that this aim does not preclude publication)</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other</desc>
+		</option>
+	</project-primary-intent>
+</lookup>

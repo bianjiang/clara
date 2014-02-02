@@ -1,0 +1,54 @@
+<irb-fees>	
+	<category name="ACH / ACHRI" value="ach-achri">
+		<form type="New Submission" fee="0" />
+		<form type="Continuing Review" fee="0" />
+	</category>
+	<category name="Industry Sponsored" value="industry-sponsored">
+		<form type="New Submission" fee="2500" />
+		<form type="Continuing Review" fee="1000" />
+	</category>
+	<category name="Federal Project" value="cooperative-group">
+		<form type="New Submission" fee="0" />
+		<form type="Continuing Review" fee="0" />
+	</category>
+	<category name="Student Project" value="student-fellow-resident-post-doc">
+		<form type="New Submission" fee="0" />
+		<form type="Continuing Review" fee="0" />
+	</category>
+	<category name="Industry Support" value="industry-support-full-funding">
+		<form type="New Submission" fee="750" />
+		<form type="Continuing Review" fee="400" />
+	</category>
+	<category name="Industry Support" value="industry-support-partial-funding">
+		<form type="New Submission" fee="750" />
+		<form type="Continuing Review" fee="400" />
+	</category>
+	<category name="Drug/Device Provided without funding support" value="industry-support-drug-device-only">
+		<form type="New Submission" fee="250" />
+		<form type="Continuing Review" fee="150" />
+	</category>
+	<category name="Non-federal grants, awards, gifts" value="non-federal-grant">
+		<form type="New Submission" fee="300" />
+		<form type="Continuing Review" fee="150" />
+	</category>
+	<category name="No funding or Departmental Funds" value="internal-support">
+		<form type="New Submission" fee="75" />
+		<form type="Continuing Review" fee="50" />
+	</category>
+	<category name="No Funding or Departmental Funds" value="no-designated-support">
+		<form type="New Submission" fee="75" />
+		<form type="Continuing Review" fee="50" />
+	</category>
+	<category name="Federal grant directly to UAMS/ACHRI" value="federal-grant-directly-to-uams-achri">
+		<form type="New Submission" fee="0" />
+		<form type="Continuing Review" fee="0" />
+	</category>
+	<category name="Federal sub-contract from another institution" value="federal-sub-contract-from-another-institution">
+		<form type="New Submission" fee="0" />
+		<form type="Continuing Review" fee="0" />
+	</category>
+	<category name="Other" value="other">
+		<form type="New Submission" fee="0" />
+		<form type="Continuing Review" fee="0" />
+	</category>
+</irb-fees>

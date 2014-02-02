@@ -1,0 +1,72 @@
+.pharmacy-expense-drugs li{
+	line-height:1.5em;
+    margin: .25em 0;
+    padding: 0 0 0 18px;
+	background:url(../../../../images/icons/pill.png) no-repeat 0 0px;
+}
+
+.pharmacy-expense-fees li{
+	line-height:1.5em;
+    margin: .25em 0;
+    padding: 0 0 0 18px;
+	background:url(../../../../images/icons/money_dollar.png) no-repeat 0 0px;
+}
+
+.fee-row{
+	font-size:12px;
+}
+
+.cb-fee-multiple-field-label{
+	font-size:12px;
+}
+
+.cb-fee-field{
+	margin-right:12px;
+}
+
+.fee-row-cost-value{
+	color:#999;
+}
+
+.fee-row-cost{
+	margin-bottom:4px;
+	font-size:12px;
+	margin-left:24px;
+	color:#666;
+}
+
+.fee-row-desc{
+	width:73%;
+	float:left;
+	font-size:16px;
+}
+
+.fee-row-value{
+	width:24%;
+	float:right;
+	display:none;
+	font-size:16px;
+}
+
+#pharmacy-total,#pharmacy-total-value{
+	font-size:18px;
+	font-weight:800;
+}
+
+#pharmacy-total-value{
+	color:green;
+}
+
+.waived-total{
+	color:red !important;
+	font-weight:100 !important;
+	text-decoration:line-through;
+}
+
+.row-pharmacy-notes{
+	margin-top:4px;
+	border:1px solid #ffff00;
+	background-color:#ffffcc;
+	color:#333333;
+	padding:4px;
+}

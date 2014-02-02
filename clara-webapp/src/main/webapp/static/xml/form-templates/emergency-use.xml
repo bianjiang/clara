@@ -1,0 +1,121 @@
+<form name="Emergency Use" id="emergency-use" type="EMERGENCY_USE">
+	<page name="Basic Details" id="first-page">
+		<section>
+			<question id="question-eu-title" parent-id="" parent-value="" header="">
+				<question-label>What's the title of this study?</question-label>
+				<question-value instance-path="/emergency-use/basic-details/eu-title" value-type="textarea" />
+			</question>
+			<question id="question-treatment-location" parent-id="" parent-value="" header="">
+				<question-label>Treatment Location:</question-label>
+				<question-value  instance-path="/emergency-use/basic-details/treatment-location" value-type="textarea" />
+			</question>
+			<question id="question-test-article" parent-id="" parent-value="" header="">
+				<question-label>Test article Name:</question-label>
+				<question-value  instance-path="/emergency-use/basic-details/test-article-name" value-type="textarea" />
+			</question>
+			<question id="question-test-article" parent-id="question-test-article" parent-value="" header="Test Article">
+				<question-label>Test article description:</question-label>
+				<question-value  instance-path="/emergency-use/basic-details/test-article-desc" value-type="textarea" />
+			</question>
+			<question id="question-patient-information" parent-id="question-patient-information" parent-value="" header="Patient Information">
+				<question-label>Patient's Initials:</question-label>
+				<question-value  instance-path="/emergency-use/basic-details/patient-full-name" value-type="textarea" />
+			</question>
+			<question id="question-patient-information" parent-id="question-patient-information" parent-value="" header="Patient Information">
+				<question-label>Patient's Diagnosis:</question-label>
+				<question-value  instance-path="/emergency-use/basic-details/patient-diagnosis" value-type="textarea" />
+			</question>
+			<question id="question-patient-information" parent-id="question-patient-information" parent-value="" header="Patient Information">
+				<question-label>Treatment Location:</question-label>
+				<question-value  instance-path="/emergency-use/basic-details/treatment-location" lookup-path="treatment-location" value-type="select" />
+			</question>
+			<question id="question-ieu-or-eu" parent-id="" parent-value="" header="">
+				<question-label>Are you submitting a notification of intended emergency use (emergency use will occur in the future) or an emergency use follow-up report (emergency use has already occurred)?</question-label>
+				<question-value  instance-path="/emergency-use/basic-details/ieu-or-eu" lookup-path="ieu-or-eu" value-type="yesNo" />
+			</question>
+		</section>
+	</page>
+	<page name="Notification" id="notification">
+		<question id="question-life-threatening" parent-id="" parent-value="" header="">
+			<question-label>Is the patient in a life-threatening or severely debilitating situation?</question-label>
+			<question-value instance-path="/emergency-use/notification/life-threatening" value-type="yesNo" />
+		</question>
+		<question id="question-standard-acceptable-treatment-available" parent-id="" parent-value="" header="">
+			<question-label>Is standard acceptable treatment available for the patient?</question-label>
+			<question-value instance-path="/emergency-use/notification/standard-acceptable-treatment-available" value-type="yesNo" />
+		</question>
+		<question id="question-sufficient-time-obtain-irb-approval" parent-id="" parent-value="" header="">
+			<question-label>Is there sufficient time to obtain IRB approval?</question-label>
+			<question-value instance-path="/emergency-use/notification/sufficient-time-obtain-irb-approval" value-type="yesNo" />
+		</question>
+		<question id="question-describe-rationale-for-emergency-use" parent-id="" parent-value="" header="">
+			<question-label>Describe the rationale for emergency use of this test article:</question-label>
+			<question-value instance-path="/emergency-use/notification/describe-rationale-for-emergency-use" value-type="textarea" />
+		</question>
+	</page>
+	<page name="Follow up report" id="follow-up-report">
+		<question id="question-received-prior-to-eu" parent-id="" parent-value="" header="">
+			<question-label>Was an IRB acknowledgment of intended emergency use received prior to the date of emergency use?</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/received-prior-to-eu" value-type="yesNo" />
+		</question>
+		<question id="question-irb-acknowledgement-date" parent-id="question-received-prior-to-eu" parent-value="y" header="Yes">
+			<question-label>Date of IRB acknowledgment:</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/received-prior-to-eu/y/irb-acknowledgement-date" value-type="date" />
+		</question>
+		<question id="question-followup-test-article-date" parent-id="" parent-value="" header="">
+			<question-label>Date Test Article was used:</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/notification-test-article-date" value-type="date" />
+		</question>
+		<question id="question-was-life-threatening" parent-id="" parent-value="" header="">
+			<question-label>Was the patient in a life-threatening or severely debilitating situation?</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/life-threatening" value-type="yesNo" />
+		</question>
+		<question id="question-was-standard-acceptable-treatment-available" parent-id="" parent-value="" header="">
+			<question-label>Was standard acceptable treatment available for the patient?</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/standard-acceptable-treatment-available" value-type="yesNo" />
+		</question>
+		<question id="question-was-sufficient-time-obtain-irb-approval" parent-id="" parent-value="" header="">
+			<question-label>Was there sufficient time to obtain IRB approval?</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/sufficient-time-obtain-irb-approval" value-type="yesNo" />
+		</question>
+		<question id="question-followup-describe-rationale-for-emergency-use" parent-id="" parent-value="" header="">
+			<question-label>Describe the rationale for emergency use of this test article:</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/describe-rationale-for-emergency-use" value-type="textarea" />
+		</question>
+		<question id="question-initial-treatement-results-available" parent-id="" parent-value="" header="">
+			<question-label>Are initial treatment results available now?</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/initial-treatement-results-available" value-type="yesNo" />
+			<sub-questions>
+				<question id="question-initial-treatement-results-available-other" parent-id="" parent-value="" header="Yes">
+					<question-label>Please describe:</question-label>
+					<question-value instance-path="/emergency-use/follow-up-report/initial-treatement-results-available/y/explain" value-type="textarea" />
+				</question>
+			</sub-questions>
+		</question>
+		<question id="question-report-initial-treatement-results-date" parent-id="question-initial-treatement-results-available" parent-value="n" header="No">
+			<question-label>I will submit a report of initial results by the following date:</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/initial-treatement-results-available/n/report-initial-treatement-results-date" value-type="date" />
+		</question>
+		<question id="question-adverse-events-or-unanticipated-problems-occurs-in-eu" parent-id="" parent-value="" header="">
+			<question-label>Did any adverse events or unanticipated problems occur as a result of the emergency use?</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/adverse-events-or-unanticipated-problems-occurs-in-eu" value-type="yesNo" />
+			<sub-questions>
+				<question id="question-adverse-events-or-unanticipated-problems-occurs-in-eu-other" parent-id="" parent-value="" header="Yes">
+					<question-label>Please describe:</question-label>
+					<question-value instance-path="/emergency-use/follow-up-report/adverse-events-or-unanticipated-problems-occurs-in-eu/y/explain" value-type="textarea" />
+				</question>
+			</sub-questions>
+		</question>
+		<question id="question-informed-consent-obtained" parent-id="" parent-value="" header="">
+			<question-label>Was informed consent obtained?</question-label>
+			<question-value instance-path="/emergency-use/follow-up-report/informed-consent-obtained" value-type="yesNo" />
+		</question>
+	</page>
+	<page name="Staff" id="staff">
+		<section>
+			<question id="question-staff" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/emergency-use/staffs/staff" value-type="staff" />
+			</question>
+		</section>
+	</page>
+</form>

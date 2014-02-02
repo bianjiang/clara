@@ -1,0 +1,1 @@
+Ext.ns('Clara.ContractDashboard','Clara.Contracts');

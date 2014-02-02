@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:dynform="urn:jsptagdir:/WEB-INF/tags"
+	version="2.0">
+	<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+	
+	<jsp:directive.page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"/>  
+
+
+<html lang="en">	
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta http-equiv="X-UA-Compatible" content="IE=8" />		
+	
+			<tiles:useAttribute id="styles" name="styles" ignore="true" classname="java.util.List" />
+			
+			<c:forEach var="style" items="${styles}">
+				<spring:url value="${style}" var="css_url" />
+				<link rel="stylesheet" type="text/css" media="screen" href="${css_url}" />
+				<link rel="stylesheet" type="text/css" media="print" href="${css_url}" />
+			</c:forEach>
+			
+			<tiles:useAttribute id="ie_styles" name="ie_styles" ignore="true" classname="java.util.List" />
+			
+		<![CDATA[
+		<!--[if lt IE 9]> 
+		]]>
+			<spring:url value="/static/js/html5shiv.js" var="js_html5shiv" />
+			<script type="text/javascript" src="${js_html5shiv}?ts=${claraBuildNumber}"><!-- // --></script>    
+		<![CDATA[
+		<![endif]-->
+		]]>
+
+			
+			<!-- jQuery required! -->
+			<spring:url value="/static/js/jquery/jquery-1.7.min.js" var="js_jquery" />
+
+			<spring:url value="/static/js/json2.js" var="js_json2" />
+			
+			
+			<script type="text/javascript" src="${js_jquery}?ts=${claraBuildNumber}"><!-- // --></script>    
+
+			
+			<tiles:useAttribute id="javascripts" name="javascripts" ignore="true" classname="java.util.List" />
+
+			<spring:url value="/static/images/" var="images_dir" />
+			<spring:url value="/static/images/clara-logo.png" var="logo_url"/>
+			<spring:url value="/static/images/ajax-loader.gif" var="spin_url"/>
+			<link rel="icon" href="${images_dir}/favicon.ico" />
+	  		
+			<script type="text/javascript"><![CDATA[
+				jQuery.noConflict();
+			]]>
+			</script>
+				<c:forEach var="javascript" items="${javascripts}">
+				<spring:url value="${javascript}" var="javascript_url" />
+				<script type="text/javascript" src="${javascript_url}?ts=${claraBuildNumber}"><!-- // --></script>  
+			</c:forEach>
+			<title><spring:message code="welcome.h3" arguments="${application.app_name}" /></title>
+		</head>
+	   		<body>		
+
+	    	<div id="main">
+		    	<div class="container">
+		    				<div class="navbar navbar-inverse">
+						      <div class="navbar-inner">
+						          <a class="brand" style="color:white;">Institutional Review Board</a>
+						            <ul class="nav">
+						              <li><a href="javascript:window.print();"><i class="icon-print icon-white"><!-- // --></i> Print</a></li>
+						            </ul>
+						        </div>
+						    </div>
+		    		<tiles:insertAttribute name="body" />
+				</div>
+			</div>
+
+	</body>
+	</html>
+</jsp:root>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+  
+    <definition extends="protocol/protocolform/emergencyuse" name="protocol/protocolform/emergencyuse/first-page">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/first-page.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/emergencyuse" name="protocol/protocolform/emergencyuse/notification">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/notification.jspx" />
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />	
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/emergencyuse" name="protocol/protocolform/emergencyuse/follow-up-report">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/follow-up-report.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />	
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/emergencyuse" name="protocol/protocolform/emergencyuse/staff">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/staff.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+			<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/emergencyuse" name="protocol/protocolform/emergencyuse/documents">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/documents.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+       
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/emergencyuse" name="protocol/protocolform/emergencyuse/review">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/emergencyuse" name="protocol/protocolform/emergencyuse/signed">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+   		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  		</put-list-attribute>
+    </definition>
+    
+    <!-- no headers -->    
+    <definition extends="protocol/protocolform/emergencyuse-noheader" name="protocol/protocolform/emergencyuse/first-page-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/first-page.jspx"/>
+  		<put-list-attribute name="styles" inherit="true">
+  			<add-attribute value="/static/js/common/wizard.js" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/emergencyuse-noheader" name="protocol/protocolform/emergencyuse/notification-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/notification.jspx"
+        />
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/emergencyuse-noheader" name="protocol/protocolform/emergencyuse/follow-up-report-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/follow-up-report.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/emergencyuse-noheader" name="protocol/protocolform/emergencyuse/staff-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/staff.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/Application.StaffRolePanel.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-stores.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/emergencyuse-noheader" name="protocol/protoc
+    olform/emergencyuse/documents-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/documents.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/document-stores.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/documents.js" />    		
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/emergencyuse-noheader" name="protocol/protocolform/emergencyuse/review-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/emergencyuse-noheader" name="protocol/protocolform/emergencyuse/signed-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+   		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+</tiles-definitions>

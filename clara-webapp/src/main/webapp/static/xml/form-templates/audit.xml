@@ -1,0 +1,14 @@
+<form name="Audit" id="audit" type="AUDIT">
+	<page name="Basic Details" id="basic-details">
+		<section>
+			<question id="question-audit-receipt-date" parent-id="" parent-value="" header="">
+				<question-label>Audit Report Receipt Date</question-label>
+				<question-value instance-path="/audit/basic-details/audit-receipt-date" value-type="date" />
+			</question>
+			<question id="question-audit-type" parent-id="" parent-value="" header="">
+				<question-label>Audit Type</question-label>
+				<question-value  instance-path="/audit/basic-details/audit-type" lookup-path="audit-type" value-type="radio" />
+			</question>
+		</section>
+	</page>
+</form>

@@ -1,0 +1,1959 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checklists>
+	<checklist-group title="Informed Consent Process Checklist">
+		<description></description>
+		<conditions>
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+		</conditions>
+		<checklist id="1" title="General">
+			<description></description>
+			<question id="1">
+				<text>The investigator will obtain the legally effective informed
+					consent of the participant or the participant&apos;s legally authorized
+					representative (LAR). The participant or the participant&apos;s LAR will
+					sign and date the consent document. </text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>The circumstances of consent will provide the prospective
+					participant or the representative sufficient opportunity to
+					consider whether or not to participate.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>The circumstances of consent will minimize the possibility of
+					coercion or undue influence.</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>No information will be provided to the participant or the
+					representative that waives or appears to waive any of the
+					participant&apos;s legal rights, or that releases or appears to release
+					the investigator, the sponsor, the institution, or its agents from
+					liability for negligence. No statements similar to "You give up all
+					rights." (No exculpatory language.)</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+				<text>All required and appropriate additional disclosures will be
+					provided to the participant or participant&apos;s representative. A copy
+					of the consent document will be given to the person signing the
+					consent document.</text>
+				<answer></answer>
+			</question>
+		</checklist>
+	</checklist-group>
+	<checklist-group title="Informed Consent Form Checklist">
+		<description></description>
+		<conditions>
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_CONSENT_REVIEWER"
+				protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_CONSENT_REVIEWER"
+				protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_CONSENT_REVIEWER"
+				protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+		</conditions>
+		<checklist id="1" title="Document Style/ Format">
+			<description></description>
+			<question id="1">
+				<text>Each page is numbered, dated and includes a version number.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>Each page lists the Title, Sponsor and Institution.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>The document is written in a language and at a level
+					understandable to all participants</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>The document is written consistently in the second person,
+					with the exception of the final paragraph.</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+				<text>The document uses terms like "participant" and "subject"
+					instead of "patient", and "research procedures" instead of
+					"treatment."</text>
+				<answer></answer>
+			</question>
+			<question id="6">
+				<text>The document is free of any exculpatory language that waives
+					or appears to waive any of the participant&apos;s legal rights, or that
+					releases or appears to release the investigator, the sponsor, the
+					institution, or its agents from liability for negligence. No
+					statements similar to "You give up all rights."</text>
+				<answer></answer>
+			</question>
+			<question id="7">
+				<text>The document includes lines for the signature and date of
+					consent for the subject and/or the parent or legally authorized
+					representative and the person obtaining consent. There should not
+					be a signature line for legally authorized representative or
+					parent, when the research is not approved for cognitively impaired
+					adults or children.</text>
+				<answer></answer>
+			</question>
+			<question id="8">
+				<text>The last paragraph will address the voluntary nature of the
+					study and that time has been given to ask questions and express
+					concerns. </text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="2" title="Required Disclosures">
+			<description></description>
+			<question id="1">
+				<text>A statement that the study involves research.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>An explanation of the purposes of the research.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>An explanation of the expected duration of the participant&apos;s
+					participation.</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>The number of participants involved in the study.</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+				<text>The age range for participants to be studied.</text>
+				<answer></answer>
+			</question>
+			<question id="6">
+				<text>A description of the procedures to be followed, and if any of
+					the procedures are experimental.</text>
+				<answer></answer>
+			</question>
+			<question id="7">
+				<text>A description of any reasonably foreseeable risks or
+					discomforts to the participant.</text>
+				<answer></answer>
+			</question>
+			<question id="8">
+				<text>A description of any benefits to the participant or to others,
+					which may reasonably be expected from the research.</text>
+				<answer></answer>
+			</question>
+			<question id="9">
+				<text>A disclosure of any appropriate alternative procedures or
+					courses of treatment that might be advantageous to the participant.
+				</text>
+				<answer></answer>
+			</question>
+			<question id="10">
+				<text>A statement describing the extent, if any, to which
+					confidentiality of records identifying the participant will be
+					maintained. UAMS IRB, other institutional oversight offices and the
+					Office for Human Research Protections must be listed. As
+					applicable, any other outside agencies such as a sponsor or funding
+					source should also be listed. (Note: May be omitted if
+					confidentiality will not be maintained).</text>
+				<answer></answer>
+			</question>
+			<question id="11">
+				<text>Mandated reporter disclosure (Note: May be omitted if no
+					member of the study team is a mandated reporter.)</text>
+				<answer></answer>
+			</question>
+			<question id="12">
+				<text>An explanation of whom to contact for answers to pertinent
+					questions about the research.</text>
+				<answer></answer>
+			</question>
+			<question id="13">
+				<text>An explanation of whom to contact for answers to pertinent
+					questions about the research participants&apos; rights.</text>
+				<answer></answer>
+			</question>
+			<question id="14">
+				<text>An explanation of whom to contact in the event of a
+					research-related injury to the participant. (Note: May NOT be
+					omitted just because the research involves no more than minimal
+					risk.)</text>
+				<answer></answer>
+			</question>
+			<question id="15">
+				<text>Contact information for the research team for questions,
+					concerns, or complaints.</text>
+				<answer></answer>
+			</question>
+			<question id="16">
+				<text>Contact information for someone independent of the research
+					team for problems, concerns, questions, information, or input.
+				</text>
+				<answer></answer>
+			</question>
+			<question id="17">
+				<text>A statement that participation is voluntary.</text>
+				<answer></answer>
+			</question>
+			<question id="18">
+				<text>A statement that no rights have been waived by signing the
+					consent form.</text>
+				<answer></answer>
+			</question>
+			<question id="19">
+				<text>A statement that refusal to participate will involve no
+					penalty or loss of benefits to which the participant is otherwise
+					entitled.</text>
+				<answer></answer>
+			</question>
+			<question id="20">
+				<text>A statement that the participant can discontinue participation
+					at any time without penalty or loss of benefits to which the
+					participant is otherwise entitled.</text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="3"
+			title="Additional Disclosures, Studies Involving More than Minimal Risk">
+			<description></description>
+			<question id="1">
+				<text>An explanation as to whether compensation is available if
+					injury occurs. </text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>If compensation is available when injury occurs, an
+					explanation as to what it consists of or where further information
+					may be obtained. </text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>An explanation as to whether any medical treatments are
+					available if injury occurs. </text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>If medical treatments are available when injury occurs, an
+					explanation as to what it consists of or where further information
+					may be obtained. </text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="5"
+			title="Additional Disclosures, Studies Involving Drugs or Devices">
+			<description></description>
+			<question id="1">
+				<text>A statement as to the status of the article (e.g. FDA approved for use in cardiology patients aged 16 years and older), and whether or not the study is testing the safety or effectiveness of the test article. If the study is testing the safety or effectiveness, the consent form can make no claims that the test article is safe or effective.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>The following statement exactly as indicated: &quot;A description of this clinical trial will be available on http://ww.ClinicalTrials.gov, as required by U.S. Law. This Web site will not include information that can identify you. At most, the Web site will include a summary of the results. You can search this web site at any time.&quot; (Note: Does NOT apply to Phase 1 drug studies or feasibility device studies).</text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="5"
+			title="Additional Disclosures, FDA-regulated Studies">
+			<description></description>
+			<question id="1">
+				<text>A statement that notes the possibility that the Food and Drug
+					Administration may inspect the records. </text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>An explanation of the data retention that can occur when a
+					subject withdraws from a study. </text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>The consent document must not give the subject the option of
+					having data that was collected prior to the subject&apos;s withdrawal
+					removed from the study.</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>The consent document must state that upon a subject&apos;s
+					withdrawal, researchers may review study data collected prior to
+					the withdrawal and may consult public records regarding the
+					subject, such as those establishing survival statuses.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>A description of any limited participation that can occur when
+					a subject withdraws from a study. (Note: If this situation is not
+					described in the original informed consent, the IRB must approve a
+					consent document for the limited participation).</text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="6"
+			title="Additional Disclosures, Studies Involving Future Research">
+			<description></description>
+			<question id="1">
+				<text>When information is collected after the subject&apos;s active
+					involvement: a statement of the duration of the collection.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>If subjects are to be contacted for future research: A
+					yes/no option to being contacted, in a separate section of the
+					consent form, that allows the subject to consent to the primary
+					study but decline to be re-contacted for future studies.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>If data or specimens are stored for future research: A
+					yes/no option to the storage of samples must be included in a
+					separate section of the consent document or in a separate document.
+					The subject should be allowed to consent to the primary study but
+					decline to allow the storage of samples.</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>If data or specimens will be stored for future
+					research: Statements describing:</text>
+				<answer></answer>
+			</question>
+			<question id="4.1">
+				<text>How the data or specimens are to be stored</text>
+				<answer></answer>
+			</question>
+			<question id="4.2">
+				<text>Why the information is being collected</text>
+				<answer></answer>
+			</question>
+			<question id="4.3">
+				<text>What future research is anticipated</text>
+				<answer></answer>
+			</question>
+			<question id="4.4">
+				<text>How long the data or specimens will be stored</text>
+				<answer></answer>
+			</question>
+			<question id="4.5">
+				<text>How subjects may request to withdraw data or specimens.</text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="7" title="Additional Disclosures, Other">
+			<description></description>
+			<question id="1">
+				<text>Research being conducted at multiple sites: The approximate
+					number of participants involved in the study at all sites.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>Research where compensation is provided to the
+					participant: The method and amount of compensation. Also, identify
+					the recipient of the compensation (participant and/or
+					parent/guardian), and outline plans to pro-rate the compensation,
+					if necessary.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>Research involving a placebo -- A statement describing the use of a placebo and the probability of being assigned to the placebo arm.</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>Research involving investigational drugs/devices, novel
+					procedures involving risk, or where a goal of the research is to
+					define safety: A statement that the particular treatment or
+					procedure may involve risks to the participant, which are currently
+					unforeseeable.</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+				<text>Research involving pregnant women or women of childbearing
+					potential, and the effect of the procedures have not been evaluated
+					in pregnancy, or a goal of the research is to define safety in
+					pregnancy: A statement that if the participant is or becomes
+					pregnant, the particular treatment or procedure may involve risks
+					to the participant, embryo or fetus, which are currently
+					unforeseeable.</text>
+				<answer></answer>
+			</question>
+			<question id="6">
+				<text>Research involving testing for HIV or communicable
+					diseases: Notice that the participant and AR DOH will be notified
+					of positive test results. If HIV, information about counseling
+					options should also be included.</text>
+				<answer></answer>
+			</question>
+			<question id="7">
+				<text>Research involving ionizing radiation: A statement describing
+					in lay terms the increase of radiation exposure over the current
+					standard of care.</text>
+				<answer></answer>
+			</question>
+			<question id="8">
+				<text>Research involving the potential for gene linkage: An
+					explanation of risks, including social and financial.</text>
+				<answer></answer>
+			</question>
+			<question id="9">
+				<text>When additional costs to the subject are anticipated as a
+					result of participation in the research: A statement describing
+					these additional costs.</text>
+				<answer></answer>
+			</question>
+			<question id="10">
+				<text>When there are anticipated consequences to withdrawing from a
+					study that may put the subject at greater risk: A statement
+					describing the specific consequences of a participant&apos;s decision to
+					withdraw from the research.</text>
+				<answer></answer>
+			</question>
+			<question id="11">
+				<text>When there are anticipated consequences to withdrawing from a
+					study that may put the subject at greater risk: A statement
+					describing procedures for orderly termination of participation by
+					the participant.</text>
+				<answer></answer>
+			</question>
+			<question id="12">
+				<text>When the investigator anticipates a subject may be terminated
+					from the study without regard to the subject&apos;s consent: A statement
+					describing the specific anticipated circumstances under which the
+					participant&apos;s participation may be terminated by the investigator.
+				</text>
+				<answer></answer>
+			</question>
+			<question id="13">
+				<text>When studies are long-term clinical trials: A statement that
+					significant new findings developed during the course of the
+					research which may relate to the participant&apos;s willingness to
+					continue participation will be provided to the participant.</text>
+				<answer></answer>
+			</question>
+		</checklist>	
+	</checklist-group>
+		<checklist-group title="HIPAA Authorization Checklist">
+		<description></description>
+		<conditions>
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_CONSENT_REVIEWER"
+				protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXEMPT_REVIEWER"
+				protocol-form-committee-status="PENDING_EXEMPT_IRB_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+				
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_CONSENT_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXEMPT_REVIEWER"
+				protocol-form-committee-status="PENDING_EXEMPT_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+				
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_CONSENT_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />	
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_EXEMPT_REVIEWER" protocol-form-committee-status="PENDING_EXEMPT_IRB_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+		</conditions>
+		<checklist id="1" title="Document Style/Format">
+			<description></description>
+			<question id="1">
+				<text>The document is written in plain language.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>The document contains lines for the signature and date of the individual.</text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="2" title="Required Disclosures">
+			<description></description>
+			<question id="1">
+				<text>A description of the information to be used or disclosed that identifies the information in a specific and meaningful fashion.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>The name or other specific identification of the person(s), or class of persons, authorized to make the requested use or disclosure.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>The name or other specific identification of the person(s), or class of persons, to whom the covered entity may make the requested use or disclosure.</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>A description of each purpose of the requested disclosure.</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+				<text>An expiration date or event that relates to the individual or the purpose of the use or disclosure.  (The statement "end of the research study," "none" or similar language is sufficient if the authorization is for use or disclosure of PHI for research.)</text>
+				<answer></answer>
+			</question>
+			<question id="6">
+				<text>A statement explaining the individual&apos;s right to revoke the authorization, the exceptions to the right to revoke AND a description of how the individual may revoke the authorization.</text>
+				<answer></answer>
+			</question>
+			<question id="7">
+				<text>A statement that the provision of research-related treatment cannot be provided if the individual refuses to sign the authorization to allow the use and disclosure of PHI.</text>
+				<answer></answer>
+			</question>
+			<question id="8">
+				<text>A statement regarding the potential for information disclosed under the authorization to be subject to re-disclosure by a recipient and no longer protected by the HIPAA regulations.</text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="3" title="Process Requirements">
+			<description></description>
+			<question id="1">
+				<text>Signature and date of the individual.  If the authorization is signed by a representative, a description of such representative’s authority to act for the individual must also be provided.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>A signed copy of the authorization must be provided to the individual.</text>
+				<answer></answer>
+			</question>
+		</checklist>
+	</checklist-group>
+	
+	<checklist-group title="Review of Previously Approved Research Checklist">
+		<description></description>
+		<conditions>
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXEMPT_REVIEWER"
+				protocol-form-committee-status="PENDING_EXEMPT_IRB_REVIEW" />
+				
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+		</conditions>
+		<checklist id="1" title="General">
+			<question id="1">
+				<text>Should review be obtained more often than annually? </text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>Should verification be obtained from sources other than the investigator that no material changes have taken place since prior IRB review?</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>If information has arisen that might affect willingness of participants to continue in the research, will it be provided to those participants?</text>
+				<answer></answer>
+			</question>
+		</checklist>
+	</checklist-group>
+	
+	<checklist-group title="Research Involving Additional Considerations Checklist">
+		<description></description>
+		<conditions>
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+		</conditions>
+		<checklist id="1" title="Research Involving Drug Checklist">
+			<description>The IRB must discuss each of the following items at the meeting, so that its determination and rationale can be documented in the minutes.
+Each drug used in the research must have a valid IND, as verified in the protocol or in written communication from the sponsor or the FDA (if UAMS hold the IND), unless the drug/research is exempt from the requirement for an IND because one of the following is true
+			</description>
+			<question id="1">
+			<text><![CDATA[<strong>The drug being used is an approved drug, and all of the following conditions are met:</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="1.1">
+				<text>The drug being used in the research is lawfully marketed in the U.S.</text>
+				<answer></answer>
+			</question>
+			<question id="1.2">
+				<text>The research is not intended to be reported to FDA in support of a new indication for use or to support any other significant change in the labeling for the drug.</text>
+				<answer></answer>
+			</question>
+			<question id="1.3">
+				<text>The research is not intended to support a significant change in the advertising for the product. </text>
+				<answer></answer>
+			</question>
+			<question id="1.4">
+				<text>The research does not involve a route of administration or dosage level, use in a subject population, or other factor that significantly increases the risks (or decreases the acceptability of the risks) associated with the use of the drug product.</text>
+				<answer></answer>
+			</question>
+			<question id="1.5">
+				<text>The research is conducted in compliance with FDA requirements for IRB review and informed consent.</text>
+				<answer></answer>
+			</question>
+			<question id="1.6">
+				<text>The research does not request a waiver from the requirement for informed consent.</text>
+				<answer></answer>
+			</question>
+			<question id="1.7">
+				<text>The research is conducted in compliance with all of the following:</text>
+				<answer></answer>
+			</question>
+			<question id="1.7.1">
+				<text>The sponsor or investigator, or any person acting on behalf of the sponsor or investigator will not represent in a promotional context that the investigational new drug is safe or effective for the purposes for which it is under investigation or otherwise promote the drug.</text>
+				<answer></answer>
+			</question>
+			<question id="1.7.2">
+				<text>The sponsor or investigator will not commercially distribute or test market the drug. </text>
+				<answer></answer>
+			</question>
+			<question id="1.7.3">
+				<text>The sponsor will not unduly prolong an investigation after finding that the results of the investigation appear to establish sufficient data to support a marketing application. </text>
+				<answer></answer>
+			</question>
+			<question id="1.7.4">
+				<text>The sponsor will not charge for the drug in the clinical trial without the prior written approval of the FDA.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+			<text><![CDATA[<strong>The drug being used is an in vitro diagnostic biological product, and all of the following conditions are met:</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>The research involves one of the following:</text>
+				<answer></answer>
+			</question>
+			<question id="2.1.1">
+				<text>Blood grouping serum</text>
+				<answer></answer>
+			</question>
+			<question id="2.1.2">
+				<text>Reagent red blood cells</text>
+				<answer></answer>
+			</question>
+			<question id="2.1.3">
+				<text>Anti-human globulin</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>The article will be used in a diagnostic procedure that confirms the diagnosis made by another, medically established, diagnostic product or procedure.</text>
+				<answer></answer>
+			</question>
+			<question id="2.3">
+				<text>The article is shipped in compliance with $312.160</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+			<text><![CDATA[<strong>The study is limited to use of a placebo.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="4">
+			<text><![CDATA[<strong>The research has been submitted to the FDA who determined in writing that an IND is not required.</strong>]]></text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="2" title="Research Involving Device Checklist">
+			<description>The IRB must discuss each of the following items at the meeting, so that its determination and rationale can be documented in the minutes.
+Each device used in the research must have a valid IDE, as verified in the protocol or in written communication from the sponsor or the FDA (if UAMS hold the IDE), unless the device/research is exempt from the requirement for an IDE, or the device/research qualifies for an abbreviated IDE.
+			</description>
+			
+			<question id="">
+				<text><![CDATA[<strong>IDE Exemption Qualification Checklist</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="">
+				<text>In order to be exempt from the requirement for an IDE, the device/research must satisfy ALL of the conditions in one of the following exemption categories.</text>
+				<answer></answer>
+			</question>
+			<question id="1">
+			<text><![CDATA[<strong>Exemption 1</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="1.1">
+				<text>The medical device was in commercial distribution immediately before May 28, 1976.</text>
+				<answer></answer>
+			</question>
+			<question id="1.2">
+				<text>The FDA did not consider the medical device to be a new drug or an antibiotic drug before May 28, 1976.</text>
+				<answer></answer>
+			</question>
+			<question id="1.3">
+				<text>The medical device is being used or investigated in accordance with the indications in labeling in effect at that time of commercial distribution</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+			<text><![CDATA[<strong>Exemption 2</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>The medical device was in commercial distribution immediately before May 28, 1976. </text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>The FDA has determined the medical device to be substantially equivalent to a medical device in commercial distribution immediately before May 28, 1976.</text>
+				<answer></answer>
+			</question>
+			<question id="2.3">
+				<text>The FDA did not consider the medical device to be a new drug or an antibiotic drug before May 28, 1976.</text>
+				<answer></answer>
+			</question>
+			<question id="2.4">
+				<text>The medical device is being used or investigated in accordance with the indications in labeling FDA reviewed under subpart E of part 807 in determining substantial equivalence.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text><![CDATA[<strong>Exemption 3</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="3.1">
+				<text>The medical device is a diagnostic device.</text>
+				<answer></answer>
+			</question>
+			<question id="3.2">
+				<text>The sponsor will comply with applicable requirements in $809.10(c).</text>
+				<answer></answer>
+			</question>
+			<question id="3.3">
+				<text>The testing is noninvasive.</text>
+				<answer></answer>
+			</question>
+			<question id="3.4">
+				<text>The testing does not require an invasive sampling procedure that presents significant risk.</text>
+				<answer></answer>
+			</question>
+			<question id="3.5">
+				<text>The testing does not by design or intention introduce energy into a subject.</text>
+				<answer></answer>
+			</question>
+			<question id="3.6">
+				<text>The testing is not used as a diagnostic procedure without confirmation of the diagnosis by another, medically established, diagnostic product or procedure.</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text><![CDATA[<strong>Exemption 4</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="4.1">
+				<text>A medical device undergoing one of the following</text>
+				<answer></answer>
+			</question>
+			<question id="4.1.1">
+				<text>Consumer preference testing</text>
+				<answer></answer>
+			</question>
+			<question id="4.1.2">
+				<text>Testing of a modification</text>
+				<answer></answer>
+			</question>
+			<question id="4.1.3">
+				<text>Testing of a combination of two or more medical devices in commercial distribution.</text>
+				<answer></answer>
+			</question>
+			<question id="4.2">
+				<text>The testing is not for the purpose of determining safety or effectiveness and does not put subjects at risk.</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+				<text><![CDATA[<strong>Exemption 5</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="5.1">
+				<text>The medical device is intended solely for veterinary use.</text>
+				<answer></answer>
+			</question>
+			<question id="6">
+				<text><![CDATA[<strong>Exemption 6</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="6.1">
+				<text>The medical device is shipped solely for research on or with laboratory animals and labeled in accordance with $812.5(c).</text>
+				<answer></answer>
+			</question>
+			<question id="7">
+				<text><![CDATA[<strong>Exemption 7</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="7.1">
+				<text>The medical device is NOT being used to determine safety or effectiveness for commercial distribution AND is a custom device because all of the following are true</text>
+				<answer></answer>
+			</question>
+			<question id="7.2">
+				<text>The medical device necessarily deviates from devices generally available or from an applicable performance standard or premarket approval requirement in order to comply with the order of an individual physician or dentist.</text>
+				<answer></answer>
+			</question>
+			<question id="7.3">
+				<text>The medical device is not generally available to, or generally used by, other physicians or dentists.</text>
+				<answer></answer>
+			</question>
+			<question id="7.4">
+				<text>The medical device is not generally available in finished form for purchase or for dispensing upon prescription.</text>
+				<answer></answer>
+			</question>
+			<question id="7.5">
+				<text>The medical device is not offered for commercial distribution through labeling or advertising.</text>
+				<answer></answer>
+			</question>
+			<question id="7.6">
+				<text>One of the following is true</text>
+				<answer></answer>
+			</question>
+			<question id="7.6.1">
+				<text>The medical device is to be made in a specific form for that patient.</text>
+				<answer></answer>
+			</question>
+			<question id="7.6.2">
+				<text>The medical device is intended to meet the special needs of the physician or dentist in the course of professional practice.</text>
+				<answer></answer>
+			</question>
+			<question id="">
+			<text><![CDATA[<strong>Abbreviated IDE Qualification Checklist</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="">
+				<text>In order to qualify for an abbreviated IDE, the device/research must satisfy ALL of the following conditions.</text>
+				<answer></answer>
+			</question>
+			<question id="1">
+			<text><![CDATA[<strong>The medical device is not a significant risk device.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="1.1">
+				<text>The medical device is NOT intended as an implant that presents a potential for serious risk to the health, safety, or welfare of a subject.</text>
+				<answer></answer>
+			</question>
+			<question id="1.2">
+				<text>The medical device is NOT purported or represented to be for a use in supporting or sustaining human life that presents a potential for serious risk to the health, safety, or welfare of a subjects.</text>
+				<answer></answer>
+			</question>
+			<question id="1.3">
+				<text>The medical device is NOT for a use of substantial importance in diagnosing, curing, mitigating, or treating disease, or otherwise preventing impairment of human health that presents a potential for serious risk to the health, safety, or welfare of a subject.</text>
+				<answer></answer>
+			</question>
+			<question id="1.4">
+				<text>The medical device does NOT otherwise present a potential for serious risk to the health, safety, or welfare of a subject.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+			<text><![CDATA[<strong>The medical device is not banned.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="3">
+			<text><![CDATA[<strong>The sponsor has presented the reviewing IRB with a brief explanation of why the medical device is not a significant risk device, and maintains such approval.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="4">
+			<text><![CDATA[<strong>The sponsor will comply with the requirements of $812.46 with respect to monitoring investigations.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="5">
+			<text><![CDATA[<strong>The sponsor will maintain the records required under $812.140(b)(4) and (5) and make the reports required under $812.150(b)(1)-(3) and (5) - (10).</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="6">
+			<text><![CDATA[<strong>The sponsor ensures that participating investigators maintain the records required by $812.140(a)(3)(i) and make the reports required under $812.150(a)(1),(2), (5), and (7).</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="7">
+			<text><![CDATA[<strong>The sponsor will comply with the prohibitions in $812.7 against promotion and other practices.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="8">
+			<text><![CDATA[<strong>All of the following are true</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="8.1">
+				<text>The participant or the participant&apos;s representative will date the consent document.</text>
+				<answer></answer>
+			</question>
+			<question id="8.2">
+				<text>Consent documents include a statement that notes the possibility that the FDA may inspect the records.</text>
+				<answer></answer>
+			</question>
+			<question id="8.3">
+				<text>The requirement for informed consent will not be waived.</text>
+				<answer></answer>
+			</question>
+			<question id="8.4">
+				<text>The requirement to obtain written informed consent will not be waived because the only record linking the participant and the research would be the consent document and the principal risk would be potential harm resulting from a breach of confidentiality.</text>
+				<answer></answer>
+			</question>		
+		</checklist>
+		<checklist id="3" title="Domestic/International Collaborative Research Checklist">
+			<description>The IRB must discuss each of the following items at the meeting, so that its determination and rationale can be documented in the minutes.</description>
+		<question id="1">
+			<text>Are FWAs or other assurances required for the sites involved?</text>
+			<answer></answer>
+		</question>
+		<question id="2">
+			<text>Are other sites relying on the UAMS IRB as the IRB of record? If so, is there an IRB Authorization Agreement?</text>
+			<answer></answer>
+		</question>
+		</checklist>
+		<checklist id="4" title="Research Involving Ionizing Radiation Checklist">
+			<description>The IRB must discuss each of the following items at the meeting, so that its determination and rationale can be documented in the minutes.</description>
+		<question id="1">
+			<text>Does the ionizing radiation present increased radiation exposure over the current standard of care? If so, has the increased exposure been disclosed in the consent in lay terms?</text>
+			<answer></answer>
+		</question>
+		<question id="2">
+			<text>Has the Radiation Safety Committee approved the study?</text>
+			<answer></answer>
+		</question>
+		<question id="3">
+			<text>If LAR required, should &quot;assent&quot; of subject also be obtained?</text>
+			<answer></answer>
+		</question>
+		</checklist>
+	</checklist-group>
+	<checklist-group title="Research Involving Vulnerable Populations Checklist">
+		<description></description>
+		<conditions>
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+		</conditions>
+		<checklist id="1" title="Research Involving Children Checklist">
+			<description>The IRB must discuss each of the following items at the meeting, so that its determination and rationale can be documented in the minutes.</description>
+			<question id="1">
+			<text><![CDATA[<strong>What is the level of risk to the subjects?</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="1.1">
+				<text>Category 1: No greater than minimal risk</text>
+				<answer></answer>
+			</question>
+			<question id="1.2">
+				<text>Category 2: Greater than minimal risk with prospect of direct benefit, such as:</text>
+				<answer></answer>
+			</question>
+			<question id="1.2.1">
+				<text>An intervention or procedure that holds out the prospect of direct benefit for the individual subject OR</text>
+				<answer></answer>
+			</question>
+			<question id="1.2.2">
+				<text>A monitoring procedure that is likely to contribute to the subject&apos;s well-being.</text>
+				<answer></answer>
+			</question>
+			<question id="1.3">
+				<text>Category 3: Greater than minimal risk with NO prospect of direct benefit, but likely to yield generalizable knowledge about the subject&apos;s disorder or condition, such as:</text>
+				<answer></answer>
+			</question>
+			<question id="1.3.1">
+				<text>An intervention or procedure that does not hold out the prospect of direct benefit for the individual subject OR</text>
+				<answer></answer>
+			</question>
+			<question id="1.3.2">
+				<text>A monitoring procedure which is not likely to contribute to the subject&apos;s well-being.</text>
+				<answer></answer>
+			</question>
+			<question id="1.4">
+				<text>Category 4: Research not otherwise approvable, which presents an opportunity to understand, prevent, or alleviate a serious problem affecting the health or welfare of children.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+			<text><![CDATA[<strong>Are the IRB requirements for that level of risk met?</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>Category 2:</text>
+				<answer></answer>
+			</question>
+			<question id="2.1.1">
+				<text>The risk is justified by the anticipated benefit to the subjects AND</text>
+				<answer></answer>
+			</question>
+			<question id="2.1.2">
+				<text>The relation of the anticipated benefit to the risk is at least as favorable to the subjects as that presented by available alternatives.</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>Category 3:</text>
+				<answer></answer>
+			</question>
+			<question id="2.2.1">
+				<text>The risk represents a minor increase over minimal risk; AND</text>
+				<answer></answer>
+			</question>
+			<question id="2.2.2">
+				<text>The intervention or procedure presents experiences to subjects that are reasonably commensurate with those inherent in their actual or expected medical, dental, psychological, social, or educational situations; AND</text>
+				<answer></answer>
+			</question>
+			<question id="2.2.3">
+				<text>The intervention or procedure is likely to yield generalizable knowledge about the subjects&apos; disorder or condition which is of vital importance for the understanding or amelioration of the subjects&apos; disorder or condition.</text>
+				<answer></answer>
+			</question>
+			<question id="2.3">
+				<text>Category 4:</text>
+				<answer></answer>
+			</question>
+			<question id="2.3.1">
+				<text>HHS or FDA has been consulted.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+			<text><![CDATA[<strong>Are adequate provisions made for soliciting the permission of each child&apos;s parents or guardians?</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="3.1">
+				<text>Waiver of Parental/Guardian Permission</text>
+				<answer></answer>
+			</question>
+			<question id="3.1.1">
+				<text>The study is not an FDA regulated study AND</text>
+				<answer></answer>
+			</question>
+			<question id="3.1.2">
+				<text>Parental permission is not a reasonable requirement to protect the subjects (for example, neglected or abused children) AND</text>
+				<answer></answer>
+			</question>
+			<question id="3.1.3">
+				<text>There is an appropriate mechanism for protecting the children who will participate as subjects in the research.</text>
+				<answer></answer>
+			</question>
+			<question id="3.2">
+				<text>Permission of One Parent/Guardian is Sufficient</text>
+				<answer></answer>
+			</question>
+			<question id="3.2.1">
+				<text>If both parents are alive, known, competent, reasonably available, and share legal responsibility for the care and custody of the child.</text>
+				<answer></answer>
+			</question>
+			<question id="3.2.2">
+				<text>Not allowed if the research involves Categories 3 or 4</text>
+				<answer></answer>
+			</question>
+			<question id="3.2.3">
+				<text>Not allowed if the permission of one parent is inconsistent with state law.</text>
+				<answer></answer>
+			</question>
+			<question id="3.3">
+				<text>Permission of Both Parents is Required</text>
+				<answer></answer>
+			</question>
+			<question id="3.3.1">
+				<text>Unless one parent is deceased, unknown, incompetent, or not reasonably available, or when only one parent has legal responsibility for the care and custody of the child.</text>
+				<answer></answer>
+			</question>
+			<question id="3.3.2">
+				<text>Required if the research involves Categories 3 or 4</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+			<text><![CDATA[<strong>Are some or all of the children involved in the study capable of assenting, taking into account their ages, maturity and psychological state? Provide rationale.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<!-- <question id="3.4.1">
+				<text>No. The capability of the children is so limited that they could not reasonably be consulted. Assent is not required.</text>
+				<answer></answer>
+			</question>
+			<question id="3.4.2">
+				<text>Yes. Requirements for establishing capability are outlined.</text>
+				<answer></answer>
+			</question> -->
+			<question id="5">
+			<text><![CDATA[<strong>Is assent required?</strong>]]></text>
+				<answer></answer>
+			</question>
+			<!-- <question id="3.5.1">
+				<text>Assent is not required.</text>
+				<answer></answer>
+			</question> -->
+			<question id="5.1">
+				<text>The assent can be waived using the criteria for waiver of informed consent.</text>
+				<answer></answer>
+			</question>
+			<question id="5.2">
+				<text>The IRB has determined that the intervention or procedure involved in the research holds out a prospect of direct benefit that is important to the health or well-being of the children AND is available only in the context of the research.</text>
+				<answer></answer>
+			</question>
+			<!-- <question id="3.5.2">
+				<text>Assent is required for some or all of the children involved in the study.</text>
+				<answer></answer>
+			</question> -->
+			<question id="6">
+			<text><![CDATA[<strong>Is documentation of assent required?</strong>]]></text>
+				<answer></answer>
+			</question>
+			<!-- <question id="3.6.1">
+				<text>Documentation of assent is not required.</text>
+				<answer></answer>
+			</question>
+			<question id="3.6.2">
+				<text>Documentation of assent is required. The process for documenting consent is outlined.</text>
+				<answer></answer>
+			</question> -->
+		</checklist>
+		<checklist id="2" title="Research Involving Prisoners Checklist">
+			<description>The IRB must determine that ALL of the following conditions are met, in order to approve research involving prisoners. The IRB must discuss each of the following items at the meeting, so that its determination and rationale can be documented in the minutes. (Note: If the proposed research is funded by HHS, final approval may not be granted until OHRP responds with an approval.)</description>
+			<question id="1">
+			<text><![CDATA[<strong>The research represents one of the permissible categories of research.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="1.1">
+				<text>A study of the possible causes, effects, and processes of incarceration and of criminal behavior, provided the research presents no more than minimal risk and no more than inconvenience to the participants.</text>
+				<answer></answer>
+			</question>
+			<question id="1.2">
+				<text>A study of prisons as institutional structures or of prisoners as incarcerated persons, provided the research presents no more than minimal risk and no more than inconvenience to the participants.</text>
+				<answer></answer>
+			</question>
+			<question id="1.3">
+				<text>Research on conditions particularly affecting prisoners as a class (for example, vaccine trials and other research on hepatitis which is much more prevalent in prisons than elsewhere; and research on social and psychological problems such as alcoholism, drug addiction and sexual assaults).</text>
+				<answer></answer>
+			</question>
+			<question id="1.3.1">
+				<text>Research in this category may proceed only after the HHS Secretary has consulted with appropriate experts, including experts in penology, medicine, and ethics, and has published notice in the Federal Register of his or her intent to approve the research.</text>
+				<answer></answer>
+			</question>
+			<question id="1.4">
+				<text>Research on practices, both innovative and accepted, which have the intent and reasonable probability of improving the health or well-being of the subject.</text>
+				<answer></answer>
+			</question>
+			<question id="1.4.1">
+				<text>In this category, if the IRB-approved proposal is a study in which some prisoners will be assigned to a control group and these prisoners may not benefit from their participation in research, such research may proceed only after the HHS Secretary has consulted with appropriate experts, including experts in penology, medicine, and ethics, and has published notice in the Federal Register of his or her intent to approve the research.</text>
+				<answer></answer>
+			</question>
+			<question id="1.4.2">
+				<text>OHRP interprets control groups which may not benefit from research to include a control group receiving standard of care that the prisoners would otherwise receive, services as usual, or a placebo.</text>
+				<answer></answer>
+			</question>
+			<question id="1.5">
+				<text>Research conducted or supported by HHS that has as its sole purpose to either describe the prevalence or incidence of a disease by identifying all cases or to study potential risk factor associations for a disease</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+			<text><![CDATA[<strong>Any possible advantages accruing to the prisoner through his or her participation in the research, when compared to the general living conditions, medical care, quality of food, amenities and opportunity for earnings in the prison, are not of such a magnitude that his or her ability to weigh the risks of the research against the value of receiving such advantages in the limited-choice prison environment is impaired.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="3">
+			<text><![CDATA[<strong>The risks involved in the research are commensurate with risks that would be accepted by non-prisoner volunteers.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="4">
+			<text><![CDATA[<strong>Procedures for the selection of subjects within the prison are fair to all prisoners and immune from arbitrary intervention by prison authorities or prisoners.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="4.1">
+				<text>Unless the principal investigator provides the IRB with written justification for following some other procedures, control subjects must be selected randomly from the group of available prisoners that meet the characteristics needed for that particular research proposal.</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+			<text><![CDATA[<strong>The study information is presented in language that is understandable to the subject population.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="6">
+			<text><![CDATA[<strong>Adequate assurance exists that the parole boards will not take into account a prisoner&apos;s participation in the research in making decisions regarding transfer to community supervision, and each prisoner is clearly informed in advance that participation in the research will have no effect on his or her parole.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="7">
+			<text><![CDATA[<strong>Where the IRB finds there may be a need for follow-up examination or care of participants after the end of their participation, adequate provision has been made for such examination or care, taking into account the varying lengths of individual prisoners&apos; sentences, and for informing participants of this fact.</strong>]]></text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="3" title="Research Involving Pregnant Women and Fetuses Checklist">
+			<description>The IRB must determine that ALL of the following conditions are met, in order to approve research involving pregnant women or fetuses. The IRB must discuss each of the following items at the meeting, so that its determination and rationale can be documented in the minutes.</description>
+			<question id="1">
+			<text><![CDATA[<strong>Where scientifically appropriate, preclinical studies, including studies on pregnant animals, and clinical studies, including studies on non-pregnant women, have been conducted and provide data for assessing potential risks to pregnant women and fetuses.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text><![CDATA[<strong>One of the following is true:</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>The risk to the fetus is caused solely by interventions or procedures that hold out the prospect of direct benefit for the woman or the fetus.</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>There is no prospect of direct benefit for the woman or the fetus BUT the risk to the fetus is not greater than minimal, AND the purpose of the research is the development of important biomedical knowledge AND the biomedical knowledge cannot be obtained by any other means.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+			<text><![CDATA[<strong>Any risk is the least possible for achieving the objectives of the research.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text><![CDATA[<strong>One of the following is true:</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="4.1">
+				<text>The research holds out the prospect of direct benefit to the pregnant woman AND the woman&apos;s consent will be obtained.</text>
+				<answer></answer>
+			</question>
+			<question id="4.2">
+				<text>The research holds out the prospect of direct benefit both to the pregnant woman and the fetus AND the woman&apos;s consent will be obtained.</text>
+				<answer></answer>
+			</question>
+			<question id="4.3">
+				<text>The research holds out no prospect of direct benefit for the woman or the fetus AND the risk to the fetus is not greater than minimal AND the purpose of the research is the development of important biomedical knowledge that cannot be obtained by any other means AND the woman&apos;s consent will be obtained.</text>
+				<answer></answer>
+			</question>
+			<question id="4.4">
+				<text>The research holds out the prospect of direct benefit solely to the fetus AND the consent of the pregnant woman and the father will be obtained. Exception - Father&apos;s consent need not be obtained if he is unable to consent because of unavailability, incompetence or temporary incapacity or the pregnancy resulted from rape or incest.</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+			<text><![CDATA[<strong>Individuals providing consent are fully informed regarding the reasonably foreseeable impact of the research on the fetus or neonate.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="6">
+			<text><![CDATA[<strong>One of the following is true:</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="6.1">
+				<text>Research will not include any pregnant children.</text>
+				<answer></answer>
+			</question>
+			<question id="6.2">
+				<text>Research involves children who are pregnant AND all requirements for research involving children are met.</text>
+				<answer></answer>
+			</question>
+			<question id="7">
+			<text><![CDATA[<strong>No inducements, monetary or otherwise will be offered to terminate a pregnancy.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="8">
+			<text><![CDATA[<strong>Individuals engaged in the research will have no part in any decisions as to the timing, method, or procedures used to terminate a pregnancy.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="9">
+			<text><![CDATA[<strong>Individuals engaged in the research will have no part in determining the viability of a neonate.</strong>]]></text>
+				<answer></answer>
+			</question>
+		</checklist>
+		
+		<checklist id="3" title="Research involving Neonates Checklist">
+			<description>The IRB must discuss each of the following items at the meeting, so that its determination and rationale can be documented in the minutes.</description>
+			<question id="1">
+			<text><![CDATA[<strong>All of the following conditions must be met for BOTH neonates of uncertain viability AND nonviable neonates.</strong>]]></text>
+				<answer></answer>
+				
+			</question>
+			<question id="1.1">
+				<text>Either of the following is true:</text>
+				<answer></answer>
+			</question>
+			<question id="1.1.1">
+				<text>Preclinical and clinical studies to provide data for assessing potential risks to neonates are not scientifically appropriate.</text>
+				<answer></answer>
+			</question>
+			<question id="1.1.2">
+				<text>Preclinical and clinical studies have been conducted and provide data for assessing potential risks to neonates.</text>
+				<answer></answer>
+			</question>
+			<question id="1.2">
+				<text>Individuals providing consent are fully informed regarding the reasonably foreseeable impact of the research on the neonate.</text>
+				<answer></answer>
+			</question>
+			<question id="1.3">
+				<text>Individuals engaged in the research will have no part in determining the viability of a neonate.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text><![CDATA[<strong>All of the following additional conditions must be met for neonates of uncertain viability (until it has been ascertained whether or not a neonate is viable).</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>Either of the following is true:</text>
+				<answer></answer>
+			</question>
+			<question id="2.1.1">
+				<text>The research holds out the prospect of enhancing the probability of survival of the neonate to the point of viability AND any risk is the least possible for achieving that objective.</text>
+				<answer></answer>
+			</question>
+			<question id="2.1.2">
+				<text>The purpose of the research is the development of important biomedical knowledge which cannot be obtained by any other means AND there will be no added risk to the neonate resulting from the research.</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>The legally effective informed consent of either parent of the neonate is obtained. If neither parent is able to consent because of unavailability, incompetence, or temporary incapacity, the legally effective informed consent of either parent&apos;s legally authorized representative will be obtained. (Exception: The consent of the father or his legally authorized representative need not be obtained if the pregnancy resulted from rape or incest.)</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+			<text><![CDATA[<strong>All of the following additional conditions must be met for nonviable neonates.</strong>]]></text>
+				<answer></answer>
+			</question>
+			<question id="3.1">
+				<text>Vital functions of the neonate will not be artificially maintained.</text>
+				<answer></answer>
+			</question>
+			<question id="3.2">
+				<text>The research will not terminate the heartbeat or respiration of the neonate.</text>
+				<answer></answer>
+			</question>
+			<question id="3.3">
+				<text>There will be no added risk to the neonate resulting from the research.</text>
+				<answer></answer>
+			</question>
+			<question id="3.4">
+				<text>The purpose of the research is the development of important biomedical knowledge which cannot be obtained by any other means.</text>
+				<answer></answer>
+			</question>
+			<question id="3.5">
+				<text>The legally effective informed consent of both parents of the neonate will be obtained. If either parent is unable to consent because of unavailability, incompetence, or temporary incapacity, the informed consent of one parent will suffice, but the consent of a legally authorized representative of either or both of the parents will not suffice. (Exception: The consent of the father need not be obtained if the pregnancy resulted from rape or incest.)</text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="4" title="Research Involving Students Checklist">
+			<description>The IRB must discuss each of the following items at the meeting, so that its determination and rationale can be documented in the minutes.</description>
+			<question id="1">
+				<text>Will students be recruited through general advertisements rather than individual solicitations?</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>Does consent process or form state that the subjects can refuse to participate or withdraw early without affecting their academic standing at UAMS?</text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="5" title="Research Involving Cognitively Impaired Checklist">
+			<description>The IRB must discuss each of the following items at the meeting, so that its determination and rationale can be documented in the minutes.</description>
+			<question id="1">
+				<text>Has the protocol or SOP outlined how the subject&apos;s ability to provide consent will be assessed initially and during the course of the research?</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>Are there provisions for obtaining Legally Authorized Representative (LAR) signature if subject is not capable of providing consent?</text>
+				<answer></answer>
+			</question>
+		</checklist>	
+	</checklist-group>
+	<checklist-group title="Review Requirements for Discussion and Documentation Checklist">
+		<description></description>
+		<conditions>
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+		</conditions>
+		<checklist id="1" title="General">
+			<description></description>
+			<question id="1">
+				<text>The IRB has the scientific or scholarly expertise, the representational experience, knowledge of the local context, and other expertise needed to review the research. (If this does not apply, obtain consultation or review by another IRB.)</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>Risks (physical, psychological, social, legal, and economic) to subjects are minimized by using procedures consistent with sound research design that do not unnecessarily expose subjects to risk.</text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>Is the hypothesis clear?</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>Is the study design appropriate to prove the hypothesis?</text>
+				<answer></answer>
+			</question>
+			<question id="2.3">
+				<text>Is there adequate scientific background for the study?</text>
+				<answer></answer>
+			</question>
+			<question id="2.4">
+				<text>Would alternative procedures, design, or a different subject population reduce the likelihood or magnitude of harm but still answer the scientific question?</text>
+				<answer></answer>
+			</question>
+			<question id="2.5">
+				<text>Does the investigator have adequate resources (facilities, appropriate numbers of trained staff, etc.) to safely conduct the research?</text>
+				<answer></answer>
+			</question>
+			<question id="2.6">
+				<text>Is communication regarding information that might be relevant to the protection of subjects managed adequately (between Sponsor, Sites, IRB, etc.)?</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>Risks to subjects are minimized by using procedures already being performed on the subjects for diagnostic or treatment purposes.</text>
+				<answer></answer>
+			</question>
+			<question id="3.1">
+				<text>Are procedures that will answer the scientific question being done anyway?</text>
+				<answer></answer>
+			</question>
+			<question id="3.2">
+				<text>If so, can the data from these procedures be used to reduce the likelihood or magnitude of harm?</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>Risks to subjects are reasonable in relation to anticipated benefits, if any, to subjects, and the importance of knowledge that may reasonably be expected to result from the research.</text>
+				<answer></answer>
+			</question>
+			<question id="4.1">
+				<text>Is there prospect of direct benefit to subjects?</text>
+				<answer></answer>
+			</question>
+			<question id="4.2">
+				<text>Will the research contribute to generalizable knowledge and is it worth exposing subjects to risk?</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+				<text>Selection of subjects is equitable.</text>
+				<answer></answer>
+			</question>
+			<question id="5.1">
+				<text>Consider the purpose of the research.</text>
+				<answer></answer>
+			</question>
+			<question id="5.2">
+				<text>Consider the setting in which the research will be conducted.</text>
+				<answer></answer>
+			</question>
+			<question id="5.3">
+				<text>Consider the involvement of populations vulnerable to coercion or undue influence.</text>
+				<answer></answer>
+			</question>
+			<question id="5.4">
+				<text>Consider inclusion and exclusion criteria.</text>
+				<answer></answer>
+			</question>
+			<question id="5.5">
+				<text>Consider recruitment and payment methods.</text>
+				<answer></answer>
+			</question>
+			<question id="6">
+				<text>Informed Consent is obtained.</text>
+				<answer></answer>
+			</question>
+			<question id="6.1">
+				<text>Has the PI provided the details regarding the consent process? (See Informed Consent Process Checklist).</text>
+				<answer></answer>
+			</question>
+			<question id="7">
+				<text>Informed Consent is documented.</text>
+				<answer></answer>
+			</question>
+			<question id="7.1">
+				<text>Does the consent document embody the basic and appropriate additional elements of disclosure? (See Informed Consent Form Checklist).</text>
+				<answer></answer>
+			</question>
+			<question id="8">
+				<text>There are adequate provisions for monitoring the data collected to ensure the safety of subjects. (If study is minimal risk, a Data Safety Monitoring Plan is not required.)</text>
+				<answer></answer>
+			</question>
+			<question id="8.1">
+				<text>What data will be monitored?</text>
+				<answer></answer>
+			</question>
+			<question id="8.2">
+				<text>How frequently?</text>
+				<answer></answer>
+			</question>
+			<question id="8.3">
+				<text>Who will monitor?</text>
+				<answer></answer>
+			</question>
+			<question id="8.4">
+				<text>What analyses will be performed on the data?</text>
+				<answer></answer>
+			</question>
+			<question id="8.5">
+				<text>What is in place to detect unexpected harms promptly?</text>
+				<answer></answer>
+			</question>
+			<question id="8.6">
+				<text>What are the stoppage rules?</text>
+				<answer></answer>
+			</question>
+			<question id="9">
+				<text>There are adequate provisions to protect the privacy of participants.</text>
+				<answer></answer>
+			</question>
+			<question id="9.1">
+				<text>Will subjects have an expectation of privacy?</text>
+				<answer></answer>
+			</question>
+			<question id="9.2">
+				<text>How are subjects identified and recruited?</text>
+				<answer></answer>
+			</question>
+			<question id="9.3">
+				<text>Will subjects be comfortable in the research setting?</text>
+				<answer></answer>
+			</question>
+			<question id="9.4">
+				<text>Are they being photographed or videotaped?  </text>
+				<answer></answer>
+			</question>
+			<question id="10">
+				<text>There are adequate provisions to maintain the confidentiality of the data.  Additional safeguards have been included in the study to protect the rights and welfare of participants likely to be vulnerable to coercion or undue influence.</text>
+				<answer></answer>
+			</question>
+			<question id="10.1">
+				<text>Will confidentiality be pledged?</text>
+				<answer></answer>
+			</question>
+			<question id="10.2">
+				<text>Are there legal/ethical requirements?</text>
+				<answer></answer>
+			</question>
+			<question id="10.3">
+				<text>Will data release cause risk of harm?</text>
+				<answer></answer>
+			</question>
+			<question id="10.4">
+				<text>Are appropriate techniques being used to protect confidentiality?</text>
+				<answer></answer>
+			</question>
+			<question id="10.4.1">
+				<text>Inter-file linkage</text>
+				<answer></answer>
+			</question>
+			<question id="10.4.2">
+				<text>Error inoculation</text>
+				<answer></answer>
+			</question>
+			<question id="10.4.3">
+				<text>Statistical strategies</text>
+				<answer></answer>
+			</question>
+			<question id="10.4.4">
+				<text>Top coding</text>
+				<answer></answer>
+			</question>
+			<question id="10.4.5">
+				<text>Restricted public use data</text>
+				<answer></answer>
+			</question>
+			<question id="10.4.6">
+				<text>Restricted access, enclaves, archives</text>
+				<answer></answer>
+			</question>
+			<question id="10.4.7">
+				<text>Certificates of Confidentiality</text>
+				<answer></answer>
+			</question>
+			<question id="10.4.8">
+				<text>Ethical editing of qualitative descriptions</text>
+				<answer></answer>
+			</question>
+			<question id="10.4.9">
+				<text>Data brokering</text>
+				<answer></answer>
+			</question>
+			<question id="11">
+				<text>Additional safeguards for vulnerable populations have been outlined. (See Research Involving Vulnerable Populations Checklists).</text>
+				<answer></answer>
+			</question>
+			<question id="12">
+				<text>Other additional considerations have been adequately addressed. (See Research Involving Additional Considerations and Review of Previously Approved Research Checklists).</text>
+				<answer></answer>
+			</question>
+		</checklist>	
+	</checklist-group>
+	
+	<checklist-group title="Exemption Categories Checklist">
+		<description></description>
+		<conditions>
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXEMPT_REVIEWER"
+				protocol-form-committee-status="PENDING_EXEMPT_IRB_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+				
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXEMPT_REVIEWER"
+				protocol-form-committee-status="PENDING_EXEMPT_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+		</conditions>
+		<checklist id="1" title="General">
+			<description></description>
+			<question id="1">
+				<text>Research involving normal educational practices.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>Research involving the use of educational tests, survey procedures, interview procedures, or observation of public behavior, in which:</text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>The subjects cannot be identified directly or through identifiers.</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>Disclosure of the subjects&apos; responses outside the research could not place the subject at risk of criminal or civil liability, or be damaging to the subjects&apos; financial standing, employability, or reputation.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>Research involving the use of educational tests, survey procedures, interview procedures, or observation of public behavior, in which:</text>
+				<answer></answer>
+			</question>
+			<question id="3.1">
+				<text>The subjects are elected or appointed public officials or candidates for public office.</text>
+				<answer></answer>
+			</question>
+			<question id="3.2">
+				<text>Federal statutes require without exception that the confidentiality of the personally identifiable information will be maintained throughout the research and thereafter.</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>Research involving the collection or study of existing data, documents, records, pathological specimens, or diagnostic specimens, in which:</text>
+				<answer></answer>
+			</question>
+			<question id="4.1">
+				<text>The sources are publically available.</text>
+				<answer></answer>
+			</question>
+			<question id="4.2">
+				<text>The information is recorded by the investigator in such a manner that subjects cannot be identified, directly or through identifiers linked to the subjects.</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+				<text>Research and demonstration projects designed to study, evaluate, or otherwise examine public benefit or service programs.</text>
+				<answer></answer>
+			</question>
+			<question id="6">
+				<text>Taste and food quality evaluation and consumer acceptance studies.</text>
+				<answer></answer>
+			</question>
+		</checklist>	
+	</checklist-group>
+	<checklist-group title="Expedited Review Categories Checklist">
+		<description></description>
+		<conditions>
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXEMPT_REVIEWER"
+				protocol-form-committee-status="PENDING_EXEMPT_IRB_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+				
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXEMPT_REVIEWER"
+				protocol-form-committee-status="PENDING_EXEMPT_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+		</conditions>
+		<checklist id="1" title="General">
+			<description></description>
+			<question id="1">
+				<text>Clinical studies of drugs and medical devices, when</text>
+				<answer></answer>
+			</question>
+			<question id="1.1">
+				<text>Research on drugs does not require an IND application.</text>
+				<answer></answer>
+			</question>
+			<question id="1.2">
+				<text>Research on medical devices</text>
+				<answer></answer>
+			</question>
+			<question id="1.2.1">
+				<text>Does not require an IDE application.</text>
+				<answer></answer>
+			</question>
+			<question id="1.2.2">
+				<text>Involves only devices that are being used in accordance with their cleared/approved labeling.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>Collection of blood samples by finger stick, heel stick, ear stick, or venipuncture, when collection occurs no more than 2 times per week, and when</text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>The subjects are healthy, nonpregnant adults who weigh at least 110 pounds, and the amounts drawn do not exceed 550 ml in an 8 week period.</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>The subjects are other adults and children, and the amounts drawn do not exceed the lesser of 50 ml or 3 ml per kg in an 8 week period.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>Prospective collection of biological specimens for research purposes by noninvasive means.</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>Collection of data through noninvasive procedures routinely employed in clinical practice, excluding procedures involving x-rays, microwaves, general anesthesia or sedation.</text>
+				<answer></answer>
+			</question>
+			<question id="5">
+				<text>Research involving materials (data, documents, records, or specimens) that have been collected or will be collected solely for nonresearch purposes.</text>
+				<answer></answer>
+			</question>
+			<question id="6">
+				<text>Collection of data from voice, video, digital, or image recordings made for research purposes.</text>
+				<answer></answer>
+			</question>
+			<question id="7">
+				<text>Research on individual or group characteristics or behavior, or research employing survey, interview, oral history, focus group, program evaluation, human factors evaluation, or quality assurance methodologies.</text>
+				<answer></answer>
+			</question>
+			<question id="8">
+				<text>Research previously approved by the convened IRB, where</text>
+				<answer></answer>
+			</question>
+			<question id="8.1">
+				<text>The research is permanently closed to the enrollment of new subjects, all subjects have completed all research-related interventions, and the research remains active only for long-term follow-up of subjects.</text>
+				<answer></answer>
+			</question>
+			<question id="8.2">
+				<text>No subjects have been enrolled and no additional risks have been identified.</text>
+				<answer></answer>
+			</question>
+			<question id="8.3">
+				<text>The remaining research activities are limited to data analysis.</text>
+				<answer></answer>
+			</question>
+		</checklist>	
+	</checklist-group>
+	<checklist-group title="Waiver Eligibility Checklist">
+		<description></description>
+		<conditions>
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="NEW_SUBMISSION"
+				committee-name="IRB_EXEMPT_REVIEWER"
+				protocol-form-committee-status="PENDING_EXEMPT_IRB_REVIEW" />
+
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXEMPT_REVIEWER"
+				protocol-form-committee-status="PENDING_EXEMPT_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="CONTINUING_REVIEW"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_PREREVIEW" protocol-form-committee-status="IN_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_EXPEDITED_REVIEWER"
+				protocol-form-committee-status="PENDING_EXPEDITED_IRB_REVIEW" />
+			<condition protocol-form-type="MODIFICATION"
+				committee-name="IRB_REVIEWER" protocol-form-committee-status="IN_REVIEW" />
+		</conditions>
+		<checklist id="1" title="Waiver or Alteration of the Consent Process Checklist">
+			<description></description>
+			<question id="1">
+				<text>Scenario A</text>
+				<answer></answer>
+			</question>
+			<question id="1.1">
+				<text>The research is NOT subject to FDA regulations (i.e., does not involve the use of a food, drug, biologic, device).</text>
+				<answer></answer>
+			</question>
+			<question id="1.2">
+				<text>The research involves no more than minimal risk.</text>
+				<answer></answer>
+			</question>
+			<question id="1.3">
+				<text>The waiver or alteration will not adversely affect the rights and welfare of the participants.</text>
+				<answer></answer>
+			</question>
+			<question id="1.4">
+				<text>The research could not practicably be carried out without the waiver or alteration.</text>
+				<answer></answer>
+			</question>
+			<question id="1.5">
+				<text>Whenever appropriate, the subjects will be provided with additional pertinent information after participation.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>Scenario B</text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>The research is NOT subject to FDA regulations (i.e., does not involve the use of a food, drug, biologic, device).</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>The research is conducted by or subject to the approval of state or local government officials. </text>
+				<answer></answer>
+			</question>
+			<question id="2.3">
+				<text>The research could not practicably be carried out without the waiver or alteration.</text>
+				<answer></answer>
+			</question>
+			<question id="2.4">
+				<text>The research is designed to study, evaluate, or examine public benefit or service programs.</text>
+				<answer></answer>
+			</question>
+		</checklist>	
+		<checklist id="2" title="Waiver of Documentation of Consent Checklist">
+			<description></description>
+			<question id="1">
+				<text>Scenario A</text>
+				<answer></answer>
+			</question>
+			<question id="1.1">
+				<text>The research is NOT subject to FDA regulations (i.e., does not involve the use of a food, drug, biologic, device).</text>
+				<answer></answer>
+			</question>
+			<question id="1.2">
+				<text>The only record linking the subject and the research would be the consent document.</text>
+				<answer></answer>
+			</question>
+			<question id="1.3">
+				<text>The principle risk to the subject would be the potential harm resulting from a breach of confidentiality.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>Scenario B</text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>The research involves no more than minimal risk.</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>The research does not involve procedures that normally require consent outside of the research context.</text>
+				<answer></answer>
+			</question>
+		</checklist>
+		<checklist id="3" title="Waiver of HIPAA Authorization Checklist">
+			<description></description>
+			<question id="1">
+				<text>The PHI for which use or access has been determined to be necessary is adequately described.</text>
+				<answer></answer>
+			</question>
+			<question id="2">
+				<text>The use or disclosure of the PHI involves no more than minimal risk to the privacy of individuals based on, at least, the presence of the following elements:</text>
+				<answer></answer>
+			</question>
+			<question id="2.1">
+				<text>An adequate plan to protect health information identifiers from improper use and disclosure.</text>
+				<answer></answer>
+			</question>
+			<question id="2.2">
+				<text>An adequate plan to destroy identifiers at the earliest opportunity consistent with conduct of the research (absent a health or research justification for retaining them or a legal requirement to do so).</text>
+				<answer></answer>
+			</question>
+			<question id="2.3">
+				<text>Adequate written assurances that the PHI will not be reused or disclosed to (shared with) any other person or entity, except as required by law, for authorized oversight of the research study, or for other research for which the use or disclosure of the PHI would be permitted under the Privacy Rule.</text>
+				<answer></answer>
+			</question>
+			<question id="3">
+				<text>The research could not practicably be conducted without the waiver or alteration.</text>
+				<answer></answer>
+			</question>
+			<question id="4">
+				<text>The research could not practicably be conducted without access to and use of the PHI.</text>
+				<answer></answer>
+			</question>	
+		</checklist>
+	</checklist-group>
+</checklists>

@@ -1,0 +1,14 @@
+
+html { overflow: -moz-scrollbars-vertical; }
+html { overflow-x: auto; }
+
+body {
+	margin:0px;
+	padding:0px;
+	background-repeat:repeat-x;
+	background-attachment: scroll;
+	background-position:top left;
+	background-color:#dfe1e3;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-size: 12px;
+}

@@ -1,0 +1,116 @@
+<form name="New Contract" id="new-contract" type="NEW_CONTRACT">
+	<page name="Basic Information" id="first-page">
+		<section>
+			<question id="question-nature" parent-id="" parent-value="" header="">
+				<question-label>What is the title of this contract?</question-label>
+				<question-value instance-path="/contract/basic-information/nature" value-type="textarea" />
+			</question>
+			<question id="question-contract-type" parent-id="" parent-value="" header="">
+				<question-label>What kind of contract are you submitting?</question-label>
+				<question-value  instance-path="/contract/basic-information/contract-type" lookup-path="contract-types" value-type="select" />
+			</question>
+			<question id="question-confidentiality-disclosure-agreement-sub-type" parent-id="question-contract-type" parent-value="confidentiality-disclosure-agreement" header="Confidentiality Disclosure Agreement">
+				<question-label>What is the contract sub-type?</question-label>
+				<question-value  instance-path="/contract/basic-information/contract-type/confidentiality-disclosure-agreement/sub-type" lookup-path="confidentiality-disclosure-agreement-sub-type" value-type="select" />
+			</question>
+			<question id="question-clinical-trial-agreement-sub-type" parent-id="question-contract-type" parent-value="clinical-trial-agreement" header="Clinical Trial Agreement">
+				<question-label>What is the contract sub-type?</question-label>
+				<question-value  instance-path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" lookup-path="clinical-trial-agreement-sub-type" value-type="select" />
+			</question>
+			<question id="question-material-transfer-agreement-sub-type" parent-id="question-contract-type" parent-value="material-transfer-agreement" header="Material Transfer Agreement">
+				<question-label>What is the contract sub-type?</question-label>
+				<question-value  instance-path="/contract/basic-information/contract-type/material-transfer-agreement/sub-type" lookup-path="material-transfer-agreement-sub-type" value-type="select" />
+			</question>
+			<question id="question-research-agreement-sub-type" parent-id="question-contract-type" parent-value="research-agreement" header="Research Agreement">
+				<question-label>What is the contract sub-type?</question-label>
+				<question-value  instance-path="/contract/basic-information/contract-type/research-agreement/sub-type" lookup-path="research-agreement-sub-type" value-type="select" />
+			</question>
+			<question id="question-subcontracts-sub-type" parent-id="question-contract-type" parent-value="subcontracts" header="Subcontracts">
+				<question-label>What is the contract sub-type?</question-label>
+				<question-value  instance-path="/contract/basic-information/contract-type/subcontracts/sub-type" lookup-path="subcontracts-sub-type" value-type="select" />
+			</question>
+			<question id="question-license-sub-type" parent-id="question-contract-type" parent-value="license" header="License">
+				<question-label>What is the contract sub-type?</question-label>
+				<question-value  instance-path="/contract/basic-information/contract-type/license/sub-type" lookup-path="license-sub-type" value-type="select" />
+			</question>
+			<question id="question-study-type-contract" parent-id="" parent-value="" header="">
+				<question-label>Who initiated the study?</question-label>
+				<question-value  instance-path="/contract/study-type" lookup-path="study-types" value-type="select" />
+			</question>
+			<question id="question-cooperative-group-contract" parent-id="question-study-type-contract" parent-value="cooperative-group" header="Cooperative Group">
+				<question-label>Please indicate the Cooperative Group:</question-label>
+				<question-value  instance-path="/contract/study-type/cooperative-group" lookup-path="cooperative-groups" value-type="select" />
+			</question>
+			<question id="question-investigator-description-contract" parent-id="question-study-type-contract" parent-value="investigator-initiated" header="Investigator">
+				<question-label>Which of the following describes the investigator who initiated this study?</question-label>
+				<question-value  instance-path="/contract/study-type/investigator-initiated/investigator-description" lookup-path="investigator-description" value-type="select" />
+			</question>
+			<question id="question-other-investigator-description-contract" parent-id="question-investigator-description-contract" parent-value="other" header="Other Investigator">
+				<question-label>Please explain:</question-label>
+				<question-value  instance-path="/contract/study-type/investigator-initiated/investigator-description/other/explain" value-type="textarea" />
+			</question>
+			<question id="question-study-subtype-contract" parent-id="question-study-type-contract" parent-value="investigator-initiated" header="Investigator">
+				<question-label>Which of the following support types will this study use?</question-label>
+				<question-value  instance-path="/contract/study-type/investigator-initiated/sub-type" lookup-path="study-subtypes" value-type="other" />
+				<sub-questions>
+					<question id="question-other-subtype-contract-other" parent-id="" parent-value="" header="Other Support Type">
+						<question-label>Please indicate the type:</question-label>
+						<question-value  instance-path="/contract/study-type/investigator-initiated/sub-type/other/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-is-study-related" parent-id="" parent-value="" header="">
+				<question-label>Is this contract related to any existing protocol?</question-label>
+				<question-value  instance-path="/contract/basic-information/is-study-related" value-type="yesNo" />
+			</question>
+			<question id="question-irb-number" parent-id="question-is-study-related" parent-value="y" header="Yes">
+				<question-label>Please provide the IRB number:</question-label>
+				<question-value  instance-path="/contract/protocol" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="Staff" id="staff">
+		<section>
+			<question id="question-staff" parent-id="" parent-value="" header="">
+				<question-value instance-path="/contract/staffs/staff" value-type="staff" />
+			</question>
+		</section>
+	</page>
+	<page name="Contacts Information" id="sponsor-contacts">
+		<section>
+			<question id="question-contacts-panelwrapper" parent-id="" parent-value="" header="">
+				<question-value instance-path="/contract/sponsors/sponsor" value-type="sponsor" />
+			</question>
+		</section>
+	</page>
+	<page name="Contract Determination" id="contract-execution-dates" edit-permission="EDIT_CONTRACT_BASIC">
+		<section>
+			<question id="question-start-date" parent-id="" parent-value="" header="">
+				<question-label>Contract Beginning Date:</question-label>
+				<question-value instance-path="/contract/basic-info/contract-begin-date" shownovalue="true" value-type="date" from-form-metadata="true" editable="true"/>
+			</question>
+			<question id="question-end-date" parent-id="" parent-value="" header="">
+				<question-label>Contract End Date:</question-label>
+				<question-value instance-path="/contract/basic-info/contract-end-date" shownovalue="true" value-type="date" from-form-metadata="true" editable="true"/>
+			</question>
+			<question id="question-execution-date" parent-id="" parent-value="" header="">
+				<question-label>Contract Execution Date:</question-label>
+				<question-value instance-path="/contract/basic-info/contract-execution-date" shownovalue="true" value-type="date" from-form-metadata="true" editable="true"/>
+			</question>
+		</section>
+	</page>
+	<page name="Assigned Budget/Coverage Reviewers" id="assigned-budget-reviewers">
+		<section>
+			<question id="question-assigned-reviewers" parent-id="" parent-value="" header="">
+				<question-value instance-path="/contract/committee-review/committee/assigned-reviewers/assigned-reviewer" value-type="assigned-reviewers" />
+			</question>
+		</section>
+	</page>
+	<page name="Assigned Contract/Legal Reviewers" id="assigned-budget-reviewers">
+		<section>
+			<question id="question-assigned-reviewers" parent-id="" parent-value="" header="">
+				<question-value instance-path="/contract/committee-review/committee/assigned-reviewers/assigned-reviewer" value-type="assigned-reviewers" from-form-metadata="true" />
+			</question>
+		</section>
+	</page>
+</form>

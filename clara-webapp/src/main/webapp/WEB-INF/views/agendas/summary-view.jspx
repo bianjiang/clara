@@ -1,0 +1,158 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+   
+
+	<fmt:parseDate var="agendaDate" value="${agenda.date}"
+		pattern="yyyy-MM-dd" />
+
+	<div class="minutes-page">
+
+		<div class="row">
+			<div class="span12">
+				<div class="page-header" style="margin-top:0;margin-bottom:8px;">
+					<h2 style="margin:0;">Full Board Agenda
+					<small><strong><fmt:formatDate value="${agendaDate}" pattern="MMMM dd, yyyy" /></strong></small></h2>
+				</div>
+			</div>
+		</div>
+		
+			<c:forEach var="item" items="${allList}" varStatus="rowCounter">
+				<c:set var="index" value="${index+1}" />
+				<c:set var="secondColHeader" value="Reviewers"/>
+				<c:if test="${headList.get(index) == 'Reported Items' }">
+					<c:set var="secondColHeader" value="Form Type"/>
+				</c:if>
+				<c:if test="${not empty item}">
+					<h4>${headList.get(index)}</h4>
+					<table class="table table-bordered table-condensed table-striped">
+						<thead>
+							<tr>
+								<th>IRB #</th>
+								<th>${secondColHeader}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="aitem" items="${item}" varStatus="rowCounter">
+								<tr>
+									<td>
+										<c:if test="${not empty aitem.protocolForm}">${aitem.protocolForm.protocol.id}</c:if>
+										<c:if test="${aitem.agendaItemCategory == 'MINUTES' }">
+											Previous Meeting's Minutes
+										</c:if>
+									</td>
+									<td>
+									<c:if test="${aitem.agendaItemCategory == 'REPORTED' }">
+									    <span style="text-transform:capitalize;">${fn:toLowerCase(fn:replace(aitem.protocolForm.protocolFormType, '_', ' '))}</span>
+									</c:if>
+									<c:forEach var="reviewer"
+											items="${irbReviewerDao.listAgendaIRBReviewersByItemId(aitem.id)}">
+			           ${reviewer.user.username}
+			              </c:forEach></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</c:if>
+			</c:forEach>
+
+
+	</div>
+
+	<!-- // Now the detail pages.. -->
+	<div class="minutes-page">
+		<c:forEach var="item2" items="${allList}" varStatus="rowCounter2">
+			<c:set var="index2" value="${index2+1}" />
+			<c:if test="${not empty item2}">
+				<h3>${headList.get(index2)}</h3>
+
+				<c:forEach var="aitem2" items="${item2}">
+					<c:if test="${not empty aitem2.protocolForm}">
+						<x:parse doc="${aitem2.protocolForm.protocol.getMetaDataXml()}" var="xml" />
+					</c:if>
+						
+						<div class="well well-small" style="margin-bottom:10px;">
+							<c:if test="${aitem2.agendaItemCategory == 'MINUTES' }">
+								<p class="lead" style="line-height:auto;margin-bottom:0px;">Previous Meeting's Minutes</p>
+							</c:if>
+							<c:if test="${not empty aitem2.protocolForm}">
+								<legend style="line-height:auto;margin-bottom:0px;">IRB #: ${aitem2.protocolForm.protocol.id}</legend>
+								<p class="lead" style="line-height:auto;margin-bottom:0px;"><x:out escapeXml="false" select="string($xml/protocol/title)" /></p>
+								
+								<c:set var="drugvalue" value="No" />
+								<x:forEach select="$xml/protocol/drugs/drug" var="drug">
+									<c:if test="${not empty drug}">
+										<c:set var="drugvalue" value="Yes" />
+									</c:if>
+								</x:forEach>
+								<c:set var="devicevalue" value="No" />
+								<x:forEach select="$xml/protocol/devices/device" var="device">
+									<c:if test="${not empty device}">
+										<c:set var="devicevalue" value="Yes" />
+									</c:if>
+								</x:forEach>
+								
+								<x:set var="vulnerable" select="string($xml/protocol/included-vulnerable-populations)" />
+								
+								<dl class="dl-horizontal">
+										  <dt>Principal Investigator</dt>
+										  <dd>
+										  	<x:forEach select="$xml/protocol/staffs/staff" var="staff">
+												<x:forEach select="$staff/user/roles/role" var="xrole">
+													<x:set var="role" select="string($xrole/text())" />
+													<c:if test="${role eq 'Principal Investigator' }">
+														<c:set var="pifound" value="true"/>
+														<x:set var="pifname" select="string($staff/user/firstname/text())"/>
+														<x:set var="pilname" select="string($staff/user/lastname/text())"/>
+														<x:set var="piemail" select="string($staff/user/email/text())"/>
+													</c:if>
+												</x:forEach>
+											</x:forEach>
+											<c:if test="${pifound eq 'true' }">
+												${pifname} ${pilname}
+											</c:if>
+											<!-- 
+										    <x:forEach select="$xml/protocol/staffs/staff/user/roles/role" var="role">
+											<x:set var="prinRoletest" select="string($role)" />
+											<c:if test="${prinRoletest == 'Principal Investigator'}">
+											<x:set var="lastname" select="string($xml/protocol/staffs/staff/user/lastname)" />
+											<x:set var="firstname" select="string($xml/protocol/staffs/staff/user/firstname)" />
+											${firstname} ${lastname}  
+											</c:if>
+											</x:forEach>
+											-->
+										  </dd>
+										  <dt>Funding Agency</dt>
+										  <dd><x:out escapeXml="false" select="string($xml/protocol/funding/funding-source/@entityname)"/>&#160;</dd>
+										  <dt>Reviewers</dt>
+										  <dd><c:forEach var="reviewer" items="${irbReviewerDao.listAgendaIRBReviewersByItemId(aitem2.id)}">
+							            		${reviewer.user.username}
+							              	  </c:forEach>
+							              </dd>
+							              <dt>Drug(s)?</dt>
+										  <dd>${drugvalue}</dd>
+										  <dt>Device(s)?</dt>
+										  <dd>${devicevalue}</dd>
+										  <dt>Vulnerable Pop.</dt>
+										  <dd>${vulnerable}</dd>
+								</dl>
+							</c:if>
+						</div>
+				</c:forEach>
+
+			</c:if>
+		</c:forEach>
+	</div>
+</div>

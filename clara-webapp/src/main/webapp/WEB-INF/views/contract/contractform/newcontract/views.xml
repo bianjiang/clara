@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+  
+    <definition extends="contract/contractform/newcontract" name="contract/contractform/newcontract/first-page">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/first-page.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/common/wizard.js" />
+    		<!-- <add-attribute value="/static/js/contract/contractform/department-panel.js" /> -->
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract" name="contract/contractform/newcontract/study-information">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/study-information.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        			<add-attribute value="/static/js/protocol/protocol-base.js" />
+        			<add-attribute value="/static/js/queues/queues.js" />
+					<add-attribute value="/static/js/queues/queues-assign.js" />
+        			<add-attribute value="/static/js/protocol/protocolform/newsubmission/funding-sources.js" />
+        			<add-attribute value="/static/js/contract/contractform/newcontract/study-info.js" />
+            		<add-attribute value="/static/js/common/wizard.js" />
+            		
+    		<!-- <add-attribute value="/static/js/contract/contractform/department-panel.js" /> -->
+  		</put-list-attribute>
+    </definition>
+    
+        
+    <definition extends="contract/contractform/newcontract" name="contract/contractform/newcontract/sponsor-contacts">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/sponsor-contacts.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/encoder.js" />
+            		<add-attribute value="/static/js/common/wizard.js" />
+    		        <add-attribute value="/static/js/contract/contractform/sponsor-panel.js" /> 
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract" name="contract/contractform/newcontract/staff">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/staff.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+			<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract" name="contract/contractform/newcontract/documents">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/documents.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/common/wizard.js" />
+    				<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract" name="contract/contractform/newcontract/review">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract" name="contract/contractform/newcontract/signed">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+   		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  		</put-list-attribute>
+    </definition>
+        
+    <definition extends="contract/contractform/newcontract-noheader" name="contract/contractform/newcontract/first-page-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/first-page.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/common/wizard.js" />
+    		<!-- <add-attribute value="/static/js/contract/contractform/department-panel.js" /> -->
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract-noheader" name="contract/contractform/newcontract/study-information-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/study-information.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/protocol/protocol-base.js" />
+        			<add-attribute value="/static/js/queues/queues.js" />
+					<add-attribute value="/static/js/queues/queues-assign.js" />
+        			<add-attribute value="/static/js/protocol/protocolform/newsubmission/funding-sources.js" />
+        			<add-attribute value="/static/js/contract/contractform/newcontract/study-info.js" />
+            		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract-noheader" name="contract/contractform/newcontract/sponsor-contacts-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/sponsor-contacts.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        <add-attribute value="/static/js/encoder.js" />
+            		<add-attribute value="/static/js/common/wizard.js" />
+    		        <add-attribute value="/static/js/contract/contractform/sponsor-panel.js" /> 
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract-noheader" name="contract/contractform/newcontract/staff-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/staff.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+			<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract-noheader" name="contract/contractform/newcontract/documents-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/documents.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract-noheader" name="contract/contractform/newcontract/review-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="contract/contractform/newcontract-noheader" name="contract/contractform/newcontract/signed-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+   		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+</tiles-definitions>

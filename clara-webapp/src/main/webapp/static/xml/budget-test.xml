@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<budget>
+  <arms>
+    <arm id="100" name="Drug A">
+      <cycles>
+        <cycle id="1" name="Screening" repetitions="1"/>
+        <cycle id="2" name="Treatment" repetitions="10"/>
+      </cycles>
+      <visits>
+        <av id="199" desc="Initial Visit"/>
+        <av id="200" desc="1" cycId="1"/>
+        <av id="201" desc="2" cycId="1"/>
+        <av id="202" desc="3" cycId="1"/>
+        <av id="400" desc="1" cycId="2"/>
+        <av id="401" desc="2" cycId="2"/>
+        <av id="402" desc="3" cycId="2"/>
+        <av id="203" desc="Another Visit"/>
+        <av id="204" desc="Visit Number 204"/>
+        <av id="205" desc="Visit Number 205"/>
+        <av id="206" desc="Visit Number 206"/>
+        <av id="207" desc="Visit Number 207"/>
+        <av id="208" desc="Visit Number 208"/>
+        <av id="209" desc="Visit Number 209"/>
+        <av id="210" desc="Visit Number 210"/>
+        <av id="211" desc="Visit Number 211"/>
+        <av id="212" desc="Visit Number 212"/>
+        <av id="213" desc="Visit Number 213"/>
+        <av id="214" desc="Visit Number 214"/>
+        <av id="215" desc="Visit Number 215"/>
+        <av id="216" desc="Visit Number 216"/>
+        <av id="217" desc="Visit Number 217"/>
+        <av id="218" desc="Visit Number 218"/>
+        <av id="219" desc="Visit Number 219"/>
+        <av id="220" desc="Visit Number 220"/>
+        <av id="221" desc="Visit Number 221"/>
+        <av id="222" desc="Visit Number 222"/>
+        <av id="223" desc="Visit Number 223"/>
+        <av id="224" desc="Visit Number 224"/>
+        <av id="225" desc="Visit Number 225"/>
+        <av id="226" desc="Visit Number 226"/>
+        <av id="227" desc="Visit Number 227"/>
+        <av id="228" desc="Visit Number 228"/>
+        <av id="229" desc="Visit Number 229"/>
+        <av id="230" desc="Visit Number 230"/>
+        <av id="231" desc="Visit Number 231"/>
+        <av id="232" desc="Visit Number 232"/>
+        <av id="233" desc="Visit Number 233"/>
+        <av id="234" desc="Visit Number 234"/>
+        <av id="235" desc="Visit Number 235"/>
+        <av id="236" desc="Visit Number 236"/>
+        <av id="237" desc="Visit Number 237"/>
+        <av id="238" desc="Visit Number 238"/>
+        <av id="239" desc="Visit Number 239"/>
+        <av id="240" desc="Visit Number 240"/>
+        <av id="241" desc="Visit Number 241"/>
+        <av id="242" desc="Visit Number 242"/>
+        <av id="243" desc="Visit Number 243"/>
+        <av id="244" desc="Visit Number 244"/>
+        <av id="245" desc="Visit Number 245"/>
+        <av id="246" desc="Visit Number 246"/>
+        <av id="247" desc="Visit Number 247"/>
+        <av id="248" desc="Visit Number 248"/>
+        <av id="249" desc="Visit Number 249"/>
+        <av id="250" desc="Visit Number 250"/>
+        <av id="251" desc="Visit Number 251"/>
+        <av id="252" desc="Visit Number 252"/>
+        <av id="253" desc="Visit Number 253"/>
+        <av id="254" desc="Visit Number 254"/>
+        <av id="255" desc="Visit Number 255"/>
+        <av id="256" desc="Visit Number 256"/>
+        <av id="257" desc="Visit Number 257"/>
+        <av id="258" desc="Visit Number 258"/>
+        <av id="259" desc="Visit Number 259"/>
+        <av id="260" desc="Visit Number 260"/>
+        <av id="261" desc="Visit Number 261"/>
+        <av id="262" desc="Visit Number 262"/>
+        <av id="263" desc="Visit Number 263"/>
+        <av id="264" desc="Visit Number 264"/>
+        <av id="265" desc="Visit Number 265"/>
+        <av id="266" desc="Visit Number 266"/>
+        <av id="267" desc="Visit Number 267"/>
+        <av id="268" desc="Visit Number 268"/>
+        <av id="269" desc="Visit Number 269"/>
+        <av id="270" desc="Visit Number 270"/>
+        <av id="271" desc="Visit Number 271"/>
+        <av id="272" desc="Visit Number 272"/>
+        <av id="273" desc="Visit Number 273"/>
+        <av id="274" desc="Visit Number 274"/>
+        <av id="275" desc="Visit Number 275"/>
+        <av id="276" desc="Visit Number 276"/>
+        <av id="277" desc="Visit Number 277"/>
+        <av id="278" desc="Visit Number 278"/>
+        <av id="279" desc="Visit Number 279"/>
+        <av id="280" desc="Visit Number 280"/>
+        <av id="281" desc="Visit Number 281"/>
+        <av id="282" desc="Visit Number 282"/>
+        <av id="283" desc="Visit Number 283"/>
+        <av id="284" desc="Visit Number 284"/>
+        <av id="285" desc="Visit Number 285"/>
+        <av id="286" desc="Visit Number 286"/>
+        <av id="287" desc="Visit Number 287"/>
+        <av id="288" desc="Visit Number 288"/>
+        <av id="289" desc="Visit Number 289"/>
+        <av id="290" desc="Visit Number 290"/>
+        <av id="291" desc="Visit Number 291"/>
+        <av id="292" desc="Visit Number 292"/>
+        <av id="293" desc="Visit Number 293"/>
+        <av id="294" desc="Visit Number 294"/>
+        <av id="295" desc="Visit Number 295"/>
+        <av id="296" desc="Visit Number 296"/>
+        <av id="297" desc="Visit Number 297"/>
+        <av id="298" desc="Visit Number 298"/>
+        <av id="299" desc="Visit Number 299"/>
+      </visits>
+      <procedures>
+        <p id="100" desc="Full CBC" groupName="Lab" cptCode="500">
+          <chargeInfo>
+            <hosp code="1234" value="100.72"/>
+            <offer value="110"/>
+            <price value="110"/>
+          </chargeInfo>
+          <visits>
+            <v id="199" t="R" cnt="2"/>
+            <v id="202" t="R" cnt="1"/>
+            <v id="203" t="I" cnt="1"/>
+          </visits>
+        </p>
+        <p id="101" desc="External Procedure" groupName="Misc." cptCode="123">
+          <chargeInfo>
+            <hosp code="1234" value="100.72"/>
+            <offer value="110"/>
+            <price value="110"/>
+          </chargeInfo>
+          <visits>
+            <v id="200" t="I" cnt="1"/>
+            <v id="201" t="I" cnt="1"/>
+          </visits>
+        </p>
+        <p id="102" desc="Proc 0" groupName="Misc." cptCode="">
+          <chargeInfo>
+            <hosp code="123" value="100"/>
+            <offer value="100"/>
+            <price value="100"/>
+          </chargeInfo>
+          <visits>
+            <v id="199" t="R" cnt="2"/>
+            <v id="203" t="R" cnt="1"/>
+            <v id="206" t="C" cnt="1"/>
+            <v id="208" t="C" cnt="1"/>
+            <v id="210" t="C" cnt="1"/>
+            <v id="212" t="C" cnt="1"/>
+            <v id="221" t="C" cnt="1"/>
+            <v id="222" t="C" cnt="1"/>
+            <v id="224" t="C" cnt="1"/>
+            <v id="227" t="R" cnt="1"/>
+            <v id="229" t="C" cnt="2"/>
+            <v id="236" t="C" cnt="1"/>
+            <v id="237" t="C" cnt="1"/>
+            <v id="238" t="C" cnt="1"/>
+            <v id="239" t="R" cnt="1"/>
+            <v id="245" t="C" cnt="1"/>
+            <v id="246" t="C" cnt="1"/>
+            <v id="247" t="R" cnt="1"/>
+            <v id="248" t="C" cnt="1"/>
+            <v id="250" t="C" cnt="1"/>
+            <v id="253" t="C" cnt="1"/>
+            <v id="257" t="C" cnt="1"/>
+            <v id="259" t="R" cnt="2"/>
+            <v id="262" t="C" cnt="1"/>
+            <v id="263" t="R" cnt="1"/>
+            <v id="269" t="C" cnt="1"/>
+            <v id="274" t="C" cnt="2"/>
+            <v id="279" t="R" cnt="1"/>
+            <v id="280" t="C" cnt="1"/>
+            <v id="281" t="C" cnt="1"/>
+            <v id="283" t="R" cnt="1"/>
+          </visits>
+        </p>
+      </procedures>
+    </arm>
+  </arms>
+</budget>

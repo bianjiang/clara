@@ -1,0 +1,103 @@
+font.body {
+	font-size: 10pt;
+	line-height: 11pt;
+	color: black;
+	font-family: verdana, arial, helvetica;
+	font-variant: normal;
+	font-style: normal;
+}
+font.bold {
+	color: black;
+	font-size: 10pt;
+	line-height: 11pt;
+	font-family: verdana, arial, helvetica;
+	font-variant: normal;
+	font-style: normal;
+	font-weight: bold;
+}
+font.small {
+	font-size: 8pt;
+	line-height: 11pt;
+	color: black;
+	font-family: verdana, arial, helvetica;
+	font-variant: normal;
+	font-style: normal;
+}
+font.error {
+	font-size: 10pt;
+	line-height: 11pt;
+	color: red;
+	font-family: verdana, arial, helvetica;
+	font-variant: normal;
+	font-style: bold;
+}
+select.small
+{
+	width: 48px;
+	height: 14px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+select.medium
+{
+	width: 75px;
+	height: 14px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+select.large
+{
+	width: 144px;
+	height: 14px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+input.small
+{
+	width: 70px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+input.medium
+{
+	width: 96px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+input.large
+{
+	width: 144px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+textarea.small
+{
+	width: 632px;
+	height: 36px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+textarea.medium
+{
+	width: 632px;
+	height: 72px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+textarea.large
+{
+	width: 632px;
+	height: 108px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+A:link, A:visited { text-decoration: underline; color: blue }
+A:hover { text-decoration: underline; color: red }

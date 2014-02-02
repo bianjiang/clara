@@ -1,0 +1,50 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr>
+			<th id="type"><b>Type</b></th>
+			<th id="amount"><b>Amount</b></th>
+			<th id="entityname"><b>Entity Name/Cost Center</b></th>
+			<th id="entitytype"><b>Entity Type</b></th>
+			<th id="projecttitle"><b>Project Title/Fund</b></th>
+			<th id="department"><b>Department</b></th>
+			<th id="projectid"><b>Project ID</b></th>
+			<th id="projectpi"><b>Project PI</b></th>
+			<th id="contacts"><b>Contact(s)</b></th>
+		</tr>
+		<x:forEach var="funding" select="$value">
+			<tr>
+				<td headers="type" valign="top"><x:out select="@type" /></td>
+				<td headers="amount" valign="top"><x:out select="@amount" /></td>
+				<td headers="entityname" valign="top"><x:out select="@entityname" /></td>
+				<td headers="entitytype" valign="top"><x:out select="@entitytype" /></td>
+				<td headers="projecttitle" valign="top"><x:out select="@name" />
+				</td>
+				<td headers="department" valign="top"><x:out select="@department" />
+				</td>
+				<td headers="projectid" valign="top"><x:out select="@projectid" />
+				</td>
+				<td headers="projectpi" valign="top"><x:out select="@projectpi" />
+				</td>
+				<td headers="contacts" valign="top"><x:set var="contactValue"
+						select="contacts/contact" /> <x:forEach var="contact"
+						select="$contactValue">
+						<ul>
+							<li><x:out select="string($contact/@name)" /></li>
+						</ul>
+					</x:forEach></td>
+			</tr>
+		</x:forEach>
+	</table>
+
+</jsp:root>

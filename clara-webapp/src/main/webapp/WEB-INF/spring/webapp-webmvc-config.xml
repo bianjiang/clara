@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+	<mvc:annotation-driven>
+		<!-- the RequestMappingHandlerAdapter created by the annotation-driven 
+			config will be overwritten by the one below (setting the order number) because 
+			of synchronizeOnSession -->
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes" value="application/xml;charset=UTF-8" />
+			</bean>
+			<bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean
+						class="edu.uams.clara.core.springmvc.extension.json.HibernateAwareObjectMapper" />
+				</property>
+			</bean>
+		</mvc:message-converters>
+		<mvc:async-support default-timeout="3000">
+			<mvc:callable-interceptors>
+				<bean
+					class="edu.uams.clara.core.springmvc.extension.async.TimeoutCallableProcessingInterceptor" />
+			</mvc:callable-interceptors>
+		</mvc:async-support>
+	</mvc:annotation-driven>
+	<!-- <bean id="sessionArgResolver" class="edu.uams.clara.core.springmvc.extension.SessionParamArgumentResolver" 
+		/> -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="order" value="1" />
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="order" value="0" />
+		<property name="synchronizeOnSession" value="true" />
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="supportedMediaTypes" value="application/xml;charset=UTF-8" />
+				</bean>
+				<bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+					<property name="objectMapper">
+						<bean
+							class="edu.uams.clara.core.springmvc.extension.json.HibernateAwareObjectMapper" />
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" />
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+			p:paramName="lang" />
+		<bean
+			class="edu.uams.clara.webapp.common.interceptor.AccessControlInterceptor" />
+		<!-- <mvc:interceptor> <mvc:mapping path="/secure/*"/> <bean class="org.example.SecurityInterceptor" 
+			/> </mvc:interceptor> -->
+	</mvc:interceptors>
+
+	<bean id="tilesViewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<!-- <property name="viewClass" value="org.springframework.js.ajax.tiles2.AjaxTilesView" 
+			/> -->
+		<!-- org.springframework.webflow.mvc.view.FlowAjaxTilesView -->
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.tiles2.TilesView" />
+		<!-- <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" 
+			/> -->
+		<property name="order" value="0" />
+	</bean>
+
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="1" />
+	</bean>
+
+	<!-- <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" 
+		/> -->
+	<!-- Configures the Tiles layout system -->
+	<!-- org.springframework.web.servlet.view.tiles2.TilesConfigurer -->
+	<bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer"
+		id="tilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/layouts/**/layouts.xml</value>
+				<!-- Scan views directory for Tiles configurations -->
+				<value>/WEB-INF/views/**/views.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Resolves localized messages*.properties and application.properties 
+		files in the application to allow for internationalization. The messages*.properties 
+		files translate Roo generated messages which are part of the admin interface, 
+		the application.properties resource bundle localizes all application specific 
+		messages such as entity names and menu items. -->
+
+	<bean
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+		id="messageSource" p:basenames="WEB-INF/i18n/messages,WEB-INF/i18n/application"
+		p:fallbackToSystemLocale="false" />
+
+	<!-- store preferred language configuration in a cookie -->
+
+	<bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
+		id="localeResolver" p:cookieName="locale" />
+
+	<!-- resolves localized <theme_name>.properties files in the classpath to 
+		allow for theme support -->
+	<!-- <bean class="org.springframework.ui.context.support.ResourceBundleThemeSource" 
+		id="themeSource" /> -->
+	<!-- store preferred theme configuration in a cookie -->
+	<!-- <bean class="org.springframework.web.servlet.theme.CookieThemeResolver" 
+		id="themeResolver" p:cookieName="theme" p:defaultThemeName="standard" /> -->
+
+
+
+	<!-- selects a static view for rendering without the need for an explicit 
+		controller -->
+	<mvc:view-controller path="/login" />
+	<mvc:view-controller path="/index" />
+	<mvc:view-controller path="/uncaughtException" />
+	<mvc:view-controller path="/resourceNotFound" />
+	<mvc:view-controller path="/dataAccessFailure" />
+	<mvc:view-controller path="/timeout" />
+	<mvc:view-controller
+		path="/protocol/protocolform/protocolFormLockedException" />
+
+	<mvc:resources mapping="/static/**" location="/static/" />
+	<!-- This bean resolves specific types of exceptions to corresponding logical 
+		- view names for error views. The default behaviour of DispatcherServlet 
+		- is to propagate all exceptions to the servlet container: this will happen 
+		- here with all other types of exceptions. -->
+
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"
+		p:defaultErrorView="uncaughtException">
+		<property name="exceptionMappings">
+			<props>
+				<prop key=".DataAccessException">dataAccessFailure</prop>
+				<prop key=".NoSuchRequestHandlingMethodException">resourceNotFound</prop>
+				<prop key=".TypeMismatchException">resourceNotFound</prop>
+				<prop key=".MissingServletRequestParameterException">resourceNotFound</prop>
+				<prop key=".ProtocolFormLockedException">protocol/protocolform/protocolFormLockedException
+				</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

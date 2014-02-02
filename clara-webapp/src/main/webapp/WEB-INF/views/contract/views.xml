@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    
+   <definition extends="default-ext4" name="contract/index">
+		<put-attribute name="body" value="/WEB-INF/views/contract/index.jspx"/>
+		<put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/app/config.js" />
+    		<add-attribute value="/static/js/app/dashboard/app.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/icons.css" type="string" />
+  		</put-list-attribute>
+	</definition>
+	
+    
+    <definition extends="default-noheader" name="contract/summary">
+        <put-attribute name="body" value="/WEB-INF/views/contract/summary.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/jquery/plugin/jquery.autoheight.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    	<definition extends="default-ext4" name="contract/dashboard">
+		<put-attribute name="body" value="/WEB-INF/views/contract/dashboard.jspx"/>
+			
+			<put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/app/config.js" />
+    		<add-attribute value="/static/js/app/detaildashboard/app.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/protocol/protocolform/review/review.css" />   
+        	<add-attribute value="/static/styles/contract/contract-dashboard.css" />
+			<add-attribute value="/static/styles/protocol/protocol-dashboard.css" />
+  		</put-list-attribute>
+			
+		
+	</definition>
+    
+    <!-- 
+    <definition extends="default" name="contract/dashboard">
+        <put-attribute name="body" value="/WEB-INF/views/contract/dashboard.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.rowexpander.js" />		
+    		<add-attribute value="/static/js/common/document-panel.js" />
+    		<add-attribute value="/static/js/protocol/protocol-base.js" />
+    		<add-attribute value="/static/js/ext/ux/SuperBoxSelect/SuperBoxSelect.js" />
+    		<add-attribute value="/static/js/encoder.js" />	
+    		<add-attribute value="/static/js/clara-mail.js" />
+    		<add-attribute value="/static/js/common/form-status-panel.js" /> 
+    		<add-attribute value="/static/js/queues/queues.js" />
+			<add-attribute value="/static/js/queues/queues-assign.js" />  
+    		<add-attribute value="/static/js/contract/contract-base.js" />    		
+    		<add-attribute value="/static/js/common/related-objects.js" />
+    		<add-attribute value="/static/js/common/dashboard.js" />
+    		<add-attribute value="/static/js/contract/contract-dashboard-contracts.js" /> 
+    		<add-attribute value="/static/js/contract/contract-dashboard.js" />    		
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  			<add-attribute value="/static/js/ext/ux/SuperBoxSelect/superboxselect.css" />
+        	<add-attribute value="/static/styles/contract/contract-dashboard.css" />
+        	<add-attribute value="/static/styles/protocol/protocol-dashboard.css" />
+  		</put-list-attribute>
+    </definition>
+    -->
+</tiles-definitions>

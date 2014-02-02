@@ -1,0 +1,65 @@
+<html>
+<body>
+<div class="email-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	<strong>Institutional Review Board</strong><br/>
+	4301 West Markham, #636<br/>
+	Little Rock, AR 72205-7199<br/>
+	501-686-5667<br/>
+	501-686-7265 (fax)<br/>
+	<a href="http://www.uams.edu/irb/irb.asp" target = "_blank">www.uams.edu/irb/irb.asp</a>
+	
+	<br/><br/>FWA00001119
+	
+	<br/><br/>$currentDate
+	
+	<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()<br/>
+	<br/><strong>PI Department:</strong> $piUser.person.department
+	
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	<br/><strong>Original Review Date:</strong> $originalReviewDate
+	
+	<br/><br/>APPROVED, MAJOR CONTINGENCIES MET
+
+	<br/><br/>The convened Institutional Review Board approved your major revisions to this study on $agendaDate. 
+
+	<br/><br/><<risk>>
+	
+	<br/><br/>The approval period for this study runs from $agendaDate to $agendaDatePlusReviewerPeriodMinusOneDay.
+	
+	<br/><br/>The following documents were received:<br/>
+	#if ($protocolFormDocuments.size() == 0)
+		No documents related to this study. 
+	#end
+	<ul>
+	
+	#foreach($document in ${protocolFormDocuments})
+	<li>$document.title </li> #end
+	</ul>
+	
+	
+	<br/><br/>Next review date: $agendaDatePlusReviewerPeriodMinusOneDay.
+
+	
+	<br/></br>If you have any questions, please contact an IRB administrator at 501-686-5667.<br/>
+	
+	<a href=$protocolLink>Click here to access study.</a>
+	
+	<br/><br/>
+	<strong>Committee Notes/Comments:</strong>
+	<br/>
+	#if ($inLetterComments.size() > 0)
+		<ul>
+		#foreach($comment in ${inLetterComments}) 
+		<li>$comment.text</li>#end
+		</ul>
+	#end
+	$emailComment
+	{0}
+	
+	<br/><br/>
+	$signature
+</div>
+</body>
+</html>

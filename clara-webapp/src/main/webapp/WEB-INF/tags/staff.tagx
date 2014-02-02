@@ -1,0 +1,125 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:sec="http://www.springframework.org/security/tags" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th id="name"><b>Name</b></th>
+			<th id="email"><b>Email</b></th>
+			<th id="role"><b>Roles</b></th>
+			<th id="responsibility"><b>Responsibilities</b></th>
+			<th id="notification"><b>Receive Notification</b></th>
+			<th id="conflict"><b>Conflict</b></th>
+			<th id="training"><b>Training</b></th>
+		</tr>
+		</thead>
+		<x:forEach var="staff" select="$value">
+			<x:set var="diff" select="string($staff/@diff)" />
+			<c:if test="${!empty diff}">
+				<c:set var="diffclass" value="row-diff-${diff}"/>
+			</c:if>
+			<x:set var="notifyValue" select="string(notify/text())" />
+			
+			<c:choose>
+				<c:when test="${notifyValue eq 'true'}">
+					<c:set var="notifyValue" value="yes" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="notifyValue" value="no" />
+				</c:otherwise>
+			</c:choose>
+			
+			<x:set var="conflictValue" select="string(user/conflict-of-interest/text())" />
+			
+			<c:choose>
+				<c:when test="${conflictValue eq 'true'}">
+					<c:set var="conflictValue" value="yes" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="conflictValue" value="no" />
+				</c:otherwise>
+			</c:choose>
+			<x:set var="uid" select="string(user/@id)" />
+			<tr class="staffrow ${diffclass}" id="staffrow-${uid}">
+				<td class="${diffclass}" headers="name" valign="top">
+					<a target='_blank' href='/clara-webapp/user/${uid}/profile'><x:out select="user/lastname" />,<x:out
+						select="user/firstname" /></a></td>
+				<td class="${diffclass}" headers="email" valign="top"><x:out select="user/email" />
+				</td>
+				<td class="${diffclass}" headers="role" valign="top"><ul class="compact-list"><x:set var="roleValue"
+						select="user/roles/role" />
+						<x:forEach var="role" select="$roleValue">
+						
+							<x:set var="rolediff" select="string($role/@diff)" />
+							<c:if test="${!empty rolediff}">
+								<c:set var="rodiffclass" value="row-diff-${rolediff}"/>
+							</c:if>
+						
+							<li class="${rodiffclass}"><x:out select="string($role/text())" /></li>
+						
+					</x:forEach></ul></td>
+					
+				<td class="${diffclass}" headers="responsibility" valign="top">
+				<ul class="compact-list">
+				<x:set
+						var="responsibilityValue"
+						select="user/reponsibilities/responsibility" /> <x:forEach
+						var="responsibility" select="$responsibilityValue">
+						
+							<x:set var="respdiff" select="string($responsibility/@diff)" />
+							<c:if test="${!empty respdiff}">
+								<c:set var="rsdiffclass" value="row-diff-${respdiff}"/>
+							</c:if>
+						
+							<li class="${rsdiffclass}"><x:out select="string($responsibility/text())" /></li>
+						
+					</x:forEach>
+					</ul>
+					</td>
+				<td class="${diffclass}" headers="notification" valign="top">${notifyValue}</td>
+				<td class="${diffclass}" headers="conflict" valign="top">${conflictValue}
+				<c:out value=" "/><x:out select="user/conflict-of-interest-description" />
+				</td>
+				<td class="staffcell-training ${diffclass}" headers="training" valign="top"><div class="statusicon"><!-- // --></div></td>
+			</tr>
+			<sec:authorize access="hasRole('VIEW_STAFF_SALARY')">
+				<tr class="staffrow staffsalaryrow ${diffclass}" id="staffsalaryrow-${uid}">
+					<td colspan="7">
+						<h4>Salary, FTE Estimates for <x:out select="user/lastname" />, <x:out select="user/firstname" /></h4>
+						<table class="summary-table table table-striped table-bordered table-condensed">
+							<thead>
+								<tr>
+									<th><b>Start</b></th>
+									<th><b>End</b></th>
+									<th><b>Salary</b></th>
+									<th><b>FTE (Percent)</b></th>
+								</tr>
+							</thead>
+								<x:forEach var="staffcost" select="$staff/user/costs/cost">
+									<x:set var="costdiff" select="string($staffcost/@diff)" />
+									<tr>
+										<td><x:out select="string($staffcost/@startdate)"/></td>
+										<td><x:out select="string($staffcost/@enddate)"/></td>
+										<td><x:out select="string($staffcost/@salary)"/></td>
+										<td><x:out select="string($staffcost/@fte)"/></td>
+									</tr>
+								</x:forEach>
+						</table>
+					</td>
+				</tr>
+			</sec:authorize>
+			
+		</x:forEach>
+	</table>
+
+</jsp:root>

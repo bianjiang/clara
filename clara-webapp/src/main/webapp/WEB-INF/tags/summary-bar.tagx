@@ -1,0 +1,125 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="id" required="true" rtexprvalue="true" />
+	<jsp:directive.attribute name="formid" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="pagetitle" type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="type" type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="hideWarning" type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="metadataXml" type="java.lang.String" required="true" rtexprvalue="true" />
+	
+	<x:parse doc="${metadataXml}" var="m" />
+	<c:set var="pifound" value="false"/>
+			<c:choose>
+				<c:when test="${type eq 'protocol'}">
+					<x:set var="title" select="string($m/protocol/title/text())" />
+					<x:set var="identifier" select="string($m/protocol/@identifier)" />
+					<x:set var="level" select="string($m/protocol/status/@priority)" />
+					<x:set var="status" select="string($m/protocol/status/text())" />
+					<x:forEach select="$m/protocol/staffs/staff" var="staff">
+						<x:forEach select="$staff/user/roles/role" var="xrole">
+							<x:set var="role" select="string($xrole/text())" />
+							<c:if test="${role eq 'Principal Investigator' }">
+								<c:set var="pifound" value="true"/>
+								<x:set var="pifname" select="string($staff/user/firstname/text())"/>
+								<x:set var="pilname" select="string($staff/user/lastname/text())"/>
+								<x:set var="piemail" select="string($staff/user/email/text())"/>
+							</c:if>
+						</x:forEach>
+					</x:forEach>
+					<x:set var="studyType" select="string($m/protocol/study-type/text())" />
+					<x:set var="studyNature" select="string($m/protocol/study-nature/text())" />
+				</c:when>
+				<c:when test="${type eq 'contract'}">
+					<x:set var="title" select="string($m/contract/title/text())" />
+					<x:set var="identifier" select="string($m/contract/@identifier)" />
+					<x:set var="level" select="string($m/contract/status/@priority)" />
+					<x:set var="status" select="string($m/contract/status/text())" />
+					<x:forEach select="$m/contract/staffs/staff" var="staff">
+						<x:forEach select="$staff/user/roles/role" var="xrole">
+							<x:set var="role" select="string($xrole/text())" />
+							<c:if test="${role eq 'Principal Investigator' }">
+								<c:set var="pifound" value="true"/>
+								<x:set var="pifname" select="string($staff/user/firstname/text())"/>
+								<x:set var="pilname" select="string($staff/user/lastname/text())"/>
+								<x:set var="piemail" select="string($staff/user/email/text())"/>
+							</c:if>
+						</x:forEach>
+					</x:forEach>
+					<x:set var="studyType" select="string($m/contract/type/text())" />
+					<x:set var="studyNature" select="string($m/contract/type//sub-type/text())" />
+					<c:set var="studyNature" value="${fn:replace(studyNature,'-', ' ')}" />
+				</c:when>
+			</c:choose>
+			
+<c:if test="${hideWarning ne true}">	
+	<c:if test="${type eq 'protocol' }">
+		<c:if test="${identifier lt 190000 }">
+			<div id="summary-bar-migrated-study" class="summary-bar-message summary-bar-message-warning" style="display:none;">
+				<span>
+					<strong>This is a migrated study.</strong> An initial Modification must be submitted in CLARA before any other forms (like Continuing Reviews) can be submitted for this study.
+				</span>
+			</div>
+		</c:if>
+	</c:if>
+</c:if>	
+
+	<div class="summary-bar	summary-bar-${type}">
+	
+		
+	
+		<div class="summary-bar-left">
+			<div class="summary-bar-title-id summary-bar-${type}-title-id">
+				<c:choose>
+					<c:when test="${type eq 'protocol'}">
+						IRB <strong>${identifier }</strong>
+					</c:when>
+					<c:when test="${type eq 'contract'}">
+						Contract <strong>${identifier }</strong>
+					</c:when>
+				</c:choose>
+			</div>
+			<div id="summary-bar-title" class="summary-bar-title-desc summary-bar-${type}-title-desc">
+				${title}
+			</div>
+		</div>
+		<div class="summary-bar-right">
+			<div class="summary-bar-status summary-bar-${type}-status summary-bar-status-${level}">${status}</div>
+			<div class="summary-bar-details summary-bar-${type}-details">
+			<c:if test="${studyNature ne ''}"><span class="summary-bar-itemnature" style="text-transform: capitalize;">${fn:replace(studyNature, "-", " ")}</span></c:if>
+			<span class="summary-bar-itemtype">${fn:replace(studyType, "-", " ")}</span>
+			<c:if test="${pifound eq 'true' }">
+				&#8226; PI <span class="summary-bar-piname">${pifname} ${pilname}</span> ${piemail}
+			</c:if>
+			</div>
+		</div>
+		<div style="clear:both;"><!-- // --></div>
+		
+		
+
+		
+		
+		
+	</div>
+<script>
+	if (typeof Clara.Protocols != "undefined"){
+		if (typeof Clara.Protocols.NameMappings != "undefined"){
+			if (jQuery(".summary-bar-itemnature")) jQuery(".summary-bar-itemnature").text(Clara.Protocols.NameMappings.studyNature[jQuery(".summary-bar-itemnature").text()]);
+		}
+	}
+	jQuery('#summary-bar-title').unbind('click');
+	jQuery("#summary-bar-title").click(function(evt){
+		evt.stopPropagation();
+		
+		clog("clicked title");
+		var title = jQuery("#summary-bar-title").text();
+		alert(jQuery.trim(title));
+	});
+</script>
+</jsp:root>

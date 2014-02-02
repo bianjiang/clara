@@ -1,0 +1,97 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty"/>
+	<jsp:directive.attribute name="name" type="java.lang.String" required="true" rtexprvalue="true"/>
+	<jsp:directive.attribute name="protocolInstance" type="org.w3c.dom.Document" required="true" rtexprvalue="true"/>
+	
+	<!-- Based on hasDrugsOrDevices to enable or disable links -->
+	<x:set var="hasDrugsOrDevices"
+							select="string($protocolInstance/protocol/has-drugs-or-devices/text())" />
+							
+	<x:set var="studyNature"
+							select="string($protocolInstance/protocol/study-nature/text())" />
+							
+	<x:set var="siteResponsible"
+							select="string($protocolInstance/protocol/site-responsible/text())" />
+							
+	<x:set var="needBudget"
+							select="string($protocolInstance/protocol/budget/potentially-billed/text())" />
+							
+	<x:set var="hudLocation"
+							select="string($protocolInstance/protocol/study-nature/hud-use/where/text())" />
+							
+	<c:set var="clickable" value="false" />	
+	<c:set var="siteResponsibleClickable" value="false" />	
+	<c:set var="needBudgetClickable" value="false" />
+	<c:set var="hudClickable" value="false" />
+	<c:set var="achHudStudy" value="false" />
+	
+	<c:if test="${studyNature eq 'hud-use' and hudLocation eq 'ach/achri'}">
+		<c:set var="achHudStudy" value="true" />		
+	</c:if>
+						
+	<c:if test="${hasDrugsOrDevices eq 'y'}">
+		<c:set var="clickable" value="true" />		
+	</c:if>
+	
+	<c:if test="${studyNature ne 'hud-use'}">
+		<c:set var="hudClickable" value="true" />		
+	</c:if>
+	
+	<c:if test="${siteResponsible ne 'ach-achri' and achHudStudy ne 'true'}">
+		<c:set var="siteResponsibleClickable" value="true" />		
+	</c:if>
+	
+	<c:if test="${needBudget eq 'y'}">
+		<c:set var="needBudgetClickable" value="true" />		
+	</c:if>
+	
+	<c:set var="monitoringClickable" value="false" />
+	<c:set var="budgetClickable" value="true" />
+	
+	<c:if test="${studyNature ne 'chart-review' and studyNature ne 'hud-use'}">
+		<c:set var="monitoringClickable" value="true" />		
+	</c:if>
+	
+	<!-- <c:if test="${studyNature eq 'chart-review' or siteResponsible eq 'ach-achri'}">
+		<c:set var="budgetClickable" value="false" />		
+	</c:if> -->
+	
+
+	<div class="clara-form-tabs">
+			<c:if test="${protocolFormXmlData.protocolFormXmlDataType eq 'MODIFICATION'}">
+					<div class="clara-form-tab" id="tab-modification"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'modification');">Modification</a></div><div id="btnSub-modification" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+				</c:if>
+				<div class="clara-form-tab" id="tab-first-page"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'first-page');">Start</a></div><div id="btnSub-first-page" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-basic-details"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'basic-details');">Basic Details</a></div><div id="btnSub-basic-details" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-sites"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;sites&quot;);'):fn:escapeXml('javascript:;')}" class="${hudClickable?'clickable':'notclickable'}">Sites</a></div><div id="btnSub-sites" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-staff"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'staff');">Staff</a></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-subjects"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'subjects');">Subjects</a></div><div id="btnSub-subjects" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-hipaa"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;hipaa&quot;);'):fn:escapeXml('javascript:;')}" class="${hudClickable?'clickable':'notclickable'}">HIPAA</a></div><div id="btnSub-hipaa" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-consent"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;consent&quot;);'):fn:escapeXml('javascript:;')}" class="${hudClickable?'clickable':'notclickable'}">Consent</a></div><div id="btnSub-consent" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-risks"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;risks&quot;);'):fn:escapeXml('javascript:;')}" class="${hudClickable?'clickable':'notclickable'}">Risks</a></div><div id="btnSub-risks" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-monitoring"><div class="tab-name"><a href="javascript:;" onclick="${monitoringClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;monitoring&quot;);'):fn:escapeXml('javascript:;')}" class="${monitoringClickable?'clickable':'notclickable'}">Data and Safety Monitoring</a></div><div id="btnSub-monitoring" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-misc"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;misc&quot;);'):fn:escapeXml('javascript:;')}" class="${hudClickable?'clickable':'notclickable'}">Miscellaneous</a></div><div id="btnSub-misc" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-drugs-devices"><div class="tab-name"><a href="javascript:;" onclick="${clickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;drugs-devices&quot;);'):fn:escapeXml('javascript:;')}" class="${clickable?'clickable':'notclickable'}">Drugs and Devices</a></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-funding-sources"><div class="tab-name"><a href="javascript:;" onclick="${siteResponsibleClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;funding-sources&quot;);'):fn:escapeXml('javascript:;')}" class="${siteResponsibleClickable?'clickable':'notclickable'}">Funding Sources</a></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-budget"><div class="tab-name"><a href="javascript:;" onclick="${siteResponsibleClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;budget&quot;);'):fn:escapeXml('javascript:;')}" class="${siteResponsibleClickable?'clickable':'notclickable'}">Budget and Coverage</a></div><div id="btnSub-budget" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-contract"><div class="tab-name"><a href="javascript:;" onclick="${siteResponsibleClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;contract&quot;);'):fn:escapeXml('javascript:;')}" class="${siteResponsibleClickable?'clickable':'notclickable'}">Contract</a></div><div id="btnSub-contract" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-epic"><div class="tab-name"><a href="javascript:;" onclick="${needBudgetClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;epic&quot;);'):fn:escapeXml('javascript:;')}" class="${needBudgetClickable?'clickable':'notclickable'}">Epic</a></div><div id="btnSub-epic" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+			
+			<div class="clara-form-tab" id="tab-documents"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'documents');">Documents</a></div><div style="clear:both;"><!-- // --></div></div>
+			<div class="clara-form-tab" id="tab-review"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'review');">Review and Submit</a></div><div style="clear:both;"><!-- // --></div></div>
+	</div>
+	
+	<script type="text/javascript">
+	var claraFormPageName="${name}";
+	<![CDATA[
+		jQuery("#tab-"+claraFormPageName).addClass("clara-form-pagelist-currentpage");
+		jQuery("#tab-"+claraFormPageName+" .subsectionbutton").removeClass("icn-application-list-disabled").addClass("icn-application-list-blue");
+		jQuery("#tab-"+claraFormPageName+" .subsectionbutton").click(function(){openSubSectionList();});
+	]]>
+	</script>
+</jsp:root>

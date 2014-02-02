@@ -1,0 +1,98 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	
+	<uams:header pagetype="agendas"/>
+	
+	<jsp:output omit-xml-declaration="yes"/>	
+	
+	<x:parse doc="${agendaItem.protocolForm.protocol.metaDataXml}" var="n"/>
+	<x:set var="pStatus" select="string($n/protocol/status)" />
+	<x:set var="pId" select="string($n/protocol/@id)" />
+
+	<spring:url value="/protocol/newsubmission/create" var="create_protocol_url"/>
+	<spring:url value='/static/images/icons/home.png' var="homeicon"/>
+	<spring:url value='/static/images/icons' var="icondir"/>
+   
+			
+			<x:set var="protocolTitle" select="string($n/protocol/title/text())" />
+			<x:set var="protocolType" select="string($n/protocol/study-type/text())" />
+			
+	
+			<div style="display:none;">
+			
+			<div id="summary-bar">
+				<uams:summary-bar type="protocol" id="${pId}" formid="${agendaItem.protocolForm.id}" metadataXml="${agendaItem.protocolForm.protocol.metaDataXml}"/>
+			</div>
+			
+			
+			</div>
+			
+			<div id="protocolDashboardPanel"><!-- // --></div>
+			
+	
+	<script type="text/javascript">
+		var agendaReadOnly = ${readOnly};
+		jQuery(document).ready(function() {
+			
+			
+			claraInstance.setType("protocol");
+			claraInstance.setId("${!empty agendaItem.protocolForm.protocol.id?agendaItem.protocolForm.protocol.id:0}");
+			claraInstance.setForm({
+				id:${!empty agendaItem.protocolForm.id?agendaItem.protocolForm.id:0},
+				urlName: "${!empty agendaItem.protocolForm.protocolFormType?agendaItem.protocolForm.protocolFormType.urlEncoded:0}",
+				type: "${!empty agendaItem.protocolForm.protocolFormType?agendaItem.protocolForm.protocolFormType:0}",
+				xmlDataId: ${!empty protocolFormXmlData.id?protocolFormXmlData.id:0},
+				xmlBaseTag: "${!empty agendaItem.protocolForm.protocolFormType?agendaItem.protocolForm.protocolFormType.baseTag:0}"
+			});
+			claraInstance.setUser({
+				id: ${!empty user?user.id:0},
+				committee: (claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER']) == true)?'IRB_REVIEWER':null
+			});
+
+			var currentAgenda = {
+					id:	${!empty agendaItem.agenda.id?agendaItem.agenda.id:0},
+					date: "${!empty agendaItem.agenda.date?agendaItem.agenda.date:0}",
+					agendaStatus: "${!empty agendaItem.agenda.agendaStatus?agendaItem.agenda.agendaStatus:0}",
+					irbRoster: "${!empty agendaItem.agenda.irbRoster?agendaItem.agenda.irbRoster:0}"
+				};
+			var currentAgendaItem = {
+					id:	${!empty agendaItem.id?agendaItem.id:0}
+				};
+
+		//	Clara.AgendaItem.AgendaStore.removeAll();
+		//	Clara.AgendaItem.AgendaStore.proxy.setUrl(appContext + "/ajax/agendas/"+currentAgenda.id+"/agenda-items/list");
+		//	Clara.AgendaItem.AgendaStore.load();
+			
+						
+			new Ext.Viewport({
+				layout:'border',
+				border:false,
+				items:[	{
+						    region: 'north',
+						    contentEl:'clara-header',
+						    bodyStyle:{ backgroundColor:'transparent' },
+						    height:48,
+						    border: false,
+						    margins: '0 0 0 0'
+						},
+						{xtype:'claraprotocoldbtabpanel',
+								viewAsAgendaItem:true,
+							    //tbar:{xtype:'claraagendaitemtoolbar', agenda:currentAgenda},
+								agenda:currentAgenda,
+								agendaItem:currentAgendaItem,
+								protocolInfoEl: 'summary-bar',
+							region:'center'
+						}
+					]
+			});
+
+			//if (claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_IRB_REVIEWER','ROLE_SYSTEM_ADMIN','ROLE_IRB_COMMITTEE_CHAIR','ROLE_IRB_COMMITTEE'])){
+			if(claraInstance.HasAnyPermissions(['VIEW_IRB_COMMENTS'])) {
+				// Add contingencies / comments tab
+				Ext.getCmp("clara-protocol-dashboard-tabpanel").add({autoLoadComments:false,readOnly: agendaReadOnly, committeeIncludeFilter:['IRB_REVIEWER','IRB_CONSENT_REVIEWER','IRB_PREREVIEW','IRB_PROTOCOL_REVIEWER','IRB_EXPEDITED_REVIEWER','IRB_EXEMPT_REVIEWER','IRB_OFFICE'],xtype:'reviewer-contingencygrid-panel',agendaItemView:true,iconCls:'icon-note',title:'IRB Reviewer Contingencies and Comments'});
+				Ext.getCmp("clara-protocol-dashboard-tabpanel").add({autoLoadComments:false,readOnly: agendaReadOnly, committeeExcludeFilter:['IRB_REVIEWER','IRB_CONSENT_REVIEWER','IRB_PREREVIEW','IRB_PROTOCOL_REVIEWER','IRB_EXPEDITED_REVIEWER','IRB_EXEMPT_REVIEWER','IRB_OFFICE'],xtype:'reviewer-contingencygrid-panel',agendaItemView:true,iconCls:'icon-note',title:'Other Committee Comments'});
+				Ext.getCmp("clara-protocol-dashboard-tabpanel").doLayout();
+			}
+		});
+	</script>
+</div>

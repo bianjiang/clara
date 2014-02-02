@@ -1,0 +1,19 @@
+{
+    "bookmarks": [
+        {
+            "name": "My protocols",
+            "url": "/ajax/protocols/list.xml",
+            "readonly": true
+        },
+        {
+            "name": "All protocols",
+            "url": "/ajax/protocols/list.xml",
+            "readonly": true
+        },
+        {
+            "name": "Cancer studies",
+            "url": "/ajax/protocols/list.xml",
+            "readonly": false
+        }
+    ]
+}

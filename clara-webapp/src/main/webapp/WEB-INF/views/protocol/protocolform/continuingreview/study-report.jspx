@@ -1,0 +1,511 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="crInstance" />
+	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+	
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:continuingreviewtab name="study-report" crInstance="${crInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+			
+			<div class="question clearfix" id="question-summarize-study-progress">
+				<div class="questionLabel">
+					Summarize study progress.
+				</div>
+				<div class="questionValue">
+					<x:set var="summarizeStudyProgress" select="string($crInstance/continuing-review/study-report/summarize-study-progress/text())" />
+					<uams:textarea validation="required" instancepath="/continuing-review/study-report/summarize-study-progress" value="${summarizeStudyProgress}" id="summarize-study-progress" hasNA="false"/>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="summarize-study-progress" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-subjects-experience-benefits">
+				<div class="questionLabel">
+					Have subjects experienced any benefits since your last report?
+				</div>
+				<div class="questionValue">
+					<x:set var="subjectsExperienceBenefits"
+						select="string($crInstance/continuing-review/study-report/subjects-experience-benefits/text())" />
+					<x:set var="subjectsExperienceBenefitsExplainText"
+						select="string($crInstance/continuing-review/study-report/subjects-experience-benefits/y/explain/text())" />
+					<uams:yesno
+						id="subjects-experience-benefits"
+						instancepath="/continuing-review/study-report/subjects-experience-benefits"
+						value="${subjectsExperienceBenefits}" validation="required" 
+						showTextArea="true"
+						textValue="${subjectsExperienceBenefitsExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-unanticipated-problems-involving-risks">
+				<div class="questionLabel">
+					Have there been any unanticipated problems involving risks to subjects or others since your last report?
+				</div>
+				<div class="questionValue">
+					<x:set var="unanticipatedProblemsInvolvingRisks"
+						select="string($crInstance/continuing-review/study-report/unanticipated-problems-involving-risks/text())" />
+					<x:set var="unanticipatedProblemsInvolvingRisksExplainText"
+						select="string($crInstance/continuing-review/study-report/unanticipated-problems-involving-risks/y/explain/text())" />
+					<uams:yesno
+						id="unanticipated-problems-involving-risks"
+						instancepath="/continuing-review/study-report/unanticipated-problems-involving-risks"
+						value="${unanticipatedProblemsInvolvingRisks}" validation="required" 
+						showTextArea="true"
+						textValue="${unanticipatedProblemsInvolvingRisksExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-subjects-withdrawn-from-research">
+				<div class="questionLabel">
+					Have any subjects withdrawn from the research since your last report?
+				</div>
+				<div class="questionValue">
+					<x:set var="subjectsWithdrawnFromResearch"
+						select="string($crInstance/continuing-review/study-report/subjects-withdrawn-from-research/text())" />
+					<x:set var="subjectsWithdrawnFromResearchExplainText"
+						select="string($crInstance/continuing-review/study-report/subjects-withdrawn-from-research/y/explain/text())" />
+					<uams:yesno
+						id="subjects-withdrawn-from-research"
+						instancepath="/continuing-review/study-report/subjects-withdrawn-from-research"
+						value="${subjectsWithdrawnFromResearch}" validation="required" 
+						showTextArea="true"
+						textValue="${subjectsWithdrawnFromResearchExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-subjects-or-others-complained">
+				<div class="questionLabel">
+					Have any subjects or others complained about the research since your last year?
+				</div>
+				<div class="questionValue">
+					<x:set var="subjectsOrOthersComplained"
+						select="string($crInstance/continuing-review/study-report/subjects-or-others-complained/text())" />
+					<x:set var="subjectsOrOthersComplainedExplainText"
+						select="string($crInstance/continuing-review/study-report/subjects-or-others-complained/y/explain/text())" />
+					<uams:yesno
+						id="subjects-or-others-complained"
+						instancepath="/continuing-review/study-report/subjects-or-others-complained"
+						value="${subjectsOrOthersComplained}" validation="required" 
+						showTextArea="true"
+						textValue="${subjectsOrOthersComplainedExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-any-publications-or-potential-benefits">
+				<div class="questionLabel">
+					Have there been any publications in the literature relevant to the risks or potential benefits of the research since your last report?
+				</div>
+				<div class="questionValue">
+					<x:set var="anyPublicationsOrPotentialBenefits"
+						select="string($crInstance/continuing-review/study-report/any-publications-or-potential-benefits/text())" />
+					<x:set var="anyPublicationsOrPotentialBenefitsExplainText"
+						select="string($crInstance/continuing-review/study-report/any-publications-or-potential-benefits/y/explain/text())" />
+					<uams:yesno
+						id="any-publications-or-potential-benefits"
+						instancepath="/continuing-review/study-report/any-publications-or-potential-benefits"
+						value="${anyPublicationsOrPotentialBenefits}" validation="required" 
+						showTextArea="true"
+						textValue="${anyPublicationsOrPotentialBenefitsExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-any-interim-findings">
+				<div class="questionLabel">
+					Since your last report, have there been any interim findings?   
+				</div>
+				<div class="questionValue">
+					<x:set var="anyInterimFindings"
+						select="string($crInstance/continuing-review/study-report/any-interim-findings/text())" />
+					<x:set var="anyInterimFindingsExplainText"
+						select="string($crInstance/continuing-review/study-report/any-interim-findings/y/explain/text())" />
+					<uams:yesno
+						id="any-interim-findings"
+						instancepath="/continuing-review/study-report/any-interim-findings"
+						value="${anyInterimFindings}" validation="required" 
+						showTextArea="true"
+						textValue="${anyInterimFindingsExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-any-multi-center-trial-reports">
+				<div class="questionLabel">
+					Since your last report, have there been any multi-center trial reports?    
+				</div>
+				<div class="questionValue">
+					<x:set var="anyMultiCenterTrialReports"
+						select="string($crInstance/continuing-review/study-report/any-multi-center-trial-reports/text())" />
+					<x:set var="anyMultiCenterTrialReportsExplainText"
+						select="string($crInstance/continuing-review/study-report/any-multi-center-trial-reports/y/explain/text())" />
+					<uams:yesno
+						id="any-multi-center-trial-reports"
+						instancepath="/continuing-review/study-report/any-multi-center-trial-reports"
+						value="${anyMultiCenterTrialReports}" validation="required" 
+						showTextArea="true"
+						textValue="${anyMultiCenterTrialReportsExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-any-dsmb-reports">
+				<div class="questionLabel">
+					Since your last report, have there been any data safety monitoring board reports?     
+				</div>
+				<div class="questionValue">
+					<x:set var="anyDsmbReports"
+						select="string($crInstance/continuing-review/study-report/any-dsmb-reports/text())" />
+					<x:set var="anyDsmbReportsExplainText"
+						select="string($crInstance/continuing-review/study-report/any-dsmb-reports/y/explain/text())" />
+					<uams:yesno
+						id="any-dsmb-reports"
+						instancepath="/continuing-review/study-report/any-dsmb-reports"
+						value="${anyDsmbReports}" validation="required" 
+						showTextArea="true"
+						textValue="${anyDsmbReportsExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-any-risks-information">
+				<div class="questionLabel">
+					Since your last report, has there been any other relevant information regarding this research, specifically information about risks associated with the research?      
+				</div>
+				<div class="questionValue">
+					<x:set var="anyRisksInformation"
+						select="string($crInstance/continuing-review/study-report/any-risks-information/text())" />
+					<x:set var="anyRisksInformationExplainText"
+						select="string($crInstance/continuing-review/study-report/any-risks-information/y/explain/text())" />
+					<uams:yesno
+						id="any-risks-information"
+						instancepath="/continuing-review/study-report/any-risks-information"
+						value="${anyRisksInformation}" validation="required" 
+						showTextArea="true"
+						textValue="${anyRisksInformationExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-any-risks-or-benefits-changed">
+				<div class="questionLabel">
+					In the opinion of the principal investigator, have the risks or potential benefits of this research changed since your last report?       
+				</div>
+				<div class="questionValue">
+					<x:set var="anyRisksOrBenefitsChanged"
+						select="string($crInstance/continuing-review/study-report/any-risks-or-benefits-changed/text())" />
+					<x:set var="anyRisksOrBenefitsChangedExplainText"
+						select="string($crInstance/continuing-review/study-report/any-risks-or-benefits-changed/y/explain/text())" />
+					<uams:yesno
+						id="any-risks-or-benefits-changed"
+						instancepath="/continuing-review/study-report/any-risks-or-benefits-changed"
+						value="${anyRisksOrBenefitsChanged}" validation="required" 
+						showTextArea="true"
+						textValue="${anyRisksOrBenefitsChangedExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-any-adverse-events">
+				<div class="questionLabel">
+					Since the last report, have there been any internal or local adverse events in the research?        
+				</div>
+				<div class="questionValue">
+					<x:set var="anyAdverseEvents"
+						select="string($crInstance/continuing-review/study-report/any-adverse-events/text())" />
+					<x:set var="anyAdverseEventsExplainText"
+						select="string($crInstance/continuing-review/study-report/any-adverse-events/y/explain/text())" />
+					<uams:yesno
+						id="any-adverse-events"
+						instancepath="/continuing-review/study-report/any-adverse-events"
+						value="${anyAdverseEvents}" validation="required" 
+						showTextArea="true"
+						textValue="${anyAdverseEventsExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please provide a summary:"
+						valueToShowTextArea="y" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="any-adverse-events" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-any-deviations">
+				<div class="questionLabel">
+					Since the last report, have any protocol deviations or violations occurred in this study?       
+				</div>
+				<div class="questionValue">
+					<x:set var="anyDeviations"
+						select="string($crInstance/continuing-review/study-report/any-deviations/text())" />
+					<x:set var="anyDeviationsExplainText"
+						select="string($crInstance/continuing-review/study-report/any-deviations/y/explain/text())" />
+					<uams:yesno
+						id="any-deviations"
+						instancepath="/continuing-review/study-report/any-deviations"
+						value="${anyDeviations}" validation="required" 
+						showTextArea="true"
+						textValue="${anyDeviationsExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please provide a summary:"
+						valueToShowTextArea="y" />
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="any-adverse-events" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-is-audited-by-federal-agency">
+				<div class="questionLabel">
+					Has this study been audited by the FDA, NIH, NCI OR other federal agency since your last report?
+				</div>
+				<div class="questionValue">
+					<x:set var="isAuditedByFederalAgency"
+						select="string($crInstance/continuing-review/study-report/is-audited-by-federal-agency/text())" />
+					<uams:yesno
+						id="is-audited-by-federal-agency"
+						instancepath="/continuing-review/study-report/is-audited-by-federal-agency"
+						value="${isAuditedByFederalAgency}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-audit-date">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since this study has been audited by the FDA, NIH, NCI or other federal agency, please 
+						answer the following questions: <br />
+					</h1>
+					What was the date of audit?
+				</div>
+				<div class="questionValue">
+					<x:set var="auditDate"
+							select="string($crInstance/continuing-review/study-report/is-audited-by-federal-agency/y/date/text())" />
+					<uams:datetime id="audit-date" instancepath="/continuing-review/study-report/is-audited-by-federal-agency/y/date" 
+							value="${auditDate}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-is-report-issued">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since this study has been audited by the FDA, NIH, NCI or other federal agency,  please 
+						answer the following questions: <br />
+					</h1>
+					Has a report been issued?
+				</div>
+				<div class="questionValue">
+					<x:set var="isReportIssued"
+						select="string($crInstance/continuing-review/study-report/is-audited-by-federal-agency/y/is-report-issued/text())" />
+					<uams:yesno
+						id="is-report-issued"
+						instancepath="/continuing-review/study-report/is-audited-by-federal-agency/y/is-report-issued"
+						value="${isReportIssued}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-is-report-copy-submitted">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since this study has been audited by the FDA, NIH, NCI or other federal agency,  please 
+						answer the following questions: <br />
+					</h1>
+					Have you submitted a copy of the report?
+				</div>
+				<div class="questionValue">
+					<x:set var="isReportCopySubmitted"
+						select="string($crInstance/continuing-review/study-report/is-audited-by-federal-agency/y/is-report-copy-submitted/text())" />
+					<uams:yesno
+						id="is-report-copy-submitted"
+						instancepath="/continuing-review/study-report/is-audited-by-federal-agency/y/is-report-copy-submitted"
+						value="${isReportCopySubmitted}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-study-focus-of-litigation">
+				<div class="questionLabel">
+					Is this study subject to any litigation?
+				</div>
+				<div class="questionValue">
+					<x:set var="studyFocusOnLitigation"
+						select="string($crInstance/continuing-review/study-report/study-focus-of-litigation/text())" />
+					<uams:yesno
+						id="study-focus-on-litigation"
+						instancepath="/continuing-review/study-report/study-focus-of-litigation"
+						value="${studyFocusOnLitigation}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-is-irb-notified">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since this study is the focuses of litigation,  please 
+						answer the following questions: <br />
+					</h1>
+					Has the IRB been notified?
+				</div>
+				<div class="questionValue">
+					<x:set var="isIrbNotified"
+						select="string($crInstance/continuing-review/study-report/study-focus-of-litigation/y/is-irb-notified/text())" />
+					<x:set var="irbNotNotifiedExplain" select="string($crInstance/continuing-review/study-report/study-focus-of-litigation/y/is-irb-notified/n/explain/text())" />
+					<uams:yesno
+						id="is-irb-notified"
+						instancepath="/continuing-review/study-report/study-focus-of-litigation/y/is-irb-notified"
+						value="${isIrbNotified}" validation="required"
+						showTextArea="true"
+						textValue="${irbNotNotifiedExplain}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="n" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-publications-or-presentation-from-data-collected">
+				<div class="questionLabel">
+					Are there any publications or presentations that have resulted from data collected during this study? (Please upload if answer is YES)
+				</div>
+				<div class="questionValue">
+					<x:set var="publicationsOrPresentationFromDataCollected"
+						select="string($crInstance/continuing-review/study-report/publications-or-presentation-from-data-collected/text())" />
+					<uams:yesno
+						id="publications-or-presentation-from-data-collected"
+						instancepath="/continuing-review/study-report/publications-or-presentation-from-data-collected"
+						value="${publicationsOrPresentationFromDataCollected}" validation="required" />
+				</div>
+			</div>
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+clog("Xmldata:");
+
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'accrual-of-subjects',
+										nextTab : 'conflict-of-interest',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									"<strong>Continuing Review</strong>: Study Report",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+							renderPage();
+							//renderQuestionWizard('page-wizard-wrapper', 'question', true, 'staff', 'hipaa');
+						});
+	</script> 
+</div>
+

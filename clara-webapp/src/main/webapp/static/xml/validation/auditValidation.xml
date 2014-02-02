@@ -1,0 +1,5 @@
+<rules>
+	<rule path="/audit/basic-details/audit-type" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate audit type is required!" level="ERROR"/>		
+	</rule>
+</rules>

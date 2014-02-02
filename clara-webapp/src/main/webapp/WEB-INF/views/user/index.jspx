@@ -1,0 +1,37 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	
+	<uams:header pagetype="user"/>
+	<div style="display:none;">
+		<div id="user-profile-info">
+			
+		</div>
+	</div>
+	<div id="profile-panel"><!-- // --></div>
+	<script type="text/javascript">
+	
+	<c:set var="search" value="'" />
+	<c:set var="replace" value="\'" />
+	
+	profile = { 
+			id:'${!empty profileuser?profileuser.id:0}',
+			firstname:'${!empty profileuser?fn:replace(profileuser.person.firstname, search, replace):""}',
+			middlename:'${!empty profileuser?fn:replace(profileuser.person.middlename, search, replace):""}',
+			lastname:'${!empty profileuser?fn:replace(profileuser.person.lastname, search, replace):""}',
+			username:'${!empty profileuser?fn:replace(profileuser.person.username, search, replace):""}',
+			email:'${!empty profileuser?fn:replace(profileuser.person.email, search, replace):""}',
+			department:'${!empty profileuser?fn:replace(profileuser.person.department, search, replace):""}',
+			phone:'${!empty profileuser?fn:replace(profileuser.person.workphone, search, replace):""}',
+			cvFilePath:'${!empty profileuser.uploadedFile?(profileuser.uploadedFile.path):""}',
+			cvFileId:'${!empty profileuser.uploadedFile?(profileuser.uploadedFile.identifier):""}',
+			cvFileExtension:'${!empty profileuser.uploadedFile?(profileuser.uploadedFile.extension):""}',
+			cvFileModified:'${!empty profileuser.uploadedFile?(profileuser.uploadedFile.created):""}',
+	};
+		Ext.onReady(function(){
+			
+			
+			clog("User profile page.. rendering.",profile);
+		});
+	</script>
+
+</div>

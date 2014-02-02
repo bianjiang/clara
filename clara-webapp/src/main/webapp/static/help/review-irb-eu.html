@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Emergency Use Checklist</title>
+    <!-- Bootstrap -->
+    <link href="../styles/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="../styles/checklists.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+    		<div class="container">
+	  			<a class="brand" href="#">Emergency Use Checklist</a>
+	  		</div>
+	  	</div>
+	</div>
+  	
+  	<ul class="nav nav-tabs" id="pageTabs">
+	  <li><a href="#page1" data-toggle="tab">Page 1</a></li>
+	  <li><a href="#page2" data-toggle="tab">Page 2</a></li>
+	</ul>
+  	
+  	<div class="tab-content">
+  		<div class="tab-pane active" id="page1">
+		  	<table class="table table-condensed table-striped table-hover">
+		  		<thead>
+		  			<tr>
+		  				<th>#</th>
+		  				<th>Question</th>
+		  				<th>Answer</th>
+		  			</tr>
+		  		</thead>
+		  		<tbody>
+			  		<tr>
+			  			<td>1</td>
+			  			<td>Was/Is the patient in a life-threatening or severely debilitating situation?</td>
+				  		<td>
+					  		<div class="btn-group" data-toggle="buttons-radio">
+							  <button type="button" class="btn btn-mini">Yes</button>
+							  <button type="button" class="btn btn-mini">No</button>
+							  <button type="button" class="btn btn-mini">N/A</button>
+							</div>
+				  		</td>
+			  		</tr>
+				  	<tr><td>2</td><td>Was/Is standard acceptable treatment available for the patient?</td>
+				  		<td>
+					  		<div class="btn-group" data-toggle="buttons-radio">
+							  <button type="button" class="btn btn-mini">Yes</button>
+							  <button type="button" class="btn btn-mini">No</button>
+							  <button type="button" class="btn btn-mini">N/A</button>
+							</div>
+				  		</td>
+				  	</tr>
+				  	<tr><td>3</td><td>Was/Is there sufficient time to obtain IRB approval?</td>
+				  		<td>
+					  		<div class="btn-group" data-toggle="buttons-radio">
+							  <button type="button" class="btn btn-mini">Yes</button>
+							  <button type="button" class="btn btn-mini">No</button>
+							  <button type="button" class="btn btn-mini">N/A</button>
+							</div>
+				  		</td>
+				  	</tr>
+			  	</tbody>
+			</table>
+		</div>
+  		<div class="tab-pane active" id="page2">
+		  	<table class="table table-condensed table-striped table-hover">
+		  		<thead>
+		  			<tr>
+		  				<th>#</th>
+		  				<th>Question</th>
+		  				<th>Answer</th>
+		  			</tr>
+		  		</thead>
+		  		<tbody>
+			  		<tr><td>1</td><td>Was/Is the patient in a life-threatening or severely debilitating situation?</td></tr>
+				  	<tr><td>2</td><td>Was/Is standard acceptable treatment available for the patient?</td></tr>
+				  	<tr><td>3</td><td>Was/Is there sufficient time to obtain IRB approval?</td></tr>
+			  	</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<div style="display:none;">
+		
+	</div>
+  
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script>
+	  $(function () {
+	    $('#pageTabs a:first').tab('show');
+	  })
+	</script>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+
+	<definition name="report-template" template="/WEB-INF/layouts/report-template.jspx">
+		<put-list-attribute name="styles" inherit="true"></put-list-attribute>
+		<put-list-attribute name="ie_styles" inherit="true"></put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute value="/static/js/encoder.js" />  
+			<add-attribute value="/static/js/jquery/plugin/jquery.validate.pack.js" type="string" />
+			<add-attribute value="/static/js/jquery/plugin/additional-methods.js" type="string" />
+			<add-attribute value="/static/js/jquery/plugin/jquery.metadata.js" type="string" />
+			<add-attribute value="/static/js/jquery/plugin/jquery.formSerializer.js" type="string" />
+			<add-attribute value="/static/js/common/uams-forms.js" type="string" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="default" template="/WEB-INF/layouts/default.jspx">
+		<put-list-attribute name="styles">
+			
+			<add-attribute value="/static/styles/application.css" type="string" />
+			<add-attribute value="/static/styles/icons.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="ie_styles">
+			<add-attribute value="/static/styles/application_ie.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/static/js/encoder.js" />  
+			<add-attribute value="/static/js/moment.js" />  
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="default-ext4" template="/WEB-INF/layouts/default-ext4.jspx">
+		<put-list-attribute name="styles">
+			<add-attribute value="/static/styles/ext4/ext-all.css" type="string" />
+			<add-attribute value="/static/styles/application.css" type="string" />
+			<add-attribute value="/static/js/ext4/ux/form/field/BoxSelect.css" />
+			<add-attribute value="/static/js/ext4/ux/ComboFieldBox/ComboFieldBox.css" />
+			<add-attribute value="/static/styles/icons.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="ie_styles">
+			<add-attribute value="/static/styles/application_ie.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/static/js/encoder.js" />
+			<add-attribute value="/static/js/moment.js" />  
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="default-ext4-neptune" template="/WEB-INF/layouts/default-ext4.jspx">
+		<put-list-attribute name="styles">
+			<add-attribute value="/static/styles/ext4/ext-all-neptune.css" type="string" />
+			<add-attribute value="/static/styles/application.css" type="string" />
+			<add-attribute value="/static/styles/icons.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="ie_styles">
+			<add-attribute value="/static/styles/application_ie.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/static/js/encoder.js" />
+			<add-attribute value="/static/js/moment.js" />  
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="default-ext4-noheader" template="/WEB-INF/layouts/default-ext4-noheader.jspx">
+		<put-list-attribute name="styles">
+			
+			<add-attribute value="/static/styles/application.css" type="string" />
+			<add-attribute value="/static/styles/icons.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="ie_styles">
+			<add-attribute value="/static/styles/application_ie.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/static/js/encoder.js" />  
+			<add-attribute value="/static/js/moment.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="default-noheader" template="/WEB-INF/layouts/default-noheader.jspx">
+		<put-list-attribute name="styles">
+			
+			<add-attribute value="/static/styles/noheader-application.css" type="string" />
+			<add-attribute value="/static/styles/icons.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="ie_styles">
+			<add-attribute value="/static/styles/application_ie.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/static/js/encoder.js" />  
+			<add-attribute value="/static/js/moment.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="form-summary" template="/WEB-INF/layouts/form-summary.jspx">
+		<put-list-attribute name="styles">
+			<add-attribute value="/static/styles/icons.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="ie_styles">
+			<add-attribute value="/static/styles/application_ie.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/static/js/encoder.js" /> 
+			<add-attribute value="/static/js/moment.js" /> 
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="default-blank" template="/WEB-INF/layouts/default-blank.jspx">
+		<put-list-attribute name="styles">
+			
+			<add-attribute value="/static/styles/icons.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/static/js/encoder.js" /> 
+			<add-attribute value="/static/js/moment.js" /> 
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="excelhtml-blank" template="/WEB-INF/layouts/excelhtml-blank.jspx"/>
+	
+	<definition name="public" extends="default-ext4">
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute value="/static/styles/application.css" type="string" />
+			<add-attribute value="/static/styles/icons.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="ie_styles" inherit="true"></put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">	<add-attribute value="/static/js/encoder.js" />  </put-list-attribute>
+	</definition>
+
+	<definition name="login-template" template="/WEB-INF/layouts/login-template4.jspx">
+		<put-list-attribute name="styles">
+			<add-attribute value="/static/styles/icons.css" type="string" />
+			<add-attribute value="/static/styles/login.css" type="string" />
+		</put-list-attribute>
+	</definition>
+
+</tiles-definitions>

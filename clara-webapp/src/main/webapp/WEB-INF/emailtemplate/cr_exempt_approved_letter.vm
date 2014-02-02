@@ -1,0 +1,62 @@
+<html>
+<body>
+<div class="email-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	<strong>Institutional Review Board</strong><br/>
+	4301 West Markham, #636<br/>
+	Little Rock, AR 72205-7199<br/>
+	501-686-5667<br/>
+	501-686-7265 (fax)<br/>
+	<a href="http://www.uams.edu/irb/irb.asp" target = "_blank">www.uams.edu/irb/irb.asp</a>
+	
+	<br/><br/>FWA00001119
+	
+	<br/><br/>$currentDate
+	
+	<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()<br/>
+	<br/><strong>PI Department:</strong> $piUser.person.department
+	
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	
+	<br/><br/>EXEMPT UPDATE
+
+	<br/><br/>The Institutional Review Board classified this study as Exempt on $originalReviewDate, based on Title 45 CFR 46.101.
+	
+	<br/><br/>According to your most recent update, no changes have occurred that require the study to be re-classified as Expedited or Full Board. 
+	
+	<br/><br/>
+	<strong>Committee Notes/Comments:</strong>
+	<br/>
+	#if ($inLetterComments.size() > 0)
+		<ul>
+		#foreach($comment in ${inLetterComments}) 
+		<li>$comment.text</li>#end
+		</ul>
+	#end
+	$emailComment
+	{0}
+	
+	<br/><br/>The following documents were received:<br/>
+	#if ($protocolFormDocuments.size() == 0)
+		No documents related to this study. 
+	#end
+	<ul>
+	
+	#foreach($document in ${protocolFormDocuments})
+	<li>$document.title </li> #end
+	</ul>
+	
+	<br/><br/>Please submit an update on this study by $threeYearsFromCurrentDate. 
+
+	<br/><br/>Please keep the IRB advised of any changes that may require the study to be re-classified as Expedited or Full Board. 
+	
+	<br/></br>If you have any questions, please contact an IRB administrator at 501-686-5667.<br/><br/>
+	
+	<a href=$protocolLink>Click here to access study.</a>
+	
+	<br/><br/>
+	$signature
+</div>
+</body>
+</html>

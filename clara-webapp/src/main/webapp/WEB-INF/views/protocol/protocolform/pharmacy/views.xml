@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>	   
+    <definition extends="protocol/protocolform/pharmacy/pharmacy-builder-template" name="protocol/protocolform/pharmacy/pharmacybuilder">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/pharmacy/pharmacy-builder.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">  
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+        	<add-attribute value="/static/js/json2.js" />  
+        	<add-attribute value="/static/js/encoder.js" />
+			<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />  
+			<add-attribute value="/static/js/ext/ux/ext.ux.panel.ddtabpanel.js" />  
+			<add-attribute value="/static/js/ext/ux/statusbar.js" />  
+			<add-attribute value="/static/js/ext/ux/ColumnHeaderGroup.js" />  	
+			<add-attribute value="/static/js/ext/ux/Exporter-all.js" />  	
+			<add-attribute value="/static/js/security.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/newsubmission/drugs-devices-base.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/pharmacy/pharmacy-base.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/pharmacy/pharmacy-panel.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/pharmacy/pharmacy-ui-expenses.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/pharmacy/pharmacy.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ext-all.css" />
+        	<add-attribute value="/static/styles/application.css" />
+        	<add-attribute value="/static/styles/ext/ux/statusbar.css"/>
+        	<add-attribute value="/static/styles/icons.css" />
+        	<add-attribute value="/static/styles/protocol/protocolform/pharmacy/pharmacy.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    
+        <definition extends="protocol/protocolform/pharmacy/coversheet-template" name="protocol/protocolform/pharmacy/coversheet">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/pharmacy/coversheet.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">  
+        	<add-attribute value="/static/js/fast-encoder.js" />  
+        	<add-attribute value="/static/js/json2.js" />  
+        	<add-attribute value="/static/js/bootstrap.min.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/pharmacy/pharmacy-base.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/pharmacy/coversheet.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/icons.css" />
+        	<add-attribute value="/static/styles/bootstrap.css" />
+        	<add-attribute value="/static/styles/protocol/protocolform/budget/coversheet.css" />
+  		</put-list-attribute>
+    </definition>
+</tiles-definitions>

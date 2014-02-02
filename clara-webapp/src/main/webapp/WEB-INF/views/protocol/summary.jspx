@@ -1,0 +1,192 @@
+<div class="container-fluid clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:uamsx="http://java.sun.com/jsp/jstl/xml-uams"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+	<c:import url="/static/xml/protocol-summary.xml"
+		var="summarytemplatexml" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+
+
+	<x:parse doc="${summarytemplatexml}" var="sTemplate" />
+	<x:parse doc="${protocol.metaDataXml}" var="n" />
+	<x:set var="protocolId" select="string($n/protocol/@id)" />
+
+	<script type="text/javascript">
+		<![CDATA[
+			jQuery.noConflict();
+				claraInstance.setUser({
+					id: ${!empty user?user.id:0}
+				});
+					
+		]]>
+		
+		<c:forEach var="permission" items="${user.authorities}">
+			<![CDATA[
+				claraInstance.addUserPermission('${permission}');
+			]]>
+		</c:forEach>
+
+		var protocolUrl = appContext+"/protocols/${!protocolId?protocolId:0}/dashboard";
+
+		
+		claraInstance.setType("protocol");
+		claraInstance.setId("${!empty protocolId?protocolId:0}");
+		claraInstance.setUser({
+			id: ${!empty user?user.id:0},
+			committee:'${!empty committee?committee:'PI'}'
+		});
+
+	</script>
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<a class="brand summary-navbar-title" href="#"><x:out
+					escapeXml="false" select="string($sTemplate/form/@name)" /></a>
+			<ul class="nav">
+				<li><a href="javascript:window.print();"><i
+						class="icon-print">
+							<!-- // -->
+					</i> Print</a></li>
+			</ul>
+		</div>
+	</div>
+
+
+
+	<div id="loading" style="text-align: center; margin-top: 88px;">
+		<h2>Loading page, please wait..</h2>
+		<div class="progress progress-striped active">
+			<div class="bar" style="width: 100%;">
+				<!-- // -->
+			</div>
+		</div>
+	</div>
+
+	<div id="summary-content">
+
+		<x:forEach var="page" select="$sTemplate/form/page">
+			<x:set var="pageId" select="string($page/@id)" />
+			<x:set var="pagePermission" select="string($page/@edit-permission)" />
+			<c:set var="canEditPage" value="false" />
+			<c:forEach var="permission" items="${user.authorities}">
+				<c:if test="${permission eq pagePermission}">
+					<c:set var="canEditPage" value="true" />
+				</c:if>
+			</c:forEach>
+
+			<div class="summary-page" id="summary-page-${pageId}">
+				<div class="row-fluid summary-row">
+					<div class="span8">
+						<h4>
+							<x:out escapeXml="false" select="string($page/@name)" />
+						</h4>
+					</div>
+				</div>
+				<x:forEach var="section" select="$page/section">
+					<x:forEach var="question" select="$section/question">
+						<x:set var="editPossibleValues"
+							select="$question/question-value/possible-values" />
+							
+						<x:set var="compareToValue"
+							select="string($question/question-value/@compareToValue)" />
+						<x:set var="qPath"
+							select="string($question/question-value/@instance-path)" />
+						<x:set var="qId" select="string($question/@id)" />
+						<x:set var="qLabel"
+							select="string($question/question-label/text())" />
+						<x:set var="qValueOuterClass"
+							select="string($question/@value-outerclass)" />
+						<x:set var="qHeader" select="string($question/@header)" />
+
+						<x:set var="qEditable" select="string($question/question-value/@editable)" />
+						<c:if test="${empty qEditable}">
+							<c:set var="qEditable" value="true" />
+						</c:if>
+						
+						<!-- /* UAMSX tag is SAME as X tag, but allows real-time variable expressions in the "select" attribute.  */ -->
+						<uamsx:set var="qValue" select="$n${qPath}" />
+						<x:set var="qValueType"
+							select="string($question/question-value/@value-type)" />
+						<x:set var="qLookupPath"
+							select="string($question/question-value/@lookup-path)" />
+						<c:if test="${canEditPage eq true}">
+							<uams:summary-row shownovalue="true" path="${qPath}" id="${qId}"
+								type="${qValueType}" value="${qValue}" label="${qLabel}"
+								lookuppath="${qLookupPath}" relatedsection="${qHeader}"
+								valuestyle="text-align:left;" compareToValue="${compareToValue}" 
+								valueouterclass="${qValueOuterClass}" editable="${qEditable}"
+								editPossibleValues="${editPossibleValues}" />
+						</c:if>
+						<c:if test="${canEditPage eq false}">
+							<uams:summary-row shownovalue="true" path="${qPath}" id="${qId}"
+								type="${qValueType}" value="${qValue}" label="${qLabel}"
+								lookuppath="${qLookupPath}" relatedsection="${qHeader}"
+								valuestyle="text-align:left;" compareToValue="${compareToValue}" 
+								valueouterclass="${qValueOuterClass}" editPossibleValues="${editPossibleValues}" />
+						</c:if>
+					</x:forEach>
+				</x:forEach>
+			</div>
+		</x:forEach>
+
+	</div>
+
+
+
+	<script type="text/javascript">
+		jQuery.expr[':'].icontains = function(obj, index, meta, stack) {
+			return (obj.textContent || obj.innerText || jQuery(obj).text() || '')
+					.toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
+		};
+
+		function clearSearch() {
+			jQuery("#summary-content div").show();
+		}
+
+
+		function performSearch(str) {
+			jQuery(".summary-section").hide().filter(
+					":icontains('" + str + "')").find('.summary-section')
+					.andSelf().show();
+			jQuery(".summary-row").hide().filter(":icontains('" + str + "')")
+					.find('.summary-row').andSelf().show();
+		}
+		
+
+
+		jQuery(document).ready(function() {
+
+
+
+							jQuery("#search").val("");
+							jQuery("#search").keyup(function() {
+								var val = jQuery("#search").val();
+
+								if (jQuery.trim(val) == "") {
+									clearSearch();
+								} else {
+									performSearch(jQuery("#search").val());
+								}
+							});
+						
+	
+							// SHOW THE PAGE NOW!!
+							jQuery("#loading").hide();
+							jQuery("#summary-content").fadeIn();
+							
+						});
+	</script>
+
+
+</div>

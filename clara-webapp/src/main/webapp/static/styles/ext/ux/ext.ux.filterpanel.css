@@ -1,0 +1,40 @@
+a.x-filter-title
+{
+	display : inline;
+}
+
+a.x-filter-item-close
+{
+	Z-INDEX: 2;
+	right : 3px;
+	cursor : pointer;
+}
+
+span.x-filter-item
+{
+    display : inline;
+    padding-bottom : 2px;
+    padding-top : 2px;
+    padding-left : 2px;
+    padding-right : 20px;
+    white-space : nowrap;
+    max-width : 150px;
+    text-overflow : elipsis;
+}
+
+span.x-filter-item:hover
+{
+	background-color : #ddd;
+	cursor : default;
+	z-index : -1;
+}
+
+.filterControl
+{
+	margin : 10px 10px 10px 10px;
+}
+
+.x-window-mc
+{
+    padding : 7px;
+}

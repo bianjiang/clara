@@ -1,0 +1,334 @@
+<div class="clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title)" />
+	<x:set var="studyNature"
+		select="string($protocolInstance/protocol/study-nature/text())" />
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="basic-details"
+			protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+			<div class="question" id="question-title">
+				<div class="questionIdentifier">Basic-Details-1</div>
+				<div class="questionLabel">
+					<span class="question-label-text">What is the title of this
+						study/HUD request?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="studyTitle" select="string($protocolInstance/protocol/title/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/title" value="${studyTitle}" id="title" hasNA="false"/>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="study-title" />
+				</div>
+			</div>
+
+			<div class="question" id="question-study-type">
+				<div class="questionIdentifier">Basic-Details-2</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Who initiated the study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="studyType"
+						select="string($protocolInstance/protocol/study-type/text())" />
+					<uams:select id="study-type" lookuppath="study-types"
+						instancepath="/protocol/study-type" value="${studyType}"
+						validation="required" />
+					<x:set var="requireSupportType"
+						select="string($protocolInstance/protocol/require-support-type/text())" />
+					<input class="question-el dummy-field-for-rule-activation"
+						id="require-support-type" name="/protocol/require-support-type"
+						type="hidden" value="${requireSupportType}" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="study-type" />
+				</div>
+			</div>
+
+			<div class="question" id="question-cooperative-group">
+				<div class="questionIdentifier">Basic-Details-2.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Cooperative Group, answer the following question:</h1>
+					<span class="question-label-text">Please indicate the
+						Cooperative Group.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="cooperativeGroup"
+						select="string($protocolInstance/protocol/study-type/cooperative-group/text())" />
+						<x:set var="cooperativeGroupOtherText"
+						select="string($protocolInstance/protocol/study-type/cooperative-group/other/text/text())" />
+					<uams:select id="cooperative-group" lookuppath="cooperative-groups"
+						instancepath="/protocol/study-type/cooperative-group"
+						value="${cooperativeGroup}" validation="required" allowOther="true" otherTextValue="${cooperativeGroupOtherText}"
+						otherOptionValue="other" textAreaTitle="Please specify:"
+						otherTextValidation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-investigator-description">
+				<div class="questionIdentifier">Basic-Details-2.2.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Investigator Initiated study, answer the following
+						question:</h1>
+					<span class="question-label-text">Which of the following
+						describes the investigator who initiated this study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="investigatorDescription"
+						select="string($protocolInstance/protocol/study-type/investigator-initiated/investigator-description/text())" />
+					<uams:select id="investigator-description"
+						lookuppath="investigator-description"
+						instancepath="/protocol/study-type/investigator-initiated/investigator-description"
+						value="${investigatorDescription}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-other-investigator-description">
+				<div class="questionIdentifier">Basic-Details-2.2.1.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						<span class="question-label-text">Since you choose Other to
+							describe investigator, please explain:</span>
+					</h1>
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el required"
+						name="/protocol/study-type/investigator-initiated/investigator-description/other/explain"
+						rows="4" id="other-investigator-description">
+						<x:out
+							select="$protocolInstance/protocol/study-type/investigator-initiated/investigator-description/other/explain" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question" id="question-study-subtype">
+				<div class="questionIdentifier">Basic-Details-2.2.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Investigator Initiated study, answer the following
+						question:</h1>
+					<span class="question-label-text">Which of the following
+						support types will this study use? (Check all that apply)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="studySubtype"
+						select="$protocolInstance/protocol/study-type/investigator-initiated/sub-type" />
+					<x:set var="studySubtypeOtherTextValue"
+						select="string($protocolInstance/protocol/study-type/investigator-initiated/sub-type/other/text/text())" />
+					<uams:checkbox id="study-subtype" lookuppath="study-subtypes"
+						instancepath="/protocol/study-type/investigator-initiated/sub-type"
+						allowOther="true" otherTextValue="${studySubtypeOtherTextValue}"
+						otherOptionValue="other"
+						otherTextValidation="required"
+						value="${studySubtype}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="study-subtypes" />
+				</div>
+				<x:set var="defaultFA"
+					select="string($protocolInstance/protocol/default-fa/text())" />
+				<input class="question-el dummy-field-for-rule-activation"
+					id="default-fa" name="/protocol/default-fa" type="hidden"
+					value="${defaultFA}" />
+			</div>
+
+			<div class="question clearfix" id="question-patient-locations">
+				<div class="questionIdentifier">Basic-Details-3</div>
+				<div class="questionLabel">
+					<span class="question-label-text">In which of the following
+						settings will this study take place? (Check all that apply)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="locations"
+						select="$protocolInstance/protocol/patient-locations/location" />
+					<uams:checkbox value="${locations}" lookuppath="patient-locations"
+						instancepath="/protocol/patient-locations/location"
+						validation="required" otherTextValidation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-study-phases">
+				<div class="questionIdentifier">Basic-Details-4</div>
+				<div class="questionLabel">
+					<span class="question-label-text">What are the phases of
+						this study?</span> (check all that apply)
+				</div>
+				<div class="questionValue">
+					<x:set var="phases"
+						select="$protocolInstance/protocol/phases/phase" />
+					<uams:checkbox id="phases" value="${phases}" allowcustom="false"
+						lookuppath="phases" instancepath="/protocol/phases/phase"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="study-phases" />
+				</div>
+			</div>
+
+			<div class="question" id="question-lay-summary">
+				<div class="questionIdentifier">Basic-Details-5</div>
+				<div class="questionLabel">
+					<span class="question-label-text">What is the lay summary of
+						this study? (This should include a brief description of the
+						overall goals of the proposed study, the specific aims or
+						objectives of the study, and the general experimental approach.)</span>
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el" name="/protocol/lay-summary" rows="4"
+						id="lay-summary">
+						<x:out escapeXml="false" select="$protocolInstance/protocol/lay-summary" />
+					</textarea>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="lay-summary" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-device-desc">
+				<div class="questionIdentifier">Basic-Details-6</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe the device and the indication for use approved by the FDA. Include information on previous use.</span>
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el" name="/protocol/device-desc" rows="4"
+						id="device-desc">
+						<x:out escapeXml="false" select="$protocolInstance/protocol/device-desc" />
+					</textarea>
+				</div>
+			</div>
+			
+			<div class="question" id="question-procedure-desc">
+				<div class="questionIdentifier">Basic-Details-7</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe the procedure that patient(s) will undergo in relation to use of the device. </span>
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el" name="/protocol/procedure-desc" rows="4"
+						id="procedure-desc">
+						<x:out escapeXml="false" select="$protocolInstance/protocol/procedure-desc" />
+					</textarea>
+				</div>
+			</div>
+			
+			<div class="question" id="question-reason-use-of-device">
+				<div class="questionIdentifier">Basic-Details-8</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe the reason use of the device is worth the risk to patient(s) at this time.</span>
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el" name="/protocol/reason-use-of-device" rows="4"
+						id="reason-use-of-device">
+						<x:out escapeXml="false" select="$protocolInstance/protocol/reason-use-of-device" />
+					</textarea>
+				</div>
+			</div>
+			
+			<div class="question" id="question-process-of-consent">
+				<div class="questionIdentifier">Basic-Details-9</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe the process of clinical consent for use of the device. </span>
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el" name="/protocol/process-of-consent" rows="4"
+						id="process-of-consent">
+						<x:out escapeXml="false" select="$protocolInstance/protocol/process-of-consent" />
+					</textarea>
+				</div>
+			</div>
+			
+
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'first-page',
+										nextTab : ('${studyNature}' == 'hud-use')?'staff':'sites',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Basic Details":"<strong>New Submission</strong>: Basic Details",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+						});
+	</script>
+
+
+
+</div>

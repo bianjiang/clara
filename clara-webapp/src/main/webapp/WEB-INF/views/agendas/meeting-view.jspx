@@ -1,0 +1,91 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	
+	<jsp:output omit-xml-declaration="yes"/>	
+	
+	
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+
+			claraInstance.setUser({
+				id: ${!empty user?user.id:0}
+			});
+			
+
+// Set up irbReviewer object for this page.
+claraInstance.IrbReviewer = {
+	isreviewer: ${!empty irbreviewer?true:false},
+	chair: ${!empty irbreviewer.chair?irbreviewer.chair:false},
+	irbroster: '${!empty irbreviewer.irbRoster?irbreviewer.irbRoster:""}'
+};
+
+Clara.IRBMeeting.AgendaId = ${!empty agenda.id?agenda.id:0};
+Clara.IRBMeeting.AgendaDate = Date.parseDate('${!empty agenda.date?agenda.date:""}', 'Y-m-d').format('m/d/Y');
+
+var isLocked = ${isLocked};
+var lockedUserId = ${isLockedUserId};
+
+Clara.IRBMeeting.IRBReviewerStore = new Ext.data.JsonStore({
+	xtype:'jsonstore',
+	autoLoad:true,
+	proxy : new Ext.data.HttpProxy({
+         method: 'GET',
+         url: appContext + "/ajax/agendas/"+Clara.IRBMeeting.AgendaId+"/irb-reviewers/list"
+    }),
+	fields: [
+				{name:'id'},
+				{name:'userid',mapping:'user.id'},
+				{name:'username', mapping:'user.username'},
+				{name:'fname', mapping:'user.person.firstname'},
+				{name:'lname', mapping:'user.person.lastname'},
+				{name:'phone', mapping:'user.person.workphone'},
+				{name:'alternativeMember'},
+				{name:'affiliated'},
+				{name:'degree'},
+				{name:'irbRoster'},
+				{name:'comment'},
+				{name:'type'}
+			]
+});
+
+if (!isLocked){
+	Clara.IRBMeeting.GetTime();
+	clog("AGENDA ID",Clara.IRBMeeting.AgendaId);
+	meeting = new Clara.IRBMeeting.Meeting({});
+	meeting.load();		
+	
+				new Ext.Viewport({
+					layout:'fit',
+					items:[
+							{	xtype:'clarairbmeetingpagepanel',
+								border:true,
+								agenda:Clara.IRBMeeting.AgendaId,
+								listeners:{
+									afterlayout:function(){
+	
+												if (meeting.status == "IN_PROGRESS"){
+													Clara.IRBMeeting.MessageBus.fireEvent('startmeeting',true);
+												} else if (meeting.status == "STOPPED"){
+													Clara.IRBMeeting.MessageBus.fireEvent('stopmeeting',true);
+												} else if (meeting.status == "SENT_TO_CHAIR"){
+													Clara.IRBMeeting.MessageBus.fireEvent('senttochair',true);
+												} else if (meeting.status == "SENT_TO_TRANSCRIBER"){
+													Clara.IRBMeeting.MessageBus.fireEvent('senttotranscriber',true);
+												} else if (meeting.status == "COMPLETE"){
+													Clara.IRBMeeting.MessageBus.fireEvent('completemeeting',true);
+												}
+																				
+									}
+								}
+							}
+					       ]
+				});
+			
+}else {
+	jQuery("#locked-message").show();
+}
+		});
+	</script>
+	<div id="locked-message" style="text-align:center;width:100%;margin-top:50px;display:none;"><h2>This meeting is opened by ${isLockedUserString} and cannot be edited.</h2><h3><a href="/clara-webapp/agendas">Back to Agendas</a></h3></div>
+	
+</div>

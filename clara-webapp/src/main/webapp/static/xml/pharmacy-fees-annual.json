@@ -1,0 +1,3 @@
+[{"exptype":"annual","expdesc":"Other Charges (Annual charges for the pharmacy budget)", "id":"maintainence-fees", "description":"Pharmacy: Annual Maintenance fees","cost":"0", "editable":"true"},
+{"exptype":"annual","expdesc":"Other Charges (Annual charges for the pharmacy budget)", "id":"study-monitor-visits", "description":"Pharmacy: Study monitor visits to pharmacy (est. 3 visits/year)","cost":"100", "editable":"false"},
+{"exptype":"annual","expdesc":"Other Charges (Annual charges for the pharmacy budget)", "id":"pharmacy-document-storage", "description":"Pharmacy: Document Storage","cost":"0", "editable":"true"}]

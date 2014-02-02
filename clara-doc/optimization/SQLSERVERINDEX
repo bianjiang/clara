@@ -1,0 +1,334 @@
+CREATE FULLTEXT CATALOG ftc_protocol_meta_data_xml;
+GO
+
+CREATE FULLTEXT INDEX ON dbo.protocol
+( meta_data_xml ) KEY INDEX PK__protocol__3213E83F29E1370A
+ON ftc_protocol_meta_data_xml;
+GO
+
+PK__protocol__3213E83F29E1370A is the PK of the protocol table
+
+
+benchmark query
+
+GO
+SET STATISTICS TIME ON
+GO
+SELECT * FROM dbo.protocol
+WHERE meta_data_xml.exist('/protocol[fn:contains(@identifier, "99075")]') = 1 OR meta_data_xml.exist('/protocol/title/text()[fn:contains(fn:upper-case(.), "99075")]') = 1
+GO
+SET STATISTICS TIME OFF
+GO
+
+RESULT:
+
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 7 ms.
+
+(2 row(s) affected)
+ SQL Server Execution Times:
+   CPU time = 1981 ms,  elapsed time = 2056 ms.
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 0 ms.
+
+
+
+
+AFTER index:
+
+SELECT *
+FROM dbo.protocol
+WHERE 
+   CONTAINS (meta_data_xml, '99075')
+   and (meta_data_xml.exist('/protocol[fn:contains(@identifier, "99075")]') = 1 OR meta_data_xml.exist('/protocol/title/text()[fn:contains(fn:upper-case(.), "99075")]') = 1)
+
+SET STATISTICS TIME ON
+GO
+SELECT *
+FROM dbo.protocol
+WHERE 
+   CONTAINS (meta_data_xml, '99075')
+   and (meta_data_xml.exist('/protocol[fn:contains(@identifier, "99075")]') = 1 OR meta_data_xml.exist('/protocol/title/text()[fn:contains(fn:upper-case(.), "99075")]') = 1)
+GO
+SET STATISTICS TIME OFF
+GO
+
+
+RESULT:
+SQL Server parse and compile time: 
+   CPU time = 14 ms, elapsed time = 14 ms.
+
+(1 row(s) affected)
+ SQL Server Execution Times:
+   CPU time = 0 ms,  elapsed time = 1 ms.
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 0 ms.
+
+
+Note:
+
+FULL-TEXT INDEX QUERY:
+Query 1:
+SELECT *
+FROM dbo.protocol
+WHERE FREETEXT (meta_data_xml, '99075')
+
+
+SELECT *
+FROM dbo.protocol
+WHERE CONTAINS (meta_data_xml, '99075')
+
+Query 2:
+
+
+XML INDEX... 
+CREATE PRIMARY XML INDEX PIXML_protocol_metat_dat_xml ON protocol (meta_data_xml);
+
+CREATE XML INDEX IXML_protocol_metat_dat_xml_path ON protocol (meta_data_xml)
+USING XML INDEX PIXML_protocol_metat_dat_xml FOR PATH;
+
+CREATE XML INDEX IXML_protocol_metat_dat_xml_value ON protocol (meta_data_xml)
+USING XML INDEX PIXML_protocol_metat_dat_xml FOR VALUE;
+
+CREATE XML INDEX IXML_protocol_metat_dat_xml_property ON protocol (meta_data_xml)
+USING XML INDEX PIXML_protocol_metat_dat_xml FOR PROPERTY;
+
+CREATE PRIMARY XML INDEX PIXML_protocol_form_metat_dat_xml ON protocol_form (meta_data_xml);
+
+CREATE XML INDEX IXML_protocol_form_metat_dat_xml_path ON protocol_form (meta_data_xml)
+USING XML INDEX PIXML_protocol_form_metat_dat_xml FOR PATH;
+
+CREATE XML INDEX IXML_protocol_form_metat_dat_xml_value ON protocol_form (meta_data_xml)
+USING XML INDEX PIXML_protocol_form_metat_dat_xml FOR VALUE;
+
+CREATE XML INDEX IXML_protocol_form_metat_dat_xml_property ON protocol_form (meta_data_xml)
+USING XML INDEX PIXML_protocol_form_metat_dat_xml FOR PROPERTY;
+
+
+// contracts
+
+CREATE PRIMARY XML INDEX PIXML_contract_metat_dat_xml ON contract (meta_data_xml);
+
+CREATE XML INDEX IXML_contract_metat_dat_xml_path ON contract (meta_data_xml)
+USING XML INDEX PIXML_contract_metat_dat_xml FOR PATH;
+
+CREATE XML INDEX IXML_contract_metat_dat_xml_value ON contract (meta_data_xml)
+USING XML INDEX PIXML_contract_metat_dat_xml FOR VALUE;
+
+CREATE XML INDEX IXML_contract_metat_dat_xml_property ON contract (meta_data_xml)
+USING XML INDEX PIXML_contract_metat_dat_xml FOR PROPERTY;
+
+
+
+CREATE PRIMARY XML INDEX PIXML_contract_form_metat_dat_xml ON contract_form (meta_data_xml);
+
+CREATE XML INDEX IXML_contract_form_metat_dat_xml_path ON contract_form (meta_data_xml)
+USING XML INDEX PIXML_contract_form_metat_dat_xml FOR PATH;
+
+CREATE XML INDEX IXML_contract_form_metat_dat_xml_value ON contract_form (meta_data_xml)
+USING XML INDEX PIXML_contract_form_metat_dat_xml FOR VALUE;
+
+CREATE XML INDEX IXML_contract_form_metat_dat_xml_property ON contract_form (meta_data_xml)
+USING XML INDEX PIXML_contract_form_metat_dat_xml FOR PROPERTY;
+
+
+CREATE NONCLUSTERED INDEX [ix_protocol_form_protocol_and_parent_id] ON [dbo].[protocol_form] 
+(
+            [parent_id] ASC,
+            [protocol_id] ASC,
+            [protocol_form_type] ASC
+)
+WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+USE [clara]
+GO
+
+/****** Object:  Index [idx_owner_class_id]    Script Date: 05/24/2013 22:06:38 ******/
+CREATE NONCLUSTERED INDEX [idx_owner_class_id] ON [dbo].[securable_object_acl] 
+(
+	[owner_class] ASC,
+	[owner_id] ASC,
+	[permission] ASC,
+	[securable_object_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [idx_owner_id_permission_retired] ON [dbo].[securable_object_acl] 
+(
+	[retired],
+	[owner_id] ASC,
+	[permission] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [ix_protocol_form_id] ON [dbo].[protocol_form_xml_data] 
+(
+	[protocol_form_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [ix_person_id] ON [dbo].[user_account] 
+(
+	[retired],
+	[person_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+
+SET STATISTICS TIME ON
+GO
+SELECT Count(*) 
+FROM   protocol pol 
+WHERE  pol.id IN ((SELECT DISTINCT p.id 
+                   FROM   protocol p, 
+                          securable_object_acl soa, 
+                          securable_object so 
+                   WHERE  (( soa.retired = 0 
+                             AND so.retired = 0 
+                             AND p.retired = 0 
+                             AND so.id = soa.securable_object_id 
+                             AND soa.owner_class = 
+                   'edu.uams.clara.webapp.common.domain.usercontext.User' 
+                             AND soa.owner_id = 436 
+                             AND ( soa.permission = 'READ' 
+                                    OR soa.permission = 'ACCESS' ) 
+                             AND so.object_class = 
+                   'edu.uams.clara.webapp.protocol.domain.Protocol' 
+                             AND so.object_id = p.id )) 
+                   UNION 
+                   SELECT DISTINCT p.id 
+                   FROM   protocol p 
+                   WHERE  ( 1 <> 1 
+                             OR 
+meta_data_xml.exist('/protocol/responsible-department[@subdeptid=289]') = 1 ))) 
+AND pol.id IN ((SELECT DISTINCT p.id 
+                FROM   protocol p 
+                WHERE  ( p.id IN (SELECT id 
+                                  FROM   protocol 
+                                  WHERE  id IN (SELECT DISTINCT 
+                                               pform.protocol_id 
+                                                FROM   protocol_form pform 
+                                                WHERE 
+                         pform.id IN (SELECT pfstatus.protocol_form_id 
+                                      FROM   protocol_form_status pfstatus 
+                                      WHERE  pfstatus.id IN 
+                         (SELECT Max(pfs.id) 
+                          FROM 
+                         protocol_form pf, 
+                         protocol_form_status pfs 
+                                         WHERE 
+                         pf.retired = 0 
+                         AND 
+                         pfs.retired = 0 
+                                                AND 
+                         pf.id = pfs.protocol_form_id 
+                          GROUP  BY pfs.protocol_form_id) 
+                         AND pfstatus.protocol_form_status IN ( 
+                                 'PENDING_PI_ENDORSEMENT', 
+                                     'REVISION_PENDING_PI_ENDORSEMENT', 
+                                     'PENDING_PI_SIGN_OFF', 
+                                     'IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES', 
+                                     'IRB_DEFERRED_WITH_MINOR_CONTINGENCIES', 
+                         'REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT' 
+                         , 
+                         'REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT' 
+                         , 
+                         'PENDING_PL_ENDORSEMENT', 
+                         'PENDING_TP_ENDORSEMENT' )))) ))) 
+GO
+SET STATISTICS TIME OFF
+GO
+
+CREATE NONCLUSTERED INDEX [idx_protocol_form_status] ON [dbo].[protocol_form_status] 
+(
+	[id],
+	[protocol_form_id] ASC,
+	[protocol_form_status] ASC,
+	[retired]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [idx_protocol_status] ON [dbo].[protocol_status] 
+(
+	[protocol_id] ASC,
+	[protocol_status] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+
+CREATE NONCLUSTERED INDEX [idx_protocol_form_committee_status] ON [dbo].[protocol_form_committee_status] 
+(
+	[protocol_form_id] ASC,
+	[protocol_form_committee_status] ASC,
+	[committee] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [idx_agenda_item] ON [dbo].[agenda_item] 
+(
+	[agenda_item_category] ASC,
+	[agenda_id] ASC,
+	[protocol_form_id] ASC,
+	[agenda_item_status] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [idx_agenda_status] ON [dbo].[agenda_status] 
+(
+	[agenda_status] ASC,
+	[agenda_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+
+CREATE NONCLUSTERED INDEX [idx_cpt_code] ON [dbo].[cpt_code] 
+(
+	[code] ASC,
+	[retired] ASC,
+	[category_code_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [idx_hospital_charge_procedure] ON [dbo].[hospital_charge_procedure]
+(
+	[cpt_code] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+
+CREATE NONCLUSTERED INDEX [idx_physician_charge_procedure] ON [dbo].[physician_charge_procedure]
+(
+	[cpt_code] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [idx_mutex_lock] ON [dbo].[mutex_lock]
+(
+	[object_class] ASC,
+	[object_id] ASC,
+	[user_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+
+CREATE NONCLUSTERED INDEX [ix_mutex_lock] ON [dbo].[mutex_lock] 
+(
+            [retired],
+            [locked],
+            [object_id] ASC
+)
+WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+
+CREATE NONCLUSTERED INDEX [ix_track] ON [dbo].[track] 
+(
+            [retired],
+            [type],
+            [ref_object_class],
+            [ref_object_id] ASC
+)
+WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+CREATE NONCLUSTERED INDEX [idx_protocol_form_status_2]
+ON [dbo].[protocol_form_status] ([retired])
+INCLUDE ([id],[protocol_form_id]) 

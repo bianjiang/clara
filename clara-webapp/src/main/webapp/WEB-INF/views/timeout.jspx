@@ -1,0 +1,10 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+	<spring:url value='/static/images/clock_expired.png' var="expired"/>
+	<spring:url value='/' var="home"/>
+	<div style="text-align:center;margin-top:80px;">
+		<img src="${expired}"/><br/>
+	    <h2>Due to a period of inactivity, your previous session has expired.</h2>
+	    <span><a href="${home}">Please go back</a> and try again.</span>
+	</div>
+</div>

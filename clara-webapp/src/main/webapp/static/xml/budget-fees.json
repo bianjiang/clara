@@ -1,0 +1,34 @@
+{
+"SIMC":[
+	{"id":"1", "description":"Refrigerated storage","cost":"250", "editable":"false"},
+	{"id":"2", "description":"Randomization, blinding, or placebo control","cost":"500", "editable":"false"},
+	{"id":"3", "description":"Schedule II drug(s) involved","cost":"250", "editable":"false"},
+	{"id":"4", "description":"Storage of used bottles or vials","cost":"100", "editable":"false"},
+	{"id":"5", "description":"Multiple Drugs","cost":"500", "editable":"false"},
+	{"id":"6", "description":"IVRS System","cost":"250", "editable":"false"},
+	{"id":"7", "description":"Other: Mailing drug shipments to other sites","cost":"0", "editable":"true"},
+	{"id":"8", "description":"Other: site initiation visit travel expense","cost":"0", "editable":"true"},
+	{"id":"9", "description":"Other: Supplies","cost":"0", "editable":"true"},
+	{"id":"10", "description":"Other: Drug Purchases","cost":"0", "editable":"true"}
+],
+"DISP":[
+	{"id":"11", "description":"Oral or topical dose","cost":"10", "editable":"false", "canaddmultiple":"true"},
+	{"id":"12", "description":"Oral/topical drug requiring some preparation (admixture, packaging, etc.)","cost":"12", "editable":"false", "canaddmultiple":"true"},
+	{"id":"13", "description":"Parenteral (IM, SQ, etc.) drug","cost":"20", "editable":"false", "canaddmultiple":"true"},
+	{"id":"14", "description":"Parenteral (IV) drug requiring simple admixture","cost":"25", "editable":"false", "canaddmultiple":"true"},
+	{"id":"15", "description":"Parenteral drug with complex or time consuming admixture","cost":"50", "editable":"false", "canaddmultiple":"true"}
+],
+"ANNUAL":[
+	{"id":"16", "description":"Annual Maintenance fees","cost":"0", "editable":"true"},
+	{"id":"17", "description":"Study monitor visits to pharmacy (est. 3 visits/year)","cost":"100", "editable":"false"},
+	{"id":"18", "description":"Pharmacy: Document Storage","cost":"0", "editable":"true"}
+],
+"IRB":[
+	{"id":"19", "description":"Industry Funded - Sponsored","cost":"2500", "editable":"false"},
+	{"id":"20", "description":"Industry Funded - Supported","cost":"750", "editable":"false"},
+	{"id":"21", "description":"Industry Funded - Drug/Device Provided, No Cash Support","cost":"250", "editable":"false"},
+	{"id":"22", "description":"Non-Federal Grants, Awards, Gifts (no indirect)","cost":"300", "editable":"false"},
+	{"id":"23", "description":"Non-Funding / Departmental Funds","cost":"75", "editable":"false"},
+	{"id":"24", "description":"Other (must upload supporting document)","cost":"0", "editable":"true"}
+]
+}

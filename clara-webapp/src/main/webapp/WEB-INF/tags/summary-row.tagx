@@ -1,0 +1,411 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="id" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="path" type="java.lang.String"
+		required="true" rtexprvalue="true" />
+	<jsp:directive.attribute name="label" type="java.lang.String"
+		required="true" rtexprvalue="true" />
+	<jsp:directive.attribute name="type" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="editable" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="valueclass" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="valueouterclass" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="questionclass" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+	<jsp:directive.attribute name="editPossibleValues" type="org.w3c.dom.NodeList"/>
+	<jsp:directive.attribute name="otherlabel" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="othervalue" type="org.w3c.dom.NodeList"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="valuestyle" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="lookuppath" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="shownovalue" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="relatedsection" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="issubquestion" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="relatedsubsection"
+		type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute type="java.lang.String" name="compareToValue" required="false" rtexprvalue="true"/>
+
+		
+		
+
+	<c:set var="indentclass" value="" />
+	<c:set var="subqrowclass" value="" />
+	<c:if test="${!empty relatedsection}">
+		<c:set var="indentclass" value="summary-row-related" />
+	</c:if>
+	<c:if test="${issubquestion eq true}">
+		<c:set var="indentclass" value="summary-row-subquestion" />
+		<c:set var="subqrowclass" value="summary-subquestion" />
+	</c:if>
+	<c:set var="rowvalclass" value="summary-row-value-nolabel" />
+	
+	
+	<c:if test="${empty valueouterclass}">
+		<c:set var="valueouterclass" value="span6" />
+	</c:if>
+	
+	<c:set var="diffclass" value=""/>
+	
+	<c:if test="${type eq 'yesNo' || type eq 'radio' || type eq 'select' || type eq 'textarea' || type eq 'string' || type eq 'date' || type eq 'checkbox' || type eq 'other' || type eq 'irbfee' || type eq 'equalsValue'}">
+		<x:set var="diff" select="string($value/@diff)" />
+		<c:if test="${!empty diff}">
+			<c:set var="diffclass" value="row-diff-${diff}"/>
+		</c:if>
+	</c:if>
+
+	<div class="summary-row summary-question ${subqrowclass} ${diffclass} row-fluid" id="${id}">
+	
+		<c:if test="${!empty label}">
+			<div class="${valueouterclass}">
+				<input type="hidden" class="questionPath" value="${path}" />
+				<div class="summary-row-label ${indentclass}">
+					<div class="summary-row-label-relatedsection">${relatedsection}</div>
+					<c:if test="${!empty relatedsubsection}">
+						<div class="summary-row-label-relatedsubsection">${relatedsubsection}</div>
+					</c:if>
+					<div style="clear: both;">
+						<!-- // -->
+					</div>
+					${label}
+				</div>
+			</div>
+		</c:if>
+		<c:set var="editableonclick" value=""/>
+
+		<c:if test="${editable eq 'true'}">
+
+			<x:set var="ev" select="string($value/text())" />
+			<c:set var="editableonclick" value="jQuery('#win-edit-value-${id}').modal();"/>
+			<c:set var="editablecls" value="summary-row-editable" />
+			
+			<div class="modal hide fade" id="win-edit-value-${id}">
+			  <div class="modal-header">
+			    <h3>Edit Value</h3>
+			  </div>
+			  <div class="modal-body">
+			    <p>${label}</p>
+			    
+			    <c:choose>
+						<c:when test="${type eq 'yesNo'}">
+							<c:set var="yesCheckedVal" value=""/>
+							<c:set var="noCheckedVal" value=""/>
+							<c:choose>
+								<c:when test="${v eq 'y'}">
+									<c:set var="yesCheckedVal" value="checked"/>
+									<c:set var="noCheckedVal" value=""/>
+								</c:when>
+								<c:when test="${v eq 'n'}">
+									<c:set var="yesCheckedVal" value=""/>
+									<c:set var="noCheckedVal" value="checked"/>
+								</c:when>
+							</c:choose>
+							<label class="radio">
+								<c:choose>
+									<c:when test="${v eq 'y'}">
+								  		<input type="radio" name="editValueElement" class="yesNoRadios-y" value="y" checked="checked" />
+								  	</c:when>
+								  	<c:otherwise>
+								  		<input type="radio" name="editValueElement" class="yesNoRadios-y" value="y" />
+								  	</c:otherwise>
+							  	</c:choose>
+							  Yes
+							</label>
+							<label class="radio">
+							  	<c:choose>
+								  	<c:when test="${v eq 'n'}">
+								  		<input type="radio" name="editValueElement" class="yesNoRadios-n" value="n" checked="checked" />
+								  	</c:when>
+								  	<c:otherwise>
+								  		<input type="radio" name="editValueElement" class="yesNoRadios-n" value="n" />
+								  	</c:otherwise>
+							  	</c:choose>
+							  No
+							</label>
+						</c:when>
+						
+						
+						
+						<c:when test="${type eq 'radio' || type eq 'select'}">
+							<c:if test="${editPossibleValues != null}">
+							<select id="editValueElement-${id}" name="editValueElement">
+							<x:forEach var="pv" select="$editPossibleValues/value">
+								<x:set var="pvtext" select="string($pv/text())" />
+								<x:set var="pvid" select="string($pv/@id)" />
+								
+								<c:choose>
+								  	<c:when test="${v eq pvid}">
+								  		<option value="${pvid}" selected="selected">${pvtext}</option>
+								  	</c:when>
+								  	<c:otherwise>
+								  		<option value="${pvid}">${pvtext}</option>
+								  	</c:otherwise>
+							  	</c:choose>
+
+							</x:forEach>
+							</select>
+							</c:if>
+						</c:when>
+						
+						<c:when test="${type eq 'textarea'}">
+							<x:set var="fVal" select="string($value/text())" />
+							<textarea id="editValueElement-${id}" name="editValueElement" rows="5">${fval}</textarea>
+							<strong><x:out select="string($value/text())" escapeXml="false"/></strong>
+						</c:when>
+
+						<c:when test="${type eq 'string'}">
+							 <x:set var="fVal" select="string($value/text())" />
+			    			 <input id="editValueElement-${id}" name="editValueElement" type="text" value="${fVal}"/>
+						</c:when>
+						
+						<c:when test="${type eq 'date'}">
+							 <x:set var="fVal" select="string($value/text())" />
+			    			 <input id="editValueElement-${id}" name="editValueElement" type="text" value="${fVal}"/>
+			    			 <script>
+			    			 	jQuery("#editValueElement-${id}").datepicker({
+			    			 		format:"mm/dd/yyyy"
+			    			 	}).on('show',function(){
+			    			 		  clog("SETTING ZINDEX");
+		    			 			  var datePicker = jQuery(".datepicker:visible");
+		    			 			  
+		    			 			 datePicker.css("z-index",1100)
+		    			 		     clog(datePicker,datePicker.css("z-index"));
+			    			 	}).on('changeDate',function(ev){
+			    			 		jQuery("#editValueElement-${id}").datepicker('hide');
+			    			 	});
+			    			 </script>
+						</c:when>
+						<c:otherwise>
+							<x:set var="fVal" select="string($value/text())" />
+			    			 <input id="editValueElement-${id}" name="editValueElement" type="text" value="${fVal}"/>
+						</c:otherwise>
+
+					</c:choose>
+			    
+			    
+			   
+			  </div>
+			  <div class="modal-footer">
+			    <a href="#" class="btn" onClick="jQuery('#win-edit-value-${id}').modal('hide');">Cancel</a>
+			    <a href="#" class="btn btn-primary" onClick="saveSummaryEditableAnswer('${path}','#win-edit-value-${id}');">Save</a>
+			  </div>
+			</div>
+
+		</c:if>
+		<div class="${valueouterclass}">
+		<div id="${path}" class="${rowvalclass} summary-question-el ${valueclass} ${editablecls}"
+			style="${valuestyle}" onClick="${editableonclick}">
+			<x:set var="stringValue" select="string($value)"/>
+			<x:set var="textValue" select="string($value/text())" />
+			<c:choose>
+				<c:when test="${fn:length(value) > 0 and !(type ne 'drug' and type ne 'archiveletter' and type ne 'department' and type ne 'funding-source' and stringValue eq '' and textValue eq '')}">
+
+					<c:choose>
+						<c:when test="${type eq 'yesNo'}">
+							<x:set var="v" select="string($value/text())" />
+							<c:choose>
+								<c:when test="${v eq 'y'}">
+										<strong class="muted"><i class="icon-ok"><!-- // --></i><em>Yes</em></strong>			
+									</c:when>
+								<c:when test="${v eq 'n'}">
+										<strong class="muted"><i class="icon-remove"><!-- // --></i><em>No</em></strong>
+									</c:when>
+								<c:otherwise>
+
+								</c:otherwise>
+							</c:choose>
+						</c:when>
+						<c:when test="${type eq 'equalsValue'}">
+							<x:set var="v" select="string($value/text())" />
+							<c:choose>
+								<c:when test="${v eq compareToValue}">
+										<strong class="muted"><i class="icon-ok"><!-- // --></i><em>Yes</em></strong>			
+								</c:when>
+								<c:otherwise>
+										<strong class="muted"><i class="icon-remove"><!-- // --></i><em>No</em></strong>
+								</c:otherwise>
+							</c:choose>
+						</c:when>
+						<c:when test="${type eq 'radio'}">
+							<x:set var="hasEditValues" select="boolean($editPossibleValues/value)"/>
+							<x:set var="v" select="string($value/text())" />
+							<c:choose>	
+								<c:when test="${hasEditValues eq true}">
+										<x:forEach var="pv" select="$editPossibleValues/value">
+											<x:set var="pvtext" select="string($pv/text())" />
+											<x:set var="pvid" select="string($pv/@id)" />
+											
+											<c:choose>
+											  	<c:when test="${v eq pvid}">
+											  		<strong class="muted"><i class="icon-list"><!-- // --></i><em> ${pvtext} </em></strong>
+											  		<!--  <div class="summary-value-id" id="value-${path}">VALUE: ${v}</div> -->
+											  	</c:when>
+										  	</c:choose>
+			
+										</x:forEach>
+									
+								</c:when>
+								<c:otherwise>
+									<strong class="muted"><i class="icon-list"><!-- // --></i><em> <uams:tagitemdesc lookuppath="${lookuppath}" value="${v}" /></em></strong>
+								</c:otherwise>
+							</c:choose>
+							
+						</c:when>
+						<c:when test="${type eq 'date'}">
+							<strong class="muted"><i class="icon-calendar"><!-- // --></i><x:out select="string($value/text())" /></strong>
+						</c:when>
+						<c:when test="${type eq 'textarea'}">
+							<strong><x:out select="string($value/text())" escapeXml="false"/></strong>
+						</c:when>
+
+						<c:when test="${type eq 'sites'}">
+							<uams:sites value="${value}" />
+						</c:when>
+
+						<c:when test="${type eq 'staff'}">
+							<uams:staff value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'department'}">
+							<uams:department value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'crimson-locations'}">
+							<uams:archivelocation value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'assigned-reviewers'}">
+							<uams:assignedreviewers value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'test-article'}">
+							<x:forEach var="a" select="$value">
+								<x:set var="article" select="string($a)"/>
+								<li>${article}</li>
+							</x:forEach>
+						</c:when>
+						
+						<c:when test="${type eq 'sponsor'}">
+							<uams:sponsor value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'enrollment'}">
+							<uams:enrollment value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'drug'}">
+							<uams:drug value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'device'}">
+							<uams:device value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'archiveletter'}">
+							<uams:archiveletter value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'archivedocument'}">
+							<uams:archivedocument value="${value}" />
+						</c:when>
+						
+
+						
+						<c:when test="${type eq 'crimsonarchivedocuments'}">
+						
+							<x:forEach var="formDocGroup" select="$value/documents">
+								<x:set var="formName" select="string($formDocGroup/@form)"/>
+								<uams:archivedocument docgroupname="${formName}" value="${formDocGroup}" />
+							</x:forEach>
+							
+						</c:when>
+						
+						<c:when test="${type eq 'funding-source'}">
+							<uams:funding value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'diseases'}">
+							<uams:disease value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'subjectpopulation'}">
+							<uams:subjectpopulation value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'irbfee'}">
+							<uams:irbfee value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'regulatedtoxins'}">
+							<uams:regulatedtoxins value="${value}" />
+						</c:when>
+						
+						<c:when test="${type eq 'crimson-diseasesite'}">
+							<uams:archivedisease value="${value}" />
+						</c:when>
+
+						<c:when test="${type eq 'select'}">
+							<x:set var="v" select="string($value/text())" />
+							<strong class="muted"><i class="icon-th-list"><!-- // --></i><em><uams:tagitemdesc lookuppath="${lookuppath}" value="${v}" /></em></strong>
+						</c:when>
+						<c:when test="${type eq 'string'}">
+							<strong><x:out select="string($value)" escapeXml="false"/></strong>
+						</c:when>
+						<c:otherwise>
+							<ul>
+								<x:forEach var="item" select="$value">
+									<x:set var="v" select="string($item/text())" />
+									<strong class="muted"><i class="icon-th-list"><!-- // --></i><em><uams:tagitemdesc lookuppath="${lookuppath}" value="${v}" /></em></strong>
+								</x:forEach>
+							</ul>
+						</c:otherwise>
+
+					</c:choose>
+				</c:when>
+				<c:otherwise>
+					<c:choose>
+						<c:when test="${shownovalue eq 'true' }">
+							<span class="muted summary-value-novalue">Not answered.</span>
+						</c:when>
+					</c:choose>
+				</c:otherwise>
+			</c:choose>
+
+			<c:choose>
+
+				<c:when test="${!empty othervalue}">
+					<c:choose>
+						<c:when test="${empty otherlabel}">
+								Other:							
+							</c:when>
+						<c:otherwise>
+								${otherlabel}
+							</c:otherwise>
+					</c:choose>	
+							${othervalue}</c:when>
+
+			</c:choose>
+
+		</div>
+
+	</div>
+</div>
+
+</jsp:root>

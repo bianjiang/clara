@@ -1,0 +1,136 @@
+{
+    "success": true,    
+    "results": [
+    	{
+            "id": 1, 
+            "type":"Audit",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"Protocol:Audit",
+            "description": "Find protocols based on fields (for audit)", 
+            "forceQueue": false
+        },
+        {
+            "id": 2, 
+            "type":"Time in Review On Action",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"Protocol:TimeInReview",
+            "description": "Find time in review (by individual study)", 
+            "forceQueue": false
+        },
+        {
+            "id": 3, 
+            "type":"Summary Information",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"Protocol:SummaryInformation",
+            "description": "Find Summary Information for Studies", 
+            "forceQueue": false
+        },
+        {
+            "id": 4, 
+            "type":"Overdue Notice",
+            "category":"Contract",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"Contract:OverdueNotice",
+            "description": "Find overdue contracts", 
+            "forceQueue": false
+        },
+        {
+            "id": 5, 
+            "type":"Human Subject Research Dashboard-Summary of protocols by type of review and initiator",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"HumanSubjectResearch:InitialSubmissions",
+            "forceQueue": false
+        },
+        {
+            "id": 6, 
+            "type":"Human Subject Research Dashboard-Summary of protocols by type of review and sources of funding",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"HumanSubjectResearch:ProtocolsByFunding",
+             "forceQueue": false
+        },
+        {
+            "id": 7, 
+            "type":"Human Subject Research Dashboard-Summary of Principal Investigators",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"HumanSubjectResearch:ProtocolsByPi",
+             "forceQueue": false
+        },
+        {
+            "id": 8, 
+            "type":"Human Subject Research Dashboard-Summary of Protocols Open",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"HumanSubjectResearch:openBetweenDays",
+             "forceQueue": false
+        },
+        {
+            "id": 9, 
+            "type":"Human Subject Research Dashboard-Studies Submitted for Continuing Review",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"HumanSubjectResearch:ContinuingReviewBySubDate",
+             "forceQueue": false
+        },
+        {
+            "id": 10, 
+            "type":"Human Subject Research Dashboard-Patient Enrollment on Studies Submitted for Continuing Review",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"HumanSubjectResearch:EnrollmentByContinuingReviewSubDate",
+             "forceQueue": false
+        },
+        {
+            "id": 11, 
+            "type":"Human Subject Research Dashboard-Protocols closed to enrollment and follow-up",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"HumanSubjectResearch:PorotocolsClodesAndPatientNum",
+             "forceQueue": false
+        },
+        {
+            "id": 12, 
+            "type":"Human Subject Research Dashboard-Full Review Studies Closed-Reasons for Closure",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"HumanSubjectResearch:ClosedStudyReason",
+             "forceQueue": false
+        },
+        {
+            "id": 13, 
+            "type":"Human Subject Research Dashboard-Full Review Studies Closed-Cumulative Patients Enrolled",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"HumanSubjectResearch:ClosedStudyNumOfPatient",
+             "forceQueue": false
+        },
+        {
+            "id": 14, 
+            "type":"Human Subject Research Dashboard-Process Measures",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"HumanSubjectResearch:ProcessMeasures",
+             "forceQueue": false
+        }
+        
+        ]
+}

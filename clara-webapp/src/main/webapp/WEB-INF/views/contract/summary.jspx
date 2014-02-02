@@ -1,0 +1,109 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:uamsx="http://java.sun.com/jsp/jstl/xml-uams"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+	<c:import url="/static/xml/contract-summary.xml" var="summarytemplatexml" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${summarytemplatexml}" var="sTemplate" />
+    <x:parse doc="${contract.metaDataXml}" var="n" />
+	<x:set var="contractId" select="string($n/contract/@id)"/>
+	<script type="text/javascript"><![CDATA[
+			jQuery.noConflict();
+			
+
+
+				claraInstance.setUser({
+					id: ${!empty user?user.id:0}
+				});
+					
+		]]>
+		
+		<c:forEach var="permission" items="${user.authorities}">
+			<![CDATA[
+				claraInstance.addUserPermission('${permission}');
+			]]>
+		</c:forEach>
+
+		var contractUrl = appContext+"/contracts/${!contractId?contractId:0}/dashboard";
+
+		
+		claraInstance.setType("contract");
+		claraInstance.setId("${!empty contractId?contractId:0}");
+		claraInstance.setUser({
+			id: ${!empty user?user.id:0},
+			committee:'${!empty committee?committee:'PI'}'
+		});
+
+	</script>
+
+	<div class="summary-header">
+		<div class="summary-defaultview-header">
+			<div class="summary-header-title"><x:out escapeXml="false" select="string($sTemplate/form/@name)" /></div>
+			<div class="summary-header-subtitle"><span style="font-weight:800;"><x:out escapeXml="false" select="string($n/contract/@identifier)" /></span>: <x:out escapeXml="false" select="string($n/contract/@type)" /></div>
+			<div class="summary-header-subtitle"><a href="javascript:;" onclick="window.open(contractUrl,'_blank');">Open in new window</a></div>
+			<div class="clearall">
+				<!-- // -->
+			</div>
+			
+		</div>
+	</div>
+
+
+	<x:forEach var="page" select="$sTemplate/form/page">
+		<x:set var="pageId" select="string($page/@id)" />
+		<div class="summary-page" id="summary-page-${pageId}">
+			<div class="summary-page-header">
+				<div class="summary-page-header-title"><x:out escapeXml="false" select="string($page/@name)" /></div>
+				<div class="clearall">
+					<!-- // -->
+				</div>
+			</div>
+			<div class="summary-page-content">
+				<x:forEach var="section" select="$page/section">
+					<div class="summary-section">
+						<x:forEach var="question" select="$section/question">
+							<x:set var="qPath" select="string($question/question-value/@instance-path)"/>
+							<x:set var="qId" select="string($question/@id)"/>
+							<x:set var="qLabel" select="string($question/question-label/text())"/>
+							<x:set var="qHeader" select="string($question/@header)"/>
+							<!-- /* UAMSX tag is SAME as X tag, but allows real-time variable expressions in the "select" attribute.  */ -->
+							<uamsx:set var="qValue" select="$n${qPath}"/>
+							<x:set var="qValueType" select="string($question/question-value/@value-type)"/>
+							<x:set var="qEditable" select="string($question/question-value/@editable)"/>
+							<x:set var="qLookupPath" select="string($question/question-value/@lookup-path)"/>
+							<uams:summaryrow shownovalue="true" path="${qPath}" id="${qId}" type="${qValueType}" value="${qValue}" editable="${qEditable}" 
+								label="${qLabel}" lookuppath="${qLookupPath}" relatedsection="${qHeader}" 
+								valuestyle="text-align:left;" />
+						</x:forEach>
+					</div>
+				</x:forEach>
+			</div>
+		</div>
+	</x:forEach>
+
+
+
+
+	<script type="text/javascript">
+
+		jQuery(document).ready(function() {
+
+			jQuery("body").css('background-color','#d8e7f9');
+
+							
+						});
+	</script>
+
+
+</div>
+

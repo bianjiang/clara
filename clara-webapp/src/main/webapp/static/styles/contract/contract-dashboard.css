@@ -1,0 +1,132 @@
+.form-committee-status {
+	width:880px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:8px;
+	border:1px solid #ddd;
+	background-color:#fff;
+	padding:12px;	
+}
+
+.form-committee-status ul li {
+	padding-left: 20px;
+	margin-bottom: 8px;
+	font-size:12px;
+	line-height:13px;
+	}
+	
+.status-approved{
+	background: url(../../images/icons/tick.png) left center no-repeat;
+	font-weight:800;
+}
+
+.status-reviewing{
+	background: none;
+	color:#666;
+}
+
+.status-rejected{
+	background: url(../../images/icons/error.png) left center no-repeat;
+	color:red;
+	font-weight:800;
+}
+
+.protocol-section-row{
+	background-repeat:no-repeat;
+	background-position:0px 4px;
+	font-size:14px;
+	line-height:24px;
+	padding-left:22px;
+}
+
+.protocol-form-header{
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-size:14px;
+	font-weight:100;
+	margin:0px;
+}
+
+#protocol-dashboard-current-status{
+	background-color:yellow;
+	font-weight:800;
+}
+
+#protocol-dashboard-header h1{
+	margin:0px;
+	padding:0px;	
+	font-size:18px;
+	font-weight:800;
+}
+
+#protocol-dashboard-header h3{
+	font-size:13px;
+	font-weight:800;
+	color:#666;
+}
+
+#protocol-dashboard-header-details{
+	font-size:12px;
+}
+.protocol-form-row-field{
+    font-size: 14px;
+    padding-top:4px;
+    padding-bottom:4px;
+    line-height:24px;
+}
+.protocol-form-type{
+    font-weight: 800;
+}
+#protocol-form-detail-title{
+	font-size:18px;
+}
+
+.contract-section-row{
+	background-repeat:no-repeat;
+	background-position:0px 4px;
+	font-size:14px;
+	line-height:24px;
+	padding-left:22px;
+}
+
+.contract-form-header{
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-size:14px;
+	font-weight:100;
+	margin:0px;
+}
+
+#contract-dashboard-current-status{
+	background-color:yellow;
+	font-weight:800;
+}
+
+#contract-dashboard-header h1{
+	margin:0px;
+	padding:0px;	
+	font-size:18px;
+	font-weight:800;
+}
+
+#contract-dashboard-header h3{
+	font-size:13px;
+	font-weight:800;
+	color:#666;
+}
+
+#contract-dashboard-header-details{
+	font-size:12px;
+}
+.contract-form-row-field{
+    font-size: 14px;
+    padding-top:4px;
+    padding-bottom:4px;
+    line-height:24px;
+}
+.contract-form-type{
+    font-weight: 800;
+}
+#contract-form-detail-title{
+	font-size:18px;
+}
+
+

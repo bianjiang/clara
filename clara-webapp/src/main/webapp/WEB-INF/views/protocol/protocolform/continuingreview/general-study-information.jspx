@@ -1,0 +1,149 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="crInstance" />
+	<!-- <x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolMetaDataInstance" /> -->
+	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" />
+
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+	<x:set var="needCRorNot" select="string($crInstance/continuing-review/need-cr)" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:continuingreviewtab name="general-study-information" crInstance="${crInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+			
+			<div class="question"
+				id="question-keep-study-open">
+				<div class="questionLabel">		
+					Would you like to keep this study open at this time?
+				</div>
+				<div class="questionValue">
+					<x:set var="keepStudyOpen"
+						select="string($crInstance/continuing-review/general-study-info/keep-study-open/text())" />
+					<uams:yesno
+						id="keep-study-open"
+						instancepath="/continuing-review/general-study-info/keep-study-open"
+						value="${keepStudyOpen}" validation="required" />
+					<x:set var="needCR"
+						select="string($crInstance/continuing-review/need-cr/text())" />
+					<input class="question-el dummy-field-for-rule-activation"
+						id="need-cr" name="/continuing-review/need-cr"
+						type="hidden" value="${needCR}" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-any-change-affect-study-exempt-review-classification">
+				<div class="questionLabel">		
+					Has there been any change, in the opinion of the investigator, which affects this study's exempt review classification?
+				</div>
+				<div class="questionValue">
+					<x:set var="anyChangeAffectStudyExemptReviewClassification"
+						select="string($crInstance/continuing-review/general-study-info/any-change-affect-study-exempt-review-classification/text())" />
+					<x:set var="anyChangeAffectStudyExemptReviewClassificationExplainText"
+						select="string($crInstance/continuing-review/general-study-info/any-change-affect-study-exempt-review-classification/y/explain/text())" />
+					<uams:yesno
+						id="any-change-affect-study-exempt-review-classification"
+						instancepath="/continuing-review/general-study-info/any-change-affect-study-exempt-review-classification"
+						value="${anyChangeAffectStudyExemptReviewClassification}" validation="required"
+						showTextArea="true"
+						textValue="${anyChangeAffectStudyExemptReviewClassificationExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please describe:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-continuing-review-study-status">
+				<div class="questionLabel">
+					What is the status of the study?
+				</div>
+				<div class="questionValue">
+					<x:set var="studyStatus"
+						select="string($crInstance/continuing-review/general-study-info/study-status/statuses/status/text())" />
+					<x:set var="studyStatusOtherTextValue"
+						select="string($crInstance/continuing-review/general-study-info/study-status/statuses/status/other/text/text())" />
+					<uams:radio id="continuing-review-study-status"
+						value="${studyStatus}" 
+						lookuppath="study-status" 
+						instancepath="/continuing-review/general-study-info/study-status/statuses/status"
+						allowOther="true"
+						otherType="textarea"
+						otherTextValue="${studyStatusOtherTextValue}"
+						otherTextValidation="required"
+						otherOptionValue="other"
+						validation="required" />
+				</div>
+			</div>
+			
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'first-page',
+										nextTab : ('${needCRorNot}' == 'y')?'accrual-of-subjects':'review',
+										renderTo : 'page-wizard-wrapper'
+									});
+				
+							renderFormViewport(
+									"<strong>Continuing Review</strong>: General Study Information",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+							//renderQuestionWizard('page-wizard-wrapper', 'question', true, 'staff', 'hipaa');
+						});
+	</script> 
+</div>
+

@@ -1,0 +1,186 @@
+<rules>
+	<rule path="/emergency-use/basic-details/eu-title" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="The title of the study is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/emergency-use/basic-details/treatment-location" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="Treatment Location is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/emergency-use/basic-details/test-article-name" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="Test article name is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/emergency-use/basic-details/test-article-desc" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="Test article description is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/emergency-use/basic-details/patient-full-name" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="The patient initials is required!" level="ERROR"/>
+	</rule>	
+	<rule path="/emergency-use/basic-details/patient-diagnosis" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="The patient diagnosis is required!" level="ERROR"/>
+	</rule>	
+	<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the type of the emergency use is required!" level="ERROR"/>		
+	</rule>	
+	<rule path="/emergency-use/notification/life-threatening" value-type="java.lang.String" pagename="Notification" pageref="notification">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the patient is in a life-threatening or severely debilitating situation is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="intended-emergency-use" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/emergency-use/notification/standard-acceptable-treatment-available" value-type="java.lang.String" pagename="Notification" pageref="notification">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if standard is acceptable treatment available for the patient is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="intended-emergency-use" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/emergency-use/notification/sufficient-time-obtain-irb-approval" value-type="java.lang.String" pagename="Notification" pageref="notification">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there is sufficient time to obtain IRB approval is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="intended-emergency-use" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/emergency-use/notification/describe-rationale-for-emergency-use" value-type="java.lang.String" pagename="Notification" pageref="notification">
+		<constraint type="REQUIRED" data="" error-msg="To describe the rationale for emergency use of this test article is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="intended-emergency-use" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/emergency-use/follow-up-report/received-prior-to-eu" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if an IRB acknowledgment of intended emergency use was received prior to the date of emergency use is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/emergency-use/follow-up-report/received-prior-to-eu/y/irb-acknowledgement-date" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the date of IRB acknowledgment is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/emergency-use/follow-up-report/received-prior-to-eu" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/emergency-use/follow-up-report/notification-test-article-date" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the date Test Article was used is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/emergency-use/follow-up-report/received-prior-to-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/emergency-use/follow-up-report/life-threatening" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the patient was in a life-threatening or severely debilitating situation is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/emergency-use/follow-up-report/received-prior-to-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/emergency-use/follow-up-report/standard-acceptable-treatment-available" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if standard was acceptable treatment available for the patient is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/emergency-use/follow-up-report/received-prior-to-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/emergency-use/follow-up-report/sufficient-time-obtain-irb-approval" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there was sufficient time to obtain IRB approval is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/emergency-use/follow-up-report/received-prior-to-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/emergency-use/follow-up-report/describe-rationale-for-emergency-use" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To describe the rationale for emergency use of this test article is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/emergency-use/follow-up-report/received-prior-to-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/emergency-use/follow-up-report/initial-treatement-results-available" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if initial treatment results are available now is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/emergency-use/follow-up-report/initial-treatement-results-available/y/explain" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To describe why initial treatment results are available now is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/emergency-use/follow-up-report/initial-treatement-results-available" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/emergency-use/follow-up-report/initial-treatement-results-available/n/report-initial-treatement-results-date" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the date that you will submit a report of initial results is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/emergency-use/follow-up-report/initial-treatement-results-available" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/emergency-use/follow-up-report/adverse-events-or-unanticipated-problems-occurs-in-eu" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if any adverse events or unanticipated problems occured as a result of the emergency use is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/emergency-use/follow-up-report/adverse-events-or-unanticipated-problems-occurs-in-eu/y/explain" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why some adverse events or unanticipated problems occured as a result of the emergency use is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/emergency-use/follow-up-report/adverse-events-or-unanticipated-problems-occurs-in-eu" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/emergency-use/follow-up-report/informed-consent-obtained" value-type="java.lang.String" pagename="Follow up report" pageref="follow-up-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if informed consent was obtained is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/emergency-use/basic-details/ieu-or-eu" value-type="java.lang.String" pagename="Basic Details" pageref="first-page">
+				<constraint type="EQUAL" data="emergency-use-follow-up-report" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+</rules>

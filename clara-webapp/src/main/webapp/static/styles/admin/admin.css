@@ -1,0 +1,14 @@
+.admin-staff-search-user-exists {
+	color:#000;
+	font-weight:800;
+	height:inherit;
+	background:transparent url(../../images/icn/user-green.png) no-repeat 0px 0px;
+	padding-left:24px;
+}
+
+.admin-staff-search-user-not-exists {
+	color:#555;
+	height:inherit;
+	padding-left:24px;
+	background:transparent url(../../images/icn/user-silhouette-question.png) no-repeat 0px 0px;
+}

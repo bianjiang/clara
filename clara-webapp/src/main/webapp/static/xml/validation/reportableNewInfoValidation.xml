@@ -1,0 +1,224 @@
+<rules>
+	<rule path="/reportable-new-information/info-category" value-type="java.lang.String" pagename="Start" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the event/information type is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/reportable-new-information/unanticipated-problem-involving-risk" value-type="java.lang.String" pagename="Start" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the sponsor has determined that the event is an Unanticipated Problem Involving Risks to Subjects or Others (UPIRTSO) is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/info-category" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="EQUAL" data="non-local-adverse-events" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/reportable-new-information/basic-details/describe-event-info" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To describe the event/information that you are reporting is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/reportable-new-information/basic-details/event-information-date" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate event/information Date is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/reportable-new-information/basic-details/event-information-location" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate event/information Location is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/reportable-new-information/basic-details/consent-protocol-changed" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the study consent or protocol should be changed because of the event/information, or should subjects be notified of the event/information is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/reportable-new-information/basic-details/consent-protocol-changed/y/describe-consent-protocol-changed" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To describe the changes/notifications that should take place is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/basic-details/consent-protocol-changed" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>		
+	</rule>
+	<rule path="/reportable-new-information/basic-details/was-adverse-effect-serious" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the adverse effect(or problem related to rights, safety, or welfare) was serious or life-threating, or did it result in death, for the research subjects is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/info-category" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="EQUAL" data="unanticipated-adverse-device-effects" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/unanticipated-problem-involving-risk" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/reportable-new-information/basic-details/was-adverse-effect-serious/y/explain" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To explain why tthe adverse effect(or problem related to rights, safety, or welfare) was serious or life-threating, or did it result in death, for the research subjects is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/reportable-new-information/info-category" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="EQUAL" data="unanticipated-adverse-device-effects" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/basic-details/was-adverse-effect-serious" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/unanticipated-problem-involving-risk" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>		
+	</rule>
+	<rule path="/reportable-new-information/basic-details/was-effect-caused-by-device" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the effect, problem, or death, was caused by, or associated with, the device is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/reportable-new-information/info-category" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="EQUAL" data="unanticipated-adverse-device-effects" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/unanticipated-problem-involving-risk" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>		
+	</rule>
+	<rule path="/reportable-new-information/basic-details/was-effect-caused-by-device/y/explain" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate why the effect, problem, or death, was caused by, or associated with, the device is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/reportable-new-information/info-category" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="EQUAL" data="unanticipated-adverse-device-effects" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/basic-details/was-effect-caused-by-device" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/unanticipated-problem-involving-risk" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>		
+	</rule>
+	<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the effect, problem, or death previously was identified in nature, severity, or degree of incidence in the investigational plan or application (including a supplementary plan or application) is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/reportable-new-information/info-category" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="EQUAL" data="unanticipated-adverse-device-effects" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/unanticipated-problem-involving-risk" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>		
+	</rule>
+	<rule path="/reportable-new-information/basic-details/was-effect-previously-identified/n/explain" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate why the effect, problem, or death previously was identified in nature, severity, or degree of incidence in the investigational plan or application (including a supplementary plan or application) is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/reportable-new-information/info-category" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="EQUAL" data="unanticipated-adverse-device-effects" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/unanticipated-problem-involving-risk" value-type="java.lang.String" pagename="Start" pageref="first-page">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>		
+	</rule>
+	<rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the event/information was unexpected or unanticipated is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/reportable-new-information/report/unexpected-or-unanticipated/y/describe-manner" value-type="java.lang.String" pagename="Report" pageref="report">
+		<constraint type="REQUIRED" data="" error-msg="To describe the manner in which the event was unexpected or unanticipatedis required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/reportable-new-information/report/related-to-the-research" value-type="java.lang.String" pagename="Report" pageref="report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the event/information was related to the research is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>			
+	</rule>
+	<rule path="/reportable-new-information/report/related-to-the-research/y/describe-related-to-the-research" value-type="java.lang.String" pagename="Report" pageref="report">
+		<constraint type="REQUIRED" data="" error-msg="To describe how the event relates to the research required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/report/related-to-the-research" value-type="java.lang.String" pagename="Report" pageref="report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/reportable-new-information/report/involve-new-or-increased-risks" value-type="java.lang.String" pagename="Report" pageref="report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the event/information involved new or increased risks to, or affect the rights, safety, or welfare of, subjects or others is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/report/related-to-the-research" value-type="java.lang.String" pagename="Report" pageref="report">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+	<rule path="/reportable-new-information/report/involve-new-or-increased-risks/y/describe-involve-new-or-increased-risks" value-type="java.lang.String" pagename="Report" pageref="report">
+		<constraint type="REQUIRED" data="" error-msg="To describe the nature of the risks/effects required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/reportable-new-information/is-reportable" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/report/related-to-the-research" value-type="java.lang.String" pagename="Report" pageref="report">
+				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/reportable-new-information/report/involve-new-or-increased-risks" value-type="java.lang.String" pagename="Report" pageref="report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>
+</rules>

@@ -1,0 +1,146 @@
+.bookmark-user-id-0{
+	font-weight:800!important;
+	color:black!important;
+	height:18px!important;
+	font-size: 1.1em!important;
+}
+
+.bookmark-user-id-0.x-list-selected{
+	color:#fff!important;
+	font-weight:800!important;
+	background: #64beea!important;
+	background: -moz-linear-gradient(top, #64beea 0%, #0083db 100%)!important;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#64beea), color-stop(100%,#0083db))!important;
+	background: -webkit-linear-gradient(top, #64beea 0%,#0083db 100%)!important;
+	background: -o-linear-gradient(top, #64beea 0%,#0083db 100%)!important;
+	background: -ms-linear-gradient(top, #64beea 0%,#0083db 100%)!important;
+	background: linear-gradient(top, #64beea 0%,#0083db 100%)!important;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#64beea', endColorstr='#0083db',GradientType=0 )!important;
+	border-bottom:1px solid #0074DB!important;
+	border-top:1px solid #0083DB!important;
+	height:16px!important;
+	line-height:16px!important;
+}
+
+.x-grid3-cell {
+    /* TD is defaulted to word-wrap. Turn it off so
+       it can be turned on for specific columns. */
+    white-space:nowrap !important;
+    }
+
+.x-grid3-cell-inner {
+    /* Inherit DIV's white-space from TD parent, since
+       DIV's inline style is not accessible in the column
+       definition. */
+    white-space:inherit !important;
+}
+
+.x-grid3-td-newformtype,.x-grid3-td-newcontractformtype {
+	overflow: hidden;
+}
+
+.row-newform, .x-grid3-td-newformtype div.x-grid3-cell-inner,.x-grid3-td-newcontractformtype div.x-grid3-cell-inner {
+	white-space:normal !important;
+}
+.x-grid3-col-protocol-col-name {
+    /* Inherit DIV's white-space from TD parent, since
+       DIV's inline style is not accessible in the column
+       definition. */
+    white-space:normal !important;
+}
+
+#protocol-dashboard-starthere{
+	font-size:14px;
+	color:#336699;
+	margin-left:16px;
+	background-image:url(../../images/icons/32/arrow_left_blue_50.png);
+	background-position:0px -7px;
+	background-repeat:no-repeat;
+	padding-left:38px;
+	display:none;
+}
+
+.row-newform{
+	padding:6px;	
+}
+
+.newform-longdesc{
+	font-size:12px;
+	color:#666;
+}
+
+.newform-longdesc b{
+	font-size:13px;
+	color:#DC143C;
+}
+
+
+.newform-longdesc ul {
+	padding: 1px;
+}
+
+.newform-longdesc ul li {
+	list-style: circle inside none;
+}
+
+
+.row-newform-irb-contact{
+	background-image:url(../../images/icons/32/email.png);
+	background-repeat:no-repeat;
+	background-position: 0px 4px;
+}
+
+.row-newform-clara-help{
+	background-image:url(../../images/icons/32/help.png);
+	background-repeat:no-repeat;
+	background-position: 0px 4px;
+}
+
+.row-newform-newcontract {
+	background-image:url(../../images/icons/32/certificate.png);
+	background-repeat:no-repeat;
+	background-position: 0px 4px;
+}
+
+
+.row-newform-viewprofile {
+	background-image:url(../../images/icons/32/vcard.png);
+	background-repeat:no-repeat;
+	background-position: 0px 4px;
+}
+
+.row-newform-newsubmission{
+	background-image:url(../../images/icons/32/book_open.png);
+	background-repeat:no-repeat;
+	background-position: 0px 4px;
+}
+
+.row-newform-hsd{
+	background-image:url(../../images/icons/32/question_bubble.png);
+	background-repeat:no-repeat;
+	background-position: 0px 4px;
+}
+
+.row-newform-singleuse{
+	background-image:url(../../images/icons/32/patient_data.png);
+	background-repeat:no-repeat;
+	background-position: 0px 4px;
+}
+
+.row-newform-hud{
+	background-image:url(../../images/icons/32/drive.png);
+	background-repeat:no-repeat;
+	background-position: 0px 4px;
+}
+
+.row-newform-emergencyuse{
+	background-image:url(../../images/icons/32/siren.png);
+	background-repeat:no-repeat;
+	background-position: 0px 4px;
+}
+
+.newform-description{
+	padding-top:4px;
+	padding-bottom:4px;
+	padding-left:40px;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="warn" name="ClaraWebapp" packages="{packageName}">
+
+	<appenders>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{ISO8601} [%t] %p %c{1.} %m%n"/>
+		</Console>
+	</appenders>
+
+	<loggers>
+
+		<logger name="com.mchange.v2.c3p0" level="warn" />
+		<logger name="org.hibernate" level="warn" />
+		<logger name="org.hibernate.SQL" level="debug" />
+		<logger name="org.springframework.cache" level="warn" />
+		<logger name="net.sf.ehcache" level="warn" />
+		<logger name="org.hibernate.cache" level="error" />
+		<!-- <logger name="org.springframework.web" level="debug" /> -->
+
+		<logger name="edu.uams.clara" level="debug" />
+
+		<!-- Root Logger -->
+		<root level="warn">
+			<appender-ref ref="STDOUT" />
+		</root>
+
+	</loggers>
+</configuration>

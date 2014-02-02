@@ -1,0 +1,62 @@
+body{ background:transparent; }
+
+table {
+  width: 100%;
+  text-align: left;
+  font-size: 11px;
+  font-family: arial;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: 4px 3px 4px 5px;
+  border: 1px solid #d0d0d0;
+  border-left-color: #eee;
+  background-color: #ededed;
+}
+
+table td {
+  padding: 4px 3px 4px 5px;
+  border-style: none solid solid;
+  border-width: 1px;
+  border-color: #ededed;
+  vertical-align:text-top;
+}
+
+div.review-comment-row {
+	white-space:normal !important;
+}
+h5.review-comment-row-committee{
+	font-size:14px;
+}
+p.review-comment-row-text{
+	font-size:12px;
+}
+
+div.queueitem-logs h1{
+	font-size:12px;
+	margin:10px;
+}
+div.log-committee-note h1{
+	margin:0px !important;
+}
+div.queueitem-logs ol {
+	margin:10px;
+	list-style-type:disc;
+	list-style-position:inside;
+}
+div.queueitem-logs ol li {
+	margin-bottom:3px;
+}
+
+@media print {
+   thead {display: table-header-group;}
+}
+
+#csscheck, .btncomment, .cpLinkComment {
+	display: none;
+}
+
+.document-row-info-title{
+	padding-left:24px !important;
+}

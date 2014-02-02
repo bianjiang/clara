@@ -1,0 +1,232 @@
+<form name="Protocol Summary" id="protocol" type="PROTOCOL">
+	<page name="Basic Information" id="basic-information" edit-permission="EDIT_PROTOCOL_BASIC">
+		<section>
+			<question id="question-number" parent-id="" parent-value="" header="">
+				<question-label>IRB Number</question-label>
+				<question-value editable="false" instance-path="/protocol/@identifier" value-type="string"/>
+			</question>
+			<question id="question-title" parent-id="" parent-value="" header="">
+				<question-label>Title</question-label>
+				<question-value instance-path="/protocol/title" value-type="string" />
+			</question>
+			
+			<question id="question-is-invistigator-init" parent-id="" parent-value="" header="">
+				<question-label>Investigator-Initiated?</question-label>
+				<question-value editable="false" instance-path="/protocol/study-type" value-type="equalsValue" compareToValue="investigator-initiated" />
+			</question>
+			
+			<question id="question-accrual-since-last-approval" parent-id="" parent-value="" header="">
+				<question-label>Most Recent IRB Approved Accrual Goal (Local)</question-label>
+				<question-value editable="false" instance-path="/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval" value-type="string" />
+			</question>
+			
+			<question id="question-date-first-subject-enrolled" parent-id="" parent-value="" header="">
+				<question-label>Date First Subject Enrolled</question-label>
+				<question-value editable="false" instance-path="/protocol/summary/irb-determination/first-subject-enrolled-date" value-type="date" />
+			</question>
+		</section>
+	</page>
+	<page name="Drugs and Devices" id="drugs-and-devices" edit-permission="EDIT_DRUGS_AND_DEVICES">
+		<section>
+			<question id="question-ind" parent-id="" parent-value="" header="">
+				<question-label>IND Number:</question-label>
+				<question-value instance-path="/protocol/summary/drugs-and-devices/ind" value-type="string"  editable="true"/>
+			</question>
+			<question id="question-ide" parent-id="" parent-value="" header="">
+				<question-label>IDE Number:</question-label>
+				<question-value instance-path="/protocol/summary/drugs-and-devices/ide" value-type="string"  editable="true"/>
+			</question>
+		</section>
+	</page>
+
+	<page name="IRB Determinations" id="irb-determinations" edit-permission="EDIT_IRB_DETERMINATION">
+		<section>
+			<question id="question-original-approval-status" parent-id="" parent-value="" header="">
+				<question-label>What is the original approval status of this study?</question-label>
+				<question-value instance-path="/protocol/original-study/approval-status" value-type="radio">
+					<possible-values>
+						<value id="Full Board">Full Board</value>
+						<value id="Expedited">Expedited</value>
+						<value id="Exempt">Exempt</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-original-approval-date" parent-id="" parent-value="" header="">
+				<question-label>What is the original approval date?</question-label>
+				<question-value instance-path="/protocol/original-study/approval-date" value-type="date" />
+			</question>
+			<question id="question-current-approval-status" parent-id="" parent-value="" header="">
+				<question-label>What is the current approval status of this study?</question-label>
+				<question-value instance-path="/protocol/most-recent-study/approval-status" value-type="radio">
+					<possible-values>
+						<value id="Full Board">Full Board</value>
+						<value id="Expedited">Expedited</value>
+						<value id="Exempt">Exempt</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-current-approval-date" parent-id="" parent-value="" header="">
+				<question-label>What is the latest approval start date?</question-label>
+				<question-value instance-path="/protocol/most-recent-study/approval-date" value-type="date" />
+			</question>
+			<question id="question-irb-review-period" parent-id="" parent-value="" header="">
+				<question-label>IRB Review Period (months)</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/review-period" value-type="string" />
+			</question>
+			<question id="question-current-approval-end-date" parent-id="" parent-value="" header="">
+				<question-label>What is the latest approval end date?</question-label>
+				<question-value instance-path="/protocol/most-recent-study/approval-end-date" value-type="date" />
+			</question>
+			
+			<question id="question-fda" parent-id="" parent-value="" header="">
+				<question-label>Is this study subject to FDA oversight?</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/fda" value-type="radio" editable="true">
+					<possible-values>
+						<value id="yes">Yes</value>
+						<value id="no">No</value>
+						<value id="na">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-adult-risk" parent-id="" parent-value="" header="">
+				<question-label>Adult Risk:</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/adult-risk" value-type="radio"  editable="true">
+					<possible-values>
+						<value id="RISK_ADULT_1">Adult - Minimal</value>
+						<value id="RISK_ADULT_2">Adult - Greater than minimal</value>
+						<value id="RISK_ADULT_NA">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-ped-risk" parent-id="" parent-value="" header="">
+				<question-label>Pediatric Risk:</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/ped-risk" value-type="radio"  editable="true">
+					<possible-values>
+						<value id="RISK_PED_1">1</value>
+						<value id="RISK_PED_2">2</value>
+						<value id="RISK_PED_3">3</value>
+						<value id="RISK_PED_4">4</value>
+						<value id="RISK_PED_NA">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-consent-waived" parent-id="" parent-value="" header="">
+				<question-label>Consent Waived?</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/consent-waived" value-type="radio"  editable="true">
+					<possible-values>
+						<value id="yes">Yes</value>
+						<value id="no">No</value>
+						<value id="na">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-consent-document-waived" parent-id="" parent-value="" header="">
+				<question-label>Consent Documentation Waived?</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/consent-document-waived" value-type="radio"  editable="true">
+					<possible-values>
+						<value id="yes">Yes</value>
+						<value id="no">No</value>
+						<value id="na">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-hipaa-applicable" parent-id="" parent-value="" header="">
+				<question-label>HIPAA Applicable?</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/hipaa-applicable" value-type="radio" editable="true">
+					<possible-values>
+						<value id="yes">Yes</value>
+						<value id="no">No</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-hipaa-waived" parent-id="" parent-value="" header="">
+				<question-label>HIPAA Waived?</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/hipaa-waived" value-type="radio"  editable="true">
+					<possible-values>
+						<value id="yes">Yes</value>
+						<value id="no">No</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-suggested-next-review-type" parent-id="" parent-value="" header="">
+				<question-label>Suggested Next Review Type</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/suggested-next-review-type" value-type="radio"  editable="true">
+					<possible-values>
+						<value id="EXPEDITED">Expedited</value>
+						<value id="EXEMPT">Exempt</value>
+						<value id="FULL_BOARD">Full Board</value>
+					</possible-values>
+				</question-value>
+			</question>
+		</section>
+	</page>
+	<page name="Coverage Review Determination" id="coverage-determinations" edit-permission="EDIT_COVERAGE_DETERMINATION">
+		<section>
+			<question id="question-medicare" parent-id="" parent-value="" header="">
+				<question-label>Does the principal purpose of the trial evaluate an item or service that falls within a Medicare benefit category?</question-label>
+				<question-value instance-path="/protocol/summary/coverage-determination/medicare-benefit" value-type="radio" editable="true" >
+					<possible-values>
+						<value id="yes">Yes</value>
+						<value id="no">No</value>
+						<value id="na">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-theraputic-intent" parent-id="" parent-value="" header="">
+				<question-label>Does the trial have therapeutic intent?</question-label>
+				<question-value instance-path="/protocol/summary/coverage-determination/theraputic-intent" value-type="radio" editable="true" >
+					<possible-values>
+						<value id="yes">Yes</value>
+						<value id="no">No</value>
+						<value id="na">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-enrolled-diagnosed" parent-id="" parent-value="" header="">
+				<question-label>Does the trial enroll patients with diagnosed disease?</question-label>
+				<question-value instance-path="/protocol/summary/coverage-determination/enrolled-diagnosed" value-type="radio" editable="true" >
+					<possible-values>
+						<value id="yes">Yes</value>
+						<value id="no">No</value>
+						<value id="na">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-trial-category" parent-id="" parent-value="" header="">
+				<question-label>Category for this trial:</question-label>
+				<question-value instance-path="/protocol/summary/coverage-determination/trial-category" value-type="radio" editable="true" >
+					<possible-values>
+						<value id="compassionate-use">Compassionate Use</value>
+						<value id="device">Device</value>
+						<value id="hud">HUD</value>
+						<value id="medicare-non-qualifying">Medicare Non-Qualifying</value>
+						<value id="medicare-qualifying">Medicare Qualifying</value>
+						<value id="phase-1-nq-phase2-q">Phase 1 Non-Qualifying / Phase 2 Qualifying</value>
+						<value id="single-patient-ind">Single Patient IND</value>
+						<value id="na">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+		</section>
+	</page>
+	<page name="Hospital Service Determination" id="hospital-service-determinations" edit-permission="EDIT_PBS">
+		<section>
+			<question id="question-corporate-gurantor" parent-id="" parent-value="" header="">
+				<question-label>Corporate Guarantor Code:</question-label>
+				<question-value instance-path="/protocol/summary/hospital-service-determinations/corporate-gurantor-code" value-type="string" editable="true" />
+			</question>
+			<question id="question-insurance-plan" parent-id="" parent-value="" header="">
+				<question-label>Insurance Plan Code:</question-label>
+				<question-value instance-path="/protocol/summary/hospital-service-determinations/insurance-plan-code" value-type="string" editable="true" />
+			</question>
+		</section>
+	</page>
+		<page name="ClinicalTrials.gov Determination" id="clinical-trials-determinations" edit-permission="EDIT_CLINICAL_TRIALS">
+		<section>
+			<question id="question-nct-number" parent-id="" parent-value="" header="">
+				<question-label>NCT Number:</question-label>
+				<question-value instance-path="/protocol/summary/clinical-trials-determinations/nct-number" value-type="string" editable="true" />
+			</question>
+		</section>
+	</page>
+</form>

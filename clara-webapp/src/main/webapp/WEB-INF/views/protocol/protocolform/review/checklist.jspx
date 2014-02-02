@@ -1,0 +1,62 @@
+<div class="container-fluid clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:uamsx="http://java.sun.com/jsp/jstl/xml-uams"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+
+
+	<x:parse doc="${checkListXml}" var="cl" scope="application" />
+		<h4>Choose a checklist below.</h4>
+	
+		<x:forEach var="checklistGroup" select="$cl/checklists/checklist-group" varStatus="i">
+			
+			<button type="button" class="btn btn-block btn-checklistgroup" data-toggle="collapse" data-target="#clg-${i.index}"><x:out select="string($checklistGroup/@title)"/></button>
+		
+			<div class="checklistgroup collapse in" id="clg-${i.index}">
+				
+				<div class="clDesc"><x:out select="string($checklistGroup/description/text())"/></div>
+				<x:forEach var="subcl" select="$checklistGroup/checklist" varStatus="j">
+					<c:set var="subId" value="${i.index}"/>
+			  		<div class="accordian checklist-section" id="page${subId}${j.index}">
+			  			<div class="accordian-group">
+			  				<div class="accordian-heading">
+				  				<i class="icon-circle-arrow-right" style="margin-right:8px;"><!-- // --></i><a class="accordian-toggle" data-toggle="collapse" data-parent="#page${subId}${j.index}" href="#collapse${i.index}${j.index}"><x:out select="string($subcl/@title)"/></a>
+				  			</div>
+				  			<div id="collapse${i.index}${j.index}" class="accordion-body collapse in">
+	      						<div class="accordion-inner">
+	      							<div class="clDesc"><x:out select="string($subcl/description/text())"/></div>
+								  	<table class="table table-condensed table-striped table-hover">
+								  		<thead>
+								  			<tr>
+								  				<th><!-- // --></th>
+								  				<th>Checklist</th>
+								  			</tr>
+								  		</thead>
+								  		<tbody>
+								  			<x:forEach var="q" select="$subcl/question">
+								  				<x:set var="qId" select="string($q/@id)"/>
+									  			<tr><td><strong>${qId}</strong></td><td><x:out escapeXml="false" select="string($q/text)"/></td></tr>
+									  		</x:forEach>
+									  	</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</x:forEach>
+			</div>
+		</x:forEach>
+
+	<script>
+	jQuery('.accordion-body').collapse("hide");
+	</script>
+</div>
+

@@ -1,0 +1,22 @@
+<form name="Humanitarian Use Device Initial Application" id="humanitarian-use-device" type="HUMANITARIAN_USE_DEVICE">
+	<page name="Basic Details" id="first-page">
+		<section>
+			<question id="question-hud-title" parent-id="" parent-value="" header="">
+				<question-label>What's the title of this study?</question-label>
+				<question-value instance-path="/hud/basic-details/hud-title" value-type="textarea" />
+			</question>
+			<question id="question-hud-device" parent-id="question-hud-device" parent-value="" header="Device">
+				<question-label>Device Name:</question-label>
+				<question-value  instance-path="/hud/basic-details/device-name" value-type="textarea" />
+			</question>
+			<question id="question-hud-device" parent-id="question-hud-device" parent-value="" header="Device">
+				<question-label>Device Description:</question-label>
+				<question-value  instance-path="/hud/basic-details/device-desc" value-type="textarea" />
+			</question>
+			<question id="question-treatment-location" parent-id="" parent-value="" header="">
+				<question-label>Treatment Location:</question-label>
+				<question-value  instance-path="/hud/basic-details/treatment-location" value-type="select" />
+			</question>
+		</section>
+	</page>
+</form>

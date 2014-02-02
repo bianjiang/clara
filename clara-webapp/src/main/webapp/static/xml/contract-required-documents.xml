@@ -1,0 +1,50 @@
+<forms>
+	<form type="NEW_CONTRACT">
+		<other-required path="/contract/basic-information/contract-type/confidentiality-disclosure-agreement/sub-type" value="sponsor-provided-cda" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type/confidentiality-disclosure-agreement/sub-type" value="uams-cda" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="sponsored-cta" required="contract,budget,consent" />
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="pi-initiated-cta" required="budget,consent" />
+		<!-- <other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="master-cta" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="compassionate-use-cta" required="consent" />
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="expanded-access-use-cta" required="consent" />
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="emergence-use-cta" required="consent" />
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="cooperative-group-cta" required="contract,budget,consent" />
+		<!-- <other-required path="/contract/basic-information/contract-type/material-transfer-agreement/sub-type" value="uams-as-provider-mta" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type/material-transfer-agreement/sub-type" value="uams-as-recipient-mta" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type/research-agreement/sub-type" value="collaborative-research-agreement" required="contract,budget" /> -->
+		<!-- <other-required path="/contract/basic-information/contract-type/research-agreement/sub-type" value="pi-initiated-research" required="contract,budget" /> -->
+		<other-required path="/contract/basic-information/contract-type/research-agreement/sub-type" value="sponsored-research" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type/research-agreement/sub-type" value="testing-agreement" required="contract,research-summary" /> -->
+		<!-- <other-required path="/contract/basic-information/contract-type/research-agreement/sub-type" value="master-agreement" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type/subcontracts/sub-type" value="uams-as-subcontractor" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type/subcontracts/sub-type" value="uams-is-primary-contractor" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type" value="hipaa-data-use-agreement" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type/license/sub-type" value="uams-as-licensor" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type/license/sub-type" value="uams-as-licensee" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type" value="hipaa-data-use-agreement" required="contract" /> -->
+	</form>
+	<form type="AMENDMENT">
+		<other-required path="/contract/basic-information/contract-type/confidentiality-disclosure-agreement/sub-type" value="sponsor-provided-cda" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type/confidentiality-disclosure-agreement/sub-type" value="uams-cda" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="sponsored-cta" required="contract,budget,consent" />
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="pi-initiated-cta" required="budget,consent" />
+		<!-- <other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="master-cta" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="compassionate-use-cta" required="consent" />
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="expanded-access-use-cta" required="consent" />
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="emergence-use-cta" required="consent" />
+		<other-required path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="cooperative-group-cta" required="contract,budget,consent" />
+		<!-- <other-required path="/contract/basic-information/contract-type/material-transfer-agreement/sub-type" value="uams-as-provider-mta" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type/material-transfer-agreement/sub-type" value="uams-as-recipient-mta" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type/research-agreement/sub-type" value="collaborative-research-agreement" required="contract,budget" /> -->
+		<!-- <other-required path="/contract/basic-information/contract-type/research-agreement/sub-type" value="pi-initiated-research" required="contract,budget" /> -->
+		<other-required path="/contract/basic-information/contract-type/research-agreement/sub-type" value="sponsored-research" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type/research-agreement/sub-type" value="testing-agreement" required="contract,research-summary" /> -->
+		<!-- <other-required path="/contract/basic-information/contract-type/research-agreement/sub-type" value="master-agreement" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type/subcontracts/sub-type" value="uams-as-subcontractor" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type/subcontracts/sub-type" value="uams-is-primary-contractor" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type" value="hipaa-data-use-agreement" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type/license/sub-type" value="uams-as-licensor" required="contract" /> -->
+		<other-required path="/contract/basic-information/contract-type/license/sub-type" value="uams-as-licensee" required="contract" />
+		<!-- <other-required path="/contract/basic-information/contract-type" value="hipaa-data-use-agreement" required="contract" /> -->
+	</form>
+</forms>

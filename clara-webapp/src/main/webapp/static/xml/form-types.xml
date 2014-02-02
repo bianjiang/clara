@@ -1,0 +1,27 @@
+<forms>
+	<form type="protocol" id="continuing-review" title="Continuing Review">
+		<description></description>
+	</form>
+	<form type="protocol" id="modification" title="Modification">
+		<description></description>
+	</form>
+	<form type="protocol" id="reportable-new-information" title="Reportable New Information">
+		<description></description>
+	</form>
+	<form type="protocol" id="audit" title="Audit Form">
+		<description></description>
+	</form>
+	<form type="protocol" id="study-closure" title="Study Closure">
+		<description></description>
+	</form>
+	<form type="protocol" id="humanitarian-use-device-renewal"
+		title="Humanitarian Use Device: Renewal Application">
+		<description></description>
+	</form>
+	<form type="protocol" id="emergency-use" title="Emergency Use: Followup">
+		<description></description>
+	</form>
+	<form type="contract" id="amendment" title="Contract Amendment">
+		<description></description>
+	</form>
+</forms>

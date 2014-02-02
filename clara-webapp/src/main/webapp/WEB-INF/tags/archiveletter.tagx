@@ -1,0 +1,34 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+
+
+
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr>
+			<th id="date" class="span2"><strong>Date</strong></th>
+			<th id="type" class="span2"><strong>Type</strong></th>
+			<th id="from" class="span2"><strong>From</strong></th>
+			<th id="to" class="span2"><strong>To</strong></th>
+			<th id="letter" calss="span4"><strong>Letter</strong></th>
+		</tr>
+		<x:forEach var="ltr" select="$value">
+			<tr>
+				<td headers="date" valign="top" class="span2"><x:out select="@date" /></td>
+				<td headers="type" valign="top" class="span2"><x:out select="@type" /></td>
+				<td headers="from" valign="top" class="span2"><x:out select="@from" /></td>
+				<td headers="to" valign="top" class="span2"><x:out select="@to" /></td>
+				<x:set var="letterurl" select="string(@path)" />
+				<td headers="title" valign="top" class="span4"><a href="${letterurl}" target="_blank">View Letter</a></td>
+			</tr>
+		</x:forEach>
+	</table>
+</jsp:root>

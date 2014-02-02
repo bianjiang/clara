@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checklists>
+	<checklist-group title="Human Subject Research Determination Checklist" committee="IRB_OFFICE" protocol-form-type="HUMAN_SUBJECT_RESEARCH_DETERMINATION" protocol-form-committee-status="IN_REVIEW" >
+		<checklist id="1" title="Human Subject Research Determination Checklist">
+			<question id="1">
+		  		<text>Is the activity a systematic investigation?</text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="2">
+		  		<text>Is the activity designed to develop or contribute to generalizable knowledge?</text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="3">
+		  		<text>Does the project involve obtaining information about living individuals?</text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="4">
+		  		<text>Does the project involve intervention or interaction with individuals? </text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="5">
+		  		<text>Is the information that will be obtained individually identifiable? </text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="6">
+		  		<text>Is the information about behaviors that occur in contexts in which individuals can reasonably expect that no observation or recording is taking place? </text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="7">
+		  		<text>Is the information provided by individuals for specific purposes, and can individuals reasonably expect that the information will not be made public? </text>
+		  		<answer></answer>
+		  	</question>
+		</checklist>
+	</checklist-group>
+</checklists>

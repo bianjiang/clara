@@ -1,0 +1,179 @@
+<form name="Archive from ARIA / Crimson" id="archive" type="ARCHIVE">
+	<page name="Basic Details (ARIA)" id="basic-details">
+		<section>
+			<question id="question-title" parent-id="" parent-value="" header="">
+				<question-label>What is the title of this study?</question-label>
+				<question-value  instance-path="/protocol/title" value-type="string" />
+			</question>
+			<question id="question-isInvestigatorInitiated" parent-id="" parent-value="" header="">
+				<question-label>Is this an investigator-initiated study?</question-label>
+				<question-value  instance-path="/protocol/studytype/isInvestigatorInitiated" value-type="select" />
+			</question>
+			<question id="question-pType" parent-id="" parent-value="" header="">
+				<question-label>What is the protocol type?</question-label>
+				<question-value  instance-path="/protocol/studytype/pType" value-type="select" />
+			</question>
+			<question id="question-date1" parent-id="" parent-value="" header="">
+				<question-label>ARIA Submission Date</question-label>
+				<question-value  instance-path="/protocol/original-study/originalSubmissionDate" value-type="date" />
+			</question>
+			<question id="question-date2" parent-id="" parent-value="" header="">
+				<question-label>ARIA Close Date</question-label>
+				<question-value  instance-path="/protocol/original-study/closeDate" value-type="date" />
+			</question>
+			<question id="question-date3" parent-id="" parent-value="" header="">
+				<question-label>ARIA Suspend Date</question-label>
+				<question-value  instance-path="/protocol/original-study/suspendedDate" value-type="date" />
+			</question>
+			<question id="question-date4" parent-id="" parent-value="" header="">
+				<question-label>ARIA HIPAA Waiver Date</question-label>
+				<question-value  instance-path="/protocol/original-study/HIPAAWaiverDate" value-type="date" />
+			</question>
+			<question id="question-date5" parent-id="" parent-value="" header="">
+				<question-label>ARIA Terminated Date</question-label>
+				<question-value  instance-path="/protocol/original-study/terminatedDate" value-type="date" />
+			</question>
+		</section>
+	</page>
+	<page name="Basic Details (Crimson)" id="crimson">
+		<section>
+			<question id="question-btitle" parent-id="" parent-value="" header="">
+				<question-label>Brief Title</question-label>
+				<question-value instance-path="/protocol/crimson/brief-title" value-type="string" />
+			</question>
+			<question id="question-summ" parent-id="" parent-value="" header="">
+				<question-label>Summary</question-label>
+				<question-value instance-path="/protocol/crimson/summary" value-type="string" />
+			</question>
+			
+			<question id="question-comm" parent-id="" parent-value="" header="">
+				<question-label>Comment</question-label>
+				<question-value instance-path="/protocol/crimson/comment" value-type="string" />
+			</question>
+			
+			<question id="question-locations" parent-id="" parent-value="" header="">
+				<question-label>Locations</question-label>
+				<question-value instance-path="/protocol/crimson/locations/location" value-type="crimson-locations" />
+			</question>
+			
+			<question id="question-studyc" parent-id="" parent-value="" header="">
+				<question-label>College</question-label>
+				<question-value instance-path="/protocol/crimson/study-college-or-division" value-type="select" />
+			</question>
+			
+			<question id="question-studyd" parent-id="" parent-value="" header="">
+				<question-label>Department</question-label>
+				<question-value instance-path="/protocol/crimson/department" value-type="select" />
+			</question>
+			<question id="question-studysd" parent-id="" parent-value="" header="">
+				<question-label>Subdepartment</question-label>
+				<question-value instance-path="/protocol/crimson/sub-department" value-type="select" />
+			</question>
+			<question id="question-studycat" parent-id="" parent-value="" header="">
+				<question-label>Study category</question-label>
+				<question-value instance-path="/protocol/crimson/study-category/category" value-type="select" />
+			</question>
+			
+			<question id="question-sc-compuse" parent-id="" parent-value="" header="">
+				<question-label>Compassionate use?</question-label>
+				<question-value instance-path="/protocol/crimson/study-category/compassionate-use" value-type="yesno" />
+			</question>
+			<question id="question-sc-nm" parent-id="" parent-value="" header="">
+				<question-label>Notify method</question-label>
+				<question-value instance-path="/protocol/crimson/study-category/notify-method" value-type="select" />
+			</question>
+			<question id="question-sc-nmd" parent-id="" parent-value="" header="">
+				<question-label>Notify mode</question-label>
+				<question-value instance-path="/protocol/crimson/study-category/notify-mode" value-type="select" />
+			</question>
+			
+			
+			<question id="question-hasbudget" parent-id="" parent-value="" header="">
+				<question-label>Does this study have a budget in Crimson?</question-label>
+				<question-value instance-path="/protocol/crimson/has-budget" value-type="yesno" />
+			</question>
+			<question id="question-hasprmc" parent-id="" parent-value="" header="">
+				<question-label>Regulatory - PRMC required?</question-label>
+				<question-value instance-path="/protocol/crimson/regulatory-information/prmc-required" value-type="yesno" />
+			</question>
+			
+			<question id="question-hasprmc" parent-id="" parent-value="" header="">
+				<question-label>Regulatory - Manufacturing</question-label>
+				<question-value instance-path="/protocol/crimson/regulatory-information/manufacturing" value-type="string" />
+			</question>
+			<question id="question-hasprmc" parent-id="" parent-value="" header="">
+				<question-label>ClinicalTrails.gov: Require registration?</question-label>
+				<question-value instance-path="/protocol/crimson/regulatory-information/registration-with-clinicalTrials-gov/require-registration" value-type="yesno" />
+			</question>
+			<question id="question-hasprmc" parent-id="" parent-value="" header="">
+				<question-label>ClinicalTrails.gov: Registered?</question-label>
+				<question-value instance-path="/protocol/crimson/regulatory-information/registration-with-clinicalTrials-gov/been-registered" value-type="yesno" />
+			</question>
+			
+		</section>
+	</page>
+	<page name="Test Articles" id="test-articles">
+		<section>
+			<question id="question-test-articles" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value  instance-path="/protocol/crimson/regulatory-information/test-article/article" value-type="test-article" />
+			</question>
+		</section>
+	</page>
+	<page name="Funding Sources" id="funding-sources">
+		<section>
+			<question id="question-funding-sources" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value  instance-path="/protocol/funding/funding-source" value-type="funding-source" />
+			</question>
+		</section>
+	</page>
+	<page name="Disease Sites" id="disease-sites">
+		<section>
+			<question id="question-dsites" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/protocol/crimson/disease-sites/disease-site" value-type="crimson-diseasesite" />
+			</question>
+		</section>
+	</page>
+	<page name="Sites" id="sites">
+		<section>
+			<question id="question-single-or-multi" parent-id="" parent-value="" header="">
+				<question-label>Is this a multi-site study?</question-label>
+				<question-value  instance-path="/protocol/sites/single-or-multi" value-type="select" />
+			</question>
+			<question id="question-multisite-is-local-lead-entity" parent-id="question-single-or-multi" parent-value="multiple-sites" header="Multi-site study">
+				<question-label>Will the local site (ACH/ACHRI/UAMS) be the lead entity for this study?</question-label>
+				<question-value  instance-path="/protocol/studytype/pLocalLead" value-type="select" />
+			</question>
+			<question id="question-sites-conducing-this-study" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value  instance-path="/protocol/study-sites/site" value-type="sites" />
+			</question>
+		</section>
+	</page>
+	<page name="Staff" id="staff">
+		<section>
+			<question id="question-staff" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/protocol/staffs/staff" value-type="staff" />
+			</question>
+		</section>
+	</page>
+	<page name="ARIA Documents" id="documents-aria">
+		<section>
+			<question id="question-docs-aria" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/protocol/documents/document" value-type="archivedocument" />
+			</question>
+		</section>
+	</page>
+	<page name="ARIA Letters" id="letters-aria">
+		<section>
+			<question id="question-letters-aria" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/protocol/letters/letter" value-type="archiveletter" />
+			</question>
+		</section>
+	</page>
+	<page name="Crimson Documents" id="documents-crimson">
+		<section>
+			<question id="question-docs-crimson" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/protocol/crimson" value-type="crimsonarchivedocuments" />
+			</question>
+		</section>
+	</page>
+</form>

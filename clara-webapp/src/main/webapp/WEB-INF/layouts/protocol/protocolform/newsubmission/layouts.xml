@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+	
+	<definition name="protocol/protocolform/newsubmission" extends="protocol/protocolform/protocol-form-template">
+		<put-list-attribute name="styles" inherit="true"></put-list-attribute>
+		<put-list-attribute name="ie_styles" inherit="true"></put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+		<add-attribute value="/static/js/moment.js" />
+			<add-attribute value="/static/js/jquery/plugin/jquery.validate.pack.js" type="string" />
+			<add-attribute value="/static/js/jquery/plugin/additional-methods.js" type="string" />
+			<add-attribute value="/static/js/jquery/plugin/jquery.metadata.js" type="string" />
+			<add-attribute value="/static/js/encoder.js" type="string" />
+			<add-attribute value="/static/js/jquery/plugin/jquery.formSerializer.js" type="string" />
+			<add-attribute value="/static/js/common/uams-forms.js" type="string" />
+			<add-attribute value="/static/js/protocol/protocolform/rules.js" type="string" />
+			<add-attribute value="/static/js/protocol/protocolform/newsubmission/newsubmission-rules.js" type="string" />
+			<add-attribute value="/static/js/protocol/protocolform/modification/modification-rules.js" type="string" />	
+			<!-- <add-attribute value="/static/js/protocol/protocolform/newsubmission/validate.js" type="string" /> -->
+			
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="protocol/protocolform/newsubmission-noheader" extends="protocol/protocolform/protocol-form-template-noheader">
+		<put-list-attribute name="styles" inherit="true"></put-list-attribute>
+		<put-list-attribute name="ie_styles" inherit="true"></put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+		<add-attribute value="/static/js/moment.js" />
+			<add-attribute value="/static/js/jquery/plugin/jquery.validate.pack.js" type="string" />
+			<add-attribute value="/static/js/jquery/plugin/additional-methods.js" type="string" />
+			<add-attribute value="/static/js/jquery/plugin/jquery.metadata.js" type="string" />
+			<add-attribute value="/static/js/encoder.js" type="string" />
+			<add-attribute value="/static/js/jquery/plugin/jquery.formSerializer.js" type="string" />
+			<add-attribute value="/static/js/common/uams-forms.js" type="string" />
+			<add-attribute value="/static/js/protocol/protocolform/rules.js" type="string" />
+			<add-attribute value="/static/js/protocol/protocolform/newsubmission/newsubmission-rules.js" type="string" />
+			<add-attribute value="/static/js/protocol/protocolform/modification/modification-rules.js" type="string" />	
+			<!-- <add-attribute value="/static/js/protocol/protocolform/newsubmission/validate.js" type="string" /> -->
+		</put-list-attribute>
+	</definition>
+
+</tiles-definitions>

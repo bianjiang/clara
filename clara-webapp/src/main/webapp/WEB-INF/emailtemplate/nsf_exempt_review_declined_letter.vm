@@ -1,0 +1,60 @@
+<html>
+<body>
+<div class="email-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	<strong>Institutional Review Board</strong><br/>
+	4301 West Markham, #636<br/>
+	Little Rock, AR 72205-7199<br/>
+	501-686-5667<br/>
+	501-686-7265 (fax)<br/>
+	<a href="http://www.uams.edu/irb/irb.asp" target = "_blank">www.uams.edu/irb/irb.asp</a>
+	
+	<br/><br/>FWA00001119
+	
+	<br/><br/>$currentDate
+	
+	#if ($hudOrNot == 'hud-use')
+		<br/><br/><strong>TP Name:</strong>  $treatingPhysicianUser.person.getFullname()<br/>
+		<br/><strong>TP Department:</strong> $treatingPhysicianUser.person.department
+	#else
+		<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()<br/>
+		<br/><strong>PI Department:</strong> $piUser.person.department
+	#end
+	
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	
+	<br/><br/>DECLINED, EXEMPT
+
+	<br/><br/>The IRB Exempt Review declined approval for this study. The reasons for this decision are as follows:
+
+	<br/><br/><strong>Contingencies:</strong><br/>
+	#if ($contengencies.size() == 0)
+		No in contingencies related to this study.
+	#end
+	<ul>
+	#foreach($comment in ${contengencies}) 
+	<li>$comment.text</li>#end
+	</ul><br/>	
+	
+	If you wish to resubmit this study for consideration, a new submission may be required. If you have any questions, please contact an IRB administrator at 501-686-5667.<br/>
+	
+	<a href=$protocolLink>Click here to access study.</a>
+	
+	<br/><br/>
+	<strong>Committee Notes/Comments:</strong>
+	<br/>
+	#if ($inLetterComments.size() > 0)
+		<ul>
+		#foreach($comment in ${inLetterComments}) 
+		<li>$comment.text</li>#end
+		</ul>
+	#end
+	$emailComment
+	{0}
+	
+	<br/><br/>
+	$signature
+</div>
+</body>
+</html>

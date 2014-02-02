@@ -1,0 +1,153 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="euInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle" select="string($euInstance/emergency-use/basic-details/eu-title)" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:emergencyusetab name="first-page" euInstance="${euInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+			
+			<div class="question" id="question-eu-title">
+				<div class="questionLabel">What's the title of this study?</div>
+				<div class="questionValue">
+					<textarea class="question-el required" name="/emergency-use/basic-details/eu-title"
+						rows="4" id="eu-title">
+						<x:out escapeXml="false" select="$euInstance/emergency-use/basic-details/eu-title" />
+					</textarea>
+				</div>
+			</div>
+			
+			<div class="question" id="question-treatment-location">
+				<div class="questionLabel">Treatment Location:</div>
+				<div class="questionValue">
+					<x:set var="treatmentLocation"
+						select="string($euInstance/emergency-use/basic-details/treatment-location/text())" />
+					<uams:select id="treatmentLocation" lookuppath="treatment-location"
+						instancepath="/emergency-use/basic-details/treatment-location"
+						value="${treatmentLocation}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-test-article">
+				<div class="questionLabel">Test article Name:</div>
+				<div class="questionValue">
+					<textarea class="question-el required" name="/emergency-use/basic-details/test-article-name"
+						rows="2" id="test-article-name">
+						<x:out escapeXml="false" select="$euInstance/emergency-use/basic-details/test-article-name" />
+					</textarea>
+				</div>
+				<br/><br/>
+				<div class="questionLabel">Test article description:</div>
+				<div class="questionValue">
+					<textarea class="question-el required" name="/emergency-use/basic-details/test-article-desc"
+						rows="2" id="test-article-desc">
+						<x:out escapeXml="false" select="$euInstance/emergency-use/basic-details/test-article-desc" />
+					</textarea>
+				</div>
+				<div style="clear:both;"><!-- // --></div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="test-article" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-patient-information">
+				<div class="questionLabel">Patient's Initials:</div>
+				<div class="questionValue">
+					<textarea class="question-el required" name="/emergency-use/basic-details/patient-full-name"
+						rows="2" id="patient-full-name">
+						<x:out escapeXml="false" select="$euInstance/emergency-use/basic-details/patient-full-name" />
+					</textarea>
+				</div>
+				<br/><br/>
+				<div class="questionLabel">Patient's Diagnosis:</div>
+				<div class="questionValue">
+					<textarea class="question-el required" name="/emergency-use/basic-details/patient-diagnosis"
+						rows="2" id="patient-diagnosis">
+						<x:out escapeXml="false" select="$euInstance/emergency-use/basic-details/patient-diagnosis" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question" id="question-ieu-or-eu">
+				<div class="questionLabel">Are you submitting a notification of intended emergency use (emergency use will occur in the future) or an emergency use follow-up report (emergency use has already occurred)?</div>
+				<div class="questionValue">
+					<x:set var="ieuOrEu"
+						select="string($euInstance/emergency-use/basic-details/ieu-or-eu/text())" />
+					<uams:select id="ieu-or-eu" lookuppath="ieu-or-eu"
+						instancepath="/emergency-use/basic-details/ieu-or-eu" value="${ieuOrEu}"
+						validation="required" />
+				</div>
+				<div style="clear:both;"><!-- // --></div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="ieu-or-eu" />
+				</div>
+			</div>
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : '',
+										nextTab : 'staff',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									"<strong>Emergency Use</strong>: Basic Details",
+									wiz);
+
+							Clara.ProtocolForm.Rules.processPage();
+
+							jQuery(".question-el").change(function() {
+								Clara.ProtocolForm.Rules.processPage();
+								wiz.refreshLayout();
+							});
+
+						});
+	</script>
+
+
+
+</div>

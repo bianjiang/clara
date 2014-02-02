@@ -1,0 +1,21 @@
+<rules>
+	<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicated the nature of the study is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/protocol/staffs/staff/user/roles/role" value-type="" pagename="Staff" pageref="staff">
+		<constraint type="CONTAINS" data="Principal Investigator" error-msg="Principal Investigator is required for the study!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="MEMBEROF" data="social-behavioral-education,biomedical-clinical" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+	<rule path="/protocol/staffs/staff/user/roles/role" value-type="" pagename="Staff" pageref="staff">
+		<constraint type="CONTAINS" data="Treating Physician" error-msg="Treating Physician is required for the study!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
+</rules>

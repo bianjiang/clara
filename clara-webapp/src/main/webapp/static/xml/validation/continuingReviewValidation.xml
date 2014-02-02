@@ -1,0 +1,755 @@
+<rules>
+	<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="Review" pageref="review">
+		<constraint type="REQUIRED" data="" error-msg="Most recent status is required!" level="ERROR"/>
+	</rule>
+	<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if you would like to keep this study open at this time is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/continuing-review/general-study-info/any-change-affect-study-exempt-review-classification" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there has been any change, in the opinion of the investigator, which affects this study's exempt review classification is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="EQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the status of the study is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/general-study-info/study-status/statuses/status/other/text" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+		<constraint type="REQUIRED" data="" error-msg="To describe the status of the study is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="other" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/subject-accrual/chart-review-study-only" value-type="java.lang.String" pagename="Accrual of Subjects" pageref="accrual-of-subjects">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if this is a chart review or archived tissue sample study only is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/subject-accrual/chart-review-study-only/y/number-of-charts-reviewed" value-type="java.lang.String" pagename="Accrual of Subjects" pageref="accrual-of-subjects">
+		<constraint type="REQUIRED" data="" error-msg="To indicate how many charts you have reviewed/archived tissue samples you have worked with is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/subject-accrual/chart-review-study-only" value-type="java.lang.String" pagename="Accrual of Subjects" pageref="accrual-of-subjects">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/subject-accrual/vulnerable-populations-since-activation" value-type="java.util.List" pagename="Accrual of Subjects" pageref="accrual-of-subjects">
+		<constraint type="REQUIRED" data="" error-msg="To indicate all of the vulnerable populations from which you've enrolled subjects locally, since activation of the study is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/subject-accrual/chart-review-study-only" value-type="java.lang.String" pagename="Accrual of Subjects" pageref="accrual-of-subjects">
+				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/summarize-study-progress" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To summarize study progress is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/subjects-experience-benefits" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if subjects have experienced any benefits since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/subjects-experience-benefits/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why subjects have experienced any benefits since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/subjects-experience-benefits" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/unanticipated-problems-involving-risks" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been any unanticipated problems involving risks to subjects or others since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/unanticipated-problems-involving-risks/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why there have been any unanticipated problems involving risks to subjects or others since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/unanticipated-problems-involving-risks" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/subjects-withdrawn-from-research" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if any subjects have withdrawn from the research since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/subjects-withdrawn-from-research/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why some subjects have withdrawn from the research since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/subjects-withdrawn-from-research" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/subjects-or-others-complained" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if any subjects or others have complained about the research since your last year is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/subjects-or-others-complained/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why some subjects or others have complained about the research since your last year is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/subjects-or-others-complained" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-publications-or-potential-benefits" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been any publications in the literature relevant to the risks or potential benefits of the research since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-publications-or-potential-benefits/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why there have been any publications in the literature relevant to the risks or potential benefits of the research since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/any-publications-or-potential-benefits" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-interim-findings" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been any interim findings since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-interim-findings/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why there have been any interim findings since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/any-interim-findings" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-multi-center-trial-reports" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been any multi-center trial reports since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-multi-center-trial-reports/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why there have been any multi-center trial reports since your last reportis is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/any-multi-center-trial-reports" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-dsmb-reports" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been any data safety monitoring board reports since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-dsmb-reports/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why there have been any data safety monitoring board reports since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/any-dsmb-reports" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-risks-information" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been any other relevant information regarding this research, specifically information about risks associated with the research since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-risks-information/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why there have been any other relevant information regarding this research, specifically information about risks associated with the research since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/any-risks-information" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-risks-or-benefits-changed" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the risks or potential benefits of this research have changed since your last report in the opinion of the principal investigator is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-risks-or-benefits-changed/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why the risks or potential benefits of this research have changed since your last report in the opinion of the principal investigator is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/any-risks-or-benefits-changed" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-adverse-events" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been any internal or local adverse events in the research since the last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-adverse-events/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why there have been any internal or local adverse events in the research since the last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/any-adverse-events" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-deviations" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been any protocol deviations or violations occurred in this study since the last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-deviations/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why there have been any protocol deviations or violations occurred in this study since the last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/any-deviations" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/is-audited-by-federal-agency" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if this study has been audited by the FDA, NIH, NCI OR other federal agency since your last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/is-audited-by-federal-agency/y/date" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the date of audit is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/is-audited-by-federal-agency" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/is-audited-by-federal-agency/y/is-report-issued" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if a report has been issued is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/is-audited-by-federal-agency" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/is-audited-by-federal-agency/y/is-report-copy-submitted" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if you have submitted a copy of the report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/is-audited-by-federal-agency" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/study-focus-of-litigation" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if this study is subject to any litigation is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/study-focus-of-litigation/y/is-irb-notified" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if the IRB has been notified is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/study-focus-of-litigation" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/study-focus-of-litigation/y/is-irb-notified/n/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To explain why the IRB has not been notified is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/study-focus-of-litigation" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/study-focus-of-litigation/y/is-irb-notified" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/publications-or-presentation-from-data-collected" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there are any publications or presentations that have resulted from data collected during this study is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/funding-source/has-coi-changes" value-type="java.lang.String" pagename="Conflict of Interest" pageref="conflict-of-interest">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been a change in the financial disclosure status of the Principal Investigator or other members of 
+					the Research Staff that has not been reported to the IRB is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/funding-source/has-coi-changes/y/explain" value-type="java.lang.String" pagename="Conflict of Interest" pageref="conflict-of-interest">
+		<constraint type="REQUIRED" data="" error-msg="To explain why there have been a change in the financial disclosure status of the Principal Investigator or other members of 
+					the Research Staff that has not been reported to the IRB is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/funding-source/has-coi-changes" value-type="java.lang.String" pagename="Conflict of Interest" pageref="conflict-of-interest">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+</rules>

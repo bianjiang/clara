@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:dynform="urn:jsptagdir:/WEB-INF/tags"
+	version="2.0">
+	<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+	
+	<jsp:directive.page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"/>  
+	
+	<x:parse doc="${protocolXmlData.xmlData}" var="protocolInstance" />
+
+
+<html lang="en">	
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta http-equiv="X-UA-Compatible" content="IE=8" />		
+	
+			<tiles:useAttribute id="styles" name="styles" ignore="true" classname="java.util.List" />
+			
+			<c:forEach var="style" items="${styles}">
+				<spring:url value="${style}" var="css_url" />
+				<link rel="stylesheet" type="text/css" media="screen" href="${css_url}" />
+				<link rel="stylesheet" type="text/css" media="print" href="${css_url}" />
+			</c:forEach>
+			
+			<tiles:useAttribute id="ie_styles" name="ie_styles" ignore="true" classname="java.util.List" />
+			
+		<![CDATA[
+		<!--[if lt IE 9]> 
+		]]>
+			<spring:url value="/static/js/html5shiv.js" var="js_html5shiv" />
+			<script type="text/javascript" src="${js_html5shiv}?ts=${claraBuildNumber}"><!-- // --></script>    
+		<![CDATA[
+		<![endif]-->
+		]]>
+	
+			<!-- app-config.js -->
+			<spring:url value="/static/js/app-config.js" var="js_app_config" />
+			<c:if test="${pageContext.request.serverName == 'localhost'}">
+				
+				<spring:url value="/static/js/app-config-dev.js" var="js_app_config" />
+			
+			</c:if>
+			
+			<c:if test="${pageContext.request.serverName == 'clara-training.uams.edu'}">
+				
+				<spring:url value="/static/js/app-config-training.js" var="js_app_config" />
+			
+			</c:if>
+			<!-- jQuery required! -->
+			<spring:url value="/static/js/jquery/jquery-1.7.min.js" var="js_jquery" />
+			<spring:url value="/static/js/ext/ext-jquery-adapter.js" var="js_ext_adapter"/>
+			<spring:url value="/static/js/ext/ext-all-debug.js" var="js_ext"/><spring:url value="/static/js/ext/ext-uams.js" var="js_ext_uams"/>
+			<spring:url value="/static/js/json2.js" var="js_json2" />
+			<spring:url value="/static/js/clara-config.js" var="js_clara_config" />
+			
+			
+			<script type="text/javascript" src="${js_jquery}?ts=${claraBuildNumber}"><!-- // --></script>    
+			<script type="text/javascript" src="${js_ext_adapter}?ts=${claraBuildNumber}"><!-- // --></script>  
+			<script type="text/javascript" src="${js_ext}?ts=${claraBuildNumber}"><!-- // --></script>  <script type="text/javascript" src="${js_ext_uams}?ts=${claraBuildNumber}"><!-- // --></script>  
+			<script type="text/javascript" src="${js_json2}?ts=${claraBuildNumber}"><!-- // --></script>  
+			<script type="text/javascript" src="${js_clara_config}?ts=${claraBuildNumber}"><!-- // --></script>  
+			<script type="text/javascript" src="${js_app_config}?ts=${claraBuildNumber}"><!-- // --></script>  
+			
+			<tiles:useAttribute id="javascripts" name="javascripts" ignore="true" classname="java.util.List" />
+
+			<spring:url value="/static/images/" var="images_dir" />
+			<spring:url value="/static/images/clara-logo.png" var="logo_url"/>
+			<spring:url value="/static/images/ajax-loader.gif" var="spin_url"/>
+			<link rel="icon" href="${images_dir}/favicon.ico" />
+	  		
+			<script type="text/javascript"><![CDATA[
+				jQuery.noConflict();
+				
+				Ext.Ajax.on('beforerequest', function(conn,options){ jQuery(".clara-budget-spinner").show(); }, this);
+				Ext.Ajax.on('requestcomplete', function(conn,response,options){ checkAjaxError(conn, response, options);jQuery(".clara-budget-spinner").hide(); }, this);
+				var usingNoHeaderTemplate = true;
+				
+
+				claraInstance.setType("protocol");
+				claraInstance.setId("${!empty protocolId?protocolId:0}");
+				claraInstance.xmlDataId = ${!empty protocolXmlData.id?protocolXmlData.id:0};
+
+				claraInstance.setForm({
+					id: ${!empty protocolForm.id?protocolForm.id:0},
+					urlName: "${!empty protocolFormXmlData.protocolForm.protocolFormType?protocolFormXmlData.protocolForm.protocolFormType.urlEncoded:0}",
+					type: "${!empty protocolFormXmlData.protocolForm.protocolFormType?protocolFormXmlData.protocolForm.protocolFormType:0}"
+				});
+				claraInstance.setUser({
+					id: ${!empty user?user.id:0},
+					committee: 'PI'
+				});
+
+			]]>
+			</script>
+				<c:forEach var="javascript" items="${javascripts}">
+				<spring:url value="${javascript}" var="javascript_url" />
+				<script type="text/javascript" src="${javascript_url}?ts=${claraBuildNumber}"><!-- // --></script>  
+			</c:forEach>
+			<title><spring:message code="welcome.h3" arguments="${application.app_name}" /></title>
+		</head>
+	   		<body>		
+   		<div class="container_12" style="width:100%;">
+	    	<div id="main">
+	    				<div class="navbar navbar-inverse">
+					      <div class="navbar-inner">
+					        <div class="container">
+					          <a class="brand" style="color:white;">Pharmacy form - IRB #${protocolId}</a>
+					            <ul class="nav">
+					              <li><a href="javascript:window.print();"><i class="icon-print icon-white"><!-- // --></i> Print</a></li>
+					            </ul>
+					        </div>
+					      </div>
+					    </div>
+
+	    		<tiles:insertAttribute name="body" />
+	    		
+
+			</div>
+		</div>
+	</body>
+	</html>
+</jsp:root>

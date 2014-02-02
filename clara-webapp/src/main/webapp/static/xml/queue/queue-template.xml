@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queues>
+	<queue identifier="QUEUE_PHARMACY" name="Pharmacy Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_PHARMACY_REVIEW" committee="PHARMACY_REVIEW" name="Pharmacy Review">
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_REVIEW_REQUESTED</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_WAIVER_REQUESTED</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_REVIEW_REQUESTED</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_WAIVER_REQUESTED</form-committee-status>
+				</form>
+			</role>
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_ACHRI" name="ACHRI Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_ACHRI_REVIEWER" committee="ACHRI" name="ACHRI Review">
+				<form type="NEW_SUBMISSION" status="UNDER_ACH_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_COI" name="COI Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_COI_REVIEWER" committee="COI" name="COI Review">
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_GATEKEEPER" name="Gatekeeper"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_GATEKEEPER" committee="GATEKEEPER" name="Gatekeeper">
+				<form type="NEW_SUBMISSION" status="UNDER_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_PTL" name="PTL"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_PTL" committee="PTL" name="Project Team Leader">
+				<form type="NEW_SUBMISSION" status="UNDER_PTL_DEVELOP">
+					<form-committee-status>IN_PTL_DEVELOP</form-committee-status>
+				</form>
+			</role>
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_IRB_ASSIGNER" name="IRB Assigner"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_IRB_ASSIGNER" committee="IRB_ASSIGNER" name="IRB Assigner">
+				<form type="NEW_SUBMISSION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="CONTINUING_REVIEW" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="EMERGENCY_USE" status="ANY">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="HUMAN_SUBJECT_RESEARCH_DETERMINATION" status="UNDER_IRB_OFFICE_REVIEW">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="REPORTABLE_NEW_INFORMATION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="HUMANITARIAN_USE_DEVICE_RENEWAL" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="STUDY_CLOSURE" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="AUDIT" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="STAFF" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+			</role>
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_IRB_PREREVIEW" name="IRB Prereview"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_IRB_PREREVIEW" committee="IRB_PREREVIEW"
+				name="IRB Pre-review">
+				<form type="NEW_SUBMISSION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="HUMANITARIAN_USE_DEVICE" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="HUMANITARIAN_USE_DEVICE_RENEWAL" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="CONTINUING_REVIEW" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="STAFF" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="REPORTABLE_NEW_INFORMATION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="AUDIT" status="PENDING_ASSESSMENT">
+					<form-committee-status>PENDING_ASSESSMENT</form-committee-status>
+				</form>
+			</role>
+			<!-- <role identifier="ROLE_IRB_PROTOCOL_REVIEWER" committee="IRB_PROTOCOL_REVIEWER"
+				name="IRB Office Protocol Prereview">
+				<form type="NEW_SUBMISSION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="CONTINUING_REVIEW" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role> -->
+			<role identifier="ROLE_IRB_CONSENT_REVIEWER" committee="IRB_CONSENT_REVIEWER"
+				name="IRB Office Consent Prereview">
+				<form type="NEW_SUBMISSION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="CONTINUING_REVIEW" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>	
+	<queue identifier="QUEUE_IRB_OFFICE" name="IRB Office"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_IRB_OFFICE" committee="IRB_OFFICE"
+				name="IRB Office">
+				<form type="NEW_SUBMISSION" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="UNDER_IRB_OFFICE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="HUMAN_SUBJECT_RESEARCH_DETERMINATION" status="UNDER_IRB_OFFICE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="EMERGENCY_USE" status="EMERGENCY_USE_INTENDED_UNDER_IRB_OFFICE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="EMERGENCY_USE" status="EMERGENCY_USE_FOLLOW_UP_UNDER_IRB_OFFICE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="EMERGENCY_USE" status="POTENTIAL_NON_COMPLIANCE">
+					<form-committee-status>POTENTIAL_NON_COMPLIANCE_IN_REVIEW</form-committee-status>
+				</form>
+				<form type="EMERGENCY_USE" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="HUMANITARIAN_USE_DEVICE" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="HUMANITARIAN_USE_DEVICE" status="UNDER_IRB_OFFICE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="HUMANITARIAN_USE_DEVICE_RENEWAL" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="HUMANITARIAN_USE_DEVICE_RENEWAL" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="CONTINUING_REVIEW" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="CONTINUING_REVIEW" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="REPORTABLE_NEW_INFORMATION" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="REPORTABLE_NEW_INFORMATION" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="STAFF" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="STAFF" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="STUDY_CLOSURE" status="UNDER_IRB_OFFICE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="AUDIT" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_IRB_REVIEWER" name="IRB Reviewer"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_IRB_REVIEWER" committee="IRB_REVIEWER"
+				name="IRB Office">
+				<form type="NEW_SUBMISSION" status="IRB_AGENDA_ASSIGNED">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="CONTINUING_REVIEW" status="IRB_AGENDA_ASSIGNED">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="IRB_AGENDA_ASSIGNED">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="STAFF" status="IRB_AGENDA_ASSIGNED">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="REPORTABLE_NEW_INFORMATION" status="IRB_AGENDA_ASSIGNED">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="EMERGENCY_USE" status="IRB_AGENDA_ASSIGNED">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_IRB_EXPEDITED_REVIEWER" name="IRB Expedited Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_IRB_EXPEDITED_REVIEWER" committee="IRB_EXPEDITED_REVIEWER"
+				name="IRB Expedited Review">
+				<form type="NEW_SUBMISSION" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
+				</form>
+				<form type="CONTINUING_REVIEW" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
+				</form>
+				<form type="STAFF" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
+				</form>
+				<form type="HUMANITARIAN_USE_DEVICE_RENEWAL" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_IRB_EXEMPT_REVIEWER" name="IRB Exempt Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_IRB_EXEMPT_REVIEWER" committee="IRB_EXEMPT_REVIEWER"
+				name="IRB Exempt Review">
+				<form type="NEW_SUBMISSION" status="PENDING_EXEMPT_IRB_REVIEW">
+					<form-committee-status>PENDING_EXEMPT_IRB_REVIEW</form-committee-status>
+				</form>
+				<form type="CONTINUING_REVIEW" status="PENDING_EXEMPT_IRB_REVIEW">
+					<form-committee-status>PENDING_EXEMPT_IRB_REVIEW</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_BUDGET_REVIEWER" name="Budget and Coverage Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_BUDGET_REVIEWER" committee="BUDGET_REVIEW"
+				name="Budget Review">
+				<form type="NEW_SUBMISSION" status="UNDER_BUDGET_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_BUDGET_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>
+			<!-- 
+			<role identifier="ROLE_BUDGET_DEVELOPER" committee="BUDGET_DEVELOP"
+				name="Budget Development">
+				<form type="NEW_SUBMISSION" status="UNDER_BUDGET_DEVELOP">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_BUDGET_DEVELOP">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>
+			-->
+			<role identifier="ROLE_BUDGET_MANAGER" committee="BUDGET_MANAGER"
+				name="Budget Manager">
+				<form type="NEW_SUBMISSION" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="UNDER_BUDGET_MANAGER_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_BUDGET_MANAGER_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>
+			<role identifier="ROLE_COVERAGE_REVIEWER" committee="COVERAGE_REVIEW"
+				name="Coverage Review">
+				<form type="NEW_SUBMISSION" status="UNDER_COVERAGE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="UNDER_BUDGET_REVIEW">
+					<form-committee-status>NOTIFIED</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="UNDER_COVERAGE_REVIEW">
+					<form-committee-status>PENDING_CONSENT_LEGAL_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_COVERAGE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_BUDGET_REVIEW">
+					<form-committee-status>NOTIFIED</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_COVERAGE_REVIEW">
+					<form-committee-status>PENDING_CONSENT_LEGAL_REVIEW</form-committee-status>
+				</form>
+			</role>	
+			<!-- 
+			<role identifier="ROLE_BUDGET_MANAGER" committee="BUDGET_MANAGER"
+				name="Budget Manager">
+				<form type="NEW_SUBMISSION" status="UNDER_BUDGET_DEVELOP">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_BUDGET_REVIEW">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+			</role>
+			-->	
+		</roles>
+	</queue>
+	<!--
+	<queue identifier="QUEUE_COVERAGE_REVIEWER" name="Coverage Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_COVERAGE_REVIEWER" committee="COVERAGE_REVIEW"
+				name="Coverage Review">
+				<form type="NEW_SUBMISSION" status="UNDER_COVERAGE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="UNDER_BUDGET_REVIEW">
+					<form-committee-status>NOTIFIED</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="UNDER_COVERAGE_REVIEW">
+					<form-committee-status>PENDING_CONSENT_LEGAL_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_COVERAGE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_BUDGET_REVIEW">
+					<form-committee-status>NOTIFIED</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_COVERAGE_REVIEW">
+					<form-committee-status>PENDING_CONSENT_LEGAL_REVIEW</form-committee-status>
+				</form>
+			</role>	-->
+<!-- 			<role identifier="ROLE_COVERAGE_MANAGER" committee="COVERAGE_MANAGER" -->
+<!-- 				name="Coverage Manager"> -->
+<!-- 				<form type="NEW_SUBMISSION" status="UNDER_COVERAGE_REVIEW"> -->
+<!-- 					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status> -->
+<!-- 				</form> -->
+<!-- 			</role>		 -->
+		<!-- </roles>
+	</queue> -->
+	<queue identifier="QUEUE_HOSPITAL_SERVICES_REVIEWER" name="Hospital Services Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_HOSPITAL_SERVICES_REVIEWER" committee="HOSPITAL_SERVICES"
+				name="Hospital Services">
+				<form type="NEW_SUBMISSION" status="UNDER_HOSPITAL_SERVICES_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_HOSPITAL_SERVICES_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_COLLEGE_ADMIN" name="College Administration"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_COLLEGE_DEAN" committee="COLLEGE_DEAN"
+				name="Colledge Dean">
+				<form type="NEW_SUBMISSION" status="UNDER_COLLEGE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_COLLEGE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>	
+			<role identifier="ROLE_DEPARTMENT_CHAIR" committee="DEPARTMENT_CHAIR" name="Department Chair">
+				<form type="NEW_SUBMISSION" status="UNDER_DEPARTMENT_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_DEPARTMENT_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_MONITORING_REGULATORY_QA_REVIEWER" name="Monitoring/Regulatory/QA Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_MONITORING_REGULATORY_QA_REVIEWER" committee="MONITORING_REGULATORY_QA"
+				name="Monitoring/Regulatory/QA">
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>PENDING_IND_IDE_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>PENDING_IND_IDE_ASSIGNMENT</form-committee-status>
+				</form>
+			</role>	
+			<role identifier="ROLE_REGULATORY_MANAGER" committee="REGULATORY_MANAGER"
+				name="Regulatory Manager">
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+			</role>		
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_BIOSAFETY_REVIEWER" name="BioSafety Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_BIOSAFETY_REVIEWER" committee="BIOSAFETY"
+				name="BioSafety">
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_CLINICALTRIALS_REVIEWER" name="ClinicalTrials.gov Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_CLINICAL_TRIALS_REVIEW" committee="CLINICAL_TRIALS_REVIEW"
+				name="ClinicalTrials.gov">
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_COMPLIANCE_REVIEWER" name="Compliance Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_COMPLIANCE_REVIEW" committee="COMPLIANCE_REVIEW"
+				name="Compliance Review">
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_COMPLIANCE_REVIEW">
+					<form-committee-status>IN_REVIEW_FOR_BUDGET</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_PRMC_REVIEWER" name="PRMC Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_PRMC_REVIEWER" committee="PRMC"
+				name="PRMC">
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>APPROVE_WITH_CONTINGENCIES</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>APPROVE_WITH_CONTINGENCIES</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>	
+	<queue identifier="QUEUE_RADIATION_SAFETY_REVIEWER" name="Radition Safety Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_RADIATION_SAFETY_REVIEWER" committee="RADIATION_SAFETY"
+				name="Radiation Safety">
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_PROTOCOL_LEGAL_REVIEWR" name="Protocol Legal Review"
+		object-type="Protocol">
+		<roles>
+			<role identifier="ROLE_PROTOCOL_LEGAL_REVIEW" committee="PROTOCOL_LEGAL_REVIEW"
+				name="Protocol Legal Review">
+				<form type="NEW_SUBMISSION" status="UNDER_CONSENT_LEGAL_REVIEW">
+					<form-committee-status>IN_LEGAL_REVIEW</form-committee-status>
+				</form>
+				<form type="NEW_SUBMISSION" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
+				</form>				
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_CONSENT_LEGAL_REVIEW">
+					<form-committee-status>IN_LEGAL_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_CONTRACT_MANAGER" name="Contract Manager"
+		object-type="Contract">
+		<roles>
+			<role identifier="ROLE_CONTRACT_MANAGER" committee="CONTRACT_MANAGER"
+				name="Contract Manager">
+				<form type="NEW_CONTRACT" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_CONTRACT_MANAGER_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_CONTRACT_MANAGER_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_CONTRACT_ADMIN" name="Contract Administrator"
+		object-type="Contract">
+		<roles>
+			<role identifier="ROLE_CONTRACT_ADMIN" committee="CONTRACT_ADMIN"
+				name="Contract Administrator">
+				<form type="NEW_CONTRACT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>PENDING_PI</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>PENDING_BUDGET</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>PENDING_COVERAGE</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>PENDING_IRB</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>OUTSIDE_IRB</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>FINAL_LEGAL_APPROVAL</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>PENDING_PI</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>PENDING_BUDGET</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>PENDING_COVERAGE</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>PENDING_IRB</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>OUTSIDE_IRB</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="PENDING_SIGNATURE">
+					<form-committee-status>PENDING_SIGNATURE</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="CONTRACT_EXECUTED_PENDING_DOCUMENTS">
+					<form-committee-status>CONTRACT_EXECUTED_PENDING_DOCUMENTS</form-committee-status>
+				</form>	
+				<form type="AMENDMENT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>PENDING_PI</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>PENDING_BUDGET</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>PENDING_COVERAGE</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>PENDING_IRB</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_CONTRACT_REVIEW">
+					<form-committee-status>OUTSIDE_IRB</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>FINAL_LEGAL_APPROVAL</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>PENDING_PI</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>PENDING_BUDGET</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>PENDING_COVERAGE</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>PENDING_IRB</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>OUTSIDE_IRB</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="PENDING_SIGNATURE">
+					<form-committee-status>PENDING_SIGNATURE</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="CONTRACT_EXECUTED_PENDING_DOCUMENTS">
+					<form-committee-status>CONTRACT_EXECUTED_PENDING_DOCUMENTS</form-committee-status>
+				</form>
+			</role>			
+		</roles>
+	</queue>
+	<queue identifier="QUEUE_CONTRACT_LEGAL_REVIEWER" name="Contract Legal Reviewer"
+		object-type="Contract">
+		<roles>
+			<role identifier="ROLE_CONTRACT_MANAGER" committee="CONTRACT_MANAGER"
+				name="Contract Manager">
+				<form type="NEW_CONTRACT" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+			</role>
+			<role identifier="ROLE_CONTRACT_LEGAL_REVIEW" committee="CONTRACT_LEGAL_REVIEW"
+				name="Contract Legal Reviewer">
+				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>APPROVED</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_PI</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_BUDGET</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_COVERAGE</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_IRB</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>OUTSIDE_IRB</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="NEW_CONTRACT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+					<form-committee-status>APPROVED</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_PI</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_BUDGET</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_COVERAGE</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_IRB</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>OUTSIDE_IRB</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="UNDER_LEGAL_REVIEW">
+					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
+				</form>
+				<!-- 
+				<form type="NEW_CONTRACT" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="AMENDMENT" status="PENDING_REVIEWER_ASSIGNMENT">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				-->
+			</role>				
+		</roles>
+	</queue>
+</queues>

@@ -1,0 +1,68 @@
+.motion-detail-header{
+	border-bottom:1px dotted #e1e2fa;
+	margin-bottom:4px;
+	padding-bottom:4px;
+}
+
+div.motion-values{
+	-moz-column-count:2; /* Firefox */
+	-webkit-column-count:2; /* Safari and Chrome */
+	column-count:2;
+	float:right;
+	padding-right:8px;
+	width:400px;
+}
+
+.motion-details table{
+	border-radius: 4px; 
+	-moz-border-radius: 4px; 
+	-webkit-border-radius: 4px; 
+	border: 1px solid #e1e2fa;
+}
+
+.motion-values dt
+{
+	color: #000;
+	font-weight: bold;
+	padding: 0;
+	font-size:12px;
+	width:inherit !important;
+	float:none !important;
+	clear:none !important;
+	text-align:left !important;
+}
+	
+.motion-values dd
+{
+	margin: 0 0 1em 0;
+	font-size:12px;
+	padding: 0 0 0 10px;
+	background: url(../../images/icn/control-double-000-small.png) no-repeat -3px -1px;
+}
+
+.motion-votes{
+	float:right;
+	margin-bottom:4px;
+}
+
+.motion-details table thead tr{
+	background-color:#edeef9;
+}
+.motion-details table th{
+	font-weight:800;
+	color:black;
+	padding:3px;
+}
+.motion-details table td{
+	padding:3px;
+}
+
+.motion-details h1 {
+	margin-bottom:0px !important;
+	font-size:28px !important;
+	line-height:50px;
+}
+.motion-details h2 {
+	margin:8px;
+	margin-top:16px;
+}

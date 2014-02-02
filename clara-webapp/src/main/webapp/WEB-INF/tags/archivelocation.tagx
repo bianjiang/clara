@@ -1,0 +1,28 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+		<!--<jsp:directive.attribute name="docgroupname" type="java.lang.String"
+		required="false" rtexprvalue="true" />-->
+
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr>
+			<th class="span2"><strong>Code</strong></th>
+			<th class="span10"><strong>Name</strong></th>
+		</tr>
+		<x:forEach var="site" select="$value">
+			<tr>
+				<td class="span2"><x:out select="@code" /></td>
+				<td class="span10"><x:out select="@name" /></td>
+			</tr>
+		</x:forEach>
+	</table>
+
+</jsp:root>

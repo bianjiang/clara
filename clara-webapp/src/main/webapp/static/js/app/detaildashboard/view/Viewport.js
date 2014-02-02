@@ -1,0 +1,49 @@
+Ext.define('Clara.DetailDashboard.view.Viewport',{
+	extend: 'Ext.container.Viewport',
+	border:false,
+	requires:[
+	          'Clara.DetailDashboard.view.ContractDashboardTabPanel',
+	          'Clara.DetailDashboard.view.related.AddContractWindow',
+	          'Clara.DetailDashboard.view.related.AddProtocolWindow',
+	          'Clara.DetailDashboard.view.ProtocolDashboardTabPanel',
+	          'Clara.LetterBuilder.view.LetterBuilderWindow',
+	          'Clara.Queue.view.QueueItemReviewerWindow',
+	          'Clara.DetailDashboard.view.CreateFormWindow',
+	          'Clara.DetailDashboard.view.related.ContractPanel',
+	          'Clara.DetailDashboard.view.related.ProtocolPanel'
+	],
+	layout:'border',
+	defaults:{
+		split:true,
+		border:false,
+		collapsible:false
+	},
+	initComponent: function(){
+		this.items=[{
+			dock:'top',
+			xtype:'container',
+			region:'north',
+			split:false,
+			contentEl:'clara-header',
+			bodyCls:'background-normal',
+			border:0
+		},{
+			xtype:'container',
+			region:'center',
+			layout:'border',
+			split:false,
+			items:[{
+				region:'north',
+				height:48,
+				xtype:'component',
+				contentEl:'summary-bar'
+			},{
+				region:'center',
+				xtype:claraInstance.type+'dashboardtabpanel'
+			}]
+		}];
+		this.callParent();
+	}
+
+	
+});

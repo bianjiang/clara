@@ -1,0 +1,106 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+     
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <c:import url="/static/xml/lookup.xml" var="lookupxml"/> 
+    
+    <c:import var="helpxml" url="/static/xml/help.xml"/>
+    
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="hsrdInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application"/>
+	<x:parse doc="${helpxml}" var="help" scope="application"/>
+	<x:set var="protocolTitle" select="string($hsrdInstance/hsrd/title)" />
+	
+			<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+			    <uams:hsrdformtab name="basic-details" hsrdInstance="${hsrdInstance}"/>
+			</div>
+			
+			<div id="clara-form-pagecontent">
+				<div class="formArea">
+					<div id='page-wizard-wrapper'>
+						<!--  //  -->
+					</div>
+					
+					<div class="question" id="question-study-lay-summary">
+						<div class="questionLabel">What is the lay summary of the project?</div>
+						<div class="questionValue">
+							<textarea class="question-el required" name="/hsrd/basic-details/study-lay-summary"
+								rows="4" id="study-lay-summary">
+								<x:out escapeXml="false" select="$hsrdInstance/hsrd/basic-details/study-lay-summary" />
+							</textarea>
+						</div>
+						<div style="clear:both;"><!-- // --></div>
+						<div class="questionHelp">
+							<uams:helpinfo lookupid="lay-summary" />
+						</div>
+					</div>
+					
+					<div class="question" id="question-project-primary-intent">
+						<div class="questionLabel"><span class="question-label-text">What is the primary intent of the project (choose one)?</span></div>
+						<div class="questionValue">
+							<x:set var="projectPrimaryIntent"
+								select="string($hsrdInstance/hsrd/basic-details/project-primary-intent/text())" />
+							<x:set var="projectPrimaryIntentOtherTextValue"
+								select="string($hsrdInstance/hsrd/basic-details/project-primary-intent/other/text/text())" />
+							<uams:select id="project-primary-intent" lookuppath="project-primary-intent"
+								instancepath="/hsrd/basic-details/project-primary-intent"
+								value="${projectPrimaryIntent}" 
+								allowOther="true" otherTextValue="${projectPrimaryIntentOtherTextValue}"
+								otherOptionValue="other" textAreaTitle="Please describe:"
+								otherTextValidation="required"
+								validation="required" />
+						</div>
+					</div>
+					
+					<div class="question" id="question-still-conducted-as-proposed">
+						<div class="questionLabel">Would this project still be conducted as proposed if there were no possibility of any form of academic recognition for the project (for example, no possibility of publication in a journal or presentation at a conference)?</div>
+						<div class="questionValue">
+							<x:set var="stillConductedAsProposed"
+								select="string($hsrdInstance/hsrd/basic-details/still-conducted-as-proposed/text())" />
+							<uams:yesno id="still-conducted-as-proposed"
+								instancepath="/hsrd/basic-details/still-conducted-as-proposed"
+								value="${stillConductedAsProposed}" validation="required" />
+						</div>
+					</div>
+					
+					<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+					
+				</div>
+						
+			</div>
+
+			<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	
+	<script type="text/javascript">
+			jQuery(document).ready(function() {
+				claraInstance.navigation.init(claraFormPageName);
+				claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+				var wiz = new Clara.Forms.WizardPanel(
+						{	
+							
+							questionCls : 'question',
+							saveBetween : true,
+							previousTab : '',
+							nextTab : 'subject-data-collection',
+							renderTo : 'page-wizard-wrapper'
+						});
+				
+				renderFormViewport("<strong>Human Subject Research Determination</strong>: Basic Details", wiz);
+				
+				Clara.ProtocolForm.Rules.processPage();
+
+				jQuery(".question-el").change(function() {
+					Clara.ProtocolForm.Rules.processPage();
+					wiz.refreshLayout();
+				});
+			});
+	</script>	
+
+		
+</div>
+

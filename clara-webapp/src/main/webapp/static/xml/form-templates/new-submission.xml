@@ -1,0 +1,1346 @@
+<form name="New Submission" id="new-submission" type="NEW_SUBMISSION">
+	<page name="Start" id="first-page">
+		<section>
+			<question id="question-study-nature" parent-id="" parent-value="" header="">
+				<question-label>What is the nature of the study?</question-label>
+				<question-value instance-path="/protocol/study-nature" lookup-path="study-natures" value-type="select" />
+			</question>
+			<question id="question-study-involves" parent-id="question-study-nature" parent-value="biomedical-clinical" header="Biomedical / Clinical">
+				<question-label>Select all of the following that will be included in the study:</question-label>
+				<question-value instance-path="/protocol/study-nature/biomedical-clinical/study-involves/involve" lookup-path="study-involves" value-type="checkbox" />
+			</question>
+			<question id="question-hud-be-used" parent-id="question-study-nature" parent-value="hud-use" header="HUD Use for Treatment/Diagnosis">
+				<question-label>Where will the HUD be used?</question-label>
+				<question-value instance-path="/protocol/study-nature/hud-use/where" lookup-path="hud-be-used" value-type="select" />
+			</question>
+			<question id="question-site-responsible" parent-id="" parent-value="" header="">
+				<question-label>Which institution is primarily responsible for this study?</question-label>
+				<question-value instance-path="/protocol/site-responsible" lookup-path="hud-be-used" value-type="select" />
+			</question>
+			<question id="question-uams-faculty" parent-id="question-site-responsible" parent-value="ach-achri" header="ACH-ACHRI">
+				<question-label>Is the PI for this study a UAMS faculty member?</question-label>
+				<question-value instance-path="/protocol/site-responsible/ach-achri/uams-faculty" value-type="yesNo" />
+			</question>
+			<question id="question-college-form" parent-id="" parent-value="" header="UAMS / ACH-ACHRI"  value-outerclass="span12">
+				<!-- <question-label>Which college/department is primarily responsible for this study?</question-label> -->
+				<question-value instance-path="/protocol/responsible-department" value-type="department" />
+			</question>
+		</section>
+	</page>
+	<page name="Basic Details" id="basic-details">
+		<section>
+			<question id="question-title" parent-id="" parent-value="" header="">
+				<question-label>What is the title of this study?</question-label>
+				<question-value instance-path="/protocol/title" value-type="textarea" />
+			</question>
+			<question id="question-study-type" parent-id="" parent-value="" header="">
+				<question-label>Who initiated the study?</question-label>
+				<question-value instance-path="/protocol/study-type" lookup-path="study-types" value-type="select" />
+			</question>
+			<question id="question-cooperative-group" parent-id="question-study-type" parent-value="cooperative-group" header="Cooperative Group">
+				<question-label>Please indicate the Cooperative Group:</question-label>
+				<question-value instance-path="/protocol/study-type/cooperative-group" lookup-path="cooperative-groups" value-type="select" />
+			</question>
+			<question id="question-investigator-description" parent-id="question-study-type" parent-value="investigator-initiated" header="Investigator">
+				<question-label>Which of the following describes the investigator who initiated this study?</question-label>
+				<question-value instance-path="/protocol/study-type/investigator-initiated/investigator-description" lookup-path="investigator-description" value-type="select" />
+			</question>
+			<question id="question-other-investigator-description" parent-id="question-investigator-description" parent-value="other" header="Other Investigator">
+				<question-label>Please explain:</question-label>
+				<question-value instance-path="/protocol/study-type/investigator-initiated/investigator-description/other/explain" value-type="textarea" />
+			</question>
+			<question id="question-study-subtype" parent-id="question-study-type" parent-value="investigator-initiated" header="Investigator">
+				<question-label>Which of the following support types will this study use?</question-label>
+				<question-value instance-path="/protocol/study-type/investigator-initiated/sub-type" lookup-path="study-subtypes" value-type="other" />
+			</question>
+			<question id="question-other-sub-type" parent-id="question-study-subtype" parent-value="other" header="Other Support Type">
+				<question-label>Please indicate the type:</question-label>
+				<question-value instance-path="/protocol/study-type/investigator-initiated/sub-type/other/text" value-type="textarea" />
+			</question>
+			<question id="question-patient-locations" parent-id="" parent-value="" header="">
+				<question-label>In which of the following settings will this study take place?</question-label>
+				<question-value instance-path="/protocol/patient-locations/location" lookup-path="patient-locations" value-type="other" />
+			</question>
+			<question id="question-study-phases" parent-id="" parent-value="" header="">
+				<question-label>What are the phases of this study?</question-label>
+				<question-value instance-path="/protocol/phases/phase" lookup-path="phases" value-type="other" />
+			</question>
+			<question id="question-lay-summary" parent-id="" parent-value="" header="">
+				<question-label>What is the lay summary of this study?</question-label>
+				<question-value instance-path="/protocol/lay-summary" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="Sites" id="sites">
+		<section>
+			<question id="question-single-or-multi" parent-id="" parent-value="" header="">
+				<question-label>Is this a single-site study or multi-site study?</question-label>
+				<question-value instance-path="/protocol/sites/single-or-multi" lookup-path="sites-single-or-multi" value-type="select" />
+			</question>
+			<question id="question-multisite-is-local-lead-entity" parent-id="question-single-or-multi" parent-value="multiple-sites" header="Multi-site study">
+				<question-label>Will the local site (ACH/ACHRI/UAMS) be the lead entity for this study?</question-label>
+				<question-value instance-path="/protocol/sites/single-or-multi/multiple-sites/is-local-lead-entity" value-type="yesNo" />
+			</question>
+			<question id="question-communication-protecting-participants" parent-id="question-multisite-is-local-lead-entity" parent-value="y" header="ACH/UAMS will be the lead entity for this study">
+				<question-label>Describe the communication between sites that might be relevant to the protection of participants, such as unanticipated problems, interim results, and protocol modifications.</question-label>
+				<question-value instance-path="/protocol/sites/single-or-multi/multiple-sites/is-local-lead-entity/y/communication-protecting-participants" value-type="textarea" />
+			</question>
+			<question id="question-communication-irb-oversight-arrangements-description" parent-id="question-multisite-is-local-lead-entity" parent-value="y" header="ACH/UAMS will be the lead entity for this study">
+				<question-label>Describe IRB oversight arrangements for each site (i.e. who is providing IRB review and approval).</question-label>
+				<question-value instance-path="/protocol/sites/single-or-multi/multiple-sites/is-local-lead-entity/y/irb-oversight-arrangements" value-type="textarea" />
+			</question>
+			<question id="question-sites-conducing-this-study" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/protocol/study-sites/site" value-type="sites" />
+			</question>
+		</section>
+	</page>
+	<page name="Staff" id="staff">
+		<section>
+			<question id="question-staff" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/protocol/staffs/staff" value-type="staff" />
+			</question>
+		</section>
+	</page>
+	<page name="Subjects" id="subjects">
+		<section>
+			<question id="question-total-number-subjects" parent-id="" parent-value="" header="">
+				<question-label>Provide the total number of subjects (or number of participant records, specimens, etc.) for whom you are seeking UAMS IRB oversight?</question-label>
+				<question-value instance-path="/protocol/subjects/total-number" value-type="textarea" />
+			</question>
+			<question id="question-total-accural-goal-for-all-sites" parent-id="question-single-or-multi" parent-value="multiple-sites" header="Multi-site study">
+				<question-label>What is the total subject accrual goals for all sites for this study (if available)?</question-label>
+				<question-value instance-path="/protocol/subjects/multiple-sites/y/total-accrual-goal-for-all-sites" value-type="textarea" />
+			</question>
+			<question id="question-age-ranges" parent-id="" parent-value="" header="">
+				<question-label>What age range(s) do the subjects fall into?</question-label>
+				<question-value instance-path="/protocol/subjects/age-ranges/age-range" lookup-path="age-ranges" value-type="other" />
+			</question>
+			<question id="question-subject-population" parent-id="question-study-nature" parent-value="social-behavioral-education" header="Social / Behavioral / Education">
+				<question-label>Name and describe the subject population(s) for the study.</question-label>
+				<question-value instance-path="/protocol/study-subject-populations/population" value-type="subjectpopulation" />
+			</question>
+			<question id="question-vulnerable-populations-included" parent-id="" parent-value="" header="">
+				<question-label>Select all of the
+						vulnerable populations that will be, or potentially could be,
+						included in the study:</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/included" lookup-path="vulnerable-populations" value-type="other" />
+			</question>
+			<question id="question-vulnerable-populations-targeted" parent-id="" parent-value="" header="">
+				<question-label>Select all of the
+						vulnerable populations that will be targeted for participation in
+						the study:</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/targeted" lookup-path="vulnerable-populations-targeted" value-type="other" />
+			</question>
+		</section>
+		<section name="Pregnant Women, Fetuses">
+			<question id="question-pregnant-women-studies-for-assessing-risks" parent-id="question-vulnerable-populations-included" parent-value="pregnant-women,fetuses" header="Pregnant women / Fetuses">
+				<question-label>Where scientifically appropriate, describe preclinical
+						studies (including studies on pregnant animals) and clinical
+						studies (including studies on non-pregnant women), where
+						scientifically appropriate, that provide data for assessing
+						potential risks to pregnant women and fetuses.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/studies-for-assessing-risks" value-type="textarea" />
+			</question>
+			<question id="question-pregnant-women-direct-benefit" parent-id="question-vulnerable-populations-included" parent-value="pregnant-women,fetuses" header="Pregnant women / Fetuses">
+				<question-label>Indicate for whom the prospect of direct benefit exists:</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/direct-benefit-exist-for-whom" lookup-path="subject-direct-benefit" value-type="radio" />
+			</question>
+			<question id="question-fetus-risk" parent-id="question-vulnerable-populations-included" parent-value="pregnant-women,fetuses" header="Pregnant women / Fetuses">
+				<question-label>The risk to the fetus is:</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/risk-to-fetus" lookup-path="subject-risk-fetus" value-type="radio" />
+			</question>
+			<question id="question-pregnant-wormen-least-possibel-for-achiveving" parent-id="question-vulnerable-populations-included" parent-value="pregnant-women,fetuses" header="Pregnant women / Fetuses">
+				<question-label>Explain how the risks are the least possible for achieving the objectives of the research.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/pregnant-wormen-or-fetuses/least-possible-for-achieving" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Neonates">
+			<question id="question-neonates-determine-person" parent-id="question-vulnerable-populations-included" parent-value="neonates" header="Neonates">
+				<question-label>State who (other than investigators
+					and key personnel) will determine the viability of a neonate and
+					what procedures will be used to determine viability.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/neonates/determine-person" value-type="textarea" />
+			</question>
+			<question id="question-neonates-studies-for-assessing-risks" parent-id="question-vulnerable-populations-included" parent-value="neonates" header="Neonates">
+				<question-label>Describe preclinical studies and
+					clinical studies, where scientifically appropriate, that provide
+					data for assessing potential risks to neonates.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/neonates/studies-for-assessing-risks" value-type="textarea" />
+			</question>
+			<question id="question-neonates-viability" parent-id="question-vulnerable-populations-included" parent-value="neonates" header="Neonates">
+				<question-label>The viability of neonates to be involved in the research is:</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/neonates/viability" lookup-path="subject-viability-neonates" value-type="radio" />
+			</question>
+			<question id="question-neonates-uncertain-viability-risk" parent-id="question-neonates-viability" parent-value="uncertain-viability,both" header="Uncertian Viability">
+				<question-label>For neonates of uncertain viability, the risk to the neonate is:</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/neonates/viability/uncertain-viability/risk-to-neonate" lookup-path="subject-viability-neonates" value-type="radio" />
+				<sub-questions>
+					<question id="question-neonates-uncertain-viability-risk-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Explain how the research meets the condition selected above:</question-label>
+						<question-value instance-path="/protocol/subjects/vulnerable-populations/neonates/viability/uncertain-viability/how-research-meet-risk-conditions" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-neonates-nonviable-research-inclusion" parent-id="question-neonates-viability" parent-value="nonviable,both" header="Nonviable">
+				<question-label>Explain how "Vital functions of the neonate will not be artificially maintained" is met.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/vital-functions" value-type="textarea" />
+			</question>
+			<question id="question-neonates-nonviable-research-inclusion" parent-id="question-neonates-viability" parent-value="nonviable,both" header="Nonviable">
+				<question-label>Explain how "The research will not terminate the heartbeat or respiration of the neonate" is met.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/terminate-heartbeat" value-type="textarea" />
+			</question>
+			<question id="question-neonates-nonviable-research-inclusion" parent-id="question-neonates-viability" parent-value="nonviable,both" header="Nonviable">
+				<question-label>Explain how "There will be no added risk to the neonate resulting from the research" is mett</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/no-added-risk" value-type="textarea" />
+			</question>
+			<question id="question-neonates-nonviable-research-inclusion" parent-id="question-neonates-viability" parent-value="nonviable,both" header="Nonviable">
+				<question-label>Explain how "The purpose of the research is the development of important knowledge that cannot be obtained by other means" is met.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/neonates/viability/nonviable/how-research-meet-inclusion-conditions/development-of-important-knowledge" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Prisoners">
+			<question id="question-prisoners-involvement-categories" parent-id="question-vulnerable-populations-included" parent-value="prisoners" header="Prisoners">
+				<question-label>Indicate the category(ies) that
+					best describes the involvement of prisoners in the research:</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/prisoners/involvement-of-prisoners-categories" lookup-path="subject-involvement-prisoners" value-type="checkbox" />
+			</question>
+			<question id="question-prisoners-describe-facility" parent-id="question-vulnerable-populations-included" parent-value="prisoners" header="Prisoners">
+				<question-label>Provide the name, type of facility
+					and location of each local, state, or federal facility to be used.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/prisoners/describe-facility" value-type="textarea" />
+			</question>
+			<question id="question-prisoners-describe-facility" parent-id="question-vulnerable-populations-included" parent-value="prisoners" header="Prisoners">
+				<question-label>Describe the possible advantages to participating prisoners (i.e.,
+					compared to the general living conditions, medical care, quality of
+					food, amenities, and opportunity for earnings in the prison).</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/prisoners/advantages-to-participating-prisoners" value-type="textarea" />
+			</question>
+			<question id="question-prisoners-plans-to-avoid-undue-influence" parent-id="question-vulnerable-populations-included" parent-value="prisoners" header="Prisoners">
+				<question-label>Describe any additional steps that will be taken to avoid undue
+					influence (i.e., considering the limited choice environment of the
+					prison).</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/prisoners/plans-to-avoid-undue-influence" value-type="textarea" />
+			</question>
+			<question id="question-prisoners-similar-risk" parent-id="question-vulnerable-populations-included" parent-value="prisoners" header="Prisoners">
+				<question-label>Explain how the risks involved in the research are similar to risks
+					that would be accepted by non-prisoner volunteers.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/prisoners/similar-risk-by-nonprisoner-volunteers" value-type="textarea" />
+			</question>
+			<question id="question-prisoners-selection" parent-id="question-vulnerable-populations-included" parent-value="prisoners" header="Prisoners">
+				<question-label>Explain how prisoners will be selected for the study and/or
+					assigned to treatment groups.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/prisoners/prisoner-selection-for-study" value-type="textarea" />
+			</question>
+			<question id="question-prisoners-safeguards-to-provide-assureances" parent-id="question-vulnerable-populations-included" parent-value="prisoners" header="Prisoners">
+				<question-label>Describe safeguards in place to provide assurances that parole
+					boards will not take into account a prisoner's participation in the
+					research when making decisions regarding parole.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/prisoners/safeguards-to-provide-assureances" value-type="textarea" />
+			</question>
+			<question id="question-prisoners-followup-exams" parent-id="question-vulnerable-populations-included" parent-value="prisoners" header="Prisoner">
+				<question-label>Describe follow-up examinations or care of participants to be
+					provided after their participation has ended (including frequency
+					and duration they will be available), as applicable, taking into
+					account the varying lengths of individual prisoners' sentences.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/prisoners/followup-exams" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Children">
+			<question id="question-children-risk-category" parent-id="question-vulnerable-populations-included" parent-value="children" header="Children">
+				<question-label>Select the category that best
+					describes the research and provide the corresponding information:</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/risk-category" lookup-path="subject-corresponding-informaiton-category" value-type="radio" />
+			</question>
+			<question id="question-children-justify-risk-by-anticipated-benefit" parent-id="question-children-risk-category" parent-value="more-than-min-risk-has-direct-benefit" header="More than minimum risk and has direct benefit">
+				<question-label>Explain how the risk is justified by the anticipated benefit to the
+					individual child.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-direct-benefit/justify-risk-by-anticipated-benefit" value-type="textarea" />
+			</question>
+			<question id="question-children-anticipated-benefit-relation-to-risk" parent-id="question-children-risk-category" parent-value="more-than-min-risk-has-direct-benefit" header="More than minimum risk and has direct benefit">
+				<question-label>Explain how the relation of the anticipated benefit to the risk is
+					at least as favorable to the child as that which would be presented
+					by available alternative approaches (e.g., other treatments).</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-direct-benefit/anticipated-benefit-relation-to-risk" value-type="textarea" />
+			</question>
+			<question id="question-children-risk-minor-increase" parent-id="question-children-risk-category" parent-value="more-than-min-risk-has-no-direct-benefit" header="More than minimum risk and has no direct benefit">
+				<question-label>Explain how the risk represents a minor increase over minimal risk.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-no-direct-benefit/risk-minor-increase" value-type="textarea" />
+			</question>
+			<question id="question-children-intervention-or-procedure" parent-id="question-children-risk-category" parent-value="more-than-min-risk-has-no-direct-benefit" header="More than minimum risk and has no direct benefit">
+				<question-label>Describe how the study interventions or procedures are reasonably equivalent to actual or expected medical, dental, psychological, social or educational situations for the children.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-no-direct-benefit/intervention-or-procedure" value-type="textarea" />
+			</question>
+			<question id="question-children-intervention-or-procedure-disorder" parent-id="question-children-risk-category" parent-value="more-than-min-risk-has-no-direct-benefit" header="More than minimum risk and has no direct benefit">
+				<question-label>Explain how the intervention or procedure is likely to yield
+					generalizable knowledge about the child's disorder or condition
+					that is of vital importance for the understanding or amelioration
+					of the child's disorder or condition.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-no-direct-benefit/how-intervention-produce-generalizable-knowledge" value-type="textarea" />
+			</question>
+			<question id="question-present-with-child" parent-id="question-vulnerable-populations-included" parent-value="children" header="Children">
+				<question-label>Will the parents or guardians be present with the child during
+					other discussions of the research?</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/will-parents-present" value-type="yesNo" />
+			</question>
+			<question id="question-children-is-private-info-shared" parent-id="question-vulnerable-populations-included" parent-value="children" header="Children">
+				<question-label>Will sensitive or private
+						information (e.g., questionnaires, test results) be shared with
+						the parents/guardians?</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/is-private-info-shared" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-children-is-private-info-shared-other" parent-id="" parent-value="" header="Yes">
+						<question-label>Please explain:</question-label>
+						<question-value instance-path="/protocol/subjects/vulnerable-populations/children/is-private-info-shared/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-children-wards-of-participants" parent-id="question-vulnerable-populations-included" parent-value="children" header="Children">
+				<question-label>Is there a possibility that any of the research participants will
+					be wards of the State or any other agency or institution?</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/is-wards-of-the-state" value-type="yesNo" />
+			</question>
+		</section>
+		<section name="Non-English speaking">
+			<question id="question-non-english-speaking-languages" parent-id="question-vulnerable-populations-included" parent-value="non-english-speaking" header="Non-English speaking">
+				<question-label>Which language(s) other than
+					English will this study require?</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/non-english-speaking/languages/language" lookup-path="languages" value-type="checkbox" />
+			</question>
+			<question id="question-list-translators" parent-id="question-vulnerable-populations-included" parent-value="non-english-speaking" header="Non-English speaking">
+				<question-label>List any investigator(s) and/or key personnel who are fluent in the
+					language(s) of the participants.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/non-english-speaking/list-translators" value-type="textarea" />
+			</question>
+			<question id="question-translation-services-recruitmentconsent" parent-id="question-vulnerable-populations-included" parent-value="non-english-speaking" header="Non-English speaking">
+				<question-label>Describe the provisions in place to provide interpretive services
+					during the participant recruitment and consent processes.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/non-english-speaking/translation-services-recruitmentconsent" value-type="textarea" />
+			</question>
+			<question id="question-translation-services-duration" parent-id="question-vulnerable-populations-included" parent-value="non-english-speaking" header="Non-English speaking">
+				<question-label>Describe the provisions in place to provide translation services
+					throughout the participants' duration in the study.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/non-english-speaking/translation-services-throughout-duration" value-type="textarea" />
+			</question>
+			<question id="question-emergency-contacts" parent-id="question-vulnerable-populations-included" parent-value="non-english-speaking" header="Non-English speaking">
+				<question-label>Describe the provisions in place to handle emergency contacts
+					(i.e., questions, problems) from non-English speaking participants.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/non-english-speaking/emergency-contacts" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Cognitively Impaired">
+			<question id="question-cognitively-impaired-range-participant-impairment" parent-id="question-vulnerable-populations-included" parent-value="cognitively-impaired" header="Cognitively Impaired">
+				<question-label>Describe the expected range of participant impairment.  Explain how,
+					and by whom, the capacity to consent/assent will be determined.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/cognitively-impaired/expected-range-of-impairment" value-type="textarea" />
+			</question>
+			<question id="question-cognitively-impaired-obtain-assent" parent-id="question-vulnerable-populations-included" parent-value="cognitively-impaired" header="Cognitively Impaired">
+				<question-label>Indicate whether assent will be obtained and if so, describe the process.  If assent will not be obtained, explain.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/cognitively-impaired/obtaion-assent" value-type="textarea" />
+			</question>
+			<question id="question-cognitively-impaired-ensuring-ongoing-consent" parent-id="question-vulnerable-populations-included" parent-value="cognitively-impaired" header="Cognitively Impaired">
+				<question-label>If capacity is expected to fluctuate during research participation,
+					describe the process for ensuring ongoing consent.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/cognitively-impaired/ensuring-ongoing-consent" value-type="textarea" />
+			</question>
+			<question id="question-cognitively-impaired-category" parent-id="question-vulnerable-populations-included" parent-value="cognitively-impaired" header="Cognitively Impaired">
+				<question-label>Select the one category that best
+					describes the research and provide the corresponding information:</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/cognitively-impaired/risk-category" lookup-path="subject-bestdescription-correspondingInfo" value-type="radio" />
+			</question>
+			<question id="question-cognitively-impaired-anticipated-benefits" parent-id="question-cognitively-impaired-category" parent-value="greater-than-min-risk-with-direct-benefit" header="Greater than minimum risk with direct benefit">
+				<question-label>Explain how anticipated benefits, compared to risks, are as
+					favorable as the alternatives (e.g., other treatments).</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/cognitively-impaired/risk-category/greater-than-min-risk-with-direct-benefit/anticipated-benefit" value-type="textarea" />
+			</question>
+			<question id="question-cognitively-impaired-greater-than-min-risk-without-direct-benefit-explain" parent-id="question-cognitively-impaired-category" parent-value="greater-than-min-risk-without-direct-benefit" header="Greater than minimum risk without direct benefit">
+				<question-label>Explain how the risk presents only a minor increase over minimal
+					risk.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/cognitively-impaired/risk-category/greater-than-min-risk-without-direct-benefit/explain" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Research in International Setting">
+			<question id="question-international-sites-info" parent-id="question-vulnerable-populations-included" parent-value="research-subjects-in-international-setting" header="Research in International Setting">
+				<question-label>Describe the international sites(s). Provide location, name of
+					local contact or investigator, and local contact information, as
+					applicable.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/international-sites" value-type="textarea" />
+			</question>
+			<question id="question-ethics-board-or-irb" parent-id="question-vulnerable-populations-included" parent-value="research-subjects-in-international-setting" header="Research in International Setting">
+				<question-label>Is there an Ethics Board or IRB at the international site(s)?</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/ethics-board-or-irb" value-type="yesNo" />
+			</question>
+			<question id="question-contact-information-for-board" parent-id="question-ethics-board-or-irb" parent-value="y" header="There is an Ethics Board or IRB at the international site(s)">
+				<question-label>List contact information for the Board:</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/ethics-board-or-irb/y/contact-information-for-board" value-type="textarea" />
+			</question>
+			<question id="question-address-cultural-differences" parent-id="question-vulnerable-populations-included" parent-value="research-subjects-in-international-setting" header="Research in International Setting">
+				<question-label>Describe any cultural, political, religious, or other local
+					influences that may affect conduct of the proposed research and how
+					these will be addressed (e.g. issues posing potential threats,
+					requiring changes in recruitment methods, etc.)</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/address-cultural-differences" value-type="textarea" />
+			</question>
+			<question id="question-local-exceptions-to-consent" parent-id="question-vulnerable-populations-included" parent-value="research-subjects-in-international-setting" header="Research in International Setting">
+				<question-label>Describe any local exceptions to the required consent process and
+					how these will be addressed (e.g., a request from outsiders to sign
+					documents would be treated with suspicion based on customs,
+					previous history, etc.)</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/local-exceptions-to-consent" value-type="textarea" />
+			</question>
+			<question id="question-benefits-to-local-community" parent-id="question-vulnerable-populations-included" parent-value="research-subjects-in-international-setting" header="Research in International Setting">
+				<question-label>Explain any benefits to the local community that will remain with
+					the community once the research is complete.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/benefits-to-local-community" value-type="textarea" />
+			</question>
+			<question id="question-researcher-experience" parent-id="question-vulnerable-populations-included" parent-value="research-subjects-in-international-setting" header="Research in International Setting">
+				<question-label>Describe the researchers' experience with conducting research (or
+					studying or residing) in the research setting, including any
+					relationship(s) with the community from which participants will be
+					recruited.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/researcher-experience" value-type="textarea" />
+			</question>
+			<question id="question-info-of-not-affiliated-consultants" parent-id="question-vulnerable-populations-included" parent-value="research-subjects-in-international-setting" header="Research in International Setting">
+				<question-label>Provide the name, title, and contact information (including email
+					addresses) for two individuals who are not affiliated with the
+					research who are knowledgeable about the location and population
+					who could serve as a consultants(s) regarding the proposed
+					research.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/info-of-not-affiliated-consultants" value-type="textarea" />
+			</question>
+			<question id="question-communication-oversight-plans" parent-id="question-vulnerable-populations-included" parent-value="research-subjects-in-international-setting" header="Research in International Setting">
+				<question-label>Describe communication and oversight plans between the
+					researcher(s) who will be on-site and those at UAMS.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/communication-and-oversight-plans" value-type="textarea" />
+			</question>
+			<question id="question-procedures-storage-data" parent-id="question-vulnerable-populations-included" parent-value="research-subjects-in-international-setting" header="Research in International Setting">
+				<question-label>Describe procedures for
+						the transfer of data between the local setting and UAMS.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/procedures-for-data-storage" value-type="textarea" />
+			</question>
+			<question id="question-procedures-standard" parent-id="question-vulnerable-populations-included" parent-value="research-subjects-in-international-setting" header="Research in International Setting">
+				<question-label>Indicate if any planned
+						research procedures are considered to be standard of care in the
+						country or location.</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/research-in-international-settings/procedures-as-standard-of-care" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Excluding Pregnant Women">
+			<question id="question-is-pregnant-exluded" parent-id="" parent-value="" header="">
+				<question-label>Will pregnant women be excluded
+					from participation in this research?</question-label>
+				<question-value instance-path="/protocol/subjects/is-pregnant-excluded" value-type="yesNo" />
+			</question>
+			<question id="question-pregnant-excluded-justification" parent-id="question-is-pregnant-exluded" parent-value="y" header="Pregnant women will be excluded">
+				<question-label>Explain how the nature of the research requires/justifies their
+					exclusion.  Address means of pregnancy screening.</question-label>
+				<question-value instance-path="/protocol/subjects/is-pregnant-excluded/y/justification" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Excluding Non-English Speaking">
+			<question id="question-is-non-english-speaking-exluded" parent-id="" parent-value="" header="">
+				<question-label>Will non-English speaking subjects be excluded from participation in this research?</question-label>
+				<question-value instance-path="/protocol/subjects/is-non-english-speaking-exluded" value-type="yesNo" />
+			</question>
+			<question id="question-non-english-speaking-excluded-justification" parent-id="question-is-non-english-speaking-exluded" parent-value="y" header="Non-English speaking will be excluded">
+				<question-label>Explain how the nature of the research requires/justifies their exclusion.  Address means of screening.</question-label>
+				<question-value instance-path="/protocol/subjects/is-non-english-speaking-excluded/y/justification" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Identification">
+			<question id="quesiton-subjects-identified" parent-id="" parent-value="" header="">
+				<question-label>How will potential subjects be identified?</question-label>
+				<question-value instance-path="/protocol/subjects/how-subjects-identified" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Advertising">
+			<question id="question-advertising-type" parent-id="" parent-value="" header="">
+				<question-label>Which types of advertising will be
+					directed at research subjects?</question-label>
+				<question-value instance-path="/protocol/subjects/types-of-advertising/type" lookup-path="advertising-types" value-type="checkbox" />
+			</question>
+			<question id="quesiton-websites-url-list" parent-id="question-advertising-type" parent-value="websites" header="Websites">
+				<question-label>List Websites and their URL (e.g. UAMSHealth.com)</question-label>
+				<question-value instance-path="/protocol/subjects/types-of-advertising/websites" value-type="textarea" />
+			</question>
+			<question id="question-advertised-criteria" parent-id="" parent-value="" header="">
+				<question-label>What are the advertised criteria for this study?</question-label>
+				<question-value instance-path="/protocol/subjects/advertised-criteria" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Compensation">
+			<question id="question-compensation-provided-to-subjects" parent-id="" parent-value="" header="">
+				<question-label>Will compensation be provided to the subjects?</question-label>
+				<question-value instance-path="/protocol/subjects/compensation-provided-to-subjects" value-type="yesNo" />
+			</question>
+			<question id="question-method-and-amount-of-compensation" parent-id="question-compensation-provided-to-subjects" parent-value="y" header="Compensation will be provided to the subjects">
+				<question-label>Describe the method and amount of compensation, and its appropriateness
+					 for the research setting.  Identify the recipient of the compensation (participant and/or parent/guardian).  
+					 Outline plans to pro-rate the compensation, if necessary.</question-label>
+				<question-value instance-path="/protocol/subjects/compensation-provided-to-subjects/y/method-and-amount-of-compensation" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="HIPAA" id="hipaa">
+		<section>
+			<question id="question-hipaa-is-phi-obtained" parent-id="" parent-value="" header="">
+				<question-label>Are you obtaining Protected Health Information (PHI) directly from subjects 
+					during the course of this research project?</question-label>
+				<question-value instance-path="/protocol/hipaa/is-phi-obtained" value-type="yesNo" />
+			</question>
+			<question id="question-describe-phi" parent-id="question-hipaa-is-phi-obtained" parent-value="y" header="PHI is being obtained">
+				<question-label>Describe the PHI that will be obtained/recorded for the research.</question-label>
+				<question-value instance-path="/protocol/hipaa/is-phi-obtained/y/desc" value-type="textarea" />
+			</question>
+			<question id="question-hipaa-phi-details" parent-id="question-hipaa-is-phi-obtained" parent-value="y" header="PHI is being obtained">
+				<question-label>Select the identifiers that will be captured for this study.</question-label>
+				<question-value instance-path="/protocol/hipaa/is-phi-obtained/y/identifiers/identifier" lookup-path="hipaa-phi-details" value-type="checkbox" />
+				<sub-questions>
+					<question id="question-hipaa-phi-details-other" parent-id="" parent-value="" header="Other">
+						<question-label>Please describe</question-label>
+						<question-value instance-path="/protocol/hipaa/is-phi-obtained/y/identifiers/identifier/other/text" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-access-existing-phi" parent-id="" parent-value="" header="">
+				<question-label>Are you accessing existing PHI for
+					this research project?</question-label>
+				<question-value instance-path="/protocol/hipaa/access-existing-phi" value-type="yesNo" />
+			</question>
+			<question id="question-hipaa-access-existing-phi-data-source" parent-id="question-access-existing-phi" parent-value="y" header="Existing PHI is being accessed">
+				<question-label>Where is your data source?</question-label>
+				<question-value instance-path="/protocol/hipaa/access-existing-phi/y/data-source" lookup-path="hipaa-access-existing-phi-data-source" value-type="checkbox" />
+				<sub-questions>
+					<question id="question-hipaa-access-existing-phi-data-source-other" parent-id="" parent-value="" header="Ohter">
+						<question-label>Please describe:</question-label>
+						<question-value instance-path="/protocol/hipaa/access-existing-phi/y/data-source/other/text" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-describe-phi-accessed" parent-id="question-access-existing-phi" parent-value="y" header="Existing PHI is being accessed">
+				<question-label>Describe the PHI that will be accessed for the research.</question-label>
+				<question-value instance-path="/protocol/hipaa/access-existing-phi/y/desc" value-type="textarea" />
+			</question>
+			<question id="question-existing-hipaa-phi-details" parent-id="question-access-existing-phi" parent-value="y" header="Existing PHI is being accessed">
+				<question-label>Select the identifiers that will be recorded for this study.</question-label>
+				<question-value instance-path="/protocol/hipaa/access-existing-phi/y/existing-hipaa-phi-details" value-type="select" />
+				<sub-questions>
+					<question id="question-existing-hipaa-phi-details-other" parent-id="" parent-value="" header="Other">
+						<question-label>Please describe</question-label>
+						<question-value instance-path="/protocol/hipaa/access-existing-phi/y/existing-hipaa-phi-details/other/text" lookup-path="hipaa-phi-details" value-type="checkbox" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-access-phi-contact-subject" parent-id="" parent-value="" header="">
+				<question-label>Are you contacting subjects from this PHI?</question-label>
+				<question-value instance-path="/protocol/hipaa/will-contact-subjects" value-type="yesNo" />
+			</question>
+			<question id="question-disclose-limited-data-set" parent-id="" parent-value="" header="">
+				<question-label>Are you receiving or planning on
+					disclosing a limited data set as defined by UAMS POLICY 3.1.27
+					admin guide?</question-label>
+				<question-value instance-path="/protocol/hipaa/will-disclose-limited-data-set" value-type="yesNo" />
+			</question>
+			<question id="question-disclose-data-list" parent-id="question-disclose-limited-data-set" parent-value="y" header="Receiving or Planning on disclosing a limited data set">
+				<question-label>Please list the data files and who is supplying or receiving the
+					data sets.</question-label>
+				<question-value instance-path="/protocol/hipaa/will-disclose-limited-data-set/y/list-data-files" value-type="textarea" />
+			</question>
+			<question id="question-requesting-hipaa-waiver" parent-id="" parent-value="" header="">
+				<question-label>Are you requesting a HIPAA authorization waiver/alteration?</question-label>
+				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver" value-type="yesNo" />
+			</question>
+			<question id="question-requesting-hipaa-waiver-type" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
+				<question-label>What is the type of waiver/alteration requested?</question-label>
+				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/type" lookup-path="hipaa-authorization-waiver-type" value-type="checkbox" />
+			</question>
+			<question id="question-reason-to-access-phi" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
+				<question-label>Explain why access to and/or use of the PHI is essential to conduct
+					the research.</question-label>
+				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-to-access-phi" value-type="textarea" />
+			</question>
+			<question id="question-min-necessary-informaiton-required" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
+				<question-label>Explain how the PHI described above represents the minimum
+					necessary information to accomplish the objectives of the research.</question-label>
+				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/min-necessary-informaiton-required" value-type="textarea" />
+			</question>
+			<question id="question-no-more-than-minimal-risk-to-privacy" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
+				<question-label>Explain how the access, use, or disclosure of PHI presents no more
+					than a minimal risk to the privacy of the individual.</question-label>
+				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/no-more-than-minimal-risk-to-privacy" value-type="textarea" />
+			</question>
+			<question id="question-identifiers-protection-plan" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
+				<question-label>Describe your plan to protect the identifiers (or links to
+					identifiable data) associated with the PHI from improper use and
+					disclosure, including where PHI will be stored, what security
+					measures will be applied, and who will have access to the
+					information. Describe the safeguards for electronic and/or hard
+					copy records.</question-label>
+				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/identifiers-protection-plan" value-type="textarea" />
+			</question>
+			<question id="question-identifiers-destroyed" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
+				<question-label>Will identifiers (or links to
+					identifiable data) be destroyed?</question-label>
+				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/will-identifiers-be-destroyed" value-type="yesNo" />
+			</question>
+			<question id="question-phi-destroyed-plan" parent-id="question-identifiers-destroyed" parent-value="y" header="Identifier will be destroyed">
+				<question-label>Describe the plan to destroy the identifiers at the earliest
+					opportunity consistent with the conduct of the research.  Include
+					when and how identifiers will be destroyed.</question-label>
+				<question-value instance-path="/protocol/hipaa/is-authorization-waiver/y/will-identifiers-be-destroyed/y/plan" value-type="textarea" />
+			</question>
+			<question id="question-phi-justicication-identifiers" parent-id="question-identifiers-destroyed" parent-value="n" header="Identifier will not be destroyed">
+				<question-label>Provide the legal, health, or research justification for retaining
+					the identifiers.  Legal justification should include brief
+					description/citation of the legal requirement.</question-label>
+				<question-value instance-path="/protocol/hipaa/is-authorization-waiver/y/will-identifiers-be-destroyed/n/justification" value-type="textarea" />
+			</question>
+			<question id="question-reason-for-waiver" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
+				<question-label>Explain why the research could not practicably be conducted without the waiver/alteration:</question-label>
+				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-for-waiver" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="Consent" id="consent">
+		<section>
+			<question id="question-consent-process-included" parent-id="" parent-value="" header="">
+				<question-label>Indicate the consent process(es)
+					to be used in the study.</question-label>
+				<question-value instance-path="/protocol/consent/processes/included" value-type="checkbox" />
+			</question>
+			<question id="question-request-waiver-of-consent-documentation" parent-id="question-consent-process-included" parent-value="assent-process,parental-permission-process,information-consent-process" header="Assent Process, Parental Permission Process, Informed Consent Process">
+				<question-label>Are you requesting Waiver of Consent Documentation?</question-label>
+				<question-value instance-path="/protocol/consent/request-waiver-of-consent-documentation" value-type="yesNo" />
+			</question>
+			<question id="question-fda-regulations" parent-id="question-consent-process-included" parent-value="assent-process,parental-permission-process,information-consent-process" header="Assent Process, Parental Permission Process, Informed Consent Process, and Waiver of Consent Documentation is being requested">
+				<question-label>Is the research subject to FDA
+					regulations (e.g., involves use of a food, drug, biologic, device)?</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-consent-documentation/is-subject-to-fda-regulations" value-type="yesNo" />
+			</question>
+			<question id="question-waiver-or-consent-documentation-risk-procedures" parent-id="question-consent-process-included" parent-value="assent-process,parental-permission-process,information-consent-process" header="Assent Process, Parental Permission Process, Informed Consent Process, and Waiver of Consent Documentation is being requested">
+				<question-label>Does the research present greater
+					than minimal risk?</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-consent-documentation/greater-than-minimal-risk" value-type="yesNo" />
+			</question>
+			<question id="question-waiver-or-consent-documentation-risk-procedures" parent-id="question-consent-process-included" parent-value="assent-process,parental-permission-process,information-consent-process" header="Assent Process, Parental Permission Process, Informed Consent Process, and Waiver of Consent Documentation is being requested">
+				<question-label>Does the research involve
+					procedures for which written consent is normally required outside
+					the research context?</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-consent-documentation/involve-procedures-require-consent" value-type="yesNo" />
+			</question>
+			<question id="question-waiver-or-consent-documentation-risk-procedures-nono" parent-id="question-consent-process-included" parent-value="assent-process,parental-permission-process,information-consent-process" header="Assent Process, Parental Permission Process, Informed Consent Process, and Waiver of Consent Documentation is being requested">
+				<question-label>Explain how the research is no more than minimal risk, and how the research does not involve 
+					procedures for which written consent is normally required outside the research context.</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-consent-documentation/waiver-applicable/reason" value-type="textarea" />
+			</question>
+			<question id="question-consent-links-participant-and-research" parent-id="question-consent-process-included" parent-value="assent-process,parental-permission-process,information-consent-process" header="Assent Process, Parental Permission Process, Informed Consent Process, and Waiver of Consent Documentation is being requested">
+				<question-label>Would the only record linking the
+					participant and the research be the consent document?</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-consent-documentation/privacy/consent-links-participant-and-research" value-type="yesNo" />
+			</question>
+			<question id="question-consent-links-participant-and-research" parent-id="question-consent-process-included" parent-value="assent-process,parental-permission-process,information-consent-process" header="Assent Process, Parental Permission Process, Informed Consent Process, and Waiver of Consent Documentation is being requested">
+				<question-label>Would the principal risk to the
+					participant be potential harm resulting from a breach in
+					confidentiality?</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-consent-documentation/privacy/harm-caused-by-confidentiality-breach" value-type="yesNo" />
+			</question>
+			<question id="question-consent-links-participant-and-research-yesyes" parent-id="question-consent-process-included" parent-value="assent-process,parental-permission-process,information-consent-process" header="Assent Process, Parental Permission Process, Informed Consent Process, and Waiver of Consent Documentation is being requested">
+				<question-label>Explain how the only
+						record linking the participant and the research would be the
+						consent document, and how the principle risk to the participant
+						would be potential harm resulting from a breach in
+						confidentiality.</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-consent-documentation/privacy/y/reason" value-type="textarea" />
+			</question>
+			<question id="question-waiver-or-alteration-of-consent-process-fda-regulations" parent-id="question-consent-process-included" parent-value="none" header="No Consent Process is used">
+				<question-label>Is the research subject to FDA
+					regulations (e.g., involves use of a food, drug, biologic, device)?</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations" value-type="yesNo" />
+			</question>
+			<question id="question-subject-to-government-approval" parent-id="question-waiver-or-alteration-of-consent-process-fda-regulations" parent-value="n" header="No Consent Process is used; Not Subject to FDA">
+				<question-label>Is the research (or demonstration
+					project) subject to the approval of state or local government
+					officials and designed to study public benefit or service programs
+					or procedures for obtaining benefits under those programs, changes
+					in or alternatives to those programs or procedures, or changes in
+					methods or levels of payment for benefits or services under those
+					programs?</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-subject-to-government-approval" value-type="yesNo" />
+			</question>
+			<question id="question-reason-for-waiver-or-alteration" parent-id="question-subject-to-government-approval" parent-value="y" header="No Consent Process is used; Not Subject to FDA; Subject to approvals of State or local government officals">
+				<question-label>Explain why the research could not
+					practicably be carried out without the waiver or alteration.</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-subject-to-government-approval/y/reason-for-waiver-or-alteration" value-type="textarea" />
+			</question>
+			<question id="question-consent-reason-for-no-more-than-minimial-risk" parent-id="question-subject-to-government-approval" parent-value="n" header="No Consent Process is used; Not Subject to FDA; Not Subject to approvals of State or local government officals">
+				<question-label>Explain how the research involves
+					no more than minimal risk.</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/reason-for-no-more-than-minimial-risk" value-type="textarea" />
+			</question>
+			<question id="question-no-adversary-affect-to-participants" parent-id="question-subject-to-government-approval" parent-value="n" header="No Consent Process is used; Not Subject to FDA; Not Subject to approvals of State or local government officals">
+				<question-label>Explain why the waiver or
+					alternation will not adversely affect the rights and welfare of the
+					participants.</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/no-adversary-affect-to-participants" value-type="textarea" />
+			</question>
+			<question id="question-consent-reason-for-waiver-or-alteration" parent-id="question-subject-to-government-approval" parent-value="n" header="No Consent Process is used; Not Subject to FDA; Not Subject to approvals of State or local government officals">
+				<question-label>Explain why the research could not practicably be carried out without the waiver or alteration.</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/reason-for-waiver-or-alteration" value-type="textarea" />
+			</question>
+			<question id="question-consent-is-pertinent-information-provided" parent-id="question-subject-to-government-approval" parent-value="n" header="No Consent Process is used; Not Subject to FDA; Not Subject to approvals of State or local government officals">
+				<question-label>Will the participants be provided
+					with additional pertinent information after participation?</question-label>
+				<question-value instance-path="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-pertinent-information-provided" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-consent-is-pertinent-information-provided-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Explain why or why not</question-label>
+						<question-value instance-path="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-pertinent-information-provided/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-consent-provider" parent-id="" parent-value="" header="">
+				<question-label>Who will provide consent or
+					permission?</question-label>
+				<question-value instance-path="/protocol/consent/provider" lookup-path="consent-provider" value-type="checkbox" />
+			</question>
+			<question id="question-location-of-consent-process" parent-id="" parent-value="" header="">
+				<question-label>Describe the location in which the
+					consent process will occur.</question-label>
+				<question-value instance-path="/protocol/consent/location-of-consent-process" lookup-path="location-of-consent-process" value-type="checkbox" />
+			</question>
+			<question id="question-consent-discussion-time" parent-id="" parent-value="" header="">
+				<question-label>How much time will be devoted to
+					the consent discussion?</question-label>
+				<question-value instance-path="/protocol/consent/discussion-time" value-type="textarea" />
+			</question>
+			<question id="question-consent-waiting-period" parent-id="" parent-value="" header="">
+				<question-label>What is the waiting period between
+					informing the prospective participant and obtaining the consent?</question-label>
+				<question-value instance-path="/protocol/consent/waiting-period" value-type="textarea" />
+			</question>
+			<question id="question-how-to-undue-influence" parent-id="" parent-value="" header="">
+				<question-label>Explain how the possibility of
+					coercion or undue influence will be minimized in the consent
+					process.</question-label>
+				<question-value instance-path="/protocol/consent/how-to-undue-influence" value-type="textarea" />
+			</question>
+			<question id="question-other-tools" parent-id="" parent-value="" header="">
+				<question-label>Will any other tools (e.g.,
+					quizzes, visual aids, information sheets) be used during the
+					consent process to assist participant comprehension?</question-label>
+				<question-value instance-path="/protocol/consent/other-tools" value-type="yesNo" />
+			</question>
+			<question id="question-children-continue" parent-id="" parent-value="" header="">
+				<question-label>If children participate in the study, will their participation 
+					continue beyond the time that they are 18 years of age?</question-label>
+				<question-value instance-path="/protocol/consent/children-continue" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-children-continue-other" parent-id="" parent-value="" header="">
+						<question-label>Please describe the re-consenting process:</question-label>
+						<question-value instance-path="/protocol/consent/children-continue/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+		</section>
+	</page>
+	<page name="Risks" id="risks">
+		<section name="Study Procedure">
+			<!-- <question id="question-methods-procedures-to-be-used" parent-id="" parent-value="" header="">
+				<question-label>Please describe what is to 
+					be done to the subjects and state if these procedures are being performed already for diagnostic or treatment purposes.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/methods-procedures-to-be-used" value-type="textarea" />
+			</question> -->
+			<question id="question-resource-to-protect-human-study-participants" parent-id="" parent-value="" header="">
+				<question-label>List the resources available to protect human study participants in the research settings.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/resource-to-protect-human-study-participants" value-type="textarea" />
+			</question>
+			<!-- <question id="question-information-about-participants" parent-id="" parent-value="" header="">
+				<question-label>Please describe the information about participants that will be recorded for this study.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/information-about-participants" value-type="textarea" />
+			</question> -->
+			<question id="question-research-records" parent-id="" parent-value="" header="">
+				<question-label>Indicate whether the research records will be:</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/research-records" lookup-path="specimens-identification" value-type="radio" />
+			</question>
+			<question id="question-research-records-process" parent-id="question-research-records" parent-value="coded,de-identified" header="Coded or De-identified">
+				<question-label>Describe the process used
+						to code or de-identify the research records.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/research-records/coded-or-deidentified/process" value-type="textarea" />
+			</question>
+			<question id="question-explain-research-records-process" parent-id="question-research-records" parent-value="neither" header="Neither Coded nor De-identified">
+				<question-label>Please explain.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/research-records/neither/explain" value-type="textarea" />
+			</question>
+			<question id="question-desc-procedures-for-data-storage" parent-id="" parent-value="" header="">
+				<question-label>Describe the procedures for record storage.  Where will electronic and/or hard copy 
+						research records be stored?  Who will have access to them?  When and how will they be destroyed?</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/desc-procedures-for-data-storage" value-type="textarea" />
+			</question>
+			<!-- <question id="question-desc-plan-destroy-research-records" parent-id="" parent-value="" header="">
+				<question-label>Describe the plan to destroy the research records at the earliest opportunity 
+						consistent with the conduct of the research.  Include when and how the records will be destroyed.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/desc-plan-destroy-research-records" value-type="textarea" />
+			</question> -->
+			<question id="question-storage-of-biological-materials-specimens-be-obtained" parent-id="" parent-value="" header="">
+				<question-label>Will biological specimens (tissue, blood, saliva, etc.) be obtained?</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained" value-type="yesNo" />
+			</question>
+			<question id="question-storage-of-biological-materials-specimens-be-collected" parent-id="question-storage-of-biological-materials-specimens-be-obtained" parent-value="y" header="Biological
+						specimens will be obtained">
+				<question-label>Will the specimens be collected directly from participants (as opposed to being obtained from a secondary source)?</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected" value-type="yesNo" />
+			</question>
+			<question id="question-types-of-specimens" parent-id="question-storage-of-biological-materials-specimens-be-collected" parent-value="y" header="Biological
+						specimens will be obtained and collected directly from participants">
+				<question-label>Check all the type(s) of specimens to be collected.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/type" lookup-path="specimens-type" value-type="checkbox" />
+			</question>
+			<question id="question-types-of-specimens-blood" parent-id="question-types-of-specimens" parent-value="blood" header="Blood will be obtained">
+				<question-label>Who is drawing the blood?</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/who-draws-the-blood" value-type="textarea" />
+			</question>
+			<question id="question-types-of-specimens-blood" parent-id="question-types-of-specimens" parent-value="blood" header="Blood will be obtained">
+				<question-label>How much and over what period of time?</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/amount" value-type="textarea" />
+			</question>
+			<question id="question-types-of-specimens-blood" parent-id="question-types-of-specimens" parent-value="blood" header="Blood will be obtained">
+				<question-label>List specific physical location(s) (Lab, Clinic, Office Name, e.g.) where blood draw is to take place.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/locations" value-type="textarea" />
+			</question>
+			<question id="question-types-of-specimens-blood" parent-id="question-types-of-specimens" parent-value="blood" header="Blood will be obtained">
+				<question-label>List resources available to ensure participant safety (i.e. specific to blood drawn).</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/will-specimens-be-collected/y/types-of-specimens/blood/resources-for-safety" value-type="textarea" />
+			</question>
+			<question id="question-specimens-be-obtained-specimen-identification" parent-id="question-storage-of-biological-materials-specimens-be-obtained" parent-value="y" header="Biological
+						specimens will be obtained">
+				<question-label>Indicate whether the specimen to be collected and/or stored will be:</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/specimen-identification" lookup-path="specimens-identification" value-type="radio" />
+			</question>
+			<question id="question-specimen-identification-de-identify-process" parent-id="question-specimens-be-obtained-specimen-identification" parent-value="de-identified" header="The specimen will be de-identified">
+				<question-label>Describe the process used to code or de-identify the specimens.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/specimen-identification/de-identified/de-identify-process" value-type="textarea" />
+			</question>
+			<question id="question-specimen-neither-explain" parent-id="question-specimens-be-obtained-specimen-identification" parent-value="neither" header="The specimen will be neither be de-identified nor coded">
+				<question-label>Please explain.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/specimen-identification/neither/specimen-neither-explain" value-type="textarea" />
+			</question>
+			<question id="question-describe-physical-location" parent-id="question-storage-of-biological-materials-specimens-be-obtained" parent-value="y" header="Biological
+						specimens will be obtained">
+				<question-label>Describe the physical location/equipment and security provisions where the specimens will be stored.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/describe-physical-location" value-type="textarea" />
+			</question>
+			<question id="question-who-manage-speciments" parent-id="question-storage-of-biological-materials-specimens-be-obtained" parent-value="y" header="Biological
+						specimens will be obtained">
+				<question-label>Explain who will manage the stored specimens.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/who-manage-speciments" value-type="textarea" />
+			</question>
+			<question id="question-how-long-specimens-stored" parent-id="question-storage-of-biological-materials-specimens-be-obtained" parent-value="y" header="Biological
+						specimens will be obtained">
+				<question-label>Indicate how long the specimens will be stored (e.g., Indefinitely, etc.).</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/how-long-specimens-stored" value-type="textarea" />
+			</question>
+			<question id="question-process-for-destruction" parent-id="question-storage-of-biological-materials-specimens-be-obtained" parent-value="y" header="Biological
+						specimens will be obtained">
+				<question-label>Describe the process for destruction or de-identification of identified/coded specimens at the end of the retention periods (as applicable) or if the PI leaves the University.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/process-for-destruction" value-type="textarea" />
+			</question>
+			<question id="question-sample-related-to-other-investigators" parent-id="question-storage-of-biological-materials-specimens-be-obtained" parent-value="y" header="Biological
+						specimens will be obtained">
+				<question-label>Will samples be released to other investigators?</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators" value-type="yesNo" />
+			</question>
+			<question id="question-whom-will-be-released-to" parent-id="question-sample-related-to-other-investigators" parent-value="y" header="Yes">
+				<question-label>To whom will the samples be released?</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whom-will-be-released-to" lookup-path="whom-will-be-released-to" value-type="checkbox" />
+				<sub-questions>
+					<question id="question-whom-will-be-released-to-other" parent-id="" parent-value="" header="Other">
+						<question-label>Please describe:</question-label>
+						<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whom-will-be-released-to/other/text" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-whether-sample-will-be-released-to" parent-id="question-sample-related-to-other-investigators" parent-value="y" header="Yes">
+				<question-label>Indicate whether samples to be released will be:</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whether-sample-will-be-released-to" lookup-path="specimens-identification" value-type="radio" />
+			</question>
+			<question id="question-process-used-to-code-records" parent-id="question-whether-sample-will-be-released-to" parent-value="" header="Coded or De-identified">
+				<question-label>Describe the process used to code or de-identify the records.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whether-sample-will-be-released-to/coded/process-used-to-code-records" value-type="textarea" />
+			</question>
+			<question id="question-neither-coded-nor-deidentified-desc" parent-id="question-whether-sample-will-be-released-to" parent-value="neither" header="Neither Coded nor De-identified">
+				<question-label>Please describe.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/whether-sample-will-be-released-to/neither/neither-coded-nor-deidentified-desc" value-type="textarea" />
+			</question>
+			<question id="question-process-for-request-and-release-samples" parent-id="question-sample-related-to-other-investigators" parent-value="y" header="Yes">
+				<question-label>Describe the process for requesting and releasing samples. State the individual(s) responsible for verifying IRB approval (or exemption) before specimen release and his/her qualifications or training.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/process-for-request-and-release-samples" value-type="textarea" />
+			</question>
+			<question id="question-process-for-request-and-release-samples" parent-id="question-sample-related-to-other-investigators" parent-value="y" header="Yes">
+				<question-label>Describe the process for requesting and releasing samples. State the individual(s) responsible for verifying IRB approval (or exemption) before specimen release and his/her qualifications or training.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/sample-related-to-other-investigators/y/process-for-request-and-release-samples" value-type="textarea" />
+			</question>
+			<question id="question-biological-materials-for-future-research" parent-id="question-storage-of-biological-materials-specimens-be-obtained" parent-value="y" header="Biological
+						specimens will be obtained">
+				<question-label>Will the specimens be
+						collected and/or stored for use in future research (research that
+						falls outside the purview of this protocol)?</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research" value-type="yesNo" />
+			</question>
+			<question id="question-storage-of-biologicals-for-future-use-purpose" parent-id="question-biological-materials-for-future-research" parent-value="y" header="Storage of
+						Biological Materials will be used for future research">
+				<question-label>Describe the purpose of collecting and storing the specimens for future use.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/purpose" value-type="textarea" />
+			</question>
+			<question id="question-storage-of-biologicals-for-future-use-limits-exist" parent-id="question-biological-materials-for-future-research" parent-value="y" header="Storage of
+						Biological Materials will be used for future research">
+				<question-label>Will there be limits on the specimen's intended future use (e.g., for cancer research only)?</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/are-limits-exist" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-storage-of-biologicals-for-future-use-limits-exist-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Explain why or why not</question-label>
+						<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/are-limits-exist/reason" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-storage-of-biologicals-for-future-use-specify-procedures-of-withdraw" parent-id="question-biological-materials-for-future-research" parent-value="y" header="Storage of
+						Biological Materials will be used for future research">
+				<question-label>Specify the procedures by which participants can withdraw their specimens from storage for future research.</question-label>
+				<question-value instance-path="/protocol/risks/storage-of-biological-materials/will-specimens-be-obtained/y/biological-materials-for-future-research/y/specify-procedures-of-withdraw" value-type="textarea" />
+			</question>
+		</section>
+		<section name="Genetic Testing">
+			<question id="question-genetic-testing-is-planned" parent-id="" parent-value="" header="">
+				<question-label>Is there any genetic testing planned for this study?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned" value-type="yesNo" />
+			</question>
+			<question id="question-genetic-research-type" parent-id="question-genetic-testing-is-planned" parent-value="y" header="Genetic Testing">
+				<question-label>What type(s) of genetic research will be performed?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/genetic-research-type" lookup-path="genetic-testing-type" value-type="checkbox" />
+				<sub-questions>
+					<question id="question-genetic-research-type-other" parent-id="" parent-value="" header="">
+						<question-label>Please describe:</question-label>
+						<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/genetic-research-type/other/text" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-genetic-therapy-type" parent-id="question-genetic-research-type" parent-value="gene-therapy-research" header="Gene therapy research">
+				<question-label>What type(s) of gene therapy will be performed?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/genetic-research-type/gene-therapy-research/genetic-therapy-type" lookup-path="genetic-therapy-type" value-type="checkbox" />
+			</question>
+			<question id="question-genetic-testing-clinically-available" parent-id="question-genetic-testing-is-planned" parent-value="y" header="Genetic Testing">
+				<question-label>Are any proposed tests also clinically available assays?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/clinically-available" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-genetic-testing-clinically-available-other" parent-id="" parent-value="" header="Yes">
+						<question-label>Please specify:</question-label>
+						<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/clinically-available/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-genetic-testing-exist-incidential-findings" parent-id="question-genetic-testing-is-planned" parent-value="y" header="Genetic Testing">
+				<question-label>Could proposed testing result in incidental (i.e., unintended) findings?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/exist-incidential-findings" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-genetic-testing-exist-incidential-findings-other" parent-id="" parent-value="" header="Yes">
+						<question-label>Please specify:</question-label>
+						<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/exist-incidential-findings/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-inform-participants-testing-results" parent-id="question-genetic-testing-is-planned" parent-value="y" header="Genetic Testing">
+				<question-label>Will participants be informed of gene testing results?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-inform-participants-testing-results-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Explain why or why not</question-label>
+						<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/reason" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-inform-participants-testing-results-plan" parent-id="question-inform-participants-testing-results" parent-value="y" header="Participants will be informed">
+				<question-label>Describe the plan for informing participants of gene testing results.</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/plan" value-type="textarea" />
+			</question>
+			<question id="question-inform-participants-testing-results-opt-out-procedures" parent-id="question-inform-participants-testing-results" parent-value="y" header="Participants will be informed">
+				<question-label>Specify the procedures that afford participants a way to opt out of receiving their gene testing results.</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/opt-out-procedures" value-type="textarea" />
+			</question>
+			<question id="question-inform-participants-testing-results-clinical-significance" parent-id="question-inform-participants-testing-results" parent-value="y" header="Participants will be informed">
+				<question-label>Will the results have clinical significance for participants?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/have-clinical-significance" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-inform-participants-testing-results-clinical-significance-other" parent-id="" parent-value="" header="Yes">
+						<question-label>Please describe:</question-label>
+						<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/have-clinical-significance/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-inform-participants-testing-results-implications-for-others" parent-id="question-inform-participants-testing-results" parent-value="y" header="Participants will be informed">
+				<question-label>Could the results have implications for others (e.g. family members)?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/have-implications-for-others" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-inform-participants-testing-results-implications-for-others-other" parent-id="" parent-value="" header="Yes">
+						<question-label>Please describe:</question-label>
+						<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-testing-results/y/have-implications-for-others/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-genetic-testing-provide-conseling" parent-id="question-genetic-testing-is-planned" parent-value="y" header="Genetic Testing">
+				<question-label>Will counseling, pre- and/or post-, be provided to the participants?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-provide-conseling" value-type="yesNo" />
+			</question>
+			<question id="question-provide-conseling-counselor-and-qualifications" parent-id="question-genetic-testing-provide-conseling" parent-value="y" header="Yes">
+				<question-label>Describe, specifying who will perform counseling and the counselor's qualifications.</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-provide-conseling/y/counselor-and-qualifications" value-type="textarea" />
+			</question>
+			<question id="question-provide-conseling-cost-participants" parent-id="question-genetic-testing-provide-conseling" parent-value="y" header="Yes">
+				<question-label>Will the participants (or their insurers) incur any costs for the conunseling?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-provide-conseling/y/will-cost-participants" value-type="yesNo" />
+			</question>
+			<question id="question-inform-participants-new-developments" parent-id="question-genetic-testing-is-planned" parent-value="y" header="Genetic Testing">
+				<question-label>Will participants be informed of new developments?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-new-developments" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-inform-participants-new-developments-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Explain why or why not</question-label>
+						<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-inform-participants-new-developments/reason" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-inform-participants-involve-family-member" parent-id="question-genetic-testing-is-planned" parent-value="y" header="Genetic Testing">
+				<question-label>Will family members (or their data) be involved in the research?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members" value-type="yesNo" />
+			</question>
+			<question id="question-inform-participants-involve-family-member-readily-identifiable" parent-id="question-inform-participants-involve-family-member" parent-value="y" header="Family member(s) will be involved">
+				<question-label>Will family member(s) be readily identifiable?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/readily-identifiable" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-inform-participants-involve-family-member-readily-identifiable-other" parent-id="" parent-value="" header="Explain">
+						<question-label>Explain why or why not</question-label>
+						<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/readily-identifiable/reason" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-involve-family-members-require-private-information" parent-id="question-inform-participants-involve-family-member" parent-value="y" header="Family member(s) will be involved">
+				<question-label>Will the primary participant be asked to provide any private information (e.g., health status, health or behavior history) about his/her family member(s)?</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/will-require-private-information" value-type="yesNo" />
+			</question>
+			<question id="question-methods-form-recruiting-family-members" parent-id="question-inform-participants-involve-family-member" parent-value="y" header="Family member(s) will be involved">
+				<question-label>Specify methods for recruiting family members (e.g., how, when, where and by whom).</question-label>
+				<question-value instance-path="/protocol/risks/genetic-testing/is-planned/y/will-involve-family-members/y/methods-form-recruiting-family-members" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="Monitoring" id="monitoring">
+		<section>
+			<question id="question-dsmp-in-place" parent-id="" parent-value="" header="">
+				<question-label>Is a Data and Safety Monitoring
+					Plan (DSMP) in place for this study?</question-label>
+				<question-value instance-path="/protocol/monitoring/is-dsmp-in-place" value-type="yesNo" />
+			</question>
+			<question id="question-describe-specific-data" parent-id="question-dsmp-in-place" parent-value="y" header="DSMP is in place for this study">
+				<question-label>Please describe the specific data that will be monitored.</question-label>
+				<question-value instance-path="/protocol/monitoring/is-dsmp-in-place/y/describe-specific-data" value-type="textarea" />
+			</question>
+			<question id="question-who-is-monitoring" parent-id="question-dsmp-in-place" parent-value="y" header="DSMP is in place for this study">
+				<question-label>Who is monitoring the
+						data?</question-label>
+				<question-value instance-path="/protocol/monitoring/is-dsmp-in-place/y/who-is-monitoring" lookup-path="who-is-monitoring" value-type="radio" />
+				<sub-questions>
+					<question id="question-who-is-monitoring-other" parent-id="" parent-value="" header="Other">
+						<question-label>Please describe:</question-label>
+						<question-value instance-path="/protocol/monitoring/is-dsmp-in-place/y/who-is-monitoring/other/text" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-data-and-safety-monitor-desc" parent-id="question-who-is-monitoring" parent-value="data-and-safety-monitor" header="Data and Safety Monitor">
+				<question-label>Please describe the individual's relevant medical, scientific and ethical, and monitoring expertise, as well as the individual's relationship to the study (independent or study team member).</question-label>
+				<question-value instance-path="/protocol/monitoring/is-dsmp-in-place/y/who-is-monitoring/data-and-safety-monitor/desc" value-type="textarea" />
+			</question>
+			<question id="question-dsmb-review-frequency" parent-id="question-dsmp-in-place" parent-value="y" header="DSMP is in place for this study">
+				<question-label>How frequently will the
+						data be reviewed?</question-label>
+				<question-value instance-path="/protocol/monitoring/is-dsmp-in-place/y/review-frequency" lookup-path="dsmb-review-frequency" value-type="radio" />
+				<sub-questions>
+					<question id="question-dsmb-review-frequency-other" parent-id="" parent-value="" header="Other">
+						<question-label>Please explain:</question-label>
+						<question-value instance-path="/protocol/monitoring/is-dsmp-in-place/y/review-frequency/other/text" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-procedure-for-communication" parent-id="question-dsmp-in-place" parent-value="y" header="DSMP is in place for this study">
+				<question-label>Please describe the
+						procedures for communication from the data monitor to the IRB.</question-label>
+				<question-value instance-path="/protocol/monitoring/is-dsmp-in-place/y/procedure-for-communication" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="MISC" id="misc">
+		<section>
+			<question id="question-tri-involved" parent-id="" parent-value="" header="">
+				<question-label>Will this research be
+						conducted in conjunction with the Translational Research Institute
+						(TRI) Clinical Research Services Core (CRSC)?</question-label>
+				<question-value instance-path="/protocol/misc/is-tri-involved" value-type="yesNo" />
+			</question>
+			<question id="question-is-registered-at-clinicaltrials" parent-id="" parent-value="" header="">
+				<question-label>Does this study require
+						registration with ClinicalTrials.gov?</question-label>
+				<question-value instance-path="/protocol/misc/is-registered-at-clinical-trials" value-type="yesNo" />
+			</question>
+			<question id="question-nct-number" parent-id="question-is-registered-at-clinicaltrials" parent-value="y" header="Yes">
+				<question-label>Please enter the NCT number.</question-label>
+				<question-value instance-path="/protocol/misc/is-registered-at-clinical-trials/nct-number" value-type="textarea" />
+			</question>
+			<question id="question-is-registered-at-trialsearch" parent-id="" parent-value="" header="">
+				<question-label>Will this study be
+						registered at TrialSearch?</question-label>
+				<question-value instance-path="/protocol/misc/is-registered-at-trialsearch" value-type="yesNo" />
+			</question>
+			<question id="question-inclusion-exclusion-criteria-for-this-study" parent-id="question-is-registered-at-trialsearch" parent-value="y" header="Yes">
+				<sub-questions>
+					<question id="question-inclusion-exclusion-criteria-for-this-study-in" parent-id="" parent-value="" header="">
+						<question-label>List the
+								inclusion criteria for this study.</question-label>
+						<question-value instance-path="/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion" value-type="textarea" />
+					</question>
+					<question id="question-inclusion-exclusion-criteria-for-this-study-ex" parent-id="" parent-value="" header="">
+						<question-label>List the
+								exclusion criteria for this study.</question-label>
+						<question-value instance-path="/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-disease-ontology" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/protocol/diseases/disease" value-type="diseases" />
+			</question>
+			<question id="question-cancer-study" parent-id="" parent-value="" header="">
+				<question-label>Is the study cancer
+						research or cancer-related research?</question-label>
+				<question-value instance-path="/protocol/misc/is-cancer-study" value-type="yesNo" />
+			</question>
+			<question id="question-uses" parent-id="question-cancer-study" parent-value="y" header="Cancer research or cancer-related research">
+				<question-label>What is the primary
+						activity of this study?</question-label>
+				<question-value instance-path="/protocol/misc/is-cancer-study/y/study-uses/use" lookup-path="study-uses" value-type="radio" />
+			</question>
+			<question id="question-observation-goal" parent-id="question-uses" parent-value="observation" header="Observation">
+				<question-label>What is the goal for this study?</question-label>
+				<question-value instance-path="/protocol/misc/is-cancer-study/y/study-uses/observation/observation-goal" lookup-path="observation-goal" value-type="checkbox" />
+			</question>
+			<question id="question-intervention-goal" parent-id="question-uses" parent-value="intervention" header="Intervention">
+				<question-label>What is the intervention goal for this study?</question-label>
+				<question-value instance-path="/protocol/misc/is-cancer-study/y/study-uses/intervention/intervention-goal" lookup-path="intervention-goal" value-type="checkbox" />
+			</question>
+			<question id="question-go-through-doc" parent-id="question-cancer-study" parent-value="y" header="Cancer research or cancer-related research">
+				<question-label>Has this study gone through a Disease-Oriented Committee(DOC)?</question-label>
+				<question-value instance-path="/protocol/misc/is-cancer-study/y/go-through-doc" value-type="yesNo" />
+			</question>
+		</section>
+		<section name="Biosafety">
+			<question id="question-biosafety-bio-hazard-materials-material" parent-id="" parent-value="" header="">
+				<question-label>Does the study involve the use of any of the following bio-hazardous materials?</question-label>
+				<question-value instance-path="/protocol/misc/biosafety/bio-hazard-materials/material" lookup-path="bio-hazard-materials-material" value-type="checkbox" />
+			</question>
+			<question id="question-regulated-toxins-list" parent-id="question-biosafety-bio-hazard-materials-material" parent-value="regulated-toxins" header="Regulated Toxins">
+				<question-label>Please list all regulated toxins.</question-label>
+				<question-value instance-path="/protocol/study-toxins/toxin" value-type="regulatedtoxins" />
+			</question>
+		</section>
+		<section name="Radiation Safety">
+			<question id="question-radiation-safety-involve" parent-id="" parent-value="" header="">
+				<question-label>Does the study involve the use of radiation?</question-label>
+				<question-value instance-path="/protocol/misc/radiation-safety/involve-the-use-of-radiation" value-type="yesNo" />
+			</question>
+			<question id="question-radiation-exceed-standard-of-care" parent-id="question-radiation-safety-involve" parent-value="y" header="Radiation Safety">
+				<question-label>Does the radiation used in the research exceed what is considered "Standard of Care"?</question-label>
+				<question-value instance-path="/protocol/misc/radiation-safety/involve-the-use-of-radiation/y/exceed-standard-of-care" value-type="yesNo" />
+			</question>
+		</section>
+		<section>
+			<question id="question-involve-use-of-strenuous-exercise" parent-id="" parent-value="" header="">
+				<question-label>Does the study involve the use of strenuous exercise?</question-label>
+				<question-value instance-path="/protocol/misc/radiation-safety/involve-use-of-strenuous-exercise" value-type="yesNo" />
+			</question>
+			<question id="question-nature-of-study-exercise" parent-id="question-involve-use-of-strenuous-exercise" parent-value="y" header="The study involve the use of strenuous exercise">
+				<question-label>Describe the nature of the study exercise. Include 
+					where the study exercise will take place, the resources available to ensure participant 
+					safety during the study exercise, and the qualifications of the personnel who will be present during the study exercise.</question-label>
+				<question-value instance-path="/protocol/misc/radiation-safety/involve-use-of-strenuous-exercise/y/nature-of-study-exercise" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="Drug and Devices" id="drugs-devices">
+		<section>
+			<question id="question-drugs-devices" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/protocol/drugs/drug" value-type="drug" />
+			</question>
+		</section>
+		<section>
+			<question id="question-drugs-devices" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/protocol/devices/device" value-type="device" />
+			</question>
+		</section>
+	</page>
+	<page name="Funding Sources" id="funding-sources">
+		<section>
+			<question id="question-funding-sources" parent-id="" parent-value="" header="">
+				<question-value instance-path="/protocol/funding/funding-source" value-type="funding-source" />
+			</question>
+		</section>
+	</page>
+	<page name="Contract" id="contract">
+		<section>
+			<question id="question-have-new-contract" parent-id="" parent-value="" header="">
+				<question-label>Do you have a new contract
+						provided by an university, private company, a non-profit,
+						foundation or other entity outside of UAMS?</question-label>
+				<question-value instance-path="/protocol/contract/have-new-contract" value-type="yesNo" />
+			</question>
+			<question id="question-transfer-to-foreign-entity" parent-id="" parent-value="" header="">
+				<question-label>Will you be transferring
+						any data, technology, biological materials, animals, drugs and
+						devices to a foreign entity?</question-label>
+				<question-value instance-path="/protocol/contract/transfer-to-foreign-entity" value-type="yesNo" />
+			</question>
+			<question id="question-name-of-company" parent-id="question-transfer-to-foreign-entity" parent-value="y" header="Some data, technology, biological, drug and device will be transferring to foreign company">
+				<question-label>What is the name of that company?</question-label>
+				<question-value instance-path="/protocol/contract/transfer-to-foreign-entity/y/name-of-company" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="Budget and Coverage" id="budget">
+		<section name="IRB Fee">
+			<question id="bq00" parent-id="" parent-value="" header="">
+				<question-value instance-path="/protocol/irb-fees/category" value-type="irbfee" />
+			</question>
+		</section>
+		<section name="Budget">
+			<question id="bq01" parent-id="" parent-value="" header="">
+				<question-label>Does your protocol involve any
+					tests or procedures that will potentially be billed to a UAMS
+					patient or a third party payer?</question-label>
+				<question-value instance-path="/protocol/budget/potentially-billed" value-type="yesNo" />
+				<sub-questions>
+					<question id="involves-uams-clinics" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve UAMS Clinics?</question-label>
+						<question-value instance-path="/protocol/budget/involves/uams-clinics" value-type="yesNo" />
+					</question>
+					<question id="involves-inpatient-units" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve UAMS Inpatient Units?</question-label>
+						<question-value instance-path="/protocol/budget/involves/uams-inpatient-units" value-type="yesNo" />
+					</question>
+					<question id="involves-uams-ss-ou" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve UAMS Short Stay or Infusion Center?</question-label>
+						<question-value instance-path="/protocol/budget/involves/uams-ss-ou" value-type="yesNo" />
+					</question>
+					<!-- <question id="involves-uams-infusion" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve Infusion Center?</question-label>
+						<question-value instance-path="/protocol/budget/involves/uams-infusion" value-type="yesNo" />
+					</question> -->
+					<question id="involves-uams-clinicallab" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve UAMS Clinical Laboratory Services?</question-label>
+						<question-value instance-path="/protocol/budget/involves/uams-clinicallab" value-type="yesNo" />
+					</question>
+					<question id="involves-uams-radiology" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve UAMS Radiology Procedures and Services?</question-label>
+						<question-value instance-path="/protocol/budget/involves/uams-radiology" value-type="yesNo" />
+					</question>
+					<question id="involves-uams-pharmacy" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve UAMS Pharmacy (Research, Inpatient, or Outpatient) Services?</question-label>
+						<question-value instance-path="/protocol/budget/involves/uams-pharmacy" value-type="yesNo" />
+					</question>
+					<question id="involves-uams-other" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve other UAMS Clinical, Diagnostic, or Therapeutic Services (ECG, Pulmonary Functions, ECHO, etc.)?</question-label>
+						<question-value instance-path="/protocol/budget/involves/uams-other" value-type="yesNo" />
+					</question>
+					<question id="involves-uams-supplies" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve supplies from UAMS Central Supply?</question-label>
+						<question-value instance-path="/protocol/budget/involves/uams-supplies" value-type="yesNo" />
+					</question>
+					<question id="involves-fgp-fees" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve professional fees billed through the Faculty Group Practice?</question-label>
+						<question-value instance-path="/protocol/budget/involves/fgp-fees" value-type="yesNo" />
+					</question>
+					<question id="involves-industry-support" parent-id="" parent-value="" header="">
+						<question-label>Does your protocol involve funds, drugs, devices, or other support from industry?</question-label>
+						<question-value instance-path="/protocol/budget/involves/industry-support" value-type="yesNo" />
+					</question>
+				</sub-questions>
+			</question>
+			
+			<question id="question-charge-for-device" parent-id="" parent-value="" header="">
+				<question-label>Does the device manufacturer plan to charge 
+				UAMS for the device?</question-label>
+				<question-value instance-path="/protocol/budget/charge-for-device" value-type="yesNo" />
+			</question>
+		</section>
+		<section name="National Coverage Determination">
+			<question id="question-test-intervention" parent-id="" parent-value="" header="">
+				<question-label>Does the principal purpose of the
+						trial test whether the intervention potentially improve the
+						participants' health outcomes?</question-label>
+				<question-value instance-path="/protocol/budget/test-intervention" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-test-intervention-explain" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value instance-path="/protocol/budget/test-intervention/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-is-trial-well-supported" parent-id="" parent-value="" header="">
+				<question-label>Is the trial well-supported by
+						available scientific and medical information or intended to clarify
+						or establish the health outcomes of interventions already in common
+						clinical use?</question-label>
+				<question-value instance-path="/protocol/budget/is-trial-well-supported" value-type="yesNo" />
+			</question>
+			<question id="question-duplicate-existing-studies" parent-id="" parent-value="" header="">
+				<question-label>Does your trial unjustifiably duplicate any existing studies?</question-label>
+				<question-value instance-path="/protocol/budget/duplicate-existing-studies" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-duplicate-existing-studies-explain" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value instance-path="/protocol/budget/duplicate-existing-studies/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-trial-design-appropriate-to-answer" parent-id="" parent-value="" header="">
+				<question-label>Is the trial design appropriate to answer the research question?</question-label>
+				<question-value instance-path="/protocol/budget/trial-design-appropriate-to-answer" value-type="yesNo" />
+			</question>
+			<question id="question-trial-sponsored-by-organization" parent-id="" parent-value="" header="">
+				<question-label>Is the trial sponsored by a
+						credible organization or individual capable of executing the
+						proposed trial successfully?</question-label>
+				<question-value instance-path="/protocol/budget/trial-sponsored-by-organization" value-type="yesNo" />
+			</question>
+			<question id="question-trial-in-compliance" parent-id="" parent-value="" header="">
+				<question-label>Is the trial in compliance with
+						Federal regulations relating to the protection of human subjects?</question-label>
+				<question-value instance-path="/protocol/budget/trial-in-compliance" value-type="yesNo" />
+			</question>
+			<question id="question-all-aspects-according-to-standards" parent-id="" parent-value="" header="">
+				<question-label>Are all aspects of the trial
+						conducted according to the appropriate standards of scientific
+						integrity?</question-label>
+				<question-value instance-path="/protocol/budget/all-aspects-according-to-standards" value-type="yesNo" />
+			</question>
+		</section>
+	</page>
+	<page name="Epic" id="epic">
+		<section>
+			<question id="question-epic-title" parent-id="" parent-value="" header="">
+				<question-label>UConnect (Epic) title</question-label>
+				<question-value instance-path="/protocol/epic/epic-title" value-type="textarea" />
+			</question>
+			<question id="question-epic-desc" parent-id="" parent-value="" header="">
+				<question-label>UConnect (Epic) description</question-label>
+				<question-value instance-path="/protocol/epic/epic-desc" value-type="textarea" />
+			</question>
+			<question id="question-involve-chemotherapy" parent-id="" parent-value="" header="">
+				<question-label>Does this study involve the use of chemotherapy?</question-label>
+				<question-value instance-path="/protocol/epic/involve-chemotherapy" value-type="yesNo" />
+			</question>
+		</section>
+	</page>
+</form>

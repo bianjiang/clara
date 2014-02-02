@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+  
+    <definition extends="protocol/protocolform/humanitarianusedevice" name="protocol/protocolform/humanitarianusedevice/first-page">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/first-page.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            <add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/humanitarianusedevice" name="protocol/protocolform/humanitarianusedevice/initial-application">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/initial-application.jspx" />
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />	
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/humanitarianusedevice" name="protocol/protocolform/humanitarianusedevice/staff">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/staff.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+			<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/humanitarianusedevice" name="protocol/protocolform/humanitarianusedevice/documents">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/documents.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+       
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/humanitarianusedevice" name="protocol/protocolform/humanitarianusedevice/review">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/humanitarianusedevice" name="protocol/protocolform/humanitarianusedevice/signed">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+   		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  		</put-list-attribute>
+    </definition>
+    
+    
+    <!-- summary is always no headers -->
+    <definition extends="form-summary" name="protocol/protocolform/summary">
+        <put-attribute name="body" value="/WEB-INF/views/form/summary.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/jquery/plugin/jquery.autoheight.js" />
+    		<add-attribute value="/static/js/jquery/plugin/jquery.formSerializer.js" type="string" />
+			<add-attribute value="/static/js/common/uams-forms.js" type="string" />
+    		<add-attribute value="/static/js/protocol/protocolform/rules.js" type="string" />
+    		<add-attribute value="/static/js/protocol/protocolform/humanitarianusedevice/humanitarianusedevice-rules.js" />
+    		<add-attribute value="/static/js/common/summary.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    
+    <!-- no headers -->    
+    <definition extends="protocol/protocolform/humanitarianusedevice-noheader" name="protocol/protocolform/humanitarianusedevice/first-page-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/first-page.jspx"/>
+  		<put-list-attribute name="styles" inherit="true">
+  			<add-attribute value="/static/js/common/wizard.js" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/humanitarianusedevice-noheader" name="protocol/protocolform/humanitarianusedevice/initial-application-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/initial-application.jspx"
+        />
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/humanitarianusedevice-noheader" name="protocol/protocolform/humanitarianusedevice/staff-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/staff.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/Application.StaffRolePanel.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-stores.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff.js" />
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/humanitarianusedevice-noheader" name="protocol/protoc
+    olform/humanitarianusedevice/documents-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/documents.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/document-stores.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/documents.js" />    		
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/humanitarianusedevice-noheader" name="protocol/protocolform/humanitarianusedevice/review-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/humanitarianusedevice-noheader" name="protocol/protocolform/humanitarianusedevice/signed-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevice/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+   		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+</tiles-definitions>

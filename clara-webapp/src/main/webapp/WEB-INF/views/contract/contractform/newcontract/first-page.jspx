@@ -1,0 +1,357 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${contractFormXmlData.xmlData}" var="contractInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="contractTitle" select="string($contractInstance/contract/basic-information/nature)" />
+	<div id="clara-form-pagelist">
+		<uams:newcontracttab name="first-page" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+
+		<div class="formArea">
+
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+			<div class="question" id="question-nature">
+				<div class="questionLabel">What is the title of this contract?</div>
+
+				<div class="questionValue">
+					<textarea class="question-el required" name="/contract/basic-information/nature"
+						rows="4" id="title">
+						<x:out escapeXml="false" select="$contractInstance/contract/basic-information/nature" />
+					</textarea>
+				</div>
+				<div style="clear:both;"><!-- // --></div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="contract-nature" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-contract-type">
+				<div class="questionLabel">What kind of contract are you
+					submitting?</div>
+				<div class="questionValue">
+					<x:set var="contractType"
+						select="string($contractInstance/contract/basic-information/contract-type/text())" />
+					<uams:select id="contract-type" lookuppath="contract-types"
+						instancepath="/contract/basic-information/contract-type" value="${contractType}"
+						validation="required" />
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="contract-types" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-confidentiality-disclosure-agreement-sub-type">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Confidentiality Disclosure Agreement, answer the following question:</h1>
+						What is the contract sub-type?</div>
+				<div class="questionValue">
+					<x:set var="confidentialityDisclosureAgreementSubType"
+						select="string($contractInstance/contract/basic-information/contract-type/confidentiality-disclosure-agreement/sub-type/text())" />
+					<uams:select id="confidentiality-disclosure-agreement-sub-type" lookuppath="confidentiality-disclosure-agreement-sub-type"
+						instancepath="/contract/basic-information/contract-type/confidentiality-disclosure-agreement/sub-type" value="${confidentialityDisclosureAgreementSubType}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-clinical-trial-agreement-sub-type">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Clinical Trial Agreement, answer the following question:</h1>
+						What is the contract sub-type?</div>
+				<div class="questionValue">
+					<x:set var="clinicalTrialAgreementSubType"
+						select="string($contractInstance/contract/basic-information/contract-type/clinical-trial-agreement/sub-type/text())" />
+					<uams:select id="clinical-trial-agreement-sub-type" lookuppath="clinical-trial-agreement-sub-type"
+						instancepath="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value="${clinicalTrialAgreementSubType}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-material-transfer-agreement-sub-type">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Material Transfer Agreement, answer the following question:</h1>
+						What is the contract sub-type?</div>
+				<div class="questionValue">
+					<x:set var="materialTransferAgreementSubType"
+						select="string($contractInstance/contract/basic-information/contract-type/material-transfer-agreement/sub-type/text())" />
+					<uams:select id="material-transfer-agreement-sub-type" lookuppath="material-transfer-agreement-sub-type"
+						instancepath="/contract/basic-information/contract-type/material-transfer-agreement/sub-type" value="${materialTransferAgreementSubType}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-research-agreement-sub-type">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Research Agreement, answer the following question:</h1>
+						What is the contract sub-type?</div>
+				<div class="questionValue">
+					<x:set var="researchAgreementSubType"
+						select="string($contractInstance/contract/basic-information/contract-type/research-agreement/sub-type/text())" />
+					<uams:select id="research-agreement-sub-type" lookuppath="research-agreement-sub-type"
+						instancepath="/contract/basic-information/contract-type/research-agreement/sub-type" value="${researchAgreementSubType}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-subcontracts-sub-type">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Subcontracts, answer the following question:</h1>
+						What is the contract sub-type?</div>
+				<div class="questionValue">
+					<x:set var="subcontractsSubType"
+						select="string($contractInstance/contract/basic-information/contract-type/subcontracts/sub-type/text())" />
+					<uams:select id="subcontracts-sub-type" lookuppath="subcontracts-sub-type"
+						instancepath="/contract/basic-information/contract-type/subcontracts/sub-type" value="${subcontractsSubType}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-license-sub-type">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting License, answer the following question:</h1>
+						What is the contract sub-type?</div>
+				<div class="questionValue">
+					<x:set var="licenseSubType"
+						select="string($contractInstance/contract/basic-information/contract-type/license/sub-type/text())" />
+					<uams:select id="license-sub-type" lookuppath="license-sub-type"
+						instancepath="/contract/basic-information/contract-type/license/sub-type" value="${licenseSubType}"
+						validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-study-type-contract">
+				<div class="questionLabel">
+					<span class="question-label-text">Who initiated the study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="studyTypeContract"
+						select="string($contractInstance/contract/study-type/text())" />
+					<uams:select id="study-type-contract" lookuppath="study-types"
+						instancepath="/contract/study-type" value="${studyTypeContract}"
+						 />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="study-type" />
+				</div>
+			</div>
+
+			<div class="question" id="question-cooperative-group-contract">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Cooperative Group, answer the following question:</h1>
+					<span class="question-label-text">Please indicate the
+						Cooperative Group.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="cooperativeGroupContract"
+						select="string($contractInstance/contract/study-type/cooperative-group/text())" />
+					<uams:select id="cooperative-group-contract" lookuppath="cooperative-groups"
+						instancepath="/contract/study-type/cooperative-group"
+						value="${cooperativeGroupContract}" />
+				</div>
+			</div>
+
+			<div class="question" id="question-investigator-description-contract">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Investigator Initiated study, answer the following
+						question:</h1>
+					<span class="question-label-text">Which of the following
+						describes the investigator who initiated this study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="investigatorDescriptionContract"
+						select="string($contractInstance/contract/study-type/investigator-initiated/investigator-description/text())" />
+					<uams:select id="investigator-description-contract"
+						lookuppath="investigator-description"
+						instancepath="/contract/study-type/investigator-initiated/investigator-description"
+						value="${investigatorDescriptionContract}" />
+				</div>
+			</div>
+
+			<div class="question" id="question-other-investigator-description-contract">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						<span class="question-label-text">Since you choose Other to
+							describe investigator, please explain:</span>
+					</h1>
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el required"
+						name="/contract/study-type/investigator-initiated/investigator-description/other/explain"
+						rows="4" id="other-investigator-description-contract">
+						<x:out
+							select="$contractInstance/contract/study-type/investigator-initiated/investigator-description/other/explain" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question" id="question-study-subtype-contract">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Investigator Initiated study, answer the following
+						question:</h1>
+					<span class="question-label-text">Which of the following
+						support types will this study use? (Check all that apply)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="studySubtypeContract"
+						select="$contractInstance/contract/study-type/investigator-initiated/sub-type" />
+					<uams:checkbox id="study-subtype-contract" lookuppath="study-subtypes"
+						instancepath="/contract/study-type/investigator-initiated/sub-type"
+						value="${studySubtypeContract}" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="study-subtypes" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-is-study-related">
+				<div class="questionLabel">Is this contract related to any existing protocol?</div>
+				<div class="questionValue">
+					<x:set var="isStudyRelated"
+						select="string($contractInstance/contract/basic-information/is-study-related/text())" />
+					<uams:yesno id="is-study-related"
+						instancepath="/contract/basic-information/is-study-related"
+						value="${isStudyRelated}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-irb-number">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since this is a study related contract, please answer the following question: <br />
+					</h1>
+					Please provide the IRB number:
+				</div>
+				<div class="questionValue">
+					<x:set var="iRBNumber"
+						select="string($contractInstance/contract/protocol/text())" />
+					<uams:textbox id="irb-number"
+						instancepath="/contract/protocol"
+						validation="number required" value="${iRBNumber}" />
+						<button id="btnIrbLookup">Update Study Information from the Protocol module</button>
+						<div id="fldLookupProtocolTitle" style="margin-top:10px;"></div>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="irb-number" />
+				</div>
+			</div>
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(contractTitle, '\\n',' ')))}"/></div>
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Contract":jQuery("#claraFormTitle").text();
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : '',
+										nextTab : 'study-information',
+										renderTo : 'page-wizard-wrapper'
+									});
+							
+							renderFormViewport(
+									(claraInstance.form.type == 'AMENDMENT')?"<strong>Amendment</strong>: Basic Information":"<strong>New Contract</strong>: Basic Information",
+									wiz);
+							
+							jQuery(".question-el").change(
+									function() {
+										processDependencies("#pageForm");
+									});
+
+							processDependencies("#pageForm");
+							
+							// Attach IRB lookup..
+
+							jQuery("#btnIrbLookup").click(function(){
+								var irb = jQuery("#irb-number").val();
+
+								if (!isNaN(parseFloat(irb))){
+									jQuery.ajax({
+										url:appContext+"/ajax/contracts/"+claraInstance.id+"/contract-forms/"+claraInstance.form.id+"/contract-form-xml-datas/"+claraInstance.form.xmlDataId+"/get-protocol-metadata",
+										dataType:"xml",
+										data:{protocolId:irb},
+										beforeSend:function(){
+											jQuery("#fldLookupProtocolTitle").text("Searching, please wait..");
+										},
+										success: function(xml){
+											var protocol = jQuery(xml).find("protocol");
+											var title = protocol.find("title").text();
+											var status = protocol.find("status").text();
+											  
+											var html = '<ul style="list-style: disc outside none;">';
+											  html += '<li class="bulletitem"><b>Study Title:</b> ' + title + "</li>";
+											  html += '<li class="bulletitem"><b>Status:</b> ' + status + "</li>";
+											  html += "</ul>";
+											  
+											  jQuery("#fldLookupProtocolTitle").html(html);
+											 
+										  },
+										  error: function(j,s,e){
+											  clog("ERROR",j,s,e);
+											  jQuery("#fldLookupProtocolTitle").text("There was a problem finding the protocol. Try the search again.");
+										  }
+									});	
+								}
+							});
+							
+						});
+	</script>
+
+
+
+</div>

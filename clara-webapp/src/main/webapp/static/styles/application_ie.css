@@ -1,0 +1,25 @@
+#form_content {
+	padding-top:0px;
+	vertical-align: top;
+}
+
+.uams_formsection{
+	width:655px;
+	vertical-align: top;
+}
+
+.form_page {
+	margin-left:0px;	
+}
+
+.form_pagelist{
+	width:940px;
+}
+
+.form_bottombar {
+	margin:0px;	
+}
+
+.ieNoMargin {
+	margin:0px;
+}

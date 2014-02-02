@@ -1,0 +1,35 @@
+<form name="Humanitarian Use Device Renewal Application" id="humanitarian-use-device-renewal" type="HUMANITARIAN_USE_DEVICE_RENEWAL">
+	<page name="Renewal Application" id="renewal-application">
+		<section>
+			<question id="question-device-has-been-used-for" parent-id="" parent-value="" header="">
+				<question-label>How many times has the device been used in the past year?</question-label>
+				<question-value instance-path="/hud-renewal/renewal-application/device-has-been-used-for" value-type="textarea" />
+			</question>
+			<question id="question-unanticipated-problems-occurred" parent-id="" parent-value="" header="">
+				<question-label>Have any unanticipated problems occurred in the past year?</question-label>
+				<question-value instance-path="/hud-renewal/renewal-application/unanticipated-problems-occurred" value-type="yesNo" />
+			</question>
+			<question id="question-unanticipated-problems-occurred-desc" parent-id="question-unanticipated-problems-occurred" parent-value="y" header="Yes">
+				<question-label>Please describe</question-label>
+				<question-value instance-path="/hud-renewal/renewal-application/unanticipated-problems-occurred/y/explain" value-type="textarea" />
+			</question>
+			<question id="question-change-in-fda-approva" parent-id="" parent-value="" header="">
+				<question-label>Has there been any change in the FDA approval status of the device?</question-label>
+				<question-value instance-path="/hud-renewal/renewal-application/change-in-fda-approval" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-change-in-fda-approva-other" parent-id="" parent-value="" header="Yes">
+						<question-label>Please describe</question-label>
+						<question-value instance-path="/hud-renewal/renewal-application/change-in-fda-approval/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+		</section>
+	</page>
+	<page name="Staff" id="staff">
+		<section>
+			<question id="question-staff" parent-id="" parent-value="" header="">
+				<question-value instance-path="/hud-renewal/staffs/staff" value-type="staff" />
+			</question>
+		</section>
+	</page>
+</form>

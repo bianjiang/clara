@@ -1,0 +1,222 @@
+<form name="Study Closure" id="study-closure" type="STUDY_CLOSURE">
+	<page name="General Study Information" id="general-study-information">
+		<section>
+			<question id="question-study-status" parent-id="" parent-value="" header="">
+				<question-label>What is the status of the study?</question-label>
+				<question-value instance-path="/study-closure/study-status" lookup-path="study-closure-study-status" value-type="radio" />
+			</question>
+			<question id="question-study-closure-reason" parent-id="question-study-status" parent-value="permanently-closed-to-enrollment" header="Permanently closed to enrollment">
+				<question-label>What is the reason for the study closure?</question-label>
+				<question-value instance-path="/study-closure/study-status/permanently-closed-to-enrollment/reason" lookup-path="study-closure-reason" value-type="radio" />
+			</question>
+			<question id="question-study-closure-any-change-affect-study-exempt-review-classification" parent-id="" parent-value="" header="">
+				<question-label>Has there been any change, in the opinion of the investigator, which affects this study's exempt review classification?</question-label>
+				<question-value  instance-path="/study-closure/general-study-info/any-change-affect-study-exempt-review-classification" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-study-closure-any-change-affect-study-exempt-review-classification-other" parent-id="" parent-value="" header="Yes">
+						<question-label>Please describe</question-label>
+						<question-value  instance-path="/study-closure/general-study-info/any-change-affect-study-exempt-review-classification/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+		</section>
+	</page>
+	<page name="Accrual of Subjects" id="accrual-of-subjects">
+		<section>
+			<question id="question-chart-review-study-only" parent-id="" parent-value="" header="">
+				<question-label>Is this a chart review study only?</question-label>
+				<question-value instance-path="/study-closure/subject-accrual/chart-review-study-only" value-type="yesNo" />
+			</question>
+			<question id="question-number-of-charts-reviewed" parent-id="question-chart-review-study-only" parent-value="y" header="Yes">
+				<question-label>How many charts have you reviewed?</question-label>
+				<question-value  instance-path="/study-closure/subject-accrual/chart-review-study-only/y/number-of-charts-reviewed" value-type="textarea" />
+			</question>
+			<question id="question-reach-uams-enrollment-goal" parent-id="" parent-value="" header="">
+				<question-label>Did study reach the UAMS Enrollment Goal?</question-label>
+				<question-value instance-path="/study-closure/subject-accrual/reach-uams-enrollment-goal" value-type="yesNo" />
+			</question>
+			<question id="question-vulnerable-populations-since-activation" parent-id="question-study-closure-any-change-affect-study-exempt-review-classification" parent-value="y" header="Yes">
+				<question-label>Select all of the vulnerable populations from which you've enrolled subjects locally, since activation of the study.</question-label>
+				<question-value  instance-path="/study-closure/subject-accrual/vulnerable-populations-since-activation" lookup-path="vulnerable-populations-since-activation" value-type="checkbox" />
+			</question>
+			<question id="question-study-closure-subject-array" parent-id="" parent-value="" header="">
+				<question-value  instance-path="/study-closure/subject-accrual/enrollment/local" value-type="enrollment" />
+			</question>
+		</section>
+	</page>
+	<page name="Study Report" id="study-report">
+		<section>
+			<question id="question-summarize-study-progress" parent-id="" parent-value="" header="">
+				<question-label>Summarize study progress.</question-label>
+				<question-value instance-path="/study-closure/study-report/summarize-study-progress" value-type="textarea" />
+			</question>
+			<question id="question-subjects-experience-benefits" parent-id="" parent-value="" header="">
+				<question-label>Have subjects experienced any benefits since your last report?</question-label>
+				<question-value  instance-path="/study-closure/study-report/subjects-experience-benefits" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-subjects-experience-benefits-other" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/study-report/subjects-experience-benefits/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-unanticipated-problems-involving-risks" parent-id="" parent-value="" header="">
+				<question-label>Have there been any unanticipated problems involving risks to subjects or others since your last report?</question-label>
+				<question-value  instance-path="/study-closure/study-report/unanticipated-problems-involving-risks" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-unanticipated-problems-involving-risks-other" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/study-report/unanticipated-problems-involving-risks/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-subjects-withdrawn-from-research" parent-id="" parent-value="" header="">
+				<question-label>Have any subjects withdrawn from the research since your last report?</question-label>
+				<question-value  instance-path="/study-closure/study-report/subjects-withdrawn-from-research" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-subjects-withdrawn-from-research-other" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/study-report/subjects-withdrawn-from-research/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-subjects-or-others-complained" parent-id="" parent-value="" header="">
+				<question-label>Have any subjects or others complained about the research since your last year?</question-label>
+				<question-value  instance-path="/study-closure/study-report/subjects-or-others-complained" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-subjects-or-others-complained-other" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/study-report/subjects-or-others-complained/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-any-publications-or-potential-benefits" parent-id="" parent-value="" header="">
+				<question-label>Have there been any publications in the literature relevant to the risks or potential benefits of the research since your last report?</question-label>
+				<question-value  instance-path="/study-closure/study-report/any-publications-or-potential-benefits" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-any-publications-or-potential-benefits-other" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/study-report/any-publications-or-potential-benefits/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-any-interim-findings" parent-id="" parent-value="" header="">
+				<question-label>Since your last report, have there been any interim findings?</question-label>
+				<question-value  instance-path="/study-closure/study-report/any-interim-findings" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-any-interim-findings-other" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/study-report/any-interim-findings/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-any-multi-center-trial-reports" parent-id="" parent-value="" header="">
+				<question-label>Since you last report, have there been any multi-center trial reports?</question-label>
+				<question-value  instance-path="/study-closure/study-report/any-multi-center-trial-reports" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-any-multi-center-trial-reports-other" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/study-report/any-multi-center-trial-reports/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-any-dsmb-reports" parent-id="" parent-value="" header="">
+				<question-label>Since your last report, have there been any data safety monitoring board reports?</question-label>
+				<question-value  instance-path="/study-closure/study-report/any-dsmb-reports" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-any-dsmb-reports-other" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/study-report/any-dsmb-reports/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-any-risks-information" parent-id="" parent-value="" header="">
+				<question-label>Since you last report, has there been any other relevant information regarding this research, specially information about risks associated with the research?</question-label>
+				<question-value  instance-path="/study-closure/study-report/any-risks-information" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-any-risks-information-other" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/study-report/any-risks-information/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-any-risks-or-benefits-changed" parent-id="" parent-value="" header="">
+				<question-label>In the opinion of the principal investigator, have the risks or potential benefits of this research changed since your last report?</question-label>
+				<question-value  instance-path="/study-closure/study-report/any-risks-or-benefits-changed" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-any-risks-or-benefits-changed-other" parent-id="" parent-value="" header="">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/study-report/any-risks-or-benefits-changed/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-any-adverse-events" parent-id="" parent-value="" header="">
+				<question-label>Since the last report, have there been any internal or local adverse events in the research?</question-label>
+				<question-value  instance-path="/study-closure/study-report/any-adverse-events" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-any-adverse-events-other" parent-id="" parent-value="" header="">
+						<question-label>Please provide a summary</question-label>
+						<question-value  instance-path="/study-closure/study-report/any-adverse-events/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-any-deviations" parent-id="" parent-value="" header="">
+				<question-label>Since the last report, have any protocol deviations or violations occurred in this study?</question-label>
+				<question-value  instance-path="/study-closure/study-report/any-deviations" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-any-deviations-other" parent-id="" parent-value="" header="">
+						<question-label>Please provide a summary</question-label>
+						<question-value  instance-path="/study-closure/study-report/any-deviations/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-is-audited-by-federal-agency" parent-id="" parent-value="" header="">
+				<question-label>Has this study been audited by the FDA, NIH, NCI OR other federal agency since your last report?</question-label>
+				<question-value  instance-path="/study-closure/study-report/is-audited-by-federal-agency" value-type="yesNo" />
+			</question>
+			<question id="question-audit-date" parent-id="question-is-audited-by-federal-agency" parent-value="y" header="Yes">
+				<question-label>What was the date of audit?</question-label>
+				<question-value  instance-path="/study-closure/study-report/is-audited-by-federal-agency/y/date" value-type="date" />
+			</question>
+			<question id="question-is-report-issued" parent-id="question-is-audited-by-federal-agency" parent-value="y" header="Yes">
+				<question-label>Has a report been issued?</question-label>
+				<question-value  instance-path="/study-closure/study-report/is-audited-by-federal-agency/y/is-report-issued" value-type="yesNo" />
+			</question>
+			<question id="question-is-report-copy-submitted" parent-id="question-is-audited-by-federal-agency" parent-value="y" header="Yes">
+				<question-label>Have you submitted a copy of the report?</question-label>
+				<question-value  instance-path="/study-closure/study-report/is-audited-by-federal-agency/y/is-report-copy-submitted" value-type="yesNo" />
+			</question>
+			<question id="question-study-focus-of-litigation" parent-id="" parent-value="" header="">
+				<question-label>Is this study subject to any litigation?</question-label>
+				<question-value  instance-path="/study-closure/study-report/study-focus-of-litigation" value-type="yesNo" />
+			</question>
+			<question id="question-is-irb-notified" parent-id="question-study-focus-of-litigation" parent-value="y" header="Yes">
+				<question-label>Has the IRB been notified?</question-label>
+				<question-value  instance-path="/study-closure/study-report/study-focus-of-litigation/y/is-irb-notified" value-type="yesNo" />
+			</question>
+			<question id="question-irb-not-notified-explain" parent-id="question-is-irb-notified" parent-value="n" header="No">
+				<question-label>Please explain</question-label>
+				<question-value  instance-path="/study-closure/study-report/study-focus-of-litigation/y/is-irb-notified/n/explain" value-type="textarea" />
+			</question>
+			<question id="question-publications-or-presentation-from-data-collected" parent-id="" parent-value="" header="">
+				<question-label>Are there any publications or presentations that have resulted from data collected during this study?</question-label>
+				<question-value  instance-path="/study-closure/study-report/publications-or-presentation-from-data-collected" value-type="yesNo" />
+			</question>
+		</section>
+	</page>
+	<page name="Conflict of Interest" id="conflict-of-interest">
+		<section>
+			<question id="question-has-coi-changes" parent-id="" parent-value="" header="">
+				<question-label>Have there been a change in the financial disclosure status of the Principal Investigator or other members of 
+					the Research Staff that has not been reported to the IRB? </question-label>
+				<question-value  instance-path="/study-closure/funding-source/has-coi-changes" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-has-coi-changes-other" parent-id="" parent-value="" header="Yes">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-closure/funding-source/has-coi-changes/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+		</section>
+	</page>
+</form>

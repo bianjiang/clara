@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<object type="Protocol">
+	<fields data-object="Protocol" data-get="getMetaDataXml" data-type="xml">
+		<field search-key="PI" type="PERSON"  xpath="/protocol/staffs/staff/user[roles/role=Principal Investigator]">
+			<!--  list all the fields that need to be indexed under this search key
+				for person, it should contain, lastname, firstname, and all name cobinations.
+			 -->
+			<index id="name" value="{firstname} {lastname}" type="TEXT" store="false" />			
+			<index id="userId" value="{@id}" type="LONG" store="true" />
+		</field>
+		<field search-key="title" type="TEXT" xpath="/protocol/title/text()">
+			<index type="TEXT" store="false" />
+		</field>
+	</fields>
+</object>

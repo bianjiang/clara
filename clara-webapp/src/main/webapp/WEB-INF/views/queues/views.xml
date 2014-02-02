@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+
+
+    <definition extends="default-ext4" name="queues/index">
+        <put-attribute name="body" value="/WEB-INF/views/queues/index.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/app/config.js" />
+    		<add-attribute value="/static/js/app/queue/app.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/queues/queues.css" />
+  		</put-list-attribute>
+    </definition>
+
+</tiles-definitions>

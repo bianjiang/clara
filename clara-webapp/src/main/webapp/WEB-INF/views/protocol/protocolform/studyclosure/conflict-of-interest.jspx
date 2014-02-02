@@ -1,0 +1,109 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="scInstance" />
+	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" />
+
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+	
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:studyclosuretab name="conflict-of-interest" scInstance="${scInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+						
+			<div class="question"
+				id="question-has-coi-changes">
+				<div class="questionLabel">
+					Have there been a change in the financial disclosure status of the Principal Investigator or other members of 
+					the Research Staff that has not been reported to the IRB?        
+				</div>
+				<div class="questionValue">
+					<x:set var="hasCoiChanges"
+						select="string($scInstance/study-closure/funding-source/has-coi-changes/text())" />
+					<x:set var="hasCoiChangesExplainText"
+						select="string($scInstance/study-closure/funding-source/has-coi-changes/y/explain/text())" />
+					<uams:yesno
+						id="has-coi-changes"
+						instancepath="/study-closure/funding-source/has-coi-changes"
+						value="${hasCoiChanges}" validation="required"
+						showTextArea="true"
+						textValue="${hasCoiChangesExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please explain:"
+						valueToShowTextArea="y" />
+				</div>
+			</div>
+			
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+clog("Xmldata:");
+
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'study-report',
+										nextTab : 'documents',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									"<strong>Continuing Review</strong>: Conflict of Interest",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+							//renderQuestionWizard('page-wizard-wrapper', 'question', true, 'staff', 'hipaa');
+						});
+	</script> 
+</div>
+

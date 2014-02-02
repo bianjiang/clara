@@ -1,0 +1,73 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+     
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <c:import url="/static/xml/lookup.xml" var="lookupxml"/> 
+    
+    <c:import var="helpxml" url="/static/xml/help.xml"/>
+    
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="hudrenewalInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application"/>
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle" select="string($hudrenewalInstance/hud-renewal/title)" />
+	<x:set var="signedByPiOrNot"
+		select="string($hudrenewalInstance/hud-renewal/signed-by/text())" />
+			<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+			    <uams:hudrenewaltab name="review" />
+			</div>
+			
+			<div id="clara-form-pagecontent">
+			
+							<div class="formArea">
+								
+									
+								
+									<div id="review-list">
+										<!-- // -->
+									</div>
+									<div id="review-no-messages">
+										<h2>Attestation</h2>
+										<c:choose>
+											<c:when test='${signedByPiOrNot == "IS_NOT_TP"}'>
+												<span><p>Protocol is ready to be submitted for TP Signature.</p></span>
+											</c:when>
+											<c:when test='${signedByPiOrNot == "IS_TP"}'>
+												<span>
+													<P>I certify that the information provided in this request is complete and accurate.  I agree to:</P>
+													
+													<ol>
+													<li>perform the procedure as outlined herein and approved by the IRB;</li>
+													<li>use the device only as described on the FDA approved label;</li>
+													<li>provide the patient with appropriate information to make an informed decision about the use of the device;</li>
+													<li>report unanticipated problems involving risk to patients to the IRB according to IRB procedures;</li>
+													<li>notify the patient of any new findings regarding the device.</li>
+													</ol>
+													
+													<p>I certify that the HUD is not being used as part of a research project or clinical investigation designed to collect data to support an FDA pre-marketing approval application.</p>
+												</span>
+											</c:when>
+										</c:choose>
+										<br/><br/>
+										<div id="sign-and-submit"><!-- // --></div>
+									</div>
+
+			
+						</div>
+						
+				</div>
+
+					<div id="clara-form-actionbuttons">
+						<div id="btnPrevPage"></div>
+						<div id="btnNextPage"></div>
+					</div>
+	
+	<script type="text/javascript">
+			jQuery(document).ready(function() {
+			claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+			var rpanel = new Clara.FormReviewPanel({authenticated:'${authenticated}'}); renderFormViewport("<strong>Humanitarian Use Device Renewal</strong>: Review",rpanel);
+	
+		});
+	</script>	
+</div>
+

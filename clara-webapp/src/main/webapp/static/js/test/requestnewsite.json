@@ -1,0 +1,13 @@
+{
+			"id":150,
+            "sitename": "Jason's Triangle Cafe",
+            "siteid": 2,
+            "address": "1 JSON Street",
+            "city": "Little Rock",
+            "state": "AR",
+            "zip": "72211",
+            "retired": false,
+            "concurrentVersion": 0,
+            "common":true,
+            "status":"unapproved"
+}

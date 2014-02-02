@@ -1,0 +1,234 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:dynform="urn:jsptagdir:/WEB-INF/tags"
+	version="2.0">
+	<jsp:output doctype-root-element="html" 
+              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+              doctype-system=
+              "http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+	
+	<!-- application/xhtml+xml -->
+	<jsp:directive.page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"/>
+	
+	 
+<html>	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />		
+
+		
+  		<spring:url value="/static/styles/login.css" var="css_app" />
+  		<spring:url value="/static/styles/ext/ext-all.css" var="css_ui" />
+  		<spring:url value="/static/styles/application_ie.css" var="css_ie" />
+
+		<spring:url value="/static/images/" var="images_dir" />
+
+		<spring:url value="/static/js/jquery/jquery-1.7.min.js" var="js_jquery" />
+		<spring:url value="/static/js/jquery/plugin/jquery.jfeed.js" var="js_jfeed" />
+		<spring:url value="/static/js/ext/ext-jquery-adapter.js" var="js_extadapter" />
+		<spring:url value="/static/js/ext/ext-all.js" var="js_extall" />
+		<spring:url value="/static/js/clara-config.js" var="js_clara_config" />
+		<spring:url value="/static/js/main/login.js" var="js_login" />
+  		
+		<spring:url value='/j_spring_security_check' var="url_login"/>
+
+		<link rel="stylesheet" type="text/css" media="screen" href="${css_app}" />
+		<link rel="stylesheet" type="text/css" media="screen" href="${css_ui}" />
+
+		<link rel="icon" href="${images_dir}/favicon.ico" />
+		
+		
+		<![CDATA[
+		<!--[if lt IE 8]> 
+		]]>
+			<link rel="stylesheet" type="text/css" media="screen" href="${css_ie}" />
+		<![CDATA[
+		<![endif]-->
+		]]>
+		
+		<!-- app-config.js -->
+		<spring:url value="/static/js/app-config.js" var="js_app_config" />
+		<c:if test="${pageContext.request.serverName == 'localhost'}">
+				
+				<spring:url value="/static/js/app-config-dev.js" var="js_app_config" />
+			
+			</c:if>
+		
+		<c:if test="${pageContext.request.serverName == 'clara-training.uams.edu'}">
+				
+				<spring:url value="/static/js/app-config-training.js" var="js_app_config" />
+			
+			</c:if>
+  		
+  		<script type="text/javascript" src="${js_jquery}?ts=${claraBuildNumber}"><!-- // --></script>    
+  		<script type="text/javascript" src="${js_jfeed}?ts=${claraBuildNumber}"><!-- // --></script>    
+	  	<script type="text/javascript" src="${js_extadapter}?ts=${claraBuildNumber}"><!-- // --></script>  	  	
+	  	<script type="text/javascript" src="${js_extall}?ts=${claraBuildNumber}"><!-- // --></script>
+	  	<script type="text/javascript" src="${js_app_config}?ts=${claraBuildNumber}"><!-- // --></script>  	
+	  	<script type="text/javascript" src="${js_clara_config}?ts=${claraBuildNumber}"><!-- // --></script>   
+		<script type="text/javascript" src="${js_login}?ts=${claraBuildNumber}"><!-- // --></script>
+
+
+  						<script type="text/javascript"><![CDATA[
+			jQuery.noConflict();
+		
+		
+		window.clog=function(){clog.history=clog.history||[];clog.history.push(arguments);if(this.console){console.log(Array.prototype.slice.call(arguments));}};
+		var appContext = "/clara-webapp";
+		
+			jQuery(document).ready(function() {
+			
+			
+			
+				var browserName = window.sayswho[0];
+				var browserVersion = window.sayswho[1];
+				var browserVersionMajor = parseFloat(browserVersion.split(".")[0]);
+				clog(window.sayswho,browserVersionMajor);
+				
+				if (window.sayswho[0] == "Firefox" && browserVersionMajor < 12
+					|| window.sayswho[0] == "MSIE" && browserVersionMajor < 8
+					|| window.sayswho[0] == "Chrome" && browserVersionMajor < 20
+					|| window.sayswho[0] == "Safari" && browserVersionMajor < 5)
+					{
+					
+					Ext.Msg.show({
+					   title:'Your browser version may be out of date.',
+					   msg: '<h2>Clara supports Internet Explorer 8, Firefox 12, Chrome 20, Safari 5 or later.</h2><span>Contact your IT department to request a browser upgrade.</span>',
+					   buttons: Ext.Msg.OK,
+					   icon: Ext.MessageBox.WARNING
+					});
+					
+					
+				}
+				
+				if (window.sayswho[0] == "MSIE"){
+					jQuery("#iewarning").slideDown('slow');
+				}
+			
+				var loginUrl = "${url_login}";
+			
+			
+			    var login = new Ext.FormPanel({
+			    	standardSubmit: true,
+			        labelWidth: 75, // label settings here cascade unless overridden
+			        url:loginUrl,
+			        renderTo:'login-box',
+			        frame:true,
+			        title: 'Log in using your UAMS account',
+			        bodyStyle:'padding:5px 5px 0',
+			        defaults: {width: 230},
+			        width: 350,
+			        style:'margin-left:auto;margin-right:auto;',
+			        defaultType: 'textfield',
+			
+					listeners: {
+						afterrender: function(){
+
+							jQuery.getJSON("https://clara.uams.edu/feedproxy.php?callback=?",function(feed){
+		
+									var newsHtml = "<h1>Latest News</h1><ul>";
+									clog(feed);
+									for (var i=0,l=(feed.length<3?feed.length:3); i<l;i++){
+							        	var item = feed[i];
+							        	var contentHTML = "";
+							        	var pubDate = new Date(item.date); 
+							        	var day = pubDate.getDate();
+				                        var month = pubDate.getMonth() + 1;
+				                        var year = pubDate.getFullYear();
+				                        var dt = month + '/' + day + '/' + year;
+				                        dt = pubDate.format("m/d/y g:ia");
+				                        contentHTML = "<h2>"+item.title+"</h2>"+item.content;
+				                        jQuery("#hidden-full-news").append("<div id='claranews-"+item.id+"'>"+contentHTML+"</div>");
+							        	newsHtml += "<li><h3><a href='javascript:;' onclick='Clara.ShowWindowWithContentFromElement(\"claranews-"+item.id+"\");'>"+item.title+"</a></h3><h5>"+dt+"</h5><span>"+item.excerpt+"</span></li>"
+						       		}
+						       		newsHtml += "</ul>";
+							        	jQuery("#container").addClass("login-container-has-news");
+										jQuery(".login-wrapper").removeClass("w800").addClass("w400");
+							        	jQuery("#login-news").html(newsHtml).show();
+
+							});
+
+							
+							jQuery("#login-logo-img").fadeIn(600);
+							jQuery("#uams-logo-img").fadeIn(600);
+						}
+					},
+			
+			        items: [{
+			                fieldLabel: 'Username',
+			                name: 'j_username',
+			                emptyText:'Your UAMS username',
+			                allowBlank:false
+			            },{
+			                fieldLabel: 'Password',
+			                inputType:'password',
+			                name: 'j_password',
+			                allowBlank:false
+			            }
+			        ],
+			
+			        buttons: [{
+			        	text:"Reset password",
+			        	handler:function(){
+			        		new Clara.ChangePasswordWindow({modal:true}).show();	
+			        	}
+			        },{
+			            text: "Don't have an account?",
+			            handler:function(){
+			            	Ext.Msg.show({
+			            		title:"How do I get an account for Clara?",
+			            		msg:'Please submit a <a target="_blank" href="' + appContext + '/static/docs/CLARA_Account_Request.doc">CLARA Account Request</a> to the IRB (irb@uams.edu).',
+			            		buttons: Ext.Msg.OK
+			            	})
+			            }
+			        },{
+			            text: 'Log in',
+			            formBind:true,
+			            // Function that fires when user clicks the button 
+		                handler:function(){ 
+		                	login.getForm().getEl().dom.method = 'POST';
+		                    login.getForm().submit(); 
+		                }
+			        }],
+			        keys: [
+			            { key: [Ext.EventObject.ENTER], handler: function() {
+			                    login.getForm().getEl().dom.method = 'POST';
+		                    	login.getForm().submit();
+			                }
+			            }
+			        ]
+			    });
+			
+
+			});
+
+
+		]]>
+		</script>
+
+		<title>Welcome to Clara</title>
+	</head>
+   	<body>			
+   		<spring:url value="/j_spring_security_logout" var="url_logout"/>
+   		
+   		<div id="iewarning">It looks like you're using Internet Explorer. <strong>For improved performance, we recommend switching to <a href="http://www.google.com/chrome">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new">Firefox</a>.</strong></div>
+		
+   		<div id="supercontainer">
+	   		<div id="container">
+		   		<div id="login-wrapper" class="login-wrapper w800">
+					<tiles:insertAttribute name="body" />
+				</div>
+			</div>
+			<div id="login-news" style="display:none;">Yo here.</div>
+		</div>
+		<div id="hidden-full-news" style="display:none;">
+		<!-- // -->
+		</div>
+		<div style="clear:both;"><!-- // --></div>
+		<div style="margin-top:90px;width:100%;text-align:center;color:#ccc;font-size:20px;font-weight:100;"><a href="https://clara.uams.edu/wiki/doku.php?id=start" target="_blank"><strong style="font-weight:800;">CLARA Help</strong></a> | <a href="http://www.uams.edu/irb/irb.asp" target="_blank" style="color:#6699ff;text-decoration:none;"><strong>UAMS IRB</strong></a> | <a href="http://www.uams.edu" target="_blank" style="color:#6699ff;text-decoration:none;"><strong>UAMS Main Site</strong></a></div>
+	</body>
+</html>
+</jsp:root>

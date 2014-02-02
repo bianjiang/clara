@@ -1,0 +1,24 @@
+<html>
+<body>
+<div class="email-template revision-requested-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	The budget of following Research Study has been approved in CLARA.<br/><br/>
+	
+	Research Study Number IRB#: $protocolId<br/>
+
+	Title: $protocolTitle<br/>
+	
+	PI:  $piUser.person.getFullname()<br/>
+	
+	<br/>
+	#if ($involveChemotheray == "y")
+		This study <strong>INVOLVES</strong> the use of chemotherapy.
+	#else
+		This study <strong>DOES NOT INVOLVE</strong> the use of chemotherapy.
+	#end
+	
+	<br/>
+	{0}
+</div>
+</body>
+</html>

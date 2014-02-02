@@ -1,0 +1,61 @@
+<html>
+<head><link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/></head>
+<body>
+<div class="email-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	<br/>
+	<strong>Committee Notes/Comments:</strong>
+	<br/>
+	$emailComment
+	{0}
+	<br/><br/>
+	
+	CLARA and Legal reviewers, please review this amendment.<br/><br/>
+	
+	Contract Number#: $contractId<br/>
+	Description: $contractDescritpion<br/>
+	Contract Type: $contractType<br/>
+	
+	<br/><strong>Study Staff List:</strong><br/>
+	#if ($studyStaffList.size() == 0)
+		No staff is working on this study.
+	#end
+	<ul>
+		#foreach($user in ${studyStaffList}) 
+		<li>$user.person.getFullname()</li>#end
+	</ul><br/>
+	
+	The following team has been assigned to review this contract:<br/>
+	<br/><strong>Assigned Legal Reviewer:</strong><br/>
+	#if ($assignedLegal.size() == 0)
+		No legal reviewer is assigned to this study.
+	#end
+	<ul>
+		#foreach($legalReviewer in ${assignedLegal}) 
+		<li>$legalReviewer.person.getFullname()</li>#end
+	</ul><br/>
+	
+	<br/><strong>Assigned Contract Reviewer:</strong><br/>
+	#if ($assignedContract.size() == 0)
+		No contract reviewer is assigned to this study.
+	#end
+	<ul>
+		#foreach($contractReviewer in ${assignedContract}) 
+		<li>$contractReviewer.person.getFullname()</li>#end
+	</ul>
+	<br/><br/>
+	
+	<br/><strong>Contract Contact List:</strong><br/>
+	#if ($contractContactList.size() == 0)
+		No contact is related to this study.
+	#end
+	<ul>
+		#foreach($contact in ${contractContactList}) 
+		<li>$contact</li>#end
+	</ul><br/>
+	
+	<a href=$dashboardLink>Click here to access study.</a>
+	
+</div>
+</body>
+</html>

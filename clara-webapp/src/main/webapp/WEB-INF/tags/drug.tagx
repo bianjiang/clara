@@ -1,0 +1,45 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr>
+			<th id="name"><b>Drug</b></th>
+			<th id="type"><b>Details</b></th>
+			<!-- <th id="approved"><b>Approved?</b></th> -->
+		</tr>
+		<x:forEach var="drug" select="$value">
+			<x:set var="diff" select="string($drug/@diff)" />
+				<c:if test="${!empty diff}">
+					<c:set var="diffclass" value="row-diff-${diff}"/>
+			</c:if>
+			<tr class="drugrow ${diffclass}">
+				<td headers="name" valign="top" class="${diffclass}">
+					<div class="drugrow-name"><h5><x:out select="@name" /></h5></div>
+					<div class="drugrow-type"><strong>Type: </strong><em><x:out select="@type" /></em></div>
+					<div class="drugrow-admin"><strong>Administered: </strong> <x:out select="@admin" /></div>
+					<div class="drugrow-ind"><strong>IND: </strong> <x:out select="@ind" /></div>
+					<div class="drugrow-nsc"><strong>NSC: </strong> <x:out select="@nsc" /></div>
+				</td>
+				<td headers="type" valign="top" class="${diffclass}">
+					<div class="drugrow-insert"><strong>Insert? </strong> <x:out select="@insert" /></div>
+					<div class="drugrow-isprovided"><strong>Is drug provided? </strong> <x:out select="@isprovided" /></div>
+					<div class="drugrow-provider"><strong>Provider: </strong> <x:out select="@provider" /></div>
+					<div class="drugrow-providerdosage"><strong>Dosage: </strong> <x:out select="string($drug/providerdosage/text())" /></div>
+					<div class="drugrow-brochure"><strong>Brochure? </strong> <x:out select="@brochure" /></div>
+					<div class="drugrow-treatmentcenterlocation"><strong>Treatment Center: </strong> <x:out select="string($drug/treatmentcenterlocation/text())" /></div>
+				</td>
+				<!-- <td headers="approved" valign="top" class="${diffclass}"><x:out select="@approved" /></td>  -->
+			</tr>
+		</x:forEach>
+	</table>
+
+</jsp:root>

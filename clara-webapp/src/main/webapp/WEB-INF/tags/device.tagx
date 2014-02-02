@@ -1,0 +1,30 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+	
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		<tr>
+			<th id="name"><b>Device Name</b></th>
+			<th id="manufacturer"><b>Manufacturer</b></th>
+			<th id="approved"><b>Approved?</b></th>
+		</tr>
+		<x:forEach var="device" select="$value">
+			<tr>
+				<td headers="name" valign="top"><x:out select="@name" /></td>
+				<td headers="manufacturer" valign="top"><x:out select="@manufacturer" />
+				</td>
+				<td headers="approved" valign="top"><x:out select="@approved" />
+				</td>
+			</tr>
+		</x:forEach>
+	</table>
+
+</jsp:root>

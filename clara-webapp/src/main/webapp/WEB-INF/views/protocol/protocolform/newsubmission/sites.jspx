@@ -1,0 +1,194 @@
+<div class="clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title)" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="sites"
+			protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+			<div class="question" id="question-single-or-multi">
+				<div class="questionIdentifier">Sites-1</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Is this a single-site
+						study or multi-site study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="singleorMulti"
+						select="string($protocolInstance/protocol/sites/single-or-multi/text())" />
+					<uams:select id="singleorMulti" lookuppath="sites-single-or-multi"
+						instancepath="/protocol/sites/single-or-multi"
+						value="${singleorMulti}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="single-or-multi" />
+				</div>
+			</div>
+
+
+			<div class="question" id="question-multisite-is-local-lead-entity">
+				<div class="questionIdentifier">Sites-1.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since the study is a
+						multi-site study, please answer the following question:</h1>
+					<span class="question-label-text">Will the local site
+						(ACH/ACHRI/UAMS) be the lead entity for this study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="isLocalleadEntity"
+						select="string($protocolInstance/protocol/sites/single-or-multi/multiple-sites/is-local-lead-entity/text())" />
+					<uams:yesno id="isLocalleadEntity"
+						instancepath="/protocol/sites/single-or-multi/multiple-sites/is-local-lead-entity"
+						value="${isLocalleadEntity}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="multisite-is-local-lead-entity" />
+				</div>
+			</div>
+
+			<div class="question"
+				id="question-communication-protecting-participants">
+				<div class="questionIdentifier">Sites-1.1.1.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since the study is
+						taking place at multiple sites and the local site (UAMS/ACH) will
+						be the lead entity of this study, answer the following question:</h1>
+					<span class="question-label-text">Describe the communication
+						between sites that might be relevant to the protection of
+						participants, such as unanticipated problems, interim results, and
+						protocol modifications.</span>
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el required"
+						name="/protocol/sites/single-or-multi/multiple-sites/is-local-lead-entity/y/communication-protecting-participants"
+						rows="6" id="communication-protecting-participants-description">
+							<x:out
+							select="$protocolInstance/protocol/sites/single-or-multi/multiple-sites/is-local-lead-entity/y/communication-protecting-participants" />
+					</textarea>
+				</div>
+			</div>
+			<div class="question"
+				id="question-communication-irb-oversight-arrangements-description">
+				<div class="questionIdentifier">Sites-1.1.1.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since the study is
+						taking place at multiple sites and the local site (UAMS/ACH) will
+						be the lead entity of this study, answer the following question:</h1>
+					<span class="question-label-text">Describe IRB oversight
+						arrangements for each site (i.e. who is providing IRB review and
+						approval).</span>
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el required"
+						name="/protocol/sites/single-or-multi/multiple-sites/is-local-lead-entity/y/irb-oversight-arrangements"
+						rows="6" id="irb-oversight-arrangements">
+							<x:out
+							select="$protocolInstance/protocol/sites/single-or-multi/multiple-sites/is-local-lead-entity/y/irb-oversight-arrangements" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question" id="question-sites-conducing-this-study">
+				<div class="questionIdentifier">Sites-2</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Name the location(s) for
+						this study. Be sure to include contact information for each
+						location.</span>
+				</div>
+
+				<div id="external-site-list">
+					<!-- // -->
+				</div>
+
+				<div class="questionHelp">
+					<!-- 					<ul class="questionHelp-list"> -->
+					<!-- 						<li>Remember to include <b>contact information</b> for each site.</li> -->
+					<!-- 					</ul> -->
+					<uams:helpinfo lookupid="sites" />
+				</div>
+			</div>
+
+
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+
+	<script type="text/javascript">
+		//          
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'basic-details',
+										nextTab : 'staff',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderPage(null);
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Sites":"<strong>New Submission</strong>: Sites",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+						});
+	</script>
+
+</div>
+

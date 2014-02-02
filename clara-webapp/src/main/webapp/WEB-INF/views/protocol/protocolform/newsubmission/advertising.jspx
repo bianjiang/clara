@@ -1,0 +1,266 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" />
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+	
+	<x:out escapeXml="false" select="string($protocolInstance/text())" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="advertising" protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+
+		<div class="formArea">
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+			<div class="question" id="question-lay-summrize">
+				<div class="questionLabel">What is the lay summary for this
+					study?</div>
+				<div class="questionValue">
+					<textarea name="/protocol/advertising/lay-summary" rows="4"
+						id="lay-summary">
+						<x:out escapeXml="false" select="$protocolInstance/protocol/advertising/lay-summary" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question" id="question-summrize-methodology">
+				<div class="questionLabel">Summarize the protocol methodology
+					(what is to be done to the subjects) and state if these procedures
+					are being performed already for diagnostic or treatment purposes.</div>
+				<div class="questionValue">
+					<textarea name="/protocol/advertising/summrize-methodology"
+						rows="6" id="lay-summary">
+						<x:out
+							select="$protocolInstance/protocol/advertising/summrize-methodology" />
+					</textarea>
+				</div>
+			</div>
+<!--  
+			<div class="question" id="question-cabig-ctms">
+				<div class="questionLabel">Are you going to use caBIG's
+					Clinical Trial Management Suite (CTMS) (e.g. C3PR, PSC, etc)?</div>
+				<div class="questionValue">
+					<x:set var="cabigCtms"
+						select="string($protocolInstance/protocol/advertising/cabig-ctms/text())" />
+					<uams:yesno id="cabigCtms"
+						instancepath="/protocol/advertising/cabig-ctms"
+						value="${cabigCtms}" />
+				</div>
+			</div>
+
+			<div class="question" id="question-enumerate-criteria">
+				<div class="questionLabel">
+					Provide the the inclusion and exclusion criteria for this study (if you plan to use caBIG tools like C3PR, make sure to add each criteria type individually).
+				</div>
+				
+					<div id="question-enumerate-criteria-panel">
+						
+					</div>
+				
+			</div>
+
+  			<div class="question" id="quesiton-enumerate-exclusion-criteria">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you chose you are
+						going to use caBIG's CTMS, please answer the following question:</h1>
+					Enumerate the exclusion criteria for this study.
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/advertising/enumerate-eligibility-criteria/exclusion"
+						rows="4" id="enumerate-exclusion-criteria">
+						<x:out
+							select="$protocolInstance/protocol/advertising/enumerate-eligibility-criteria/exclusion" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question" id="question-inclusion-criteria">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you chose you are
+						NOT going to use caBIG's CTMS, please answer the following
+						question:</h1>
+					What are the inclusion criteria for this study?
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/advertising/eligibility-criteria/inclusion"
+						rows="4" id="inclusion-criteria">
+						<x:out
+							select="$protocolInstance/protocol/advertising/eligibility-criteria/inclusion" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question" id="question-exclusion-criteria">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you chose you are
+						NOT going to use caBIG's CTMS, please answer the following
+						question:</h1>
+					What are the exclusion criteria for this study?
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/advertising/eligibility-criteria/exclusion"
+						rows="4" id="exclusion-criteria">
+						<x:out
+							select="$protocolInstance/protocol/advertising/eligibility-criteria/exclusion" />
+					</textarea>
+				</div>
+			</div>
+-->
+			<div class="question clearfix" id="quesiton-potential-subject">
+				<div class="questionLabel">How will potential subjects be
+					identified?</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/advertising/potential-subject" rows="4"
+						id="potential-subject">
+						<x:out
+							select="$protocolInstance/protocol/advertising/potential-subject" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-advertising-type">
+				<div class="questionLabel">Which types of advertising will be
+					directed at research subjects?</div>
+				<div class="questionValue">
+					<uams:checkbox newColumnEvery="5" lookuppath="advertising-types"
+						instancepath="/protocol/advertising/advertising-type" />
+				</div>
+			</div>
+
+			<div class="question" id="quesiton-websites-url-list">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you checked the
+						Websites, please answer the following question:</h1>
+					List Websites and its URL (e.g. UAMSHealth.com)
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/advertising/websites-url-list" rows="4"
+						id="websites-url-list">
+						<x:out
+							select="$protocolInstance/protocol/advertising/websites-url-list" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-advertised-criteria">
+				<div class="questionLabel">
+					What are the <i>advertised</i> criteria for this study?
+				</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/advertising/advertised-criteria" rows="4"
+						id="advertised-criteria">
+						<x:out
+							select="$protocolInstance/protocol/advertising/advertised-criteria" />
+					</textarea>
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-clinical-trgistered">
+				<div class="questionLabel">Will this protocol be registered at
+					ClinicalTrials.gov?</div>
+				<div class="questionValue">
+					<x:set var="clinicalTrialGovIsRegistered"
+						select="string($protocolInstance/protocol/advertising/clinicaltrials-gov/is-registered/text())" />
+					<uams:yesno id="clinicalTrialGovIsRegistered"
+						instancepath="/protocol/advertising/clinicaltrials-gov/is-registered"
+						value="${clinicalTrialGovIsRegistered}" />
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-clinical-identifier">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you checked the
+						Websites, please answer the following question:</h1>
+					What is the ClinicalTrials.gov Study Identifier?
+				</div>
+				<div class="questionValue">
+					<x:set var="clinicalTrialGovStudyIdentifier"
+						select="string($protocolInstance/protocol/advertising/clinicaltrials-gov/study-identifier/text())" />
+					<uams:textbox id="clinicalTrialGovStudyIdentifier"
+						instancepath="/protocol/advertising/clinicaltrials-gov/study-identifier"
+						value="${clinicalTrialGovStudyIdentifier}" />
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"></div>
+		<div id="btnNextPage">
+			<a href="#"
+				onClick="submitXMLToNextPage('funding-sources');">Skip
+				ahead to 'Funding Sources'...</a>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.title = ('${fn:escapeXml(fn:trim(fn:replace(protocolTitle, "\\n"," ")))}' != '')?'${fn:escapeXml(fn:trim(fn:replace(protocolTitle, "\\n"," ")))}':'Untitled Protocol';
+							
+							var scpanel = new Clara.NewSubmission.SubjectCriteriaPanel({id:'question-card-2'});
+
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										itemsToAdd:[{index:1, panel: scpanel}],
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'drugs-devices',
+										nextTab : 'funding-sources',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							
+							
+							renderFormViewport(
+									"<strong>New Submission</strong>: Advertising",
+									wiz);
+
+							
+							
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+						});
+	</script>
+</div>
+

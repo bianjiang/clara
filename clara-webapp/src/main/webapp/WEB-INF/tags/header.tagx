@@ -1,0 +1,106 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty"/>
+	<jsp:directive.attribute name="pagetype" type="java.lang.String"
+		required="false" rtexprvalue="true" />
+
+<spring:url value="/j_spring_security_logout" var="url_logout" />
+<spring:url value="/static/images/clara-logo.png" var="logo_url"/>
+<spring:url value="/static/images/btn_logout.png" var="btn_logout_url"/>
+<spring:url value="/static/images/icn/user.png" var="icn_user"/>
+<div id="clara-header" style="padding-top: 0px;white-space:nowrap;">
+
+<div class="clara-header-logo">
+		
+		<a href="/clara-webapp"><img src="${logo_url}" border="0" /></a>
+		
+	</div>
+
+<c:if test="${pagetype != '404'}">
+
+	<div class="clara-header-links">
+	
+				<c:set var="pageclass" value=""/>
+				<c:if test="${pagetype == 'protocols'}">
+					<c:set var="pageclass" value="currentpage"/>
+				</c:if>
+				<div class="header-link ${pageclass}"><a href="/clara-webapp">Protocols</a></div>
+				
+				
+				<c:set var="pageclass" value=""/>
+				<c:if test="${pagetype == 'contracts'}">
+					<c:set var="pageclass" value="currentpage"/>
+				</c:if>
+				<div class="header-link ${pageclass}"><a href="/clara-webapp/contracts/index">Contracts</a></div>
+				
+				<sec:authorize access="hasRole('ROLE_REVIEWER')">
+					<c:set var="pageclass" value=""/>
+					<c:if test="${pagetype == 'queues'}">
+						<c:set var="pageclass" value="currentpage"/>
+					</c:if>
+					<div class="header-link ${pageclass}"><a href="/clara-webapp/queues">Queues</a></div>
+				</sec:authorize>
+					
+	
+				<sec:authorize access="hasAnyRole('EDIT_AGENDA','VIEW_AGENDA_ONLY')">
+					<c:set var="pageclass" value=""/>
+					<c:if test="${pagetype == 'agendas'}">
+						<c:set var="pageclass" value="currentpage"/>
+					</c:if>
+					<div class="header-link ${pageclass}"><a href="/clara-webapp/agendas">Agendas</a></div>
+				</sec:authorize>
+				
+				
+				<sec:authorize access="hasRole('EDIT_REPORTS')"> <!--  // EDIT_REPORTS -->				 
+					 <c:set var="pageclass" value=""/>
+					<c:if test="${pagetype == 'reports'}">
+						<c:set var="pageclass" value="currentpage"/>
+					</c:if>
+					<div class="header-link ${pageclass}"><a href="/clara-webapp/reports">Reports</a></div>
+				</sec:authorize>
+				
+				
+				<sec:authorize access="hasRole('ROLE_SYSTEM_ADMIN')">	 
+					<c:set var="pageclass" value=""/>
+					<c:if test="${pagetype == 'admin'}">
+						<c:set var="pageclass" value="currentpage"/>
+					</c:if>
+					<div class="header-link ${pageclass}"><a href="/clara-webapp/admin">Admin</a></div>
+				</sec:authorize>
+	
+				<div class="header-link"><a href="https://clara.uams.edu/wiki/doku.php?id=start" target="_blank">Help</a></div>
+	
+			</div>
+	
+		
+		<div id="clara-header-notify"><div id="clara-header-notifyelement">Your session is about to expire <span class="expire-seconds-desc"><!-- // --></span>. <button class="button small red" onclick="jQuery('.clara-header-notify button').text('Resetting...').attr('disabled', true);claraAjaxPing(function(){jQuery('.clara-header-notify button').text('Reset').attr('disabled', false);});">Reset</button></div></div>
+		<div class="clara-header-userinfo">
+			<div style="background-image:url(${icn_user}); background-repeat:no-repeat;background-position:0px 12px; float: right; line-height: 12px; padding-top: 8px; font-size: 11px; color: #ddd; margin-left: 14px;padding-left:20px;">
+				Logged in as <a href="/clara-webapp/user/${user.id}/profile" style="color: white; font-weight: 800; font-size:11px;text-decoration:none;">${user.username}</a><br/>
+				<a style="color: white; font-size: 11px;text-decoration:underline;" href="/clara-webapp/user/${user.id}/profile">Your account</a> | <a style="color: white; font-size: 11px;text-decoration:underline;" href="${url_logout}">Sign out</a>
+			</div>
+		</div>	
+	
+	</c:if>
+	
+	<div style="clear: both;">
+		<!-- // -->
+	</div>
+	
+</div>
+
+<script>
+Ext.onReady(function () {
+	//TODO: Set title in all controllers so it's shown statically and bookmark-safe
+	var title = Ext.util.Format.capitalize("${pagetype}");
+	if (title.charAt(title.length-1) == "s")
+		if (claraInstance.identifier)
+			if (""+claraInstance.identifier != "0") title = title.substring(0, title.length - 1) + (" "+claraInstance.identifier);	//singularize page name if you see an ID
+	document.title = title+': CLARA';
+});
+</script>
+
+</jsp:root>

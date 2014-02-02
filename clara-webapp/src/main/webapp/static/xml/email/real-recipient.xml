@@ -1,0 +1,18 @@
+<forms>
+	<form type="HUMANITARIAN_USE_DEVICE">
+		<dependencies>
+			<treatment-locations>
+				<dependency value="uams">
+					<recipients>
+						<recipient type="INDIVIDUAL" value="PudinasSandraG@uams.edu" name="Pudinas, Sandra" />
+					</recipients>
+				</dependency>
+				<dependency value="ach-achri">
+					<recipients>
+						<recipient type="INDIVIDUAL" value="BrackeenMargieI@uams.edu" name="Brackeen, Margie" />
+					</recipients>
+				</dependency>
+			</treatment-locations>
+		</dependencies>
+	</form>
+</forms>

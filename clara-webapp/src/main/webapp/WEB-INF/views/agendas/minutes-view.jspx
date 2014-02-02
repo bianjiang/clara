@@ -1,0 +1,340 @@
+<div class="clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+
+	<x:parse doc="${minutes}" var="m" />
+	<c:set var="absentPerson" value="0" />
+
+
+
+
+	<x:set var="dtStartStr" select="string($m/meeting/@start)" />
+	<fmt:parseDate var="dtStart"
+		value="${fn:substringBefore(dtStartStr, ' GMT-0')}"
+		pattern="E MMM dd yyyy HH:mm:ss" />
+
+	<x:set var="dtEndStr" select="string($m/meeting/@end)" />
+	<fmt:parseDate var="dtEnd"
+		value="${fn:substringBefore(dtEndStr, ' GMT-0')}"
+		pattern="E MMM dd yyyy HH:mm:ss" />
+
+	<div class="minutes-page">
+	
+		<div class="row">
+			<div class="span12">
+				<div class="page-header" style="margin-top:0;margin-bottom:8px;">
+					<h2 style="margin:0;">Minutes
+					<small><strong><fmt:formatDate value="${dtStart}" pattern="MMMM dd, yyyy" /></strong> from <fmt:formatDate value="${dtStart}" pattern="h:mm a" /> to <fmt:formatDate value="${dtEnd}" pattern="h:mm a" /></small></h2>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span6">
+				<h4>Attendance</h4>
+				<table class="table table-condensed table-bordered table-striped" id="attendance">
+					<thead>
+					    <tr>
+					      <th>Name</th>
+					      <th>Present?</th>
+					      <th>Absent?</th>
+					    </tr>
+				    </thead>
+				    <tbody>
+					    <x:forEach select="$m/meeting/attendance/member" var="person">
+							<x:set var="personMeetingStatus" select="string($person/@meetingstatus)" />
+							<c:if test="${personMeetingStatus == 'PRESENT' }">
+								<c:set var="personAttendanceRowClass" value=""/>
+							</c:if>
+							<c:if test="${personMeetingStatus == 'ABSENT' }">
+								<c:set var="personAttendanceRowClass" value="error"/>
+								<c:set var="absentPerson" value="${absentPerson+1}" />
+							</c:if>
+							<tr class="${personAttendanceRowClass}">
+								<td>
+									<x:out escapeXml="false" select="string($person/@fname)" />
+									<c:out value=" " /> <x:out escapeXml="false"
+									select="string($person/@lname)" />
+								</td>
+								<td>
+									<c:if test="${personMeetingStatus == 'PRESENT' }">
+										<i class="icon-ok"></i>
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${personMeetingStatus == 'ABSENT' }">
+										<i class="icon-ok"></i>
+									</c:if>
+								</td>
+							</tr>
+						</x:forEach>
+				    </tbody>
+				</table>
+			</div>
+			<div class="span6">
+				<div id="minutes-notes" class="minutes-section">
+
+					<h4>Quorum</h4>
+					<ul>
+					<x:forEach begin="0" select="$m/meeting/activity/item" var="item">
+						<x:set var="itemType" select="string($item/@type)" />
+						<x:set var="itemTS" select="string($item/@ts)" />
+						<jsp:useBean id="itemDate" class="java.util.Date" />
+						<jsp:setProperty name="itemDate" property="time" value="${itemTS}" />
+
+						<c:if test="${itemType == 'QUORUM_MET'}">
+							Quorum was <strong>met</strong> on <fmt:formatDate type="time" value="${itemDate}" />
+						</c:if>
+						<c:if test="${itemType == 'QUORUM_NOT_MET'}">
+							Quorum was <strong>NOT met</strong> on <fmt:formatDate type="time" value="${itemDate}" />
+						</c:if>
+					</x:forEach>
+					</ul>
+					<h4 style="margin-top: 16px;">Notes / Announcements</h4>
+					<x:out escapeXml="false" select="string($m/meeting/notes)" />
+				</div>
+			</div>
+		</div>
+		
+
+
+		
+
+		
+	</div><!-- // end minutes page -->
+
+
+	<x:forEach begin="0" select="$m/meeting/activity/item" var="item">
+		<x:set var="itemType" select="string($item/@type)" />
+		<x:set var="motionCount" select="count($item/motions/motion)" />
+	<c:if test="${!((itemType == 'QUORUM_MET') || (itemType == 'QUORUM_NOT_MET') || (motionCount == 0))}">
+		
+				<div class="minutes-page">
+
+	
+		<div class="row">
+			<div class="span12">
+					<div class="minutes-header">
+						<div class="minutes-header-left">
+							<x:set var="itemProtocolId" select="string($item/@protocolid)" />
+							<x:set var="itemType" select="string($item/@type)" />
+							<c:if test="${itemType == 'MINUTES' }">
+								Previous Meeting's Minutes
+							</c:if>
+							<c:if test="${itemType != 'MINUTES' }">
+								IRB # ${itemProtocolId}
+							</c:if>
+							
+
+						</div>
+						<div class="minutes-header-right">
+							IRB Minutes:
+							<fmt:formatDate value="${dtStart}" pattern="MMMM dd, yyyy" />
+							<!-- // -->
+						</div>
+						<div style="clear: both;">
+							<!-- // -->
+						</div>
+					</div>
+			</div>
+		</div>
+				
+					<div class="row">
+						<div class="span12">
+							<h3>
+								<x:set var="itemProtocolId" select="string($item/@protocolid)" />
+		
+								<x:set var="itemType" select="string($item/@type)" />
+								<c:if test="${itemType == 'MINUTES' }">
+									Previous Meeting's Minutes
+								</c:if>
+								<c:if test="${itemType != 'MINUTES' }">
+									IRB # ${itemProtocolId}
+									
+								<c:forEach var="aitem" items="${agendaItems}" varStatus="rowCounter">
+									<c:if test="${aitem.protocolForm.protocol.protocolIdentifier == itemProtocolId }">
+										<x:parse doc="${aitem.protocolForm.protocol.metaDataXml}" var="pmeta" />
+										<x:set var="ptitle" select="string($pmeta/protocol/title)" />
+										<c:set var="aireviewers" value="" />
+										<c:forEach var="reviewer" items="${irbReviewerDao.listAgendaIRBReviewersByItemId(aitem.id)}" varStatus="counter">
+			           						<c:set var="aireviewers" value="${counter.first ? '' : aireviewers} ${reviewer.user.username}" />
+			              				</c:forEach>
+									</c:if>
+								</c:forEach>
+									<h4>${ptitle}</h4>
+									
+								</c:if>
+							</h3>
+
+						</div>
+					</div>
+					<div class="row">
+							<div class="span12">
+							
+	
+							
+						<x:forEach select="$item/motions/motion" var="motion">
+							<div class="minutes-item-motion">
+							
+							
+									
+							
+							<div class="row">
+								<div class="span6">
+									<dl class="dl-horizontal">
+									  <c:if test="${itemType != 'MINUTES' }">
+									  	<dt>Reviewers</dt>
+									  	<dd>${aireviewers}</dd>
+									  </c:if>
+									  <dt>Motion</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@value)" /></dd>
+									  <dt>Motion made by</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@mname)" /></dd>
+									  <dt>Seconded by</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@sname)" /></dd>
+									  <dt>Adult Risk</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@adultrisk)" /></dd>
+									  <dt>Pediatric Risk</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@pedrisk)" /></dd>
+									  <dt>Review Period</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@reviewperiod)" /></dd>
+									  <dt>Consent Waived</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@consentwaived)" /></dd>
+									  <dt>Consent Doc. Waived</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@consentdocumentationwaived)" /></dd>
+									  <dt>HIPAA Waived</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@hipaawaived)" /></dd>
+									  <dt>HIPAA N/A</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@hipaana)" /></dd>
+								    </dl>
+								    <dl>
+									  <dt>UPIRTSO?</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@UPIRTSO)" /></dd>
+									  <dt style="width:210px;margin-right:16px;">Noncompliance Determination</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@ncdetermination)" /></dd>
+									  <dt style="width:210px;margin-right:16px;">Reportable to OHRP/etc</dt>
+									  <dd><x:out escapeXml="false" select="string($motion/@ncreportable)" /></dd>
+									  
+									</dl>
+								</div>
+								<div class="span6">
+
+									<h4>Vote Summary</h4>
+									<c:set var="Ynumber" value="0" />
+									<c:set var="Nnumber" value="0" />
+									<c:set var="Absentnumber" value="0" />
+									<c:set var="Abstainnumber" value="0" />
+									<c:set var="NVnumber" value="0" />
+									<x:forEach select="$motion/votes/vote" var="vote">
+										<div class="minutes-item-motion-votes">
+											<x:set var="VoteValue" select="string($vote/@value)" />
+											<c:if test="${VoteValue == 'Y'}">
+												<c:set var="Ynumber" value="${Ynumber+1}" />
+											</c:if>
+											<c:if test="${VoteValue == 'N'}">
+												<c:set var="Nnumber" value="${Nnumber+1}" />
+											</c:if>
+											<c:if test="${VoteValue == 'A'}">
+												<c:set var="Abstainnumber" value="${Abstainnumber+1}" />
+											</c:if>
+											<c:if test="${VoteValue == 'NV'}">
+												<c:set var="NVnumber" value="${NVnumber+1}" />
+											</c:if>
+										</div>
+									</x:forEach>
+									<table class="table table-condensed table-bordered">
+										<thead><th>Yes</th><th>No</th><th>Abstain</th><th>Absent</th></thead>
+										<tbody>
+											<tr>
+												<td>${Ynumber}</td><td>${Nnumber}</td><td>${Abstainnumber}</td><td>${NVnumber}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+								
+
+							</div>
+						</x:forEach>
+						</div>
+					</div>
+						<div class="row">
+							<div class="span12">
+								<h4>Discussion</h4>
+								<p><x:out escapeXml="false" select="string($item/notes)" /></p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="span12">
+								<h4>Contingencies</h4>
+								<table class="table table-condensed table-bordered">
+								<thead><th><!-- // --></th><th>Contingency</th><th>Major?</th></thead>
+								<c:set var="counter" value="0"/>
+								<c:forEach var="comment" items="${agendaComments}" varStatus="rowCounter">
+									<c:if test="${comment.protocolForm.protocol.id == itemProtocolId}">
+										<c:if test="${comment.commentType == 'CONTINGENCY_MAJOR' || comment.commentType == 'CONTINGENCY_MINOR' }">
+										<c:set var="counter" value="${counter + 1}"/>
+										<tr>
+											<td>${counter}</td>
+											<td>${comment.text}</td>
+											<td><c:if test="${comment.commentType == 'CONTINGENCY_MAJOR'}">Yes</c:if></td>
+										</tr>
+										</c:if>
+									</c:if>
+								</c:forEach>
+								</table>
+								<h4>Notes</h4>
+								<table class="table table-condensed table-bordered">
+								<thead><th>#</th><th>Note</th></thead>
+								<c:set var="counter" value="0"/>
+								<c:forEach var="comment" items="${agendaComments}" varStatus="rowCounter">
+									<c:if test="${comment.protocolForm.protocol.id == itemProtocolId}">
+										<c:if test="${comment.commentType == 'NOTE_MAJOR' || comment.commentType == 'NOTE_MINOR' }">
+										
+										<c:set var="counter" value="${counter + 1}"/>
+										<tr>
+											<td>${counter}</td>
+											<td>${comment.text}</td>
+										</tr>
+										</c:if>
+									</c:if>
+								</c:forEach>
+								
+								</table>
+							</div>
+						</div>
+				</div>
+			
+		</c:if>
+
+	</x:forEach>
+
+
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			
+			// Remove duplicate attendance rows
+			var seen = {};
+			jQuery('#attendance tbody tr').each(function() {
+			    var txt = jQuery(this).text();
+			    if (seen[txt])
+			        jQuery(this).remove();
+			    else
+			        seen[txt] = true;
+			});
+			
+		});
+	</script>
+</div>

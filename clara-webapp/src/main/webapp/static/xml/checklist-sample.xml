@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checklists>
+	<checklist-group title="Gatekeeper New Submission Checklist" committee="GATEKEEPER" protocol-form-type="NEW_SUBMISSION" protocol-form-committee-status="IN_REVIEW" >
+		<checklist id="1" title="Elements of a Research Protocol ">
+			<question id="1">
+		  		<text>Does the study have a title page (Protocol title, PI, Co-investigators, Location study will be conducted)?</text>
+		  		<contingency-template>Reason: the study does not have a title page.</contingency-template>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="2">
+		  		<text>Does the study have a background and rationale?</text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="3">
+		  		<text>Does the study include hypothesis, specific aims, or objectives?</text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="4">
+		  		<text>Does the study require a study population (if appropriate, inclusion/exclusion criteria)?</text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="5">
+		  		<text>Does the study have risks/benefits (if human subjects are involved or identifiable data will be used)?</text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="6">
+		  		<text>Does the study have risks/benefits (if human subjects are involved or identifiable data will be used)?</text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="7">
+		  		<text>Does the study have risks/benefits (if human subjects are involved or identifiable data will be used)?</text>
+		  		<answer></answer>
+		  	</question>
+		</checklist>
+		<checklist id="2" title="Pharmacy">
+			<question id="1">
+		  		<text>Does the study use UAMS pharmacy?</text>
+		  		<answer></answer>
+		  	</question>
+		</checklist>
+	</checklist-group>
+</checklists>

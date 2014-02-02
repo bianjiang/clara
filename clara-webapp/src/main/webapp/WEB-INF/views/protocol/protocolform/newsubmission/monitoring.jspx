@@ -1,0 +1,216 @@
+<div class="clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title)" />
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="monitoring"
+			protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+			<div class="question" id="question-dsmp-in-place">
+				<div class="questionIdentifier">Data-Safety-1</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Is a Data and Safety
+						Monitoring Plan (DSMP) in place for this study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="dsmpinPlace"
+						select="string($protocolInstance/protocol/monitoring/is-dsmp-in-place/text())" />
+					<uams:yesno id="dsmp-in-place"
+						instancepath="/protocol/monitoring/is-dsmp-in-place"
+						value="${dsmpinPlace}" validation="required" />
+				</div>
+				<br />
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="dsmp-in-place" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-describe-specific-data">
+				<div class="questionIdentifier">Data-Safety-1.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since a DSMP is in
+						place for this study, answer the following question:</h1>
+					<span class="question-label-text">Please describe the specific data that will be monitored. </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="describeSpecificData" select="string($protocolInstance/protocol/monitoring/is-dsmp-in-place/y/describe-specific-data/text())" />
+					<uams:textarea 
+						instancepath="/protocol/monitoring/is-dsmp-in-place/y/describe-specific-data"
+						id="describe-specific-data" value="${describeSpecificData}"  hasNA="false">
+					</uams:textarea>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="describe-specific-data" />
+				</div>
+			</div>
+
+			<div class="question" id="question-who-is-monitoring">
+				<div class="questionIdentifier">Data-Safety-1.1.2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since a DSMP is in
+						place for this study, answer the following question:</h1>
+					<span class="question-label-text">Who is monitoring the
+						data? </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="whoIsMonitoring"
+						select="string($protocolInstance/protocol/monitoring/is-dsmp-in-place/y/who-is-monitoring/text())" />
+					<x:set var="whoIsMonitoringOtherText"
+						select="string($protocolInstance/protocol/monitoring/is-dsmp-in-place/y/who-is-monitoring/other/text/text())" />
+					<uams:radio id="who-is-monitoring" value="${whoIsMonitoring}"
+						lookuppath="who-is-monitoring"
+						instancepath="/protocol/monitoring/is-dsmp-in-place/y/who-is-monitoring"
+						validation="required"
+						allowOther="true" otherTextValue="${whoIsMonitoringOtherText}"
+						otherType="textarea" otherOptionValue="other" textAreaTitle="Please specify:"
+						otherTextValidation="required"  />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="who-is-monitoring" />
+				</div>
+			</div>
+			
+			<div class="question" id="question-data-and-safety-monitor-desc">
+				<div class="questionIdentifier">Data-Safety-1.1.2.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since a DSMP is in
+						place for this study and Data and Safety Monitor is monitoring the data, answer the following question:</h1>
+					<span class="question-label-text">Please describe the individual's relevant medical, scientific and ethical, and monitoring expertise, as well as the individual's relationship to the study (independent or study team member).</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="dataAndSafetyMonitorDesc" select="string($protocolInstance/protocol/monitoring/is-dsmp-in-place/y/who-is-monitoring/data-and-safety-monitor/desc/text())" />
+					<uams:textarea 
+						instancepath="/protocol/monitoring/is-dsmp-in-place/y/who-is-monitoring/data-and-safety-monitor/desc"
+						id="data-and-safety-monitor-desc" value="${dataAndSafetyMonitorDesc}"  hasNA="false">
+					</uams:textarea>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="data-and-safety-monitor-desc" />
+				</div>
+			</div>
+
+			<div class="question" id="question-dsmb-review-frequency">
+				<div class="questionIdentifier">Data-Safety-1.1.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since a DSMP is in
+						place for this study, answer the following question:</h1>
+					<span class="question-label-text">How frequently will the
+						data be reviewed?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="dsmbreviewFrequency"
+						select="string($protocolInstance/protocol/monitoring/is-dsmp-in-place/y/review-frequency/text())" />
+					<x:set var="dsmbreviewFrequencyOtherTextValue"
+						select="string($protocolInstance/protocol/monitoring/is-dsmp-in-place/y/review-frequency/other/text/text())" />
+					<uams:radio id="dsmb-review-frequency"
+						value="${dsmbreviewFrequency}" lookuppath="dsmb-review-frequency"
+						instancepath="/protocol/monitoring/is-dsmp-in-place/y/review-frequency"
+						allowOther="true" otherType="textarea"
+						otherTextValue="${dsmbreviewFrequencyOtherTextValue}"
+						otherTextValidation="required" validation="required" />
+				</div>
+
+			</div>
+
+			<div class="question" id="question-procedure-for-communication">
+				<div class="questionIdentifier">Data-Safety-1.1.4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since a DSMP is in
+						place for this study, answer the following question:</h1>
+					<span class="question-label-text">Please describe the
+						procedures for communication from the data monitor to the IRB. </span>
+				</div>
+				<div class="questionValue">
+					<x:set var="procedureForCommunication" select="string($protocolInstance/protocol/monitoring/is-dsmp-in-place/y/procedure-for-communication/text())" />
+					<uams:textarea 
+						instancepath="/protocol/monitoring/is-dsmp-in-place/y/procedure-for-communication"
+						id="procedure-for-communication" value="${procedureForCommunication}"  hasNA="false">
+					</uams:textarea>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="procedure-for-communication" />
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'risks',
+										nextTab : 'misc',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Data and Safety Monitoring":"<strong>New Submission</strong>: Data and Safety Monitoring",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+
+							
+						});
+	</script>
+</div>
+

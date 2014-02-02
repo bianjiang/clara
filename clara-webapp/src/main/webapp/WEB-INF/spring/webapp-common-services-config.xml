@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">	
+	
+	<bean id="auditService" class="edu.uams.clara.webapp.common.service.audit.impl.AuditServiceImpl" >
+		<property name="auditDao" ref="auditDao" />
+	</bean>
+	
+	<bean id="emailService"
+		class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl" />
+		
+	<bean id="committeeGroupService"
+		class="edu.uams.clara.webapp.common.service.impl.CommitteeGroupServiceImpl" />
+		
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+      <property name="velocityProperties">
+         <props>
+      		<prop key="resource.loader">file</prop>
+      		<prop key="file.resource.loader.class">
+        		org.apache.velocity.runtime.resource.loader.FileResourceLoader
+      		</prop>
+      		<prop key="file.resource.loader.path">C:/Users/bianjiang/Documents/workspace-sts/clara/clara-webapp/src/main/webapp/WEB-INF/emailtemplate/,/Users/bakermatt/github/clara/clara-webapp/src/main/webapp/WEB-INF/emailtemplate,/Users/bakermatt/Documents/workspace-sts-2.9.1.RELEASE/clara/clara-webapp/src/main/webapp/WEB-INF/emailtemplate, /Users/h0cked/Documents/sts-workspace/clara/clara-webapp/src/main/webapp/WEB-INF/emailtemplate/, /Users/FanYu/Documents/workspace-sts/clara/clara-webapp/src/main/webapp/WEB-INF/emailtemplate/,C:\Documents and Settings\yuanjiawei\Documents\workspace-sts-291.RELEASE\clara\clara-webapp\src\main\webapp\WEB-INF\emailtemplate,C:\Users\yufan\Documents\workspace-sts\clara\clara-webapp\src\main\webapp\WEB-INF\emailtemplate,${webapp.root}/WEB-INF/emailtemplate/</prop>
+      		<prop key="file.resource.loader.cache">false</prop>
+    	</props>
+      </property>
+   </bean>
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="webmail.uams.edu"/>
+        <property name="port" value="25"/>
+        <property name="javaMailProperties">
+            <props>
+                <!-- Use SMTP transport protocol -->
+                <prop key="mail.transport.protocol">smtp</prop>
+                <!-- Use SMTP-AUTH to authenticate to SMTP server -->
+                <prop key="mail.smtp.auth">false</prop>
+                <!-- Use TLS to encrypt communication with SMTP server -->
+                <prop key="mail.smtp.starttls.enable">false</prop>
+                <prop key="mail.debug">false</prop>
+                <prop key="mail.smtp.sendpartial">true</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="accessControlInterceptor" class="edu.uams.clara.webapp.common.interceptor.AccessControlInterceptor" />
+    
+    
+</beans>

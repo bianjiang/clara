@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+	
+	
+	<definition extends="default-ext4" name="index">
+		<put-attribute name="body" value="/WEB-INF/views/index.jspx"/>
+		<put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/app/config.js" />
+    		<add-attribute value="/static/js/app/dashboard/app.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/icons.css" type="string" />
+  		</put-list-attribute>
+	</definition>
+	
+	
+	
+	<definition extends="public" name="dataAccessFailure">
+		<put-attribute name="body" value="/WEB-INF/views/dataAccessFailure.jspx"/>
+	</definition>
+	
+	<definition extends="public" name="resourceNotFound">
+		<put-attribute name="body" value="/WEB-INF/views/resourceNotFound.jspx"/>
+	</definition>
+	 
+	<definition extends="public" name="uncaughtException">
+		<put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx"/>
+	</definition>
+	
+	<definition extends="login-template" name="login">
+		<put-attribute name="body" value="/WEB-INF/views/login.jspx"/>
+		<put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/app/config.js" />
+    		<add-attribute value="/static/js/app/login/app.js" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="public" name="timeout">
+        <put-attribute name="body" value="/WEB-INF/views/timeout.jspx"/>
+    </definition>
+</tiles-definitions>

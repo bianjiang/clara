@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/persistence persistence_2_0.xsd"
+                version="2.0">
+    <persistence-unit name="defaultPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>edu.uams.clara.core.domain.AbstractDomainEntity</class>
+        <class>edu.uams.clara.core.domain.thing.AbstractThing</class>
+        <class>edu.uams.clara.core.domain.thing.Thing</class>
+        <class>edu.uams.clara.core.domain.thing.etl.ThingUpdate</class>    
+        
+        
+        <class>edu.uams.clara.webapp.fileserver.domain.UploadedFile</class>
+        
+        
+        <class>edu.uams.clara.webapp.common.domain.audit.Audit</class> 
+        <class>edu.uams.clara.webapp.common.domain.post.Post</class> 
+        <class>edu.uams.clara.webapp.common.domain.email.EmailTemplate</class>
+        
+        <class>edu.uams.clara.webapp.common.domain.department.College</class>
+        <class>edu.uams.clara.webapp.common.domain.department.Department</class>
+        <class>edu.uams.clara.webapp.common.domain.department.SubDepartment</class>
+        
+        
+        <class>edu.uams.clara.webapp.common.domain.usercontext.User</class>
+        <class>edu.uams.clara.webapp.common.domain.usercontext.Person</class>        
+        <class>edu.uams.clara.webapp.common.domain.usercontext.Role</class>
+        <class>edu.uams.clara.webapp.common.domain.usercontext.UserRole</class>
+        <class>edu.uams.clara.webapp.common.domain.usercontext.CitiMember</class>
+        <class>edu.uams.clara.webapp.common.domain.usercontext.SAPUser</class>
+        <class>edu.uams.clara.webapp.common.domain.usercontext.UserCOI</class>
+                
+        <class>edu.uams.clara.webapp.common.domain.security.acl.SecurableObject</class>
+        <class>edu.uams.clara.webapp.common.domain.security.acl.SecurableObjectAcl</class>
+        
+        <class>edu.uams.clara.webapp.common.domain.security.MutexLock</class>
+        
+        <class>edu.uams.clara.webapp.common.domain.search.AbstractSearchBookmark</class>    
+        
+        <class>edu.uams.clara.webapp.common.domain.history.Track</class>   
+        
+        <class>edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm</class>
+        <class>edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData</class>
+        <class>edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlDataDocument</class>
+        <class>edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormUserElementTemplate</class>
+        
+        <class>edu.uams.clara.webapp.contract.domain.contractform.ContractForm</class>
+        <class>edu.uams.clara.webapp.contract.domain.contractform.ContractFormXmlData</class>
+        <class>edu.uams.clara.webapp.contract.domain.contractform.ContractFormXmlDataDocument</class>
+        <class>edu.uams.clara.webapp.contract.domain.contractform.ContractFormUserElementTemplate</class>
+        
+        <class>edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolStatus</class>
+        <class>edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus</class>
+        <class>edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus</class>
+        <class>edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeComment</class>       
+        <class>edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeChecklistXmlData</class>       
+        <class>edu.uams.clara.webapp.protocol.domain.businesslogicobject.AgendaStatus</class>       
+        
+        <class>edu.uams.clara.webapp.contract.domain.businesslogicobject.ContractStatus</class>
+        <class>edu.uams.clara.webapp.contract.domain.businesslogicobject.ContractFormStatus</class>
+        <class>edu.uams.clara.webapp.contract.domain.businesslogicobject.ContractFormCommitteeStatus</class>
+        <class>edu.uams.clara.webapp.contract.domain.businesslogicobject.ContractFormCommitteeComment</class>
+        <class>edu.uams.clara.webapp.contract.domain.businesslogicobject.ContractFormCommitteeChecklistXmlData</class> 
+        
+        <class>edu.uams.clara.webapp.protocol.domain.Protocol</class>
+        <class>edu.uams.clara.webapp.contract.domain.Contract</class>
+        <class>edu.uams.clara.webapp.common.domain.relation.RelatedObject</class>
+        
+        <class>edu.uams.clara.webapp.protocol.domain.irb.IRBReviewer</class>
+        <class>edu.uams.clara.webapp.protocol.domain.irb.Agenda</class>
+        <class>edu.uams.clara.webapp.protocol.domain.irb.AgendaIRBReviewer</class>
+        <class>edu.uams.clara.webapp.protocol.domain.irb.AgendaItem</class>
+        <class>edu.uams.clara.webapp.protocol.domain.irb.AgendaItemReviewer</class>
+        
+        <class>edu.uams.clara.webapp.report.domain.ReportTemplate</class>
+        <class>edu.uams.clara.webapp.report.domain.ReportResult</class>
+        <class>edu.uams.clara.webapp.report.domain.ReportCriteria</class>
+        <class>edu.uams.clara.webapp.report.domain.ReportField</class>
+        <class>edu.uams.clara.webapp.report.domain.CommitteeActions</class>
+        
+        <!--  extending AbstractThing, which only has names and stored all in thing table -->
+		
+		<class>edu.uams.clara.webapp.protocol.domain.thing.Drug</class>
+		<class>edu.uams.clara.webapp.protocol.domain.thing.Device</class>
+		<class>edu.uams.clara.webapp.protocol.domain.thing.ResearchOrganization</class>
+		<class>edu.uams.clara.webapp.protocol.domain.thing.Sponsor</class>
+		<class>edu.uams.clara.webapp.protocol.domain.thing.Toxin</class>
+		<class>edu.uams.clara.webapp.protocol.domain.thing.Grant</class>
+		
+		
+		<!-- things that has more than one field -->
+		 
+		<class>edu.uams.clara.webapp.protocol.domain.thing.Site</class>
+	
+		<class>edu.uams.clara.webapp.protocol.domain.search.ProtocolSearchBookmark</class>
+		<class>edu.uams.clara.webapp.contract.domain.search.ContractSearchBookmark</class>
+		
+		<class>edu.uams.clara.webapp.protocol.domain.budget.code.CPTCode</class>
+		<class>edu.uams.clara.webapp.protocol.domain.budget.code.NonCPTCode</class>
+		<class>edu.uams.clara.webapp.protocol.domain.budget.code.CategoryCode</class>
+		<class>edu.uams.clara.webapp.protocol.domain.budget.code.CPTCodeMapping</class>
+		
+		<class>edu.uams.clara.webapp.protocol.domain.budget.code.AbstractLocationCode</class>	
+		<class>edu.uams.clara.webapp.protocol.domain.budget.code.HospitalLocationCode</class>
+		<class>edu.uams.clara.webapp.protocol.domain.budget.code.PhysicianLocationCode</class>
+		
+		<class>edu.uams.clara.webapp.protocol.domain.budget.code.TransactionCode</class>
+		
+		<class>edu.uams.clara.webapp.protocol.domain.budget.code.HospitalChargeProcedure</class>
+		<class>edu.uams.clara.webapp.protocol.domain.budget.code.PhysicianChargeProcedure</class>
+		
+		<class>edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlDataDocumentWrapper</class>
+		<class>edu.uams.clara.webapp.contract.domain.contractform.ContractFormXmlDataDocumentWrapper</class>
+		
+		<class>edu.uams.clara.webapp.protocol.domain.irb.AgendaItemWrapper</class>
+		<class>edu.uams.clara.webapp.protocol.domain.irb.AgendaItemReviewerWrapper</class>
+				
+		<!-- things that are not part of the system, but we are getting a dump  -->
+		<class>edu.uams.clara.integration.common.domain.AbstractExternalDomainEntity</class>
+		
+		<class>edu.uams.clara.integration.incoming.billingcodes.domain.HospitalChargeUpdate</class>
+		<class>edu.uams.clara.integration.incoming.billingcodes.domain.CPTCodeUpdate</class>
+		<class>edu.uams.clara.integration.incoming.billingcodes.domain.PhysicianChargeUpdate</class>
+		
+		<class>edu.uams.clara.integration.incoming.sap.domain.SAPUserUpdate</class>
+		
+		
+		<!-- from CRIMSON -->
+		<class>edu.uams.clara.integration.incoming.crimson.domain.CRIMSONProject</class>
+		<class>edu.uams.clara.integration.incoming.crimson.domain.CRIMSONSponsor</class>
+		<class>edu.uams.clara.integration.incoming.crimson.domain.ARIAUser</class>
+		
+		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraUser</class>
+		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraProtocol</class>
+		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraProtocolUser</class>
+		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraProtocolDrug</class>
+		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraFunding</class>
+		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraProtocolDisease</class>
+		
+		
+		<class>edu.uams.clara.integration.outgoing.webchart.domain.WebChartARIAUser</class>
+		<class>edu.uams.clara.integration.outgoing.webchart.domain.WebChartARIAProtocol</class>
+		<class>edu.uams.clara.integration.outgoing.webchart.domain.WebChartARIAUserProtocol</class>
+		<class>edu.uams.clara.integration.outgoing.webchart.domain.WebChartClinicalTrialPatientContact</class>
+		
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+        <properties>
+            <property name="hibernate.dialect" value="edu.uams.clara.core.jpa.hibernate.dialect.SQLServerDialect"/>
+            <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>
+            <!-- <property name="hibernate.connection.driver_class" value="net.sourceforge.jtds.jdbc.Driver"/>-->
+			
+			
+			<!--<property name="org.hibernate.cache.CacheProvider" value="net.sf.ehcache.hibernate.SingletonEhCacheProvider" />-->
+			<!-- <property name="hibernate.cache.region.factory_class" value="net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory"/> -->
+			
+			<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
+			<property name="hibernate.cache.use_second_level_cache" value="true"/>
+			<property name="hibernate.cache.use_query_cache" value="true" />
+			<property name="net.sf.ehcache.configurationResourceName" value="/ehcache-2.xml" />
+			<!-- <property name="hibernate.cache.default_cache_concurrency_strategy" value="READ_WRITE" />-->
+
+        </properties>
+    </persistence-unit>
+</persistence>

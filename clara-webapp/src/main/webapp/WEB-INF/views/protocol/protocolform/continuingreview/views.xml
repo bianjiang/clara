@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+ 
+    
+    <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/first-page">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/first-page.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+    </definition>
+  
+    <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/general-study-information">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/general-study-information.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+    </definition>
+    
+    <!-- <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/study-status">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/study-status.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+    </definition> -->
+    
+    
+    <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/accrual-of-subjects">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/accrual-of-subjects.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/study-report">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/study-report.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/conflict-of-interest">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/conflict-of-interest.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+            		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/staff">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/staff.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+			<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/documents">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/documents.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+         <add-attribute value="/static/js/common/wizard.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/review">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/signed">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+   		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  		</put-list-attribute>
+    </definition>
+    
+    
+    <definition extends="protocol/protocolform/continuingreview-noheader" name="protocol/protocolform/continuingreview/general-study-information-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/general-study-information.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/protocol/protocolform/department-panel.js" />
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <!-- <definition extends="protocol/protocolform/newsubmission-noheader" name="protocol/protocolform/continuingreview/study-status-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/study-status.jspx"
+        />
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition> -->
+    
+    <definition extends="protocol/protocolform/continuingreview-noheader" name="protocol/protocolform/continuingreview/first-page-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/first-page.jspx"
+        />
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview-noheader" name="protocol/protocolform/continuingreview/accrual-of-subjects-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/accrual-of-subjects.jspx"
+        />
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview-noheader" name="protocol/protocolform/continuingreview/study-report-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/study-report.jspx"
+        />
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview-noheader" name="protocol/protocolform/continuingreview/conflict-of-interest-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/conflict-of-interest.jspx"
+        />
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview-noheader" name="protocol/protocolform/continuingreview/staff-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/staff.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+			<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview-noheader" name="protocol/protocolform/continuingreview/documents-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/documents.jspx"
+        />
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+  		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/continuingreview-noheader" name="protocol/protocolform/continuingreview/review-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+</tiles-definitions>

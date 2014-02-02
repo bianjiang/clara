@@ -1,0 +1,316 @@
+.ux-grid-hd-group-cell{
+	border-top:1px dotted #ddd;
+}
+
+.ux-grid-hd-group-cell div{
+	font-weight:800;
+	white-space: normal!important;
+	<!--display: inline-block;-->
+}
+
+.clara-budget-spinner{
+	float:left;
+	padding:12px;
+	text-align:right;
+	display:none;
+}
+
+.row-has-subprocedures {
+	font-weight:800;	
+}
+
+.proc-cb-crc .x-form-cb-label{
+	font-size:14px;	
+}
+
+.clara-header-logo{
+	width:150px;
+	overflow:hidden;	
+}
+.clara-budget-protocol-info{
+	line-height:14px;
+	float:left;	
+	width:65%;
+	height:40px;
+	overflow:hidden;
+	
+}
+
+.row-pharmacy-notes,.procedure-note{
+	margin-top:4px;
+	border:1px solid #ffff00;
+	background-color:#ffffcc;
+	color:#333333;
+	padding:4px;
+}
+
+.clara-budget-protocol-info h1,.clara-budget-protocol-info h2{
+	font-weight:100;
+	text-overflow: ellipsis;
+}
+
+.clara-budget-protocol-info h2{
+	font-size:12px;	
+	line-height:12px;
+}
+
+.clara-budget-protocol-info * strong {
+	font-weight:800;	
+}
+
+.x-grid-group-hd{
+	padding-top:0px;	
+}
+
+.cell-right{
+	width:100%;
+	text-align:right;
+}
+
+.cell-center{
+	width:100%;
+	text-align:center;
+}
+
+.history-row{
+	color:#888;
+}
+.history-row-current * div{
+	color:#000;
+	font-weight:800;	
+}
+.expense-total-label {
+	float:left;
+	width:45%;	
+}
+
+.expense-row-external{
+	background-color:#e6eaed;
+}
+.expense-row-external * div{
+	font-style:italic;	
+	color:#444;
+}
+.invoicable-other strong {
+	color:#999;	
+}
+
+.expense-total-value{
+	font-weight:800;
+	float:right;
+	text-align:right;
+	width:45%;	
+}
+
+#header_budget_builder_logo{
+	float:left;
+	margin-top:0px;
+	height:40px;
+	max-height:40px;
+	width:300px;
+	text-indent:-2000px;
+	background-image:url(../../../images/budget-builder-logo.png);
+	background-repeat:no-repeat;
+	
+}
+
+.error-incomplete{
+	color:red;
+	background-color:#ffcccc;	
+}
+
+.proc-search-row {
+	font-size:14px;
+	white-space:normal !important;
+	padding-top:4px;
+	padding-bottom:4px;
+}
+
+.proc-cptcode {
+	font-weight:800;
+	width:60px;
+	float:left;
+}
+
+.proc-shortdesc {
+	font-weight:100;
+	float:left;
+}
+
+.proc-longdesc {
+	font-weight:100;
+	font-size:12px;
+	color:#666;
+	padding-top:4px;
+	padding-left:60px;
+	padding-bottom:4px;
+}
+
+.proc-locations{
+	border:1px solid #96baea;
+	background-color:#f0f5fa;
+	font-size:12px;
+	margin-left:60px;
+	padding:4px;
+}
+
+.proc-location-row{
+	padding-bottom:4px;
+	padding-top:2px;
+	padding-left:20px;
+	margin-bottom:4px;
+	border-bottom:1px solid #d9e6f5;
+	background-image:url(../../../../images/physicon.png);
+	background-repeat:no-repeat;
+}
+
+.last-row{
+	padding-bottom:2px;
+	margin-bottom:0px;
+	border:0px;
+}
+
+.proc-phys{
+
+}
+
+.proc-phys-only{
+	background-image:url(../../../../images/physonlyicon.png);
+}
+
+.proc-hosp-only{
+	background-image:url(../../../../images/hosponlyicon.png);
+}
+
+.proc-location-row.proc-hosp,.proc-location-row.proc-hosp-only{
+	border-bottom:2px solid black;	
+}
+
+.proc-location-row.proc-hosp.last-row,.proc-location-row.proc-hosp-only.last-row{
+	border:0px;	
+}
+
+.cycle-notes{
+	font-weight:100 !important;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1em;
+    max-height: 6em;
+}
+
+@media (-webkit-min-device-pixel-ratio: 0) {
+    .cycle-notes {
+        display: -webkit-box;
+        -webkit-line-clamp: 6; /* number of lines to show */
+        -webkit-box-orient: vertical;
+    }
+}
+
+.proc-location-lcol{
+	float:left;
+	width:65%;	
+}
+
+.proc-location-rcol{
+	float:right;
+	width:30%;	
+	text-align:right;
+}
+
+.proc-location-cost{
+	color:#666;
+	margin-right:12px;
+}
+
+.proc-location-name{
+	font-weight:100;
+}
+
+.proc-hosp-location-name{
+	font-weight:800;
+}
+
+.budget-grid-phase-notes{
+	padding:3px;
+	background-color:#ffffcc;
+	border:1px solid #ffff00;
+	width:97%;
+	text-align:left;
+	font-weight:100 !important;
+}
+.budget-grid-phase-notes.empty-notes{
+	background-color:#eee;
+	border:1px solid #ddd;
+	text-align:center;
+	font-style:italic;
+}
+
+.has-office-visit-item {
+	color:blue;
+	text-decoration:overline;
+}
+
+.vp-diff-A,.vp-diff-M,.vp-diff-D{
+	font-weight:800;
+	font-style:italic;
+	font-size:16px;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkmGhuDAACXgD9lQje3QAAAABJRU5ErkJggg==) repeat;
+}
+.proc-diff-A,.proc-diff-M,.proc-diff-D,.expense-diff-A,.expense-diff-M,.expense-diff-D{
+	font-weight:800;
+	font-style:italic;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkmGhuDAACXgD9lQje3QAAAABJRU5ErkJggg==) repeat;
+}
+
+.epoch-diff-A,.epoch-diff-M,.epoch-diff-D{
+	font-style:italic;
+	color:green;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkmGhuDAACXgD9lQje3QAAAABJRU5ErkJggg==) repeat;
+}
+.epoch-diff-M,.expense-diff-M{
+	color:#000;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGAwBgAAPQA1zJXiFgAAAABJRU5ErkJggg==) repeat;
+}
+.epoch-diff-D,.expense-diff-D{
+	color:red;
+	text-decoration:line-through;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2P8z8BgDAAEOQE064B0NwAAAABJRU5ErkJggg==) repeat;
+}
+
+.arm-diff-A,.arm-diff-M,.arm-diff-D,.cycle-diff-A,.cycle-diff-M,.cycle-diff-D{
+	font-style:italic;
+	color:green;
+	font-size:16px;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkmGhuDAACXgD9lQje3QAAAABJRU5ErkJggg==) repeat;
+}
+.arm-diff-M,.cycle-diff-M{
+	color:#000;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGAwBgAAPQA1zJXiFgAAAABJRU5ErkJggg==) repeat;
+}
+.arm-diff-D,.cycle-diff-D{
+	color:red;
+	text-decoration:line-through;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2P8z8BgDAAEOQE064B0NwAAAABJRU5ErkJggg==) repeat;
+}
+
+.vp-diff-A,.proc-diff-A{
+	color:green;
+
+}
+.vp-diff-M,.proc-diff-M{
+	color:#000;
+    background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGAwBgAAPQA1zJXiFgAAAABJRU5ErkJggg==) repeat;
+}
+.vp-diff-D,.proc-diff-D{
+	color:red;
+	text-decoration:line-through;
+    background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2P8z8BgDAAEOQE064B0NwAAAABJRU5ErkJggg==) repeat;
+}
+
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    .x-grid3-cell
+    {
+	    box-sizing: border-box;
+    }
+}

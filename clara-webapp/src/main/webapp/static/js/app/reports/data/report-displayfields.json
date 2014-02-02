@@ -1,0 +1,40 @@
+{
+    "success": true,    
+    "results": [
+            	{
+                    "id": 1, 
+                    "fieldname":"title",
+                    "fieldlabel":"Title",
+                    "selected":true,
+                    "disabled":true
+                },
+            	{
+                    "id": 4, 
+                    "fieldname":"pi",
+                    "fieldlabel":"Principal Investigator",
+                    "selected":true,
+                    "disabled":true
+                },
+            	{
+                    "id": 2, 
+                    "fieldname":"lastcrdate",
+                    "fieldlabel":"Last CR Date",
+                    "selected":true,
+                    "disabled":false
+                },
+            	{
+                    "id": 3,
+                    "fieldname":"nextcrdate",
+                    "fieldlabel":"Next CR Date",
+					"selected":false,
+                    "disabled":false
+                },
+            	{
+                    "id": 5,
+                    "fieldname":"favoritetree",
+                    "fieldlabel":"Favorite type of pine tree",
+					"selected":false,
+                    "disabled":false
+                }
+        ]
+}

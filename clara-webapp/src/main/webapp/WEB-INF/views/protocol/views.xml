@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+	<definition extends="default" name="protocol/index">
+		<put-attribute name="body" value="/WEB-INF/views/protocol/index.jspx" />
+	</definition>
+
+	<definition extends="default-blank" name="protocol/form-flow">
+		<put-attribute name="body"
+			value="/WEB-INF/views/protocol/form-flow.jspx" />
+	</definition>
+
+    <!-- summary is always no headers -->
+    <definition extends="form-summary" name="protocol/summary">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/summary.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/security.js" />
+    		<add-attribute value="/static/js/common/summary.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    
+	<definition extends="default-ext4" name="protocol/dashboard">
+		<put-attribute name="body" value="/WEB-INF/views/protocol/dashboard.jspx" />
+			
+			<put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/app/config.js" />
+    		<add-attribute value="/static/js/app/detaildashboard/app.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/protocol/protocolform/review/review.css" />   
+			<add-attribute value="/static/styles/protocol/protocol-dashboard.css" />
+  		</put-list-attribute>
+			
+		
+	</definition>
+   
+</tiles-definitions>

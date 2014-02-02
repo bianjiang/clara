@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checklists>
+	<checklist-group title="Emergency Use Checklist" committee="GATEKEEPER,IRB_OFFICE" protocol-form-type="EMERGENCY_USE" protocol-form-committee-status="IN_REVIEW" >
+		<checklist id="1" title="Emergency Use Checklist">
+			<question id="1">
+		  		<text>Was/Is the patient in a life-threatening or severely debilitating situation? </text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="2">
+		  		<text>Was/Is standard acceptable treatment available for the patient? </text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="3">
+		  		<text>Was/Is there sufficient time to obtain IRB approval? </text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="4">
+		  		<text>Was informed consent obtained? </text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="4.1">
+		  		<text>If yes, Was a copy of the signed consent document included?</text>
+		  		<answer></answer>
+		  	</question>
+		  	<question id="4.2">
+		  		<text>If no, Were assurance letters from PI and Independent Physician included? </text>
+		  		<answer></answer>
+		  	</question>
+		</checklist>
+	</checklist-group>
+</checklists>

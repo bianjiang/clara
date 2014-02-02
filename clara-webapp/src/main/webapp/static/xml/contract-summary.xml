@@ -1,0 +1,20 @@
+<form name="Contract Summary" id="contract" type="CONTRACT">
+	<page name="Basic Information" id="basic-information" edit-permission="EDIT_CONTRACT_BASIC">
+		<section>
+			<question id="question-begin-date" parent-id="" parent-value="" header="">
+				<question-label>Contract term begin date:</question-label>
+				<question-value instance-path="/contract/basic-info/contract-begin-date" value-type="date" editable="true"/>
+			</question>
+			<question id="question-end-date" parent-id="" parent-value="" header="">
+				<question-label>Contract term end date:</question-label>
+				<question-value instance-path="/contract/basic-info/contract-end-date" value-type="date" editable="true"/>
+			</question>
+			<question id="question-execution-date" parent-id="" parent-value="" header="">
+				<question-label>Contract execution date:</question-label>
+				<question-value instance-path="/contract/basic-info/contract-execution-date" value-type="date" editable="true"/>
+			</question>
+		</section>
+	</page>
+</form>
+
+	

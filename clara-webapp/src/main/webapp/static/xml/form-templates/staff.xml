@@ -1,0 +1,35 @@
+<form name="Staff" id="staff" type="STAFF">
+	<page name="Start" id="first-page">
+		<section>
+			<question id="question-involve-change-in" parent-id="" parent-value="" header="">
+				<question-label>Does this modification request involve a change in:</question-label>
+				<question-value instance-path="/staff/fake-path" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-involve-change-in-pi" parent-id="" parent-value="" header="">
+						<question-label>Principal investigator?</question-label>
+						<question-value instance-path="/staff/modification/pi-modified" value-type="yesNo" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-staff-addition-desc" parent-id="" parent-value="" header="">
+				<question-label>Please list the name and role for EACH staff member that you are adding to the study.</question-label>
+				<question-value instance-path="/staff/modification/staff-addition-desc" value-type="textarea" />
+			</question>
+			<question id="question-staff-removal-desc" parent-id="" parent-value="" header="">
+				<question-label>Please list the name and role for EACH staff member that you are removing from the study.</question-label>
+				<question-value instance-path="/staff/modification/staff-removal-desc" value-type="textarea" />
+			</question>
+			<question id="question-staff-change-desc" parent-id="" parent-value="" header="">
+				<question-label>Please describe any changes to roles, responsibilities, and/or notifications that you are making for current staff members.</question-label>
+				<question-value instance-path="/staff/modification/staff-change-desc" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="Staff" id="staff">
+		<section>
+			<question id="question-staff" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/staff/staffs/staff" value-type="staff" />
+			</question>
+		</section>
+	</page>
+</form>

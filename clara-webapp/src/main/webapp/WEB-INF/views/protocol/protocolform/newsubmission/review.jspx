@@ -1,0 +1,105 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <c:import url="/static/xml/lookup.xml" var="lookupxml"/> 
+    
+    <c:import var="helpxml" url="/static/xml/help.xml"/>
+    
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application"/>
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+	<x:set var="signedByPiOrNot"
+		select="string($protocolInstance/protocol/signed-by/text())" />
+			<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+			    <uams:newsubmissiontab name="review" protocolInstance="${protocolInstance}" />
+			</div>
+			
+		
+			<div id="clara-form-pagecontent">
+			
+							<div class="formArea">
+								
+									
+								
+									<div id="review-list">
+										<!-- // -->
+									</div>
+									<div id="review-no-messages-othercommittee">
+										<h2 style="font-size:24px;">This protocol is ready to be submitted for review</h2>
+										<span style="font-size:16px;">Click "I'm done editing" <span style='font-weight:800;'>at the top</span> of this web page to continue.</span>
+									</div>
+									<div id="review-no-messages">
+										<h2>Your protocol is ready to be submitted for review</h2>
+										<c:choose>
+											<c:when test='${signedByPiOrNot == "IS_NOT_PI"}'>
+												<span><p>Protocol is ready to be submitted for PI Signature.</p></span>
+											</c:when>
+											<c:when test='${signedByPiOrNot == "IS_NOT_TP"}'>
+												<span><p>Protocol is ready to be submitted for TP Signature.</p></span>
+											</c:when>
+											<c:when test='${signedByPiOrNot == "IS_PI"}'>
+												<span>
+													<P><strong>By signing this document, I hereby agree that:</strong></P>
+													
+													<ol>
+														<li>I will comply with the institutional policies and procedures of the UAMS Human Research Protections Program Plan, which includes those policies listed in the UAMS Administrative Guide and the IRB Policies and Procedures on the IRB website.</li>
+														<li>I have verified that I have the equipment and necessary staff, in terms of number and/or qualification, in order to conduct the research in a way that will protect participants.</li>
+														<li>No subjects will be recruited or entered into a protocol until an approval notification letter is received from the IRB and any additional institutional approvals, as appropriate to the specific research study, are obtained.</li>
+														<li>Changes or modifications in the approved research protocol, other associated study documents or study personnel, shall not be initiated without prior IRB review and approval, except where necessary to eliminate immediate apparent hazards to the subjects.</li>
+														<li>Written reports will be submitted to the IRB as described in IRB Policy 10.2 regarding unanticipated problems involving risks to subjects or others.</li>
+														<li>Continuing Review Report Forms will be submitted to the IRB in advance of the approval expiration date, allowing reasonable time to respond to IRB contingencies prior to expiration. Should approval lapse, all research activities will cease until IRB approval is obtained.</li>
+														<li>If the study involves any funding or resources from outside sources, the grants or contracts administrator will be contacted regarding necessary funding agreements. Subjects will not be enrolled prior to completion of the contract, unless specified by the institution.</li>
+														<li>Unless waived by the IRB, legally effective informed consent will be obtained from each subject prior to involvement in the research study.</li>
+														<li>Unless waived by the IRB, a valid HIPAA authorization will be obtained from all subjects enrolling in research that involves the use of Protected Health Information.</li>
+														<li>The proposed research protocol will be conducted by me as Principal Investigator. If any responsibilities or functions are delegated, I will maintain close oversight and only delegate to research staff that are listed as personnel and are appropriately trained.</li>
+														<li>The IRB shall have the authority to suspend or terminate approval of the research project if it is not being conducted in accordance with the IRB’s decisions, conditions, or requirements.</li>
+														<li>All research submitted to the UAMS IRB is subject to research compliance reviews. These reviews may be random or for cause. </li>
+													</ol>
+												</span>
+											</c:when>
+											<c:when test='${signedByPiOrNot == "IS_TP"}'>
+												<span>
+													<P><strong>I certify that the information provided in this request is complete and accurate.</strong></P>
+													<P><strong>I agree to:</strong></P>
+													<ol>
+														<li>perform the procedure as outlined herein and approved by the IRB;</li>
+														<li>use the device only as described on the FDA approved label;</li>
+														<li>provide the patient with appropriate information to make an informed decision about the use of the device;</li>
+														<li>report unanticipated problems involving risk to patients to the IRB according to IRB procedures;</li>
+														<li>notify the patient of any new findings regarding the device.</li>
+													</ol>
+													<P><strong>I certify that the HUD is not being used as part of a research project or clinical investigation designed to collect data to support an FDA pre-marketing approval application.</strong></P>
+												</span>
+											</c:when>
+										</c:choose>
+										
+										<br/><br/>
+										<div id="sign-and-submit"><!-- // --></div>
+									</div>
+
+			
+						</div>
+						
+				</div>
+
+					<div id="clara-form-actionbuttons">
+						<div id="btnPrevPage"></div>
+						<div id="btnNextPage"></div>
+					</div>
+					
+				
+	<script type="text/javascript">
+			jQuery(document).ready(function() {
+
+				
+			claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+			
+			var rpanel = new Clara.FormReviewPanel({authenticated:'${authenticated}'});
+			renderFormViewport((claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Review":"<strong>New Submission</strong>: Review",rpanel);
+			// renderPage();
+		});
+	</script>	
+</div>
+

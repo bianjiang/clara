@@ -1,0 +1,771 @@
+/* FORM CSS */
+
+.x-plain-body strong{
+	font-weight:800;
+}
+
+.clickable a{
+	cursor: pointer;
+	cursor: hand;
+}
+
+.notclickable{
+	color:#9BB7C9!important;
+	cursor: default!important;
+	text-decoration:none!important;
+}
+.notclickable a{	
+	color:#9BB7C9!important;
+	cursor: default!important;	
+	text-decoration:none!important;
+}
+
+.notclickable a:hover {
+	color:#9BB7C9!important;
+	cursor: default!important;	
+	text-decoration:none!important;
+}
+
+ul.criterias {
+	margin-top: 6px;
+	margin-left: 25px;
+	list-style: decimal inside none
+}
+
+.bulletitem{
+	list-style:disc outside none;
+	padding:6px;
+	border-bottom:1px dotted #ccc;
+}
+
+.enrollment-array-element{
+	width:128px;
+}
+
+.option-description-list{
+	margin-left:36px;
+	margin-top:4px;
+	font-size:11px;
+}
+
+.questionIdentifier{
+	text-transform:uppercase;
+	font-size:12px;
+	color:#777;
+	padding-top:4px;
+	margin-bottom:4px;
+	margin-left:4px;
+	border-bottom:1px dotted #ddd;
+}
+
+.required-question{
+	background-image:url(../images/required-question.png);
+	background-repeat:no-repeat;
+	background-position:top right;
+}
+
+.question.required-question .questionLabel{
+	padding-right:90px;
+}
+
+.question.required-question .conditional-question-label{
+	margin-right:90px;
+}
+
+.x-panel-noborder .x-panel-body-noborder{
+	overflow:auto;	
+}
+
+.protocol-irb-number{font-weight:800;}
+
+#respdeptdesc{
+	font-size:16px;	
+	background-color:#f0f0f0;
+	border:1px solid #ddd;
+	padding:6px;
+}
+
+.resp-collegedesc,.resp-deptdesc{
+	font-weight:800;	
+}
+
+.question-el-radio-row {
+	padding:6px;	
+}
+
+.question-el-radio-row input {
+	font-size:14px;	
+}
+
+.question-el-radio-row label {
+	margin-left:8px;	
+}
+
+.conditional-question-label, .subsection-question-label{
+	padding:8px;
+	font-size:14px;
+	border:1px solid #daddae;
+	background-color:#f5f8ca;
+	margin-bottom:12px;
+}
+
+.conditional-question-label{
+	background-image:url(../images/icn/arrow-branch.png) !important;
+	padding-left:32px;
+	background-position:8px 8px;
+	background-repeat:no-repeat;
+}
+
+.subsection-question-label{
+	background-color:#eee;
+	border:1px solid #ddd;
+}
+
+.bottom-border {
+	border-bottom:1px dotted #ddd;	
+}
+
+.clearQuestionRow{
+	border-top:1px dotted #ccc;
+	clear:both;
+	width:100%;
+}
+
+.informed-consent-obtained-answer-yes, .informed-consent-obtained-answer-no{
+	padding:8px;
+	font-size:14px;
+}
+#question-bq01 .questionLabel{
+	font-weight:100;
+	font-size:12px;
+}
+
+.informed-consent-obtained-answer-yes{
+	border:1px solid green;
+	background-color:#ccffcc;	
+}
+
+.informed-consent-obtained-answer-no{
+	border:1px solid red;
+	background-color:#ffcccc;	
+}
+
+.budget-determination-answer-yes, .budget-determination-answer-no{
+	padding:8px;
+	font-size:14px;
+	text-align:center;
+}
+
+.budget-determination-answer-yes{
+	border:1px solid green;
+	background-color:#ccffcc;	
+}
+
+.budget-determination-answer-no{
+	border:1px solid red;
+	background-color:#ffcccc;	
+}
+
+
+.determination-answer-yes, .determination-answer-no{
+	padding:8px;
+	font-size:14px;
+	text-align:center;
+}
+
+.determination-answer-yes{
+	border:1px solid green;
+	background-color:#ccffcc;	
+}
+
+.determination-answer-no{
+	border:1px solid red;
+	background-color:#ffcccc;	
+}
+
+.floatlabel .questionLabel {
+	width:50%;
+	float:left;	
+}
+
+.floatlabel .questionValue {
+	width:45%;
+	float:right;	
+}
+
+.questionValue{
+	padding:4px;	
+}
+
+label.error {
+		border:1px solid red;
+		padding:6px;
+		margin-right:8px;
+		margin-left:8px;
+		background-color:#ffcccc;
+		font-weight:800;
+	}
+
+.formArea label {
+	display:block;
+	margin-bottom:10px;
+	font-size:14px;	
+	line-height:28px;
+}
+.form_page{
+	border-top:1px solid #ccc;	
+	border-left:1px solid #ccc;	
+}
+	
+.budget-question label{
+	padding:0px;
+	margin:0px;	
+}
+
+.budget-question .questionLabel{
+	text-align:right;
+	line-height:24px;	
+}
+	
+
+
+.siterow-unapproved {
+	background-color:#ffcccc;	
+}
+
+textarea, select, input {
+	font-size:14px;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;	
+}
+
+textarea {
+	font-size:16px;
+	width:600px;
+}
+
+select {
+	width:350px;	
+	font-size:16px;
+	line-height:28px;
+	height:28px;
+}
+
+input.largeControl{
+	width:24px;
+	height:24px;
+	vertical-align: bottom;
+    position: relative;
+    top: 3px;
+    *overflow: hidden;
+}
+
+.clara-form-checkbox{
+	padding-top:4px;
+	margin-bottom:8px;	
+}
+
+.radio_yesno{
+	float:left;
+	width:75px;
+}
+
+.questionLabel {
+	font-size:16px;
+	font-color:black;
+	font-weight:800;	
+	margin-bottom:4px;
+	margin-left:4px;
+}
+
+.floatedLabel {
+	float:left;	
+}
+
+.floatedValue {
+	float:right;
+}
+
+.question {
+	margin-bottom:40px;	
+	clear:both;
+}
+
+.standalone-question {
+	border:1px solid #ccc;
+	padding:6px;
+	background-color:#eee;
+	clear:both;
+}
+
+.standalone-question .questionLabel {
+	font-size:20px;	
+}
+
+.highlighted-question {
+	border:2px solid #ff9900;
+	background-color:yellow;
+}
+
+#validation-error-box{
+	margin-top:8px;
+	padding:10px;
+	padding-top:42px;
+	background-image:url(../images/validate-bkg.gif);
+	background-repeat:no-repeat;
+	background-position:top left;
+	border-bottom:1px solid #d7baa9;
+}
+
+#validation-error-box h3{
+	margin:0px;
+	line-height:16px;
+	font-size:16px;
+	margin-bottom:8px;	
+}
+
+#validation-error-label-box li,#validation-error-box label{
+	font-size:14px;
+	line-height:14px;	
+}
+
+#validation-footer {
+	text-align:center;
+	font-size:11px;
+	margin-top:8px;	
+}
+
+.form_page {
+	background:url(../images/formpage_bg.gif) repeat-y top left;
+	margin-top:0px;
+}
+
+.form_page_wrapper {
+	padding:12px;	
+	padding-top:0px;
+}
+
+.formArea {
+	padding:8px;	
+}
+
+.formHelpArea {
+	margin-top:60px;	
+}
+
+.formHelpArea li {
+	list-style-type: disc;
+	list-style-position: inside;
+	margin-left: 0;
+	padding-left: 1.2em;
+	text-indent: -1.2em;
+	
+}
+
+
+.data-table{
+	
+	min-height:91px;
+	margin-bottom:16px;
+}
+
+.data-table-header{
+	background:url(../images/table_header.png) no-repeat top left;	
+	height:45px;
+	min-height:45px;
+	width:660px;
+}
+
+.data-table-footer{
+	background:url(../images/table_bottom_bg.png) no-repeat bottom left;
+	min-height:16px;
+	height:16px;
+}
+
+.table-header-content{
+	padding:16px;
+	font-size:16px;
+	color:black;
+}
+
+.data-table-content{
+	min-height:30px;
+	background:url(../images/table_content_bg.png) repeat-y top left;		
+}
+
+.data-table-row {
+	display:block;
+	margin-left:6px;
+	padding:6px;
+}
+
+.row-review-warning {
+	padding-left:48px;
+	background-image:url(../images/warning.png);
+	background-repeat:no-repeat;
+	background-position:12px 8px;
+}
+
+.relatedQuestion{
+	display:none;
+	padding-left:32px;
+}
+
+
+#form_newsubmission_pagelist{
+	background: url(../images/form_pagelist_bg.gif) no-repeat top left;
+	color:#000;
+	font-size:14px;
+	font-weight:800;
+	border-right:1px solid #ccc;
+	width:939px;margin-top:12px;
+}
+
+
+
+.form_pagelist{
+	background: url(../images/form_pagelist_bg.gif) no-repeat top left;
+	color:#000;
+	font-size:14px;
+	font-weight:800;
+	border-right:1px solid #ccc;
+	width:938px;margin-top:12px;
+}
+
+.form-protocol-info{
+	white-space:normal !important;
+	margin-bottom:6px;
+	border-bottom:1px dotted #aaa;
+}
+
+.form_pagelist_page, .form_pagelist_pagegroup {
+	padding:6px;
+	border-bottom:1px solid #ccc;
+}
+
+.form_pagelist_last{
+	border-bottom:0px;
+}
+
+
+.form_pagelist_currentgroup{
+	background: #f1f5fa;
+	color:white;
+}
+
+.form_pagelist_subpage{
+	font-size:12px;	
+	font-weight:100;
+	border-bottom:0px;
+	padding-left:12px;	
+}
+
+.form_pagelist_current {
+	background: #1956ad;
+	font-weight:800;	
+	color:#fff;
+}
+
+.form_pagelist_pagegroup_name{
+	color:#333;
+	margin-bottom:4px;	
+	font-size:14px;
+}
+
+ .form_pagelist_currentgroup .form_pagelist_pagegroup_name {
+ 	color:#fff;
+ }
+
+ .form_pagelist_currentgroup .form_pagelist_subpage{
+ 	color:#666;
+ }
+ 
+ .form_pagelist_currentgroup .form_pagelist_current{
+ 	color:#fff;
+ }
+
+#form_header{
+	margin-top:12px;	
+}
+
+#form_content{
+	margin-bottom:12px;
+}
+
+.form_page_title{
+	float:left;
+	width:630px;
+	text-align:left;
+	margin-bottom:6px;	
+}
+
+.form_page_title_help_icon{
+	float:right;
+	width:30px;
+	text-align:right;
+}
+
+#form_page_title_help_content{
+	background:none repeat scroll 0 0 #f1f5fa;
+	border:1px solid #d1d7e2;
+	margin-bottom:6px;
+	display:none;
+	padding:8px;
+}
+
+.form_navigationbox{
+	margin:0px;
+	padding:6px;
+}	
+
+.form_navigationform {
+	margin:0px;
+	padding:0px;
+	margin-bottom:12px;	
+}
+
+.form_bottombar {
+	background:url(../images/form_buttonbar_bottom.png) no-repeat top left;
+	height:51px;
+	min-height:51px;
+	padding:14px;text-align:right;
+}
+
+.scroll-y{
+	overflow-y: scroll;
+}
+
+.scroll-x{
+	overflow-x: scroll;
+}
+
+.scroll{
+	overflow: scroll;
+}
+
+/* SUBMISSION PAGE-SPECIFIC elements */
+
+#minimumageUnit, #maximumageUnit, #minimumageValue, #maximumageValue {
+	width:100px;	
+}
+
+#minimumageValue, #maximumageValue {
+	width:50px;	
+	margin-right:6px;
+}
+
+.cb_column_2, .cb_column_3,.cb_column_4,.cb_column_5,.cb_column_6 {
+	float:left;
+	width:150px;
+}
+
+.cb_column_5 {
+	width:250px;
+}
+.cb_column_6{
+	width:250px;	
+}
+
+.column-300,.column-200,.column-100 {
+	float:left;
+	font-size:14px;
+	padding:4px;
+}
+
+.column-100 {
+	width:100px;
+}
+
+.column-200 {
+	width:200px;
+}
+
+.column-300 {
+	width:300px;
+}
+
+#drug-name {
+	width:400px;
+}
+
+.review-row-icon-ERROR, .review-row-icon-WARNING{
+	width:32px;
+	height:32px;
+	float:left;
+	margin-right:4px;
+	text-indent:-4000px;	
+}
+
+.review-row-icon-ERROR {
+	background:url(../images/icon-error-32.png) no-repeat 0 0;
+}
+
+.review-row-icon-WARNING {
+	background:url(../images/icon-warning-32.png) no-repeat 0 0;
+}
+
+.review-row{
+	width:680px;
+	padding:4px;
+	clear:both;	
+}
+
+.review-row-message {
+	padding-top:2px;
+	width:640px;
+	float:right;	
+}
+
+.review-row-message-description{
+
+}
+
+.review-row-message-page{
+	font-size:12px;	
+}
+
+#review-no-messages{
+	border:1px solid #ccc;
+	background: #fff url(../images/icon-check-64.png) no-repeat 8px 8px;
+	padding:8px;
+	padding-left:88px;	
+}
+#review-no-messages h2{
+	font-size:20px;
+}
+#review-no-messages p{
+	margin-bottom:8px;
+	margin-top:8px;
+}
+
+#signSubmitForm label{
+	font-size:12px;
+	line-height:16px;
+	margin-bottom:0px;
+}
+
+
+.review-username,.review-password{
+float:right;
+margin-left:8px;
+}
+
+#signed-no-messages{
+	border:1px solid #ccc;
+	background: #fff url(../images/icon-check-64.png) no-repeat 8px 8px;
+	padding:8px;
+	padding-left:88px;
+	color:green;
+	font-weight:800;
+	font-size:2em;
+}
+
+#signed-warning-messages{
+	border:1px solid #ccc;
+	background: #fff url(../images/icon-warning-64.png) no-repeat 8px 8px;
+	padding:8px;
+	padding-left:88px;
+	color:red;
+	font-weight:800;
+	font-size:2em;
+}
+
+#signed-no-messages ul.signed-information {
+	color: #555;
+	font-size:16px;
+	margin: 20px;
+}
+
+#signed-no-messages ul.signed-information li {
+	margin-top: 5px;
+}
+
+#signed-no-messages ul.signed-information li div.helptext {
+	background: #fff url(../images/icons/help.png) no-repeat 8px 8px;
+	font-size:14px;
+	color: #666;
+	padding:8px;
+	font-weight:300;
+	padding-left:30px;
+}
+
+
+#btnNextPage{
+font-size:14px;
+font-weight:800;
+}
+
+#btnNextPage a:hover{
+text-decoration:underline;
+}
+
+#card-next button,#card-prev button {
+	font-size:13px;
+	font-weight:800;
+}
+
+.form-title{
+	border:1px solid #aaa;
+	
+	background:#fff;
+	padding:8px;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-size:16px;
+	color:#000;
+	margin-top:8px;
+	margin-bottom:16px;
+	-moz-box-shadow: 0px 3px 5px #ccc;
+	-webkit-box-shadow: 0px 3px 5px #ccc;
+	box-shadow: 0px 3px 5px #ccc;
+}
+
+.form-title h1{
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	color:#1E4E8F;
+	font-size:22px;	
+}
+
+.form-title h3{
+	font-size:16px;	
+	font-weight:100;
+}
+
+.form-subheader {
+	clear:both;
+	padding:6px;
+	font-size:18px;
+	border-bottom:1px solid #666;
+	margin-bottom:16px;
+}
+
+.questionHelp {
+	list-style:disc inside none !important;
+	padding:6px;
+	padding-left:54px;
+	background:#f3f4f8 url(../images/icons/32/help.png) no-repeat 6px 6px;
+	border:1px solid #ebedf2;
+	margin-top:8px;
+	margin-bottom:8px;
+	background-color:#f3f4f8;
+}
+
+.questionHelp * strong {
+	font-weight:800;	
+}
+
+.questionHelp-list{
+	margin:8px;
+		
+}
+
+ul.questionHelp-list,.questionHelp-list li {
+	list-style:disc outside none !important;
+}
+
+.fundingsource-row{
+	font-size:12px;
+}	
+.fundingsource-row h2{
+	font-size:11px;
+	font-weight:100;
+	color:#999;
+}

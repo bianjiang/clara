@@ -1,0 +1,25 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty"/>
+	<jsp:directive.attribute name="name" type="java.lang.String" required="true" rtexprvalue="true"/>
+
+	<div class="clara-form-tabs">
+			<div class="clara-form-tab" id="tab-first-page"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage('first-page');">Basic Info.</a></div><div style="clear:both;"><!-- // --></div></div>	
+			<div class="clara-form-tab" id="tab-study-information"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'study-information');">Study Info.</a></div><div style="clear:both;"><!-- // --></div></div>	
+			<div class="clara-form-tab" id="tab-sponsor-contacts"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'sponsor-contacts');">Contacts Info.</a></div><div style="clear:both;"><!-- // --></div></div>	
+			<div class="clara-form-tab" id="tab-staff"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'staff');">Staff</a></div><div style="clear:both;"><!-- // --></div></div>
+			<div class="clara-form-tab" id="tab-documents"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'documents');">Documents</a></div><div style="clear:both;"><!-- // --></div></div>
+			<div class="clara-form-tab" id="tab-review"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'review');">Review and Submit</a></div><div style="clear:both;"><!-- // --></div></div>
+	</div>
+	
+	<script type="text/javascript">
+	var claraFormPageName="${name}";
+	<![CDATA[
+		jQuery("#tab-"+claraFormPageName).addClass("clara-form-pagelist-currentpage");
+		jQuery("#tab-"+claraFormPageName+" .subsectionbutton").removeClass("icn-application-list-disabled").addClass("icn-application-list-blue");
+		jQuery("#tab-"+claraFormPageName+" .subsectionbutton").click(function(){openSubSectionList();});
+	]]>
+	</script>
+</jsp:root>

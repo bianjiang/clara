@@ -1,0 +1,596 @@
+<div class="clara-content-area"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title)" />
+	<x:out escapeXml="false" select="string($protocolInstance/text())" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="consent"
+			protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+
+			<div class="question clearfix" id="question-consent-process-included">
+				<div class="questionIdentifier">Consent-1</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Indicate the consent process(es) to be used in the study.  (Check all that apply)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="consentprocessIncluded"
+						select="$protocolInstance/protocol/consent/processes/included" />
+					<uams:checkbox id="consent-process-included"
+						value="${consentprocessIncluded}" newColumnEvery="5"
+						allowcustom="true" lookuppath="consent-process-include"
+						instancepath="/protocol/consent/processes/included"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="consent-process-included" />
+				</div>
+			</div>
+
+			<div class="question clearfix" id="question-request-waiver-of-consent-documentation">
+				<div class="questionIdentifier">Consent-1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Assent Process, Parental Permission Process or Informed Consent Process are used in this study, please answer the
+						following question:</h1>
+					<span class="question-label-text">Are you requesting Waiver of Documentation for the Consent/Assent Process?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="requestWaiverOfConsentDocumentation"
+						select="string($protocolInstance/protocol/consent/request-waiver-of-consent-documentation/text())" />
+					<uams:yesno id="request-waiver-of-consent-documentation"
+						instancepath="/protocol/consent/request-waiver-of-consent-documentation"
+						value="${requestWaiverOfConsentDocumentation}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="request-waiver-of-consent-documentation" />
+				</div>
+			</div>
+
+			<!-- APPENDIX M2 Waiver of Consent Documentation -->
+			<div class="question clearfix" id="question-fda-regulations">
+				<div class="questionIdentifier">Consent-Appx.M2-1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Waiver of Consent Documentation is used in this study, please answer the following question:</h1>
+					<span class="question-label-text">Is the research subject to
+						FDA regulations (e.g., involves use of a food, drug, biologic,
+						device)?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="fdaRegulations"
+						select="string($protocolInstance/protocol/consent/processes/waiver-or-consent-documentation/is-subject-to-fda-regulations/text())" />
+					<uams:yesno id="subject-to-fda-regulations"
+						instancepath="/protocol/consent/processes/waiver-or-consent-documentation/is-subject-to-fda-regulations"
+						value="${fdaRegulations}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<ul class="questionHelp-list">
+						<li>Documentation of consent cannot be waived if the research
+							involves a product regulated by FDA or the results of the
+							research may be submitted to FDA as part of a marketing
+							application.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-waiver-or-consent-documentation-risk-procedures">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Waiver of Consent Documentation is used in this study, please answer the following question:</h1>
+				</div>
+				<div class="questionIdentifier">Consent-Appx.M2-1.1.1</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Does the research present
+						greater than minimal risk?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="waiverorconsentdocumentationgreaterthanminimalRisk"
+						select="string($protocolInstance/protocol/consent/processes/waiver-or-consent-documentation/greater-than-minimal-risk/text())" />
+					<uams:yesno
+						id="waiver-or-consent-documentation-greater-than-minimal-risk"
+						instancepath="/protocol/consent/processes/waiver-or-consent-documentation/greater-than-minimal-risk"
+						value="${waiverorconsentdocumentationgreaterthanminimalRisk}"
+						validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionIdentifier">Consent-Appx.M2-1.1.2</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Does the research involve
+						procedures for which written consent is normally required outside
+						the research context?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="involveproceduresrequireConsent"
+						select="string($protocolInstance/protocol/consent/processes/waiver-or-consent-documentation/involve-procedures-require-consent/text())" />
+					<uams:yesno id="involve-procedures-require-consent"
+						instancepath="/protocol/consent/processes/waiver-or-consent-documentation/involve-procedures-require-consent"
+						value="${involveproceduresrequireConsent}" validation="required" />
+				</div>
+				<br />
+				<div class="questionHelp">
+					<ul class="questionHelp-list">
+						<li>Both answers above must be NO for a waiver of consent
+							documentation.</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<div class="question clearfix"
+				id="question-waiver-or-consent-documentation-risk-procedures-nono">
+				<div class="questionIdentifier">Consent-Appx.M2-1.1.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Waiver of Consent Documentation is used in this study and the research
+						does not present greater than minimal risk and does not involve
+						precedure for which written consent is normally required outside
+						the research context, please answer the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Explain how the research
+						is no more than minimal risk, and how the research does not
+						involve procedures for which written consent is normally required
+						outside the research context.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="waiverApplicableReason" select="string($protocolInstance/protocol/consent/processes/waiver-or-consent-documentation/waiver-applicable/reason/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/consent/processes/waiver-or-consent-documentation/waiver-applicable/reason"
+						id="waiver-applicable-reason" value="${waiverApplicableReason}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-consent-links-participant-and-research">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since Waiver of Consent Documentation is used in this study,
+						please answer the following question: <br />
+					</h1>
+				</div>
+				<div class="questionIdentifier">Consent-Appx.M2-1.2.1</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Would the only record
+						linking the participant and the research be the consent document?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="linksparticipantandResearch"
+						select="string($protocolInstance/protocol/consent/processes/waiver-or-consent-documentation/privacy/consent-links-participant-and-research/text())" />
+					<uams:yesno id="consent-links-participant-and-research"
+						instancepath="/protocol/consent/processes/waiver-or-consent-documentation/privacy/consent-links-participant-and-research"
+						value="${linksparticipantandResearch}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionIdentifier">Consent-Appx.M2-1.2.2</div>
+				<div class="questionLabel">Would the principal risk to the
+					participant be potential harm resulting from a breach in
+					confidentiality?</div>
+				<div class="questionValue">
+					<x:set var="harmcausedbyconfidentialityBreach"
+						select="string($protocolInstance/protocol/consent/processes/waiver-or-consent-documentation/privacy/harm-caused-by-confidentiality-breach/text())" />
+					<uams:yesno id="harm-caused-by-confidentiality-breach"
+						instancepath="/protocol/consent/processes/waiver-or-consent-documentation/privacy/harm-caused-by-confidentiality-breach"
+						value="${harmcausedbyconfidentialityBreach}" validation="required" />
+				</div>
+				<br />
+				<div class="questionHelp">
+					<ul class="questionHelp-list">
+						<li>The participant should be asked whether he/she wants
+							documentation linking the participant with the research; the
+							participant's wishes will govern.</li>
+						<li>Both answers above must be YES for a waiver of consent
+							documentation.</li>
+					</ul>
+				</div>
+
+			</div>
+
+
+
+			<div class="question clearfix"
+				id="question-consent-links-participant-and-research-yesyes">
+				<div class="questionIdentifier">Consent-Appx.M2-1.2.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">
+						Since Waiver of Consent Documentation is used in this study
+						and the only record linking the participant and the research would
+						be the consent document and the principal risk to the participant
+						would be potential harm resulting from a breach in
+						confidentiality, please answer the following question: <br />
+					</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Explain how the only
+						record linking the participant and the research would be the
+						consent document, and how the principle risk to the participant
+						would be potential harm resulting from a breach in
+						confidentiality.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="waiverPrivacyReason" select="string($protocolInstance/protocol/consent/processes/waiver-or-consent-documentation/privacy/y/reason/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/consent/processes/waiver-or-consent-documentation/privacy/y/reason"
+						id="waiver-privacy-reason" value="${waiverPrivacyReason}" hasNA="false"/>
+				</div>
+			</div>
+
+			<!-- APPENDIX M1 Waiver or Alteration of Consent Process -->
+			<div class="question clearfix"
+				id="question-waiver-or-alteration-of-consent-process-fda-regulations">
+				<div class="questionIdentifier">Consent-Appx.M1-1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since Waiver or
+						Alteration of Consent Process is used in this study, please answer
+						the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Is the research subject to
+						FDA regulations (e.g., involves use of a food, drug, biologic,
+						device)?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="fdaRegulations"
+						select="string($protocolInstance/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/text())" />
+					<uams:yesno
+						id="waiver-or-alteration-of-consent-process-fda-regulations"
+						instancepath="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations"
+						value="${fdaRegulations}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo
+						lookupid="waiver-or-alteration-of-consent-process-fda-regulations" />
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-subject-to-government-approval">
+				<div class="questionIdentifier">Consent-Appx.M1-2</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since no Consent Process is used in this study and the 
+					research is not subject to FDA regulations, please answer the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Is the research subject to
+						the approval of state or local government officials and designed
+						to study public benefit or service programs or procedures for
+						obtaining benefits under those programs, changes in or
+						alternatives to those programs or procedures, or changes in
+						methods or levels of payment for benefits or services under those
+						programs?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="FDASubject"
+						select="string($protocolInstance/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-subject-to-government-approval/text())" />
+					<uams:yesno id="subject-to-government-approval"
+						instancepath="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-subject-to-government-approval"
+						value="${FDASubject}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-reason-for-waiver-or-alteration">
+				<div class="questionIdentifier">Consent-Appx.M1-2.1.1</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since no Consent Process is used in this study and the 
+					research is not subject to FDA regulations and the research is subject to the approval of state or local government officials, please answer
+						the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Explain why the research
+						could not practicably be carried out without the waiver or
+						alteration.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="reasonForWaiverOrAlteration" select="string($protocolInstance/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-subject-to-government-approval/y/reason-for-waiver-or-alteration/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-subject-to-government-approval/y/reason-for-waiver-or-alteration"
+						id="reason-for-waiver-or-alteration" value="${reasonForWaiverOrAlteration}" hasNA="false"/>
+				</div>
+			</div>
+
+
+			<div class="question clearfix"
+				id="question-consent-reason-for-no-more-than-minimial-risk">
+				<div class="questionIdentifier">Consent-Appx.M1-3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since no Consent Process is used in this study and the 
+					research is not subject to FDA regulations and the research is not subject to the approval of state or local government officials, please answer
+						the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Explain how the research
+						involves no more than minimal risk.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="consentReasonForNoMoreThanMinimialRisk" select="string($protocolInstance/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/reason-for-no-more-than-minimial-risk/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/reason-for-no-more-than-minimial-risk"
+						id="consent-reason-for-no-more-than-minimial-risk" value="${consentReasonForNoMoreThanMinimialRisk}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-no-adversary-affect-to-participants">
+				<div class="questionIdentifier">Consent-Appx.M1-4</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since no Consent Process is used in this study and the 
+					research is not subject to FDA regulations and the research is not subject to the approval of state or local government officials, please answer
+						the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Explain why the waiver or
+						alteration will not adversely affect the rights and welfare of the
+						participants.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="noAdversaryAffectToParticipants" select="string($protocolInstance/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/no-adversary-affect-to-participants/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/no-adversary-affect-to-participants"
+						id="no-adversary-affect-to-participants" value="${noAdversaryAffectToParticipants}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-consent-reason-for-waiver-or-alteration">
+				<div class="questionIdentifier">Consent-Appx.M1-5</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since no Consent Process is used in this study and the 
+					research is not subject to FDA regulations and the research is not subject to the approval of state or local government officials, please answer
+						the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Explain why the research
+						could not practicably be carried out without the waiver or
+						alteration.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="consentReasonForWaiverOrAlteration" select="string($protocolInstance/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/reason-for-waiver-or-alteration/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/reason-for-waiver-or-alteration"
+						id="consent-reason-for-waiver-or-alteration" value="${consentReasonForWaiverOrAlteration}" hasNA="false"/>
+				</div>
+			</div>
+
+
+			<div class="question clearfix"
+				id="question-consent-is-pertinent-information-provided">
+				<div class="questionIdentifier">Consent-Appx.M1-6</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since no Consent Process is used in this study and the 
+					research is not subject to FDA regulations and the research is not subject to the approval of state or local government officials, please answer
+						the following question:</h1>
+				</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Will the participants be
+						provided with additional pertinent information after
+						participation?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="participantsadditionalPertinent"
+						select="string($protocolInstance/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-pertinent-information-provided/text())" />
+					<uams:yesno id="consent-is-pertinent-information-provided"
+						instancepath="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-pertinent-information-provided"
+						value="${participantsadditionalPertinent}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">Please explain why or why not</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-pertinent-information-provided/explain"
+						rows="4" id="question-participants-additionalPertinent-explain">
+						<x:out
+							select="$protocolInstance/protocol/consent/processes/waiver-or-alteration-of-consent-process/consent-process-fda-regulations/n/is-pertinent-information-provided/explain" />
+					</textarea>
+				</div>
+			</div>
+
+
+			<div class="question" id="question-consent-provider">
+				<div class="questionIdentifier">Consent-2</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Who will provide consent/assent/permission? (Check all that apply)</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="consentProvider"
+						select="$protocolInstance/protocol/consent/provider" />
+					<uams:checkbox id="consent-provider" lookuppath="consent-provider"
+						instancepath="/protocol/consent/provider" allowcustom="false"
+						value="${consentProvider}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question clearfix"
+				id="question-location-of-consent-process">
+				<div class="questionIdentifier">Consent-3</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Describe the location in
+						which the consent process will occur.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="locationofconsentProcess"
+						select="$protocolInstance/protocol/consent/location-of-consent-process" />
+					<uams:checkbox id="location-of-consent-process"
+						value="${locationofconsentProcess}" newColumnEvery="6"
+						allowcustom="true" lookuppath="location-of-consent-process"
+						instancepath="/protocol/consent/location-of-consent-process"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question" id="question-consent-discussion-time">
+				<div class="questionIdentifier">Consent-4</div>
+				<div class="questionLabel">
+					<span class="question-label-text">How much time will be
+						devoted to the consent discussion?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="discussionTime" select="string($protocolInstance/protocol/consent/discussion-time/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/consent/discussion-time"
+						id="discussion-time" value="${discussionTime}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" id="question-consent-waiting-period">
+				<div class="questionIdentifier">Consent-5</div>
+				<div class="questionLabel">
+					<span class="question-label-text">What is the waiting period
+						between informing the prospective participant about the study and obtaining 
+						consent?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="waitingPeriod" select="string($protocolInstance/protocol/consent/waiting-period/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/consent/waiting-period"
+						id="waiting-period" value="${waitingPeriod}" hasNA="false"/>
+				</div>
+			</div>
+
+			<div class="question" id="question-how-to-undue-influence">
+				<div class="questionIdentifier">Consent-6</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Explain how the
+						possibility of coercion or undue influence will be minimized in
+						the consent process.</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="howToUndueInfluence" select="string($protocolInstance/protocol/consent/how-to-undue-influence/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/consent/how-to-undue-influence"
+						id="how-to-undue-influence" value="${howToUndueInfluence}" hasNA="false"/>
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="how-to-undue-influence" />
+				</div>
+			</div>
+
+			<div class="question" id="question-other-tools">
+				<div class="questionIdentifier">Consent-7</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Will any other tools
+						(e.g., quizzes, visual aids, information sheets) be used during
+						the consent process to assist participant comprehension?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="otherTools"
+						select="string($protocolInstance/protocol/consent/other-tools/text())" />
+					<uams:yesno id="other-tools"
+						instancepath="/protocol/consent/other-tools" value="${otherTools}"
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<ul class="questionHelp-list">
+						<li>If yes, please provide supporting documents.</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="question" id="question-children-continue">
+				<div class="questionIdentifier">Consent-8</div>
+				<div class="questionLabel">
+					<span class="question-label-text">If children participate in the study, will their participation 
+					continue beyond the time that they are 18 years of age?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="childrenContinue"
+						select="string($protocolInstance/protocol/consent/children-continue/text())" />
+					<x:set var="childrenContinueExplainText"
+						select="string($protocolInstance/protocol/consent/children-continue/y/explain/text())" />
+					<uams:yesno id="children-continue"
+						instancepath="/protocol/consent/children-continue" value="${childrenContinue}"
+						hasNA="true"
+						validation="required"
+						showTextArea="true"
+						textValue="${childrenContinueExplainText}"
+						textValidation="required"
+						otherType="textarea"
+						textAreaTitle="Please describe the re-consenting process:"
+						valueToShowTextArea="y" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="children-continue" />
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : 'hipaa',
+										nextTab : 'risks',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Consent":"<strong>New Submission</strong>: Consent",
+									wiz);
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+							//renderQuestionWizard('page-wizard-wrapper', 'question', true, 'staff', 'hipaa');
+						});
+	</script>
+</div>

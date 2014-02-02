@@ -1,0 +1,83 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+	<c:import var="helpxml" url="/static/xml/help.xml"/>
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="rniInstance" />
+	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+	<x:set var="newInformationCategoryValue" select="string($rniInstance/reportable-new-info/info-category)" />
+	
+	<x:forEach var="n" select="$lookup/lookup/*[local-name()='info-category']/option">
+			<x:set var="lookupValue" select="string($n/value/text())"/>
+			<x:set var="lookupDescription" select="string($n/desc/text())"/>
+			
+			<c:set var="ld" value="${lookupDescription}"/>
+			<c:set var="lv" value="${lookupValue}"/>
+			<c:if test="${lv == ''}">
+				<c:set var="lv" value="${lookupDescription}"/>
+			</c:if>
+			<c:if test="${lv == newInformationCategoryValue}">
+				<c:set var="newInformationCategory" value="${lookupDescription}"/>
+			</c:if>
+	</x:forEach>
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:reportablenewinfotab
+			name="detail-of-new-information"
+			rniInstance="${rniInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<div class="question" id="question-detail-of-new-information">
+				<div id="detail-of-new-information-tabpanel"><!-- // --></div>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">// <![CDATA[
+		jQuery(document).ready(function() {
+			claraInstance.navigation.init(claraFormPageName);
+			claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+			
+			var detailofnewinformationpanel = new Clara.ReportableNewInformation.NewInformationPanel({title:'${newInformationCategory}'});
+			var p = new Ext.Panel({id:'question-detail-of-new-information-panel-wrapper',items:[detailofnewinformationpanel],layout:'fit',
+				tbar: new Ext.Toolbar({
+			    	items:[{xtype:'button',iconCls:'icn-arrow-180',text:'Back',handler:function(){gotoPage('first-page');}},'->',{xtype:'button',iconCls:'icn-arrow',text:'Next',handler:function(){gotoPage('modification');}}]
+			    })
+			});
+			
+			renderFormViewport("<strong>Reportable New Information</strong>: Detail of New Information", null,p);
+			jQuery("#question-detail-of-new-information").addClass("vp-question");
+			
+			Clara.ProtocolForm.Rules.questionBaseCls = "vp-question";
+			Clara.ProtocolForm.Rules.processPage("vp-question");
+			
+			detailofnewinformationpanel.loadNewInformation();
+		});]]></script>
+
+
+
+</div>

@@ -1,0 +1,185 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:p="http://devsphere.com/xml/taglib/process"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="scInstance" />
+	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" />
+
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:studyclosuretab name="first-page" scInstance="${scInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+			
+			<div class="question"
+			>
+			<h1 style="font-size:16px;">Basic Information</h1>
+			<ul style="list-style:disc outside none;">
+				<x:choose>
+					<x:when select="$protocolInstance/protocol/study-type/text() = 'investigator-initiated'">
+						<li class="bulletitem">
+							This study <b>IS</b> Investigator Initiated.
+						</li>
+					</x:when>
+					<x:otherwise>
+						<li class="bulletitem">
+							This study <b>IS NOT</b> Investigator Initiated.
+						</li>
+					</x:otherwise>
+				</x:choose>
+				
+				<x:set var="origianlApprovalStatus" select="string($protocolInstance/protocol/original-study/approval-status)" />
+				<x:set var="origianlApprovalDate" select="string($protocolInstance/protocol/original-study/approval-date)" />
+				
+				<x:set var="mostRecentApprovalDate" select="string($protocolInstance/protocol/most-recent-study/approval-end-date)" />
+				<x:set var="mostRecentApprovalStatus" select="string($protocolInstance/protocol/most-recent-study/approval-status)" />
+				
+				<c:if test="${empty origianlApprovalDate or origianlApprovalDate eq ''}">
+					<c:set var="origianlApprovalDate" value="N/A" />
+				</c:if>
+				<li class="bulletitem">
+					Original Study Approval Date: <b>${origianlApprovalDate}</b>.
+				</li>
+				
+				<c:if test="${empty origianlApprovalStatus or origianlApprovalStatus eq ''}">
+					<c:set var="origianlApprovalStatus" value="N/A" />
+				</c:if>
+				<li class="bulletitem">
+					Original Study Approval Status: <b>${origianlApprovalStatus}</b>.
+				</li>
+				
+				<c:if test="${empty mostRecentApprovalStatus or mostRecentApprovalStatus eq ''}">
+					<c:set var="mostRecentApprovalStatus" value="N/A" />
+				</c:if>
+				<li class="bulletitem">
+					Most Recent Approval Status: <b>${mostRecentApprovalStatus}</b>.
+				</li>
+				
+				<c:if test="${empty mostRecentApprovalDate or mostRecentApprovalDate eq ''}">
+					<c:set var="mostRecentApprovalDate" value="N/A" />
+				</c:if>
+				<li class="bulletitem">
+					Study Approval End Date: <b>${mostRecentApprovalDate}</b>.
+				</li>
+				
+				<x:set var="consentWaived" select="string($protocolInstance/protocol/summary/irb-determination/consent-waived)" />
+				<c:if test="${empty consentWaived or consentWaived eq ''}">
+					<c:set var="consentWaived" value="N/A" />
+				</c:if>
+				<li class="bulletitem">
+					Consent Waived? <b>${consentWaived}</b>.
+				</li>
+				
+				<x:set var="consentDocumentWaived" select="string($protocolInstance/protocol/summary/irb-determination/consent-document-waived)" />
+				<c:if test="${empty consentDocumentWaived or consentDocumentWaived eq ''}">
+					<c:set var="consentDocumentWaived" value="N/A" />
+				</c:if>
+				<li class="bulletitem">
+					Consent Document Waived? <b>${consentDocumentWaived}</b>.
+				</li>
+				
+				<x:set var="hipaaApplicable" select="string($protocolInstance/protocol/summary/irb-determination/hipaa-applicable)" />
+				<c:choose>
+		          <c:when test="${hipaaApplicable eq 'yes'}">
+		            <li class="bulletitem">
+						HIPAA <b>IS</b> applicable.
+					</li>
+		          </c:when>
+		          <c:otherwise>
+		            <li class="bulletitem">
+						HIPAA <b>IS NOT</b> applicable.
+					</li>
+		          </c:otherwise>
+		        </c:choose>
+				
+				<x:set var="hipaaWaived" select="string($protocolInstance/protocol/summary/irb-determination/hipaa-waived)" />
+				<c:if test="${empty hipaaWaived or hipaaWaived eq ''}">
+					<c:set var="hipaaWaived" value="N/A" />
+				</c:if>
+				<li class="bulletitem">
+					HIPAA Waived? <b>${hipaaWaived}</b>.
+				</li>
+				
+				<x:set var="accrualGoal" select="string($protocolInstance/protocol/accrual-goal)" />
+
+				<c:if test="${empty accrualGoal or accrualGoal eq ''}">
+					<c:set var="accrualGoal" value="0" />
+				</c:if>
+					<li class="bulletitem">
+						Most Recent IRB Approved Accrual Goal, Local ${accrualGoal}. 
+					</li>
+				</ul>
+
+			</div>
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+
+
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : '',
+										nextTab : 'general-study-information',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									"<strong>Study Closure</strong>: Study Summary",
+									wiz);
+							
+
+							jQuery(".question-el").change(
+									function() {
+										processDependencies(
+												
+												"#pageForm");
+									});
+
+							processDependencies(
+									"#pageForm");
+
+						});
+	</script> 
+</div>
+

@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<business-object-status>
+	<business-object type="PROTOCOL">
+		<form type="HUMAN_SUBJECT_RESEARCH_DETERMINATION">
+			<form-status value="" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="">
+						<actions>
+							<action type="CREATE" condition="">
+								<change-status>
+									<status status="DRAFT" />									
+									<form-status status="DRAFT" />
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="NEW_HUMAN_SUBJECT_RESEARCH_DETERMINATION_CREATED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A human subject research determination form has been created by {USER_WITH_EMAIL_LINK}.</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="DRAFT" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="review">
+						<actions>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<status status="CANCELLED" />
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">HSRD form has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="">
+								<change-status>
+									<status status="UNDER_IRB_OFFICE_REVIEW" />
+									<form-status status="UNDER_IRB_OFFICE_REVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_ASSIGNER" status="PENDING_REVIEWER_ASSIGNMENT" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event>SET_SUBMIT_DATE</event>
+									<event>SET_FORM_SUBMIT_DATE</event>
+								</events>
+								<logs>
+									<log log-type="ACTION" event-type="NEW_HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Human Subject Research Determination has been submitted to IRB Office for review by PI ({USER_WITH_EMAIL_LINK}).</span></log>
+								</logs>
+								<!-- <notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_TO_IRB_OFFICE">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_TO_IRB_OFFICE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Human Subject Research Determination has been submitted to IRB Office for review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications> -->
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="">
+								<change-status>
+									<status status="PENDING_PI_ENDORSEMENT" />
+									<form-status status="PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PL for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="PENDING_PI_ENDORSEMENT" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="review">
+						<actions>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<status status="CANCELLED" />
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">HSRD form has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="">
+								<change-status>
+									<status status="UNDER_IRB_OFFICE_REVIEW" />
+									<form-status status="UNDER_IRB_OFFICE_REVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_ASSIGNER" status="PENDING_REVIEWER_ASSIGNMENT" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event>SET_SUBMIT_DATE</event>
+									<event>SET_FORM_SUBMIT_DATE</event>
+								</events>
+								<logs>
+									<log log-type="ACTION" event-type="NEW_HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Human Subject Research Determination has been submitted to IRB Office for review by PI ({USER_WITH_EMAIL_LINK}).</span></log>
+								</logs>
+								<!-- <notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_TO_IRB_OFFICE">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_TO_IRB_OFFICE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Human Subject Research Determination has been submitted to IRB Office for review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications> -->
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="">
+								<change-status>
+									<status status="PENDING_PI_ENDORSEMENT" />
+									<form-status status="PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PL for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="REVISION_REQUESTED" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="">
+						<actions>
+							<action type="REVISE">
+								<change-status>
+									<status status="UNDER_REVISION" />									
+									<form-status status="UNDER_REVISION" />
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="PROTOCOL_BEING_REVISED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI {USER_WITH_EMAIL_LINK} is revising the study.</span></log>
+								</logs>
+							</action>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<status status="CANCELLED" />
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="UNDER_REVISION" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>SIGN_SUBMIT</value>
+								<desc>Sign and Submit</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<status status="CANCELLED" />
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="HSRD_REVISION_SUBMITTED">
+								<change-status>
+									<status status="BEFORE_REVISION_REQUESTED_STATUS" />
+									<form-status status="BEFORE_REVISION_REQUESTED_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="HSRD_REVISION_SUBMITTED">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="HSRD_REVISION_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has re-submitted the study to {REVISION_REQUEST_COMMITTEE} for review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been re-submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="HSRD_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+								<change-status>
+									<status status="REVISION_PENDING_PI_ENDORSEMENT" />
+									<form-status status="REVISION_PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="HSRD_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="HSRD_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has re-submitted the study to the PI for endorsement. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="REVISION_PENDING_PI_ENDORSEMENT" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>SIGN_SUBMIT</value>
+								<desc>Sign and Submit</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<status status="CANCELLED" />
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="HSRD_REVISION_SUBMITTED">
+								<change-status>
+									<status status="BEFORE_REVISION_REQUESTED_STATUS" />
+									<form-status status="BEFORE_REVISION_REQUESTED_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="HSRD_REVISION_SUBMITTED">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="HSRD_REVISION_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has re-submitted the study to {REVISION_REQUEST_COMMITTEE} for review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been re-submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="HSRD_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+								<change-status>
+									<status status="REVISION_PENDING_PI_ENDORSEMENT" />
+									<form-status status="REVISION_PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="HSRD_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="HSRD_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has re-submitted the study to the PI for endorsement. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="UNDER_IRB_OFFICE_REVIEW" form-committee-status="PENDING_REVIEWER_ASSIGNMENT">
+				<committee name="IRB_ASSIGNER">
+					<review-page page-name="null">
+						<!-- no review page, assign reviewer only -->
+						<actions>							
+							<action type="ASSIGN_REVIEWER" condition="">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_ASSIGNER" status="REVIEWER_ASSIGNED" />
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_ASSIGNER_ASSIGNED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">{IRB_ASSIGNER_ASSIGNED_REVIEWER} has been assigned to IRB# {PROTOCOL_IDENTIFIER}.</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="ANY" form-committee-status="ANY">
+				<committee name="IRB_ASSIGNER">
+					<review-page page-name="null">
+						<!-- no review page, assign reviewer only -->
+						<actions>							
+							<action type="UPDATE_REVIEWER" condition="">
+								<logs>
+									<log log-type="ACTION" event-type="IRB_ASSIGNER_ASSIGNED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">{IRB_ASSIGNER_ASSIGNED_REVIEWER} has been assigned to IRB# {PROTOCOL_IDENTIFIER}.</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="UNDER_IRB_OFFICE_REVIEW" form-committee-status="ANY">
+				<committee name="IRB_OFFICE">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>IS_HSR</value>
+								<desc>Is Human Subject Research</desc>
+								<email-template-identifiers>
+									<email-template-identifier>HSR_DETERMINATION_LETTER</email-template-identifier>
+								</email-template-identifiers>
+							</decision>
+							<decision>
+								<value>IS_NOT_HSR</value>
+								<desc>Is Not Human Subject Research</desc>
+								<email-template-identifiers>
+									<email-template-identifier>NOT_HSR_DETERMINATION_LETTER</email-template-identifier>
+								</email-template-identifiers>
+							</decision>
+							<decision>
+								<value>REVISION_REQUESTED</value>
+								<desc>Information Requested (Send back to PI with an IRB Prereview Contingencies Letter)</desc>
+								<email-template-identifiers>
+									<email-template-identifier>IRB_PREREVIEW_CONTINGENCIES_LETTER</email-template-identifier>
+								</email-template-identifiers>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="IS_HSR" condition="" email-template-identifier="HSR_DETERMINATION_LETTER">
+								<change-status>
+									<status status="DETERMINED_HUMAN_SUBJECT_RESEARCH" />
+									<form-status status="DETERMINED_HUMAN_SUBJECT_RESEARCH" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="COMPLETED" note="" />
+									</form-committee-statuses>
+									<document-status status="DETERMINED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Human Subject Research Determination letter" doc-type="Letter" email-template-identifier="HSR_DETERMINATION_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="HSR_DETERMINATION_LETTER" event-type="HSR_DETERMINATION_LETTER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The IRB Office {USER_WITH_EMAIL_LINK} has determined that the study is a Human Subject Research. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  A Human Subject Research Determination letter ({LETTER_LINK}) has been sent to the PI.  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="IS_NOT_HSR" condition="">
+								<change-status>
+									<status status="DETERMINED_NOT_HUMAN_SUBJECT_RESEARCH" />
+									<form-status status="DETERMINED_NOT_HUMAN_SUBJECT_RESEARCH" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="COMPLETED" note="" />
+									</form-committee-statuses>
+									<document-status status="DETERMINED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Not Human Subject Research Determination letter" doc-type="Letter" email-template-identifier="NOT_HSR_DETERMINATION_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="NOT_HSR_DETERMINATION_LETTER" event-type="NOT_HSR_DETERMINATION_LETTER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The IRB Office {USER_WITH_EMAIL_LINK} has determined the study is not a Human Subject Research. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  A Not Human Subject Research Determination letter ({LETTER_LINK}) has been sent to the PI.  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="REVISION_REQUESTED">
+								<change-status>
+									<status status="REVISION_REQUESTED" />
+									<form-status status="REVISION_REQUESTED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="REVISION_REQUESTED"
+											/>
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="IRB Pre-review Contingencies Letter" doc-type="IRB Pre-review Contingencies Letter" email-template-identifier="IRB_PREREVIEW_CONTINGENCIES_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="IRB_PREREVIEW_CONTINGENCIES_LETTER" event-type="IRB_PREREVIEW_REVISION_REQUESTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The study has been rejected by the IRB Pre-review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  A IRB Pre-review Contingencies Letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="ANY" form-committee-status="ANY">
+				<committee name="IRB_OFFICE">
+					<review-page page-name="null">
+						<!-- no review page, assign reviewer only -->
+						<actions>							
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification form has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="ANY" form-committee-status="ANY">
+				<committee name="ANY" default="true">
+					<review-page page-name="committee-review" >
+						<decisions>
+							<decision>
+								<value>UPDATE</value>
+								<desc>Update Note</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="UPDATE" condition="">
+								<logs>
+									<log log-type="ACTION" event-type="NEW_NOTE_ADDED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} committee note has been updated by the {COMMITTEE_DESC} ({USER_WITH_EMAIL_LINK}).  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>							
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+		</form>
+	</business-object>
+</business-object-status>

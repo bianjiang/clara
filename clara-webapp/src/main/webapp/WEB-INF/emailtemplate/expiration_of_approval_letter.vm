@@ -1,0 +1,44 @@
+<html>
+<head><link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/></head>
+<body>
+<div class="email-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	<strong>Institutional Review Board</strong><br/>
+	4301 West Markham, #636<br/>
+	Little Rock, AR 72205-7199<br/>
+	501-686-5667<br/>
+	501-686-7265 (fax)<br/>
+	<a href="http://www.uams.edu/irb/irb.asp" target = "_blank">www.uams.edu/irb/irb.asp</a>
+	
+	<br/><br/>FWA00001119
+	
+	<br/><br/>$currentDate
+	
+	<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()<br/>
+	<br/><strong>PI Department:</strong> $piUser.person.department
+		
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	<br/><strong>Original Review Date:</strong> $originalReviewDate
+		
+	<br/><br/>EXPIRATION OF APPROVAL
+	
+	<br/><br/>Institutional Review Board records indicate the referenced study's approval ended on $approvalEndDate. 
+	
+	<br/><br/><strong>This study is no longer approved. All research activities (subject involvement, data collection, and data analysis) must cease. Any research activity conducted on or after $approvalEndDate is a violation of federal law.</strong>
+	
+	<br/><br/>If there are research subjects for whom stopping research activities will cause harm, you must immediately submit to the IRB a list of those subjects with an explanation of what activities must be continued and why.
+	
+	<br/></br>This notification remains in effect until you receive an approval letter from the IRB. You must submit a Continuing Review in CLARA to initiate the IRB review process. 
+	
+	<br/></br>If a Continuing Review is not submitted within one month of this letter’s date, the study will be administratively closed, and it will be ineligible for renewal of approval.
+	
+	<br/></br>If you have any questions, please contact an IRB administrator at 501-686-5667.<br/>
+	
+	<a href=$protocolLink>Click here to access study.</a>
+	
+	<br/><br/>
+	$signature
+</div>
+</body>
+</html>

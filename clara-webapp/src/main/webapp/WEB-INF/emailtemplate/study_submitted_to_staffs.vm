@@ -1,0 +1,22 @@
+<html>
+<body>
+<div class="email-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	The following Research Study has been signed and submitted by the Principal Investigator in CLARA for review. Please click the link below to access the study in CLARA.
+
+	#if ($hudOrNot == 'hud-use')
+		<br/><br/><strong>TP Name:</strong>  $treatingPhysicianUser.person.getFullname()<br/>
+		<br/><strong>TP Department:</strong> $treatingPhysicianUser.person.department
+	#else
+		<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()<br/>
+		<br/><strong>PI Department:</strong> $piUser.person.department
+	#end
+	
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	
+	<br/><br/>
+	<a href=$protocolLink>Click here to access study.</a>
+</div>
+</body>
+</html>

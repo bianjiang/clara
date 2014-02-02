@@ -1,0 +1,71 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+     
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <c:import url="/static/xml/lookup.xml" var="lookupxml"/> 
+    
+    <c:import var="helpxml" url="/static/xml/help.xml"/>
+    
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	<x:set var="protocolID" select="string($protocolInstance/protocol/@id)"/>
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application"/>
+	<x:parse doc="${helpxml}" var="help" scope="application" />	
+
+			<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+			    <uams:newsubmissiontab name="drugs-devices" protocolInstance="${protocolInstance}" />
+			</div>
+			
+			<div id="clara-form-pagecontent">
+			
+						<div class="formArea">
+							<div class="question" id="question-drugs-devices">
+								<div id="drug-device-tabpanel"><!-- // --></div>
+							</div>
+						</div>
+						
+				</div>
+	
+				<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+	
+	
+	<script type="text/javascript">// <![CDATA[
+			jQuery(document).ready(function() {
+				claraInstance.navigation.init(claraFormPageName);
+				claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+			var currentDrugRecord;
+			var currentSavedDrugRecord;
+			var currentDeviceRecord;
+			var currentSavedDeviceRecord;
+
+			var container = jQuery('div.container');
+			
+			var dp = new Clara.NewSubmission.ProtocolDrugPanel({title:'Drugs'});
+			var dvp = new Clara.NewSubmission.ProtocolDevicePanel({title:'Devices', listeners:{show:function(p){p.loadDevices();}}});
+			var tp = new Ext.TabPanel({id:'question-drugs-devices',region:'center',border:false, activeTab:0,items:[dp,dvp]});
+
+			
+			var p = new Ext.Panel({id:'question-drugs-devices-panelwrapper',items:[{xtype:'panel',region:'north',padding:6,border:false,html:'<h1>Please list the drugs and devices for your protocol below.</h1><span></span>'}
+			            ,tp],layout:'border',border:false,
+			tbar: new Ext.Toolbar({
+			items:[{xtype:'button',iconCls:'icn-arrow-180',text:'Back',handler:function(){gotoPage('misc');}},'->',{xtype:'button',iconCls:'icn-arrow',text:'Next',handler:function(){gotoPage('funding-sources');}}]
+			})
+			});
+			
+			renderFormViewport((claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Drugs and Devices":"<strong>New Submission</strong>: Drugs and Devices",p);
+			jQuery("#question-drugs-devices").addClass("vp-question");
+			
+			Clara.ProtocolForm.Rules.questionBaseCls = "vp-question";
+			Clara.ProtocolForm.Rules.processPage("vp-question");
+			
+			dp.loadDrugs();
+			// dvp.loadDevices();
+		});
+	]]></script>
+	
+</div>
+

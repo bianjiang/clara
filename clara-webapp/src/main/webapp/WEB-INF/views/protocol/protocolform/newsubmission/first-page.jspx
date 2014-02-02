@@ -1,0 +1,189 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	
+	<uams:header pagetype="protocols"/>
+	
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+    
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle"
+		select="string($protocolInstance/protocol/title)" />
+
+	<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+		<uams:newsubmissiontab name="first-page"
+			protocolInstance="${protocolInstance}" />
+	</div>
+
+	<div id="clara-form-pagecontent">
+
+		<div class="formArea">
+			<div id='page-wizard-wrapper'>
+				<!--  //  -->
+			</div>
+
+			<div class="question" data-subsection-title="Study Type"
+				id="question-study-nature">
+				<div class="questionIdentifier">Start-1</div>
+				<div class="questionLabel">
+					<span class="question-label-text">What is the nature of the study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="studyNature"
+						select="string($protocolInstance/protocol/study-nature/text())" />
+					<uams:select id="studyNature" lookuppath="study-natures"
+						instancepath="/protocol/study-nature" value="${studyNature}"
+						validation="required" />
+					<x:set var="hasDrugsOrDevices"
+						select="string($protocolInstance/protocol/has-drugs-or-devices/text())" />
+					<input class="question-el dummy-field-for-rule-activation"
+						id="has-drugs-or-devices" name="/protocol/has-drugs-or-devices"
+						type="hidden" value="${hasDrugsOrDevices}" />
+				</div>
+				<div style="clear:both;"><!-- // --></div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="study-nature" />
+				</div>
+			</div>
+
+			<div class="question conditional-question"
+				data-subsection-title="Study Type" id="question-study-involves">
+				<div class="questionIdentifier">Start-1.1</div>
+				<div class="questionLabel">
+					<span class="question-label-text"><h1
+							class="conditional-question-label">Since you chose
+							"Biomedical / Clinical" on the first page, please answer the
+							following question:</h1> Select all of the following that will be
+						included in the study:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="studyInvolves"
+						select="$protocolInstance/protocol/study-nature/biomedical-clinical/study-involves/involve" />
+					<uams:checkbox value="${studyInvolves}" lookuppath="study-involves"
+						usefloat="false"
+						instancepath="/protocol/study-nature/biomedical-clinical/study-involves/involve"
+						validation="required" />
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Organization"
+				id="question-site-responsible">
+				<div class="questionIdentifier">Start-2</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Which institution is
+						primarily responsible for this study?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="siteResponsible"
+						select="string($protocolInstance/protocol/site-responsible/text())" />
+					<uams:select id="siteResponsible" lookuppath="site-responsible"
+						instancepath="/protocol/site-responsible"
+						value="${siteResponsible}" validation="required" />
+				</div>
+				<div style="clear:both;"><!-- // --></div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="site-responsible" />
+				</div>
+			</div>
+			
+			<div class="question" data-subsection-title="Organization"
+				id="question-uams-faculty">
+				<div class="questionLabel">
+					<div class="questionIdentifier">Start-2.1</div>
+					<div class="questionLabel"><span class="question-label-text">Is the PI for this study a UAMS faculty member?</span></div>
+				</div>
+				<div class="questionValue">
+					<x:set var="uamsFaculty"
+						select="string($protocolInstance/protocol/site-responsible/ach-achri/uams-faculty/text())" />
+					<uams:yesno id="uams-faculty"
+						instancepath="/protocol/site-responsible/ach-achri/uams-faculty"
+						value="${uamsFaculty}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" data-subsection-title="Organization"
+				id="question-hud-be-used">
+				<div class="questionIdentifier">Start-3</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Where will the HUD be used?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="hudBeUsed"
+						select="string($protocolInstance/protocol/study-nature/hud-use/where/text())" />
+					<uams:select id="hud-be-used" lookuppath="hud-be-used"
+						instancepath="/protocol/study-nature/hud-use/where"
+						value="${hudBeUsed}" validation="required" />
+				</div>
+			</div>
+
+			<div class="question" data-subsection-title="Organization"
+				id="question-college-form">
+				<div class="questionIdentifier">Start-4</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Which college/department
+						is primarily responsible for this study?</span>
+				</div>
+				<div class="questionValue">
+					<input type="hidden"
+						class="dummy-field-for-rule-activation question-el"
+						name="/protocol/department" />
+					<div id="college-form">
+						<!-- // -->
+					</div>
+					<div class="questionHelp">
+						<uams:helpinfo lookupid="college-form" />
+					</div>
+				</div>
+			</div>
+
+			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+
+		</div>
+
+	</div>
+
+	<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document)
+				.ready(
+						function() {
+							claraInstance.navigation.init(claraFormPageName);
+							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+									
+							var deptPanel = new Clara.ProtocolForm.ResponsibleDepartmentPanel(
+									{
+										renderTo : 'college-form'
+									});
+							var wiz = new Clara.Forms.WizardPanel(
+									{
+										
+										questionCls : 'question',
+										saveBetween : true,
+										previousTab : '',
+										nextTab : 'basic-details',
+										renderTo : 'page-wizard-wrapper'
+									});
+
+							renderFormViewport(
+									(claraInstance.form.type == 'MODIFICATION')?"<strong>Modification</strong>: Start":"<strong>New Submission</strong>: Start",
+									wiz);
+
+							Clara.ProtocolForm.Rules.processPage();
+
+							jQuery(".question-el").change(function() {
+								Clara.ProtocolForm.Rules.processPage();
+								wiz.refreshLayout();
+							});
+						});
+	</script>					
+</div>

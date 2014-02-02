@@ -1,0 +1,45 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	
+	
+	<uams:header pagetype="404"/>
+	<jsp:output omit-xml-declaration="yes"/>
+	
+<div style="margin-top:20px;"><!-- // --></div>
+    <div style="width:100%;text-align:center;">
+        <spring:url value="/static/images/" var="images_dir" />
+<div><img src="${images_dir}/404.png" /></div>
+  		
+       	<h1 style="font-size:32px;">Sorry, we're having a problem.</h1>
+
+
+<h2>If this continues to happen, contact IT for assistance.</h2>
+
+<div class=""><a href="#" onclick="history.back();">Go back to the previous page</a> . <a href="/clara-webapp">Go to the CLARA homepage</a> . <a href="https://clara.uams.edu/wiki/doku.php?id=start" >Visit the CLARA Help Site</a></div>
+
+ <c:if test="${not empty exception}">
+			<div style="margin-top:16px;text-align:left;border:1px dotted #999; background-color:white;padding:8px;width:90%;height:300px;overflow:scroll;margin-left:auto;margin-right:auto;">
+			<pre>
+			<p>
+				<h4><spring:message code="exception.details" /></h4>
+				
+				<spring:message var="message" code="exception.message" />
+				<div id="_exception">
+					<c:out value="${exception.localizedMessage}" />
+				</div>
+				
+				<spring:message var="stacktrace" code="exception.stacktrace" />
+				<div id="_stacktrace">
+					<c:forEach items="${exception.stackTrace}" var="trace">
+						<c:out value="${trace}"/><br/>
+					</c:forEach>
+				</div>
+			</p>
+			</pre>
+			</div>
+		</c:if>
+
+	</div>
+	
+</div>
+	

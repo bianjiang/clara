@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:dynform="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:sec="http://www.springframework.org/security/tags" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags"
+	version="2.0">
+	<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+	
+	<jsp:directive.page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"/>
+	
+<html lang="en">	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />		
+		
+		
+		<tiles:useAttribute id="styles" name="styles" ignore="true" classname="java.util.List" />
+
+		<spring:url value="/static/styles/ext4/ext-all.css" var="css_url"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="${css_url}" />
+		
+		<c:set var="templateBuildNumber" value="100"/>
+		
+		<c:forEach var="style" items="${styles}">
+			<spring:url value="${style}" var="css_url" />
+			<link rel="stylesheet" type="text/css" media="screen" href="${css_url}?ts=${templateBuildNumber}" />
+		</c:forEach>
+		
+		<tiles:useAttribute id="ie_styles" name="ie_styles" ignore="true" classname="java.util.List" />
+		
+		<spring:url value="/static/js/app-config.js" var="js_app_config" />
+		<c:if test="${pageContext.request.serverName == 'localhost'}">
+				
+				<spring:url value="/static/js/app-config-dev.js" var="js_app_config" />
+			
+			</c:if>
+			
+		<c:if test="${pageContext.request.serverName == 'clara-training.uams.edu'}">
+				
+				<spring:url value="/static/js/app-config-training.js" var="js_app_config" />
+			
+			</c:if>
+			
+			
+		<spring:url value="/static/js/security.js" var="js_security" />
+		
+		<![CDATA[
+		<!--[if lt IE 9]> 
+		]]>
+			<spring:url value="/static/js/html5shiv.js" var="js_html5shiv" />
+			<script type="text/javascript" src="${js_html5shiv}?ts=${templateBuildNumber}${claraBuildNumber}"><!-- // --></script>    
+		<![CDATA[
+		<![endif]-->
+		]]>
+		
+		<spring:url value="/static/js/ext4/ext-all-debug-w-comments.js" var="js_ext"/>
+		<spring:url value="/static/js/ext4/override.js" var="js_extov"/>
+		<spring:url value="/static/js/json2.js" var="js_json2" />
+		<spring:url value="/static/js/clara-config.js" var="js_clara_config" />
+
+		
+		<script type="text/javascript" src="${js_ext}?ts=${templateBuildNumber}${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_extov}?ts=${templateBuildNumber}${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_json2}?ts=${templateBuildNumber}${claraBuildNumber}"><!-- // --></script>  
+		<script type="text/javascript" src="${js_app_config}?ts=${templateBuildNumber}${claraBuildNumber}"><!-- // --></script>  
+
+		
+		
+		<script type="text/javascript">
+		
+			window.clog=function(){clog.history=clog.history||[];clog.history.push(arguments);if(this.console){console.log(Array.prototype.slice.call(arguments));}};
+			var appContext = "/clara-webapp";
+		
+
+		</script>
+		
+		<script type="text/javascript" src="${js_security}?ts=${templateBuildNumber}${claraBuildNumber}"><!-- // --></script>  
+		
+		<tiles:useAttribute id="javascripts" name="javascripts" ignore="true" classname="java.util.List" />
+				
+		<c:forEach var="javascript" items="${javascripts}">
+			<spring:url value="${javascript}" var="javascript_url" />
+			<script type="text/javascript" src="${javascript_url}?ts=${templateBuildNumber}${claraBuildNumber}"><!-- // --></script>  
+		</c:forEach>
+
+
+		<spring:url value="/static/images/" var="images_dir" />
+		<link rel="icon" href="${images_dir}/favicon.ico" />
+  		
+		<title>Welcome to CLARA</title>
+		
+	</head>
+   	<body>		
+   		<spring:url value="/j_spring_security_logout" var="url_logout"/>
+	    	<div id="main"><!-- // --></div>
+	    	
+	    	<div style="display:none;">
+		    	<div id="ie-login-message">
+		    		<div id="iewarning" style="color:black;background-color:#F2F5A9; border-top:1px solid #FFFF00;padding:6px;"><span style="font-weight:800;">It looks like you're using Internet Explorer.</span> <strong> For improved performance, we recommend switching to <a href="http://www.google.com/chrome">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new">Firefox</a>.</strong></div>
+		    	</div>
+		    	<div id="login-news-wrapper" style="display:none;">
+			    	<div id="login-news">
+			    		<!-- // -->
+			    	</div>
+		    	</div>
+		    	<div id="login-footer" style="color:#aaa;background-color:#D8D8D8; border-top:1px solid #fff;padding:6px;font-size:16px;">
+		    		<a href="https://clara.uams.edu/wiki/doku.php?id=start" target="_blank"><strong style="font-weight:800;">CLARA Help</strong></a> | <a href="http://www.uams.edu/irb/irb.asp" target="_blank" style="color:#6699ff;text-decoration:none;"><strong>UAMS IRB</strong></a> | <a href="http://www.uams.edu" target="_blank" style="color:#6699ff;text-decoration:none;"><strong>UAMS Main Site</strong></a>
+		    	</div>
+		    	
+		    	<div id="login-message">
+					<c:if test="${not empty param.error}">
+						<c:choose>
+							<c:when test="${param.error eq 'sessionExpired'}"><span style="color:yellow;">Your session has expired or you've logged in on another computer.</span></c:when>
+							<c:when test="${param.error eq 'logoutSuccessfully'}">You've logged out successfully.</c:when>
+							<c:otherwise><span style="color:red;">Please verify your <span style="font-weight:800;color:#ff6666;">UAMS username and password</span> to continue.</span></c:otherwise>
+						</c:choose>
+					</c:if>
+				</div>
+			</div>
+	</body>
+</html>
+</jsp:root>

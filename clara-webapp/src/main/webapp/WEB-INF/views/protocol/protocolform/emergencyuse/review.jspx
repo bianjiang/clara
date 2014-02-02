@@ -1,0 +1,64 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+     
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <c:import url="/static/xml/lookup.xml" var="lookupxml"/> 
+    
+    <c:import var="helpxml" url="/static/xml/help.xml"/>
+    
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="euInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application"/>
+	<x:parse doc="${helpxml}" var="help" scope="application" />
+	<x:set var="protocolTitle" select="string($euInstance/emergency-use/basic-details/eu-title)" />
+	<x:set var="notificationOrFollowup" select="string($euInstance/emergency-use/basic-details/ieu-or-eu)" />
+			<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+			    <uams:emergencyusetab name="review" euInstance="${euInstance}" />
+			</div>
+			
+			<div id="clara-form-pagecontent">
+			
+							<div class="formArea">
+								
+									<div id="review-list">
+										<!-- // -->
+									</div>
+									<div id="review-no-messages">
+										<h2>Your Emergency User form is ready to be submitted for review</h2>
+										<span>
+											<c:choose>
+												<c:when test='${notificationOrFollowup == "intended-emergency-use"}'>
+													<P>Your notification of intended emergency use is complete. The IRB will review the notification to determine whether FDA regulatory requirements are met. You will be notified.
+													<br/><br/>A follow-up report must be submitted to the IRB within 5 working days of the initial emergency use of a test article.
+													<br/><br/>A protocol must be submitted for review by the convened IRB within 30 working days of the initial emergency use of a test article.</P>
+												</c:when>
+												<c:when test='${notificationOrFollowup == "emergency-use-follow-up-report"}'>
+													<P>Your emergency use follow-up report is complete. The IRB will review the follow-up report to determine whether FDA regulatory requirements were met. You will be notified.
+													<br/><br/>In order for this investigational drug to be used on a future patient, a protocol must be submitted for review by the convened IRB.
+													<br/><br/>An expanded access submission must be submitted to the FDA within 15 working days of FDA's authorization of the use of the test article.</P>
+												</c:when>
+											</c:choose>
+										</span>
+										<br/><br/>
+										<div id="sign-and-submit"><!-- // --></div>
+									</div>
+
+			
+						</div>
+						
+				</div>
+
+					<div id="clara-form-actionbuttons">
+						<div id="btnPrevPage"></div>
+						<div id="btnNextPage"></div>
+					</div>
+	
+	<script type="text/javascript">
+			jQuery(document).ready(function() {
+			claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+			var rpanel = new Clara.FormReviewPanel({authenticated:'${authenticated}'}); renderFormViewport("<strong>Emergency Use</strong>: Review",rpanel);
+			
+		});
+	</script>	
+</div>
+

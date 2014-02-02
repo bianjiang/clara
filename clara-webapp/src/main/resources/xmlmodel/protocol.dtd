@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT protocol (title,is-multisite,accrual)>
+<!ATTLIST protocol id CDATA #REQUIRED>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT is-multisite (#PCDATA)>
+<!ELEMENT accrual (local, total)>
+<!ELEMENT local (#PCDATA)>
+<!ELEMENT total (#PCDATA)>

@@ -1,0 +1,40 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty"/>
+
+	<jsp:directive.attribute name="lookuppath" type="java.lang.String" required="false" rtexprvalue="true"/>
+	<jsp:directive.attribute name="value" required="false" rtexprvalue="true"/>
+	
+
+	
+<c:set var="found" value=""/>
+		<x:forEach var="n" select="$lookup/lookup/*[local-name()=$lookuppath]/option">
+			<x:set var="lookupValue" select="string($n/value/text())"/>
+			<x:set var="lookupDescription" select="string($n/desc/text())"/>
+			<c:set var="ld" value="${lookupDescription}"/>
+			<c:set var="lv" value="${lookupValue}"/>
+			<c:if test="${lv == ''}">
+				<c:set var="lv" value="${lookupDescription}"/>
+			</c:if>
+			
+			<c:choose>
+				<c:when test="${lv eq value}">
+					<c:set var="found" value="${lookupDescription}"/>
+				</c:when>
+			</c:choose>
+		</x:forEach>
+
+			<c:choose>
+				<c:when test="${!empty found}">
+					${found}
+				</c:when>
+				<c:otherwise>
+					${value}
+				</c:otherwise>
+			</c:choose>
+
+</jsp:root>

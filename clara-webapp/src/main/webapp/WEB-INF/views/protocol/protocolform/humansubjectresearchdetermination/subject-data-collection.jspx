@@ -1,0 +1,193 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+     
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <c:import url="/static/xml/lookup.xml" var="lookupxml"/> 
+    
+    <c:import var="helpxml" url="/static/xml/help.xml"/>
+    
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="hsrdInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application"/>
+	<x:parse doc="${helpxml}" var="help" scope="application"/>
+	<x:set var="protocolTitle" select="string($hsrdInstance/hsrd/hsrd/title)" />
+	
+			<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+			    <uams:hsrdformtab name="subject-data-collection" hsrdInstance="${hsrdInstance}"/>
+			</div>
+			
+			<div id="clara-form-pagecontent">
+				<div class="formArea">
+					<div id='page-wizard-wrapper'>
+						<!--  //  -->
+					</div>
+					
+					<div class="question" id="question-involve-obtaining-information">
+						<div class="questionLabel">Does the project involve obtaining information about living individuals? </div>
+						<div class="questionValue">
+							<x:set var="involveObtainingInformation"
+								select="string($hsrdInstance/hsrd/subject-data-collection/involve-obtaining-information/text())" />
+							<uams:yesno id="involve-obtaining-information"
+								instancepath="/hsrd/subject-data-collection/involve-obtaining-information"
+								value="${involveObtainingInformation}" validation="required" />
+						</div>
+						<br /> <br />
+						<div class="questionLabel">Please explain why or why not</div>
+						<div class="questionValue">
+							<textarea class="question-el"
+								name="/hsrd/subject-data-collection/involve-obtaining-information/explain"
+								rows="4" id="involve-obtaining-information-explain">
+								<x:out
+									select="$hsrdInstance/hsrd/subject-data-collection/involve-obtaining-information/explain" />
+							</textarea>
+						</div>
+					</div>
+					
+					<div class="question" id="question-involve-intervention-or-interaction">
+						<div class="questionLabel">Does the project involve intervention or interaction with living individuals?</div>
+						<div class="questionValue">
+							<x:set var="involveInterventionOrInteraction"
+								select="string($hsrdInstance/hsrd/subject-data-collection/involve-intervention-or-interaction/text())" />
+							<uams:yesno id="involve-intervention-or-interaction"
+								instancepath="/hsrd/subject-data-collection/involve-intervention-or-interaction"
+								value="${involveInterventionOrInteraction}" validation="required" />
+						</div>
+						<br /> <br />
+						<div class="questionLabel">Please explain why or why not</div>
+						<div class="questionValue">
+							<textarea class="question-el"
+								name="/hsrd/subject-data-collection/involve-intervention-or-interaction/explain"
+								rows="4" id="involve-intervention-or-interaction-explain">
+								<x:out
+									select="$hsrdInstance/hsrd/subject-data-collection/involve-intervention-or-interaction/explain" />
+							</textarea>
+						</div>
+						<div style="clear:both;"><!-- // --></div>
+						<div class="questionHelp">
+							<uams:helpinfo lookupid="involve-intervention-or-interaction" />
+						</div>
+					</div>
+					
+					
+					
+					<div class="question" id="question-readily-ascertained-or-associated">
+						<div class="questionLabel">Is the information that will be obtained individually identifiable? </div>
+						<div class="questionValue">
+							<x:set var="readilyAscertainedOrAssociated"
+								select="string($hsrdInstance/hsrd/subject-data-collection/readily-ascertained-or-associated/text())" />
+							<uams:yesno id="readily-ascertained-or-associated"
+								instancepath="/hsrd/subject-data-collection/readily-ascertained-or-associated"
+								value="${readilyAscertainedOrAssociated}" validation="required" />
+						</div>
+						<br /> <br />
+						<div class="questionLabel">Please explain why or why not</div>
+						<div class="questionValue">
+							<textarea class="question-el"
+								name="/hsrd/subject-data-collection/readily-ascertained-or-associated/explain"
+								rows="4" id="readily-ascertained-or-associated-explain">
+								<x:out
+									select="$hsrdInstance/hsrd/subject-data-collection/readily-ascertained-or-associated/explain" />
+							</textarea>
+						</div>
+						<div style="clear:both;"><!-- // --></div>
+						<div class="questionHelp">
+							<uams:helpinfo lookupid="readily-ascertained-or-associated" />
+						</div>
+					</div>
+					
+					<div class="question" id="question-no-observation-or-recording">
+						<div class="questionLabel">Is the information about behaviors that occur in contexts in which individuals can reasonably expect that no observation or recording is taking place? </div>
+						<div class="questionValue">
+							<x:set var="noObservationOrRecording"
+								select="string($hsrdInstance/hsrd/subject-data-collection/no-observation-or-recording/text())" />
+							<uams:yesno id="no-observation-or-recording"
+								instancepath="/hsrd/subject-data-collection/no-observation-or-recording"
+								value="${noObservationOrRecording}" validation="required" />
+						</div>
+						<br /> <br />
+						<div class="questionLabel">Please explain why or why not</div>
+						<div class="questionValue">
+							<textarea class="question-el"
+								name="/hsrd/subject-data-collection/no-observation-or-recording/explain"
+								rows="4" id="no-observation-or-recording-explain">
+								<x:out
+									select="$hsrdInstance/hsrd/subject-data-collection/no-observation-or-recording/explain" />
+							</textarea>
+						</div>
+					</div>
+					
+					<div class="question" id="question-specific-purposes">
+						<div class="questionLabel">Is the information provided by individuals for specific purposes, and can individuals reasonably expect the information will not be made public? </div>
+						<div class="questionValue">
+							<x:set var="specificPurposes"
+								select="string($hsrdInstance/hsrd/subject-data-collection/specific-purposes/text())" />
+							<uams:yesno id="specific-purposes"
+								instancepath="/hsrd/subject-data-collection/specific-purposes"
+								value="${specificPurposes}" validation="required" />
+						</div>
+						<br /> <br />
+						<div class="questionLabel">Please explain why or why not</div>
+						<div class="questionValue">
+							<textarea class="question-el"
+								name="/hsrd/subject-data-collection/specific-purposes/explain"
+								rows="4" id="specific-purposes-explain">
+								<x:out
+									select="$hsrdInstance/hsrd/subject-data-collection/specific-purposes/explain" />
+							</textarea>
+						</div>
+					</div>
+					
+					<div class="question" id="question-hsrd-study-involves">
+						<div class="questionLabel">
+							Check all of the following that the project will involve.
+						</div>
+						<div class="questionValue">
+							<x:set var="hsrdStudyInvolves"
+								select="$hsrdInstance/hsrd/subject-data-collection/study-involves" />
+							<uams:checkbox value="${hsrdStudyInvolves}"
+								lookuppath="hsrd-study-involves" usefloat="false"
+								instancepath="/hsrd/subject-data-collection/study-involves"
+								validation="required" />
+						</div>
+					</div>
+					
+					<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+					
+				</div>
+						
+			</div>
+
+			<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+
+	
+	<script type="text/javascript">
+			jQuery(document).ready(function() {
+				claraInstance.navigation.init(claraFormPageName);
+				claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+				var wiz = new Clara.Forms.WizardPanel(
+						{	
+							
+							questionCls : 'question',
+							saveBetween : true,
+							previousTab : 'basic-details',
+							nextTab : 'staff',
+							renderTo : 'page-wizard-wrapper'
+						});
+				
+				renderFormViewport("<strong>Human Subject Research Determination</strong>: Subject Data Collection", wiz);
+				
+				Clara.ProtocolForm.Rules.processPage();
+
+				jQuery(".question-el").change(function() {
+					Clara.ProtocolForm.Rules.processPage();
+					wiz.refreshLayout();
+				});
+			});
+	</script>	
+
+		
+</div>
+

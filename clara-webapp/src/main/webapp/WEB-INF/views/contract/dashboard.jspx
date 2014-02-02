@@ -1,0 +1,41 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:roo="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	
+	<uams:header pagetype="contracts"/>
+	
+	<jsp:output omit-xml-declaration="yes"/>	
+	
+	<x:parse doc="${contract.metaDataXml}" var="n"/>
+	<x:set var="cStatus" select="string($n/contract/status)" />
+	<x:set var="cId" select="string($n/contract/@id)" />
+	<x:set var="cIdent" select="string($n/contract/@identifier)" />
+
+	<spring:url value="/contract/newcontract/create" var="create_contract_url"/>
+	<spring:url value='/static/images/icons/home.png' var="homeicon"/>
+	<spring:url value='/static/images/icons' var="icondir"/>
+   
+			
+			<x:set var="contractTitle" select="string($n/contract/basic-information/title/text())" />
+			<x:set var="contractType" select="string($n/contract/basic-information/contract-type/text())" />
+			
+	
+			<div style="display:none;">
+				<div id="summary-bar">
+					<uams:summary-bar type="contract" id="${id}" formid="${formid}" metadataXml="${contract.metaDataXml}"/>
+				</div>
+			</div>
+			
+			<div id="contractDashboardPanel"><!-- // --></div>
+			
+	
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+
+			claraInstance.setType("contract");
+			claraInstance.setId("${!empty contract.id?contract.id:0}");
+			claraInstance.setIdentifier("${!empty contract.contractIdentifier?contract.contractIdentifier:0}");
+			var selectedFormId = getURLParameter("formId")=="null"?null:getURLParameter("formId");
+			document.title = ((claraInstance.type == "protocol")?"IRB":"Contract")+" "+claraInstance.id+": CLARA";
+		});
+	</script>
+</div>

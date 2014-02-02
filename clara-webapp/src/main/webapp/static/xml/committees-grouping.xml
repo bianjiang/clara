@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<committees>
+	<committee name="BUDGET_MANAGER" parent="BUDGET_REVIEW"/>
+	<committee name="BUDGET_REVIEW" parent="BUDGET_REVIEW" />
+	<committee name="BUDGET_DEVELOP" parent="BUDGET_REVIEW" />
+	
+	<committee name="COVERAGE_MANAGER" parent="COVERAGE_REVIEW"/>
+	<committee name="COVERAGE_REVIEW" parent="COVERAGE_REVIEW" />
+	
+	<committee name="IRB_ASSIGNER" parent="IRB_PREREVIEW" />
+	<committee name="IRB_PREREVIEW" parent="IRB_PREREVIEW" />
+	<committee name="IRB_PROTOCOL_REVIEWER" parent="IRB_PREREVIEW" />
+	<committee name="IRB_CONSENT_REVIEWER" parent="IRB_PREREVIEW" />
+	
+	<committee name="IRB_EXPEDITED_REVIEWER" parent="IRB_REVIEWER" />
+	<committee name="IRB_EXEMPT_REVIEWER" parent="IRB_REVIEWER" />
+	<committee name="IRB_REVIEWER" parent="IRB_REVIEWER" />	
+	
+	<committee name="REGULATORY_MANAGER" parent="MONITORING_REGULATORY_QA" />
+	<committee name="MONITORING_REGULATORY_QA" parent="MONITORING_REGULATORY_QA" />
+</committees>

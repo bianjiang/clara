@@ -1,0 +1,14 @@
+<table 
+xmlns:c="http://java.sun.com/jsp/jstl/core" 
+xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" 
+xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+xmlns:form="http://www.springframework.org/tags/form" 
+xmlns:jsp="http://java.sun.com/JSP/Page" 
+xmlns:roo="urn:jsptagdir:/WEB-INF/tags" 
+xmlns:spring="http://www.springframework.org/tags" 
+xmlns:x="http://java.sun.com/jsp/jstl/xml" 
+xmlns:uams="urn:jsptagdir:/WEB-INF/tags"
+xmlns:p="http://devsphere.com/xml/taglib/process">
+	<jsp:output omit-xml-declaration="yes" />
+	<uams:report-table xml="${result}"/>
+</table>

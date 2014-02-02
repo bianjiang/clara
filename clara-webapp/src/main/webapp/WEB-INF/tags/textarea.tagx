@@ -1,0 +1,38 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+	<jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" />
+	<jsp:directive.attribute name="validation" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="cls" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="instancepath" type="java.lang.String" required="true" rtexprvalue="true" />
+	<jsp:directive.attribute name="value" type="java.lang.String" required="false" rtexprvalue="true" />
+	<jsp:directive.attribute name="hasNA" required="false" rtexprvalue="true" />
+
+	<textarea id="${id}" name="${instancepath}" rows="4" class="question-el ${not empty validation?(validation):''}">${value}</textarea>
+
+	<c:choose>
+		<c:when test="${hasNA eq true}">
+				<c:set var="onclickFunction" value="javascript:toggleTextAreaNACheckBox('${id}', '${instancepath}');" />
+				
+				<div class='clara-form-checkbox'>		
+				<c:choose>	
+							
+					<c:when test="${value == 'N/A: Not Applicable'}">
+						<label for="cb_${id}_na"><input onclick="${onclickFunction}" id="cb_${id}_na" checked="checked" type="checkbox" class="largeControl" name="${instancepath}" value="N/A: Not Applicable"/> N/A: Not Applicable</label>
+						<script>
+							toggleTextAreaNACheckBox('${id}', '${instancepath}');
+						</script>
+					</c:when>				
+					<c:otherwise>
+						<label for="cb_${id}_na"><input onclick="${onclickFunction}" id="cb_${id}_na"  type="checkbox" class="largeControl}" name="${instancepath}" value="N/A: Not Applicable"/> N/A: Not Applicable</label>
+					</c:otherwise>
+				</c:choose>
+				</div>
+		</c:when>
+	</c:choose>
+
+</jsp:root>

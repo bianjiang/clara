@@ -1,0 +1,96 @@
+<form name="Reportable New Information" id="reportable-new-information" type="REPORTABLE_NEW_INFORMATION">
+	<page name="Start" id="first-page">
+		<section>
+			<question id="question-info-category" parent-id="" parent-value="" header="">
+				<question-label>Event/Information Type:</question-label>
+				<question-value instance-path="/reportable-new-information/info-category" lookup-path="info-category" value-type="select" />
+			</question>
+			<question id="question-unanticipated-problem-involving-risk" parent-id="" parent-value="" header="">
+				<question-label>Has the sponsor determined that the event is an Unanticipated Problem Involving Risks to Subjects or Others (UPIRTSO)?</question-label>
+				<question-value  instance-path="/reportable-new-information/unanticipated-problem-involving-risk" value-type="yesNo" />
+			</question>
+		</section>
+	</page>
+	<page name="Basic Details" id="basic-details">
+		<section>
+			<question id="question-describe-event-info" parent-id="" parent-value="" header="">
+				<question-label>Please describe the event/information that you are reporting:</question-label>
+				<question-value instance-path="/reportable-new-information/basic-details/describe-event-info" value-type="textarea" />
+			</question>
+			<question id="question-event-information-date" parent-id="" parent-value="" header="">
+				<question-label>Event/Information Date:</question-label>
+				<question-value  instance-path="/reportable-new-information/basic-details/event-information-date" value-type="date" />
+			</question>
+			<question id="question-event-information-location" parent-id="" parent-value="" header="">
+				<question-label>Event/Information Location:</question-label>
+				<question-value  instance-path="/reportable-new-information/basic-details/event-information-location" lookup-path="site-responsible" value-type="select" />
+			</question>
+			<question id="question-consent-protocol-changed" parent-id="" parent-value="" header="">
+				<question-label>In the opinion of the Principal Investigator, should the study consent or protocol be changed because of the event/information, or should subjects be notified of the event/information?</question-label>
+				<question-value  instance-path="/reportable-new-information/basic-details/consent-protocol-changed" value-type="yesNo" />
+			</question>
+			<question id="question-describe-consent-protocol-changed" parent-id="question-consent-protocol-changed" parent-value="y" header="Yes">
+				<question-label>Please describe the changes/notifications that should take place.</question-label>
+				<question-value  instance-path="/reportable-new-information/basic-details/consent-protocol-changed/y/describe-consent-protocol-changed" value-type="textarea" />
+			</question>
+			<question id="question-was-adverse-effect-serious" parent-id="" parent-value="" header="">
+				<question-label>Was the adverse effect(or problem related to rights, safety, or welfare) serious or life-threating, or did it result in death, for the research subjects?</question-label>
+				<question-value  instance-path="/reportable-new-information/basic-details/was-adverse-effect-serious" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-was-adverse-effect-serious-other" parent-id="" parent-value="" header="Yes">
+						<question-label>Please describe:</question-label>
+						<question-value  instance-path="/reportable-new-information/basic-details/was-adverse-effect-serious/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-was-effect-caused-by-device" parent-id="" parent-value="" header="">
+				<question-label>Was the effect, problem, or death, caused by, or associated with, the device?</question-label>
+				<question-value  instance-path="/reportable-new-information/basic-details/was-effect-caused-by-device" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-was-effect-caused-by-device-other" parent-id="" parent-value="" header="Yes">
+						<question-label>Please describe:</question-label>
+						<question-value  instance-path="/reportable-new-information/basic-details/was-effect-caused-by-device/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-was-effect-previously-identified" parent-id="" parent-value="" header="">
+				<question-label>Was the effect, problem, or death previously identified in nature, severity, or degree of incidence in the investigational plan or application (including a supplementary plan or application)?</question-label>
+				<question-value  instance-path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-was-effect-previously-identified-other" parent-id="" parent-value="" header="No">
+						<question-label>Please describe:</question-label>
+						<question-value  instance-path="/reportable-new-information/basic-details/was-effect-previously-identified/n/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+		</section>
+	</page>
+	<page name="Report" id="report">
+		<section>
+			<question id="question-unexpected-or-unanticipated" parent-id="" parent-value="" header="">
+				<question-label>In the opinion of the Principal Investigator, was the event/information unexpected or unanticipated?</question-label>
+				<question-value instance-path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="yesNo" />
+			</question>
+			<question id="question-describe-manner" parent-id="question-unexpected-or-unanticipated" parent-value="y" header="Yes">
+				<question-label>Please describe the manner in which the event was unexpected or unanticipated.</question-label>
+				<question-value  instance-path="/reportable-new-information/report/unexpected-or-unanticipated/y/describe-manner" value-type="textarea" />
+			</question>
+			<question id="question-related-to-the-research" parent-id="" parent-value="" header="">
+				<question-label>In the opinion of the Principal Investigator, was the event/information related to the research?</question-label>
+				<question-value instance-path="/reportable-new-information/report/related-to-the-research" value-type="yesNo" />
+			</question>
+			<question id="question-describe-related-to-the-research" parent-id="question-related-to-the-research" parent-value="y" header="Yes">
+				<question-label>Please describe how the event relates to the research.</question-label>
+				<question-value instance-path="/reportable-new-information/report/related-to-the-research/y/describe-related-to-the-research" value-type="textarea" />
+			</question>
+			<question id="question-involve-new-or-increased-risks" parent-id="" parent-value="" header="">
+				<question-label>In the opinion of the Principal Investigator, did the event/information involve new or increased risks to, or affect the rights, safety, or welfare of, subjects or others?</question-label>
+				<question-value instance-path="/reportable-new-information/report/involve-new-or-increased-risks" value-type="yesNo" />
+			</question>
+			<question id="question-describe-involve-new-or-increased-risks" parent-id="question-involve-new-or-increased-risks" parent-value="y" header="Yes">
+				<question-label>Please describe the nature of the risks/effects.</question-label>
+				<question-value instance-path="/reportable-new-information/report/involve-new-or-increased-risks/y/describe-involve-new-or-increased-risks" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+</form>

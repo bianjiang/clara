@@ -1,0 +1,88 @@
+.user-report-row-complete,.user-report-row-pending,.user-report-row-error {
+}
+.user-report-row{
+	font-size:14px;
+}
+.reportlist-row h1{
+	font-weight:800;
+}
+
+dl.reportlist-criteria{
+	padding-left:24px;
+	overflow: auto;
+	font-size:11px;
+}
+
+dl.reportlist-criteria dt{
+	float: left;
+    clear: left;
+    width:inherit;
+    margin-right: 10px; /* Margin work */
+}
+
+dl.reportlist-criteria dd{
+	display: table-cell;
+    padding-left: 10px; /* Padding works */
+}
+.criteria-value{
+	font-weight:800;
+	text-decoration:underline;
+}
+.no-criteria{
+	font-weight:100;
+	font-style:italic;
+	color:#999;
+}
+.no-criteria:after{
+  content:"";
+}
+
+
+.user-report-row-NOT_READY{
+	color:#aaa;
+	background-color:#eee;
+}
+.user-report-status-pending{
+	background-image:url(../../images/icons/32/hourglass.png);
+}
+.report-type h1{
+	font-weight:800;
+}
+
+.user-report-row-error{
+	color:red;
+	background-color:#eee;
+}
+.user-report-status-error{
+	background-image:url(../../images/icons/32/error.png);
+}
+
+.user-report{
+	padding-top:4px;
+}
+
+.user-report-description{
+
+}
+
+.x-grid-row td {
+height:32px;
+font-size: 13px !important;
+vertical-align: middle;
+}
+
+.report-type{
+	white-space: normal;
+	font-size:11px;
+	margin-top:4px;
+	margin-bottom:4px;
+}
+
+.report-type h1{
+	font-size:12px;
+	margin-bottom:4px;
+}
+
+h1 span.report-type-type{
+	font-weight:100;
+}

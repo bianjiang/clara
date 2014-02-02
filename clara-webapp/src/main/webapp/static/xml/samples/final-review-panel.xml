@@ -1,0 +1,23 @@
+<panels>
+	<panel xtype="clarareviewergatekeeperassigncommitteepanel" id="GatekeeperAssignCommitteePanel">
+		<formdata>
+			<committees>
+				<committee>
+					<name>PHARMACY</name>
+					<desc>UAMS Pharmacy</desc>
+					<checked>true</checked>
+				</committee>
+				<committee>
+					<name>BUDGET</name>
+					<desc>Budget Office</desc>
+					<checked>true</checked>
+				</committee>
+				<committee>
+					<name>IRB_OFFICE</name>
+					<desc>IRB Office</desc>
+					<checked>false</checked>
+				</committee>
+			</committees>
+		</formdata>
+	</panel>
+</panels>

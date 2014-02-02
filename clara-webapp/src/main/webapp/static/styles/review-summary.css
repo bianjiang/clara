@@ -1,0 +1,135 @@
+body{
+	background-color:white;
+	padding-top: 60px;
+}
+
+body .modal {
+    /* new custom width */
+    width: 750px;
+    /* must be half of the width, minus scrollbar on the left (30px) */
+    margin-left: -375px;
+}
+.modal-body {
+    max-height: 800px;
+}
+
+.version-current{
+	font-weight:800;
+	color:white;
+	background-color:#3333cc;
+}
+
+td.version-compareto-icon{
+padding-left:28px !important;
+	background: transparent url(../images/icn/edit-diff.png) 6px 6px no-repeat;
+}
+#nav-compare,#alert-compare-info{
+	display:none;
+}
+
+@media print {
+	body{
+	font-size: 11px;
+    line-height: 14px;
+    }
+    .tools-locked-page,.tools-edit-page{
+    	display:none;
+    }
+	.navbar-fixed-top, .navbar-fixed-bottom {
+	    left: 0;
+	    margin-bottom: 0;
+	    position: absolute;
+	    right: 0;
+	    z-index: 1030;
+	}
+}
+
+@media (max-width: 979px) {
+  body {
+    padding-top: 90px;
+  }
+}
+
+.summary-navbar-title{
+	padding-left:32px !important;
+}
+
+#summary-content{
+	display:none;
+}
+
+.summary-row{
+	border-top:1px dotted #ddd;
+}
+.summary-row-value ul{
+	margin-left:0px;
+}
+
+.summary-row-related, .summary-row-subquestion{
+	border-left:4px solid #999;
+	padding-left:16px;
+	padding-bottom:4px;
+}
+.summary-row-subquestion{
+	padding-left:32px;
+	font-style: italic;
+}
+.summary-row-label-relatedsection{
+	color:#999;
+	text-transform:uppercase;
+	font-size:12px;
+}
+
+.summary-row-editable{
+	padding-left: 24px;
+	background: transparent url(../images/icn/pencil-field.png) top left no-repeat;
+}
+
+.tools-locked-page{
+	color:#ccc;
+	text-transform:uppercase;
+	font-size:11px;
+	padding-right: 20px;
+	background: transparent url(../images/icn/lock.png) top right no-repeat;
+}
+
+.docversion{
+	display:none;
+}
+
+.compact-list{
+	margin:0px;
+	margin-left:16px;
+}
+.statusicon{
+	background: transparent url(../images/icn/ui-check-box-uncheck-disabled.png) top left no-repeat;
+	padding-left:24px;
+	font-weight:800;
+}
+
+.statusicon-ok{
+	background: transparent url(../images/icn/tick.png) top left no-repeat;
+}
+
+.statusicon-warning{
+	background: transparent url(../images/icn/exclamation.png) top left no-repeat;
+}
+
+.row-diff-A,.row-diff-M,.row-diff-D {
+	font-weight:800;
+	font-style:italic;
+}
+.row-diff-A {
+	font-style:italic;
+	color:green;
+	background-color:#82FA58 !important;
+}
+.row-diff-M {
+	color:#000;
+	background-color:#F3F781 !important;
+}
+.row-diff-D{
+	color:red;
+	text-decoration:line-through;
+	background-color:#F5A9A9 !important;
+}

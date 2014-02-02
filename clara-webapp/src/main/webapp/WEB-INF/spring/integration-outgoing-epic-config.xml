@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.2.xsd
+	 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+	 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+			
+	<bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+		<constructor-arg>
+			<bean class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory">
+				<property name="soapVersion">
+					<util:constant static-field="org.springframework.ws.soap.SoapVersion.SOAP_12" />
+				</property>
+			</bean>
+		</constructor-arg>
+		<property name="messageSender">
+			<bean
+				class="org.springframework.ws.transport.http.HttpComponentsMessageSender" />
+		</property>
+		<property name="defaultUri" value="${epic.webservice.studydefinition.uri}" />
+	</bean>
+    
+    <bean id="studyDefinitionWSClient" class="edu.uams.clara.integration.outgoing.epic.impl.StudyDefinitionWSClientImpl">
+    	<property name="webServiceTemplate" ref="webServiceTemplate"/>
+    	<property name="uri" value="${epic.webservice.studydefinition.uri}"/>
+    	<property name="hl7RootId" value="${epic.webservice.hl7.rootId}" />
+    	<property name="retrieveProtocolDefResponseRequestXmlTemplateUri" value="${epic.webservice.studydefinition.retrieveProtocolDefResponseRequestXmlTemplate.uri}" />
+		<property name="retrieveProtocolPIXmlTemplateUri"
+			value="${epic.webservice.studydefinition.retrieveProtocolUserXmlTemplate.uri}" />
+		<property name="retrieveProtocolNoPIUserXmlTemplateUri"
+			value="${epic.webservice.studydefinition.retrieveProtocolNonPIUserXmlTemplate.uri}" />
+		<property name="retrieveProtocolNctNumberTemplateUri"
+			value="${epic.webservice.studydefinition.retrieveProtocolNctNumberTemplateUri.uri}" />
+    </bean>
+    
+    <!-- 
+    <bean id="exportWebChartService"
+		class="edu.uams.clara.integration.outgoing.webchart.impl.ExportWebChartServiceImpl" />
+    -->
+</beans>

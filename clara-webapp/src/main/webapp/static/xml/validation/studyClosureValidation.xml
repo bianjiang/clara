@@ -1,0 +1,13 @@
+<rules>
+	<rule path="/study-closure/study-status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the status of the study is required!" level="ERROR"/>		
+	</rule>
+	<rule path="/study-closure/general-study-info/any-change-affect-study-exempt-review-classification" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there has been any change, in the opinion of the investigator, which affects this study's exempt review classification is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/study-closure/most-recent-study/approval-status" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>		
+	</rule>
+</rules>

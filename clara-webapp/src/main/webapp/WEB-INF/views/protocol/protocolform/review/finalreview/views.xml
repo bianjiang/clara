@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+	<definition extends="protocol/protocolform/review/protocol-form-review-template-noheader" name="protocol/protocolform/committee-review">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/review/finalreview/committee-review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        <add-attribute value="/static/js/protocol/protocolform/review/review-complete-form.js" />
+        </put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  		<add-attribute value="/static/styles/icons.css" />
+  		</put-list-attribute>
+    </definition>    
+</tiles-definitions>

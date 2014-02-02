@@ -1,0 +1,19 @@
+<html>
+<head><link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/></head>
+<body>
+<div class="email-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	The following Emergency Use form has been submitted to IRB Office.
+	
+	<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()
+	<br/><strong>PI Department:</strong> $piUser.person.department
+	
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	
+	<a href=$protocolLink>Click here to access study.</a>
+
+</div>
+</body>
+</html>
+

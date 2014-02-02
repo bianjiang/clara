@@ -1,0 +1,88 @@
+.uamslogo{
+	background:transparent url("../images/uams-logo-medium.png") no-repeat 0px 0px;
+	background-size: 100px auto;
+	height:57px;
+	width:100px;
+}
+
+strong {
+	font-weight:800;
+}
+
+.clear{
+	clear:both;
+}
+
+.email-template{
+	font-size:12px;
+	font-family:Verdana,sans-serif;
+}
+
+h1,h2{
+margin:0;
+}
+
+.page {
+	page-break-after: always;
+	margin-bottom:32px;
+}
+
+/* AGENDA TEMPLATES */
+
+.agenda-list{
+	margin-top:16px;
+}
+
+.agenda-list-header-row{
+	padding:4px;
+	background-color:#eee;
+	font-weight:800;
+	border-top:1px solid #666;
+	border-bottom:1px solid #ddd;
+}
+
+.agenda-list-row {
+	padding:4px;
+	border-bottom:1px solid #ddd;
+	width:100%;
+}
+
+.agenda-col-1,.agenda-col-2,.agenda-col-3,.agenda-col-4{
+	float:left;
+	width:20%;
+	border-left:1px dotted #ddd;
+	padding-left:4px;
+}
+
+.agenda-col-1{
+	border:0;
+	width:10%;
+}
+
+.agenda-col-2{
+	width:10%;
+}
+
+.agenda-detail{
+	width:60%;
+	float:left;
+}
+
+.agenda-detail-label{
+	float:left;
+	width:20%;
+	text-align:right;
+	font-weight:800;
+}
+
+.agenda-detail-value{
+	padding-left:8px;
+	float:left;
+	width:70%;
+	text-align:left;
+}
+
+.end-detail{
+	border-top:1px dotted #ddd;
+	margin-bottom:4px;
+}

@@ -1,0 +1,81 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.tag body-content="empty" />
+
+	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
+		required="true" rtexprvalue="true" />
+
+<c:import url="/static/xml/document-types.xml" var="doctypesxml" />
+<x:parse doc="${doctypesxml}" var="doctypes" scope="application" />
+
+
+<c:set var="pathHead" value="https://clarafs.uams.edu/files"/>
+
+<c:if test="${pageContext.request.serverName == 'clara-training.uams.edu'}">
+	<c:set var="pathHead" value="https://clarafs.uams.edu/files/training"/>
+</c:if>
+
+<c:if test="${pageContext.request.serverName == 'localhost'}">
+	<c:set var="pathHead" value="https://clarafs.uams.edu/files/dev"/>	
+</c:if>
+
+<x:set var="docCount" select="count($value/documents/document)"/>
+
+<c:if test="${docCount lt 1}"><h5 class="muted">No documents found.</h5></c:if>
+
+<c:if test="${docCount gt 0}">
+
+	<table class="summary-table table table-striped table-bordered table-condensed">
+		
+		<thead>
+		<tr>
+			<th id="date" class="span2"><strong>Date</strong></th>
+			<th id="type" class="span2"><strong>Type</strong></th>
+			<th id="title" class="span6"><strong>Title</strong></th>
+			<th id="status" class="span2"><strong>Status</strong><small class="versiontoggler pull-right" style="color:blue;" onclick="var tv=jQuery('.docversion');jQuery(tv).toggle();jQuery('.versiontoggler').text((jQuery(tv).is(':visible'))?'Hide versions':'Show all versions');">Show all versions</small></th>
+		</tr>
+		</thead>
+		<x:forEach var="doc" select="$value/documents/document">
+			<x:set var="docId" select="string($doc/@id)"/>
+			<tr>
+				<td headers="date" valign="top" class="span2"><x:out select="@created" /></td>
+				<td headers="type" valign="top" class="span2">
+					<x:set var="docCategory" select="string($doc/@category)" />
+					<uams:doccategory value="${docCategory}" docTypeList="${doctypes}"/>
+				</td>
+				<x:set var="docurl" select="string(@path)" />
+				<x:set var="filename" select="string(@filename)" />
+				<x:set var="identifier" select="string(@identifier)" />
+				<x:set var="extension" select="string(@extension)" />
+				<td headers="title" valign="top" class="span6"><a href="${pathHead}${docurl}${identifier}.${extension}?n=${filename}" target="_blank"><x:out select="@title" /></a></td>
+				<td headers="status" valign="top" class="span2">
+			    	<x:set var="verStatus" select="string(@status)"/><c:if test="${!empty verStatus}"><x:out select="@status" /></c:if>
+			    </td>
+			</tr>
+			<x:forEach var="docversions" select="$doc/versions/document">
+				<x:set var="docVerId" select="string($docversions/@id)"/>
+				<c:if test="${docId ne docVerId}">
+					<tr class="error docversion">
+						<td headers="date" valign="top" class="span2 muted"><x:out select="@created" /></td>
+						<td headers="type" valign="top" class="span2 muted"><x:out select="@category" /></td>
+						<x:set var="docurl" select="string(@path)" />
+						<x:set var="filename" select="string(@filename)" />
+						<x:set var="identifier" select="string(@identifier)" />
+						<x:set var="extension" select="string(@extension)" />
+						<td headers="title" valign="top" class="span6 muted"><a href="${pathHead}${docurl}${identifier}.${extension}?n=${filename}" target="_blank"><x:out select="@title" /></a></td>
+						<td headers="status" valign="top" class="span2 muted">
+					    	<x:set var="verStatus" select="string(@status)"/><c:if test="${!empty verStatus}"><x:out select="@status" /></c:if>
+					    </td>
+					</tr>
+				</c:if>
+			</x:forEach>
+		</x:forEach>
+	</table>
+</c:if>
+
+</jsp:root>

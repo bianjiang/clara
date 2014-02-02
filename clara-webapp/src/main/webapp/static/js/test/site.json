@@ -1,0 +1,37 @@
+{
+    "sites": [
+        {
+            "sitename": "UAMS - Little Rock",
+            "siteid": 1,
+            "address": "1 UAMS Street",
+            "city": "Little Rock",
+            "state": "AR",
+            "zip": "72203",
+            "retired": false,
+            "concurrentVersion": 0,
+            "common":true
+        },
+        {
+            "sitename": "ACH - Arkansas Childrens Hospital",
+            "siteid": 2,
+            "address": "1 ACH Street",
+            "city": "Little Rock",
+            "state": "AR",
+            "zip": "72204",
+            "retired": false,
+            "concurrentVersion": 0,
+            "common":true
+        },
+        {
+            "sitename": "AHEC - Batesville",
+            "siteid": 1,
+            "address": "1 Main Street",
+            "city": "Batesville",
+            "state": "AR",
+            "zip": "72501",
+            "retired": false,
+            "concurrentVersion": 0,
+            "common":false
+        }
+    ]
+}

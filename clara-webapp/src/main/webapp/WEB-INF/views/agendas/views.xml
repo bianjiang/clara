@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+
+    
+    <definition extends="default-ext4" name="agendas/index">
+        <put-attribute name="body" value="/WEB-INF/views/agendas/index.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/app/config.js" />
+    		<add-attribute value="/static/js/app/agenda/app.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/agendas/agendas.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="default-ext4-neptune" name="agendas/meeting4">
+        <put-attribute name="body" value="/WEB-INF/views/agendas/meeting-view4.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/app/config.js" />
+    		<add-attribute value="/static/js/app/meeting/app.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/agendas/agendas.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="default" name="agendas/meeting">
+        <put-attribute name="body" value="/WEB-INF/views/agendas/meeting-view.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.statusbar.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.ComboColumn.js" />
+			<add-attribute value="/static/js/jquery/plugin/jquery.formSerializer.js" type="string" />
+			<add-attribute value="/static/js/ext/ux/SuperBoxSelect/SuperBoxSelect.js" />
+			<add-attribute value="/static/js/encoder.js" />	
+			<add-attribute value="/static/js/clara-mail.js" />
+			<add-attribute value="/static/js/security.js" />	
+			<add-attribute value="/static/js/protocol/protocol-base.js" />	
+    		<add-attribute value="/static/js/agenda/agenda-item.js" />
+    		
+    		<add-attribute value="/static/js/protocol/protocolform/review/reviewer-messagebus.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/review/reviewer-contingency-panel.js" />
+    		
+    		<add-attribute value="/static/js/agenda/meeting-base.js" />
+    		<add-attribute value="/static/js/agenda/meeting-contingency-panel.js" />
+    		<add-attribute value="/static/js/agenda/meeting-voting-panel.js" />
+    		<add-attribute value="/static/js/agenda/meeting.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  			<add-attribute value="/static/js/ext/ux/SuperBoxSelect/superboxselect.css" />
+  			<add-attribute value="/static/styles/protocol/protocolform/review/review.css" />   
+        	<add-attribute value="/static/styles/agendas/agendas.css" />
+        	<add-attribute value="/static/styles/agendas/meeting.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="agenda/minutes-template" name="agendas/minutes">
+        <put-attribute name="body" value="/WEB-INF/views/agendas/minutes-view.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/bootstrap.min.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  			<add-attribute value="/static/styles/icons.css" />
+        	<add-attribute value="/static/styles/bootstrap.css" />
+        	<add-attribute value="/static/styles/agendas/agenda-minutes.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="agenda/minutes-template" name="agendas/summary">
+        <put-attribute name="body" value="/WEB-INF/views/agendas/summary-view.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/bootstrap.min.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  		  	<add-attribute value="/static/styles/icons.css" />
+        	<add-attribute value="/static/styles/bootstrap.css" />
+        	<add-attribute value="/static/styles/agendas/agenda-minutes.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="default" name="agendas/agenda-item">
+        <put-attribute name="body" value="/WEB-INF/views/agendas/agenda-item.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.rowexpander.js" />
+    		<add-attribute value="/static/js/ext/ux/SuperBoxSelect/SuperBoxSelect.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.datepickerplus.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" />
+    		<add-attribute value="/static/js/security.js" />
+    		<add-attribute value="/static/js/common/dashboard.js" />		
+    		<add-attribute value="/static/js/common/document-panel.js" />
+    		<add-attribute value="/static/js/common/form-status-panel.js" />
+    		<add-attribute value="/static/js/protocol/protocol-base.js" />
+			<add-attribute value="/static/js/protocol/protocol-dashboard-contracts.js" />	
+    		<add-attribute value="/static/js/protocol/protocol-dashboard.js" />    
+    		<add-attribute value="/static/js/agenda/agenda-item.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/review/reviewer-messagebus.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/review/reviewer-actionform-panel.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/review/reviewer-contingency-panel.js" />
+    		<add-attribute value="/static/js/agenda/agenda.js" />
+    		
+    		<add-attribute
+				value="/static/js/protocol/protocol-dashboard-statuswindow.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  			<add-attribute value="/static/styles/protocol/protocol-dashboard.css" />
+  			<add-attribute value="/static/styles/protocol/protocolform/review/review.css" />   
+        	<add-attribute value="/static/styles/agendas/agendas.css" />
+        	<add-attribute value="/static/styles/agendas/agenda-item.css" />
+  		</put-list-attribute>
+    </definition>
+</tiles-definitions>

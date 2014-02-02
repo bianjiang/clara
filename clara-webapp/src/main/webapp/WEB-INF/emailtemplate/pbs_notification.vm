@@ -1,0 +1,48 @@
+<html>
+<body>
+<div class="email-template revision-requested-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	<h2>Memo</h2>
+	
+	<br/><br/>
+	
+	<strong>To:</strong> $piUser.person.getFullname() e-mail:<a href="mailto:$piUser.person.getEmail()">$piUser.person.getEmail()</a> phone:$piUser.person.getWorkphone()<br/>
+	<strong>From:</strong> Saundra G. Cooper, PBS Manager<br/>
+	<strong>Date:</strong> $currentDate
+	
+	<strong>Re: IRB#:</strong> $protocolId<br/>
+
+	<strong>Title:</strong> $protocolTitle<br/>
+	
+	#if ($protocolType == "investigator-initiated")
+		#set($protocolType = "Investigator Initiated")
+	#elseif ($protocolType == "cooperative-group")
+		#set($protocolType = "Cooperative Group")
+	#elseif ($protocolType == "industry-sponsored")
+		#set($protocolType = "Industry Sponsored")
+	#end
+
+	<strong>Study Category:</strong> $protocolType<br/><br/>
+	
+	Your study referenced above has been established with Patient Business Services. The following should be the procedure for registering a research account for each subject enrolled in this study:
+	
+	<br/><br/>
+	The insurance plan code is <strong>$planCode</strong>, and it should be attached as the primary and only insurance on the research account.
+	
+	<br/><br/>
+	Register each patient individually and use the labels from that account for ALL STUDY RELATED CHARGES. Please do not register the patient in each clinic, you will need to use these labels for all charges/requests/etc., and control the labels very well to prevent non-study-related charges posting to the account.
+	
+	<br/><br/>
+	You will receive bills for each patient as the bills are printed from the system. Payments should be sent via interdepartmental transfer with each patient and the individual payment amounts plainly noted.
+	
+	<br/><br/>
+	Any questions regarding patients and/or charges should be directed to the PBS Agency biller at 614-2800; and / or the MCPG Agency biller at 614-2137.
+	
+	<br/><br/>
+	SGC
+	
+	<br/><br/>
+	<a href=$protocolLink target = "_blank">Click here to access the study.</a><br/><br/>
+</div>
+</body>
+</html>
