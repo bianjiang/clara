@@ -60,3 +60,7 @@ Various other documentations such as form templates, workflow diagrams; and deve
 Questions?
 =====
 If you have any questions, please feel free to contact Jiang Bian (Email: jbian at uams.edu).
+
+Acknowledgments
+=====
+The work is supported by the Translational Research Institute (TRI) at the University of Arkasnas for Medical Sciences (UAMS) funded by award UL1TR000039 through National Center for Advancing Translational Sciences (i.e., formerly UL1RR029884 through the NIH National Center for Research Resources). The content is solely the responsibility of the authors and does not necessarily represent the official views of the NIH.
