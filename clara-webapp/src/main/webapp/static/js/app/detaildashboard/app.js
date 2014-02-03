@@ -10,7 +10,15 @@ Ext.application({
     name: 'Clara.DetailDashboard', 
     appFolder:appContext + '/static/js/app/detaildashboard',
     
-    models:['Clara.Documents.model.DocumentType','Clara.Documents.model.Document','Clara.DetailDashboard.model.FormReviewStatusDetail','Clara.DetailDashboard.model.FormReviewStatus','Clara.Queue.model.QueueItem','Clara.DetailDashboard.model.Form','Clara.Common.model.User','Clara.DetailDashboard.model.History'],
+    models:['Clara.Documents.model.DocumentType',
+            'Clara.Documents.model.Document',
+            'Clara.DetailDashboard.model.FormReviewStatusDetail',
+            'Clara.DetailDashboard.model.FormReviewStatus',
+            'Clara.Queue.model.QueueItem',
+            'Clara.DetailDashboard.model.Form',
+            'Clara.Common.model.User',
+            'Clara.DetailDashboard.model.History'],
+            
     stores:['Clara.DetailDashboard.store.RelatedProtocols',
             'Clara.Common.store.Contracts',
             'Clara.Common.store.Protocols',
@@ -26,7 +34,13 @@ Ext.application({
             'Clara.Common.store.Users',
             'Clara.DetailDashboard.store.History',
             'Clara.DetailDashboard.store.Letters'],
-    controllers: ['Clara.Documents.controller.Documents','Clara.Review.controller.ReviewNote','Clara.DetailDashboard.controller.Form','Clara.DetailDashboard.controller.DetailDashboard','Clara.LetterBuilder.controller.LetterBuilder','Clara.Queue.controller.QueueAssign'],
+            
+    controllers: ['Clara.Documents.controller.Documents',
+                  'Clara.Review.controller.ReviewNote',
+                  'Clara.DetailDashboard.controller.Form',
+                  'Clara.DetailDashboard.controller.DetailDashboard',
+                  'Clara.LetterBuilder.controller.LetterBuilder',
+                  'Clara.DetailDashboard.controller.QueueAssign'],	// DUPLICATED FROM QUEUE CONTROLLER. BAD!
     
     autoCreateViewport: true,
     enableQuickTips: true,
@@ -43,10 +57,11 @@ Ext.application({
     },
     
     launch: function() {
-    	clog("Ext.app launch.");
+    	clog("Ext.app launch."); 
     	Clara.Application.DocumentController = this.getController("Clara.Documents.controller.Documents");
     	Clara.Application.FormController = this.getController("Clara.DetailDashboard.controller.Form");
-    	Clara.Application.QueueController = this.getController("Clara.Queue.controller.QueueAssign");
+    	Clara.Application.QueueAssignController = this.getController("QueueAssign");
+    	Clara.Application.QueueController = this.getController("QueueAssign");		// needed becasue the java (server) reutrns this in json response
     	Clara.Application.ReviewNoteController = this.getController("Clara.Review.controller.ReviewNote");
     	Ext.tip.QuickTipManager.init();
     }

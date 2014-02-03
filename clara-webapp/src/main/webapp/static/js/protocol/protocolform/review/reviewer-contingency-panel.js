@@ -155,15 +155,11 @@ Clara.Reviewer.CommentRenderer = function(v,p,r,options){
     var gpid = options.gpid;
     
     options.meetingView = options.meetingView || false;
-    
-    
-    
-    
+
     var t= Ext.getCmp(gpid),
         st = r.store;
-    
-    
-    var readOnly = (typeof t == "undefined")?false:t.readOnly;
+
+    var readOnly = (typeof options.readOnly != "undefined")?options.readOnly:(typeof t == "undefined")?false:t.readOnly;
     clog("RENDERING THE COMMENT",r,options,readOnly);
     
     var isGrouped = (typeof(st.groupField) != "undefined" && st.groupField == "committee");
@@ -189,8 +185,6 @@ Clara.Reviewer.CommentRenderer = function(v,p,r,options){
     } else {
         title+=(isMajor)?"Required Change":"Note";
     }
-
-
 
     title += "</span>";
 
@@ -222,8 +216,8 @@ Clara.Reviewer.CommentRenderer = function(v,p,r,options){
                 html += "- <a href='javascript:void(0)' onClick='Clara.Reviewer.changeCommentStatus(\""+gpid+"\","+r.data.id+",null);'>Clear status</a>";
             }
         }
-
-        if (typeof(t) != "undefined" && !t.readOnly && typeof(t.isActingAsIRB) != "undefined" && t.isMyList()){
+      
+        if (typeof(t) != "undefined" && !readOnly && typeof(t.isActingAsIRB) != "undefined" && t.isMyList()){
             html += " - <a href='javascript:;' onClick='Clara.Reviewer.editComment("+r.data.id+", \""+gpid+"\");'>Edit</a>";
         }
 
@@ -381,13 +375,15 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		
 		clog("COMMENT PANEL, INIT. readOnly?",t.readOnly);
 		if (!t.readOnly)	{	// if readOnly isnt set to true by the server variable on jspx..
-			t.readOnly = (t.agendaItemView == true && claraInstance.HasAnyPermissions(requiredRoles.addComments) == true)?false:true;
+			t.readOnly = (t.agendaItemView == true && (claraInstance.HasAnyPermissions(requiredRoles.addComments) == true || claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE']) == true))?false:true;
 			t.readOnly = (t.agendaItemView == true && claraInstance.HasAnyPermissions(['VIEW_AGENDA_ONLY']))?true:t.readOnly;
 			t.readOnly = (t.agendaItemView == false)?false:t.readOnly;
 		}
 		
 		var canAddContingency = false;
-		if (!t.agendaItemView && !t.readOnly && t.isMyList() && claraInstance.user.committee != "PI" && t.isActingAsIRB()){
+		if ( (!t.agendaItemView && !t.readOnly && t.isMyList() && claraInstance.user.committee != "PI" && t.isActingAsIRB()) ||
+		 	 (t.agendaItemView && t.isMyList() && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE']) )
+		   ){
 			canAddContingency = true;
 		} 
 		
@@ -582,7 +578,7 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 						sortable:true,
 						width:500,
 						renderer:{
-				    		fn: function(v,p,r) { return Clara.Reviewer.CommentRenderer(v,p,r,{ gpid: this.id, meetingView:false}); },
+				    		fn: function(v,p,r) { clog("ABOUT TO RENDER w OPTIONS",{gpid: this.id, meetingView:false, readOnly:(t.readOnly && !canAddContingency)});return Clara.Reviewer.CommentRenderer(v,p,r,{ gpid: this.id, meetingView:false, readOnly:(t.readOnly && !canAddContingency)}); },
 				    		scope:this
 				    	},
 				    	menuDisabled:true

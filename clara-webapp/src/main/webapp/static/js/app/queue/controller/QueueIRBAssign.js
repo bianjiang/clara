@@ -49,7 +49,7 @@ Ext.define('Clara.Queue.controller.QueueIRBAssign', {
 			success: function(response){
 				me.loadingMask.hide();
 				me.getIrbAssignmentWindow().close();
-				Clara.Queue.app.getController("Queue").onQueueSelect(null,Clara.Queue.app.getController("Queue").selectedQueue);	// reload the queue list by reselecting it
+				Clara.Application.getController("Queue").onQueueSelect(null,Clara.Application.getController("Queue").selectedQueue);	// reload the queue list by reselecting it
 			},
 			failure: function(error) {
 				cwarn('processAgendaItem: Ext.Ajax failure',error);
@@ -73,7 +73,7 @@ Ext.define('Clara.Queue.controller.QueueIRBAssign', {
 			success: function(response){
 				me.loadingMask.hide();
 				me.getIrbAssignmentWindow().close();
-				Clara.Queue.app.getController("Queue").onQueueSelect(null,Clara.Queue.app.getController("Queue").selectedQueue);	// reload the queue list by reselecting it
+				Clara.Application.getController("Queue").onQueueSelect(null,Clara.Application.getController("Queue").selectedQueue);	// reload the queue list by reselecting it
 			},
 			failure: function(error) {
 				cwarn('assignItemToAgenda: Ext.Ajax failure',error);
@@ -88,7 +88,7 @@ Ext.define('Clara.Queue.controller.QueueIRBAssign', {
 		    fldAssignAgendaItemDate = me.getAssignAgendaItemDate(),
 		    fldAssignItemReviewer =  me.getAssignItemReviewer(),
 		    fldAssignAgendaItemType =  me.getAssignAgendaItemType(),
-		    queueItem = Clara.Queue.app.getController("QueueItem").selectedQueueItem;
+		    queueItem = Clara.Application.getController("QueueItem").selectedQueueItem;
 
 		if (fldAssignAgendaItemType.validate()){
 			

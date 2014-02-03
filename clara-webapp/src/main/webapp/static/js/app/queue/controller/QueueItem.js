@@ -35,7 +35,7 @@ Ext.define('Clara.Queue.controller.QueueItem', {
         	},
         	'#btnViewStudy':{
         		click:function(){
-        			var queueController = Clara.Queue.app.getController("Queue");
+        			var queueController = Clara.Application.getController("Queue");
         			var url = appContext+"/"+queueController.selectedQueue.get("objectType").toLowerCase()+"s/"+me.selectedQueueItem.get("claraIdentifier")+"/dashboard?formId="+me.selectedQueueItem.get("formId")
     				window.open( url+"&fromQueue="+queueController.selectedQueue.get("identifier"));
         		}
@@ -52,11 +52,13 @@ Ext.define('Clara.Queue.controller.QueueItem', {
 	selectedQueueItem: null,
 
 	onAssignItem: function(){
+		
 		var me = this;
-		var queueController = Clara.Queue.app.getController("Queue");
-		var queueAssignController = Clara.Queue.app.getController("QueueAssign");
+		var queueController = Clara.Application.getController("Queue");
+		var queueAssignController = Clara.Application.getController("QueueAssign");
 		queueAssignController.queueItem = me.selectedQueueItem;
 		queueAssignController.queue = queueController.selectedQueue;
+		clog("QueueItem:onAssignItem",queueAssignController.queueItem);
 		Ext.create('Clara.Queue.view.QueueItemReviewerWindow').show();
 	},
 	
@@ -88,7 +90,7 @@ Ext.define('Clara.Queue.controller.QueueItem', {
 		me.getReviewButton().el.clearListeners();
 		if (reviewAction) {
 			me.getReviewButton().el.on('click', function() {		
-				var queueController = Clara.Queue.app.getController("Queue");
+				var queueController = Clara.Application.getController("Queue");
 				location.href =  appContext + reviewAction.get("url")+"&fromQueue="+queueController.selectedQueue.get("identifier");
 			});
 			me.getReviewButton().setDisabled(false);

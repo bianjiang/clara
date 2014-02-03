@@ -1,6 +1,10 @@
 Ext.define('Clara.Queue.controller.QueueAssign', {
 	extend: 'Ext.app.Controller',
-
+	queueItem: null,
+	queue: null,
+	selectedReviewerType: null,
+	selectedAvailableReviewer: null,
+	selectedAssignedReviewer:null,
 	refs: [{
 			ref: 'queueItemReviewerWindow', selector: 'queueitemreviewerwindow'},{
 			ref: 'availableReviewersPanel', selector:'#gpQueueItemAvailableReviewers'},{
@@ -57,8 +61,8 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
         			me.completeAssignment(function(){
         				win.close();
         				if (me.queue && me.queueItem){	// only do this is on queue page (this also is on the protocol/contract dashboards)
-        					clog("queueController",Clara.Queue.app.getController("Queue"));
-        					Clara.Queue.app.getController("Queue").onQueueSelect(null,Clara.Queue.app.getController("Queue").selectedQueue);	// reload the queue list by reselecting it
+        					clog("queueController",Clara.Application.getController("Queue"));
+        					Clara.Application.getController("Queue").onQueueSelect(null,Clara.Application.getController("Queue").selectedQueue);	// reload the queue list by reselecting it
         				}
         			});
         		}
@@ -69,11 +73,7 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 
 	loadingMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
 	
-	queueItem: null,
-	queue: null,
-	selectedReviewerType: null,
-	selectedAvailableReviewer: null,
-	selectedAssignedReviewer:null,
+
 	
 	onWindowShow: function(w){
 		this.getAvailableReviewersPanel().getStore().removeAll();
@@ -201,8 +201,8 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 	reloadAssignedReviewers: function(){
 		var queueType, committee, roleId, formId;
 		
-		var me = Clara.Application.getController("Clara.Queue.controller.QueueAssign");	// callback changes "this" to window instead of controller, so we must call controller explicitly here
-		clog("reloadAssignedReviewers START",me);
+		var me = Clara.Application.getController("QueueAssign");	// callback changes "this" to window instead of controller, so we must call controller explicitly here
+		clog("reloadAssignedReviewers START",this,me,me.queue,me.queueItem);
 		var assignedStore = me.getAssignedReviewersPanel().getStore();
 		assignedStore.removeAll();
 		
@@ -288,9 +288,10 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 	},
 	
 	getActorStore: function(formQueueItem, formQueueType, triggerWorkflow){
-		var me = this,
-		    actor = (formQueueItem)?formQueueItem.roleId:me.queueItem.get("roleId"),
-		    formTypeId= (formQueueItem)?formQueueItem.formTypeId:me.queueItem.get("formTypeId");
+		clog("getActorStore: this",this," formQueueItem",formQueueItem," this.queueItem",this.queueItem,Clara.Application.QueueAssignController.queueItem);
+		var me = Clara.Application.QueueAssignController,	// WHY doesnt 'this' work here??
+		    actor = (formQueueItem && formQueueItem != null)?formQueueItem.roleId:me.queueItem.get("roleId"),
+		    formTypeId= (formQueueItem && formQueueItem != null)?formQueueItem.formTypeId:me.queueItem.get("formTypeId");
 		
 		clog("getActorStore",actor,formTypeId);
 		var assignmentRules = [{

@@ -16,11 +16,13 @@ Ext.define('Clara.Queue.view.QueueItemReviewerWindow', {
 
 	initComponent: function() {
 		var me = this;
-		clog("Initing window",me);
 		
-		var controller = Clara.Application.getController("Clara.Queue.controller.QueueAssign");
+		
+		var controller = Clara.Application.getController("QueueAssign");
 		var assignedReviewersStore = Ext.data.StoreManager.lookup("Clara.Queue.store.AssignedReviewers");
 		var reviewersStore = Ext.data.StoreManager.lookup("Clara.Queue.store.Reviewers");
+		
+		clog("Initing window",me,"formQueueItem",me.formQueueItem," queueAssign:queueItem",controller.queueItem);
 		
 		me.buttons = [{
 			text:'Save Assignment',

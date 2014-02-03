@@ -71,7 +71,7 @@ Ext.define('Clara.Queue.controller.Queue', {
 	showHistory: false,
 	
 	afterQueueLoad: function(gp,opts){
-		var fromQueue = Clara.Queue.app.fromQueue;
+		var fromQueue = Clara.Application.fromQueue;
 		if (fromQueue != null){
 			gp.getStore().each(function(rec){
 				if (rec.get("identifier") == fromQueue){

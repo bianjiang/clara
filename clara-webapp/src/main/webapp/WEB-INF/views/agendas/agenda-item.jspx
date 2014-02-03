@@ -32,6 +32,7 @@
 	
 	<script type="text/javascript">
 		var agendaReadOnly = ${readOnly};
+				
 		jQuery(document).ready(function() {
 			
 			

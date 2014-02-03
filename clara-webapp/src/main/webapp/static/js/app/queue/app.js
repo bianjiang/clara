@@ -14,8 +14,9 @@ Ext.application({
     enableQuickTips: true,
     launch: function() {
     	Clara.Application = this;
-    	Clara.Queue.app = this;
-    	Clara.Queue.app.fromQueue = (typeof getUrlVars()["fromQueue"] == "undefined")?null:getUrlVars()["fromQueue"];
+    	Clara.Application.QueueAssignController = this.getController("QueueAssign");
+    	
+    	Clara.Application.fromQueue = (typeof getUrlVars()["fromQueue"] == "undefined")?null:getUrlVars()["fromQueue"];
     	Ext.require('Ext.ux.grid.GridPrinter');
     	Ext.tip.QuickTipManager.init();
     	clog("Ext.app launch.");
