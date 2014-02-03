@@ -20,6 +20,40 @@ database.maxPoolSize=100
 
 hibernate.hbm2dd.auto=update
 ```
+__Note__: During the first deployment, you need to change one of the `jpaProperties` under `clara/clara-core/src/main/resources/META-INF/spring/core-datasources-config.xml`, so that hibernate will create the database schema automatically. Uncomment `<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2dd.auto}</prop>`, so that the `entityManagerFactory` bean becomes:
+```xml
+  <bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="defaultPersistenceUnit" />
+		<property name="dataSource" ref="pooledDataSource" />
+		<!-- shouldn't use LTW in for hibernate...
+		<property name="loadTimeWeaver">
+			<bean
+				class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+		</property>
+		-->
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="false" />
+				<property name="generateDdl" value="false" />
+			</bean>
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2dd.auto}</prop>
+				<!-- <prop key="hibernate.generate_statistics">true</prop>
+				 <prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.show_sql">true</prop>-->
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+				<prop key="hibernate.connection.charSet">UTF-8</prop>
+				<prop key="hibernate.transaction.auto_close_session">true</prop>
+				<prop key="hibernate.connection.release_mode">auto</prop>
+			</props>
+		</property>
+	</bean>
+```
+
 
 ##Configure application properties
 The application properties file is located at: clara/clara-webapp/src/main/resources/META-INF/spring/clara/application.clara.properties
@@ -53,7 +87,7 @@ ldap.manager-dn={domainName}
 ldap.manager-password={password}
 ```
 
-##Set up environment variables
+##Set up `JAVA_HOME` and `M2_HOME` environment variables
 ```
 export JAVA_HOME={Java installation directory}
 export PATH=$JAVA_HOME/bin:$PATH
@@ -63,10 +97,11 @@ export M2=$M2_HOME/bin
 export PATH=$M2:$PATH
 ```
 
-Type in ```java -version``` and ```mvn -version``` to check if both are set correctly.  
+Type in ```java -version``` and ```mvn -version``` to check if both are set correctly.
+__Note__: CLARA requires JAVA 1.7
 
 ##Install JDBC driver
-Starting hibernate 4.18, it requires to use a jdbc4 compliant driver, which jtds doesn’t support it.
+Starting with hibernate 4.18, it requires JDK 1.7 and requires to use a jdbc4 compliant driver.
 
 So, we switch the driver to sqljdbc4.jar, and upgraded the connection pool (c3p0) to a jdbc4 compliant version.
 
