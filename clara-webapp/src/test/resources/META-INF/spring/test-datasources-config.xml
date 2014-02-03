@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<!-- JTA example http://cia.svn.sourceforge.net/viewvc/cia/trunk/service.data.impl/src/main/resources/META-INF/ -->
+	<bean id="pooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${database.driverClassName}" />
+		<property name="jdbcUrl" value="${database.url}" />
+		<property name="user" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+		<property name="minPoolSize" value="10" />
+		<property name="maxPoolSize" value="50" />
+		<property name="acquireIncrement" value="5" />
+		<property name="idleConnectionTestPeriod" value="1800" />
+		<property name="preferredTestQuery" value="select 1;" />
+		<property name="maxStatements" value="150" />
+		<property name="maxIdleTime" value="3600" />
+	</bean>
+	<!--
+	<bean id="defaultCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:/ehcache-2.xml" />
+		<property name="shared" value="true"/>
+		<property name="CacheManagerName" value="defaultCacheManager"/>
+	</bean>
+	-->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="pooledDataSource" />
+		<qualifier value="defaultPersistenceUnit"/>
+	</bean>
+
+	<!-- by default use the main transaction manager -->
+	<tx:annotation-driven mode="aspectj" transaction-manager="transactionManager" />
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="defaultPersistenceUnit" />
+		<property name="dataSource" ref="pooledDataSource" />
+		<!-- shouldn't use LTW in for hibernate...
+		<property name="loadTimeWeaver">
+			<bean
+				class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+		</property>
+		-->
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="false" />
+				<property name="generateDdl" value="false" />
+			</bean>
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<!-- <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2dd.auto}</prop> -->
+				<!-- <prop key="hibernate.generate_statistics">true</prop>
+				 <prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.show_sql">true</prop>-->
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+				<prop key="hibernate.connection.charSet">UTF-8</prop>
+			</props>
+		</property>
+	</bean>
+
+</beans>

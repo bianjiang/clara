@@ -1,0 +1,193 @@
+      * REMARKS. LAST COPYBOOK UPDATE 02-02-96 LAST DOC UPDATE 01-31-94
+      *****************************************************************
+      * COPYBOOK ID: KPCDMRC  - CHARGE DESCRIPTION MASTER FILE        *
+      *              COPYRIGHT  1994  HBO & COMPANY  ATLANTA, GEORGIA *
+      *                                                               *
+      * THIS FILE CONTAINS ALL CHARGES AND ASSOCIATED CHARGE DATA.    *
+      * THERE IS A MAXIMUM OF TEN EFFECTIVE DATES FOR EACH CHARGE     *
+      * CODE.                                                         *
+      *****************************************************************
+      *          S O F T W A R E    M A I N T E N A N C E             *
+      *****************************************************************
+      *  SCN/RELEASE   PGR   DESCRIPTION                    EFF DATE  *
+      *                                                               *
+      *  ___________   ___   HEALTHQUEST RELEASE 3.0        01-31-94  *
+      *  3.04800       BR    FED REG UB CODE EXPANSION      09-15-95  *
+      *  3.05059       BR    CPT/1500 FED REG CHANGES       02-02-96  *
+      *  ___________   ___   ____________________________   XX-XX-XX  *
+      *****************************************************************
+
+       01  KPCDMRC.
+           03  CDM-KEY.
+               05  CDM-INST-CD                 PIC  X(01).
+               05  CDM-ENT-CD                  PIC  X(02).
+               05  CDM-CD                      PIC S9(08)     COMP-3.
+           03  CDM-LAST-UPDATE.
+               05  CDM-UPDT-ID                 PIC  X(10).
+               05  CDM-UPDT-INITIALS           PIC  X(03).
+               05  CDM-UPDT-DT                 PIC S9(05)     COMP-3.
+               05  CDM-UPDT-TM                 PIC S9(04)     COMP-3.
+               05  CDM-UPDT-TRAN               PIC  X(04).
+               05  CDM-UPDT-TERM               PIC  X(04).
+           03  CDM-DATA.
+               05  CDM-REC-STATUS              PIC  X(01).
+                   88  CDM-ACTIVE-STATUS            VALUE 'A'.
+                   88  CDM-INACTIVE-STATUS          VALUE 'I'.
+               05  CDM-ICC                     PIC S9(03)     COMP-3.
+               05  CDM-CHG-PRICE-IND           PIC  X(01).
+                   88  CDM-CHG-PRICE-IND-0          VALUE '0'.
+                   88  CDM-CHG-PRICE-IND-1          VALUE '1'.
+                   88  CDM-CHG-PRICE-IND-2          VALUE '2'.
+                   88  CDM-CHG-PRICE-IND-3          VALUE '3'.
+                   88  CDM-CHG-PRICE-IND-4          VALUE '4'.
+               05  CDM-STMT-BILL-DSC           PIC  X(30).
+               05  CDM-CLAIM-DSC               PIC  X(40).
+      * 3.04800 BEGIN *************************************************
+      *        05  CDM-UB82-CD-DFLT            PIC  X(03).
+               05  CDM-UB82-CD-DFLT            PIC  X(04).
+      * 3.04800 END ***************************************************
+               05  CDM-CD-STRUCTURE            PIC  X(01).
+               05  CDM-CHG-DSC-OVERRIDE        PIC  X(01).
+                   88  CDM-CHG-STMT-BILL-DSC        VALUE '0' ' '.
+                   88  CDM-CHG-INPUT-DSC            VALUE '1'.
+                   88  CDM-CHG-STMT-BILL-INPUT-DSC  VALUE '2'.
+      * 3.05059 BEGIN *************************************************
+                   88  CDM-CHG-STMT-BILL-B19        VALUE '3'.
+                   88  CDM-CHG-STMT-BILL-INPUT-B19  VALUE '4'.
+                   88  CDM-CHG-STMT-BILL-INPUT-DSC2 VALUE '5'.
+      * 3.05059 END ***************************************************
+               05  CDM-CONTROL-NUMBER          PIC  X(11).
+               05  CDM-PKG-COMP-ALLOW-IND      PIC  X(01).
+                   88  CDM-PKG-COMP-ALLOW           VALUE '0'.
+                   88  CDM-PKG-COMP-NOT-ALLOW       VALUE '1'.
+               05  CDM-AC-ALLOW-IND            PIC  X(01).
+                   88  CDM-AC-ALLOW                 VALUE '0'.
+                   88  CDM-AC-NOT-ALLOW             VALUE '1'.
+               05  CDM-USER-AREA               PIC  X(20).
+      * 3.04800 BEGIN *************************************************
+      *        05  CDM-MPAC-FILLER             PIC  X(20).
+               05  CDM-MPAC-FILLER             PIC  X(19).
+      * 3.04800 END ***************************************************
+           03  CDM-NBR-DATA.
+               05  CDM-NBR-OF-EFF-DATES        PIC S9(03)     COMP-3.
+               05  CDM-NBR-PKG-COMPONENTS      PIC S9(03)     COMP-3.
+           03  CDM-EFFECTIVE-DATE-DATA OCCURS 0 TO 10 TIMES
+                             DEPENDING ON CDM-NBR-OF-EFF-DATES.
+               05  CDM-EFF-FROM-DT             PIC S9(05)     COMP-3.
+               05  CDM-SPCL-RVW-IND            PIC  X(01).
+               05  CDM-CLAIM-CLS               PIC  X(03).
+               05  CDM-GL-KEY                  PIC S9(03)     COMP-3.
+               05  CDM-REVENUE-SERVICE-DEPT.
+                   07  CDM-DEPT-NBR            PIC  X(02).
+                   07  CDM-SUB-DEPT-NBR        PIC  X(02).
+               05  CDM-DEPT-IND                PIC  X(01).
+               05  CDM-UNIT-COST-GL-KEY        PIC S9(03)     COMP-3.
+               05  CDM-UNIT-COST               PIC S9(09)V99  COMP-3.
+               05  CDM-ZERO-NO-PRINT-IND       PIC  X(01).
+               05  CDM-REL-POINT-VALUE         PIC S9(09)V99  COMP-3.
+               05  CDM-PANEL-CHG-IND           PIC  X(01).
+      * 3.04800 BEGIN *************************************************
+      *        05  CDM-UB82-CD-PART-A          PIC  X(03).
+      *        05  CDM-UB82-CD-PART-B          PIC  X(03).
+      *        05  CDM-UB82-CD-MCAID           PIC  X(03).
+      *        05  CDM-UB82-CD-BC              PIC  X(03).
+      *        05  CDM-UB82-CD-BC-SEC          PIC  X(03).
+      *        05  CDM-UB82-CD-COMM            PIC  X(03).
+      *        05  CDM-UB82-CD-CHAMPUS         PIC  X(03).
+      *        05  CDM-UB82-CD-HMO             PIC  X(03).
+      *        05  CDM-BILL-CD-1               PIC  X(08).
+      *        05  CDM-BILL-CD-2               PIC  X(08).
+      *        05  CDM-BILL-CD-3               PIC  X(08).
+      *        05  CDM-BILL-CD-4               PIC  X(08).
+      *        05  CDM-BILL-CD-5               PIC  X(08).
+      *        05  CDM-BILL-CD-6               PIC  X(08).
+      *        05  CDM-BILL-CD-7               PIC  X(08).
+      *        05  CDM-BILL-CD-8               PIC  X(08).
+               05  CDM-UB82-CD-PART-A          PIC  X(04).
+               05  CDM-UB82-CD-PART-B          PIC  X(04).
+               05  CDM-UB82-CD-MCAID           PIC  X(04).
+               05  CDM-UB82-CD-BC              PIC  X(04).
+               05  CDM-UB82-CD-BC-SEC          PIC  X(04).
+               05  CDM-UB82-CD-COMM            PIC  X(04).
+               05  CDM-UB82-CD-CHAMPUS         PIC  X(04).
+               05  CDM-UB82-CD-HMO             PIC  X(04).
+               05  CDM-BILL-CD-1               PIC  X(09).
+               05  CDM-BILL-CD-2               PIC  X(09).
+               05  CDM-BILL-CD-3               PIC  X(09).
+               05  CDM-BILL-CD-4               PIC  X(09).
+               05  CDM-BILL-CD-5               PIC  X(09).
+               05  CDM-BILL-CD-6               PIC  X(09).
+               05  CDM-BILL-CD-7               PIC  X(09).
+               05  CDM-BILL-CD-8               PIC  X(09).
+      * 3.04800 END ***************************************************
+               05  CDM-INPATIENT-PRICING.
+                   07 CDM-I-PRICE-IND          PIC  X(01).
+                      88  CDM-I-INP                 VALUE 'I'.
+                      88  CDM-I-ER                  VALUE 'E'.
+                      88  CDM-I-OUT                 VALUE 'O'.
+                   07 CDM-I-UNIT-COST-PCT-IND  PIC  X(01).
+                   07 CDM-I-UNIT-COST-PCT      PIC S9(03)V99  COMP-3.
+                   07 CDM-I-BASE-PRICE         PIC S9(09)V99  COMP-3.
+                   07 CDM-I-QTY-TYPE           PIC  X(02).
+                   07 CDM-I-GENERATE-AUTO-CHARGE.
+                       09 CDM-I-AC-ENT-CD      PIC  X(02).
+                       09 CDM-I-AC-CDM-CD      PIC S9(08)     COMP-3.
+                       09 CDM-I-AC-PROV-NBR    PIC S9(05)     COMP-3.
+                   07 CDM-I-PROFCOMP-PHYAGR-INFO.
+                       09 CDM-I-PC-PA-IND      PIC  X(01).
+                       09 CDM-I-CA-IND         PIC  X(01).
+                       09 CDM-I-CA-RATE        PIC S9(09)V99  COMP-3.
+                       09 CDM-I-CA-GL-KEY      PIC S9(03)     COMP-3.
+                       09 CDM-I-CA-REVENUE-DEPT.
+                          11 CDM-I-CA-DEPT-NBR PIC  X(02).
+                          11 CDM-I-CA-SUB-DEPT PIC  X(02).
+               05  CDM-ER-PRICING.
+                   07 CDM-E-PRICE-IND          PIC  X(01).
+                      88  CDM-E-INP                   VALUE 'I'.
+                      88  CDM-E-ER                    VALUE 'E'.
+                      88  CDM-E-OUT                   VALUE 'O'.
+                   07 CDM-E-UNIT-COST-PCT-IND  PIC  X(01).
+                   07 CDM-E-UNIT-COST-PCT      PIC S9(03)V99  COMP-3.
+                   07 CDM-E-BASE-PRICE         PIC S9(09)V99  COMP-3.
+                   07 CDM-E-QTY-TYPE           PIC  X(02).
+                   07 CDM-E-GENERATE-AUTO-CHARGE.
+                      09 CDM-E-AC-ENT-CD       PIC  X(02).
+                      09 CDM-E-AC-CDM-CD       PIC S9(08)     COMP-3.
+                      09 CDM-E-AC-PROV-NBR     PIC S9(05)     COMP-3.
+                   07 CDM-E-PROFCOMP-PHYAGR-INFO.
+                      09 CDM-E-PC-PA-IND       PIC  X(01).
+                      09 CDM-E-CA-IND          PIC  X(01).
+                      09 CDM-E-CA-RATE         PIC S9(09)V99  COMP-3.
+                      09 CDM-E-CA-GL-KEY       PIC S9(03)     COMP-3.
+                      09 CDM-E-CA-REVENUE-DEPT.
+                         11 CDM-E-CA-DEPT-NBR  PIC  X(02).
+                         11 CDM-E-CA-SUB-DEPT  PIC  X(02).
+               05  CDM-OUTPATIENT-PRICING.
+                   07 CDM-O-PRICE-IND          PIC  X(01).
+                      88  CDM-O-INP                 VALUE 'I'.
+                      88  CDM-O-ER                  VALUE 'E'.
+                      88  CDM-O-OUT                 VALUE 'O'.
+                   07 CDM-O-UNIT-COST-PCT-IND  PIC  X(01).
+                   07 CDM-O-UNIT-COST-PCT      PIC S9(03)V99  COMP-3.
+                   07 CDM-O-BASE-PRICE         PIC S9(09)V99  COMP-3.
+                   07 CDM-O-QTY-TYPE           PIC  X(02).
+                   07 CDM-O-GENERATE-AUTO-CHARGE.
+                      09 CDM-O-AC-ENT-CD       PIC  X(02).
+                      09 CDM-O-AC-CDM-CD       PIC S9(08)     COMP-3.
+                      09 CDM-O-AC-PROV-NBR     PIC S9(05)     COMP-3.
+                   07 CDM-O-PROFCOMP-PHYAGR-INFO.
+                      09 CDM-O-PC-PA-IND       PIC  X(01).
+                      09 CDM-O-CA-IND          PIC  X(01).
+                      09 CDM-O-CA-RATE         PIC S9(09)V99  COMP-3.
+                      09 CDM-O-CA-GL-KEY       PIC S9(03)     COMP-3.
+                      09 CDM-O-CA-REVENUE-DEPT.
+                         11 CDM-O-CA-DEPT-NBR  PIC  X(02).
+                         11 CDM-O-CA-SUB-DEPT  PIC  X(02).
+               05  CDM-USER-AREA2              PIC  X(20).
+      * 3.04800 BEGIN *************************************************
+      *        05  CDM-MPAC-FILLER2            PIC  X(20).
+               05  CDM-MPAC-FILLER2            PIC  X(04).
+      * 3.04800 END ***************************************************
+           03  CDM-PACKAGE-COMPONENTS OCCURS 0 TO 31 TIMES
+                        DEPENDING ON CDM-NBR-PKG-COMPONENTS.
+               05  CDM-PKG-COMP-CDM-CD         PIC S9(08)     COMP-3.

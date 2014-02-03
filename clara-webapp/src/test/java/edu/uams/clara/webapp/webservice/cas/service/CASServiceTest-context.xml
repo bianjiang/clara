@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<context:annotation-config />
+
+	<context:property-placeholder location="file:src/main/resources/META-INF/spring/*.properties,file:src/main/resources/META-INF/spring/localdev/*.properties" />
+
+
+	<bean id="sslContext" factory-bean="sslContextFactory"
+		factory-method="newInstance" />
+
+	<!-- SSLContext to be used -->
+	<bean id="sslContextFactory" class="org.apache.mina.filter.ssl.SslContextFactory">
+		<property name="protocol" value="TLS" />
+		<property name="keyManagerFactoryAlgorithm" value="SunX509" />
+		<property name="keyManagerFactoryKeyStore">
+			<ref local="keyStore" />
+		</property>
+		<property name="keyManagerFactoryKeyStorePassword" value="${keystore.password}" />
+		<property name="trustManagerFactoryAlgorithm" value="SunX509" />
+		<property name="trustManagerFactoryKeyStore" ref="trustStore" />
+	</bean>
+
+	<bean id="keyStore" factory-bean="keyStoreFactory" factory-method="newInstance" />
+	<bean id="trustStore" factory-bean="trustStoreFactory"
+		factory-method="newInstance" />
+
+	<bean id="trustStoreFactory" class="org.apache.mina.filter.ssl.KeyStoreFactory">
+		<property name="password" value="${truststore.password}" />
+		<property name="dataUrl" value="${truststore.location}" />
+		<property name="type" value="${truststore.type}" />
+	</bean>
+
+	<!-- The SSL configuration -->
+	<bean id="keyStoreFactory" class="org.apache.mina.filter.ssl.KeyStoreFactory">
+		<property name="password" value="${keystore.password}" />
+		<property name="dataUrl" value="${keystore.location}" />
+		<property name="type" value="${keystore.type}" />
+	</bean>
+
+	<bean id="hostNameVerifier" class="org.apache.http.conn.ssl.StrictHostnameVerifier" />
+
+	<bean id="schemeReg" class="org.apache.http.conn.scheme.SchemeRegistry" />
+
+	<!-- http client setup -->
+	<bean id="plainSocketFactory" class="org.apache.http.conn.scheme.PlainSocketFactory"
+		factory-method="getSocketFactory" />
+	<bean id="scheme-http" class="org.apache.http.conn.scheme.Scheme">
+		<constructor-arg value="http" />
+		<constructor-arg ref="plainSocketFactory" />
+		<constructor-arg type="int" value="80" />
+	</bean>
+
+	<!-- https client setup -->
+	<bean id="sslSocketFactory" class="org.apache.http.conn.ssl.SSLSocketFactory">
+		<constructor-arg ref="sslContext" />
+		<property name="hostnameVerifier" ref="hostNameVerifier" />
+	</bean>
+
+	<bean id="scheme-https" class="org.apache.http.conn.scheme.Scheme">
+		<constructor-arg value="https" />
+		<constructor-arg ref="sslSocketFactory" />
+		<constructor-arg type="int" value="443" />
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<ref local="schemeReg" />
+		</property>
+		<property name="targetMethod" value="register" />
+		<property name="arguments">
+			<list>
+				<ref bean="scheme-http" />
+			</list>
+		</property>
+	</bean>
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<ref local="schemeReg" />
+		</property>
+		<property name="targetMethod" value="register" />
+		<property name="arguments">
+			<list>
+				<ref bean="scheme-https" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="params" class="org.apache.http.params.BasicHttpParams" />
+
+	<bean id="httpClient" class="org.apache.http.impl.client.DefaultHttpClient">
+		<constructor-arg>
+			<bean class="org.apache.http.impl.conn.BasicClientConnectionManager">
+				<!-- <constructor-arg ref="params" />-->
+				<constructor-arg ref="schemeReg" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg ref="params" />
+		<property name="redirectStrategy">
+			<bean class="edu.uams.clara.webapp.webservice.cas.service.CASService.CASRedirectStrategy">
+				<property name="casServiceSeverDomain" value="${cas.service.domain}" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<bean id="casService"
+		class="edu.uams.clara.webapp.webservice.cas.service.impl.CASServiceImpl">
+		<property name="casServerUrl" value="${cas.server.url}" />
+		<property name="ticketValidator">
+			<bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+				<constructor-arg index="0" value="${cas.server.url}" />
+			</bean>
+		</property>
+		<property name="casServiceUrl" value="${cas.service.url}" />
+		<property name="casUsername" value="${cas.username}" />
+		<property name="casPassword" value="${cas.password}" />
+		<property name="casLoginUrl" value="${cas.login.url}" />
+	</bean>
+
+<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<property name="messageConverters">
+			<list>
+
+			<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+               <property name="marshaller" ref="xstreamMarshaller" />
+                <property name="unmarshaller" ref="xstreamMarshaller" />
+
+            </bean>
+            <bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
+            <bean class = "org.springframework.http.converter.StringHttpMessageConverter">
+				<property name = "supportedMediaTypes"
+						value="text/xml;charset=UTF-8">
+				</property>
+			</bean>
+
+
+			</list>
+		</property>
+		  </bean>
+ <bean id="xstreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
+
+
+
+
+
+</beans>

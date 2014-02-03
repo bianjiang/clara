@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reports>
+	<report type="Audit">
+		<fields>
+			<field identifier="protocalTitle" />
+			<field identifier="protocolid" />
+			<field identifier="piname" />
+			<field identifier="staffname" />
+			<field identifier="protocolstatus" />
+			<field identifier="reviewtype" />
+			<field identifier="originalapprovaldate" />
+			<field identifier="recentapprovaldate" />
+			<field identifier="drug" />
+			<field identifier="primaryresponsible" />
+			<field identifier="college" />
+			<!-- <field identifier="protocolformstatus" /> -->
+		</fields>
+		<results>
+			<field identifier="protocolid" alias="protocolId" desc="Study Title" hidden="false" />
+			<field identifier="protocalTitle" alias="protocalTitle" desc="IRB Protocol Number" hidden="false" />
+			<field identifier="piname" alias="piName" desc="PI Name" hidden="false" />
+			<field identifier="protocolstatus" alias="protocolStatus" desc="Protocol Status" hidden="false" />
+			<field identifier="recentapprovaldate" alias="recentApprovalDate" desc="Continuing Review Approval Date" hidden="true" />
+		</results>
+		<queries>
+			<!-- <query type="sub" id="protocolId">SELECT protocol.id FROM protocol WHERE xxx</query> -->
+			<query type="main">
+				SELECT {reportstatment} FROM protocol
+				WHERE retired = 0 AND {conditions}
+			</query>
+			<conditions>
+				<condition involve="{protocalTitle.search-xpath}">{protocalTitle.search-xpath}</condition>
+				<condition involve="{protocolid.search-xpath}">{protocolid.search-xpath}</condition>
+				<condition involve="{piname.search-xpath}">{piname.search-xpath}</condition>
+				<condition involve="{protocolstatus.search-xpath}">id IN (SELECT protocol_id FROM protocol_status WHERE retired = 0 AND {protocolstatus.search-xpath})</condition>
+				<condition involve="{reviewtype.search-xpath}">{reviewtype.search-xpath}</condition>
+				<condition involve="{staffname.search-xpath}">{staffname.search-xpath}</condition>
+				<condition involve="{originalapprovaldate.search-xpath}">{originalapprovaldate.search-xpath}</condition>
+				<condition involve="{recentapprovaldate.search-xpath}">{recentapprovaldate.search-xpath}</condition>
+				<condition involve="{drug.search-xpath}">{drug.search-xpath}</condition>
+				<condition involve="{primaryresponsible.search-xpath}">{primaryresponsible.search-xpath}</condition>
+			</conditions>
+		</queries>
+	</report>
+	<report type="Contract Worklist">
+		<fields>
+			<field identifier="legalreviewer" />
+			<field identifier="contractadminreviewer" />
+		</fields>
+		<queries>
+			<!-- <query type="sub" id="protocolId">SELECT protocol.id FROM protocol WHERE xxx</query> -->
+			<query type="main">
+				SELECT {customreportstatment} FROM contract_form
+				WHERE retired = 0 AND {conditions}
+			</query>
+			<conditions>
+				<condition involve="{legalreviewer.search-xpath}">{legalreviewer.search-xpath}</condition>
+				<condition involve="{contractadminreviewer.search-xpath}">{contractadminreviewer.search-xpath}</condition>
+			</conditions>
+		</queries>
+	</report>
+</reports>
