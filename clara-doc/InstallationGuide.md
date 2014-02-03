@@ -9,7 +9,7 @@ git clone https://github.com/bianjiang/clara.git
 Before we start, make sure Java 1.7, the latest version of Maven and Tomcat 7.X server are installed.
 
 ##Configure database
-The database configure file is located at: clara/clara-webapp/src/main/resources/META-INF/spring/clara/database.claradb.clara.properties
+The database configure file is located at: `clara/clara-webapp/src/main/resources/META-INF/spring/clara/database.claradb.clara.properties`
 ```
 database.username={dbUsername}
 database.password={password}
@@ -56,7 +56,7 @@ __Note__: During the first deployment, you need to change one of the `jpaPropert
 
 
 ##Configure application properties
-The application properties file is located at: clara/clara-webapp/src/main/resources/META-INF/spring/clara/application.clara.properties
+The application properties file is located at: `clara/clara-webapp/src/main/resources/META-INF/spring/clara/application.clara.properties`
 ```
 application.app_name=CLARA
 application.host={hostName}
