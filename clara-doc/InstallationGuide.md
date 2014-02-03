@@ -14,7 +14,7 @@ The database configure file is located at: `clara/clara-webapp/src/main/resource
 database.username={dbUsername}
 database.password={password}
 database.url={dbURL}
-database.driverClassName={dbDriverClassName}
+database.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
 database.minPoolSize=50
 database.maxPoolSize=100
 
