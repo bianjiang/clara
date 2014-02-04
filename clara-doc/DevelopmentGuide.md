@@ -52,7 +52,11 @@ The project is split into two sub-components: `clara-core` and `clara-webapp`. `
 
 ### Database schemas:
 
-* `TODO`: List database tables
+* `dbo.agenda`: Stores agenda realted informations, including agenda_date, irb_roster and meeting_xml_data.
+* `dbo.agenda_item`: Stores agenda item related inforamtions, including agenda_item_category, agenda_id(*mapped to* `dbo.agenda.id`), protocol_form_id(_mapped to_ `dbo.protocol_form.id`) and agenda_item_status.
+* `dbo.agenda_item_reviewer`: Map of irb reviewers to agenda items, including agena_item_id(mapped to `dbo.agenda_item.id`) and irb_reviewer_id(mapped to `dbo.irb_reviewer.id`).
+* `dbo.agenda_roster_memeber`: Map of irb roster memebers to each agenda, including reason(when subistuted by other roster member), agenda_irb_reviewer_status, agenda_id(mapped to `dbo.agenda.id`), alternate_irb_reviewer_id(mapped to `dbo.irb_reviewer.id`) and irb_reviewer_id(mapped to `dbo.irb_reviewer.id`).
+* 
 
 How form works in CALRA?
 =====
