@@ -40,7 +40,15 @@ The project is split into two sub-components: `clara-core` and `clara-webapp`. `
 * __src/main/resources/*__: property files (database connection string configurations, JPA's persistence.xml, application property configurations).
 * __src/main/webapp/*__: Spring configuration files; html views, javascripts, css, etc.
     * __**/WEB-INF/spring/*__: Spring's XML configurations;
-    * `TODO`
+    * __**/WEB-INF/emailtemplate/*__: Apache Velocity Templates for all the emails;
+    * __**/WEB-INF/layouts/*__: Page layouts;
+    * __**/WEB_INF/tags/*__: Custom tags;
+    * __**/WEB_INF/views/*__: Custom Web pages;
+    * __**/static/images/*__: Images, icons and logos;
+    * __**/static/js/*__: JavaScripts;
+    * __**/static/styles/*__: Custom page styles;
+    * __**/static/xml/*__: Static xml files including review checklists, committee list, form summary templates, queque templates, report templates, validation rules, workflow tempates, etc,.
+
 
 ### Database schemas:
 
