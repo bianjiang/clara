@@ -53,9 +53,18 @@ The project is split into two sub-components: `clara-core` and `clara-webapp`. `
 ### Database schemas:
 
 * `dbo.agenda`: Stores agenda realted informations, including agenda_date, irb_roster and meeting_xml_data.
-* `dbo.agenda_item`: Stores agenda item related inforamtions, including agenda_item_category, agenda_id(*mapped to* `dbo.agenda.id`), protocol_form_id(_mapped to_ `dbo.protocol_form.id`) and agenda_item_status.
+* `dbo.agenda_item`: Stores agenda item related inforamtions, including agenda_item_category, agenda_id(mapped to `dbo.agenda.id`), protocol_form_id(mapped to `dbo.protocol_form.id`) and agenda_item_status.
 * `dbo.agenda_item_reviewer`: Map of irb reviewers to agenda items, including agena_item_id(mapped to `dbo.agenda_item.id`) and irb_reviewer_id(mapped to `dbo.irb_reviewer.id`).
 * `dbo.agenda_roster_memeber`: Map of irb roster memebers to each agenda, including reason(when subistuted by other roster member), agenda_irb_reviewer_status, agenda_id(mapped to `dbo.agenda.id`), alternate_irb_reviewer_id(mapped to `dbo.irb_reviewer.id`) and irb_reviewer_id(mapped to `dbo.irb_reviewer.id`).
+* `dbo.agenda_status`: Stores Agenda statuses history, including agenda_status, modified, note, agenda_id(mapped to `dbo.agenda.id`) and user_id(mapped to `dbo.user_account.id`).
+* `dbo.audit`: Stores audit logs such as user login and logout log, budget modification logs, etc, including datetime, event_type, extra_data and message.
+* `dbo.contract`: Stores contract information, including created, meta_data_xml and contract_identifier.
+* `dbo.contract_form`: Stores contract form information, such as New Contract form and Contract Amendment form, including contract_form_type, created, meta_data_xml, contract_id(mapped to `dbo.contract.id`) and parent_id(mapped to `dbo.contract_form.id`).
+* `dbo.contract_form_committee_comment`: Stores comments made by review committees to individual form, including comment_type, committee, modified, text, contract_form_id(mapped to `dbo.contract_form.id`), reply_to_id(mapped to `dbo.contract_form_committee_comment.id`), user_id(mapped to `dbo.user_account.id`), comment_status, in_letter and is_private.
+* `dbo.contract_form_committee_status`: Stores committee review status history, including committee, modified, contract_form_committee_status, contract_form_id(mapped to `dbo.contract_form.id`), note, user_id(mapped to `dbo.user_account.id`) and caused_by_committee.
+* `dbo.contract_form_status`: Stores contract form status history, including modified, contract_form_status, contract_form_id(mapped to `dbo.contract_form.id`), caused_by_committee, and caused_by_user_id(mapped to `dbo.user_account.id`).
+* `dbo.contract_form_xml_data`: Stores answers to questions in each form, including contract_form_xml_data_type, created, xml_data, contract_form_id(mapped to `dbo.contract_form.id`) and parent_id(mapped to `dbo.contract_form_xml_data.id`).
+* `dbo.contract_form_xml_data_document`: Stores documents information attached to individual form, including category, committee, created, title, contract_form_xml_data_id(mapped to `dbo.contract_form_xml_data.id`), parent_id(mapped to `dbo.contract_form_xml_data_document.id`), upload_file_id(mapped to `dbo.upload_file.id`), user_id(mapped to `dbo.user_account.id`), version_id, and status.
 * 
 
 How form works in CALRA?
