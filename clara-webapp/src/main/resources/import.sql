@@ -60,6 +60,7 @@ INSERT INTO [role] ([id], [retired], [concurrent_version], [name], [display_name
 INSERT INTO [role] ([id], [retired], [concurrent_version], [name], [display_name], [role_permission_identifier], [committee], [is_irb_roster]) VALUES (40, 0, 0, 'RESEARCH_COMPLIANCE', 'Research Compliance', 'ROLE_RESEARCH_COMPLIANCE', 'RESEARCH_COMPLIANCE', 0);
 INSERT INTO [role] ([id], [retired], [concurrent_version], [name], [display_name], [role_permission_identifier], [committee], [is_irb_roster]) VALUES (41, 0, 0, 'PBS', 'Patient Business Services', 'ROLE_PBS', 'PBS', 0);
 INSERT INTO [role] ([id], [retired], [concurrent_version], [name], [display_name], [role_permission_identifier], [committee], [is_irb_roster]) VALUES (42, 0, 0, 'BEACON_TEAM', 'Beacon Team', 'ROLE_BEACON_TEAM', 'BEACON_TEAM', 0);
+INSERT INTO [role] ([id], [retired], [concurrent_version], [name], [display_name], [role_permission_identifier], [committee], [is_irb_roster]) VALUES (43, 0, 0, 'WILLOW_TEAM', 'Willow Team', 'ROLE_WILLOW_TEAM', 'WILLOW_TEAM', 0);
 
 
 SET IDENTITY_INSERT [role] OFF

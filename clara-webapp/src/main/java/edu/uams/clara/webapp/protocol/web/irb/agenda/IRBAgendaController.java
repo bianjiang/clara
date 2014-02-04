@@ -264,13 +264,13 @@ public class IRBAgendaController {
 		List<AgendaItem> newSubAndReportedList = Lists.newArrayList();
 		List<AgendaItem> contiRevAndReportedList = Lists.newArrayList();*/
 		List<AgendaItem> minutsList = Lists.newArrayList();
-		
-		String xmlData = null;
-		
-		String metaData = null;
-		
+
+		String xmlData = "";
+
+		String metaData = "";
+
 		XmlHandler xmlHanlder = null;
-		
+
 		try {
 			xmlHanlder = XmlHandlerFactory.newXmlHandler();
 		} catch (Exception e) {
@@ -287,11 +287,11 @@ public class IRBAgendaController {
 			}
 			
 			String reponse = "";
-			
+
 			try {
-				reponse = xmlHanlder.getSingleStringValueByXPath(metaData, "/protocol/summary/irb-determination/recent-motion");
+				reponse = (!metaData.isEmpty())?xmlHanlder.getSingleStringValueByXPath(metaData, "/protocol/summary/irb-determination/recent-motion"):"";
 			} catch (Exception e) {
-				
+
 			}
 
 			if (reponse.equals("Defer with major contingencies")) {
@@ -306,8 +306,8 @@ public class IRBAgendaController {
 						.getProtocolFormType()
 						.compareTo(ProtocolFormType.NEW_SUBMISSION) == 0) {
 					try {
-						String hud = xmlHanlder.getSingleStringValueByXPath(xmlData, "/protocol/study-nature");
-						
+						String hud = (!xmlData.isEmpty())?xmlHanlder.getSingleStringValueByXPath(xmlData, "/protocol/study-nature"):"";
+
 						if (hud.equals("hud-use")) {
 							hudList.add(agendaItems.get(i));
 						} else {
@@ -326,8 +326,8 @@ public class IRBAgendaController {
 						.getProtocolFormType()
 						.compareTo(ProtocolFormType.MODIFICATION) == 0) {
 					try {
-						String audit = xmlHanlder.getSingleStringValueByXPath(xmlData, "/protocol/modification/to-modify-section/is-audit");
-						
+						String audit = (!xmlData.isEmpty())?xmlHanlder.getSingleStringValueByXPath(xmlData, "/protocol/modification/to-modify-section/is-audit"):"";
+
 						if (audit.equals("y")) {
 							auditList.add(agendaItems.get(i));
 						} else {
