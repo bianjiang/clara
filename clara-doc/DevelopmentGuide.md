@@ -51,11 +51,17 @@ The project is split into two sub-components: `clara-core` and `clara-webapp`. `
 
 
 ### Database schemas:
+All tables have id as *primary key*, concurrent_version as *version control number*, and retired as *record retired flag*.
 
-* `dbo.agenda`: Stores agenda realted informations, including agenda_date, irb_roster and meeting_xml_data.
-* `dbo.agenda_item`: Stores agenda item related inforamtions, including agenda_item_category, agenda_id(mapped to `dbo.agenda.id`), protocol_form_id(mapped to `dbo.protocol_form.id`) and agenda_item_status.
-* `dbo.agenda_item_reviewer`: Map of irb reviewers to agenda items, including agena_item_id(mapped to `dbo.agenda_item.id`) and irb_reviewer_id(mapped to `dbo.irb_reviewer.id`).
-* `dbo.agenda_roster_memeber`: Map of irb roster memebers to each agenda, including reason(when subistuted by other roster member), agenda_irb_reviewer_status, agenda_id(mapped to `dbo.agenda.id`), alternate_irb_reviewer_id(mapped to `dbo.irb_reviewer.id`) and irb_reviewer_id(mapped to `dbo.irb_reviewer.id`).
+* `dbo.agenda(agenda_date, irb_roster, meeting_xml_data)`: Stores agenda realted informations.
+* `dbo.agenda_item(agenda_item_category, agenda_id, protocol_form_id, agenda_item_status)`: Stores agenda item related inforamtions.
+	* `agenda_id`: mapped to `dbo.agenda.id`
+	* `protocol_form_id`: mapped to `dbo.protocol_form.id`
+* `dbo.agenda_item_reviewer(agenda_item_id, irb_reviewer_id)`: Map of irb reviewers to agenda items.
+	* `agenda_item_id`: mapped to `dbo.agenda_item.id`
+	* `irb_reviewer_id`: mapped to `dbo.irb_reviewer.id`
+* `dbo.agenda_roster_memeber(reason, agenda_irb_reviewer_status, agenda_id, alternate_irb_reviewer_id, irb_reviewer_id)`: Map of irb roster memebers to each agenda.
+	*
 * `dbo.agenda_status`: Stores Agenda statuses history, including agenda_status, modified, note, agenda_id(mapped to `dbo.agenda.id`) and user_id(mapped to `dbo.user_account.id`).
 * `dbo.audit`: Stores audit logs such as user login and logout log, budget modification logs, etc, including datetime, event_type, extra_data and message.
 * `dbo.contract`: Stores contract information, including created, meta_data_xml and contract_identifier.
@@ -65,7 +71,12 @@ The project is split into two sub-components: `clara-core` and `clara-webapp`. `
 * `dbo.contract_form_status`: Stores contract form status history, including modified, contract_form_status, contract_form_id(mapped to `dbo.contract_form.id`), caused_by_committee, and caused_by_user_id(mapped to `dbo.user_account.id`).
 * `dbo.contract_form_xml_data`: Stores answers to questions in each form, including contract_form_xml_data_type, created, xml_data, contract_form_id(mapped to `dbo.contract_form.id`) and parent_id(mapped to `dbo.contract_form_xml_data.id`).
 * `dbo.contract_form_xml_data_document`: Stores documents information attached to individual form, including category, committee, created, title, contract_form_xml_data_id(mapped to `dbo.contract_form_xml_data.id`), parent_id(mapped to `dbo.contract_form_xml_data_document.id`), upload_file_id(mapped to `dbo.upload_file.id`), user_id(mapped to `dbo.user_account.id`), version_id, and status.
-* 
+* `dbo.contract_status`: Stores contract statuses history, including modified, contract_status, contract_id(mapped to `dbo.contract.id`), caused_by_committee, and caused_by_user_id(mapped to `dbo.user_account.id`).
+* `dbo.email_template`: Stores all email templates informatioin, including identifier, send_to(such as `[{"address":"INDIVIDUAL_{emailAddress}","type":"INDIVIDUAL","desc":"{fullName}"}]`, `[{"address":"GROUP_realGatekeeper","type":"GROUP","desc":"Gatekeeper"}]`), cc, bcc, subject, vm_template(mapped to Velocity templates in `/WEB-INF/emailtemplate/`) and type.
+* `dbo.irb_reviewer`: Stores IRB reviewers' information, including is_affiliated, degree, irb_roster, type, comment, user_id(mapped to `dbo.user_account.id`), is_alternative_member, specialty, is_chair, and is_expedited.
+* `dbo.message_post`: Stores messages posted on the login page, including expired_date, title, message, and message_level.
+* `dbo.mutex_lock`: Stores form and agenda lock information, including object_class, modified, object_id(can be form id and agenda id), and user_id(mapped to `dbo.user_account.id`.
+* )
 
 How form works in CALRA?
 =====
