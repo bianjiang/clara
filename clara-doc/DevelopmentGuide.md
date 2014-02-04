@@ -61,22 +61,47 @@ All tables have id as *primary key*, concurrent_version as *version control numb
 	* `agenda_item_id`: mapped to `dbo.agenda_item.id`
 	* `irb_reviewer_id`: mapped to `dbo.irb_reviewer.id`
 * `dbo.agenda_roster_memeber(reason, agenda_irb_reviewer_status, agenda_id, alternate_irb_reviewer_id, irb_reviewer_id)`: Map of irb roster memebers to each agenda.
-	*
-* `dbo.agenda_status`: Stores Agenda statuses history, including agenda_status, modified, note, agenda_id(mapped to `dbo.agenda.id`) and user_id(mapped to `dbo.user_account.id`).
-* `dbo.audit`: Stores audit logs such as user login and logout log, budget modification logs, etc, including datetime, event_type, extra_data and message.
-* `dbo.contract`: Stores contract information, including created, meta_data_xml and contract_identifier.
-* `dbo.contract_form`: Stores contract form information, such as New Contract form and Contract Amendment form, including contract_form_type, created, meta_data_xml, contract_id(mapped to `dbo.contract.id`) and parent_id(mapped to `dbo.contract_form.id`).
-* `dbo.contract_form_committee_comment`: Stores comments made by review committees to individual form, including comment_type, committee, modified, text, contract_form_id(mapped to `dbo.contract_form.id`), reply_to_id(mapped to `dbo.contract_form_committee_comment.id`), user_id(mapped to `dbo.user_account.id`), comment_status, in_letter and is_private.
-* `dbo.contract_form_committee_status`: Stores committee review status history, including committee, modified, contract_form_committee_status, contract_form_id(mapped to `dbo.contract_form.id`), note, user_id(mapped to `dbo.user_account.id`) and caused_by_committee.
-* `dbo.contract_form_status`: Stores contract form status history, including modified, contract_form_status, contract_form_id(mapped to `dbo.contract_form.id`), caused_by_committee, and caused_by_user_id(mapped to `dbo.user_account.id`).
-* `dbo.contract_form_xml_data`: Stores answers to questions in each form, including contract_form_xml_data_type, created, xml_data, contract_form_id(mapped to `dbo.contract_form.id`) and parent_id(mapped to `dbo.contract_form_xml_data.id`).
-* `dbo.contract_form_xml_data_document`: Stores documents information attached to individual form, including category, committee, created, title, contract_form_xml_data_id(mapped to `dbo.contract_form_xml_data.id`), parent_id(mapped to `dbo.contract_form_xml_data_document.id`), upload_file_id(mapped to `dbo.upload_file.id`), user_id(mapped to `dbo.user_account.id`), version_id, and status.
-* `dbo.contract_status`: Stores contract statuses history, including modified, contract_status, contract_id(mapped to `dbo.contract.id`), caused_by_committee, and caused_by_user_id(mapped to `dbo.user_account.id`).
-* `dbo.email_template`: Stores all email templates informatioin, including identifier, send_to(such as `[{"address":"INDIVIDUAL_{emailAddress}","type":"INDIVIDUAL","desc":"{fullName}"}]`, `[{"address":"GROUP_realGatekeeper","type":"GROUP","desc":"Gatekeeper"}]`), cc, bcc, subject, vm_template(mapped to Velocity templates in `/WEB-INF/emailtemplate/`) and type.
-* `dbo.irb_reviewer`: Stores IRB reviewers' information, including is_affiliated, degree, irb_roster, type, comment, user_id(mapped to `dbo.user_account.id`), is_alternative_member, specialty, is_chair, and is_expedited.
-* `dbo.message_post`: Stores messages posted on the login page, including expired_date, title, message, and message_level.
-* `dbo.mutex_lock`: Stores form and agenda lock information, including object_class, modified, object_id(can be form id and agenda id), and user_id(mapped to `dbo.user_account.id`.
-* )
+	* `agenda_id`: mapped to `dbo.agenda.id`
+	* `alternative_irb_reviewer_id`: mapped to `dbo.irb_reviewer.id`
+	* `irb_reviewer_id`: mapped to `dbo.irb_reviewer.id`
+* `dbo.agenda_status(agenda_status, modified, note, agenda_id, user_id)`: Stores Agenda statuses history.
+	* `agenda_id`: mapped to `dbo.agenda.id`
+	* `user_id`: mapped to `dbo.user_account.id`
+* `dbo.audit(datetime, event_type, extra_data，message)`: Stores audit logs such as user login and logout log, budget modification logs, etc.
+* `dbo.contract(created, meta_data_xml, contract_identifier)`: Stores contract information.
+* `dbo.contract_form(contract_form_type, created, meta_data_xml, contract_id, parent_id)`: Stores contract form information, such as New Contract form and Contract Amendment form.
+	* `contract_id`: mapped to `dbo.contract.id`
+	* `parent_id`: mapped to `dbo.contract_form.id`
+* `dbo.contract_form_committee_comment(comment_type, committee, modified, text, contract_form_id, reply_to_id, user_id, comment_status, in_letter, is_private)`: Stores comments made by review committees to individual form.
+	* `contract_form_id`: mapped to `dbo.contract_form.id`
+	* `reply_to_id`: mapped to `dbo.contract_form_committee_comment.id`
+	* `user_id`: mapped to `dbo.user_account.id`
+* `dbo.contract_form_committee_status(committee, modified, contract_form_committee_status, contract_form_id, note, user_id, caused_by_committee)`: Stores committee review status history.
+	* `contract_form_id`: mapped to `dbo.contract_form.id`
+	* `user_id`: mapped to `dbo.user_account.id`
+* `dbo.contract_form_status(modified, contract_form_status, contract_form_id, caused_by_committee, caused_by_user_id)`: Stores contract form status history.
+	* `contract_form_id`: mapped to `dbo.contract_form.id`
+	* `caused_by_user_id`: mapped to `dbo.user_account.id`
+* `dbo.contract_form_xml_data(contract_form_xml_data_type, created, xml_data, contract_form_id, parent_id)`: Stores answers to questions in each form.
+	* `contract_form_id`: mapped to `dbo.contract_form.id`
+	* `parent_id`: mapped to `dbo.contract_form_xml_data.id`
+* `dbo.contract_form_xml_data_document(category, committee, created, title, contract_form_xml_data_id, parent_id, upload_file_id, user_id, version_id, status)`: Stores documents information attached to individual form.
+	* `contract_form_xml_data_id`: mapped to `dbo.contract_form_xml_data.id`
+	* `parent_id`: mapped to `dbo.contract_form_xml_data_document.id`
+	* `upload_file_id`: mapped to `dbo.upload_file.id`
+	* `user_id`: mapped to `dbo.user_account.id`
+* `dbo.contract_status(modified, contract_status, contract_id, caused_by_committee, caused_by_user_id)`: Stores contract statuses history.
+	* `contract_id`: mapped to `dbo.contract.id`
+	* `caused_by_user_id`: mapped to `dbo.user_account.id`
+* `dbo.email_template(identifier, send_to, cc, bcc, subject, vm_template, type)`: Stores all email templates informatioin.
+	* `send_to`:  JSON string, such as `[{"address":"INDIVIDUAL_{emailAddress}","type":"INDIVIDUAL","desc":"{fullName}"}]`, `[{"address":"GROUP_realGatekeeper","type":"GROUP","desc":"Gatekeeper"}]`
+	* `vm_template`: mapped to Velocity templates in `/WEB-INF/emailtemplate/`
+* `dbo.irb_reviewer(is_affiliated, degree, irb_roster, type, comment, user_id, is_alternative_member, specialty, is_chair, is_expedited)`: Stores IRB reviewers' information.
+	* `user_id`: mapped to `dbo.user_account.id`
+* `dbo.message_post(expired_date, title, message, message_level)`: Stores messages posted on the login page.
+* `dbo.mutex_lock(object_class, modified, object_id, user_id)`: Stores form and agenda lock information.
+	* `user_id`: mapped to `dbo.user_account.id`
+	* `object_class`: Object class name including package names.
 
 How form works in CALRA?
 =====
