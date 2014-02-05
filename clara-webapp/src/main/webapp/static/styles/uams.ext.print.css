@@ -60,3 +60,15 @@ div.queueitem-logs ol li {
 .document-row-info-title{
 	padding-left:24px !important;
 }
+
+/* Comments / Contingencies */
+.review-comment-replies{
+	padding:6px;
+	border:1px dotted #999;
+}
+.review-comment-reply-fullname{
+	font-weight:800;
+}
+.review-comment-reply-fullname:after{
+	content: " replied: ";
+}

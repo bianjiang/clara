@@ -182,10 +182,9 @@ Ext.define('Clara.Review.view.ReviewNotePanel', {
 			        	html += "<div class='review-comment-reply"+idxCls+"'><span class='review-comment-reply-fullname'>"+displayedCommenterName+"</span><span class='review-comment-reply-text'>"+rec.get("text")+"</span>";
 				        html += "<div class='review-comment-reply-timeago'>";
 				        
-				        if ((today.getYear() - new Date(rec.get("modified").format("m/d/Y")).getYear()) > 0)
+
 				        	html += moment(rec.get("modified")).format("M/DD/YYYY, h:ma");
-			            else
-			                html += moment(rec.get("modified")).format("MMM. do, h:ma");
+
 			                
 				        
 				        if (!me.readOnly && !(me.commentActor == "MEETING_OPERATOR") &&
