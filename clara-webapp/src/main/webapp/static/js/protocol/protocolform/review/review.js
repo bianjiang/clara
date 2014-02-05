@@ -199,7 +199,13 @@ function renderFormReviewViewport() {
     viewport = new Ext.Viewport({
         // renderTo: 'protocol-form-review',
         layout: 'border',
-
+        listeners:{
+		afterrender: function(vp){
+			if (claraInstance.user.committee == 'PI'){
+				Ext.Msg.alert('To submit your revision', 'When you are done making revisions, click the <span style="font-weight:800;">"Complete..."</span> button on the bottom-right of this page.');
+			}
+		}
+        },
         items: [{
                 region: 'north',
                 contentEl: 'clara-header',
