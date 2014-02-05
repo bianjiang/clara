@@ -802,12 +802,15 @@ function ajax_link_clicked(url, response, timeoutSecs){
 	var response = (response && response.length > 0)?response:'string'; //default to be string
 	timeoutSecs = timeoutSecs || 120;
 	var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:"Processing..."});
-	loadMask.show();
+
 	jQuery.ajax({url: url,
 		type: "GET",
-		async: false,
+		async: true,
 		timeout: timeoutSecs*1000,
 		data: {},
+		beforeSend: function(){
+			loadMask.show();
+		},
 		success: function(msg){
 			var message = msg;
 			if(response == 'json'){
@@ -820,10 +823,9 @@ function ajax_link_clicked(url, response, timeoutSecs){
 			   msg: message,
 			   buttons: Ext.Msg.OK
 			});
-
+			loadMask.hide();
 		}
 	});
-	loadMask.hide();
 
 }
 
