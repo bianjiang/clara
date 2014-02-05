@@ -16,7 +16,8 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 	},
 	onMotionChosen: function(){
 		var t = this;
-		if (canEditMeeting && !(isIrbOffice && meeting.status == "SENT_TO_CHAIR") && !(isChair && meeting.status == "SENT_TO_CHAIR") && !(isIrbOffice && meeting.status == "SENT_TO_TRANSCRIBER")) Ext.getCmp("btnRemoveMotion").setDisabled(false);
+		clog("Motion Chosen.",Clara.IRBMeeting.CurrentMotionRecord,"Canedit?",canEditMeeting);
+		if (canEditMeeting && !(isIrbOffice && meeting.status == "SENT_TO_CHAIR") && /* !(isChair && meeting.status == "SENT_TO_CHAIR") && */ !(isIrbOffice && meeting.status == "SENT_TO_TRANSCRIBER")) Ext.getCmp("btnRemoveMotion").setDisabled(false);
 	},
 	onMotionsUpdated: function(){
 		var t = this;
@@ -33,7 +34,7 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 		var t = this;
 		if (Clara.IRBMeeting.CurrentAgendaItemRecord.data && Clara.IRBMeeting.CurrentAgendaItemRecord.get("category") == "REPORTED") Ext.getCmp("btnMakeMotion").setDisabled(true);
 		else {
-			if (canEditMeeting && !(isIrbOffice && meeting.status == "SENT_TO_CHAIR") && !(isChair && meeting.status == "SENT_TO_CHAIR") && !(isIrbOffice && meeting.status == "SENT_TO_TRANSCRIBER")) Ext.getCmp("btnMakeMotion").setDisabled(false);
+			if (canEditMeeting && !(isIrbOffice && meeting.status == "SENT_TO_CHAIR") && /* !(isChair && meeting.status == "SENT_TO_CHAIR") && */ !(isIrbOffice && meeting.status == "SENT_TO_TRANSCRIBER")) Ext.getCmp("btnMakeMotion").setDisabled(false);
 		}
 		Ext.getCmp("btnRemoveMotion").setDisabled(true);
 		t.reloadMotionGridPanel();
@@ -172,8 +173,8 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 								var record = grid.getStore().getAt(rowI);
 								clog(record);
 								Clara.IRBMeeting.CurrentMotionRecord = record;
-								Clara.IRBMeeting.MessageBus.fireEvent('motionchosen');  
-								if (canEditMeeting && !(isChair && meeting.status == "SENT_TO_CHAIR") && !(isIrbOffice && meeting.status == "SENT_TO_TRANSCRIBER")) new Clara.IRBMeeting.VoteWindow({editing:true, motionrec:record}).show();
+								Clara.IRBMeeting.MessageBus.fireEvent('motionchosen');
+								if (canEditMeeting /* !(isChair && meeting.status == "SENT_TO_CHAIR") */ && !(isIrbOffice && meeting.status == "SENT_TO_TRANSCRIBER")) new Clara.IRBMeeting.VoteWindow({editing:true, motionrec:record}).show();
 						    }
 						}
 		};

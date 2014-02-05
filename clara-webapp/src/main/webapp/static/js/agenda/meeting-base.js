@@ -1,7 +1,7 @@
 Ext.ns('Clara.IRBMeeting');
 
 var requiredRoles = {
-		editMeeting : [ "ROLE_IRB_OFFICE","ROLE_IRB_MEETING_OPERATOR" ]
+		editMeeting : [ "ROLE_IRB_CHAIR","ROLE_IRB_OFFICE","ROLE_IRB_MEETING_OPERATOR" ]
 	};
 
 Clara.IRBMeeting.quorumMet = false;
