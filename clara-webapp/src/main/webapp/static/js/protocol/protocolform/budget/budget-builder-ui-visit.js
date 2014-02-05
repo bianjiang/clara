@@ -40,8 +40,8 @@ Clara.BudgetBuilder.VisitGridPanel = Ext.extend(Ext.grid.EditorGridPanel,{
 							alert('The day of a visit has to be within the cycle range. Fix the cycle\'s start and end days first!');
 							e.record.reject();
 							return false;
-						}else if (e.record.get("cycleindex") < 1){
-								alert("You cannot start visits on a negative or zero day.");
+						}else if (!isSimple && e.record.get("cycleindex") < 1){
+								alert("You cannot start visits on a negative or zero day on complex phases.");
 								e.record.reject();
 							} else {
 								e.record.commit();
@@ -81,12 +81,12 @@ Clara.BudgetBuilder.VisitGridPanel = Ext.extend(Ext.grid.EditorGridPanel,{
 					        	  width: 60,
 					        	  align:'center',
 					        	  format: '0',
-					        	  editor: {
-					        		  xtype: 'numberfield',
-					        		  allowBlank: false,
-                                      allowNegative:false,
-					        		  allowDecimals:false
-					        	  }
+							  editor: {
+								  xtype: 'numberfield',
+								  allowBlank: false,
+                                      allowNegative:true,
+								  allowDecimals:false
+							  }
 					          }, {
 					        	  xtype: 'numbercolumn',
 					        	  id:'subjectcount',
