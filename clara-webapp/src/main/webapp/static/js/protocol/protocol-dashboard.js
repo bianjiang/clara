@@ -467,34 +467,7 @@ Clara.ProtocolDashboard.FormPanel = Ext.extend(Ext.Panel, {
 });
 Ext.reg('claraprotocolformpanel', Clara.ProtocolDashboard.FormPanel);
 
-function ajax_link_clicked(url, response, timeoutSecs){
-	var response = (response && response.length > 0)?response:'string'; //default to be string
-	timeoutSecs = timeoutSecs || 120;
-	var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:"Processing..."});
-	loadMask.show();
-	jQuery.ajax({url: url,
-		type: "GET",
-		async: false,
-		timeout: timeoutSecs*1000,
-		data: {},
-		success: function(msg){
-			var message = msg;
-			if(response == 'json'){
-				clog(msg);
-				message = (msg.error?"Error: ":"") + msg.message;
-			}
-			
-			Ext.Msg.show({
-			   title:'Response?',
-			   msg: message,
-			   buttons: Ext.Msg.OK
-			});
-	
-		}
-	});	
-	loadMask.hide();
 
-}
 Clara.ProtocolDashboard.FormGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	id: 'clara-protocol-db-formgridpanel',
 	height:350,
