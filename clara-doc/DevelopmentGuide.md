@@ -131,7 +131,36 @@ All tables have id as *primary key*, concurrent_version as *version control numb
 	* `protocol_id`: mapped to `dbo.protocol.id`
 	* `caused_by_user_id`: mapped to `dbo.user_account.id`
 * `dbo.related_object(created, object_id, object_type, related_object_id, related_object_type)`: Stores map of relations between objects, such as related contract to protocol, etc.
-
+* `dbo.report_criteria(report_id, criteria)`: Stores search criterias to individual report.
+	* `report_id`: mapped to `dbo.report_template.id`
+	* `criteria`: JSON String, generated from `/webapp/static/xml/report/fields.xml`
+* `dbo.report_field(report_id, field)`: Stores display fields of individual report.
+	* `report_id`: mapped to `dbo.report_template.id`
+	* `field`: JSON String, such as `{"fieldIdentifier":"protocolstatus","fieldDisplayName":"Protocol Status","defaultDisplay":"true","order":"0","alias":"protocolStatus","value":""}`
+* `dbo.report_template(type_description, description, created, parameters, user_id, status, global_operator, schedule_type)`: Stores report information, such as report name, schedule type, ect.
+	* `user_id`: mapped to `dbo.user_account.id`
+* `dbo.role(display_name, name, role_permission_identifier, committee, department_level, is_irb_roster, condition)`: Stores committee information.
+* `dbo.role_default_permission(role_id, permission)`: Stores default permissions to each role.
+	* `role_id`: mapped to `dbo.role.id`
+* `dbo.search_bookmark(object_class, name, search_criterias, user_id)`: Stores user customized bookmark information.
+	* `user_id`: mapped to `dbo.user_account.id`
+	* `search_criterias`: JSON String, such as `[{"searchField":"PROTOCOL_STATUS","searchOperator":"EQUALS","keyword":"OPEN"}]`
+* `dbo.securable_object(object_class, object_id, object_identification_expression, user_object_id_expression)`: Stores object securable information, which is used to check if the object is accessible or not.
+* `dbo.securable_object_acl(owner_class, owner_id, permission, securable_object_id)`: Stores individule user's access permission to a securable object, which is used to check if the user have "WRITE" AND/OR "READ" permissions.
+	* `owner_id`: mapped to `dbo.user_account.id`
+	* `securable_object_id`: mapped to `dbo.securable_object.id`
+* `dbo.track(modified, type, xml_data, ref_object_class, ref_object_id)`: Stores object change log.
+* `dbo.uploaded_file(content_type, created, ext, filename, identifier, path, size)`: Stores uploaded file information.
+* `dbo.user_account(account_nonexpired, account_nonlocked, credentials_nonexpired, password, user_type, username, person_id, is_trained, profile, cv_file_id, digital_signature_path)`: Stores CLARA user account information.
+	* `person_id`: mapped to `dbo.person.id`
+* `dbo.user_permission(user_id, permission)`: Stores permissions to individual user.
+	* `user_id`: mapped to `dbo.user_account.id`
+* `dbo.user_role(role_id, user_id, college, department, sub_department, irb_roster, is_delegate)`: Stores user's roles information.
+	* `role_id`: mapped to `dbo.role.id`
+	* `user_id`: mapped to `dbo.user_account.id`
+	* `college`: maped to `dbo.college.id`
+	* `department`: mapped to `dbo.department.id`
+	* `sub_department`: mapped to `dbo.sub_department.id`
 
 
 How form works in CALRA?
