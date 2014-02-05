@@ -211,7 +211,7 @@ Ext.define('Clara.Documents.controller.Documents', {
 	
 	
 	downloadDocument: function(doc){
-		var url = fileserverURL + doc.get("path") +doc.get("hashid")+"."+doc.get("extension")+"?n="+encodeURIComponent(doc.get("filename")).replace(/%20/g, "_");
+		var url = fileserverURL + doc.get("path") +doc.get("hashid")+"."+doc.get("extension")+"?n="+encodeURIComponent(doc.get("documentname")).replace(/%20/g, "_");
 		clog("Opening",url,doc);
 		window.open( url, '');
 	},
