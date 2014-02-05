@@ -72,25 +72,25 @@ All tables have id as *primary key*, concurrent_version as *version control numb
 * `dbo.contract_form(contract_form_type, created, meta_data_xml, contract_id, parent_id)`: Stores contract form information, such as New Contract form and Contract Amendment form.
 	* `contract_id`: mapped to `dbo.contract.id`
 	* `parent_id`: mapped to `dbo.contract_form.id`
-* `dbo.contract_form_committee_comment(comment_type, committee, modified, text, contract_form_id, reply_to_id, user_id, comment_status, in_letter, is_private)`: Stores comments made by review committees to individual form.
+* `dbo.contract_form_committee_comment(comment_type, committee, modified, text, contract_form_id, reply_to_id, user_id, comment_status, in_letter, is_private)`: Stores comments made by review committees to individual contract form.
 	* `contract_form_id`: mapped to `dbo.contract_form.id`
 	* `reply_to_id`: mapped to `dbo.contract_form_committee_comment.id`
 	* `user_id`: mapped to `dbo.user_account.id`
-* `dbo.contract_form_committee_status(committee, modified, contract_form_committee_status, contract_form_id, note, user_id, caused_by_committee)`: Stores committee review status history.
+* `dbo.contract_form_committee_status(committee, modified, contract_form_committee_status, contract_form_id, note, user_id, caused_by_committee)`: Stores committee review status change history.
 	* `contract_form_id`: mapped to `dbo.contract_form.id`
 	* `user_id`: mapped to `dbo.user_account.id`
-* `dbo.contract_form_status(modified, contract_form_status, contract_form_id, caused_by_committee, caused_by_user_id)`: Stores contract form status history.
+* `dbo.contract_form_status(modified, contract_form_status, contract_form_id, caused_by_committee, caused_by_user_id)`: Stores contract form status change history.
 	* `contract_form_id`: mapped to `dbo.contract_form.id`
 	* `caused_by_user_id`: mapped to `dbo.user_account.id`
-* `dbo.contract_form_xml_data(contract_form_xml_data_type, created, xml_data, contract_form_id, parent_id)`: Stores answers to questions in each form.
+* `dbo.contract_form_xml_data(contract_form_xml_data_type, created, xml_data, contract_form_id, parent_id)`: Stores answers to questions in each contract form.
 	* `contract_form_id`: mapped to `dbo.contract_form.id`
 	* `parent_id`: mapped to `dbo.contract_form_xml_data.id`
-* `dbo.contract_form_xml_data_document(category, committee, created, title, contract_form_xml_data_id, parent_id, upload_file_id, user_id, version_id, status)`: Stores documents information attached to individual form.
+* `dbo.contract_form_xml_data_document(category, committee, created, title, contract_form_xml_data_id, parent_id, upload_file_id, user_id, version_id, status)`: Stores documents' information attached to individual contract form.
 	* `contract_form_xml_data_id`: mapped to `dbo.contract_form_xml_data.id`
 	* `parent_id`: mapped to `dbo.contract_form_xml_data_document.id`
 	* `upload_file_id`: mapped to `dbo.upload_file.id`
 	* `user_id`: mapped to `dbo.user_account.id`
-* `dbo.contract_status(modified, contract_status, contract_id, caused_by_committee, caused_by_user_id)`: Stores contract statuses history.
+* `dbo.contract_status(modified, contract_status, contract_id, caused_by_committee, caused_by_user_id)`: Stores contract status change history.
 	* `contract_id`: mapped to `dbo.contract.id`
 	* `caused_by_user_id`: mapped to `dbo.user_account.id`
 * `dbo.email_template(identifier, send_to, cc, bcc, subject, vm_template, type)`: Stores all email templates informatioin.
@@ -102,6 +102,37 @@ All tables have id as *primary key*, concurrent_version as *version control numb
 * `dbo.mutex_lock(object_class, modified, object_id, user_id)`: Stores form and agenda lock information.
 	* `user_id`: mapped to `dbo.user_account.id`
 	* `object_class`: Object class name including package names.
+* `dbo.person(department, email, firstname, job_title, lastname, middlename, sap, username, workphone, state, street_address, zip_code, annual_salary)`: Stores user's detailed information, which comes from either LDAP or user input.
+* `dbo.protocol(created, meta_data_xml, protocol_identifier)`: Stores protocol information.
+* `dbo.protocol_form(created, protocol_form_type, parent_id, protocol_id, meta_data_xml)`: Stores protocol forms' information of individual form, such as New Submission form, Continuing Review form, Modification form, etc.
+	* `parent_id`: mapped to `dbo.protocol_form.id`
+	* `protocol_id`: mapped to `dbo.protocol.id`
+* `dbo.protocol_form_committee_comment(comment_type, committee, modified, text, protocol_form_id, reply_to_id, user_id, comment_status, in_letter, is_private)`: Stores comments made by review committees to individual protocol form.
+	* `protocol_form_id`: mapped to `dbo.protocol_form.id`
+	* `reply_to_id`: mapped to `dbo.protocol_form_committee_comment.id`
+	* `user_id`: mapped to `dbo.user_account.id`
+* `dbo.protocol_form_committee_status(committee, modified, protocol_form_committee_status, protocol_form_id, note, caused_by_committee, caused_by_user_id, xml_data, action)`: Stores committee review status change history.
+	* `protocol_form_id`: mapped to `dbo.protocol_form.id`
+	* `caused_by_use_id`: mapped to `dbo.user_account.id`
+* `dbo.protocol_form_status(modified, protocol_form_status, protocol_form_id, note, caused_by_committee, caused_by_user_id)`: Stores protocol form status change history.
+	* `protocol_form_id`: mapped to `dbo.protocol_form.id`
+	* `caused_by_user_id`: mapped to `dbo.user_account.id`
+* `dbo.protocol_form_user_element_template(created, name, template_type, xml_data, user_id)`: Stores user customized templates, such as budget template, staff template, etc.
+	* `user_id`: mapped to `dbo.user_account.id`
+* `dbo.protocol_form_xml_data(created, protocol_form_xml_data_type, xml_data, parent_id, protocol_form_id)`: Stores answers to questions in each protocol form.
+	* `parent_id`: mapped to `dbo.protocol_form_xml_data.id`
+	* `protocol_form_id`: mapped to `dbo.protocol_form.id`
+* `dbo.protocol_form_xml_data_document(category, created, title, parent_id, protocol_form_xml_data_id, uploaded_file_id, user_id, committee, version_id, status)`: Stores documents' information attached to individual protocol form.
+	* `parent_id`: mapped to `dbo.protocol_form_xml_data_document.id`
+	* `protocol_form_xml_data_id`: mapped to `dbo.protocol_form_xml_data.id`
+	* `uploaded_file_id`: mapped to `dbo.upload_file.id`
+	* `user_id`: mapped to `dbo.user_account.id`
+* `dbo.protocol_status(modified, protocol_status, protocol_id, note, caused_by_committee, caused_by_user_id)`: Stores protocol status change history.
+	* `protocol_id`: mapped to `dbo.protocol.id`
+	* `caused_by_user_id`: mapped to `dbo.user_account.id`
+* `dbo.related_object(created, object_id, object_type, related_object_id, related_object_type)`: Stores map of relations between objects, such as related contract to protocol, etc.
+
+
 
 How form works in CALRA?
 =====
