@@ -37,11 +37,11 @@ Clara.BudgetBuilder.VisitGridPanel = Ext.extend(Ext.grid.EditorGridPanel,{
 							
 							if(!(isSimple || visit.parentCycle.simple == true) &&  e.record.get("cycleindex") > visit.parentCycle.endday){
 					    		//Ext.Msg.alert('Error', 'The day of a visit has to be within the cycle range. Fix the cycle\'s start and end days first!');
-					    		alert('The day of a visit has to be within the cycle range. Fix the cycle\'s start and end days first!');
-					    		e.record.reject();
-					    		return false;
-					    	}else if (!isSimple && e.record.get("cycleindex") < 1){
-								alert("You cannot start visits on a negative or zero day on complex phases.");
+							alert('The day of a visit has to be within the cycle range. Fix the cycle\'s start and end days first!');
+							e.record.reject();
+							return false;
+						}else if (e.record.get("cycleindex") < 1){
+								alert("You cannot start visits on a negative or zero day.");
 								e.record.reject();
 							} else {
 								e.record.commit();
