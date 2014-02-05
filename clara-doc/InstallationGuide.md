@@ -54,6 +54,8 @@ __Note__: During the first deployment, you need to change one of the `jpaPropert
 	</bean>
 ```
 
+After all the tables are created in the datbase, run `clara\clara-webapp\src\main\resources\import.sql` to import initial data into specific tables, such as test user account, test person, etc.
+
 
 ##Configure application properties
 The application properties file is located at: `clara/clara-webapp/src/main/resources/META-INF/spring/clara/application.clara.properties`
