@@ -239,7 +239,31 @@ Forms in CLARA, such as New Submission form, Continuing Review form, etc., are s
 		```
 
 	* __Object Meta Data__ is not versioned, and should always following the "One object, one meta data" rule.
-* `TODO`: Explain how difference pieces of codes are glued together (VIEWs, Javascript widgets, Form Controllers)
+
+### Explain how difference pieces of codes are glued together (VIEWs, Javascript widgets, Form Controllers)
+CLARA is build on [Spring Web model-view-controller(MVC) framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html).
+
+* __Views__
+
+	JSP Document(`*.jspx`) is used to present the web page with standard and customized Tags(defined in `*.tagx`), and JavaScripts.
+	* Access data passed from Server
+	`<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />`, `protocolFormXmlData` is an Java object passed from Server to Client.
+	* Use of Customized Tag
+	`<uams:textarea validation="required" instancepath="/protocol/title" value="${studyTitle}" id="title" hasNA="false"/>`
+	* Include JavaScripts
+	Defined in `views.xml`:
+	```xml
+	<definition extends="protocol/protocolform/newsubmission" name="protocol/protocolform/newsubmission/basic-details">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/basic-details.jspx"
+        />
+        <put-list-attribute name="javascripts" inherit="true">
+		<!--<add-attribute value="/static/js/encoder.js" />-->
+		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+
+		<add-attribute value="/static/js/common/wizard.js" />
+		</put-list-attribute>
+    </definition>
+	```
 
 How CLARA's workflow engine works?
 =====
