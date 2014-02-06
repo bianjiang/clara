@@ -307,10 +307,10 @@ Clara.IRBMeeting.AttendanceWindow = Ext.extend(Ext.Window, {
 											rs.load({callback:function(r,o,s){
 												var t = this;
 												t.filterBy(function(record){
-													return (record.status != 'REMOVED');
+													return (record.get("status") != 'REMOVED');
 												});
 												t.sort('lname');
-												
+
 												var at = {};
 												
 												t.each(function(rec){
@@ -337,8 +337,8 @@ Clara.IRBMeeting.AttendanceWindow = Ext.extend(Ext.Window, {
 															})]
 														});
 													}
-													
-													if (at != {}) meeting.attendance.push(at);
+
+													 if (typeof(at.userid) !== 'undefined') meeting.attendance.push(at);
 												});
 												clog("Done populating agenda roster.");
 												Clara.IRBMeeting.MessageBus.fireEvent('meetingchanged',this);
