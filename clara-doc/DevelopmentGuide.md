@@ -202,8 +202,43 @@ Forms in CLARA, such as New Submission form, Continuing Review form, etc., are s
 		```
 	* __Form Xml Data__ is __versioned__.  All the versions of __Form Xml Data__ are stored and group by `dbo.(protocol|contract)_xml_data.parent_id`.
 * Form Meta Data
-	* __Form Meta Data__ is a _lighter version_ of __Form Xml Data__, which contains part of the xml data and some extra information, such as form submit date.
+	* __Form Meta Data__, which is stored in `dbo.(protocol|contract)_form.meta_data_xml`, is a _lighter version_ of __Form Xml Data__, which contains part of the xml data and some extra information, such as form submit date.  The Map for pairing the xml data path to meta data path is defined in `ProtocolMetaDataXmlServiceImpl.java`:
 
+		```java
+		private Map<ProtocolFormXmlDataType, Map<String, String>> protocolFormXPathPairMap = new EnumMap<ProtocolFormXmlDataType, Map<String, String>>(
+				ProtocolFormXmlDataType.class);
+		{
+			//The key is the path in xml data and the value is the path in meta data.
+			Map<String, String> newSubmissionXPathPairs = new HashMap<String, String>();
+			newSubmissionXPathPairs.put("/protocol/title", "/protocol/title");
+			newSubmissionXPathPairs.put("/protocol/study-type",
+					"/protocol/study-type");
+
+			protocolFormXPathPairMap.put(ProtocolFormXmlDataType.PROTOCOL,
+					newSubmissionXPathPairs);
+		}
+		```
+
+	* __Form Meta Data__ is also versioned.  All the verisions of __Form Meta Data__ are stored and group by `dbo.(protocol|contract)_form.parent_id`.
+* Object Meta Data
+	* __Object Meta Data__, which is stored in `dbo.(protocol|contract).meta_data_xml`, contains part of __Form Meta Data__ and object(protocol|contract) level information, such as original approval data/status of a protocol, etc.  The Map for pairing the xml data path to meta data path is defined in `ProtocolMetaDataXmlServiceImpl.java`:
+
+		```java
+		private Map<ProtocolFormXmlDataType, Map<String, String>> xPathPairMap = new EnumMap<ProtocolFormXmlDataType, Map<String, String>>(
+			ProtocolFormXmlDataType.class);
+		{
+			//The key is the path in form meta data and the value is the path in object meta data.
+			Map<String, String> newSubmissionXPathPairs = new HashMap<String, String>();
+			newSubmissionXPathPairs.put("/protocol/title", "/protocol/title");
+			newSubmissionXPathPairs.put("/protocol/study-type",
+					"/protocol/study-type");
+
+			xPathPairMap.put(ProtocolFormXmlDataType.PROTOCOL,
+					newSubmissionXPathPairs);
+		}
+		```
+
+	* __Object Meta Data__ is not versioned, and should always following the "One object, one meta data" rule.
 * `TODO`: Explain how difference pieces of codes are glued together (VIEWs, Javascript widgets, Form Controllers)
 
 How CLARA's workflow engine works?
