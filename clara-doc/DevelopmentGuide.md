@@ -166,7 +166,40 @@ All tables have id as *primary key*, concurrent_version as *version control numb
 How form works in CALRA?
 =====
 
-* `TODO`: Explain how (XML) `forms` are stored, versioned, and organized in database.
+### Explain how (XML) `forms` are stored, versioned, and organized in database.
+
+Forms in CLARA, such as New Submission form, Continuing Review form, etc., are stored in `XML` format in the database.  Forms are orginized by 3 levels, which are form xml data, form meta data and whole object meta data.
+
+* Form Xml Data
+	* __Form Xml Data__, which is stored in `dbo.(protocol|contract)_xml_data.xml_data`, stores the answers to the questions in the form utilizing `XPath`.  FOR example, in New Submission form, there is a question reads "What is the title of this study/HUD request?", the jspx code and xml stored are as following:
+		* `/views/basic-details.jspx`
+
+		```xml
+		<div class="question" id="question-title">
+			<div class="questionIdentifier">Basic-Details-1</div>
+			<div class="questionLabel">
+				<span class="question-label-text">What is the title of this
+					study/HUD request?</span>
+			</div>
+			<div class="questionValue">
+				<x:set var="studyTitle" select="string($protocolInstance/protocol/title/text())" />
+				<uams:textarea validation="required" instancepath="/protocol/title" value="${studyTitle}" id="title" hasNA="false"/>
+			</div>
+			<div style="clear: both;">
+				<!-- // -->
+			</div>
+			<div class="questionHelp">
+				<uams:helpinfo lookupid="study-title" />
+			</div>
+		</div>
+		```
+		* XML stored:
+
+		```xml
+		<protocol>
+			<title>{answer}</title>
+		</protocol>
+		```
 * `TODO`: Explain how difference pieces of codes are glued together (VIEWs, Javascript widgets, Form Controllers)
 
 How CLARA's workflow engine works?
