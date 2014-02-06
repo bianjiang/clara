@@ -57,6 +57,7 @@ import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCom
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
+import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem.AgendaItemStatus;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
@@ -1229,8 +1230,8 @@ public class ReportGenerationTest {
 	@Test
 	public void generateWeeklyBillingProtocolInMeeting()
 			throws XPathExpressionException, SAXException, IOException {
-		String beginTime = "'2014-01-24'";
-		String endTime = "'2014-01-30'";
+		String beginTime = "'2014-01-31'";
+		String endTime = "'2014-02-06'";
 		CSVWriter writer = new CSVWriter(new FileWriter("C:\\Data\\"
 				+ beginTime + "-To-" + endTime + "-IRB-Billing-Report.csv"));
 		String[] Titleentry = { "IRB Number","PI Name","Title","Agenda Date", "Form Type", "Review Type",
@@ -1281,7 +1282,7 @@ public class ReportGenerationTest {
 			String piname = xmlHandler.getSingleStringValueByXPath(protocolxmlData, "/protocol/staffs/staff/user[roles/role/text()=\"Principal Investigator\"]/lastname/text()")+","+
 					xmlHandler.getSingleStringValueByXPath(protocolxmlData, "/protocol/staffs/staff/user[roles/role/text()=\"Principal Investigator\"]/firstname/text()");
 			String title = xmlHandler.getSingleStringValueByXPath(protocolxmlData, "/protocol/title/text()");
-			String agendaDate= DateFormatUtil.formateDateToMDY(agendaDao.getAgendaByProtocolFormId(pfID).getDate());	
+			String agendaDate= DateFormatUtil.formateDateToMDY(agendaDao.getAgendaByProtocolFormIdAndAgendaItemStatus(pfID,AgendaItemStatus.NEW).getDate());
 
 			String responsibleInstitution = xmlHandler
 					.getSingleStringValueByXPath(protocolxmlData,

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.uams.clara.core.dao.AbstractDomainDao;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.AgendaStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.irb.Agenda;
+import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem.AgendaItemStatus;
 import edu.uams.clara.webapp.protocol.domain.irb.enums.IRBRoster;
 
 @Repository
@@ -154,15 +155,17 @@ public class AgendaDao extends AbstractDomainDao<Agenda> {
 		
 		return query.getResultList();
 	}
-	
+
 	@Transactional(readOnly=true)
-	public Agenda getAgendaByProtocolFormId(long protocolFormId){
+	public Agenda getAgendaByProtocolFormIdAndAgendaItemStatus(long protocolFormId,AgendaItemStatus agendaItemStatus){
 		TypedQuery<Agenda> query = getEntityManager()
 		.createQuery(
 				"SELECT a FROM Agenda a" +
-				" WHERE a.retired = a.retired AND a.id = (SELECT ad.agenda.id FROM AgendaItem ad WHERE ad.retired = :retired AND ad.protocolFormId = :protocolFormId)", Agenda.class)
+				" WHERE a.retired = a.retired AND a.id in (SELECT ad.agenda.id FROM AgendaItem ad WHERE ad.retired = :retired AND ad.protocolFormId = :protocolFormId AND ad.agendaItemStatus = :agendaItemStatus)", Agenda.class)
 		.setParameter("retired", Boolean.FALSE).setParameter(
-				"protocolFormId", protocolFormId);
+				"protocolFormId", protocolFormId)
+				.setParameter("agendaItemStatus", agendaItemStatus);
+				;
 		query.setHint("org.hibernate.cacheable", true);
 		query.setFirstResult(0);
 		query.setMaxResults(1);
