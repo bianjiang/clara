@@ -166,7 +166,7 @@ All tables have id as *primary key*, concurrent_version as *version control numb
 How form works in CALRA?
 =====
 
-### Explain how (XML) `forms` are stored, versioned, and organized in database.
+### How (XML) `forms` are stored, versioned, and organized in database?
 
 Forms in CLARA, such as New Submission form, Continuing Review form, etc., are stored in `XML` format in the database.  Forms are orginized by 3 levels, which are form xml data, form meta data and whole object meta data.
 
@@ -240,20 +240,21 @@ Forms in CLARA, such as New Submission form, Continuing Review form, etc., are s
 
 	* __Object Meta Data__ is not versioned, and should always following the "One object, one meta data" rule.
 
-### Explain how difference pieces of codes are glued together (VIEWs, Javascript widgets, Form Controllers)
+### How difference pieces of codes are glued together?
 CLARA is build on [Spring Web model-view-controller(MVC) framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html).
 
-* __Views__
+* __How Views Work?__
 
 	JSP Document(`*.jspx`) is used to present the web page with standard and customized Tags(defined in `*.tagx`), and JavaScripts.
 	* Access data passed from Server
-	`<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />`, `protocolFormXmlData` is an Java object passed from Server to Client.
+	`<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />`, in which `protocolFormXmlData` is an Java object passed from Server to Client.
 	* Use of Customized Tag
-	`<uams:textarea validation="required" instancepath="/protocol/title" value="${studyTitle}" id="title" hasNA="false"/>`
+	`<uams:textarea validation="required" instancepath="/protocol/title" value="${studyTitle}" id="title" hasNA="false"/>`, in which `uams:textarea` is a customized Tag library `textarea.tagx`.
 	* Include JavaScripts
 
 		Defined in `views.xml`:
 		```xml
+		<!-- name attribute is the view name returned from controller -->
 		<definition extends="protocol/protocolform/newsubmission" name="protocol/protocolform/newsubmission/basic-details">
 		        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/basic-details.jspx"
 		        />
@@ -264,6 +265,83 @@ CLARA is build on [Spring Web model-view-controller(MVC) framework](http://docs.
 				<add-attribute value="/static/js/common/wizard.js" />
 				</put-list-attribute>
 		</definition>
+		```
+* __How Controllers Work?__
+
+	Normal Controller and `Ajax` Controller are used in CLARA to produce different output.
+	* Normal Controller
+
+		Normal Controller returns view name along with ModelMap to the Client Side so Client Side knows which web page to bring up.  For exmaple:
+		```java
+		@RequestMapping(value = "/protocols/protocol-forms/{protocolFormUrlName}/create", method = RequestMethod.GET)
+		public String startNewProtocol(
+				@PathVariable("protocolFormUrlName") String protocolFormUrlName,
+				ModelMap modelMap) throws XPathExpressionException, IOException,
+				SAXException {
+			final ProtocolFormXmlData protocolFormXmlData = protocolService
+					.creatNewProtocol(ProtocolFormType
+							.getProtocolFormTypeByUrlCode(protocolFormUrlName));
+
+			Assert.notNull(protocolFormXmlData);
+			Assert.notNull(protocolFormXmlData.getProtocolForm());
+			Assert.notNull(protocolFormXmlData.getProtocolForm().getProtocol());
+
+			//Return view name to the client
+			return "redirect:/protocols/"
+					+ protocolFormXmlData.getProtocolForm().getProtocol().getId()
+					+ "/protocol-forms/"
+					+ protocolFormXmlData.getProtocolForm().getId() + "/"
+					+ protocolFormUrlName + "/protocol-form-xml-datas/"
+					+ protocolFormXmlData.getId() + "/first-page";
+		}
+		```
+	* Ajax Controller
+
+		Ajax Controller returns `XML`/`JSON` to the Client.  For example:
+		```java
+		@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/{protocolFormXmlDataType}/update", method = RequestMethod.POST, produces="application/xml")
+		public @ResponseBody
+		Source updateProtocolFormXmlDataByProtocolFormXmlDataType(
+				@PathVariable("protocolFormId") long protocolFormId,
+				@PathVariable("protocolFormXmlDataType") ProtocolFormXmlDataType protocolFormXmlDataType,
+				@RequestParam("pagefragment") String xmldata) {
+
+			ProtocolForm protocolForm = protocolFormDao.findById(protocolFormId);
+
+			ProtocolFormXmlData protocolFormXmlData = protocolForm
+					.getTypedProtocolFormXmlDatas().get(protocolFormXmlDataType);
+
+			String mergedXmlString = protocolFormXmlData.getXmlData();
+
+			if (StringUtils.hasText(xmldata)) {
+
+				try {
+					mergedXmlString = xmlProcessor.merge(mergedXmlString, xmldata);
+				} catch (SAXException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				protocolFormXmlData.setXmlData(mergedXmlString);
+
+				protocolFormXmlData = protocolFormXmlDataDao
+						.saveOrUpdate(protocolFormXmlData);
+
+				protocolForm = protocolMetaDataXmlService.updateProtocolFormMetaDataXml(protocolFormXmlData, null);
+
+				if (toUpdateProtocolMetaDataFormTypeLst.contains(protocolForm.getProtocolFormType())){
+					protocolMetaDataXmlService
+					.updateProtocolMetaDataXml(protocolForm);
+				}
+
+			}
+
+			return XMLResponseHelper.newSuccessResponseStube(Boolean.TRUE.toString());
+
+		}
 		```
 
 How CLARA's workflow engine works?
