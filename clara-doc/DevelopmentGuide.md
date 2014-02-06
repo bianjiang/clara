@@ -200,6 +200,10 @@ Forms in CLARA, such as New Submission form, Continuing Review form, etc., are s
 			<title>{answer}</title>
 		</protocol>
 		```
+	* __Form Xml Data__ is __versioned__.  All the versions of __Form Xml Data__ are stored and group by `dbo.(protocol|contract)_xml_data.parent_id`.
+* Form Meta Data
+	* __Form Meta Data__ is a _lighter version_ of __Form Xml Data__, which contains part of the xml data and some extra information, such as form submit date.
+
 * `TODO`: Explain how difference pieces of codes are glued together (VIEWs, Javascript widgets, Form Controllers)
 
 How CLARA's workflow engine works?
