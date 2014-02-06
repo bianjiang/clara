@@ -251,19 +251,20 @@ CLARA is build on [Spring Web model-view-controller(MVC) framework](http://docs.
 	* Use of Customized Tag
 	`<uams:textarea validation="required" instancepath="/protocol/title" value="${studyTitle}" id="title" hasNA="false"/>`
 	* Include JavaScripts
-	Defined in `views.xml`:
-	```xml
-	<definition extends="protocol/protocolform/newsubmission" name="protocol/protocolform/newsubmission/basic-details">
-        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/basic-details.jspx"
-        />
-        <put-list-attribute name="javascripts" inherit="true">
-		<!--<add-attribute value="/static/js/encoder.js" />-->
-		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
 
-		<add-attribute value="/static/js/common/wizard.js" />
-		</put-list-attribute>
-    </definition>
-	```
+		Defined in `views.xml`:
+		```xml
+		<definition extends="protocol/protocolform/newsubmission" name="protocol/protocolform/newsubmission/basic-details">
+		        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/basic-details.jspx"
+		        />
+		        <put-list-attribute name="javascripts" inherit="true">
+				<!--<add-attribute value="/static/js/encoder.js" />-->
+				<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+
+				<add-attribute value="/static/js/common/wizard.js" />
+				</put-list-attribute>
+		</definition>
+		```
 
 How CLARA's workflow engine works?
 =====
