@@ -311,9 +311,10 @@ Clara.IRBMeeting.AttendanceWindow = Ext.extend(Ext.Window, {
 												});
 												t.sort('lname');
 
-												var at = {};
-												
+
+
 												t.each(function(rec){
+													var at = {};
 													if (rec.data.status == 'NORMAL' || rec.data.status == 'ADDITIONAL'){
 														at = new Clara.IRBMeeting.Attendance({
 															userid:rec.get("userid"),
