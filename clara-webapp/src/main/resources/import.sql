@@ -1050,50 +1050,6 @@ INSERT INTO [thing] ([retired], [concurrent_version], [type], [value], [descript
 INSERT INTO [thing] ([retired], [concurrent_version], [type], [value], [description], [is_approved]) VALUES (0,0, 'TOXIN', 'Xanthomonas oryzae', 'Xanthomonas oryzae',1);
 INSERT INTO [thing] ([retired], [concurrent_version], [type], [value], [description], [is_approved]) VALUES (0,0, 'TOXIN', 'Xylella fastidiosa (citrus variegated chlorosis strain)', 'Xylella fastidiosa (citrus variegated chlorosis strain)',1);
 
-
---TEST DATA
-SET IDENTITY_INSERT [protocol] ON
-INSERT INTO [protocol] ([id], [retired], [locked], [concurrent_version], [created]) VALUES (1, 0, 0, 0, {fn NOW()});
-SET IDENTITY_INSERT [protocol] OFF
-
-SET IDENTITY_INSERT [protocol_form] ON
-INSERT INTO [protocol_form] ([id], [retired], [locked], [concurrent_version], [created], [protocol_form_type], [parent_id], [protocol_id]) VALUES (1, 0, 0, 0, {fn NOW()}, 'NEW_SUBMISSION', 1, 1);
-SET IDENTITY_INSERT [protocol_form] OFF
-
-SET IDENTITY_INSERT [securable_object] ON
-INSERT INTO [securable_object] ([id], [retired], [concurrent_version], [object_class], [object_id], [object_identification_expresson], [user_object_id_expression]) VALUES (1, 0, 0, 'edu.uams.clara.webapp.protocol.domain.Protocol', 1, NULL, 0);
-SET IDENTITY_INSERT [securable_object] OFF
-
-SET IDENTITY_INSERT [securable_object_acl] ON
-INSERT INTO [securable_object_acl] ([id], [concurrent_version], [retired], [granted_authority], [is_owner_granted_authority], [owner_class], [owner_id], [permission], [securable_object_id]) VALUES (1, 0, 0, NULL, 0, 'edu.uams.clara.webapp.common.domain.usercontext.User', 1, 'WRITE', 1);
-SET IDENTITY_INSERT [securable_object_acl] OFF
-
-SET IDENTITY_INSERT [protocol_form_xml_data] ON
-INSERT INTO [protocol_form_xml_data] ([id], [retired], [locked], [concurrent_version], [created], [protocol_form_xml_data_type], [parent_id], [protocol_form_id], [xml_data]) VALUES (1, 0, 0, 0, {fn NOW()}, 'PROTOCOL', 1, 1, '<protocol id="1"/>');
-SET IDENTITY_INSERT [protocol_form_xml_data] OFF
-
-SET IDENTITY_INSERT [uploaded_file] ON
-INSERT INTO [uploaded_file] ([id], [retired], [concurrent_version], [created], [content_type], [filename], [identifier], [path], [size], [ext]) VALUES (1, 0, 0, {fn NOW()}, 'application/pdf', 'About Stacks.pdf', '37f9b232aac9a2a54ec95b07d674e1f30e1703285e2663364bbc8f1e76155e1a', '/Data/upload', 466028, 'pdf');
-SET IDENTITY_INSERT [uploaded_file] OFF
-
-SET IDENTITY_INSERT [protocol_form_xml_data_document] ON
-INSERT INTO [protocol_form_xml_data_document] ([id], [retired], [concurrent_version], [created], [category], [title], [protocol_form_xml_data_id], [parent_id], [uploaded_file_id], [user_id]) VALUES (1, 0, 0, {fn NOW()}, 'Protocol', 'Protocol', 1, 1, 1, 1);
-INSERT INTO [protocol_form_xml_data_document] ([id], [retired], [concurrent_version], [created], [category], [title], [protocol_form_xml_data_id], [parent_id], [uploaded_file_id], [user_id]) VALUES (2, 0, 0, {fn NOW()}, 'Protocol', 'Protocol', 1, 1, 1, 1);
-INSERT INTO [protocol_form_xml_data_document] ([id], [retired], [concurrent_version], [created], [category], [title], [protocol_form_xml_data_id], [parent_id], [uploaded_file_id], [user_id]) VALUES (3, 0, 0, {fn NOW()}, 'Protocol', 'Protocol', 1, 1, 1, 1);
-
-INSERT INTO [protocol_form_xml_data_document] ([id], [retired], [concurrent_version], [created], [category], [title], [protocol_form_xml_data_id], [parent_id], [uploaded_file_id], [user_id]) VALUES (4, 0, 0, {fn NOW()}, 'Consent', 'Consent', 1, 4, 1, 1);
-INSERT INTO [protocol_form_xml_data_document] ([id], [retired], [concurrent_version], [created], [category], [title], [protocol_form_xml_data_id], [parent_id], [uploaded_file_id], [user_id]) VALUES (5, 0, 0, {fn NOW()}, 'Consent', 'Consent', 1, 4, 1, 1);
-SET IDENTITY_INSERT [protocol_form_xml_data_document] OFF
-
-SET IDENTITY_INSERT [protocol_status] ON
-INSERT INTO [protocol_status] ([id], [retired], [concurrent_version], [modified], [protocol_status], [protocol_id]) VALUES (1, 0, 0, {fn NOW()}, 'DRAFT', 1);
-SET IDENTITY_INSERT [protocol_status] OFF
-
-SET IDENTITY_INSERT [protocol_form_status] ON
-INSERT INTO [protocol_form_status] ([id], [retired], [concurrent_version], [modified], [protocol_form_status], [protocol_form_id]) VALUES (1, 0, 0, {fn NOW()}, 'DRAFT', 1);
-SET IDENTITY_INSERT [protocol_form_status] OFF
-
--- missing nci_identified, etc fields
 SET IDENTITY_INSERT [site] ON
 INSERT INTO [site] ([id], [retired], [concurrent_version], [site_name], [address], [city], [state], [zip], [common], [fwa_number], [fwa_obtained], [has_irb_auth_agreement], [irb_auth_agreement_nature], [nci_identifier], [uams_irb_of_record], [approved]) VALUES (1, 0, 0, 'Test site', 'Test address', 'Little Rock', 'AR', '72202',  1, 'FWA11111111', 1, 1, '', '', 1, 1);
 
