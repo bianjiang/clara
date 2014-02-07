@@ -1,5 +1,11 @@
 package edu.uams.clara.webapp.protocol.scheduler;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -8,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import edu.uams.clara.webapp.common.dao.email.EmailTemplateDao;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
+import edu.uams.clara.webapp.common.domain.email.EmailTemplate;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
@@ -33,13 +41,16 @@ public class SendLettersServiceTest {
 	private UserDao userDao;
 	private ProtocolFormDao protocolFormDao;
 
+	private EntityManager em;
+	private EmailTemplateDao emailTemplateDao;
+
 	//@Test
 	public void testSendLetter() throws Exception {
 		sendBudgetApprovedNotificationForPBService.sendBudgetApprovedNotification(protocolDao.findById(99075));
 
 	}
 
-	@Test
+	//@Test
 	public void sendEmailOfForms() throws Exception {
 		User currentUser = userDao.findById(19);
 		ProtocolForm protocolForm = protocolFormDao.findById(16733);
@@ -54,6 +65,38 @@ public class SendLettersServiceTest {
 
 	}
 
+	@Test
+	public void fixEmailTemplate() {
+		String qryStr = "SELECT [identifier],[subject] ,[vm_template] FROM [clara_dev].[dbo].[email_template]";
+		Query query = em.createNativeQuery(qryStr);
+		List<Object[]> resultsTraining= (List<Object[]>)query.getResultList();
+
+		List<EmailTemplate> emailTemplatePros = emailTemplateDao.findAll();
+		for(int i=0;i<resultsTraining.size();i++){
+			Object[] result = resultsTraining.get(i);
+			String identifier = (String)result[0];
+			String key =  (String)result[1]+ (String)result[2];
+			for(EmailTemplate emailTemplate:emailTemplatePros){
+				String key2 = emailTemplate.getSubject()+emailTemplate.getVmTemplate();
+				if(key2.equals(key)){
+					emailTemplate.setIdentifier(identifier);
+					try{
+					emailTemplateDao.saveOrUpdate(emailTemplate);
+					logger.debug(identifier);
+					break;
+					}catch(Exception e){
+						logger.debug("!!!error:   "+identifier);
+						break;
+					}
+
+				}
+		}
+
+		}
+
+
+
+	}
 
 	public SendExpirationOfApprovalLetterService getSendExpireLetterService() {
 		return sendExpireLetterService;
@@ -137,6 +180,24 @@ public class SendLettersServiceTest {
 	@Autowired(required = true)
 	public void setProtocolFormDao(ProtocolFormDao protocolFormDao) {
 		this.protocolFormDao = protocolFormDao;
+	}
+
+	public EntityManager getEm() {
+		return em;
+	}
+
+	@PersistenceContext(unitName = "defaultPersistenceUnit")
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
+	public EmailTemplateDao getEmailTemplateDao() {
+		return emailTemplateDao;
+	}
+
+	@Autowired(required = true)
+	public void setEmailTemplateDao(EmailTemplateDao emailTemplateDao) {
+		this.emailTemplateDao = emailTemplateDao;
 	}
 
 }

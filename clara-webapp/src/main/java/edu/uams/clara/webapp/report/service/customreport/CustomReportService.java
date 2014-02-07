@@ -13,9 +13,11 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -23,10 +25,12 @@ import org.w3c.dom.NodeList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.jcraft.jsch.Logger;
 
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
+import edu.uams.clara.webapp.common.dao.email.EmailTemplateDao;
+import edu.uams.clara.webapp.common.domain.email.EmailTemplate;
+import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.service.EmailService;
 import edu.uams.clara.webapp.common.service.form.FormService;
 import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
@@ -45,12 +49,20 @@ public abstract class CustomReportService {
 	private FileGenerateAndSaveService fileGenerateAndSaveService;
 	
 	private EmailService emailService;
-	
+
 	private FormService formService;
-	
+
+	private EmailTemplateDao emailTemplateDao;
+
+	private VelocityEngine velocityEngine;
+
+
+	@Value("${application.host}")
+	private String appHost;
+
 	@Value("${reportFieldTemplateXml.url}")
 	private String reportFieldTemplateXml;
-	
+
 	@Value("${reportSearchableFieldsTemplateXml.url}")
 	private String reportXml;
 	
@@ -139,25 +151,43 @@ public abstract class CustomReportService {
 	private List<String> parameterList = Lists.newArrayList();{
 		parameterList.add("/metadata/email");
 	}
-	
-	private void sendEmail(String desc, String email) {
-		String emailText = "<html><head><link href=\"/clara-webapp/static/styles/letters.css\" media=\"screen\" type=\"text/css\" rel=\"stylesheet\"/></head><body>";
-		emailText += "<div class=\"email-template\">";
-		emailText += "<br/>Following report is ready in CLARA:<br/><br/><br/><strong>Report Type:</strong>  "
-				+ desc
-				+ "<br/><br/><strong>Date:</strong>  "
-				+ (new Date()).toString()
-				+ "<br/><br/>";
-		emailText += "</div></body></html>";
 
-		List<String> mailTo = Lists.newArrayList();
-		mailTo.add(email);
+	private EmailTemplate loadReportCompleteEmailTemplate(
+			String identifier,
+			Map<String, Object> model
+			){
 
-		String subject = "CLARA Report Completed";
+		EmailTemplate emailTemplate = emailTemplateDao
+				.findByIdentifier(identifier);
 
-		emailService.sendEmail(emailText, mailTo, null, subject, null);
+		final String templateContent = VelocityEngineUtils
+				.mergeTemplateIntoString(velocityEngine,
+						emailTemplate.getVmTemplate(), model);
+
+		emailTemplate.setTemplateContent(templateContent);
+
+		return emailTemplate;
 	}
-	
+
+	private void sendEmail(String desc, String email,long resultId, User currentUser) {
+		Map<String,Object> emailModel = Maps.newHashMap();
+		emailModel.put("reportType", desc);
+		emailModel.put("reportGeneratedTime", (new Date()).toString());
+		emailModel.put("reportlink", "\""+appHost+"/clara-webapp/reports/results/"+resultId+"/view\"");
+
+		EmailTemplate emailTemplate = loadReportCompleteEmailTemplate("REPORT_COMPLETED_NOTIFICATION",emailModel);
+		List<String> mailTo = Lists.newArrayList();
+		List<String> ccLst = Lists.newArrayList();
+		if(!email.isEmpty()){
+		mailTo.add(email);
+		}
+		if(!mailTo.contains(currentUser.getPerson().getEmail())){
+			mailTo.add(currentUser.getPerson().getEmail());
+		}
+
+		emailService.sendEmail(emailTemplate.getTemplateContent(), mailTo, ccLst, emailTemplate.getSubject(), null);
+	}
+
 	public void uploadResultToFileServer(ReportTemplate reportTemplate) throws IOException {
 		String report = this.generateReportResult(reportTemplate);
 		int tryUploadTime =3;
@@ -179,15 +209,13 @@ public abstract class CustomReportService {
 		reportResult.setUploadedFile(uploadedFile);
 		
 		getReportResultDao().saveOrUpdate(reportResult);
-		
+
 		String email = formService.getSafeStringValueByKey(formService.getValuesFromXmlString(reportTemplate.getParameters(), parameterList), "/metadata/email", "");
-		
-		if (!email.isEmpty()) {
-			this.sendEmail(reportTemplate.getDescription(), email);
-		}
-		
+
+		this.sendEmail(reportTemplate.getDescription(), email,reportResult.getId(),reportTemplate.getUser());
+
 	}
-	
+
 	public String generateReportStatement(ReportTemplate reportTemplate,List<String> resultsFiledsForDisplay) {
 		String reportStatement = "";
 		
@@ -392,6 +420,32 @@ public abstract class CustomReportService {
 	@Autowired(required = true)
 	public void setFormService(FormService formService) {
 		this.formService = formService;
+	}
+
+	public EmailTemplateDao getEmailTemplateDao() {
+		return emailTemplateDao;
+	}
+
+	@Autowired(required=true)
+	public void setEmailTemplateDao(EmailTemplateDao emailTemplateDao) {
+		this.emailTemplateDao = emailTemplateDao;
+	}
+
+	public VelocityEngine getVelocityEngine() {
+		return velocityEngine;
+	}
+
+	@Autowired(required=true)
+	public void setVelocityEngine(VelocityEngine velocityEngine) {
+		this.velocityEngine = velocityEngine;
+	}
+
+	public String getAppHost() {
+		return appHost;
+	}
+
+	public void setAppHost(String appHost) {
+		this.appHost = appHost;
 	}
 
 }
