@@ -344,6 +344,59 @@ CLARA is build on [Spring Web model-view-controller(MVC) framework](http://docs.
 		}
 		```
 
+* __How Models Work?__
+
+	Controller returns View name to the Client Side along with `ModelMap`, which might contain a `Java Object`, `XML`, etc.  In the following example, Server put `protocolFormXmlData` object in the `ModelMap` and Client use it as a `JSP` request attribute.
+
+	__`PrtocolFormController.java`__
+	```java
+	@RequestMapping(value = "/protocols/{protocolId}/protocol-forms/{protocolFormId}/{protocolFormUrlName}/protocol-form-xml-datas/{formXmlDataId}/{page}", method = RequestMethod.GET)
+	public String getPageByViewName(
+			@RequestParam(value = "noheader", required = false) Boolean noheader,
+			@RequestParam(value = "committee", required = false) Committee committee,
+			@PathVariable("protocolId") long protocolId,
+			@PathVariable("protocolFormId") long protocolFormId,
+			@PathVariable("formXmlDataId") long formXmlDataId,
+			@PathVariable("page") String page,
+			@PathVariable("protocolFormUrlName") String protocolFormUrlName,
+			ModelMap modelMap) {
+
+		ProtocolFormXmlData protocolXmlData = protocolFormXmlDataDao
+				.findById(formXmlDataId);
+
+		modelMap.put("protocolFormXmlData", protocolXmlData);
+		modelMap.put("committee", committee);
+		modelMap.put("protocolId", protocolXmlData.getProtocolForm()
+				.getProtocol().getId());
+		modelMap.put("user", (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal());
+
+		if (page.equals("epic")){
+			String epicDescription = protocolService.populateEpicDesc(protocolXmlData.getXmlData());
+
+			modelMap.put("epicDescription", epicDescription);
+		}
+
+		if (noheader == null) {
+			noheader = Boolean.FALSE;
+		}
+
+		modelMap.put("noheader", noheader);
+
+		if (noheader) {
+			page += "-noheader";
+		}
+
+		return "protocol/protocolform/" + protocolFormUrlName.replace("-", "")
+				+ "/" + page;
+	}
+	```
+
+	__`first-page.jspx`__
+	```xml
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="protocolInstance" />
+	```
+
 How CLARA's workflow engine works?
 =====
 
