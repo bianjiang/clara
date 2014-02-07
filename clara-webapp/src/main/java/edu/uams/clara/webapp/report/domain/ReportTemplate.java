@@ -15,13 +15,23 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Where;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.w3c.dom.Element;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Lists;
 
 import edu.uams.clara.core.domain.AbstractDomainEntity;
+import edu.uams.clara.core.util.xml.XmlHandler;
+import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
+import edu.uams.clara.webapp.common.objectwrapper.email.EmailRecipient;
+import edu.uams.clara.webapp.common.objectwrapper.email.EmailRecipient.RecipientType;
 
 @Entity
 @Table(name = "report_template")
@@ -92,6 +102,33 @@ public class ReportTemplate extends AbstractDomainEntity {
 	@OneToMany(mappedBy="reportTemplate", fetch=FetchType.EAGER)
 	@Where(clause="retired = 0")
 	private List<ReportCriteria> reportCriterias;
+
+	@Transient
+	@JsonProperty("recipients")
+	public List<EmailRecipient> getRecipients(){
+		if(this.parameters == null){
+			return null;
+		}
+		List<EmailRecipient> result = Lists.newArrayList();
+		try{
+		XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+		List<Element> emailEles = xmlHandler.listElementsByXPath(this.parameters, "/metadata/emails/email");
+		System.out.println(this.parameters+this.getCreated());
+		for(Element emailEle :emailEles){
+
+			EmailRecipient emailRecipient = new EmailRecipient();
+			emailRecipient.setAddress(emailEle.getTextContent());
+			emailRecipient.setDesc(emailEle.getAttribute("desc"));
+			emailRecipient.setType(RecipientType.valueOf(emailEle.getAttribute("type")));
+			result.add(emailRecipient);
+		}
+		}catch(Exception e){
+			//do nothing
+		}
+
+		return result;
+	}
+
 
 	public String getTypeDescription() {
 		return typeDescription;
@@ -164,4 +201,5 @@ public class ReportTemplate extends AbstractDomainEntity {
 	public void setScheduleType(ScheduleType scheduleType) {
 		this.scheduleType = scheduleType;
 	}
+
 }

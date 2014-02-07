@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.annotation.Resource;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
@@ -169,7 +170,7 @@ public abstract class CustomReportService {
 		return emailTemplate;
 	}
 
-	private void sendEmail(String desc, String email,long resultId, User currentUser) {
+	private void sendEmail(String desc, List<String> emails,long resultId, User currentUser) {
 		Map<String,Object> emailModel = Maps.newHashMap();
 		emailModel.put("reportType", desc);
 		emailModel.put("reportGeneratedTime", (new Date()).toString());
@@ -178,8 +179,8 @@ public abstract class CustomReportService {
 		EmailTemplate emailTemplate = loadReportCompleteEmailTemplate("REPORT_COMPLETED_NOTIFICATION",emailModel);
 		List<String> mailTo = Lists.newArrayList();
 		List<String> ccLst = Lists.newArrayList();
-		if(!email.isEmpty()){
-		mailTo.add(email);
+		if(emails.size()>0){
+		mailTo.addAll(emails);
 		}
 		if(!mailTo.contains(currentUser.getPerson().getEmail())){
 			mailTo.add(currentUser.getPerson().getEmail());
@@ -207,12 +208,20 @@ public abstract class CustomReportService {
 		reportResult.setCreated(new Date());
 		reportResult.setReportTemplate(reportTemplate);
 		reportResult.setUploadedFile(uploadedFile);
-		
+
 		getReportResultDao().saveOrUpdate(reportResult);
 
-		String email = formService.getSafeStringValueByKey(formService.getValuesFromXmlString(reportTemplate.getParameters(), parameterList), "/metadata/email", "");
+		try {
+			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+			Set<String> emailPath = Sets.newHashSet();
+			emailPath.add("/metadata/emails/email");
+			Map<String, List<String>> emailsMap= xmlHandler.getStringValuesByXPaths(reportTemplate.getParameters(), emailPath);
+			List<String> emails = emailsMap.get("/metadata/emails/email");
+			this.sendEmail(reportTemplate.getDescription(), emails,reportResult.getId(),reportTemplate.getUser());
+		} catch (Exception e) {
 
-		this.sendEmail(reportTemplate.getDescription(), email,reportResult.getId(),reportTemplate.getUser());
+		}
+
 
 	}
 
