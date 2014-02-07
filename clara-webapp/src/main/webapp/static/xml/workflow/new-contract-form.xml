@@ -937,6 +937,10 @@
 								<desc>Outside IRB</desc>
 							</decision>
 							<decision>
+								<value>WITHDRAW_FINAL_LEGAL_APPROVAL</value>
+								<desc>Withdraw Final Legal Approval</desc>
+							</decision>
+							<decision>
 								<value>PENDING_SIGNATURE</value>
 								<desc>Pending Signature</desc>
 							</decision>
@@ -1035,6 +1039,25 @@
 								<logs>
 									<log log-type="ACTION" event-type="CONTRACT_OUTSIDE_IRB" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Contract is pending external IRB approval.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
 								</logs>
+							</action>
+							<action type="WITHDRAW_FINAL_LEGAL_APPROVAL" condition="">
+								<change-status>
+									<status status="UNDER_LEGAL_REVIEW" />
+									<form-status status="UNDER_LEGAL_REVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="CONTRACT_LEGAL_REVIEW" status="IN_REVIEW" />
+										<form-committee-status
+											involved-committee="CONTRACT_ADMIN" status="COMPLETED" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="Withdraw Approval By Legal" doc-type="Withdraw Approval By Legal" email-template-identifier="NEW_CONTRACT_WITHDRAW_APPROVAL_BY_LEGAL">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="NEW_CONTRACT_WITHDRAW_APPROVAL_BY_LEGAL" event-type="LEGAL_WITHDRAW_APPROVAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Final Legal Approval of the Contract has been withdrawn by the Legal.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
+								</notifications>
 							</action>
 							<action type="PENDING_SIGNATURE" condition="" store-meta-data="True">
 								<change-status>
