@@ -329,6 +329,7 @@ Clara.BudgetBuilder.Budget = function(o){
 						if (this.epochs[i].arms[j].id == a.id){
 							this.epochs[i].arms[j].index = a.index;
 							this.epochs[i].arms[j].name = a.name;	
+							this.epochs[i].arms[j].notes = a.notes;
 							Clara.BudgetBuilder.MessageBus.fireEvent('armupdated', a);
 							return true;
 						}
@@ -990,6 +991,7 @@ Clara.BudgetBuilder.Budget = function(o){
 						expensecategory:	Encoder.htmlDecode(jQuery(this).attr('expensecategory')),
 						category:			Encoder.htmlDecode(jQuery(this).attr('category')),
 						conditional:		(jQuery(this).attr('conditional') == 'true')?true:false,
+						alternative:		(jQuery(this).attr('alternative') == 'true')?true:false,
 						cptCode:			jQuery(this).attr('cptcode'),
 						cdmCode:			parseFloat(jQuery(this).attr('cdmcode')),
 						location:			Encoder.htmlDecode(jQuery(this).attr('location')),
@@ -1009,6 +1011,7 @@ Clara.BudgetBuilder.Budget = function(o){
 							locationDesc:	Encoder.htmlDecode(jQuery(this).find('hosp').attr('locationdesc'))
 						},
 						notes:				Encoder.htmlDecode(jQuery(this).find('notes:first').text()),
+						clinicalNotes:		Encoder.htmlDecode(jQuery(this).find('clinical-notes:first').text()),
 						cost:				{
 							misc:			(""+jQuery(this).find('cost:first').find('misc').text()).toString(),
 							sponsor:		(""+jQuery(this).find('cost:first').find('sponsor').text()).toString(),
@@ -1048,6 +1051,7 @@ Clara.BudgetBuilder.Budget = function(o){
 							cptCode:			jQuery(this).attr('cptcode'),
 							cdmCode:			parseFloat(jQuery(this).attr('cdmcode')),
 							conditional:		(jQuery(this).attr('conditional') == 'true')?true:false,
+							alternative:		(jQuery(this).attr('alternative') == 'true')?true:false,		
 							location:			Encoder.htmlDecode(jQuery(this).attr('location')),
 							phys: {
 								id:				Encoder.htmlDecode(jQuery(this).find('phys').attr('id')),
@@ -1064,7 +1068,8 @@ Clara.BudgetBuilder.Budget = function(o){
 								locationCode:	jQuery(this).find('hosp').attr('locationcode'),
 								locationDesc:	Encoder.htmlDecode(jQuery(this).find('hosp').attr('locationdesc'))
 							},
-							notes:				Encoder.htmlDecode(jQuery(this).find('notes').text()),
+							notes:				Encoder.htmlDecode(jQuery(this).find('notes:first').text()),
+							clinicalNotes:		Encoder.htmlDecode(jQuery(this).find('clinical-notes:first').text()),
 							cost:				{
 								misc:			(""+jQuery(this).find('cost').find('misc').text()).toString(),
 								sponsor:		(""+jQuery(this).find('cost').find('sponsor').text()).toString(),
@@ -1077,7 +1082,7 @@ Clara.BudgetBuilder.Budget = function(o){
 						jQuery(this).find('codes:first').find('code').each(function(){
 							var sc = new Clara.BudgetBuilder.ProcedureCode({
 								id:					parseFloat(jQuery(this).attr('id')),
-								diff:		jQuery(this).attr('diff'),
+								diff:				jQuery(this).attr('diff'),
 								type:				jQuery(this).attr('type'),
 								description:		Encoder.htmlDecode(jQuery(this).attr('description'))
 							});
@@ -1112,7 +1117,7 @@ Clara.BudgetBuilder.Budget = function(o){
 						name:		Encoder.htmlDecode(jQuery(this).attr('name')),
 						index:		parseFloat(jQuery(this).attr('index')),
 						hidden:			(jQuery(this).attr('hidden') == 'true')?true:false,
-						notes:		Encoder.htmlDecode(jQuery(this).find('notes').text())
+						notes:		Encoder.htmlDecode(jQuery(this).find('notes:first').text())
 					}); 
 					
 					maxid = (maxid < arm.id)?arm.id:maxid;
@@ -1334,7 +1339,9 @@ Clara.BudgetBuilder.Procedure = function(o){
 		this.description=		(o.description || '');
 		this.expensecategory=	(o.expensecategory || '');
 		this.notes=				(o.notes || '');
+		this.clinicalNotes=		(o.clinicalNotes || '');
 		this.conditional=		(o.conditional || false);
+		this.alternative=		(o.alternative || false);
 		this.cptCode=			(o.cptCode || 0);
 		this.cdmCode=			(o.cdmCode || 0);
 		this.location=			(o.location || '');
@@ -1438,7 +1445,9 @@ Clara.BudgetBuilder.Procedure = function(o){
 				cptCode:b.cptCode,
 				cdmCode:b.cdmCode,
 				notes:b.notes,
+				clinicalNotes:b.clinicalNotes,
 				conditional:b.conditional,
+				alternative:b.alternative,
 				category:b.category,
 				codes:b.copyCodes(),
 				location:b.location,
@@ -1568,9 +1577,10 @@ Clara.BudgetBuilder.Procedure = function(o){
 			proc2.cptCode = proc1.cptCode;
 			proc2.cdmCode = proc1.cdmCode;
 			proc2.notes = proc1.notes;
+			proc2.clinicalNotes = proc1.clinicalNotes;
 			proc2.conditional = proc1.conditional;
-			//proc2.snomedCode = proc1.snomedCode;
-			//proc2.softCode = proc1.softCode;
+			proc2.alternative = proc1.alternative;
+
 			proc2.category = proc1.category;
 			proc2.codes = proc1.copyCodes();
 			proc2.hosp.only = proc1.hosp.only;
@@ -1598,7 +1608,9 @@ Clara.BudgetBuilder.Procedure = function(o){
 			//proc1.snomedCode = tproc.snomedCode;
 			//proc1.softCode = tproc.softCode;
 			proc1.conditional = proc2.conditional;
+			proc1.alternative = proc2.alternative;
 			proc1.notes = proc2.notes;
+			proc1.clinicalNotes = proc2.clinicalNotes;
 			proc1.category = tproc.category;
 			proc1.codes = tproc.copyCodes();
 			proc1.hosp.only = tproc.hosp.only;
@@ -1677,10 +1689,11 @@ Clara.BudgetBuilder.Procedure = function(o){
 
 		
 		this.toXML= function(){
-			var xml = "<procedure id='"+this.id+"' conditional='"+this.conditional+"' type='"+this.type+"' expensecategory='"+this.expensecategory+"' description='"+Encoder.htmlEncode(this.description)+"' cptcode='"+this.cptCode+"' cdmcode='"+this.cdmCode+"' category='"+Encoder.htmlEncode(this.category)+"' location='"+Encoder.htmlEncode(this.location)+"'>";
+			var xml = "<procedure id='"+this.id+"' alternative='"+this.alternative+"' conditional='"+this.conditional+"' type='"+this.type+"' expensecategory='"+this.expensecategory+"' description='"+Encoder.htmlEncode(this.description)+"' cptcode='"+this.cptCode+"' cdmcode='"+this.cdmCode+"' category='"+Encoder.htmlEncode(this.category)+"' location='"+Encoder.htmlEncode(this.location)+"'>";
 			xml=xml+"<hosp id='"+this.hosp.id+"' cost='"+this.hosp.cost+"' only='"+this.hosp.only+"' locationcode='"+this.hosp.locationCode+"' locationdesc='"+Encoder.htmlEncode(this.hosp.locationDesc)+"' description='"+Encoder.htmlEncode(this.hosp.description)+"'/>";
 			xml=xml+"<phys id='"+this.phys.id+"' cost='"+this.phys.cost+"' only='"+this.phys.only+"' locationcode='"+this.phys.locationCode+"' locationdesc='"+Encoder.htmlEncode(this.phys.locationDesc)+"'/>";
 			xml=xml+"<notes>"+Encoder.htmlEncode(this.notes)+"</notes>";
+			xml += "<clinical-notes>"+Encoder.htmlEncode(this.clinicalNotes)+"</clinical-notes>";
 			xml=xml+"<cost><misc>"+this.cost.misc+"</misc><sponsor>"+this.cost.sponsor+"</sponsor><price>"+this.cost.price+"</price><residual>"+this.cost.getResidual()+"</residual></cost>";
 			if (this.codes.length > 0){
 				xml = xml + "<codes>";
@@ -2464,6 +2477,23 @@ Clara.BudgetBuilder.Epoch = function(o){
 			});
 		};
 		
+		this.canMakeComplex= function(){
+			var t = this;
+			if (!t.simple) return false;	// it's already complex
+			else {
+				// Check for negative-day visit
+				for (var i=0,l=t.arms.length;i<l;i++){
+					for (var j=0,m=t.arms[i].cycles.length;j<m;j++){
+						for (var k=0,n=t.arms[j].cycles[k].visits.length;k<n;k++){
+							var v = t.arms[i].cycles[j].visits[k];
+							if (v.unitvalue < 0) return false;
+						}
+					}
+				}
+				return true;
+			}
+		};
+		
 		this.makeComplex= function(){
 			var t = this;
 			t.simple = false;
@@ -2591,7 +2621,7 @@ Clara.BudgetBuilder.Epoch = function(o){
 			var a = [];
 			var al = this.arms.length;
 			for (var i=0; i<al;i++){
-				a.push([this.arms[i].id, this.arms[i].index, this.arms[i].name, 0 /*this.arms[i].subjectcount*/]);
+				a.push([this.arms[i].id, this.arms[i].index, this.arms[i].name, 0, this.arms[i].notes /*this.arms[i].subjectcount*/]);
 			}
 			return a;
 		};
@@ -2643,12 +2673,12 @@ Clara.BudgetBuilder.Epoch = function(o){
 					armColSpan = arm.getAllVisits().length;
 					var armToggleText = (budget.budgetType == "basic" || thisepoch.simple)?"":"Hide";
 					if (armColSpan == 0) armColSpan++;
-					var armDiffClass = (arm.diff != '')?"arm-diff-"+arm.diff:"";
-					if (showcosts){
-						armGroupRow.push({header:((plaintext)?'':'<div><a class="'+armDiffClass+'" style="font-weight:100;" href="javascript:;" onclick="togglearm('+arm.id+');"><span class="'+armDiffClass+'">'+armToggleText+'</span></a></div>')+arm.name,colspan:armColSpan+totalColspan, align:'center'});
-					}else{
-						armGroupRow.push({header:((plaintext)?'':'<div><a class="'+armDiffClass+'" style="font-weight:100;" href="javascript:;" onclick="togglearm('+arm.id+');"><span class="'+armDiffClass+'">'+armToggleText+'</span></a></div>')+arm.name,colspan:armColSpan, align:'center'});
-					}
+					var armDiffClass = (arm.diff != '')?"arm-diff-"+arm.diff:"",
+						armDesc = arm.name;
+					armColSpan = (showcosts)?(armColSpan+totalColspan):armColSpan;
+					if (Clara.BudgetBuilder.ShowNotes) armDesc += "<div class='arm-notes' id='arm-note-"+arm.id+"' onclick='Ext.Msg.alert(\"Arm Note\", jQuery(\"#arm-note-"+arm.id+"\").text());'>"+arm.notes+"</div>";
+				    armGroupRow.push({header:((plaintext)?'':'<div><a class="'+armDiffClass+'" style="font-weight:100;" href="javascript:;" onclick="togglearm('+arm.id+');"><span class="'+armDiffClass+'">'+armToggleText+'</span></a></div>')+armDesc,colspan:armColSpan, align:'center'});
+					
 				}
 			}
 			
@@ -2889,7 +2919,7 @@ Clara.BudgetBuilder.Epoch = function(o){
 					residual:(proc.type == 'outside')?0:(proc.cost.getResidual())
 				};
 				
-				var notes = (plaintext || jQuery.trim(proc.notes) == "")?"":"<a href='javascript:;' title='"+Encoder.htmlEncode(proc.notes)+"' onclick='Clara.BudgetBuilder.ShowProcedureNotes("+proc.id+");'><img style='float:left;margin-right:8px;' src='"+appContext+"/static/images/icn/sticky-note.png' border='0'/></a>";
+				var notes = (plaintext || (jQuery.trim(proc.notes) == "" && jQuery.trim(proc.clinicalNotes) == "") )?"":"<a id='procnotelink-"+proc.id+"' href='javascript:;' onclick='Clara.BudgetBuilder.ShowProcedureNotes("+proc.id+");'><img style='float:left;margin-right:8px;' src='"+appContext+"/static/images/icn/sticky-note.png' border='0'/></a>";
 				var descClass = (proc.subprocedures.length > 0 )?"row-has-subprocedures":"";
 				
 				var subproc = "";
@@ -2899,8 +2929,6 @@ Clara.BudgetBuilder.Epoch = function(o){
 
 				
 				if(!plaintext && proc.subprocedures.length > 0){
-					////cdebug("test for office");
-					////cdebug(proc.isOfficeVisit());
 					if(proc.isOfficeVisit()){
 						subprocIcon = "report_link.png";
 					}else{
@@ -2910,14 +2938,21 @@ Clara.BudgetBuilder.Epoch = function(o){
 					subproc = "<a href='javascript:;' onclick='Clara.BudgetBuilder.ShowSubprocedures("+proc.id+");'><img style='float:left;margin-right:8px;' src='"+appContext+"/static/images/icons/" + subprocIcon + "' border='0'/></a>";
 				}
 				
-				var condProc = "";
+				var condProc = "",
+					altProc = "";
 				
 				if(!plaintext && proc.conditional == true){
 					condProc = "<a href='javascript:;' onclick='alert(\"This is a conditional procedure.\");'><img style='float:left;margin-right:8px;' src='"+appContext+"/static/images/icn/asterisk.png' border='0'/></a>";
 				}
 				
+				if(!plaintext && proc.alternative == true){
+					altProc = "<a href='javascript:;' onclick='alert(\"This is an alternative procedure.\");'><img style='float:left;margin-right:8px;' src='"+appContext+"/static/images/icn/node-select-next.png' border='0'/></a>";
+				}
+				
 				var procDiffClass = (proc.diff != '')?"proc-diff-"+proc.diff:"";
-				var desc = Clara.BudgetBuilder.canEdit()?("<a href='javascript:;' onclick='Clara.BudgetBuilder.ConfirmRemoveProcedure("+proc.id+");'><img style='float:left;margin-right:8px;' src='"+appContext+"/static/images/icn/minus-circle.png' border='0'/></a>"+notes+subproc+condProc+"<span class='"+descClass+" "+procDiffClass+"'><a href='javascript:;' class='"+procDiffClass+"' style='line-height:17px;' onclick='Clara.BudgetBuilder.EditActiveEpochProcedure("+proc.id+");'>"+proc.getDescription()+"</a></span>"):(notes+subproc+condProc+"<span class='"+descClass+" "+procDiffClass+"'>"+proc.getDescription()+"</span>");
+				var desc = "<div class='procrow-desc' id='procrow-desc-"+proc.id+"'>";
+				desc += Clara.BudgetBuilder.canEdit()?("<a href='javascript:;' onclick='Clara.BudgetBuilder.ConfirmRemoveProcedure("+proc.id+");'><img style='float:left;margin-right:8px;' src='"+appContext+"/static/images/icn/minus-circle.png' border='0'/></a>"+notes+subproc+condProc+altProc+"<span class='"+descClass+" "+procDiffClass+"'><a href='javascript:;' class='"+procDiffClass+"' style='line-height:17px;' onclick='Clara.BudgetBuilder.EditActiveEpochProcedure("+proc.id+");'>"+proc.getDescription()+"</a></span>"):(notes+subproc+condProc+altProc+"<span class='"+descClass+" "+procDiffClass+"'>"+proc.getDescription()+"</span>");
+				desc += "</div>";
 				var pdesc = (plaintext)?proc.getDescription():desc;
 				
 				if (includeMetadata == true){

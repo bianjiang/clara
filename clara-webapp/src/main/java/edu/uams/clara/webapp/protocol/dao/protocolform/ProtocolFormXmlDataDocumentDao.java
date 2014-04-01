@@ -239,6 +239,44 @@ public class ProtocolFormXmlDataDocumentDao extends
 	}
 	
 	@Transactional(readOnly = true)
+	public List<ProtocolFormXmlDataDocument> getLatestDocumentExcludeCertainTypesByProtocolFormId(
+			long protocolFormId, List<String> excludedDocTypes) {
+		
+		/*
+		String query = "SELECT pfd FROM ProtocolFormXmlDataDocument pfd "
+			+ " WHERE pfd.id IN ("
+			+ " SELECT MAX(pfdd.id) FROM ProtocolFormXmlDataDocument pfdd, ProtocolForm pf "
+			+ " WHERE pfdd.retired = :retired"
+			+ " AND pf.id = :protocolFormId AND ("
+			+ " pfdd.protocolFormXmlData.protocolForm.parent.id = pf.parent.id "
+			+ " AND pfdd.protocolFormXmlData.protocolForm.created <= pf.created) "
+			+ " GROUP BY pfdd.parent.id ) ORDER BY pfd.id DESC";
+		*/
+		
+		String nativeQuery = "SELECT pfd.* FROM protocol_form_xml_data_document pfd"
+						+ " WHERE pfd.id IN ("
+						+ " SELECT MAX(pfdd.id) FROM protocol_form_xml_data_document pfdd, protocol_form pf"
+						+ " WHERE pfdd.retired = 0"
+						+ " AND pf.id = :protocolFormId AND pfdd.protocol_form_xml_data_id in (SELECT pfdx.id FROM protocol_form_xml_data pfdx, protocol_form pff"
+						+ " WHERE pfdx.protocol_form_id = pff.id"
+						+ " AND pfdx.retired = :retired AND pff.retired = :retired"
+						+ " AND pff.parent_id = pf.parent_id"
+						+ " AND pff.created <= pf.created)"
+						+ " AND pfd.category NOT IN :excludedDocTypes"
+						+ " GROUP BY pfdd.parent_id ) ORDER BY pfd.id DESC";
+
+		TypedQuery<ProtocolFormXmlDataDocument> q = (TypedQuery<ProtocolFormXmlDataDocument>) getEntityManager()
+				.createNativeQuery(nativeQuery, ProtocolFormXmlDataDocument.class);
+
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("protocolFormId", protocolFormId);
+		q.setParameter("excludedDocTypes", excludedDocTypes);
+
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
 	public List<ProtocolFormXmlDataDocument> getLatestDocumentsByProtocolFormIdAndCategory(
 			long protocolFormId, String category) {
 		

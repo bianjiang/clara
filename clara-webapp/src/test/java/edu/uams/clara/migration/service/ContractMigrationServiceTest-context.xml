@@ -18,60 +18,60 @@
 		class="edu.uams.clara.migration.Impl.ConstactMigrationServiceImpl">
 		<property name="localDirectory" value="${fileserver.local.dir.path}" />
 	</bean>
-
+	
 	<bean id="crimsonContractDao"
 		class="edu.uams.clara.migration.dao.CrimsonContractDao" />
-
+	
 	<bean id="xmlProcessor"
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
-
+		
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
 	<bean id="personDao" class="edu.uams.clara.webapp.common.dao.usercontext.PersonDao" />
-
+	
 	<bean id="userRoleDao"
 		class="edu.uams.clara.webapp.common.dao.usercontext.UserRoleDao" />
 
 
 	<bean id="userService"
 		class="edu.uams.clara.webapp.common.service.impl.UserServiceImpl" />
-
+		
 	<bean id="contractDao"
 		class="edu.uams.clara.webapp.contract.dao.ContractDao" />
 
-
+	
 	<bean id="contractStatusDao"
 		class="edu.uams.clara.webapp.contract.dao.businesslogicobject.ContractStatusDao" />
-
+		
 	<bean id="contractFormDao"
 		class="edu.uams.clara.webapp.contract.dao.contractform.ContractFormDao" />
-
+		
 	<bean id="contractFormXmlDataDao"
-		class="edu.uams.clara.webapp.contract.dao.contractform.ContractFormXmlDataDao" />
-
+		class="edu.uams.clara.webapp.contract.dao.contractform.ContractFormXmlDataDao" />	
+		
 	<bean id="contractFormStatusDao"
-		class="edu.uams.clara.webapp.contract.dao.businesslogicobject.ContractFormStatusDao" />
-
+		class="edu.uams.clara.webapp.contract.dao.businesslogicobject.ContractFormStatusDao" />	
+		
 	<bean id="trackDao"
 		class="edu.uams.clara.webapp.common.dao.history.TrackDao" />
-
+		
 	<bean id="relatedObjectDao"
-		class="edu.uams.clara.webapp.common.dao.relation.RelatedObjectDao" />
-
+		class="edu.uams.clara.webapp.common.dao.relation.RelatedObjectDao" />		
+		
 	<bean id="crimsonIRBStudyTypeDao"
 		class="edu.uams.clara.webapp.protocol.dao.thing.etl.CRIMSONIRBStudyTypeDao" />
-
+	
 	<bean id="contractFormXmlDataDocumentDao"
 		class="edu.uams.clara.webapp.contract.dao.contractform.ContractFormXmlDataDocumentDao" />
-
+		
 	<bean id="uploadedFileDao"
 		class="edu.uams.clara.webapp.fileserver.dao.UploadedFileDao" />
-
+		
 	<bean id="protocolDao"
 		class="edu.uams.clara.webapp.protocol.dao.ProtocolDao" />
-
+		
 	<bean id="contractFormCommitteeStatusDao"
 		class="edu.uams.clara.webapp.contract.dao.businesslogicobject.ContractFormCommitteeStatusDao" />
-
+			
 	<bean id="ldapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="${ldap.provider-url}" />
 		<property name="userDn" value="${ldap.manager-dn}" />
@@ -84,12 +84,12 @@
 		<property name="ignoreNameNotFoundException" value="true" />
 		<property name="contextSource" ref="ldapContextSource" />
 	</bean>
-
+		
 	<bean id="ldapPersonLookupService" class="edu.uams.clara.webapp.common.service.impl.LdapPersonLookupServiceImpl">
 		<constructor-arg index="0" ref="ldapTemplate" />
 		<constructor-arg index="1" ref="personDao" />
-	</bean>
-
+	</bean>	
+	
 	<bean id="sFTPService"
 		class="edu.uams.clara.webapp.fileserver.service.impl.SFTPServiceImpl">
 		<property name="localDirectory" value="${fileserver.local.dir.path}" />
@@ -99,13 +99,13 @@
 		<property name="password" value="${fileserver.sftp.password}" />
 		<property name="host" value="${fileserver.host}" />
 		<property name="port" value="22" />
-		<!-- <property name="jsch"> <bean class="com.jcraft.jsch.JSch"> <property
+		<!-- <property name="jsch"> <bean class="com.jcraft.jsch.JSch"> <property 
 			name="knownHosts" value="${fileserver.known_hosts}" /> </bean> </property> -->
 	</bean>
-
+	
 		<bean id="md5PasswordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
 	<bean id="roleDao" class="edu.uams.clara.webapp.common.dao.usercontext.RoleDao" />
-
+		
 		 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="webmail.uams.edu"/>
         <property name="port" value="25"/>
@@ -121,7 +121,7 @@
             </props>
         </property>
     </bean>
-
+    
      <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
       <property name="velocityProperties">
          <value>
@@ -130,6 +130,13 @@
          </value>
       </property>
    </bean>
-
-   <bean id="emailService" class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl" />
+   
+   <bean id="emailService" class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl" />	
 	</beans>
+	
+	
+	
+	
+	
+	
+	

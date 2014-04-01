@@ -62,6 +62,7 @@
     <definition extends="protocol/protocolform/reportablenewinformation-noheader" name="protocol/protocolform/reportablenewinformation/first-page-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/reportablenewinformation/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/common/wizard.js" />
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -71,6 +72,7 @@
     <definition extends="protocol/protocolform/reportablenewinformation-noheader" name="protocol/protocolform/reportablenewinformation/basic-details-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/reportablenewinformation/basic-details.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/common/wizard.js" />
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -80,6 +82,7 @@
     <definition extends="protocol/protocolform/reportablenewinformation-noheader" name="protocol/protocolform/reportablenewinformation/report-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/reportablenewinformation/report.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
+        	<add-attribute value="/static/js/common/wizard.js" />
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -91,6 +94,10 @@
         />
         <put-list-attribute name="javascripts" inherit="true">
     		<add-attribute value="/static/js/common/wizard.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />

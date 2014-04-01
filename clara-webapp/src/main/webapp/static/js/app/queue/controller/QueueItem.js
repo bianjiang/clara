@@ -36,7 +36,7 @@ Ext.define('Clara.Queue.controller.QueueItem', {
         	'#btnViewStudy':{
         		click:function(){
         			var queueController = Clara.Application.getController("Queue");
-        			var url = appContext+"/"+queueController.selectedQueue.get("objectType").toLowerCase()+"s/"+me.selectedQueueItem.get("claraIdentifier")+"/dashboard?formId="+me.selectedQueueItem.get("formId")
+        			var url = appContext+"/"+queueController.selectedQueue.get("objectType").toLowerCase()+"s/"+me.selectedQueueItem.get("claraIdentifier")+"/dashboard?formId="+me.selectedQueueItem.get("formId");
     				window.open( url+"&fromQueue="+queueController.selectedQueue.get("identifier"));
         		}
         	},

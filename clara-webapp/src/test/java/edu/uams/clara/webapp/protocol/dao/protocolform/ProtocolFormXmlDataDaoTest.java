@@ -19,13 +19,13 @@ public class ProtocolFormXmlDataDaoTest {
 	.getLogger(ProtocolFormXmlDataDocumentDaoTest.class);
 
 	private ProtocolFormXmlDataDao protocolFormXmlDataDao;
-
+	
 	@Test
 	public void testProtocolFormXmlData(){
 		ProtocolFormXmlData protocolXmlData = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(1692, ProtocolFormXmlDataType.MODIFICATION);
 		logger.debug("" + protocolXmlData.getId());
 	}
-
+	
 	@Autowired(required=true)
 	public void setProtocolFormXmlDataDao(ProtocolFormXmlDataDao protocolFormXmlDataDao) {
 		this.protocolFormXmlDataDao = protocolFormXmlDataDao;

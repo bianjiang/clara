@@ -115,7 +115,7 @@ public class ReportTemplate extends AbstractDomainEntity {
 		List<Element> emailEles = xmlHandler.listElementsByXPath(this.parameters, "/metadata/emails/email");
 		System.out.println(this.parameters+this.getCreated());
 		for(Element emailEle :emailEles){
-
+			
 			EmailRecipient emailRecipient = new EmailRecipient();
 			emailRecipient.setAddress(emailEle.getTextContent());
 			emailRecipient.setDesc(emailEle.getAttribute("desc"));
@@ -125,11 +125,11 @@ public class ReportTemplate extends AbstractDomainEntity {
 		}catch(Exception e){
 			//do nothing
 		}
-
+		
 		return result;
 	}
-
-
+	
+	
 	public String getTypeDescription() {
 		return typeDescription;
 	}

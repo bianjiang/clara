@@ -15,5 +15,5 @@
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
 
     <bean id="userCOIDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserCOIDao" />
-
+	
 </beans>

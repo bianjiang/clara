@@ -2,7 +2,6 @@ package edu.uams.clara.webapp.report.service.customreport.impl;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,11 +33,8 @@ import edu.uams.clara.webapp.protocol.dao.businesslogicobject.AgendaStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.AgendaStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.AgendaStatusEnum;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
@@ -128,6 +124,16 @@ public class HSRReportRestultServiceImpl extends CustomReportService {
 		titleFields += "</fields>";
 		return titleFields;
 	}
+	
+	private String reviewtypeQuery(String reviewType, String qry){
+		if(reviewType.equals("FULL BOARD")){
+			qry="(id in (select distinct p1.protocol_id from protocol_form p1,protocol_form p2 where p1.parent_id =p2.parent_id and p1.id in (select protocol_form_id from protocol_form_status  where protocol_form_status ='EXPEDITED_APPROVED'  and retired= 0) and p2.id in (select protocol_form_id from protocol_form_status  where protocol_form_status ='IRB_DEFERRED_WITH_MINOR_CONTINGENCIES'  and retired= 0) and p1.protocol_form_type ='NEW_SUBMISSION' and p2.protocol_form_type ='NEW_SUBMISSION') or "+qry+")";
+		}else if(reviewType.equals("EXPEDITED")){
+			qry="(id not in (select distinct p1.protocol_id from protocol_form p1,protocol_form p2 where p1.parent_id =p2.parent_id and p1.id in (select protocol_form_id from protocol_form_status  where protocol_form_status ='EXPEDITED_APPROVED'  and retired= 0) and p2.id in (select protocol_form_id from protocol_form_status  where protocol_form_status ='IRB_DEFERRED_WITH_MINOR_CONTINGENCIES'  and retired= 0) and p1.protocol_form_type ='NEW_SUBMISSION' and p2.protocol_form_type ='NEW_SUBMISSION')) and "+qry;
+		}
+		
+		return qry;
+	}
 
 	/*********
 	 * Report Data
@@ -147,7 +153,7 @@ public class HSRReportRestultServiceImpl extends CustomReportService {
 		titleRowFileds.put("college", "College");
 		titleRowFileds.put("fundings", "Initiator");
 		titleRowFileds.put("fullreviewind", "");
-		titleRowFileds.put("fullreviewide", "Full Review");
+		titleRowFileds.put("fullreviewide", "Full Board Review");
 		titleRowFileds.put("fullreviewother", "");
 		titleRowFileds.put("fullreviewtotal", "");
 		titleRowFileds.put("expedited", "Expedited");
@@ -158,8 +164,8 @@ public class HSRReportRestultServiceImpl extends CustomReportService {
 		Map<String, String> summaryFileds = Maps.newLinkedHashMap();
 		summaryFileds.put("college", "");
 		summaryFileds.put("fundings", "");
-		summaryFileds.put("fullreviewind", "Conducted Under IND");
-		summaryFileds.put("fullreviewide", "Conducted Under IDE");
+		summaryFileds.put("fullreviewind", "Under IND");
+		summaryFileds.put("fullreviewide", "Under IDE");
 		summaryFileds.put("fullreviewother", "Other");
 		summaryFileds.put("fullreviewtotal", "Total");
 		summaryFileds.put("expedited", "");
@@ -172,12 +178,16 @@ public class HSRReportRestultServiceImpl extends CustomReportService {
 
 		reportResultXml += "</report-item>";
 		Query query = null;
+		boolean shaded = false;
 		for (Long collegeId : this.getCollegeIds().keySet()) {
 			boolean collegeRow = true;
 			int allCount[] =  new int[7];
 			for (String iniator : this.getInitators()) {
-				
+				if(shaded){
+					reportResultXml += "<report-item class=\"shaded-row\">";
+				}else{
 				reportResultXml += "<report-item>";
+				}
 				reportResultXml += "<field id=\"college\">";
 				if(collegeRow){
 					
@@ -191,11 +201,10 @@ public class HSRReportRestultServiceImpl extends CustomReportService {
 				int initiatorTotal =0;
 				for (String reviewType : this.getReviewTypes()) {
 					
-					
-					String queryStr = " select count(id) from protocol where retired = 0 "
-							+ " and meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""
-							+ reviewType
-							+ "\")]')=1 "
+					String reviewTypeCondition =  " meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""+ reviewType+ "\")]')=1 ";
+					reviewTypeCondition= reviewtypeQuery(reviewType, reviewTypeCondition);
+					String queryStr = " select count(distinct id) from protocol where  retired = 0 "
+							+ " and " +reviewTypeCondition
 							+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 							+ iniator
 							+ "\")]')=1 "
@@ -222,8 +231,8 @@ public class HSRReportRestultServiceImpl extends CustomReportService {
 					if (reviewType.equals("FULL BOARD")) {
 						int fullboradOther  = typeTotal;
 						// need to consider ide and ind
-						String queryIND = queryStr + underINDCondition;
-						String queryIDE = queryStr + underIDECondition;
+						String queryIND = queryStr+underINDCondition;
+						String queryIDE = queryStr+underIDECondition;
 						query = em.createNativeQuery(queryIND);
 						reportResultXml += "<field id=\"fullreviewind\">";
 						int queryresult = (int) query.getSingleResult();
@@ -266,7 +275,11 @@ public class HSRReportRestultServiceImpl extends CustomReportService {
 				reportResultXml += "</report-item>";
 				allCount[6] = allCount[6]+initiatorTotal;
 			}
+			if(shaded){
+				reportResultXml += "<report-item class=\"shaded-row\">";
+			}else{
 				reportResultXml += "<report-item>";
+			}
 				reportResultXml += "<field>";
 				reportResultXml+="</field>";
 				reportResultXml += "<field>";
@@ -278,7 +291,7 @@ public class HSRReportRestultServiceImpl extends CustomReportService {
 					reportResultXml+="</field>";
 				}
 				reportResultXml += "</report-item>";
-			
+				shaded = !shaded;
 		}
 		reportResultXml += "</report-items>";
 
@@ -307,7 +320,7 @@ private String subType2Report(String queryCriterias) {
 		titleRowFileds.put("college", "College");
 		titleRowFileds.put("fundings", "Source of Funding");
 		titleRowFileds.put("fullreviewind", "");
-		titleRowFileds.put("fullreviewide", "Full Review");
+		titleRowFileds.put("fullreviewide", "Full Board Review");
 		titleRowFileds.put("fullreviewother", "");
 		titleRowFileds.put("fullreviewtotal", "");
 		titleRowFileds.put("expedited", "Expedited");
@@ -318,8 +331,8 @@ private String subType2Report(String queryCriterias) {
 		Map<String, String> summaryFileds = Maps.newLinkedHashMap();
 		summaryFileds.put("college", "");
 		summaryFileds.put("fundings", "");
-		summaryFileds.put("fullreviewind", "Conducted Under IND");
-		summaryFileds.put("fullreviewide", "Conducted Under IDE");
+		summaryFileds.put("fullreviewind", "Under IND");
+		summaryFileds.put("fullreviewide", "Under IDE");
 		summaryFileds.put("fullreviewother", "Other");
 		summaryFileds.put("fullreviewtotal", "Total");
 		summaryFileds.put("expedited", "");
@@ -333,12 +346,17 @@ private String subType2Report(String queryCriterias) {
 		reportResultXml += "</report-item>";
 		Set<BigInteger> countedPids = Sets.newHashSet(); 
 		Query query =null;
+		boolean shaded = false;
 		for (Long collegeId : this.getCollegeIds().keySet()) {
 			boolean collegeRow = true;
 			int allCount[] =  new int[7];
 			for (String fundingSource : this.getFundingSources().keySet()) {
 				
+				if(shaded){
+					reportResultXml += "<report-item class=\"shaded-row\">";
+				}else{
 				reportResultXml += "<report-item>";
+				}
 				reportResultXml += "<field id=\"college\">";
 				if(collegeRow){
 					reportResultXml +=this.getCollegeIds().get(collegeId);
@@ -364,11 +382,10 @@ private String subType2Report(String queryCriterias) {
 				reportResultXml +="</field>";
 				int initiatorTotal =0;
 				for (String reviewType : this.getReviewTypes()) {
-					
+					String reviewTypeCondition =  " meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""+ reviewType+ "\")]')=1 ";
+					reviewTypeCondition= reviewtypeQuery(reviewType, reviewTypeCondition);
 					String queryStr = " select id from protocol where retired = 0 "
-							+ " and meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""
-							+ reviewType
-							+ "\")]')=1 "
+							+ " and " +reviewTypeCondition
 							+ " and "
 							+ fundingSourceQueryStr
 							+ " and " + queryCriterias + " and "+submittedStudyQueryStr;
@@ -394,8 +411,8 @@ private String subType2Report(String queryCriterias) {
 					if (reviewType.equals("FULL BOARD")) {
 						int fullboradOther  = typeTotal;
 						// need to consider ide and ind
-						String queryIND = queryStr + underINDCondition;
-						String queryIDE = queryStr + underIDECondition;
+						String queryIND = queryStr+underINDCondition;
+						String queryIDE = queryStr+underIDECondition;
 						query = em.createNativeQuery(queryIND);
 						reportResultXml += "<field id=\"fullreviewind\">";
 						pids = query.getResultList();
@@ -456,7 +473,11 @@ private String subType2Report(String queryCriterias) {
 				reportResultXml += "</report-item>";
 				allCount[6] = allCount[6]+initiatorTotal;
 			}
-				reportResultXml += "<report-item>";
+			if(shaded){
+				reportResultXml += "<report-item class=\"shaded-row\">";
+			}else{
+			reportResultXml += "<report-item>";
+			}
 				reportResultXml += "<field>";
 				reportResultXml+="</field>";
 				reportResultXml += "<field>";
@@ -468,7 +489,7 @@ private String subType2Report(String queryCriterias) {
 					reportResultXml+="</field>";
 				}
 				reportResultXml += "</report-item>";
-			
+			shaded = !shaded;
 		}
 		reportResultXml += "</report-items>";
 
@@ -495,7 +516,7 @@ private String subType3Report(String queryCriterias) {
 	titleRowFileds.put("college", "College");
 	titleRowFileds.put("department", "Department");
 	titleRowFileds.put("fullreviewind", "");
-	titleRowFileds.put("fullreviewide", "Full Review");
+	titleRowFileds.put("fullreviewide", "Full Board Review");
 	titleRowFileds.put("fullreviewother", "");
 	titleRowFileds.put("fullreviewtotal", "");
 	titleRowFileds.put("expedited", "Expedited");
@@ -506,8 +527,8 @@ private String subType3Report(String queryCriterias) {
 	Map<String, String> summaryFileds = Maps.newLinkedHashMap();
 	summaryFileds.put("college", "");
 	summaryFileds.put("department", "");
-	summaryFileds.put("fullreviewind", "Conducted Under IND");
-	summaryFileds.put("fullreviewide", "Conducted Under IDE");
+	summaryFileds.put("fullreviewind", "Under IND");
+	summaryFileds.put("fullreviewide", "Under IDE");
 	summaryFileds.put("fullreviewother", "Other");
 	summaryFileds.put("fullreviewtotal", "Total");
 	summaryFileds.put("expedited", "");
@@ -520,6 +541,7 @@ private String subType3Report(String queryCriterias) {
 
 	reportResultXml += "</report-item>";
 	Query query = null;
+	boolean shaded = false;
 	for (Long collegeId : this.getCollegeIds().keySet()) {
 		if(collegeId==100000l){
 			continue;
@@ -530,7 +552,11 @@ private String subType3Report(String queryCriterias) {
 		List<Department> departments = departmentDao.findDeptsByCollegeId(collegeId);
 		for (Department department : departments) {
 			
+			if(shaded){
+				reportResultXml += "<report-item class=\"shaded-row\">";
+			}else{
 			reportResultXml += "<report-item>";
+			}
 			reportResultXml += "<field id=\"college\">";
 			if(collegeRow){
 				reportResultXml +=this.getCollegeIds().get(collegeId);
@@ -542,11 +568,10 @@ private String subType3Report(String queryCriterias) {
 			reportResultXml +="</field>";
 			int initiatorTotal =0;
 			for (String reviewType : this.getReviewTypes()) {
-				
-				String queryStr = " select count(id) from protocol where retired = 0 "
-						+ " and meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""
-						+ reviewType
-						+ "\")]')=1 "
+				String reviewTypeCondition =  " meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""+ reviewType+ "\")]')=1 ";
+				reviewTypeCondition= reviewtypeQuery(reviewType, reviewTypeCondition);
+				String queryStr = " select count(distinct id) from protocol where retired = 0 "
+						+" and " +reviewTypeCondition
 						+" and meta_data_xml.exist('/protocol/responsible-department[@deptid = \""
 						+ department.getId() + "\"]')=1"
 						+ " and " + queryCriterias;
@@ -563,8 +588,8 @@ private String subType3Report(String queryCriterias) {
 				if (reviewType.equals("FULL BOARD")) {
 					int fullboradOther  = typeTotal;
 					// need to consider ide and ind
-					String queryIND = queryStr + underINDCondition;
-					String queryIDE = queryStr + underIDECondition;
+					String queryIND = queryStr+underINDCondition;
+				    String queryIDE = queryStr+underIDECondition;
 					query = em.createNativeQuery(queryIND);
 					reportResultXml += "<field id=\"fullreviewind\">";
 					int queryresult = (int) query.getSingleResult();
@@ -607,7 +632,11 @@ private String subType3Report(String queryCriterias) {
 			reportResultXml += "</report-item>";
 			allCount[6] = allCount[6]+initiatorTotal;
 		}
+		if(shaded){
+			reportResultXml += "<report-item class=\"shaded-row\">";
+		}else{
 			reportResultXml += "<report-item>";
+		}
 			reportResultXml += "<field>";
 			reportResultXml+="</field>";
 			reportResultXml += "<field>";
@@ -619,7 +648,7 @@ private String subType3Report(String queryCriterias) {
 				reportResultXml+="</field>";
 			}
 			reportResultXml += "</report-item>";
-		
+		shaded = !shaded;
 	}
 	reportResultXml += "</report-items>";
 
@@ -650,7 +679,7 @@ private String subType4Report(String queryCriterias,String date1,String date2) {
 	titleRowFileds.put("college", "College");
 	titleRowFileds.put("fundings", "Initiator");
 	titleRowFileds.put("fullreviewind", "");
-	titleRowFileds.put("fullreviewide", "Full Review");
+	titleRowFileds.put("fullreviewide", "Full Board Review");
 	titleRowFileds.put("fullreviewother", "");
 	titleRowFileds.put("fullreviewtotal", "");
 	titleRowFileds.put("expedited", "Expedited");
@@ -661,8 +690,8 @@ private String subType4Report(String queryCriterias,String date1,String date2) {
 	Map<String, String> summaryFileds = Maps.newLinkedHashMap();
 	summaryFileds.put("college", "");
 	summaryFileds.put("fundings", "");
-	summaryFileds.put("fullreviewind", "Conducted Under IND");
-	summaryFileds.put("fullreviewide", "Conducted Under IDE");
+	summaryFileds.put("fullreviewind", "Under IND");
+	summaryFileds.put("fullreviewide", "Under IDE");
 	summaryFileds.put("fullreviewother", "Other");
 	summaryFileds.put("fullreviewtotal", "Total");
 	summaryFileds.put("expedited", "");
@@ -675,12 +704,17 @@ private String subType4Report(String queryCriterias,String date1,String date2) {
 
 	reportResultXml += "</report-item>";
 	Query query = null;
+	boolean shaded =  false;
 	for (Long collegeId : this.getCollegeIds().keySet()) {
 		boolean collegeRow = true;
 		int allCount[] =  new int[7];
 		for (String iniator : this.getInitators()) {
 			
+			if(shaded){
+				reportResultXml += "<report-item class=\"shaded-row\">";
+			}else{
 			reportResultXml += "<report-item>";
+			}
 			reportResultXml += "<field id=\"college\">";
 			if(collegeRow){
 				
@@ -693,11 +727,10 @@ private String subType4Report(String queryCriterias,String date1,String date2) {
 			reportResultXml +="</field>";
 			int initiatorTotal =0;
 			for (String reviewType : this.getReviewTypes()) {
-				
-				String queryStr = " select count(id) from protocol where retired = 0 "
-						+ " and meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""
-						+ reviewType
-						+ "\")]')=1 "
+				String reviewTypeCondition =  " meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""+ reviewType+ "\")]')=1 ";
+				reviewTypeCondition= reviewtypeQuery(reviewType, reviewTypeCondition);
+				String queryStr = " select count(distinct id) from protocol where retired = 0 "
+						+ " and " +reviewTypeCondition
 						+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 						+ iniator
 						+ "\")]')=1 "
@@ -724,8 +757,8 @@ private String subType4Report(String queryCriterias,String date1,String date2) {
 				if (reviewType.equals("FULL BOARD")) {
 					int fullboradOther  = typeTotal;
 					// need to consider ide and ind
-					String queryIND = queryStr + underINDCondition;
-					String queryIDE = queryStr + underIDECondition;
+					String queryIND = queryStr+underINDCondition;
+				    String queryIDE = queryStr+underIDECondition;
 					query = em.createNativeQuery(queryIND);
 					reportResultXml += "<field id=\"fullreviewind\">";
 					int queryresult = (int) query.getSingleResult();
@@ -768,7 +801,11 @@ private String subType4Report(String queryCriterias,String date1,String date2) {
 			reportResultXml += "</report-item>";
 			allCount[6] = allCount[6]+initiatorTotal;
 		}
+		if(shaded){
+			reportResultXml += "<report-item class=\"shaded-row\">";
+		}else{
 			reportResultXml += "<report-item>";
+		}
 			reportResultXml += "<field>";
 			reportResultXml+="</field>";
 			reportResultXml += "<field>";
@@ -780,7 +817,7 @@ private String subType4Report(String queryCriterias,String date1,String date2) {
 				reportResultXml+="</field>";
 			}
 			reportResultXml += "</report-item>";
-		
+		shaded = !shaded;
 	}
 	reportResultXml += "</report-items>";
 
@@ -827,7 +864,7 @@ private String subType5Report(String queryCriterias,String date1,String date2) {
 	titleRowFileds.put("college", "College");
 	titleRowFileds.put("fundings", "Initiator");
 	titleRowFileds.put("fullreviewind", "");
-	titleRowFileds.put("fullreviewide", "Full Review");
+	titleRowFileds.put("fullreviewide", "Full Board Review");
 	titleRowFileds.put("fullreviewother", "");
 	titleRowFileds.put("fullreviewtotal", "");
 	titleRowFileds.put("expedited", "Expedited");
@@ -838,8 +875,8 @@ private String subType5Report(String queryCriterias,String date1,String date2) {
 	Map<String, String> summaryFileds = Maps.newLinkedHashMap();
 	summaryFileds.put("college", "");
 	summaryFileds.put("fundings", "");
-	summaryFileds.put("fullreviewind", "Conducted Under IND");
-	summaryFileds.put("fullreviewide", "Conducted Under IDE");
+	summaryFileds.put("fullreviewind", "Under IND");
+	summaryFileds.put("fullreviewide", "Under IDE");
 	summaryFileds.put("fullreviewother", "Other");
 	summaryFileds.put("fullreviewtotal", "Total");
 	summaryFileds.put("expedited", "");
@@ -851,13 +888,17 @@ private String subType5Report(String queryCriterias,String date1,String date2) {
 	reportResultXml += fillSummaryFileds(summaryFileds);
 
 	reportResultXml += "</report-item>";
-	
+	boolean shaded = false;
 	for (Long collegeId : this.getCollegeIds().keySet()) {
 		boolean collegeRow = true;
 		int allCount[] =  new int[7];
 		for (String iniator : this.getInitators()) {
 			
+			if(shaded){
+				reportResultXml += "<report-item class=\"shaded-row\">";
+			}else{
 			reportResultXml += "<report-item>";
+			}
 			reportResultXml += "<field id=\"college\">";
 			if(collegeRow){
 				
@@ -870,11 +911,10 @@ private String subType5Report(String queryCriterias,String date1,String date2) {
 			reportResultXml +="</field>";
 			int initiatorTotal =0;
 			for (String reviewType : this.getReviewTypes()) {
-				
-				String queryStr = " select count(id) from protocol where retired = 0 "
-						+ " and meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""
-						+ reviewType
-						+ "\")]')=1 "
+				String reviewTypeCondition =  " meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""+ reviewType+ "\")]')=1 ";
+				reviewTypeCondition= reviewtypeQuery(reviewType, reviewTypeCondition);
+				String queryStr = " select count(distinct id) from protocol where retired = 0 "
+						+ " and " +reviewTypeCondition
 						+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 						+ iniator
 						+ "\")]')=1 "
@@ -902,8 +942,8 @@ private String subType5Report(String queryCriterias,String date1,String date2) {
 				if (reviewType.equals("FULL BOARD")) {
 					int fullboradOther  = typeTotal;
 					// need to consider ide and ind
-					String queryIND = queryStr + underINDCondition;
-					String queryIDE = queryStr + underIDECondition;
+					String queryIND = queryStr+underINDCondition;
+				    String queryIDE = queryStr+underIDECondition;
 					query = em.createNativeQuery(queryIND);
 					reportResultXml += "<field id=\"fullreviewind\">";
 					int queryresult = (int) query.getSingleResult();
@@ -946,7 +986,11 @@ private String subType5Report(String queryCriterias,String date1,String date2) {
 			reportResultXml += "</report-item>";
 			allCount[6] = allCount[6]+initiatorTotal;
 		}
+		if(shaded){
+			reportResultXml += "<report-item class=\"shaded-row\">";
+		}else{
 			reportResultXml += "<report-item>";
+		}
 			reportResultXml += "<field>";
 			reportResultXml+="</field>";
 			reportResultXml += "<field>";
@@ -958,7 +1002,7 @@ private String subType5Report(String queryCriterias,String date1,String date2) {
 				reportResultXml+="</field>";
 			}
 			reportResultXml += "</report-item>";
-		
+		shaded = !shaded;
 	}
 	reportResultXml += "</report-items>";
 
@@ -1004,7 +1048,7 @@ private String subType6Report(String queryCriterias,String date1,String date2) {
 	titleRowFileds.put("college", "College");
 	titleRowFileds.put("initiators", "Initiator");
 	titleRowFileds.put("fullreviewind", "");
-	titleRowFileds.put("fullreviewide", "Full Review");
+	titleRowFileds.put("fullreviewide", "Full Board Review");
 	titleRowFileds.put("fullreviewother", "");
 	titleRowFileds.put("fullreviewtotal", "");
 	titleRowFileds.put("expedited", "Expedited");
@@ -1015,8 +1059,8 @@ private String subType6Report(String queryCriterias,String date1,String date2) {
 	Map<String, String> summaryFileds = Maps.newLinkedHashMap();
 	summaryFileds.put("college", "");
 	summaryFileds.put("initiators", "");
-	summaryFileds.put("fullreviewind", "Conducted Under IND");
-	summaryFileds.put("fullreviewide", "Conducted Under IDE");
+	summaryFileds.put("fullreviewind", "Under IND");
+	summaryFileds.put("fullreviewide", "Under IDE");
 	summaryFileds.put("fullreviewother", "Other");
 	summaryFileds.put("fullreviewtotal", "Total");
 	summaryFileds.put("expedited", "");
@@ -1028,13 +1072,17 @@ private String subType6Report(String queryCriterias,String date1,String date2) {
 	reportResultXml += fillSummaryFileds(summaryFileds);
 
 	reportResultXml += "</report-item>";
-	
+	boolean shaded = false;
 	for (Long collegeId : this.getCollegeIds().keySet()) {
 		boolean collegeRow = true;
 		long allCount[] =  new long[7];
 		for (String iniator : this.getInitators()) {
 			
+			if(shaded){
+				reportResultXml += "<report-item class=\"shaded-row\">";
+			}else{
 			reportResultXml += "<report-item>";
+			}
 			reportResultXml += "<field id=\"college\">";
 			if(collegeRow){
 				
@@ -1047,13 +1095,12 @@ private String subType6Report(String queryCriterias,String date1,String date2) {
 			reportResultXml +="</field>";
 			int initiatorTotal =0;
 			for (String reviewType : this.getReviewTypes()) {
-				
+				String reviewTypeCondition =  " meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""+ reviewType+ "\")]')=1 ";
+				reviewTypeCondition= reviewtypeQuery(reviewType, reviewTypeCondition);
 				String queryStr = " select sum(meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','bigint')) "
-						+ " from protocol where meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','bigint') is not null "
+						+ " from protocol where  meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','bigint') is not null "
 						+ " and retired = 0 "
-						+ " and meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""
-						+ reviewType
-						+ "\")]')=1 "
+						+ " and " +reviewTypeCondition
 						+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 						+ iniator
 						+ "\")]')=1 "
@@ -1085,8 +1132,8 @@ private String subType6Report(String queryCriterias,String date1,String date2) {
 				if (reviewType.equals("FULL BOARD")) {
 					long fullboradOther  = typeTotal;
 					// need to consider ide and ind
-					String queryIND = queryStr + underINDCondition;
-					String queryIDE = queryStr + underIDECondition;
+					String queryIND = queryStr+underINDCondition;
+				    String queryIDE = queryStr+underIDECondition;
 					query = em.createNativeQuery(queryIND);
 					reportResultXml += "<field id=\"fullreviewind\">";
 					long queryresult =0 ;
@@ -1139,7 +1186,11 @@ private String subType6Report(String queryCriterias,String date1,String date2) {
 			reportResultXml += "</report-item>";
 			allCount[6] = allCount[6]+initiatorTotal;
 		}
+		if(shaded){
+			reportResultXml += "<report-item class=\"shaded-row\">";
+		}else{
 			reportResultXml += "<report-item>";
+		}
 			reportResultXml += "<field>";
 			reportResultXml+="</field>";
 			reportResultXml += "<field>";
@@ -1151,7 +1202,7 @@ private String subType6Report(String queryCriterias,String date1,String date2) {
 				reportResultXml+="</field>";
 			}
 			reportResultXml += "</report-item>";
-		
+		shaded = !shaded;
 	}
 	reportResultXml += "</report-items>";
 
@@ -1167,7 +1218,7 @@ private String subType6Report(String queryCriterias,String date1,String date2) {
  * ******/
 private String subType7Report(String queryCriterias,String date1,String date2) {
 	String timeRangeQuery = "id in (select distinct protocol_id from protocol_status where protocol_status ='CLOSED' and retired =0 and Datediff(day, '"+date1+"',modified)>0 and Datediff(day, '"+date2+"',modified)<0 "
-			+ " and protocol_id in (select distinct protocol_id from protocol_form where retired = 0 and protocol_form_type ='STUDY_CLOSURE'))";
+			+ ")";
 		List<BigInteger> pids = Lists.newArrayList();
 
 	String reportResultXml = "<report-result id=\"" + "" + "\"  created=\""
@@ -1179,7 +1230,7 @@ private String subType7Report(String queryCriterias,String date1,String date2) {
 	Map<String, String> titleRowFileds = Maps.newLinkedHashMap();
 	titleRowFileds.put("college", "College");
 	titleRowFileds.put("initiators", "Initiator");
-	titleRowFileds.put("fullreview", "Full Review");
+	titleRowFileds.put("fullreview", "Full Board Review");
 	titleRowFileds.put("expedited", "Expedited");
 	titleRowFileds.put("exempt", "Exempt");
 	titleRowFileds.put("total", "Total");
@@ -1187,13 +1238,17 @@ private String subType7Report(String queryCriterias,String date1,String date2) {
 
 
 	reportResultXml += "<report-items>";
-	
+	boolean shaded = false;
 	for (Long collegeId : this.getCollegeIds().keySet()) {
 		boolean collegeRow = true;
 		long allCount[] =  new long[4];
 		for (String iniator : this.getInitators()) {
 			
+			if(shaded){
+				reportResultXml += "<report-item class=\"shaded-row\">";
+			}else{
 			reportResultXml += "<report-item>";
+			}
 			reportResultXml += "<field id=\"college\">";
 			if(collegeRow){
 				
@@ -1207,13 +1262,12 @@ private String subType7Report(String queryCriterias,String date1,String date2) {
 			int initiatorTotal =0;
 			Query query = null;
 			for (String reviewType : this.getReviewTypes()) {
-				
+				String reviewTypeCondition =  " meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""+ reviewType+ "\")]')=1 ";
+				reviewTypeCondition= reviewtypeQuery(reviewType, reviewTypeCondition);
 				String queryStr = " select sum(meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','bigint')) "
-						+ " from protocol where meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','bigint') is not null "
+						+ " from protocol where  meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','bigint') is not null "
 						+ " and retired = 0 "
-						+ " and meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""
-						+ reviewType
-						+ "\")]')=1 "
+						+ " and " +reviewTypeCondition
 						+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 						+ iniator
 						+ "\")]')=1 "
@@ -1266,7 +1320,11 @@ private String subType7Report(String queryCriterias,String date1,String date2) {
 			reportResultXml += "</report-item>";
 			allCount[3] = allCount[3]+initiatorTotal;
 		}
+		if(shaded){
+			reportResultXml += "<report-item class=\"shaded-row\">";
+		}else{
 			reportResultXml += "<report-item>";
+		}
 			reportResultXml += "<field>";
 			reportResultXml+="</field>";
 			reportResultXml += "<field>";
@@ -1278,7 +1336,7 @@ private String subType7Report(String queryCriterias,String date1,String date2) {
 				reportResultXml+="</field>";
 			}
 			reportResultXml += "</report-item>";
-		
+			shaded = !shaded;
 	}
 	reportResultXml += "</report-items>";
 
@@ -1289,7 +1347,7 @@ private String subType7Report(String queryCriterias,String date1,String date2) {
 
 
 /*********
- * Full Review Studies Closed between (date1) and (date2) – Reasons for Closure
+ * Full Board Review Studies Closed between (date1) and (date2) – Reasons for Closure
  * ******/
 private String subType8Report(String queryCriterias,String date1,String date2) {
 		String timeRangeQuery = "select distinct protocol_id from protocol_status where protocol_status ='CLOSED' and retired =0 and Datediff(day, '"+date1+"',modified)>0 and Datediff(day, '"+date2+"',modified)<0 "
@@ -1327,13 +1385,17 @@ private String subType8Report(String queryCriterias,String date1,String date2) {
 	reportResultXml += fillTitleRow(titleRowFileds);
 	
 	reportResultXml += "<report-items>";
-	
+	boolean shaded = false;
 	for (Long collegeId : this.getCollegeIds().keySet()) {
 		boolean collegeRow = true;
 		long allCount[] =  new long[5];
 		for (String iniator : this.getInitators()) {
 			
+			if(shaded){
+				reportResultXml += "<report-item class=\"shaded-row\">";
+			}else{
 			reportResultXml += "<report-item>";
+			}
 			reportResultXml += "<field id=\"college\">";
 			if(collegeRow){
 				
@@ -1348,7 +1410,7 @@ private String subType8Report(String queryCriterias,String date1,String date2) {
 			
 			for (int i =0;i<closeReasons.size();i++) {
 				String closeReason = closeReasons.get(i);
-				String queryStr = " select count(id)"
+				String queryStr = " select count(distinct id)"
 						+ " from protocol where retired = 0 "
 						+ " and meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\"FULL BOARD\")]')=1 "
 						+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
@@ -1396,7 +1458,11 @@ private String subType8Report(String queryCriterias,String date1,String date2) {
 			reportResultXml += "</report-item>";
 			allCount[4] = allCount[4]+initiatorTotal;
 		}
+		if(shaded){
+			reportResultXml += "<report-item class=\"shaded-row\">";
+		}else{
 			reportResultXml += "<report-item>";
+		}
 			reportResultXml += "<field>";
 			reportResultXml+="</field>";
 			reportResultXml += "<field>";
@@ -1408,7 +1474,7 @@ private String subType8Report(String queryCriterias,String date1,String date2) {
 				reportResultXml+="</field>";
 			}
 			reportResultXml += "</report-item>";
-		
+			shaded = !shaded;
 	}
 	reportResultXml += "</report-items>";
 
@@ -1419,7 +1485,7 @@ private String subType8Report(String queryCriterias,String date1,String date2) {
 
 
 /*********
- * Full Review Studies Closed between (date1) and (date2) – Cumulative Patients Enrolled
+ * Full Board Review Studies Closed between (date1) and (date2) – Cumulative Patients Enrolled
  * ******/
 private String subType9Report(String queryCriterias,String date1,String date2) {
 		String timeRangeQuery = "select distinct protocol_id from protocol_status where protocol_status ='CLOSED' and retired =0 and Datediff(day, '"+date1+"',modified)>0 and Datediff(day, '"+date2+"',modified)<0 "
@@ -1455,13 +1521,17 @@ private String subType9Report(String queryCriterias,String date1,String date2) {
 	reportResultXml += fillTitleRow(titleRowFileds);
 	
 	reportResultXml += "<report-items>";
-	
+	boolean shaded = false;
 	for (Long collegeId : this.getCollegeIds().keySet()) {
 		boolean collegeRow = true;
 		long allCount[] =  new long[3];
 		for (String iniator : this.getInitators()) {
 			
+			if(shaded){
+				reportResultXml += "<report-item class=\"shaded-row\">";
+			}else{
 			reportResultXml += "<report-item>";
+			}
 			reportResultXml += "<field id=\"college\">";
 			if(collegeRow){
 				
@@ -1522,7 +1592,11 @@ private String subType9Report(String queryCriterias,String date1,String date2) {
 			}
 			reportResultXml += "</report-item>";
 		}
+		if(shaded){
+			reportResultXml += "<report-item class=\"shaded-row\">";
+		}else{
 			reportResultXml += "<report-item>";
+		}
 			reportResultXml += "<field>";
 			reportResultXml+="</field>";
 			reportResultXml += "<field>";
@@ -1534,7 +1608,7 @@ private String subType9Report(String queryCriterias,String date1,String date2) {
 				reportResultXml+="</field>";
 			}
 			reportResultXml += "</report-item>";
-		
+		shaded = !shaded;
 	}
 	reportResultXml += "</report-items>";
 
@@ -1543,85 +1617,139 @@ private String subType9Report(String queryCriterias,String date1,String date2) {
 	return reportResultXml;
 }
 
-public String subType10Report(String queryCriterias){
-	String reportResultXml="";
-	for (String reviewType : this.getReviewTypes()) {
-		
-		String queryStr = " select id from protocol where retired = 0 "
-				+ " and meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""
-				+ reviewType
-				+ "\")]')=1 "
-				+ " and id>200000"
-				+ " and " + queryCriterias;
-		
-	Query query = em.createNativeQuery(queryStr);
-	List<BigInteger> protocolIds =query.getResultList();
-	Set<ProtocolForm> pfms = Sets.newHashSet();
-	for(BigInteger protocolIdBigInt :protocolIds){
-		try{
-			pfms.addAll(protocolFormDao.listProtocolFormsByProtocolIdAndProtocolFormType(protocolIdBigInt.longValue(), ProtocolFormType.NEW_SUBMISSION));
-		}catch(Exception e){
-			
-		}
-	}
-	
-	reportResultXml += "<report-result id=\"" + "" + "\"  created=\""
-			+ DateFormatUtil.formateDateToMDY(new Date()) + "\">";
+	public String subType10Report(String queryCriterias) {
+		String reportResultXml = "";
+		for (String reviewType : this.getReviewTypes()) {
+			String reviewTypeCondition = " meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""
+					+ reviewType + "\")]')=1 ";
+			reviewTypeCondition = reviewtypeQuery(reviewType,
+					reviewTypeCondition);
+			String queryStr = " select distinct id from protocol where retired = 0 "
+					+ " and "
+					+ reviewTypeCondition
+					+ " and id>200000"
+					+ " and " + queryCriterias;
 
-	reportResultXml += "<title>"
-			+ "Process Measures-"+reviewType
-			+ "</title>";
-	Map<String, String> titleRowFileds = Maps.newLinkedHashMap();
-	titleRowFileds.put("title", "");
-	titleRowFileds.put("protocolNumber", "No. protocols");
-	titleRowFileds.put("25th", "25th percentile");
-	titleRowFileds.put("median", "Median");
-	titleRowFileds.put("75th", "75th percentile");
-	titleRowFileds.put("range", "Range");
-	reportResultXml += fillTitleRow(titleRowFileds);
-	reportResultXml += "<report-items>";
-	
-	List<Integer> initationToClose =initiationToCloseCount(queryCriterias,reviewType);
-	Map<String,List<Integer>> processes =Maps.newLinkedHashMap();
-	processes.put("Duration from CLARA initiation to study completion (days)-closed protocols only",initationToClose);
-	processes.put("Duration from CLARA initiation to IRB submission for reviews (days)",getSummaryTimeFromCreateToIRBSubmission(pfms));
-	processes.put("Duration from IRB submission to IRB approval (days)",getSummaryTimeFromSubmissionToIRBApprove(pfms));
-	processes.put("Duration from protocol submission to completion of review by department chairs, college deans, and IRB (days)",getTimeInEachQueueByProtocolId(pfms, Arrays.asList(Committee.values())));
-	processes.put("Duration of budget legal coverage review (days)",getDurationFromOfBudgetLegalCoverageForNSF(pfms));
-	
-	
-	
-	for(String process:processes.keySet()){
-	reportResultXml += "<report-item>";
-	reportResultXml += "<field>";
-	reportResultXml += process;
-	reportResultXml+="</field>";
-	List<Integer> reportItemResult = processes.get(process);
-	if(reportItemResult!=null){
-		
-		for(int i=0;i<titleRowFileds.keySet().size()-1;i++){
-			if(i==titleRowFileds.keySet().size()-2){
-				reportResultXml += "<field>";
-				reportResultXml+=reportItemResult.get(i)+" ~ "+reportItemResult.get(i+1);
-				reportResultXml+="</field>";
-			}else{
-				reportResultXml += "<field>";
-				reportResultXml+=""+reportItemResult.get(i);
-				reportResultXml+="</field>";
+			Query query = em.createNativeQuery(queryStr);
+			List<BigInteger> protocolIds = query.getResultList();
+			Set<ProtocolForm> pfms = Sets.newHashSet();
+			for (BigInteger protocolIdBigInt : protocolIds) {
+				try {
+					pfms.addAll(protocolFormDao
+							.listProtocolFormsByProtocolIdAndProtocolFormType(
+									protocolIdBigInt.longValue(),
+									ProtocolFormType.NEW_SUBMISSION));
+				} catch (Exception e) {
+
+				}
 			}
 			
-		}
-		
-	}
-	reportResultXml += "</report-item>";
-	}
-	
-	reportResultXml += "</report-items>";
+			
 
-	reportResultXml += "</report-result>";
+			reportResultXml += "<report-result id=\"" + "" + "\"  created=\""
+					+ DateFormatUtil.formateDateToMDY(new Date()) + "\">";
+
+			reportResultXml += "<title>" + "Process Measures-" + reviewType
+					+ "</title>";
+			Map<String, String> titleRowFileds = Maps.newLinkedHashMap();
+			titleRowFileds.put("title", "");
+			titleRowFileds.put("protocolNumber", "No. protocols");
+			titleRowFileds.put("25th", "25th percentile");
+			titleRowFileds.put("median", "Median");
+			titleRowFileds.put("75th", "75th percentile");
+			titleRowFileds.put("range", "Range");
+			reportResultXml += fillTitleRow(titleRowFileds);
+			reportResultXml += "<report-items>";
+
+			List<Integer> initationToClose = initiationToCloseCount(
+					queryCriterias, reviewType);
+			Map<String, List<Integer>> processes = Maps.newLinkedHashMap();
+			/*
+			 * List<Committee> irbCommittees = Lists.newArrayList();
+			 * for(Committee committee :Arrays.asList(Committee.values())){
+			 * if(committee.getDescription().contains("IRB")){
+			 * irbCommittees.add(committee);
+			 * logger.debug(committee.getDescription()); } }
+			 * irbCommittees.add(Committee.DEPARTMENT_CHAIR);
+			 * irbCommittees.add(Committee.COLLEGE_DEAN);
+			 */
+			
+			
+			processes.put("Total Study Time (Duration from CLARA initiation to study completion) (days) - closed protocols only",
+							initationToClose);
+			processes.put("Submission Creation Time (Duration from CLARA initiation to CLARA submission) (days)",
+							getSummaryTimeFromCreateToSubmission(pfms));
+		
+			Map<String, List<Integer>> SummaryTimeFromNewSubmissionToIRBSubmission = getSummaryTimeFromClaraSubmissionToIRBSubmission(pfms);
+			
+			processes.put("Institutional Review Time (Duration from CLARA submission to IRB submission) (days)",SummaryTimeFromNewSubmissionToIRBSubmission.get("TotalTime"));
+			processes.put("<![CDATA[<div style='padding-left:32px;'>]]>Institutional Review Time with Reviewers (days)<![CDATA[</div>]]>",SummaryTimeFromNewSubmissionToIRBSubmission.get("ReviewTime"));
+			processes.put("<![CDATA[<div style='padding-left:32px;'>]]>Institutional Review Time with PI (days)<![CDATA[</div>]]>",SummaryTimeFromNewSubmissionToIRBSubmission.get("PITime"));
+
+			Map<String, List<Integer>> durationFromOfBudgetLegalCoverageForNSF = getDurationFromOfBudgetLegalCoverageForNSF(pfms);
+			processes.put("Budget Review Time (Duration from budget review submission to completion of coverage review, including legal review, if applicable) (days)",durationFromOfBudgetLegalCoverageForNSF.get("TotalTime"));
+			processes.put("<![CDATA[<div style='padding-left:32px;'>]]>Budget Review Time with Reviewers (days)<![CDATA[</div>]]>",durationFromOfBudgetLegalCoverageForNSF.get("ReviewTime"));
+			processes.put("<![CDATA[<div style='padding-left:32px;'>]]>Budget Review Time with PI (days)<![CDATA[</div>]]>",durationFromOfBudgetLegalCoverageForNSF.get("PITime"));
+			
+			Map<String, List<Integer>> SummaryTimeFromIRBSubmissionToIRBApproveTime = getSummaryTimeFromIRBSubmissionToIRBApprove(pfms);
+			processes.put("IRB Review Time (Duration from IRB submission to IRB approval) (days)",SummaryTimeFromIRBSubmissionToIRBApproveTime.get("TotalTime"));
+			processes.put("<![CDATA[<div style='padding-left:32px;'>]]>IRB Review Time with Reviewers (days)<![CDATA[</div>]]>",SummaryTimeFromIRBSubmissionToIRBApproveTime.get("ReviewTime"));
+			processes.put("<![CDATA[<div style='padding-left:32px;'>]]>IRB Review Time with PI (days)<![CDATA[</div>]]>",SummaryTimeFromIRBSubmissionToIRBApproveTime.get("PITime"));
+			
+			String subtitleString = "placeholder";
+			for (String process : processes.keySet()) {
+				reportResultXml += "<report-item>";
+				String mapkey = process;
+				if(process.contains(subtitleString)){
+					process = process.replace(subtitleString, "");
+				}
+				reportResultXml += "<field>";
+				reportResultXml += process;
+				reportResultXml += "</field>";
+				List<Integer> reportItemResult = processes.get(mapkey);
+				if (reportItemResult != null) {
+					if(reportItemResult.size()==1){
+						for (int i = 0; i < titleRowFileds.keySet().size() - 1; i++) {
+							reportResultXml += "<field>";
+							reportResultXml += " ";
+							reportResultXml += "</field>";
+						}
+						subtitleString =process;
+					}
+					else{
+					for (int i = 0; i < titleRowFileds.keySet().size() - 1; i++) {
+						if (i == titleRowFileds.keySet().size() - 2) {
+							reportResultXml += "<field>";
+							if(reportItemResult.get(i)==0&&reportItemResult.get(i+1)==0){
+								reportResultXml += "N/A";
+							}else{
+							reportResultXml += reportItemResult.get(i) + " ~ "
+									+ reportItemResult.get(i + 1);
+							}
+							reportResultXml += "</field>";
+						} else {
+							reportResultXml += "<field>";
+							if(reportItemResult.get(i)==0){
+								reportResultXml += "N/A";
+							}else{
+							reportResultXml += "" + reportItemResult.get(i);
+							}
+							reportResultXml += "</field>";
+						}
+
+					}
+
+				}
+				}
+				reportResultXml += "</report-item>";
+			}
+
+			reportResultXml += "</report-items>";
+
+			reportResultXml += "</report-result>";
+		}
+		return reportResultXml;
 	}
-	return reportResultXml;
-}
 
 private List<Integer> initiationToCloseCount(String queryCriterias,String reviewType){
 	String queryStr = "select Datediff(day, ps1.modified,ps2.modified) from protocol_status as ps1,protocol_status as ps2 where ps1.id in(select min(id) from protocol_status where retired =0 and protocol_id>200000  "
@@ -1681,7 +1809,7 @@ private List<Integer> processMeasureComputation(List<Integer> initialList){
 	
 }
 
-private List<Integer> getSummaryTimeFromCreateToIRBSubmission(Set<ProtocolForm> pfms ){
+private List<Integer> getSummaryTimeFromCreateToSubmission(Set<ProtocolForm> pfms ){
 	List<Integer> tiemForSubmission =Lists.newArrayList();
 	List<Integer> results = Lists.newArrayList();
 	
@@ -1704,11 +1832,19 @@ private List<Integer> getSummaryTimeFromCreateToIRBSubmission(Set<ProtocolForm> 
 				break;
 			}
 			ProtocolFormStatus pfs = pfss.get(i);
+			
 			if (pfs.getProtocolFormStatus().equals(ProtocolFormStatusEnum.DRAFT)&&startTime==0) {
+				startTime = pfs.getModified().getTime();
+			}else if (!committeeActions.getDraftFormStatus().contains(pfs.getProtocolFormStatus())&&startTime > 0 && endTime==0) {
+				endTime = pfs.getModified().getTime();
+			} 
+			
+			//this is the code for time from initiation to irbsubmission
+			/*if (pfs.getProtocolFormStatus().equals(ProtocolFormStatusEnum.DRAFT)&&startTime==0) {
 				startTime = pfs.getModified().getTime();
 			}else if (pfs.getProtocolFormStatus().equals(ProtocolFormStatusEnum.UNDER_IRB_PREREVIEW)&&startTime > 0 && endTime==0) {
 				endTime = pfs.getModified().getTime();
-			} 
+			} */
 			
 			if (startTime > 0 && endTime > 0) {
 				singleTime =(int) (1+(endTime - startTime)/(24*60*60*1000));
@@ -1728,56 +1864,233 @@ private List<Integer> getSummaryTimeFromCreateToIRBSubmission(Set<ProtocolForm> 
 	return results;
 	}
 
-private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm> pfms){
-	List<Integer> tiemForSubmission =Lists.newArrayList();
-	List<Integer> results = Lists.newArrayList();
-	int singleTime =0;
+private Map<String,List<Integer>> getSummaryTimeFromIRBSubmissionToIRBApprove(Set<ProtocolForm> pfms){
+	List<Integer> tiemForSubmissionofTotal =Lists.newArrayList();
+	List<Integer> tiemForSubmissionofReviewer =Lists.newArrayList();
+	List<Integer> tiemForSubmissionofPI =Lists.newArrayList();
+	Map<String,List<Integer>> results = Maps.newHashMap();
+	for(ProtocolForm pf:pfms){
+		if(pf.getId()!=pf.getParent().getId()){
+			continue;
+		}
+		
+		try{
+		List<ProtocolFormStatus> pfss = protocolFormStatusDao.getAllProtocolFormStatusByParentFormId(pf.getFormId());
+		
+		long reviewTotaltime = 0;
+		long SubmissionstartTime = 0;
+		boolean firstIRBPrereview =false;
+		List<Long> startTimes = Lists.newArrayList();
+		List<Long> endTimes = Lists.newArrayList();
+		
+		//For irb queues only, we should remove revision time of PI
+		for(int i=0;i<pfss.size();i++){
+			ProtocolFormStatus pfs = pfss.get(i);
+			if(pfs.getProtocolFormStatus().equals(ProtocolFormStatusEnum.UNDER_IRB_PREREVIEW)){
+				firstIRBPrereview =true;
+			}
+			
+			if(firstIRBPrereview&&(startTimes.size()==endTimes.size())&&committeeActions.getIrbSubmissionStatus().contains(pfs.getProtocolFormStatus())){
+				startTimes.add(pfs.getModified().getTime());
+				//Start time should from irb assiner 
+				if(SubmissionstartTime==0){
+					ProtocolFormCommitteeStatus irbStartCommitteeStatus = protocolFormCommitteeStatusDao.listAllByCommitteeAndProtocolFormId(Committee.IRB_ASSIGNER, pf.getFormId()).get(0);
+					
+					SubmissionstartTime = irbStartCommitteeStatus.getModified().getTime();
+				}
+				continue;
+			}
+			if(startTimes.size()>endTimes.size()&&committeeActions.getRevisionRequestedStatus().contains(pfs.getProtocolFormStatus())){
+				endTimes.add(pfs.getModified().getTime());
+				continue;
+			}
+			if(startTimes.size()>endTimes.size()&&committeeActions.getIrbApprovalNSFFormStatus().contains(pfs.getProtocolFormStatus())){
+				endTimes.add(pfs.getModified().getTime());
+				break;
+			}
+		}
+		
+		Collections.sort(startTimes);
+		Collections.sort(endTimes);
+		
+		for(int i=0;i<startTimes.size();i++){
+			reviewTotaltime += endTimes.get(i)-startTimes.get(i);
+		}
+		
+		if(reviewTotaltime>0){
+			tiemForSubmissionofReviewer.add((int) (1+reviewTotaltime/(24*60*60*1000)));
+			tiemForSubmissionofPI.add((int) (1+(endTimes.get(endTimes.size()-1)-SubmissionstartTime-reviewTotaltime)/(24*60*60*1000)));
+			tiemForSubmissionofTotal.add((int) (1+(endTimes.get(endTimes.size()-1)-SubmissionstartTime)/(24*60*60*1000)));
+		}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	results.put("TotalTime", processMeasureComputation(tiemForSubmissionofTotal));
+	results.put("ReviewTime", processMeasureComputation(tiemForSubmissionofReviewer));
+	results.put("PITime", processMeasureComputation(tiemForSubmissionofPI));
+	
+	return results;
+}
+
+private Map<String,List<Integer>> getSummaryTimeFromClaraSubmissionToIRBSubmission(Set<ProtocolForm> pfms){
+	List<Integer> totalTimes =Lists.newArrayList();
+	List<Integer> reviewerTimes =Lists.newArrayList();
+	List<Integer> piTimes =Lists.newArrayList();
+	Map<String,List<Integer>> results = Maps.newHashMap();
+	
+	List<ProtocolFormStatusEnum> reviewerStartAction = committeeActions.getReviewTypeBeforeIRB();
+	
 	for(ProtocolForm pf:pfms){
 		if(pf.getId()!=pf.getParent().getId()){
 			continue;
 		}
 		try{
 		List<ProtocolFormStatus> pfss = protocolFormStatusDao.getAllProtocolFormStatusByParentFormId(pf.getFormId());
+
+		long totaltime = 0;
+		long piStartTime = 0;
+		long irbsubmissionTime = 0;
+		List<Long> startTimes = Lists.newArrayList();
+		List<Long> endTimes = Lists.newArrayList();
 		
-		long startTime = 0;
-		long endTime = 0;
+		//For irb queues only, we should remove revision time of PI
 		for(int i=0;i<pfss.size();i++){
 			ProtocolFormStatus pfs = pfss.get(i);
-			if(pfs.getProtocolFormStatus().equals(ProtocolFormStatusEnum.UNDER_IRB_PREREVIEW)){
-				startTime = pfs.getModified().getTime();
+			
+			if((startTimes.size()==endTimes.size())&&reviewerStartAction.contains(pfs.getProtocolFormStatus())){
+				startTimes.add(pfs.getModified().getTime());
+				if(piStartTime==0){
+					piStartTime = pfs.getModified().getTime();
+				}
+				continue;
+			}
+			if(startTimes.size()>endTimes.size()&&committeeActions.getRevisionRequestedStatus().contains(pfs.getProtocolFormStatus())){
+				endTimes.add(pfs.getModified().getTime());
+				continue;
+			}
+			if(startTimes.size()>endTimes.size()&&pfs.getProtocolFormStatus().equals(ProtocolFormStatusEnum.PENDING_PI_SIGN_OFF)){
+				endTimes.add(pfs.getModified().getTime());
+				irbsubmissionTime = pfs.getModified().getTime();
+				break;
+			}else if(startTimes.size()>endTimes.size()&&pfs.getProtocolFormStatus().equals(ProtocolFormStatusEnum.UNDER_IRB_PREREVIEW)){
+				ProtocolFormCommitteeStatus irbStartCommitteeStatus = protocolFormCommitteeStatusDao.listAllByCommitteeAndProtocolFormId(Committee.IRB_ASSIGNER, pf.getFormId()).get(0);
+					
+				endTimes.add(irbStartCommitteeStatus.getModified().getTime());
+				irbsubmissionTime = pfs.getModified().getTime();
 				break;
 			}
 		}
-		if(committeeActions.getIrbApprovalNSFFormStatus().contains(pfss.get(pfss.size()-1).getProtocolFormStatus())){
-			
-			endTime =  pfss.get(pfss.size()-1).getModified().getTime();
-			singleTime =(int) (1+(endTime - startTime)/(24*60*60*1000));
-			tiemForSubmission.add(singleTime);
-		}}
+		
+		Collections.sort(startTimes);
+		Collections.sort(endTimes);
+		for(int i=0;i<startTimes.size();i++){
+			totaltime += endTimes.get(i)-startTimes.get(i);
+		}
+		
+		if(totaltime>0){
+			totalTimes.add((int) (1+(irbsubmissionTime-piStartTime)/(24*60*60*1000)));
+			reviewerTimes.add((int) (1+totaltime/(24*60*60*1000)));
+			piTimes.add((int) (1+(irbsubmissionTime-piStartTime-totaltime)/(24*60*60*1000)));
+		}
+		}
 		catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 	
-	results = processMeasureComputation(tiemForSubmission);
+	results.put("TotalTime", processMeasureComputation(totalTimes));
+	results.put("ReviewTime", processMeasureComputation(reviewerTimes));
+	results.put("PITime", processMeasureComputation(piTimes));
+	return results;
+}
+
+
+private  Map<String,List<Integer>> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm> pfms){
+	List<Integer> tiemForSubmissionofReviewer =Lists.newArrayList();
+	List<Integer> tiemForSubmissionofPI =Lists.newArrayList();
+	Map<String,List<Integer>> results = Maps.newHashMap();
+	List<ProtocolFormStatusEnum> reviewerStartAction = committeeActions.getIrbSubmissionStatus();
+	reviewerStartAction.add(ProtocolFormStatusEnum.UNDER_PREREVIEW);
+	for(ProtocolForm pf:pfms){
+		if(pf.getId()!=pf.getParent().getId()){
+			continue;
+		}
+		try{
+		List<ProtocolFormStatus> pfss = protocolFormStatusDao.getAllProtocolFormStatusByParentFormId(pf.getFormId());
+
+		long totaltime = 0;
+		long piStartTime = 0;
+		List<Long> startTimes = Lists.newArrayList();
+		List<Long> endTimes = Lists.newArrayList();
+		
+		//For irb queues only, we should remove revision time of PI
+		for(int i=0;i<pfss.size();i++){
+			ProtocolFormStatus pfs = pfss.get(i);
+			
+			if((startTimes.size()==endTimes.size())&&reviewerStartAction.contains(pfs.getProtocolFormStatus())){
+				startTimes.add(pfs.getModified().getTime());
+				if(piStartTime==0){
+					piStartTime = pfs.getModified().getTime();
+				}
+				continue;
+			}
+			if(startTimes.size()>endTimes.size()&&committeeActions.getRevisionRequestedStatus().contains(pfs.getProtocolFormStatus())){
+				endTimes.add(pfs.getModified().getTime());
+				continue;
+			}
+			if(startTimes.size()>endTimes.size()&&committeeActions.getIrbApprovalNSFFormStatus().contains(pfs.getProtocolFormStatus())){
+				endTimes.add(pfs.getModified().getTime());
+				break;
+			}
+		}
+		
+		Collections.sort(startTimes);
+		Collections.sort(endTimes);
+		
+		for(int i=0;i<startTimes.size();i++){
+			totaltime += endTimes.get(i)-startTimes.get(i);
+		}
+		
+		if(totaltime>0){
+			tiemForSubmissionofReviewer.add((int) (1+totaltime/(24*60*60*1000)));
+			tiemForSubmissionofPI.add((int) (1+(endTimes.get(endTimes.size()-1)-piStartTime-totaltime)/(24*60*60*1000)));
+		}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	results.put("ReviewTime", processMeasureComputation(tiemForSubmissionofReviewer));
+	results.put("PITime", processMeasureComputation(tiemForSubmissionofPI));
 	
 	return results;
 }
 
-	private List<Integer> getDurationFromOfBudgetLegalCoverageForNSF(
+	private Map<String,List<Integer>> getDurationFromOfBudgetLegalCoverageForNSF(
 			Set<ProtocolForm> pfms) {
-		List<Integer> tiemForSubmission = Lists.newArrayList();
-		List<Integer> results = Lists.newArrayList();
-		int singleTime = 0;
+		List<Integer> tiemForSubmissionofReviewer = Lists.newArrayList();
+		List<Integer> tiemForSubmissionofPI = Lists.newArrayList();
+		List<Integer> tiemForSubmissionofTotal = Lists.newArrayList();
+		Map<String,List<Integer>> results = Maps.newHashMap();	
+		
 		for (ProtocolForm pf : pfms) {
+			
 			if (pf.getId() != pf.getParent().getId()) {
 				continue;
 			}
 			try {
 				List<ProtocolFormStatus> pfss = protocolFormStatusDao
 						.getAllProtocolFormStatusByParentFormId(pf.getFormId());
-
+				long piTime = 0;
 				long startTime = 0;
 				long endTime = 0;
+				long piStartTime = 0;
+				long piEndTime = 0;
+				ProtocolFormStatusEnum piRevisionCuasedActionStatus =null;
+				boolean revisionRequested =false;
 				for (int i = 0; i < pfss.size(); i++) {
 					ProtocolFormStatus pfs = pfss.get(i);
 					if (pfs.getProtocolFormStatus().equals(
@@ -1789,26 +2102,48 @@ private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm>
 							.equals(ProtocolFormStatusEnum.UNDER_HOSPITAL_SERVICES_REVIEW)
 							&& startTime > 0) {
 						endTime = pfs.getModified().getTime();
-						singleTime = (int) (1 + (endTime - startTime)
+						int singleTime = (int) (1 + (endTime - startTime-piTime)
 								/ (24 * 60 * 60 * 1000));
-						tiemForSubmission.add(singleTime);
+						tiemForSubmissionofReviewer.add(singleTime);
+						tiemForSubmissionofPI.add((int)(1 + (piTime)
+								/ (24 * 60 * 60 * 1000)));
+						tiemForSubmissionofTotal.add((int) (1 + (endTime - startTime)
+								/ (24 * 60 * 60 * 1000)));
+						
+					}
+					
+					//calculating pi revision time
+					if (pfs.getProtocolFormStatus().equals(
+							ProtocolFormStatusEnum.REVISION_REQUESTED)) {
+						piStartTime = pfs.getModified().getTime();
+						piRevisionCuasedActionStatus = pfss.get(i-1).getProtocolFormStatus();
+						revisionRequested = true;
+					}
+					
+					if(revisionRequested&&pfs.getProtocolFormStatus().equals(piRevisionCuasedActionStatus)){
+						piEndTime = pfs.getModified().getTime();
+						piTime += piEndTime- piStartTime;
+						piStartTime=0;
+						piEndTime=0;
 					}
 				}
 
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
-		results = processMeasureComputation(tiemForSubmission);
+		results.put("TotalTime", processMeasureComputation(tiemForSubmissionofTotal));
+		results.put("ReviewTime", processMeasureComputation(tiemForSubmissionofReviewer));
+		results.put("PITime", processMeasureComputation(tiemForSubmissionofPI));
 
 		return results;
 	}
 
-	private List<Integer> getTimeInEachQueueByProtocolId(
+	/*private List<Integer> getTimeInEachQueueByProtocolId(
 			Set<ProtocolForm> pfms, List<Committee> committees) {
 
 		List<Integer> results = Lists.newArrayList();
-
 		for (ProtocolForm pf : pfms) {
 			if (pf.getId() != pf.getParent().getId()) {
 				continue;
@@ -1836,13 +2171,20 @@ private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm>
 								.getProtocolFormCommitteeStatus())) {
 							startTime = pfcs.getModified().getTime();
 
-							// chage the start time to agenda approved
+							// change the start time to agenda approved
 							if (committee.equals(Committee.IRB_REVIEWER)) {
-								try {
-									AgendaStatus agendaStatus = agendaStatusDao
+								try{
+								AgendaStatus agendaStatus = null;
+								try{
+									agendaStatus = agendaStatusDao
 											.getAgendaStatusByAgendaStatusAndProtocolFormId(
 													AgendaStatusEnum.AGENDA_APPROVED,
 													pfcs.getProtocolFormId());
+								}catch(Exception ex){
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED,true);}
 									startTime = agendaStatus.getModified()
 											.getTime();
 								} catch (Exception e) {
@@ -1857,11 +2199,18 @@ private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm>
 							if (committee.equals(Committee.IRB_OFFICE)
 									&& pfcs.getProtocolFormCommitteeStatus()
 											.equals(ProtocolFormCommitteeStatusEnum.IRB_AGENDA_ASSIGNED)) {
-								try {
-									AgendaStatus agendaStatus = agendaStatusDao
+								try{
+								AgendaStatus agendaStatus = null;
+								try{
+									agendaStatus = agendaStatusDao
 											.getAgendaStatusByAgendaStatusAndProtocolFormId(
 													AgendaStatusEnum.AGENDA_APPROVED,
 													pfcs.getProtocolFormId());
+								}catch(Exception ex){
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED,true);}
 									endTime = agendaStatus.getModified()
 											.getTime();
 								} catch (Exception e) {
@@ -1896,6 +2245,9 @@ private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm>
 				}
 				if (totalTime > 0) {
 					totalTime = 1 + totalTime / (24 * 60 * 60 * 1000);
+					if(totalTime==37){
+						logger.debug(""+pf.getId()+pf.getProtocol().getId());
+					}
 					results.add((int) totalTime);
 				}
 
@@ -1907,64 +2259,9 @@ private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm>
 		results = processMeasureComputation(results);
 
 		return results;
-	}
+	}*/
 
-	private String generateSummaryCriteriaTable(ReportTemplate reportTemplate,
-			Map<String, String> queryCriteriasValueMap) {
-		String finalResultXml = "";
-
-		finalResultXml += "<report-result id=\""
-				+ reportTemplate.getTypeDescription() + "\"  created=\""
-				+ DateFormatUtil.formateDateToMDY(new Date()) + "\">";
-		finalResultXml += "<title>" + "Search Criteria" + "</title>";
-		finalResultXml += "<fields>";
-		finalResultXml += "<field id=\"" + "criterianame" + "\" desc=\"" + ""
-				+ "\" hidden=\"" + "false" + "\" />";
-		finalResultXml += "<field id=\"" + "criteriavalue" + "\" desc=\"" + ""
-				+ "\" hidden=\"" + "false" + "\" />";
-		finalResultXml += "</fields>";
-
-		finalResultXml += "<report-items>";
-		if (queryCriteriasValueMap.size() == 0) {
-			finalResultXml += "<report-item>";
-			finalResultXml += "<field id=\"" + "criterianame" + "\">";
-			finalResultXml += "Type of Study";
-			finalResultXml += "</field>";
-			finalResultXml += "<field id=\"" + "criteriavalue" + "\">";
-			finalResultXml += "All";
-			finalResultXml += "</field>";
-			finalResultXml += "</report-item>";
-
-			finalResultXml += "<report-item>";
-			finalResultXml += "<field id=\"" + "criterianame" + "\">";
-			finalResultXml += "Department";
-			finalResultXml += "</field>";
-			finalResultXml += "<field id=\"" + "criteriavalue" + "\">";
-			finalResultXml += "All Divisions, All Departments, All Colleges";
-			finalResultXml += "</field>";
-			finalResultXml += "</report-item>";
-
-		} else {
-			for (Entry<String, String> value : queryCriteriasValueMap
-					.entrySet()) {
-				try {
-					finalResultXml += "<report-item>";
-					finalResultXml += "<field id=\"" + "criterianame" + "\">";
-					finalResultXml += value.getKey();
-					finalResultXml += "</field>";
-					finalResultXml += "<field id=\"" + "criteriavalue" + "\">";
-					finalResultXml += value.getValue();
-					finalResultXml += "</field>";
-					finalResultXml += "</report-item>";
-				} catch (Exception e) {
-
-				}
-			}
-		}
-		finalResultXml += "</report-items>";
-		finalResultXml += "</report-result>";
-		return finalResultXml;
-	}
+	
 	private int roundUpInt(int a,int b) {
 		return(((double)a/(double)b)>(a/b)?a/b+1:a/b);
 	}
@@ -1980,8 +2277,8 @@ private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm>
 		Map<String, String> fieldsRealXPathMap = Maps.newHashMap();
 		Map<String, String> queryCriteriasValueMap = Maps.newHashMap();
 
-		String date1 = "1000-10-10";
-		String date2 = "4000-10-10";
+		String date1 = "1940-10-10";
+		String date2 = "2060-10-10";
 		for (ReportCriteria rc : criterias) {
 			ReportFieldTemplate reportCriteriaField = new ReportFieldTemplate();
 
@@ -2060,7 +2357,7 @@ private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm>
 								} else if (values[i].contains("'")) {
 									realXpath += reportCriteriaField
 											.getNodeXPath().replace("{value}",
-													values[1].toUpperCase());
+													values[i].toUpperCase());
 								} else {
 									realXpath += reportCriteriaField
 											.getNodeXPath()
@@ -2094,7 +2391,9 @@ private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm>
 								realXpath = reportCriteriaField
 										.getNodeXPath()
 										.replace("{value}", value.toUpperCase());
-							} else {
+							} else if(value.toUpperCase().equals("IN")||value.toUpperCase().equals("NOT IN")){
+								realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
+							}else {
 								realXpath = reportCriteriaField
 										.getNodeXPath()
 										.replace("{value}",
@@ -2136,6 +2435,7 @@ private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm>
 		String finalResultXml = "<report-results>";
 		finalResultXml = finalResultXml+generateSummaryCriteriaTable(reportTemplate,
 				queryCriteriasValueMap);
+		
 		logger.debug(queryCriterias);
 			switch(reportTemplate.getTypeDescription()){
 			case "Human Subject Research Dashboard-Summary of protocols by type of review and initiator":finalResultXml+=subType1Report(queryCriterias);
@@ -2152,9 +2452,9 @@ private List<Integer> getSummaryTimeFromSubmissionToIRBApprove(Set<ProtocolForm>
 			break;
 			case "Human Subject Research Dashboard-Protocols closed to enrollment and follow-up":finalResultXml+=subType7Report(queryCriterias,date1,date2);
 			break;
-			case "Human Subject Research Dashboard-Full Review Studies Closed-Reasons for Closure":finalResultXml+=subType8Report(queryCriterias,date1,date2);
+			case "Human Subject Research Dashboard-Full Board Review Studies Closed-Reasons for Closure":finalResultXml+=subType8Report(queryCriterias,date1,date2);
 			break;
-			case "Human Subject Research Dashboard-Full Review Studies Closed-Cumulative Patients Enrolled":finalResultXml+=subType9Report(queryCriterias,date1,date2);
+			case "Human Subject Research Dashboard-Full Board Review Studies Closed-Cumulative Patients Enrolled":finalResultXml+=subType9Report(queryCriterias,date1,date2);
 			break;
 			case "Human Subject Research Dashboard-Process Measures":finalResultXml+=subType10Report(queryCriterias);
 			break;

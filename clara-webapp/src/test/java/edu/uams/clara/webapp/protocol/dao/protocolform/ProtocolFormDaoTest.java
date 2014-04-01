@@ -12,8 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 public class ProtocolFormDaoTest {
 private ProtocolFormDao protocolFormDao;
-
-
+	
+	
 	public ProtocolFormDao getProtocolFormDao() {
 		return protocolFormDao;
 	}

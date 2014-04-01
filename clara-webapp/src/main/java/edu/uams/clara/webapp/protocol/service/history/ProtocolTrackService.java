@@ -56,7 +56,8 @@ public class ProtocolTrackService extends BusinessObjectTrackService<Protocol> {
 	
 		return track;
 	}
-
+	
+	/*
 	@Override
 	public String getCommitteeNote(Form form, Committee committee) {
 		ProtocolForm protocolForm = (ProtocolForm) form;
@@ -64,6 +65,23 @@ public class ProtocolTrackService extends BusinessObjectTrackService<Protocol> {
 		ProtocolFormCommitteeStatus pfcss = protocolFormCommitteeStatusDao.getLatestByCommitteeAndProtocolFormId(committee, protocolForm.getId());
 		
 		return (pfcss!=null)?pfcss.getNote():"";
+	}
+	*/
+	
+	@Override
+	public Map<String, String> getFormCommitteeStatusAttributeValues(Form form, Committee committee, 
+			Map<String, String> attributeValues) {
+		ProtocolForm protocolForm = (ProtocolForm) form; 
+		
+		try {
+			ProtocolFormCommitteeStatus pfcss = protocolFormCommitteeStatusDao.getLatestByCommitteeAndProtocolFormId(committee, protocolForm.getId());
+			
+			attributeValues.put("{FORM_COMMITTEE_STATUS_ID}", String.valueOf(pfcss.getId()));
+		} catch (Exception e) {
+			//don't care
+		}
+		
+		return attributeValues;
 	}
 
 	public ProtocolFormCommitteeStatusDao getProtocolFormCommitteeStatusDao() {
@@ -75,4 +93,5 @@ public class ProtocolTrackService extends BusinessObjectTrackService<Protocol> {
 			ProtocolFormCommitteeStatusDao protocolFormCommitteeStatusDao) {
 		this.protocolFormCommitteeStatusDao = protocolFormCommitteeStatusDao;
 	}
+
 }

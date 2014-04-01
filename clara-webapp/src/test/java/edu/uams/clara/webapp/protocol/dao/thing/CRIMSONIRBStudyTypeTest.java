@@ -15,14 +15,14 @@ import edu.uams.clara.integration.incoming.crimson.dao.CrimsonStudyDao;
 public class CRIMSONIRBStudyTypeTest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(CRIMSONIRBStudyTypeTest.class);
-
+	
 	private CrimsonStudyDao crimsonIRBStudyTypeDao;
 
 	public CrimsonStudyDao getCrimsonIRBStudyTypeDao() {
 		return crimsonIRBStudyTypeDao;
 	}
-
-
+	
+	
 	@Test
 	public void testFindStudyByIRBNum() {
 		int aaa =(int) crimsonIRBStudyTypeDao.findRegInfobyCtID(433)[0];

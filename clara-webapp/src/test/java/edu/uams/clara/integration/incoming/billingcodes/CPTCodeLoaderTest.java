@@ -24,117 +24,117 @@ public class CPTCodeLoaderTest {
 	.getLogger(CPTCodeLoaderTest.class);
 
 	private ResourceLoader resourceLoader;
-
+	
 	private CPTCodeDao cptCodeDao;
-
+		
 	@Test
 	public void loadCPTCodeLongDescription() throws Exception{
-
+		
 		Resource longDescCPTCode = resourceLoader.getResource("cptcode/LONGULT.txt");
-
+			
 		InputStream in = longDescCPTCode.getInputStream();
-
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
+		
 		String strLine = null;
 		String[] a = null;
 		String code = null;
 		String description = null;
 		CPTCode cptCode = null;
-
-
-		//getting cpt code and long description from LONGULT.txt, and save into database.
+		
+		
+		//getting cpt code and long description from LONGULT.txt, and save into database.		
 		while((strLine = br.readLine()) != null){
 			a = strLine.split("\\t");
 			code = a[0].trim();
 			description = a[1].trim();
-
-
+			
+			
 			cptCode = cptCodeDao.findByCode(code);
 			if(cptCode == null){
 				cptCode = new CPTCode();
 			}
 			cptCode.setCode(code);
 			cptCode.setLongDescription(description);
-
+			
 			cptCode = cptCodeDao.saveOrUpdate(cptCode);
-
+			
 		}
-
+			
 		in.close();
-
+		
 	}
-
+	
 	@Test
 	public void loadCPTCodeMedDescription() throws Exception{
 		Resource medDescCPTCode = resourceLoader.getResource("cptcode/MEDU.txt");
-
+		
 		InputStream in = medDescCPTCode.getInputStream();
-
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
+		
 		String strLine = null;
 		String[] a = null;
 		String code = null;
 		String description = null;
 		CPTCode cptCode = null;
-
+		
 		while((strLine = br.readLine()) != null){
 			a = strLine.split(" ",2);
 			code = a[0].trim();
 			description = a[1].trim();
-
+			
 			logger.debug("code: " + code + "; med-desc: " + description);
-
+			
 			cptCode = cptCodeDao.findByCode(code);
 			if(cptCode == null){
 				cptCode = new CPTCode();
 			}
 			cptCode.setCode(code);
 			cptCode.setMediumDescription(description);
-
+			
 			cptCode = cptCodeDao.saveOrUpdate(cptCode);
-
+			
 		}
-
+			
 		in.close();
 	}
-
+		
 		// getting cpt code and shortdescription from shortu.txt, save in database
 		@Test
 		public void loadCPTCodeSHORTDescription() throws Exception{
 			Resource shortDescCPTCode = resourceLoader.getResource("cptcode/SHORTU.txt");
-
+			
 			InputStream in = shortDescCPTCode.getInputStream();
-
+			
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
+			
 			String strLine = null;
 			String[] a = null;
 			String code = null;
 			String description = null;
 			CPTCode cptCode = null;
-
+			
 			while((strLine = br.readLine()) != null){
 				a = strLine.split(" ",2);
 				code = a[0].trim();
 				description = a[1].trim();
-
+				
 				logger.debug("code: " + code + "; short-desc: " + description);
-
+				
 				cptCode = cptCodeDao.findByCode(code);
 				if(cptCode == null){
 					cptCode = new CPTCode();
 				}
 				cptCode.setCode(code);
 				cptCode.setShortDescription(description);
-
+				
 				cptCode = cptCodeDao.saveOrUpdate(cptCode);
-
+				
 			}
-
+				
 			in.close();
-
+		
 	}
 
 	@Autowired(required=true)
@@ -154,5 +154,5 @@ public class CPTCodeLoaderTest {
 	public CPTCodeDao getCptCodeDao() {
 		return cptCodeDao;
 	}
-
+ 
 }

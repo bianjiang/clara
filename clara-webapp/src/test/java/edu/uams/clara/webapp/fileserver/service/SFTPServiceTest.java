@@ -90,7 +90,7 @@ public class SFTPServiceTest {
 
 		// upload file to the server
 		sFTPService.uploadLocalFileToRemote("C://Data//upload//protocol//133409//"+identifier + ".pdf");
-
+		
 		// delete the file after uploading...
 		File uploadedFile = new File(filename);
 		uploadedFile.delete();

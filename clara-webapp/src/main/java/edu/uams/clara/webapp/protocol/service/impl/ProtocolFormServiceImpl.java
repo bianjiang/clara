@@ -36,10 +36,12 @@ import edu.uams.clara.webapp.common.security.ObjectAclService;
 import edu.uams.clara.webapp.common.service.UserService;
 import edu.uams.clara.webapp.common.service.form.FormService;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
+import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDocumentDao;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
@@ -56,6 +58,8 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 	private FormService formService;
 	
 	private ObjectAclService objectAclService;
+	
+	private ProtocolFormStatusDao protocolFormStatusDao;
 
 	private Map<ProtocolFormType, Set<ProtocolFormXmlDataType>> copyLists = new HashMap<ProtocolFormType, Set<ProtocolFormXmlDataType>>();
 	{
@@ -665,7 +669,13 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 							workflow = "NOT_INVESTIGATOR";
 						}
 					} else if (primaryResValue.equals("other")){
-						workflow = "OTHER";
+						String enrollSubjects = xmlHandler.getSingleStringValueByXPath(protocolFormXmlData.getXmlData(), "/protocol/budget/potentially-billed");
+						
+						if (enrollSubjects.equals("y")) {
+							workflow = "NOT_INVESTIGATOR";
+						} else {
+							workflow = "OTHER";
+						}
 					}
 				}
 				break;
@@ -1188,6 +1198,8 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				*/
 				
 				//Redmine ticket#2830 Study member submitting revisions back to budget or converge review without requiring PI signature
+				ProtocolFormStatus latestFormStatus = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(protocolForm.getId());
+
 				String requestedCommittee = "";
 				
 				try {
@@ -1196,7 +1208,11 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 					e.printStackTrace();
 				}
 				
-				if (requestedCommittee.equals("BUDGET_REVIEW") || requestedCommittee.equals("GATEKEEPER")) {
+				List<ProtocolFormStatusEnum> needToCheckRevisionRequestCommitteeStatusLst = Lists.newArrayList();		
+				needToCheckRevisionRequestCommitteeStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION);
+				needToCheckRevisionRequestCommitteeStatusLst.add(ProtocolFormStatusEnum.REVISION_PENDING_PI_ENDORSEMENT);
+				
+				if (needToCheckRevisionRequestCommitteeStatusLst.contains(latestFormStatus.getProtocolFormStatus()) && (requestedCommittee.equals("BUDGET_REVIEW") || requestedCommittee.equals("GATEKEEPER"))) {
 					isSpecficRole = "IS_PI";
 				} else {
 					isSpecficRole = formService
@@ -1397,6 +1413,15 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 	@Autowired(required = true)
 	public void setObjectAclService(ObjectAclService objectAclService) {
 		this.objectAclService = objectAclService;
+	}
+
+	public ProtocolFormStatusDao getProtocolFormStatusDao() {
+		return protocolFormStatusDao;
+	}
+	
+	@Autowired(required = true)
+	public void setProtocolFormStatusDao(ProtocolFormStatusDao protocolFormStatusDao) {
+		this.protocolFormStatusDao = protocolFormStatusDao;
 	}
 
 }

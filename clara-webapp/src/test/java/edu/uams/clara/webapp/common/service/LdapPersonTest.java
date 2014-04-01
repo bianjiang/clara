@@ -18,9 +18,9 @@ public class LdapPersonTest {
 
 	private final static Logger logger = LoggerFactory
 			.getLogger(UserServiceTest.class);
-
+	
 	private LdapPersonLookupService ldapPersonLookupService;
-
+	
 	@Test
 	public void testStudentAccount(){
 		List<Person> ldapPersons = ldapPersonLookupService.searchForPersons("RAMEY");
@@ -38,5 +38,5 @@ public class LdapPersonTest {
 	public void setLdapPersonLookupService(LdapPersonLookupService ldapPersonLookupService) {
 		this.ldapPersonLookupService = ldapPersonLookupService;
 	}
-
+	
 }

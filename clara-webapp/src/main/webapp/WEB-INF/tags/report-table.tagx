@@ -33,7 +33,7 @@
 				<tbody>
 					<x:forEach var="item" select="$table/report-items/report-item">
 						<x:set var="isSpannedRow" select="boolean($item/@spanrow)" />
-
+						<x:set var="rowClass" select="string($item/@class)" />
 
 						<c:choose>
 							<c:when test="${isSpannedRow == true }">
@@ -41,7 +41,7 @@
 								<x:set var="fieldClass" select="string($field/@class)" />
 								<x:set var="fieldId" select="string($field/@id)" />
 
-								<tr class="report-row whole-row">
+								<tr class="report-row whole-row ${rowClass}">
 									
 									<td class="field-${fieldId} ${fieldClass}" colspan="${fieldCount}">
 										<x:set var="hasList" select="boolean($field/list)" />
@@ -63,7 +63,7 @@
 								</tr>
 							</c:when>
 							<c:otherwise>
-								<tr class="report-row">
+								<tr class="report-row  ${rowClass}">
 									<x:forEach var="field" select="$item/field">
 										<x:set var="fieldClass" select="string($field/@class)" />
 										<x:set var="fieldId" select="string($field/@id)" />

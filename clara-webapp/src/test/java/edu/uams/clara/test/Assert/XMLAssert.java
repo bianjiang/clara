@@ -102,7 +102,7 @@ public final class XMLAssert {
 			return false;
 		}
 
-
+		
 		for (int i = 0, n = listA.getLength(); i < n; ++i) {
 			final Node itemA = listA.item(i);
 			final Node itemB = listB.getNamedItem(itemA.getNodeName());
@@ -121,16 +121,16 @@ public final class XMLAssert {
 		}
 		return true;
 		/*
-		 *
+		 * 
 		 * for (int i = 0, n = listA.getLength(); i < n; ++i) { final Node itemA
 		 * = listA.item(i); final Node itemB =
 		 * listB.getNamedItem(itemA.getNodeName());
-		 *
-		 *
+		 * 
+		 * 
 		 * boolean tEqual = false; for (int j = 0, m = listB.getLength(); j < m;
 		 * ++j) { if(isNodeEquals(listA.item(i), listB.item(j))){ tEqual = true;
 		 * break; } } if(!tEqual){ return false; } }
-		 *
+		 * 
 		 * return true;
 		 */
 	}
@@ -158,11 +158,11 @@ public final class XMLAssert {
 			IOException {
 
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-
+		
 		Document o = dBuilder.parse(new InputSource(new StringReader(
 				originalXml)));
-
-
+		
+		
 		Document m = dBuilder.parse(new InputSource(new StringReader(
 				modifiedXml)));
 

@@ -28,39 +28,39 @@ public class AgendaDaoTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(AgendaDaoTest.class);
-
+	
 	private AgendaDao agendaDao;
-
+	
 	private AgendaItemDao agendaItemDao;
-
+	
 	private AgendaStatusDao agendaStatusDao;
-
+	
 	//@Test
 	public void testListAgendasByStatuses() throws JsonGenerationException, JsonMappingException, IOException{
 		List<AgendaStatusEnum> availableAgendaStatuses = new ArrayList<AgendaStatusEnum>(0);
-
+		
 		availableAgendaStatuses.add(AgendaStatusEnum.AGENDA_INCOMPLETE);
 		availableAgendaStatuses.add(AgendaStatusEnum.AGENDA_PENDING_CHAIR_APPROVAL);
 		availableAgendaStatuses.add(AgendaStatusEnum.AGENDA_APPROVED);
-
+			
 		List<Agenda> agendas = agendaDao.listAgendasByStatuses(availableAgendaStatuses);
-
+		
 		ObjectMapper objectMapper = new ObjectMapper();
-
+		
 		logger.debug(objectMapper.writeValueAsString(agendas));
 	}
-
+	
 	//@Test
 	public void testAgendaItem(){
 		AgendaItem agendaItem = agendaItemDao.findById(107l);
-
+		
 		logger.debug("agendaItemId: " + agendaItem.getId() + "; xmlData: " + agendaItem.getXmlData());
 	}
-
+	
 	@Test
 	public void testAgendaStatusDao(){
 		AgendaStatus agendaStatus = agendaStatusDao.getAgendaStatusByAgendaId(35l);
-
+		
 		logger.debug("status: " + agendaStatus.getAgendaStatus());
 	}
 
@@ -76,7 +76,7 @@ public class AgendaDaoTest {
 	public AgendaItemDao getAgendaItemDao() {
 		return agendaItemDao;
 	}
-
+	
 	@Autowired(required=true)
 	public void setAgendaItemDao(AgendaItemDao agendaItemDao) {
 		this.agendaItemDao = agendaItemDao;
@@ -85,7 +85,7 @@ public class AgendaDaoTest {
 	public AgendaStatusDao getAgendaStatusDao() {
 		return agendaStatusDao;
 	}
-
+	
 	@Autowired(required=true)
 	public void setAgendaStatusDao(AgendaStatusDao agendaStatusDao) {
 		this.agendaStatusDao = agendaStatusDao;

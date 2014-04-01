@@ -13,18 +13,18 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
-
+		
+		
 		<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
 	<bean id="personDao" class="edu.uams.clara.webapp.common.dao.usercontext.PersonDao" />
-	<bean id="userService" class="edu.uams.clara.webapp.common.service.impl.UserServiceImpl" />
-
-
-	<bean id="emailService" class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl" />
-	<bean id="userRoleDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserRoleDao" />
+	<bean id="userService" class="edu.uams.clara.webapp.common.service.impl.UserServiceImpl" />	
+	
+	
+	<bean id="emailService" class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl" />	
+	<bean id="userRoleDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserRoleDao" />	
 	<bean id="md5PasswordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
 	<bean id="roleDao" class="edu.uams.clara.webapp.common.dao.usercontext.RoleDao" />
-
+		
 		 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="webmail.uams.edu"/>
         <property name="port" value="25"/>
@@ -40,7 +40,7 @@
             </props>
         </property>
     </bean>
-
+    
      <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
       <property name="velocityProperties">
          <value>
@@ -49,7 +49,7 @@
          </value>
       </property>
    </bean>
-
+   
    <bean id="ldapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="${ldap.provider-url}" />
 		<property name="userDn" value="${ldap.manager-dn}" />
@@ -62,9 +62,9 @@
 		<property name="ignoreNameNotFoundException" value="true" />
 		<property name="contextSource" ref="ldapContextSource" />
 	</bean>
-
+		
 	<bean id="ldapPersonLookupService" class="edu.uams.clara.webapp.common.service.impl.LdapPersonLookupServiceImpl">
 		<constructor-arg index="0" ref="ldapTemplate" />
 		<constructor-arg index="1" ref="personDao" />
-	</bean>
+	</bean>	
 </beans>

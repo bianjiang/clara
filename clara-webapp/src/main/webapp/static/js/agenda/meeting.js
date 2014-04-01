@@ -145,12 +145,12 @@ Clara.IRBMeeting.MessageBus.on('senttochair', function(updateUIOnly){
 	Ext.getCmp("btn-meeting-send-chair").setVisible(false);
 	Ext.getCmp("btn-attendance").setDisabled(true);
 	Ext.getCmp("btn-meeting-stop").setDisabled(true);
-
-
+	
+	
 	//enable things chair can use
 	Ext.getCmp("btnMakeMotion").setDisabled(!isChair);
 	Ext.getCmp("btnRemoveMotion").setDisabled(!isChair);
-
+	
 	if (Ext.getCmp("agendaItemPanel")) {
 		Ext.getCmp("agendaItemPanel").setDisabled(false);
 		Ext.getCmp("agendaItemPanel").expand();

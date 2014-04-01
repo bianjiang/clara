@@ -367,6 +367,9 @@
 							<decision>
 								<value>ACKNOWLEDGE</value>
 								<desc>Acknowledge</desc>
+								<email-template-identifiers>
+									<email-template-identifier>STAFF_ONLY_MODIFICATION_ACKNOWLEDGED_LETTER</email-template-identifier>
+								</email-template-identifiers>
 							</decision>
 							<decision>
 								<value>REVISION_REQUESTED</value>

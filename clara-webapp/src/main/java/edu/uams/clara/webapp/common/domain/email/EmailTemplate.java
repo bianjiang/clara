@@ -21,11 +21,11 @@ import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
 public class EmailTemplate extends AbstractDomainEntity implements Serializable {
 
 	private static final long serialVersionUID = 3478468910951793983L;
-
+	
 	public static enum Type{
 		PROTOCOL, CONTRACT,REPORT;
 	}
-
+	
 	@Column(name="type")
 	@Enumerated(EnumType.STRING)
 	private Type type;

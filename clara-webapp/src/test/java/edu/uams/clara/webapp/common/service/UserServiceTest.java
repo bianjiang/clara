@@ -30,16 +30,16 @@ public class UserServiceTest {
 			.getLogger(UserServiceTest.class);
 
 	private UserService userService;
-
+	
 	private LdapPersonLookupService ldapPersonLookupService;
-
+	
 	private UserDao userDao;
-
-	private PersonDao personDao;
-
+	
+	private PersonDao personDao;	
+	
 	private CitiMemberDao citiMemberDao;
-
-
+	
+	
 	private List<Person> searchForPersons(String keyword) {
 		// searchForPersons might give exception
 		List<Person> daoPersons =  Lists.newArrayList();
@@ -56,20 +56,20 @@ public class UserServiceTest {
 			//don't care
 			ex.printStackTrace();
 		}
-
+		
 		// dao user shows up first
 		List<Person> results = daoPersons;
-
+		
 		if(ldapPersons != null){
 			results.addAll(ldapPersons);
 		}
-
+		
 		Set<String> saps = Sets.newHashSet();
 		Set<String> usernames = Sets.newHashSet();
 		Iterator<Person> pIt = results.iterator();
 		while(pIt.hasNext()){
 			Person p = pIt.next();
-
+			
 			if(p == null || (p.getSap() != null && saps.contains(p.getSap())) || usernames.contains(p.getUsername())){
 				pIt.remove();
 			}
@@ -80,25 +80,25 @@ public class UserServiceTest {
 				usernames.add(p.getUsername());
 			}
 		}
-
+		
 		return results;
-
+	
 	}
-
+	
 	private List<CitiMember> getCitiTraining(User user){
-
+		
 		logger.debug(user.getProfile());
-
+		
 		return null;
 	}
-
+	
 	@Test
 	public void testSearchCitiTraining(){
 		User user = userDao.findById(72l); //Birgul
 		getCitiTraining(user);
 	}
-
-
+	
+	
 	//@Test
 	public void testMergeDaoPersonsAndLdapPersons(){
 		List<Person> persons = searchForPersons("Paul");
@@ -109,15 +109,15 @@ public class UserServiceTest {
 	//@Test
 	public void testGetAndUpdateUserByUsername(){
 		User u = userService.getAndUpdateUserByUsername("BiasMarcia", true);
-
+		
 		logger.debug(u.getPerson().getLastname() + ", " + u.getPerson().getFirstname());
 	}
-
+	
 	//@Test
 	public void testGenerateExternalUser(){
 		userService.createExternalUser("jwtest", "jw", "test", "1231231211", "iamyuanjiawei@gmail.com", "test");
-
-	}
+		
+	}	
 
 
 	@Autowired(required = true)
@@ -128,7 +128,7 @@ public class UserServiceTest {
 	public UserService getUserService() {
 		return userService;
 	}
-
+	
 	@Autowired(required = true)
 	public void setLdapPersonLookupService(LdapPersonLookupService ldapPersonLookupService) {
 		this.ldapPersonLookupService = ldapPersonLookupService;
@@ -140,7 +140,7 @@ public class UserServiceTest {
 	public PersonDao getPersonDao() {
 		return personDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setPersonDao(PersonDao personDao) {
 		this.personDao = personDao;
@@ -160,7 +160,7 @@ public class UserServiceTest {
 		return userDao;
 	}
 
-
+	
 	@Autowired(required=true)
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;

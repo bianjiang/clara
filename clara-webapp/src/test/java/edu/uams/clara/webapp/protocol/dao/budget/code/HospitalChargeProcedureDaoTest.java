@@ -21,7 +21,7 @@ public class HospitalChargeProcedureDaoTest {
 	.getLogger(HospitalChargeProcedureDaoTest.class);
 
 	private HospitalChargeProcedureDao hospitalChargeProcedureDao;
-
+	
 	@Test
 	public void generateDatabases(){
 		List<HospitalChargeProcedure> hospitalCharges = hospitalChargeProcedureDao.findAll();
@@ -29,7 +29,7 @@ public class HospitalChargeProcedureDaoTest {
 			logger.debug("" + hospitalChargeProcedure.getCptCode());
 		}
 	}
-
+	
 	@Autowired(required=true)
 	public void setHospitalChargeProcedureDao(HospitalChargeProcedureDao hospitalChargeProcedureDao) {
 		this.hospitalChargeProcedureDao = hospitalChargeProcedureDao;

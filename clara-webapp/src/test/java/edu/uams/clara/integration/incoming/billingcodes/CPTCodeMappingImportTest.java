@@ -31,7 +31,7 @@ import edu.uams.clara.webapp.protocol.web.protocolform.budget.ajax.lookup.Proced
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/webapp/protocol/dao/budget/code/CPTCodeMappingImportTest-context.xml" })
 public class CPTCodeMappingImportTest {
 	private ResourceLoader resourceLoader;
-
+	
 	private CPTCodeDao cptCodeDao;
 
 	private CPTCodeMappingDao cptCodeMappingDao;
@@ -39,11 +39,11 @@ public class CPTCodeMappingImportTest {
 	private HospitalChargeProcedureDao hospitalChargeProcedureDao;
 
 	private PhysicianChargeProcedureDao physicianChargeProcedureDao;
-
-
+	
+	
 	private final static Logger logger = LoggerFactory
 			.getLogger(CPTCodeMappingImportTest.class);
-
+	
 	//@Test
 	public void importGCode() {
 		try {
@@ -56,48 +56,48 @@ public class CPTCodeMappingImportTest {
 
 			BufferedReader reader = new BufferedReader(
 					new InputStreamReader(in));
-
-
-
+			
+			
+			
 			while ((rawdata = reader.readLine()) != null) {
 				String item[] = rawdata.split(",");
-
+				
 				if (item.length < 4)
 					continue;
-
+				
 				CPTCodeMapping gCode= new CPTCodeMapping();
-
+				
 				gCode.setTmID(item[0].trim());
 				gCode.setTmDescription(item[1].trim());
 				gCode.setOtherCode(item[2].trim());
 				gCode.setCptCode(item[3].trim());
-
+				
 				cptCodeMappingDao.saveOrUpdate(gCode);
 			}
-
-
+				
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Test
 	public void testHospitalChargeProcedureDao() {
 		HospitalChargeProcedure hospitalChargeProcedure = hospitalChargeProcedureDao.findFirstByCptCode("77056");
-
+		
 		logger.debug("hospitalChargeProcedure: " + hospitalChargeProcedure.getCptCode());
 	}
-
+	
 	private ProcedureCPTLookupAjaxController procedureCPTLookupAjaxController;
-
+	
 	//@Test
 	public void testProcedureCPTLookupAjaxController() throws JsonProcessingException{
 		List<ProcedureWrapper> procedures = procedureCPTLookupAjaxController.findProceduresByKeyword("77056");
 		ObjectMapper objectMapper = new ObjectMapper();
 		logger.debug(objectMapper.writeValueAsString(procedures));
-
+		
 	}
-
+	
 	public ResourceLoader getResourceLoader() {
 		return resourceLoader;
 	}
@@ -105,7 +105,7 @@ public class CPTCodeMappingImportTest {
 	@Autowired(required = true)
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
-	}
+	}	
 
 	public CPTCodeMappingDao getCptCodeMappingDao() {
 		return cptCodeMappingDao;
@@ -124,7 +124,7 @@ public class CPTCodeMappingImportTest {
 	public void setCptCodeDao(CPTCodeDao cptCodeDao) {
 		this.cptCodeDao = cptCodeDao;
 	}
-
+	
 
 	public HospitalChargeProcedureDao getHospitalChargeProcedureDao() {
 		return hospitalChargeProcedureDao;

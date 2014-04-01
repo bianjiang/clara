@@ -29,7 +29,7 @@
    </bean>
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="webmail.uams.edu"/>
+        <property name="host" value="mail.uams.edu"/>
         <property name="port" value="25"/>
         <property name="javaMailProperties">
             <props>

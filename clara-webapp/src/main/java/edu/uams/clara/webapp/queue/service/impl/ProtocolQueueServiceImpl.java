@@ -32,17 +32,25 @@ import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.UserRole;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
+import edu.uams.clara.webapp.protocol.dao.businesslogicobject.AgendaStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
+import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolStatusDao;
+import edu.uams.clara.webapp.protocol.dao.irb.AgendaDao;
 import edu.uams.clara.webapp.protocol.dao.irb.IRBReviewerDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolStatus;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.AgendaStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolStatusEnum;
+import edu.uams.clara.webapp.protocol.domain.irb.Agenda;
 import edu.uams.clara.webapp.protocol.domain.irb.IRBReviewer;
+import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem.AgendaItemStatus;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
@@ -63,8 +71,14 @@ public class ProtocolQueueServiceImpl extends QueueService {
 	private ProtocolFormStatusDao protocolFormStatusDao;
 	
 	private ProtocolFormDao protocolFormDao;	
+	
+	private ProtocolStatusDao protocolStatusDao;
 
 	private IRBReviewerDao irbReviewerDao;
+	
+	private AgendaDao agendaDao;
+	
+	private AgendaStatusDao agendaStatusDao;
 	
 	private UserRoleDao userRoleDao;
 	
@@ -101,6 +115,12 @@ public class ProtocolQueueServiceImpl extends QueueService {
 		warnings += "</warnings>";
 		
 		return warnings;
+	}
+	
+	private List<AgendaStatusEnum> unapprovedAgendaStatuses = Lists.newArrayList();{
+		unapprovedAgendaStatuses.add(AgendaStatusEnum.CANCELLED);
+		unapprovedAgendaStatuses.add(AgendaStatusEnum.AGENDA_INCOMPLETE);
+		unapprovedAgendaStatuses.add(AgendaStatusEnum.AGENDA_PENDING_CHAIR_APPROVAL);
 	}
 
 	@Override
@@ -228,6 +248,12 @@ public class ProtocolQueueServiceImpl extends QueueService {
 					if (protocolForm.isRetired()){
 						continue;
 					}
+					
+					ProtocolStatus latestProtocolStatus = protocolStatusDao.findProtocolStatusByProtocolId(protocolForm.getProtocol().getId());
+					
+					if (latestProtocolStatus.getProtocolStatus().equals(ProtocolStatusEnum.CLOSED)) {
+						continue;
+					}
 
 					ProtocolFormXmlData lastProtocolFormXmlData = protocolFormXmlDataDao
 							.getLastProtocolFormXmlDataByProtocolFormIdAndType(
@@ -337,12 +363,20 @@ public class ProtocolQueueServiceImpl extends QueueService {
 							.getLatestProtocolFormStatusByFormId(protocolForm.getId());					
 					
 					if (committee.equals(Committee.IRB_REVIEWER)){
+						//let reviewers see the assigned items in their queue after agenda is approved
+						Agenda agenda = agendaDao.getAgendaByProtocolFormIdAndAgendaItemStatus(protocolForm.getId(), AgendaItemStatus.NEW);
+						
+						if (unapprovedAgendaStatuses.contains(agendaStatusDao.getAgendaStatusByAgendaId(agenda.getId()).getAgendaStatus())) {
+							continue outerloop;
+						}
+						
 						List<IRBReviewer> irbReviewerLst = irbReviewerDao.listAgendaIRBReviewersByProtocolFormId(protocolForm.getId());
+						
 						String assignedIRBReviewers = "";
 						if (irbReviewerLst != null && !irbReviewerLst.isEmpty()){
 							for (IRBReviewer irbReviewer : irbReviewerLst){
 								//UserRole userRole = userRoleDao.getUserRolesByUserIdAndCommittee(irbReviewer.getUser().getId(), Committee.IRB_REVIEWER);
-								
+
 								assignedIRBReviewers += "<assigned-reviewer assigning-committee=\""+ Committee.IRB_REVIEWER +"\" user-fullname=\""+ irbReviewer.getUser().getPerson().getFullname() +"\" user-id=\""+ irbReviewer.getUser().getId() +"\" user-role=\""+ Permission.ROLE_IRB_REVIEWER +"\" user-role-committee=\""+ Committee.IRB_REVIEWER +"\" user-role-id=\"0\">"+ irbReviewer.getUser().getPerson().getFullname() +"</assigned-reviewer>";
 								
 								if (user.getId() == irbReviewer.getUser().getId()){
@@ -563,5 +597,31 @@ public class ProtocolQueueServiceImpl extends QueueService {
 		this.protocolFormService = protocolFormService;
 	}
 
+	public AgendaDao getAgendaDao() {
+		return agendaDao;
+	}
+	
+	@Autowired(required = true)
+	public void setAgendaDao(AgendaDao agendaDao) {
+		this.agendaDao = agendaDao;
+	}
+
+	public AgendaStatusDao getAgendaStatusDao() {
+		return agendaStatusDao;
+	}
+	
+	@Autowired(required = true)
+	public void setAgendaStatusDao(AgendaStatusDao agendaStatusDao) {
+		this.agendaStatusDao = agendaStatusDao;
+	}
+
+	public ProtocolStatusDao getProtocolStatusDao() {
+		return protocolStatusDao;
+	}
+	
+	@Autowired(required = true)
+	public void setProtocolStatusDao(ProtocolStatusDao protocolStatusDao) {
+		this.protocolStatusDao = protocolStatusDao;
+	}
 	
 }

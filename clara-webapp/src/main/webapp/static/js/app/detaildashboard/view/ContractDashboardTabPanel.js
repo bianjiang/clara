@@ -4,7 +4,7 @@ Ext.define('Clara.DetailDashboard.view.ContractDashboardTabPanel',{
 	border:false,
 	requires:['Clara.DetailDashboard.view.HistoryPanel','Clara.DetailDashboard.view.LetterPanel','Clara.DetailDashboard.view.FormDetailPanel','Clara.Documents.view.DocumentPanel'],
 	initComponent: function(){
-		this.activeTab = 0,
+		this.activeTab = 0;
 		this.items=[{
 			xtype:'formdetailpanel', 
 			title:'Forms',

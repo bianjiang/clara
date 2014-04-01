@@ -97,7 +97,7 @@ public class migrationServiceTest {
 	public XPath getXPathInstance() {
 		return xpathFactory.newXPath();
 	}
-
+	
 	private MessageDigest messageDigest = null;
 	private String fileServerHost="clarafs.uams.edu";
 	private String localDirectory="C:/Data/upload";
@@ -119,7 +119,7 @@ public class migrationServiceTest {
 			} catch (Exception e) {
 				logger.info("element does not exist.");
 			}
-
+	
 			try{
 			Document doc = xmlProcessor.loadXmlStringToDOM(xml);
 
@@ -306,7 +306,7 @@ public class migrationServiceTest {
 					}
 				}
 			}
-
+			
 			xml = DomUtils.elementToString(doc, false, Encoding.UTF16);
 			pfxd.setXmlData(xml);
 			protocolFormXmlDataDao.saveOrUpdate(pfxd);
@@ -316,7 +316,7 @@ public class migrationServiceTest {
 		}
 
 	}
-
+	
 	private String uploadCrimsonDocumenttoFileServer(String path, int docID,
 			String ext, String irbNum) {
 
@@ -595,27 +595,27 @@ public class migrationServiceTest {
 							 * + userEle.getAttribute("id") +
 							 * "']/roles[role[contains(fn:upper-case(.),\"PRINCIPAL INVESTIGATOR\")] or role[contains(fn:upper-case(.),\"PRIMARY CONTACT\")] or role[contains(fn:upper-case(.),\"STUDY COORDINATOR\")]])>0)"
 							 * ;
-							 *
+							 * 
 							 * String formerRoleCheck =
 							 * "boolean(count(/protocol/staffs/staff/user[@id='"
 							 * + userEle.getAttribute("id") +
 							 * "']/roles[role[contains(fn:upper-case(.),\"FORMER\")]])>0)"
 							 * ;
-							 *
+							 * 
 							 * Boolean wirtePermissionRolesInvovled = (Boolean)
 							 * (xPath .evaluate( writePermissionRoleCheck, doc,
 							 * XPathConstants.BOOLEAN));
-							 *
+							 * 
 							 * xPath.reset();
-							 *
+							 * 
 							 * Boolean formerStaffRolesInvovled = (Boolean)
 							 * (xPath .evaluate( formerRoleCheck, doc,
 							 * XPathConstants.BOOLEAN));
-							 *
+							 * 
 							 * if (!formerStaffRolesInvovled){ if
 							 * (wirtePermissionRolesInvovled){
 							 * permissions.add(Permission.WRITE); }
-							 *
+							 * 
 							 * permissions.add(Permission.READ);
 							 * objectAclService
 							 * .updateObjectAclByUserAndPermissions(

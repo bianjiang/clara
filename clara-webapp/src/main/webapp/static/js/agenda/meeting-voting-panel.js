@@ -120,7 +120,6 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 				}),
 				view: new Ext.grid.GridView({
 					forceFit:true,
-		    
 		    		emptyText:'<h1>There are no motions made on this item yet.</h1>'
 		    	}),
 		    	columns: [
@@ -139,7 +138,7 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 		    	        	 
 		    	        	 if (Clara.IRBMeeting.CurrentAgendaItemRecord.get("category") !="MINUTES") {
 		    	        		 html +="<div class='motion-values'><dl>"   	
-			    	        	 + "<dt>Adult Risk</dt><dd>"+((adultRisk == "RISK_ADULT_1")?"Minimal":((adultRisk == "RISK_ADULT_2")?"Greater than Minimal":"N/A"))+"</dd>"
+			    	        	 + "<dt>Adult Risk</dt><dd>"+((adultRisk == "RISK_ADULT_1")?"Minimal":((adultRisk == "RISK_ADULT_2")?"Greater than Minimal":((adultRisk == "RISK_ADULT_DEFERRED")?"Deferred":"N/A")))+"</dd>"
 			    	        	 + "<dt>Pediatric Risk</dt><dd>"+(pedRisk?pedRisk:"Not specified")+"</dd>"
 			    	        	 + "<dt>Next Review Type</dt><dd>"+(r.get("reviewtype") || "Not specified")+"</dd>"
 			    	        	 + "<dt>Review Period</dt><dd>"+r.get("reviewperiod")+"</dd>"
@@ -173,7 +172,7 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 								var record = grid.getStore().getAt(rowI);
 								clog(record);
 								Clara.IRBMeeting.CurrentMotionRecord = record;
-								Clara.IRBMeeting.MessageBus.fireEvent('motionchosen');
+								Clara.IRBMeeting.MessageBus.fireEvent('motionchosen');  
 								if (canEditMeeting /* !(isChair && meeting.status == "SENT_TO_CHAIR") */ && !(isIrbOffice && meeting.status == "SENT_TO_TRANSCRIBER")) new Clara.IRBMeeting.VoteWindow({editing:true, motionrec:record}).show();
 						    }
 						}
@@ -310,9 +309,9 @@ Clara.IRBMeeting.AttendanceWindow = Ext.extend(Ext.Window, {
 													return (record.get("status") != 'REMOVED');
 												});
 												t.sort('lname');
-
-
-
+												
+												
+												
 												t.each(function(rec){
 													var at = {};
 													if (rec.data.status == 'NORMAL' || rec.data.status == 'ADDITIONAL'){
@@ -338,7 +337,7 @@ Clara.IRBMeeting.AttendanceWindow = Ext.extend(Ext.Window, {
 															})]
 														});
 													}
-
+													
 													 if (typeof(at.userid) !== 'undefined') meeting.attendance.push(at);
 												});
 												clog("Done populating agenda roster.");
@@ -549,7 +548,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 		                            triggerAction: 'all',
 		                            store: new Ext.data.SimpleStore({
 		                               fields:['risk','id'],
-		                               data: [['Minimal','RISK_ADULT_1'],['Greater than minimal','RISK_ADULT_2'],['N/A','RISK_ADULT_NA']]
+		                               data: [['Minimal','RISK_ADULT_1'],['Greater than minimal','RISK_ADULT_2'],['Deferred','RISK_ADULT_DEFERRED'],['N/A','RISK_ADULT_NA']]
 		                            }),
 		                            lazyRender: true,
 		                            displayField:'risk',
@@ -569,7 +568,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 		                            triggerAction: 'all',
 		                            store: new Ext.data.SimpleStore({
 		                               fields:['risk','id'],
-		                               data: [['1','RISK_PED_1'],['2','RISK_PED_2'],['3','RISK_PED_3'],['4','RISK_PED_4'],['N/A','RISK_PED_NA']]
+		                               data: [['1','RISK_PED_1'],['2','RISK_PED_2'],['3','RISK_PED_3'],['4','RISK_PED_4'],['Deferred','RISK_PED_DEFERRED'],['N/A','RISK_PED_NA']]
 		                            }),
 		                            lazyRender: true,
 		                            displayField:'risk',

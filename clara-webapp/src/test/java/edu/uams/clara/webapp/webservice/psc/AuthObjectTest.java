@@ -17,7 +17,7 @@ public class AuthObjectTest {
 		this._Password = _Password;
 	}
 	private String _Password = "";
-
+	
 	public String get_SSOSessionID() {
 		return _SSOSessionID;
 	}

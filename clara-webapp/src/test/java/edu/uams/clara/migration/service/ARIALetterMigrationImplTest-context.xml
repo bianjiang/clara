@@ -19,11 +19,11 @@
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
 
 	<bean id="protocolDao" class="edu.uams.clara.webapp.protocol.dao.ProtocolDao" />
-
+	
 	<bean id="securableObjectDao" class="edu.uams.clara.webapp.common.dao.security.acl.SecurableObjectDao" />
-
+	
 	<bean id="securableObjectAclDao" class="edu.uams.clara.webapp.common.dao.security.acl.SecurableObjectAclDao" />
-
+	
 	<bean id="protocolFormDao"
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao" />
 	<bean id="protocolFormXmlDataDao"
@@ -44,7 +44,7 @@
 		<property name="fileServerHost" value="${fileserver.host}" />
 		<property name="localDirectory" value="${fileserver.local.dir.path}" />
 	</bean>
-
+		
 	<bean id="ldapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="${ldap.provider-url}" />
 		<property name="userDn" value="${ldap.manager-dn}" />
@@ -57,12 +57,12 @@
 		<property name="ignoreNameNotFoundException" value="true" />
 		<property name="contextSource" ref="ldapContextSource" />
 	</bean>
-
+		
 	<bean id="ldapPersonLookupService" class="edu.uams.clara.webapp.common.service.impl.LdapPersonLookupServiceImpl">
 		<constructor-arg index="0" ref="ldapTemplate" />
 		<constructor-arg index="1" ref="personDao" />
-	</bean>
-
+	</bean>	
+		
 	<bean id="sFTPService"
 		class="edu.uams.clara.webapp.fileserver.service.impl.SFTPServiceImpl">
 		<property name="localDirectory" value="${fileserver.local.dir.path}" />
@@ -72,9 +72,9 @@
 		<property name="password" value="${fileserver.sftp.password}" />
 		<property name="host" value="${fileserver.host}" />
 		<property name="port" value="22" />
-		<!-- <property name="jsch"> <bean class="com.jcraft.jsch.JSch"> <property
+		<!-- <property name="jsch"> <bean class="com.jcraft.jsch.JSch"> <property 
 			name="knownHosts" value="${fileserver.known_hosts}" /> </bean> </property> -->
 	</bean>
-
-
+	
+	
 </beans>

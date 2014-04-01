@@ -1,7 +1,6 @@
 package edu.uams.clara.webapp.report.service.customreport.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -9,15 +8,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -27,8 +21,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import edu.emory.mathcs.backport.java.util.Collections;
-import edu.uams.clara.core.util.xml.XmlHandler;
-import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.AgendaStatusDao;
@@ -41,6 +33,7 @@ import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormSta
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.AgendaStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
+import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem.AgendaItemStatus;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
 import edu.uams.clara.webapp.report.domain.CommitteeActions;
@@ -106,7 +99,17 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 						//chage the start time to agenda approved
 						if(committee.equals(Committee.IRB_REVIEWER)){
 							try{
-								AgendaStatus agendaStatus = agendaStatusDao.getAgendaStatusByAgendaStatusAndProtocolFormId(AgendaStatusEnum.AGENDA_APPROVED,pfcs.getProtocolFormId());
+								AgendaStatus agendaStatus = null;
+								try{
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormId(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId());
+								}catch(Exception ex){
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);}
 								startTime = agendaStatus.getModified().getTime();
 							}catch(Exception e){
 								startTime=0;
@@ -120,9 +123,20 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 						endTime = pfcs.getModified().getTime();
 						if(committee.equals(Committee.IRB_OFFICE)&&pfcs.getProtocolFormCommitteeStatus().equals(ProtocolFormCommitteeStatusEnum.IRB_AGENDA_ASSIGNED)){
 							try{
-								AgendaStatus agendaStatus = agendaStatusDao.getAgendaStatusByAgendaStatusAndProtocolFormId(AgendaStatusEnum.AGENDA_APPROVED,pfcs.getProtocolFormId());
-									endTime = agendaStatus.getModified().getTime();
+								AgendaStatus agendaStatus = null;
+								try{
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormId(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId());
+								}catch(Exception ex){
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);}
+								endTime = agendaStatus.getModified().getTime();
 							}catch(Exception e){
+								e.printStackTrace();
 							if(i!=(pfcss.size()-1)){
 								if(pfcss.get(i+1).getProtocolFormCommitteeStatus().equals(ProtocolFormCommitteeStatusEnum.PENDING_IRB_REVIEW_RE_ASSIGNMENT)){
 									endTime=0;
@@ -634,59 +648,6 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 		return finalResultXml;
 	}
 	
-	
-	private String generateSummaryCriteriaTable(ReportTemplate reportTemplate,Map<String,String> queryCriteriasValueMap){
-		String finalResultXml = "";
-		
-		
-		finalResultXml += "<report-result id=\""+ reportTemplate.getTypeDescription() +"\"  created=\""+ DateFormatUtil.formateDateToMDY(new Date()) +"\">";
-		finalResultXml += "<title>"+ "Search Criteria" +"</title>";
-		finalResultXml += "<fields>";
-		finalResultXml += "<field id=\""+ "criterianame" +"\" desc=\""+ "" +"\" hidden=\""+ "false" +"\" />";
-		finalResultXml += "<field id=\""+ "criteriavalue" +"\" desc=\""+ "" +"\" hidden=\""+ "false" +"\" />";
-		finalResultXml += "</fields>";
-		
-		finalResultXml += "<report-items>";
-		if(queryCriteriasValueMap.size()==0){
-			finalResultXml += "<report-item>";
-			finalResultXml += "<field id=\""+ "criterianame" +"\">";
-			finalResultXml += "Type of Study";
-			finalResultXml += "</field>";
-			finalResultXml += "<field id=\""+ "criteriavalue" +"\">";
-			finalResultXml += "All";
-			finalResultXml += "</field>";
-			finalResultXml += "</report-item>";
-			
-			finalResultXml += "<report-item>";
-			finalResultXml += "<field id=\""+ "criterianame" +"\">";
-			finalResultXml += "Department";
-			finalResultXml += "</field>";
-			finalResultXml += "<field id=\""+ "criteriavalue" +"\">";
-			finalResultXml += "All Divisions, All Departments, All Colleges";
-			finalResultXml += "</field>";
-			finalResultXml += "</report-item>";
-
-		}else{
-			for(Entry<String,String> value : queryCriteriasValueMap.entrySet()){
-				try{
-					finalResultXml += "<report-item>";
-					finalResultXml += "<field id=\""+ "criterianame" +"\">";
-					finalResultXml += value.getKey();
-					finalResultXml += "</field>";
-					finalResultXml += "<field id=\""+ "criteriavalue" +"\">";
-					finalResultXml += value.getValue();
-					finalResultXml += "</field>";
-					finalResultXml += "</report-item>";
-				}catch(Exception e){
-			
-				}	
-			}
-		}
-		finalResultXml += "</report-items>";
-		finalResultXml += "</report-result>";
-		return finalResultXml;
-	}
-	
 	@Override
 	public String generateReportResult(ReportTemplate reportTemplate) {
 		List<ReportCriteria> criterias = reportTemplate.getReportCriterias();
@@ -744,7 +705,7 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", "\""+ values[i].toUpperCase() +"\"");
 									}
 								} else if(values[i].contains("'")){
-									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", values[1].toUpperCase());
+									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", values[i].toUpperCase());
 								}
 								else{
 									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", "'"+ values[i].toUpperCase() +"'");
@@ -760,6 +721,8 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 							};
 					} else if(value.contains("'")){
 						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value.toUpperCase());
+					}else if(value.toUpperCase().equals("IN")||value.toUpperCase().equals("NOT IN")){
+						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
 					}
 					else{
 						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", "'"+ value.toUpperCase() +"'");

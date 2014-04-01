@@ -85,6 +85,9 @@ public class ContractFormXmlDataDocument extends AbstractDomainEntity {
 	@Column(name="category")
 	private String category;
 	
+	@Column(name="category_desc", nullable=true)
+	private String categoryDesc;
+	
 	@Column(name="title")
 	private String title;
 
@@ -240,6 +243,14 @@ public class ContractFormXmlDataDocument extends AbstractDomainEntity {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public String getCategoryDesc() {
+		return categoryDesc;
+	}
+
+	public void setCategoryDesc(String categoryDesc) {
+		this.categoryDesc = categoryDesc;
 	}
 
 	

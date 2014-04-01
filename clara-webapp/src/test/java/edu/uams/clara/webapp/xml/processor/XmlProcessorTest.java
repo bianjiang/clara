@@ -40,9 +40,9 @@ import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType
 import edu.uams.clara.webapp.protocol.service.ProtocolMetaDataXmlService;
 
 /**
- *
+ * 
  * @author Jiang Bian
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/webapp/xml/processor/XmlProcessorTest-context.xml" })
@@ -52,35 +52,35 @@ public class XmlProcessorTest {
 			.getLogger(XmlProcessorTest.class);
 
 	private XmlProcessor xmlProcessor;
-
+	
 	private ProtocolMetaDataXmlService protocolMetaDataXmlService;
-
+	
 	private ProtocolFormDao protocolFormDao;
-
+	
 	private ProtocolFormXmlDataDao protocolFormXmlDataDao;
-
+	
 	private final DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 			.newInstance();
-
-
+	
+	
 	//@Test
 	public void testThreadSafety() throws ParserConfigurationException, InterruptedException{
-
+		
 		//final DocumentBuilder documentBuilder  = dbFactory.newDocumentBuilder();
 		final String xmlData = "<drugs><drug id=\"1234\">2-8˚C<storage>Study drug should be stored at 2-8˚C. All investigational products®</storage></drug></drugs>";
 		final String originalXml = "<protocol id=\"1\"><submission-type>new protocol</submission-type></protocol>";
 		final String modifiedXml = "<protocol><misc><is-tri-involved>y</is-tri-involved></misc><multisite>No</multisite></protocol>";
 
 		final String expectedXml = "<protocol id=\"1\"><misc><is-tri-involved>y</is-tri-involved></misc><multisite>No</multisite><submission-type>new protocol</submission-type></protocol>";
-
-
+		
+		
 		List<Thread> threads = new ArrayList<Thread>();
 		for (int i=0; i< 1000; i++){
 			Thread t = new Thread(new Runnable(){
 
 				@Override
 				public void run() {
-
+					
 					try {
 						//String xml = xmlProcessor.mergeElementsByXmlAndPath(path, originalXml, elementXml);
 						//Assert.assertEquals(resultXml, xml);
@@ -88,28 +88,28 @@ public class XmlProcessorTest {
 								//xmlData));
 						//documentBuilder.parse(documentInputSource);
 						//System.out.println(xmlProcessor.escapeText(xmlData));
-
+						
 						//String finalXml = xmlProcessor.merge(originalXml, modifiedXml);
 						//XMLAssert.assertXMLEquals(expectedXml, finalXml);
 						String finalXml =  xmlProcessor.deleteElementByPath("/drugs/drug", xmlData).get("finalXml").toString();
 						XMLAssert.assertXMLEquals(finalXml, "<drugs></drugs>");
-
-
-
+						
+						
+						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
-
+					
+					
 				}
-
+				
 			});
-
+			
 			threads.add(t);
 			t.start();
 		}
-
+		
 		for (Thread t:threads){
 			t.join();
 		}
@@ -148,7 +148,7 @@ public class XmlProcessorTest {
 			throws XPathExpressionException, SAXException, IOException, InterruptedException {
 		 String xmlData = "	<message><to>GROUP_studyPI</to><cc></cc><subject>IRB Letter</subject><body>The following documents were received:<br/> <ul><li>Summary of Changes to Update 10 dated 04/18/2013 </li><li>Protocol Update 10 dated 04/18/2013 </li></ul><p>testsetset<br/></p></body></message>";
 		 List<String> commentLst = xmlProcessor.listElementStringValuesByPath("//message/body", xmlData);
-
+		 
 		 logger.debug("emailComment: " + commentLst.get(0));
 		/*
 		List<Thread> threads = new ArrayList<Thread>();
@@ -158,43 +158,43 @@ public class XmlProcessorTest {
 
 				@Override
 				public void run() {
-
+					
 					try {
 						String xmlData = "<reportable-new-info><is-reportable>" + c + "</is-reportable><is-reportable>" + (c + 1) +  "</is-reportable></reportable-new-info>";
 						List<String> result = xmlProcessor.listElementStringValuesByPath(
 								"/reportable-new-info/is-reportable", xmlData);
-
+						
 						Assert.assertEquals(c, Integer.parseInt(result.get(0)));
 						Assert.assertEquals(c + 1, Integer.parseInt(result.get(1)));
-
-
+	
+						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
-
+					
+					
 				}
-
+				
 			});
-
+			
 			threads.add(t);
 			t.start();
 		}
-
+		
 		for (Thread t:threads){
 			t.join();
 		}
 		*/
-
-
+		
+		
 
 	}
 
 	/**
 	 * This test will fail... the merge is not ordered...for now it's fine..
 	 * but... - Jiang
-	 *
+	 * 
 	 * @throws SAXException
 	 * @throws IOException
 	 * @throws ParserConfigurationException
@@ -217,11 +217,11 @@ public class XmlProcessorTest {
 
 	/**
 	 * doing merge by Map<String, String> xPathPairs
-	 *
+	 * 
 	 * @throws SAXException
 	 * @throws IOException
 	 * @throws XPathExpressionException
-	 * @throws InterruptedException
+	 * @throws InterruptedException 
 	 */
 	//@Test
 	public void testXmlMergeByXPathsErorrs() throws SAXException, IOException,
@@ -260,7 +260,7 @@ public class XmlProcessorTest {
 
 				@Override
 				public void run() {
-
+					
 					try {
 						String finalXml = xmlProcessor
 								.mergeByXPaths(originalXml, modifiedXml,
@@ -271,33 +271,33 @@ public class XmlProcessorTest {
 						logger.debug("%%%%%%%%%%%%%%%%%%" + expectedXml);
 						// assertEquals("assertEquals", expectedXml, finalXml);
 						XMLAssert.assertXMLEquals(expectedXml, finalXml);
-
-
+						
+						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
-
+					
+					
 				}
-
+				
 			});
-
+			
 			threads.add(t);
 			t.start();
 		}
-
+		
 		for (Thread t:threads){
 			t.join();
 		}
-
-
-
+		
+		
+		
 	}
 
 	/**
 	 * doing merge by Map<String, String> xPathPairs
-	 *
+	 * 
 	 * @throws SAXException
 	 * @throws IOException
 	 * @throws XPathExpressionException
@@ -331,7 +331,7 @@ public class XmlProcessorTest {
 
 	/**
 	 * doing merge by Map<String, String> xPathPairs
-	 *
+	 * 
 	 * @throws SAXException
 	 * @throws IOException
 	 * @throws XPathExpressionException
@@ -364,7 +364,7 @@ public class XmlProcessorTest {
 	//@Test
 	/**
 	 * the id is undefined...
-	 * @throws InterruptedException
+	 * @throws InterruptedException 
 	 */
 	public void testAddElementToList() throws SAXException, IOException,
 			XPathExpressionException, InterruptedException {
@@ -374,14 +374,14 @@ public class XmlProcessorTest {
 
 		final String expectedXml = "<protocol id=\"1\"><committee-review><irb-prereview><fda>true</fda><expedited>false</expedited><exempt>true</exempt></irb-prereview></committee-review></protocol>";
 
-
+			
 		List<Thread> threads = new ArrayList<Thread>();
 		for (int i=0; i< 1000; i++){
 			Thread t = new Thread(new Runnable(){
 
 				@Override
 				public void run() {
-
+					
 					try {
 						Map<String, Object> resultMap = xmlProcessor.addElementByPath(path,
 								originalXml, elementXml, false);
@@ -391,8 +391,8 @@ public class XmlProcessorTest {
 						assertNotNull(resultMap.get("finalXml"));
 						assertNotNull(resultMap.get("elementXml"));
 						assertNotNull(resultMap.get("elementId"));
-
-
+						
+						
 
 						String finalXml = resultMap.get("finalXml").toString();
 
@@ -400,28 +400,28 @@ public class XmlProcessorTest {
 						//logger.debug("%%%%%%%%%%%%%%%%%%" + expectedXml);
 						// assertEquals("assertEquals", expectedXml, finalXml);
 						XMLAssert.assertXMLEquals(expectedXml, finalXml);
-
-
+						
+						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
-
+					
+					
 				}
-
+				
 			});
-
+			
 			threads.add(t);
 			t.start();
 		}
-
+		
 		for (Thread t:threads){
 			t.join();
 		}
-
-
-
+		
+		
+		
 		/*
 		Document currentProtocolFormMetaDoc = xmlProcessor
 				.loadXmlStringToDOM(finalXml);
@@ -654,7 +654,7 @@ public class XmlProcessorTest {
 	public ProtocolMetaDataXmlService getProtocolMetaDataXmlService() {
 		return protocolMetaDataXmlService;
 	}
-
+	
 	@Autowired(required = true)
 	public void setProtocolMetaDataXmlService(ProtocolMetaDataXmlService protocolMetaDataXmlService) {
 		this.protocolMetaDataXmlService = protocolMetaDataXmlService;
@@ -663,7 +663,7 @@ public class XmlProcessorTest {
 	public ProtocolFormDao getProtocolFormDao() {
 		return protocolFormDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setProtocolFormDao(ProtocolFormDao protocolFormDao) {
 		this.protocolFormDao = protocolFormDao;
@@ -672,7 +672,7 @@ public class XmlProcessorTest {
 	public ProtocolFormXmlDataDao getProtocolFormXmlDataDao() {
 		return protocolFormXmlDataDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setProtocolFormXmlDataDao(ProtocolFormXmlDataDao protocolFormXmlDataDao) {
 		this.protocolFormXmlDataDao = protocolFormXmlDataDao;

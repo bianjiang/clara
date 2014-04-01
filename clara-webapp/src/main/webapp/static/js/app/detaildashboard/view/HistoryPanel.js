@@ -98,6 +98,47 @@ Ext.define('Clara.DetailDashboard.view.HistoryPanel', {
 	    		
 	    		return html;
 	    	}
+	    },{
+	    	header:'Actions',
+	    	xtype:'actioncolumn',
+            width:50,
+	    	hidden:(claraInstance.type !== 'contract' || !claraInstance.HasAnyPermissions(['ROLE_CONTRACT_LEGAL_REVIEW'])),	// only show for contract legal on contract dashboards, for now
+	    	items: [{
+                icon: '../../static/images/icn/sticky-note--pencil.png',  // Use a URL in the icon config
+                tooltip: 'Edit',
+                getClass: function(v,m,r){
+                	if (r.get("formCommitteeStatusId") == null || r.get("reviewNoteBody") == ""){
+                		return "x-hide-display";
+                	}
+                },
+                handler: function(grid, rowIndex, colIndex) {
+                    var rec = grid.getStore().getAt(rowIndex);
+                    Ext.create("Clara.DetailDashboard.view.EditHistoryNoteWindow",{historyRecord:rec}).show();
+                }
+            },{
+                icon: '../../static/images/icn/minus-button.png',
+                tooltip: 'Delete',
+                getClass: function(v,m,r){
+                	if (r.get("formCommitteeStatusId") == null || r.get("reviewNoteBody") == ""){
+                		return "x-hide-display";
+                	}
+                },
+                handler: function(grid, rowIndex, colIndex) {
+                    var rec = grid.getStore().getAt(rowIndex);
+                    Ext.Msg.show({
+               	     title:'Delete note',
+               	     msg: 'Are you sure you want to delete this note?',
+               	     buttons: Ext.Msg.YESNOCANCEL,
+               	     fn:function(btn){
+               	    	 if (btn =='yes'){
+               	    		Clara.Application.DashboardController.updateHistoryRecord(rec, "");
+               	    	 }
+               	     },
+               	     icon: Ext.Msg.WARNING
+               	});
+                }
+            }]
+	    	
 	    }
 	    
 	    ];

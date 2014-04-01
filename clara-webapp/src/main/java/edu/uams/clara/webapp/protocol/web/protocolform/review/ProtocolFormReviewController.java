@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
+import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
@@ -45,15 +46,29 @@ public class ProtocolFormReviewController {
 			@PathVariable("protocolFormId") long protocolFormId,
 			@RequestParam(value="fromQueue", required=false) String fromQueue,
 			@RequestParam("committee") Committee committee, ModelMap modelMap) {
+		User currentUser = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
 
 		ProtocolForm protocolForm = protocolFormDao.findById(protocolFormId);
 		
 		ProtocolFormStatus latestProtocolFormStatus = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(protocolFormId);
 		
 		boolean readOnly = false;
+		boolean canAddComments = false;
+		boolean canAddContingencies = false;
 		
 		if (cannotEditProtocolFormStatusList.contains(latestProtocolFormStatus.getProtocolFormStatus())){
 			readOnly = true;
+			canAddComments = false;
+			canAddContingencies = false;
+		} else {
+			if (currentUser.getAuthorities().contains(Permission.COMMENT_CAN_ADD)) {
+				canAddComments = true;
+			}
+			
+			if (currentUser.getAuthorities().contains(Permission.CONTINGENCY_CAN_ADD)) {
+				canAddContingencies = true;
+			}
 		}
 
 		modelMap.put("protocolForm", protocolForm);
@@ -62,8 +77,9 @@ public class ProtocolFormReviewController {
 		modelMap.put("fromQueue",fromQueue);
 		modelMap.put("committee", committee);
 		modelMap.put("readOnly", readOnly);
-		modelMap.put("user", (User) SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal());
+		modelMap.put("user", currentUser);
+		modelMap.put("canAddComments", canAddComments);
+		modelMap.put("canAddContingencies", canAddContingencies);
 
 		return "protocol/protocolform/review";
 	}

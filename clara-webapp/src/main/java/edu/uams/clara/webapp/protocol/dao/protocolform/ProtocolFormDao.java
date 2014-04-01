@@ -56,7 +56,7 @@ public class ProtocolFormDao extends AbstractDomainDao<ProtocolForm> {
 	@Transactional(readOnly = true)
 	public ProtocolForm getProtocolFormByProtocolIdAndProtocolFormTypes(long protocolId, List<ProtocolFormType> protocolFormTypes){
 		String query = "SELECT pf FROM ProtocolForm pf "
-			+ " WHERE pf.protocol.id = :protocolId AND pf.protocolFormType IN :protocolFormTypes AND pf.retired = :retired";
+			+ " WHERE pf.protocol.id = :protocolId AND pf.protocolFormType IN :protocolFormTypes AND pf.retired = :retired ORDER BY pf.id DESC";
 
 		TypedQuery<ProtocolForm> q = getEntityManager().createQuery(query,
 				ProtocolForm.class);

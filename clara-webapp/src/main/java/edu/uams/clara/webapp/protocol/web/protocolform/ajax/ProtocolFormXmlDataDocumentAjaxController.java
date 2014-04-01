@@ -83,6 +83,7 @@ public class ProtocolFormXmlDataDocumentAjaxController {
 			@RequestParam("userId") long userId,
 			@RequestParam("uploadedFileId") long uploadedFileId,
 			@RequestParam("category") String category,
+			@RequestParam("categoryDescription") String categoryDesc,
 			@RequestParam("committee") Committee committee,
 			@RequestParam(value="title", required=false) String title) throws Exception {
 		
@@ -125,12 +126,17 @@ public class ProtocolFormXmlDataDocumentAjaxController {
 
 		protocolDocument.setTitle(title);
 		protocolDocument.setCategory(category);
+		protocolDocument.setCategoryDesc(categoryDesc);
 		protocolDocument.setCommittee(committee);
 		protocolDocument.setCreated(new Date());
 		if (category.contains("packet")) {
 			protocolDocument.setStatus(Status.PACKET_DOCUMENT);
 		} else {
-			protocolDocument.setStatus(Status.DRAFT);
+			if (committee.equals(Committee.CONTRACT_LEGAL_REVIEW)) {
+				protocolDocument.setStatus(Status.FINAL_LEGAL_APPROVED);
+			} else {
+				protocolDocument.setStatus(Status.DRAFT);
+			}
 		}
 		
 		protocolDocument.setProtocolFormXmlData(protocolFormXmlData);

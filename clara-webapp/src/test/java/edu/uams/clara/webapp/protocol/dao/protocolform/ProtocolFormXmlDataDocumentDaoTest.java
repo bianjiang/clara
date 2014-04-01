@@ -49,7 +49,7 @@ public class ProtocolFormXmlDataDocumentDaoTest {
 	//@Test
 	public void testListDocuments() throws JsonGenerationException,
 			JsonMappingException, IOException {
-
+		
 		for (int i = 0; i < 50; i++) {
 			List<ProtocolFormXmlDataDocumentWrapper> protocolDocuments = protocolDocumentDao
 					.listProtocolFormXmlDataDocumentsByProtocolId(201498l);
@@ -61,20 +61,20 @@ public class ProtocolFormXmlDataDocumentDaoTest {
 		}
 
 	}
-
+	
 	//@Test
 	public void testCountDocumentRevisionsByParentId() throws Exception{
 		long lastVersionId = protocolFormXmlDataDocumentDao.countDocumentRevisionsByParentId(753);
-
+		
 		logger.debug("lastVersionId: " + lastVersionId);
 	}
-
+	
 	//@Test
 	public void testListDocumentsByProtocolFormIdAndStatus() throws Exception{
 		List<ProtocolFormXmlDataDocumentWrapper> lst = protocolFormXmlDataDocumentDao.listDocumentsByProtocolFormIdAndStatus(1662, Status.DRAFT);
 		logger.debug("$$$$$$$$$ " + lst.size());
 	}
-
+	
 	@Test
 	public void testGetLatestDocumentByProtocolFormId() throws Exception{
 		List<ProtocolFormXmlDataDocument> lst = protocolFormXmlDataDocumentDao.getLatestDocumentByProtocolFormId(11252);
@@ -82,7 +82,7 @@ public class ProtocolFormXmlDataDocumentDaoTest {
 		for (ProtocolFormXmlDataDocument pfxd : lst){
 			logger.debug("title: " + pfxd.getTitle());
 		}
-
+		
 	}
 
 	// @Test

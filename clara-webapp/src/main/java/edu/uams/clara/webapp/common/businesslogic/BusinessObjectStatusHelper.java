@@ -838,8 +838,12 @@ public abstract class BusinessObjectStatusHelper {
 
 				logger.debug("actionXml: "
 						+ DomUtils.elementToString(actionXmlNode));
+				
+				//re-submission of revision should not go to pharmacy if pharmacy request revision during the time another committee request revision
+				Boolean needToUpdateRevisionRequestedInfo = (actionXmlEl
+						.getAttribute("update-revision-requested-info").equals("false"))?false:true;
 
-				if (action.equals("REVISION_REQUESTED")) {
+				if (action.equals("REVISION_REQUESTED") && needToUpdateRevisionRequestedInfo) {
 					/*
 					if (committee.equals(Committee.IRB_EXPEDITED_REVIEWER)) {
 						setMinorContingencyFlag(form);

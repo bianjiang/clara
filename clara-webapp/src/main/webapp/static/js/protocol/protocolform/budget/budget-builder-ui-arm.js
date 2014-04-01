@@ -22,11 +22,11 @@ Clara.BudgetBuilder.ArmGridPanel = Ext.extend (Ext.grid.EditorGridPanel,{
 				ddText: 'Drag arm to new position to re-order.',
 				enableDragDrop: true,
 				region:'west',
-				width:190,
+				width:348,
 				margins: '0 0 0 5',
 				itemId: 'gpArms',
 				
-				store: new Ext.data.ArrayStore({fields:['id','index','name','subjectcount']}),
+				store: new Ext.data.ArrayStore({fields:['id','index','name','subjectcount','notes']}),
 				selModel:new Ext.grid.RowSelectionModel({
 					singleSelect:true,
 					listeners: {
@@ -87,7 +87,8 @@ Clara.BudgetBuilder.ArmGridPanel = Ext.extend (Ext.grid.EditorGridPanel,{
 					},
 					afteredit:function(e){
 						var d = e.record.data;
-						budget.updateArm(new Clara.BudgetBuilder.Arm({id:d.id, index:d.index, name:d.name}));
+						clog("afteredit",d);
+						budget.updateArm(new Clara.BudgetBuilder.Arm({id:d.id, index:d.index, name:d.name, notes:d.notes}));
 					}
 				},
 				columns: [
@@ -102,6 +103,28 @@ Clara.BudgetBuilder.ArmGridPanel = Ext.extend (Ext.grid.EditorGridPanel,{
 				        	  renderer:t.armErrorTooltipRowRenderer,
 				        	  editor: {
 				        		  xtype: 'textfield',
+				        		  allowBlank: true,
+				        		  validator: function(v) {
+				        			  var invalids = "/\*'?[]:";
+				        			  for (var i=0, l=v.length;i<l;i++){
+				        				  if (invalids.indexOf(v[i]) > -1) return false;
+				        			  }
+				        		      return true;
+				        		  }
+				        	  }
+				          },
+				          {
+				        	  xtype: 'gridcolumn',
+				        	  header: 'Notes',
+				        	  menuDisabled:true,
+				        	  dataIndex:'notes',
+				        	  sortable: false,
+				        	  width: 200,
+				        	  renderer:function(v,p,r){
+				        		  return "<div class='wrap arm-row-notes'>"+v+"</div>";
+				        	  },
+				        	  editor: {
+				        		  xtype: 'textarea',
 				        		  allowBlank: true,
 				        		  validator: function(v) {
 				        			  var invalids = "/\*'?[]:";

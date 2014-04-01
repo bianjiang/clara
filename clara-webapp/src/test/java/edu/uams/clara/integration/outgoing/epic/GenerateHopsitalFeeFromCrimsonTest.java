@@ -43,37 +43,14 @@ public class GenerateHopsitalFeeFromCrimsonTest {
 		Query queryStart = em.createNativeQuery(qry);
 		List<Object[]> resultList = (List<Object[]>) queryStart.getResultList();
 		List<String> targeList=Lists.newArrayList();
-		targeList.add("135334");
-		/*targeList.add("78076");
-		targeList.add("104727");
-		targeList.add("110396");
-		targeList.add("112317");
-		targeList.add("113036");
-		targeList.add("113234");
-		targeList.add("113322");
-		targeList.add("130654");
-		targeList.add("130766");
-		targeList.add("131390");
-		targeList.add("131471");
-		targeList.add("131573");
-		targeList.add("131753");
-		targeList.add("132754");
-		targeList.add("132762");
-		targeList.add("132766");
-		targeList.add("132843");
-		targeList.add("133398");
-		targeList.add("133529");
-		targeList.add("133965");
-		targeList.add("134190");
-		targeList.add("112748");
-		targeList.add("134633");
-		targeList.add("134768");
-		targeList.add("134922");
-		targeList.add("134928");
-		targeList.add("135691");
-		targeList.add("135910");
-		targeList.add("136191");
-		targeList.add("138724");*/
+		FileInputStream fstream;
+		fstream = new FileInputStream("C:\\Data\\id.txt");
+		DataInputStream in = new DataInputStream(fstream);
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		String strLine;
+		while ((strLine = br.readLine()) != null) {
+			targeList.add(strLine);
+		}
 
 		List<String[]> results = Lists.newArrayList();
 		for (Object[] infoobj : resultList) {
@@ -87,7 +64,6 @@ public class GenerateHopsitalFeeFromCrimsonTest {
 				if(!targeList.contains(irb+"")){
 					continue;
 				}
-
 				try {
 					protocolDao.findById(irb);
 				} catch (Exception e) {
@@ -95,22 +71,27 @@ public class GenerateHopsitalFeeFromCrimsonTest {
 					continue;
 				}
 				List<String> uniqueResukt =Lists.newArrayList();
-				File writeFile = new File("C:\\Data\\Crimson2\\" + irb + " HB "
+				File writeFile = new File("C:\\Data\\CrimsonFeeSchedule3-18-14\\" + irb + " HB "
 						+ date + ".csv");
 				CSVWriter writer = new CSVWriter(new FileWriter(writeFile));
 				String[] titleName ={"Title: "+title};
 				writer.writeNext(titleName);
 				String[] titleLine ={"IRB#","CPT Code","Cost","Notes"};
 				writer.writeNext(titleLine);
-
-
+				
+				
 				qry = "select [first]+'  '+[lname] from [HOSP_SQL1].[ClinicalResearch].[dbo].aria_users where [pi_serial] =(select [num_pi] from [HOSP_SQL1].[ClinicalResearch].[dbo].[ct] where num_ct_ID ="+ctId+")";
 				Query query = em.createNativeQuery(qry);
 				String piname =  (String) query.getSingleResult();
-
+				
 				qry ="select txt_reg_num from [HOSP_SQL1].[ClinicalResearch].[dbo].[ct_reg] where num_ct_ID ="+ctId;
 				Query query2 = em.createNativeQuery(qry);
-				String nct =  (String) query2.getSingleResult();
+				String nct ="";
+				try{
+					nct=(String) query2.getSingleResult();
+				}catch(Exception e){
+					
+				}
 				String [] entry ={irb+"",title,piname,nct};
 				results.add(entry);
 				qry = "SELECT fee.[num_fee_amount_fixed] ,fee.[num_fee_amount_formula],fee.[txt_fee_cpt], arm.txt_arm_name ,item.[txt_item_notes] "
@@ -121,11 +102,11 @@ public class GenerateHopsitalFeeFromCrimsonTest {
 				query = em.createNativeQuery(qry);
 				List<Object[]> feeList = (List<Object[]>) query.getResultList();
 				for (Object[] obj : feeList) {
-
+					
 					String notes = (String)obj[4];
 					String cpt = (String) obj[2];
 					String cost = "";
-
+					
 					if (ctType != 1) {
 						cost="" + (double) obj[0];
 					} else {
@@ -145,12 +126,12 @@ public class GenerateHopsitalFeeFromCrimsonTest {
 				e.printStackTrace();
 
 			}
-			File writeFile = new File("C:\\Data\\Crimson2\\" + " HB "
+			File writeFile = new File("C:\\Data\\CrimsonFeeSchedule3-18-14\\" + " HB "
 					+  ".csv");
 			CSVWriter writer = new CSVWriter(new FileWriter(writeFile));
 			for(String[] entry: results){
-
-
+				
+				
 				writer.writeNext(entry);
 			}
 			writer.flush();

@@ -12,7 +12,7 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
+		
 	<bean id="xmlProcessor"
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
 
@@ -24,7 +24,7 @@
 		class="edu.uams.clara.webapp.contract.dao.contractform.ContractFormXmlDataDao" />
 	<bean id="contractFormStatusDao"
 		class="edu.uams.clara.webapp.contract.dao.businesslogicobject.ContractFormStatusDao" />
-
+		
 	<bean id="contractMetaDataXmlService"
 		class="edu.uams.clara.webapp.contract.service.impl.ContractMetaDataXmlServiceImpl" />
 

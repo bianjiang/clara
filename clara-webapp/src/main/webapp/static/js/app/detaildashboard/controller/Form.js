@@ -27,6 +27,20 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     },
     
     // Form action functions
+   
+    ShowWarningMessage: function(options){
+    	Ext.Msg.show({
+    	     title:'Warning',
+    	     msg: options.message,
+    	     buttons: Ext.Msg.OKCANCEL,
+    	     fn:function(btn){
+    	    	 if (btn =='ok'){
+    	    		 location.href = appContext+options.url;
+    	    	 }
+    	     },
+    	     icon: Ext.Msg.QUESTION
+    	});
+    },
     
     ChooseUploadDocumentRole: function(){
     	var me = this,
@@ -81,7 +95,7 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     			disabled:true,
     			text:'Review Form',handler:function(){
     			location.href = appContext+"/"+claraInstance.type+"s/"+claraInstance.id+"/"+claraInstance.type+"-forms/"+me.selectedForm.get("formId")+"/review?committee="+selectedRole.get("name");
-    		}}],
+    		}}]
     	}).show();
     	
     	/*
@@ -192,6 +206,7 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     					Ext.create("Clara.LetterBuilder.view.LetterBuilderWindow",{
     			    		templateId:cType,
     			    		parentMessageId:null,
+    			    		messageXmlAdditionalRootTag:"committee-review",
     			    		requireSignature:false,
     			    		onSuccess: function(){
     			    			Ext.getCmp(id).close();
@@ -229,7 +244,7 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     
     CloseStudy: function(protocolObj){
     	var pid = protocolObj.protocolId;
-    	var callback = function(){ location.reload(true) };
+    	var callback = function(){ location.reload(true); };
     	var msg = "Are you sure you want to administratively close this study?";
     	
     	new Ext.Window({
@@ -441,7 +456,7 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     
     RemoveBudget: function(){
     	var me = this;
-    	var callback = function(){ alert("Budget deleted.") };
+    	var callback = function(){ alert("Budget deleted."); };
     	var msg = "Are you sure you want to remove the budget?";
 
     	Ext.Msg.confirm('Delete this budget?', msg, function(btn){
@@ -477,7 +492,7 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     	Ext.Msg.confirm('Delete this form?', msg, function(btn){
     	    if (btn == 'yes'){
     	        // process text value and close...
-    	    	var url = appContext+"/ajax/protocols/"+claraInstance.id+"/protocol-forms/"+me.selectedForm.get("formId")+"/delete";
+    	    	var url = appContext+"/ajax/"+claraInstance.type+"s/"+claraInstance.id+"/"+claraInstance.type+"-forms/"+me.selectedForm.get("formId")+"/delete";
     	    	jQuery.ajax({url: url,
     	    		type: "GET",
     	    		async: false,

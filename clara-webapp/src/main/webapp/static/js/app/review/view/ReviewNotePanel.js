@@ -65,12 +65,13 @@ Ext.define('Clara.Review.view.ReviewNotePanel', {
 			renderer: function(v,p,r){
 				var store = me.getStore(),
 				    isGrouped = (typeof(store.groupField) != "undefined" && store.groupField == "committee"),
-				    isPrivate = (r.get("isPrivate"))?true:false;
+				    isPrivate = (r.get("isPrivate"))?true:false,
 				    today = new Date(),
 				    isMajor = (r.get('commentType') == 'CONTINGENCY_MAJOR' || r.get('commentType') == 'NOTE_MAJOR')?true:false,
 				    html = "",
 				    htmlTitleClass = (!isGrouped && !r.get('isPrivate'))?"review-comment-row-committee":"review-comment-row-committee review-comment-row-committee-grouped",
-				    title = "";
+				    title = "",
+				    displayedCommenterName="";
 				
 				
 				
@@ -78,7 +79,13 @@ Ext.define('Clara.Review.view.ReviewNotePanel', {
 					    r.get("inLetter")+"' id='review-comment-row-"+r.get("id")+"'>";
 			    
 				// redmine #2831: show name of commenter if PI, coverage, budget manager or budget reviewer
-			    var displayedCommenterName = ( me.commentActor == "MEETING_OPERATOR" || ['PI','COVERAGE_REVIEW','BUDGET_REVIEW','BUDGET_MANAGER'].indexOf(r.get("committee")) > -1)?(r.get("userFullname")+" ("+r.get("committeeDescription")+")"):r.get("committeeDescription");
+				
+				if ( me.commentActor == "MEETING_OPERATOR" || ['PI','COVERAGE_REVIEW','BUDGET_REVIEW','BUDGET_MANAGER'].indexOf(r.get("committee")) > -1){
+					displayedCommenterName = (r.get("userFullname")+" ("+r.get("committeeDescription")+")");
+				} else {
+					displayedCommenterName = r.get("committeeDescription");
+				}
+		
 			    title = displayedCommenterName+"<span class='review-comment-light'> added a </span>";
 			    
 			   
@@ -117,9 +124,9 @@ Ext.define('Clara.Review.view.ReviewNotePanel', {
 			            html += " - <a href='javascript:;' onClick='Clara.Reviewer.editComment("+r.get("id")+", \""+me.getId()+"\");'>Edit</a>";
 			        }
 			    	
-			        if (!(me.commentActor == "MEETING_OPERATOR") && (Clara.IsUser(r.get("userId")) && me.isMyList())
-			                || claraInstance.HasAnyPermissions("CAN_DELETE_COMMENT","Delete note "+r.get("id"))
-			                || (((me.commentActor == "REVIEWER_IRB") && !claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER'])) && // redmine #2697 (prevent IRB_REVIEWER from deleting other IRB comments)
+			        if (!(me.commentActor == "MEETING_OPERATOR") && (Clara.IsUser(r.get("userId")) && me.isMyList()) || 
+			                claraInstance.HasAnyPermissions("CAN_DELETE_COMMENT","Delete note "+r.get("id")) || 
+			                (((me.commentActor == "REVIEWER_IRB") && !claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER'])) && // redmine #2697 (prevent IRB_REVIEWER from deleting other IRB comments)
 			                (
 			                		r.get("committee") == "IRB_REVIEWER" ||
 			                        r.get("committee") == "IRB_CONSENT_REVIEWER" ||
@@ -165,7 +172,7 @@ Ext.define('Clara.Review.view.ReviewNotePanel', {
 			    
 			    html += "</div>";
 			    
-			    if (r.get("commentStatus") != '' && r.get("commentStatus") != null){
+			    if (r.get("commentStatus") !== '' && r.get("commentStatus") !== null){
 			        html += "<div class='review-comment-status review-comment-status-"+r.get("commentStatus")+"'>Marked as <strong>"+r.get("commentStatus").toLowerCase().replace("_"," ")+".</strong></div>";
 			    }
 			    
@@ -176,21 +183,21 @@ Ext.define('Clara.Review.view.ReviewNotePanel', {
 			        html = html + "<div class='review-comment-replies'>";
 			        
 			        replies.each(function(rec, idx){
-			        	var idxCls = (idx == 0)?" first":"",
+			        	var idxCls = (idx === 0)?" first":"",
 			        		displayedCommenterName = (['PI','COVERAGE_REVIEW','BUDGET_REVIEW'].indexOf(rec.get("committee")) > -1)?(rec.get("userFullname")+" ("+rec.get("committeeDescription")+")"):rec.get("committeeDescription");
 
 			        	html += "<div class='review-comment-reply"+idxCls+"'><span class='review-comment-reply-fullname'>"+displayedCommenterName+"</span><span class='review-comment-reply-text'>"+rec.get("text")+"</span>";
 				        html += "<div class='review-comment-reply-timeago'>";
 				        
-
+				      
 				        	html += moment(rec.get("modified")).format("M/DD/YYYY, h:ma");
-
+			           
 			                
 				        
 				        if (!me.readOnly && !(me.commentActor == "MEETING_OPERATOR") &&
-				                Clara.IsUser(rec.get("userId"))
-				                || claraInstance.HasAnyPermissions("CAN_DELETE_COMMENT","Delete reply "+rec.get("id"))
-				                || (( me.commentActor == "MEETING_OPERATOR" && !claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER'])) && // redmine #2697 (prevent IRB_REVIEWER from deleting other IRB comments)
+				                Clara.IsUser(rec.get("userId")) || 
+				                claraInstance.HasAnyPermissions("CAN_DELETE_COMMENT","Delete reply "+rec.get("id")) || 
+				                (( me.commentActor == "MEETING_OPERATOR" && !claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER'])) && // redmine #2697 (prevent IRB_REVIEWER from deleting other IRB comments)
 				                (
 				                		r.get("committee") == "IRB_REVIEWER" ||
 				                        r.get("committee") == "IRB_CONSENT_REVIEWER" ||

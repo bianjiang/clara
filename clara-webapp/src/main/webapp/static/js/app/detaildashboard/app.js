@@ -40,7 +40,7 @@ Ext.application({
                   'Clara.DetailDashboard.controller.Form',
                   'Clara.DetailDashboard.controller.DetailDashboard',
                   'Clara.LetterBuilder.controller.LetterBuilder',
-                  'Clara.DetailDashboard.controller.QueueAssign'],	// DUPLICATED FROM QUEUE CONTROLLER. BAD!
+                  'Clara.DetailDashboard.controller.QueueAssign'],	
     
     autoCreateViewport: true,
     enableQuickTips: true,
@@ -58,6 +58,7 @@ Ext.application({
     
     launch: function() {
     	clog("Ext.app launch."); 
+    	Clara.Application.DashboardController = this.getController("Clara.DetailDashboard.controller.DetailDashboard");
     	Clara.Application.DocumentController = this.getController("Clara.Documents.controller.Documents");
     	Clara.Application.FormController = this.getController("Clara.DetailDashboard.controller.Form");
     	Clara.Application.QueueAssignController = this.getController("QueueAssign");

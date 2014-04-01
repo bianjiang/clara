@@ -65,6 +65,15 @@ public class ProtocolFormDetailContentServiceImpl implements ProtocolFormDetailC
 				String studyNature = (values!=null && !values.isEmpty())?values.get(0):"";
 				
 				detailXml += "<study-nature>" + studyNature + "</study-nature>";
+				
+				String department = xmlProcessor.getAttributeValueByPathAndAttributeName("/protocol/responsible-department", protocolForm.getMetaDataXml(), "deptdesc");
+				
+				String college = xmlProcessor.getAttributeValueByPathAndAttributeName("/protocol/responsible-department", protocolForm.getMetaDataXml(), "collegedesc");
+				
+				detailXml += "<value name=\"Department\">" + org.apache.commons.lang.StringEscapeUtils
+						.escapeXml(department) + " (" + org.apache.commons.lang.StringEscapeUtils
+						.escapeXml(college) + ")</value>";
+				//detailXml += "<value name=\"College\">" + college + "</value>";
 			} catch (Exception e){
 				e.printStackTrace();
 			}
@@ -111,10 +120,12 @@ public class ProtocolFormDetailContentServiceImpl implements ProtocolFormDetailC
 			
 			String submissionType = xmlHandler.getSingleStringValueByXPath(protocolFormMetaData, "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/recent-motion");
 			
+			String recentMotionByReviewer = xmlHandler.getSingleStringValueByXPath(protocolFormMetaData, "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/recent-motion-by-reviewer");
+			
 			String formStatus = xmlHandler.getSingleStringValueByXPath(protocolFormMetaData, "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/status");
 			
 			if (needToShowResponseStatusList.contains(formStatus)) {
-				if (submissionType.equals("Defer with minor contingencies") || submissionType.equals("Defer with minor contingencies by Expedited Review"))
+				if (submissionType.equals("Defer with minor contingencies") || recentMotionByReviewer.equals("Defer with minor contingencies by Expedited Review"))
 					detailXml += "<value name=\"Submission Type\">Response to Minor Contingency</value>";
 				
 				if (submissionType.equals("Defer with major contingencies"))

@@ -20,7 +20,7 @@ import edu.uams.clara.webapp.contract.dao.ContractDao;
 public class ContractMigrationServiceTest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(ContractMigrationServiceTest.class);
-
+	
 	private CrimsonContractDao crimsonContractDao;
 	private ContractMigrationService constactMigrationService;
 	private ContractDao contractDao;
@@ -31,27 +31,27 @@ public class ContractMigrationServiceTest {
 		BigInteger  id = (BigInteger) result.get(0)[0];
 		logger.debug(id.toString()+""+result.size());
 	}
-
+	
 	//@Test
 	public void findContractInfo() {
 		Object[] result = crimsonContractDao.findContractInfoByContractId(BigInteger.valueOf(178));
-
+	
 		BigInteger  id = (BigInteger) result[0];
 		logger.debug(id.toString());
 	}
-
+	
 	//@Test
 	public void contractInsertTest(){
 		Date date = new Date();
 		contractDao.disableIdentyInsert(222222, 1, date, "test", 201628, "C22222");
 	}
-
+	
 	@Test
 		public void contractsMigration() {
 			constactMigrationService.migrateContract();
 		}
-
-
+	
+	
 
 	public CrimsonContractDao getCrimsonContractDao() {
 		return crimsonContractDao;

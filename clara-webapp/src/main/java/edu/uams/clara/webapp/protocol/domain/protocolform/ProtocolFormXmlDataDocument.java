@@ -21,7 +21,6 @@ import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
 
 
 @Entity
@@ -40,7 +39,8 @@ public class ProtocolFormXmlDataDocument extends AbstractDomainEntity {
 		DETERMINED("Determined"),
 		RETIRED("Retired"),
 		HC_APPROVED("HC Approved"),
-		PACKET_DOCUMENT("Packet Documet");
+		PACKET_DOCUMENT("Packet Documet"),
+		FINAL_LEGAL_APPROVED("Final Legal Approved");
 		
 		private String description;
 		
@@ -91,6 +91,9 @@ public class ProtocolFormXmlDataDocument extends AbstractDomainEntity {
 	
 	@Column(name="category")
 	private String category;
+	
+	@Column(name="category_desc", nullable=true)
+	private String categoryDesc;
 	
 	@Column(name="title")
 	private String title;
@@ -257,6 +260,14 @@ public class ProtocolFormXmlDataDocument extends AbstractDomainEntity {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public String getCategoryDesc() {
+		return categoryDesc;
+	}
+
+	public void setCategoryDesc(String categoryDesc) {
+		this.categoryDesc = categoryDesc;
 	}
 	
 	

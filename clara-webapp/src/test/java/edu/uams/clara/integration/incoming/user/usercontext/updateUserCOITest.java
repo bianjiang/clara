@@ -16,7 +16,7 @@ import edu.uams.clara.integration.incoming.user.usercontext.service.ImportandUpd
 public class updateUserCOITest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(updateUserCOITest.class);
-
+	
 	private ImportandUpdateUserCOI importandUpdateUserCOI;
 
 

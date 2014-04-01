@@ -35,10 +35,16 @@
 				<div class="questionValue">
 					<x:set var="studyStatus"
 						select="string($scInstance/study-closure/study-status/text())" />
+					<x:set var="otherStudyStatusExplain"
+						select="string($scInstance/study-closure/study-status/other/explain/text())" />
 					<uams:radio value="${studyStatus}"
 						lookuppath="study-closure-study-status"
 						instancepath="/study-closure/study-status"
-						validation="required" />
+						validation="required"
+						allowOther="true"
+						otherTextInstancePath="/study-closure/study-status/other/explain"
+						otherTextValue="${otherStudyStatusExplain} "
+						otherTextValidation="required" />
 				</div>
 			</div>
 			

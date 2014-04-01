@@ -13,8 +13,8 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
-	<bean id="grantDao" class="edu.uams.clara.webapp.protocol.dao.thing.GrantDao" />
+		
+	<bean id="grantDao" class="edu.uams.clara.webapp.protocol.dao.thing.GrantDao" />	
 	<bean id="crimsonProjectDao" class="edu.uams.clara.integration.incoming.crimson.dao.CRIMSONProjectDao" />
 	<bean id="importCRIMSONSProjectService" class="edu.uams.clara.integration.incoming.crimson.ImportCRIMSONProjectService" />
 	<bean id="crimsonSponsorDao" class="edu.uams.clara.integration.incoming.crimson.dao.CRIMSONSponsorDao" />

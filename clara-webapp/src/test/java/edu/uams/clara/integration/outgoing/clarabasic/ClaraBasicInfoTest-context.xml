@@ -13,19 +13,19 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
-
+		
+		
 		<bean id="xmlProcessor"
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
-
+		
 		<bean id="xmlHandler" class="edu.uams.clara.core.util.xml.impl.XmlHandlerImpl" />
-
+		
 		<bean id="protocolDao" class="edu.uams.clara.webapp.protocol.dao.ProtocolDao" />
-
+	
 	<bean id="protocolFormDao"
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao" />
-
+		
 	<bean id="protocolFormXmlDataDao"
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao" />
-
+		
 </beans>

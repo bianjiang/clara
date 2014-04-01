@@ -190,7 +190,7 @@
 	border:0px;	
 }
 
-.cycle-notes{
+.cycle-notes,.arm-notes{
 	font-weight:100 !important;
 	overflow: hidden;
     text-overflow: ellipsis;
@@ -199,7 +199,7 @@
 }
 
 @media (-webkit-min-device-pixel-ratio: 0) {
-    .cycle-notes {
+    .cycle-notes,.arm-notes {
         display: -webkit-box;
         -webkit-line-clamp: 6; /* number of lines to show */
         -webkit-box-orient: vertical;
@@ -307,6 +307,9 @@
     background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2P8z8BgDAAEOQE064B0NwAAAABJRU5ErkJggg==) repeat;
 }
 
+.proc-notes-clinical{
+	margin-top:16px;
+}
 
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
     .x-grid3-cell

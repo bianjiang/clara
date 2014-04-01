@@ -34,27 +34,27 @@ public class ValidationXmlParserTest {
 	.getLogger(ValidationXmlParserTest.class);
 
 	private ValidationXmlParser validationXmlParser;
-
+	
 	private ValidationRuleHandler validationRuleHandler;
-
+	
 	private ProtocolFormXmlDataDao protocolFormXmlDataDao;
-
+	
 	private ValidationRuleContainer validationRuleContainer;
-
+	
 	private NewSubmissionValidationAjaxController newSubmissionValidationAjaxController;
 
 
 	@Test
-	public void testValidateXmlParser(){
-
+	public void testValidateXmlParser(){		
+	
 		//List<Rule> protocolValidationRules = getValidationRuleContainer().getValidationRules("protocolValidationRules");
 		//Set<String> valueKeys = getValidationRuleContainer().getCachedValueKeys("protocolValidationRules");
-
+		
 		//ProtocolFormXmlData protocolXmlData = protocolFormXmlDataDao.findById(467l);
 		//Class<?> stringClass = Class.forName("java.lang.String");
 		//List<ValidationResponse> validationResponses = newSubmissionValidationAjaxController.validateProtocolNewSubmissionForm(467l);
 	}
-
+	
 	public ValidationXmlParser getValidationXmlParser() {
 		return validationXmlParser;
 	}
@@ -76,7 +76,7 @@ public class ValidationXmlParserTest {
 	public ProtocolFormXmlDataDao getProtocolFormXmlDataDao() {
 		return protocolFormXmlDataDao;
 	}
-
+	
 	@Autowired(required=true)
 	public void setProtocolFormXmlDataDao(ProtocolFormXmlDataDao protocolFormXmlDataDao) {
 		this.protocolFormXmlDataDao = protocolFormXmlDataDao;

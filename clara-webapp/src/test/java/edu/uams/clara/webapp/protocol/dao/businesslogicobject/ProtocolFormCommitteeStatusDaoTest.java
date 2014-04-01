@@ -17,21 +17,21 @@ import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolF
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "file:src/test/java/edu/uams/clara/webapp/protocol/dao/businesslogicobject/ProtocolFormCommitteeStatusDaoTest-context.xml" })
 public class ProtocolFormCommitteeStatusDaoTest {
-
+	
 	private final static Logger logger = LoggerFactory
 	.getLogger(ProtocolFormCommitteeStatusDaoTest.class);
 
 	private ProtocolFormCommitteeStatusDao protocolFormCommitteeStatusDao;
-
+	
 	@Test
 	public void testListProtocolFormCommitteeStatus(){
 		List<ProtocolFormCommitteeStatus> protocolFormsInReview = protocolFormCommitteeStatusDao.listByCommitteeAndStatus(Committee.IRB_OFFICE, ProtocolFormCommitteeStatusEnum.IN_REVIEW);
-
+		
 		for(ProtocolFormCommitteeStatus protocolFormCommitteeStatus:protocolFormsInReview){
 			logger.debug("p: " + protocolFormCommitteeStatus.getProtocolForm().getProtocolFormType());
 		}
 	}
-
+		
 	@Autowired(required=true)
 	public void setProtocolFormCommitteeStatusDao(
 			ProtocolFormCommitteeStatusDao protocolFormCommitteeStatusDao) {

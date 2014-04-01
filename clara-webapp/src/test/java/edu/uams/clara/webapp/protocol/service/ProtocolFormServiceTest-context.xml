@@ -29,7 +29,7 @@
 	<bean id="userRoleDao"
 		class="edu.uams.clara.webapp.common.dao.usercontext.UserRoleDao" />
 	<bean id="personDao" class="edu.uams.clara.webapp.common.dao.usercontext.PersonDao" />
-
+	
 <!-- 	<bean id="protocolFormXmlDataDocumentDao" class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDocumentDao" />
 	<bean id="businessObjectStatusHelperContainer" class="edu.uams.clara.webapp.common.businesslogic.BusinessObjectStatusHelperContainer" /> -->
 	<bean id="emailService"
@@ -51,7 +51,7 @@
             </props>
         </property>
     </bean>
-
+    
      <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
       <property name="velocityProperties">
          <value>
@@ -60,8 +60,8 @@
          </value>
       </property>
    </bean>
-	<!-- <bean id="protocolFormService" class="edu.uams.clara.webapp.protocol.service.ProtocolFormServiceImpl"
-		/> <bean id="protocolFormDao" class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao"
+	<!-- <bean id="protocolFormService" class="edu.uams.clara.webapp.protocol.service.ProtocolFormServiceImpl" 
+		/> <bean id="protocolFormDao" class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao" 
 		/> -->
 
 </beans>

@@ -14,7 +14,7 @@ Clara.BudgetBuilder.EpochGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			var t = this;
 			var st = t.getStore();
 			var rowidx = st.findExact('procid',proc.id);
-			if (rowidx > 0){
+			if (rowidx > -1){
 				t.getSelectionModel().unlock();
 				t.getView().focusRow(rowidx);
 				t.getSelectionModel().selectRow(rowidx);
@@ -126,13 +126,18 @@ Clara.BudgetBuilder.EpochGridPanel = Ext.extend(Ext.grid.GridPanel, {
 							icon: Ext.MessageBox.alert,
 							fn:function(btn, text){
 						    	if (btn == 'ok'){
-						    		Ext.getCmp('budget-tabpanel').activeEpoch.makeComplex();
+						    		if (Ext.getCmp('budget-tabpanel').activeEpoch.canMakeComplex()) {
+						    			Ext.getCmp('budget-tabpanel').activeEpoch.makeComplex();
+						    			Clara.BudgetBuilder.MessageBus.fireEvent('epochupdated', Ext.getCmp('budget-tabpanel').activeEpoch);
+					        			Clara.BudgetBuilder.MessageBus.fireEvent('epochcontentupdated', Ext.getCmp('budget-tabpanel').activeEpoch);
+					        			var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Converting phase, please wait..."});
+							    		myMask.show();
+							    		budget.save(budget.toXML(),true);
+						    		} else {
+						    			Ext.Msg.alert('Cannot convert phase', 'This phase cannot be converted at this time. Check for and fix any visits with negative days.');
+						    		}
 						    		
-						    		Clara.BudgetBuilder.MessageBus.fireEvent('epochupdated', Ext.getCmp('budget-tabpanel').activeEpoch);
-				        			Clara.BudgetBuilder.MessageBus.fireEvent('epochcontentupdated', Ext.getCmp('budget-tabpanel').activeEpoch);
-				        			var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Converting phase, please wait..."});
-						    		myMask.show();
-						    		budget.save(budget.toXML(),true);
+						    		
 						    	}
 							}
 						});

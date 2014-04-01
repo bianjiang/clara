@@ -150,12 +150,12 @@
 		<property name="host" value="${fileserver.host}" />
 		<property name="port" value="22" />
 	</bean>
-
+	
 	<bean id="xmlHandler" class="edu.uams.clara.core.util.xml.impl.XmlHandlerImpl" />
-
+	
 	<bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
 		<constructor-arg>
-
+			
 			<bean class="edu.uams.clara.integration.common.service.CustomSaajSoapMessageFactory">
 				<property name="soapVersion">
 					<util:constant static-field="org.springframework.ws.soap.SoapVersion.SOAP_12" />
@@ -168,8 +168,8 @@
 		</property>
 		<property name="defaultUri" value="${epic.webservice.studydefinition.uri}" />
 	</bean>
-
-
+	
+	
 	<bean id="studyDefinitionWSClient"
 		class="edu.uams.clara.integration.outgoing.epic.impl.StudyDefinitionWSClientImpl">
 		<property name="webServiceTemplate" ref="webServiceTemplate" />
@@ -184,7 +184,7 @@
 			<property name="retrieveProtocolNctNumberTemplateUri"
 			value="file:src/main/webapp/WEB-INF/templates/ws/epic/RetrieveProtocoNCTNumber.xml" />
 	</bean>
-
-
-
+	
+	
+	
 </beans>

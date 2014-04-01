@@ -27,6 +27,7 @@
 			<field identifier="reviewedcommittee" />
 			<field identifier="nct" />
 			<field identifier="iscancerstudy" />
+			<field identifier="hascontinuingreview" />
 			<!-- <field identifier="clinicaltrailgov" /> -->
 			<!-- <field identifier="protocolformstatus" /> -->
 		</fields>
@@ -47,6 +48,8 @@
 				queryCrossCondition="OUTER APPLY meta_data_xml.nodes('/protocol/staffs/staff/user') as T3(Loc) " />
 			<field order="0" defaultDisplay="false" identifier="studycoordinatorname"
 				alias="studyCoordinatorName" desc="Study Coordinator Name" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="laysummary"
+				alias="laySummary" desc="Lay Summary" hidden="false" />		
 			<field order="0" defaultDisplay="false" identifier="studycoordinatorphone"
 				alias="studyCoordinatorPhone" desc="Study Coordinator Phone" hidden="false" />
 			<field order="0" defaultDisplay="false" identifier="nct" alias="nct"
@@ -81,6 +84,10 @@
 			<field order="0" defaultDisplay="false" identifier="funding"
 				alias="funding" desc="Funding" hidden="false"
 				queryCrossCondition="OUTER APPLY meta_data_xml.nodes('//protocol/funding/funding-source') as T2(Loc) " />
+			<field order="0" defaultDisplay="false" identifier="enrollmentinformation"
+				alias="enrollmentInformation" desc="Enrollment Information" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="pushedtoepic"
+				alias="pushedToEpic" desc="Pushed to Epic" hidden="false" />
 
 			<!-- <field order ="0" defaultDisplay ="false" identifier="approvalstatus" 
 				alias="approvalStatus" desc="Approval Status" hidden="false" /> <field order 
@@ -138,6 +145,9 @@
 				<condition involve="{nct.search-xpath}">{nct.search-xpath}</condition>
 				<condition involve="{sites.search-xpath}">{sites.search-xpath}</condition>
 				<condition involve="{iscancerstudy.search-xpath}">{iscancerstudy.search-xpath}</condition>
+				<condition involve="{hascontinuingreview.search-xpath}">{hascontinuingreview.search-xpath}</condition>
+				<condition involve="{pushedtoepic.search-xpath}">{pushedtoepic.search-xpath}</condition>
+				<condition involve="{college.search-xpath}">{college.search-xpath}</condition>
 			</conditions>
 		</queries>
 	</report>
@@ -167,6 +177,7 @@
 			<field identifier="studysubmissionstatus" />
 			<field identifier="reviewedcommittee" />
 			<field identifier="nct" />
+			<field identifier="hascontinuingreview" />
 			<!-- <field identifier="clinicaltrailgov" /> -->
 		</fields>
 		<results>
@@ -227,7 +238,8 @@
 				</condition>
 				<condition involve="{sites.search-xpath}">{sites.search-xpath}</condition>
 				<condition involve="{nct.search-xpath}">{nct.search-xpath}</condition>
-
+				<condition involve="{hascontinuingreview.search-xpath}">{hascontinuingreview.search-xpath}</condition>
+				<condition involve="{college.search-xpath}">{college.search-xpath}</condition>
 			</conditions>
 		</queries>
 	</report>
@@ -373,7 +385,7 @@
 		</queries>
 	</report>
 	
-	<report type="Human Subject Research Dashboard-Full Review Studies Closed-Reasons for Closure">
+	<report type="Human Subject Research Dashboard-Full Board Review Studies Closed-Reasons for Closure">
 		<fields>
 			<field identifier="primaryresponsible" />
 			<field identifier="daterange" />
@@ -391,7 +403,7 @@
 		</queries>
 	</report>
 	
-	<report type="Human Subject Research Dashboard-Full Review Studies Closed-Cumulative Patients Enrolled">
+	<report type="Human Subject Research Dashboard-Full Board Review Studies Closed-Cumulative Patients Enrolled">
 		<fields>
 			<field identifier="primaryresponsible" />
 			<field identifier="daterange" />
@@ -456,6 +468,7 @@
 			<field identifier="studysubmissionstatus" />
 			<field identifier="reviewedcommittee" />
 			<field identifier="nct" />
+			<field identifier="hascontinuingreview" />
 			<!-- <field identifier="clinicaltrailgov" /> -->
 			<!-- <field identifier="protocolformstatus" /> -->
 		</fields>
@@ -512,6 +525,7 @@
 				<condition involve="{studycoordinatorname.search-xpath}">{studycoordinatorname.search-xpath}
 				</condition>
 				<condition involve="{nct.search-xpath}">{nct.search-xpath}</condition>
+				<condition involve="{hascontinuingreview.search-xpath}">{hascontinuingreview.search-xpath}</condition>
 			</conditions>
 		</queries>
 	</report>
@@ -571,6 +585,40 @@
 				<condition involve="{protocalTitle.search-xpath}">{protocalTitle.search-xpath}</condition>
 				<condition involve="{piname.search-xpath}">{piname.search-xpath}</condition>
 				<condition involve="{studytype.search-xpath}">{studytype.search-xpath}</condition> -->
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Agenda Report">
+		<fields>
+		<field identifier="agendadate" />
+		</fields>
+		<results>
+			<!-- <field order="0" defaultDisplay="false" identifier="agendaid"
+				alias="agendaId" desc="Agenda Id" hidden="false" /> -->
+		</results>
+		<queries>
+			<query type="main">
+				SELECT id FROM agenda WHERE 
+				retired = 0 AND {conditions}
+			</query>
+			<conditions>
+			<condition involve="{agendadate.search-xpath}">{agendadate.search-xpath}
+				</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="IRB Billing Report">
+		<fields>
+		<field identifier="approveddaterange" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+			</query>
+			<conditions>
 			</conditions>
 		</queries>
 	</report>

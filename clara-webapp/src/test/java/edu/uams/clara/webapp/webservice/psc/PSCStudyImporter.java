@@ -24,7 +24,7 @@ public class PSCStudyImporter {
 	private String _Cookies = "";
 	private final static Logger logger = LoggerFactory
 			.getLogger(ProtocolDashboardAjaxController.class);
-
+	
 	public String get_SubAction() {
 		return _SubAction;
 	}
@@ -80,7 +80,7 @@ public class PSCStudyImporter {
 	public void set_Auth(Boolean _Auth) {
 		this._Auth = _Auth;
 	}
-
+	
 	public String GetStringFromXMLFile(String aFileName){
 		logger.info(aFileName);
 		String retStr = "";
@@ -96,16 +96,16 @@ public class PSCStudyImporter {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return retStr;
 	}
-
-
-
+	
+	
+	
 	public AuthObjectTest getSSOSessionID(){
 		String URLStr = _ServiceURL; //"https://psc.uams.edu:8443/psc/api/v1/studies";
 		String JSessID = "";
@@ -115,22 +115,22 @@ public class PSCStudyImporter {
 			try {
 			    HttpURLConnection Conn = (HttpURLConnection) TestURL.openConnection();
 				Conn.setRequestMethod(_SubAction);
-
+				
 				Conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=\"utf8\"");
 				Conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-
+				
 				int returnCode = Conn.getResponseCode();
 
 				if (returnCode == 200){
-
+					
 					String cookie = Conn.getHeaderField("Set-Cookie");
-
+					
 				     if (cookie != null){
-					 logger.info("cookie: " + cookie);
-					 if (cookie.contains("JSESSIONID")){
-						 cookie = cookie.substring(cookie.indexOf("JSESSIONID"));
-						 JSessID = cookie.substring(cookie.indexOf('=') + 1, cookie.indexOf(';'));
-					 }
+				    	 logger.info("cookie: " + cookie);
+				    	 if (cookie.contains("JSESSIONID")){
+				    		 cookie = cookie.substring(cookie.indexOf("JSESSIONID"));
+				    		 JSessID = cookie.substring(cookie.indexOf('=') + 1, cookie.indexOf(';'));
+				    	 }
 				     }
 					BufferedReader in = new BufferedReader(new InputStreamReader(Conn.getInputStream()));
 					String line;
@@ -139,7 +139,7 @@ public class PSCStudyImporter {
 							ltValue = line.substring(line.indexOf("value"));
 							ltValue = ltValue.substring(ltValue.indexOf("\"") + 1);
 							ltValue = ltValue.substring(0, ltValue.indexOf("\""));
-						}
+						}						
 					}
 				}else{
 					logger.error("error code: " + returnCode);
@@ -154,14 +154,14 @@ public class PSCStudyImporter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new AuthObjectTest(JSessID, ltValue);
 	}
-
+	
 	public String OperatePSCStudySnapshot(String aXMLBody, String aOperate){
 		String retStr = "";
 		String URLStr = _ServiceURL; //"https://psc.uams.edu:8443/psc/api/v1/studies";
@@ -169,9 +169,9 @@ public class PSCStudyImporter {
 			URL TestURL = new URL(URLStr);
 			try {
 				HttpURLConnection Conn = (HttpURLConnection) TestURL.openConnection();
-				Conn.setRequestMethod(_SubAction);
-
-
+				Conn.setRequestMethod(_SubAction);	
+				
+				
 				Conn.setRequestProperty("Content-Type", "text/xml; charset=\"utf8\"");
 				Conn.setRequestProperty("Accept", "text/xml; charset=\"utf8\"");
 				Conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
@@ -179,29 +179,29 @@ public class PSCStudyImporter {
 				Conn.setRequestMethod(aOperate);
 				Conn.setDoInput(true);
 				Conn.setDoOutput(true);
-				OutputStream output = null;
+				OutputStream output = null;			
 
 				System.out.println(Conn.getURL());
-
+				
 				try{
 					output = Conn.getOutputStream();
 					output.write(aXMLBody.getBytes());
-
+				
 				}finally{
 					if (output != null)try{
 						output.close();
 					}catch (IOException logOrIgnore){
-
+						
 					}
 				}
 				int returnCode = Conn.getResponseCode();
 				if (returnCode == 200 || returnCode == 201 || returnCode == 505){
 					BufferedReader in = new BufferedReader(new InputStreamReader(Conn.getInputStream()));
 					String line;
-
+					
 					while ((line = in.readLine()) != null){
 						retStr += line + "<br/>";
-						logger.info(line);
+						logger.info(line);			
 					}
 				}else if(Conn.getErrorStream() != null){
 					logger.error("error code: " + returnCode);
@@ -220,15 +220,15 @@ public class PSCStudyImporter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return retStr;
 	}
-
-
+	
+	
 	public String getAllPSCStudies(){
 		String retStr = "";
 		String URLStr = _ServiceURL; //"https://psc.uams.edu:8443/psc/api/v1/studies";
@@ -237,7 +237,7 @@ public class PSCStudyImporter {
 			try {
 				HttpURLConnection Conn = (HttpURLConnection) TestURL.openConnection();
 				Conn.setRequestMethod(_SubAction);
-
+				
 				Conn.setRequestProperty("Content-Type", "text/plain; charset=\"utf8\"");
 				Conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 				Conn.setRequestProperty("Cookie", _Cookies);
@@ -246,11 +246,11 @@ public class PSCStudyImporter {
 				Conn.setDoOutput(false);
 				int returnCode = Conn.getResponseCode();
 				if (returnCode == 200){
-
+					
 					BufferedReader in = new BufferedReader(new InputStreamReader(Conn.getInputStream()));
 					String line;
 					while ((line = in.readLine()) != null){
-						logger.info(line);
+						logger.info(line);			
 					}
 				}else{
 					logger.error("error code: " + returnCode);
@@ -265,36 +265,36 @@ public class PSCStudyImporter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return retStr;
 	}
-
+	
 	public String GetPSCSessID(AuthObjectTest aAuthObj){
 		String URLStr = _ServiceURL; //"https://psc.uams.edu:8443/psc/api/v1/studies";
 		String UserName = aAuthObj.get_UserName();
 		String Password = aAuthObj.get_Password();
-		String tempStr = "40298A5F0D1CA766E9C86556C400CBDC";
+		String tempStr = "40298A5F0D1CA766E9C86556C400CBDC";	
 		int StdLen = tempStr.length();
 		String retStr = "";
 		Boolean bFound = false;
 		try {
 			URL TestURL = new URL(URLStr);
 			try {
-
+				
 				HttpURLConnection Conn = (HttpURLConnection) TestURL.openConnection();
-
-
-
+				
+			
+				
 				Conn.setDoInput(true);
 				Conn.setDoOutput(true);
 				Conn.setRequestMethod(_SubAction);
-				String query = "username=" + UserName + "&password=" + Password +
+				String query = "username=" + UserName + "&password=" + Password + 
 				  "&lt=" + aAuthObj.get_ltValue() + "&_eventId=submit";
-
+				
 				_Cookies = "JSESSIONID=" + aAuthObj.get_SSOSessionID();
 //				_Cookies = "JSESSIONID=7667B91C2FBC28D80BB5B35A2419CDEC";
 				Conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=\"utf8\"");
@@ -309,25 +309,25 @@ public class PSCStudyImporter {
 					if (output != null)try{
 						output.close();
 					}catch (IOException logOrIgnore){
-
+						
 					}
 				}
 //				Conn.setRequestMethod(_SubAction);
 				System.out.println(Conn.getURL() );
 				int returnCode = Conn.getResponseCode();
-
+				
 				if (returnCode == 200){
-
-
-					String cookie = Conn.getHeaderField("Set-Cookie");
+					
+					
+					String cookie = Conn.getHeaderField("Set-Cookie");					
 				     if (cookie != null){
-					 logger.info("cookie: " + cookie);
-
+				    	 logger.info("cookie: " + cookie); 
+				    
 				     }
 				     System.out.println(Conn.getURL() );
 					BufferedReader in = new BufferedReader(new InputStreamReader(Conn.getInputStream()));
 					String line;
-
+					
 					while (((line = in.readLine()) != null) && !bFound){
 //						logger.info(line);
 						if (line.contains("jsessionid=")){
@@ -335,19 +335,19 @@ public class PSCStudyImporter {
 							retStr = line.substring(line.indexOf("jsessionid="));
 							if (retStr.contains("\"")){
 								retStr = retStr.substring(retStr.indexOf("=") + 1, retStr.indexOf("\""));
-//								logger.debug(retStr + "len:" + retStr.length() + " std:" + StdLen);
+//								logger.debug(retStr + "len:" + retStr.length() + " std:" + StdLen);	
 								if (retStr.length() == StdLen){
 									bFound = true;
-
+	
 								}
 							}
 						}
 					}
 				}else{
-
+				
 					System.out.println(Conn.getURL() );
 					logger.error("error code: " + returnCode);
-
+					
 					BufferedReader in = new BufferedReader(new InputStreamReader(Conn.getErrorStream()));
 					String line;
 					while ((line = in.readLine()) != null){
@@ -358,16 +358,16 @@ public class PSCStudyImporter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		 
 		return retStr;
 	}
-
-
+	
+	
 	public String getTicket(AuthObjectTest aAuthObj){
 		String URLStr = _ServiceURL; //"https://psc.uams.edu:8443/psc/api/v1/studies";
 		String UserName = aAuthObj.get_UserName();
@@ -376,15 +376,15 @@ public class PSCStudyImporter {
 		try {
 			URL TestURL = new URL(URLStr);
 			try {
-
+			
 				HttpURLConnection Conn = (HttpURLConnection) TestURL.openConnection();
-
+						
 				Conn.setDoInput(true);
 				Conn.setDoOutput(true);
 				Conn.setRequestMethod(_SubAction);
-				String query = "username=" + UserName + "&password=" + Password +
+				String query = "username=" + UserName + "&password=" + Password + 
 				  "&lt=" + aAuthObj.get_ltValue() + "&_eventId=submit";
-
+				
 				_Cookies = "JSESSIONID=" + aAuthObj.get_SSOSessionID();
 				Conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=\"utf8\"");
 				Conn.setRequestProperty("Cookie", _Cookies);
@@ -398,18 +398,18 @@ public class PSCStudyImporter {
 					if (output != null)try{
 						output.close();
 					}catch (IOException logOrIgnore){
-
+						
 					}
 				}
 //				Conn.setRequestMethod(_SubAction);
-
+			
 				int returnCode = Conn.getResponseCode();
-
+			
 				if (returnCode == 302){
-
-					String cookie = Conn.getHeaderField("Set-Cookie");
+						
+					String cookie = Conn.getHeaderField("Set-Cookie");					
 				     if (cookie != null){
-					 logger.info("cookie: " + cookie);
+				    	 logger.info("cookie: " + cookie); 	    
 				     }
 
 					retStr=Conn.getHeaderField("location");
@@ -419,14 +419,14 @@ public class PSCStudyImporter {
 					String line;
 					while ((line = in.readLine()) != null){
 						logger.info(line);
-					}
+					}			
 				}
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

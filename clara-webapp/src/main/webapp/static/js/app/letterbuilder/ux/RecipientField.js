@@ -33,6 +33,16 @@ Ext.define('Clara.LetterBuilder.ux.RecipientField', {
         }
         return valueArray.join(', ');
     },
+    
+    getEmailXMLValue: function(){
+    	var valueArray = [];
+        var recs = this.getValueRecords();
+        for (var i=0,l=recs.length;i<l;i++){
+        	clog("TRYING EMAIL XML FOR ",recs[i]);
+            valueArray.push("<email type=\""+recs[i].get("type")+"\" desc=\""+recs[i].get("desc")+"\">"+recs[i].get("address")+"</email>");
+        }
+        return valueArray.join("");
+    },
 
 	initComponent: function() {
 

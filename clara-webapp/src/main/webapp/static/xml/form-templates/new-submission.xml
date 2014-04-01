@@ -21,6 +21,10 @@
 				<question-label>Is the PI for this study a UAMS faculty member?</question-label>
 				<question-value instance-path="/protocol/site-responsible/ach-achri/uams-faculty" value-type="yesNo" />
 			</question>
+			<question id="question-enroll-subject-in-uams" parent-id="question-site-responsible" parent-value="ach-achri" header="ACH-ACHRI / Other">
+				<question-label>Are you enrolling any subjects in UAMS?</question-label>
+				<question-value instance-path="/protocol/site-responsible/enroll-subject-in-uams" value-type="yesNo" />
+			</question>
 			<question id="question-college-form" parent-id="" parent-value="" header="UAMS / ACH-ACHRI"  value-outerclass="span12">
 				<!-- <question-label>Which college/department is primarily responsible for this study?</question-label> -->
 				<question-value instance-path="/protocol/responsible-department" value-type="department" />
@@ -40,6 +44,12 @@
 			<question id="question-cooperative-group" parent-id="question-study-type" parent-value="cooperative-group" header="Cooperative Group">
 				<question-label>Please indicate the Cooperative Group:</question-label>
 				<question-value instance-path="/protocol/study-type/cooperative-group" lookup-path="cooperative-groups" value-type="select" />
+				<sub-questions>
+					<question id="question-cooperative-group-other" parent-id="" parent-value="" header="Other">
+						<question-label>Please explain:</question-label>
+						<question-value instance-path="/protocol/study-type/cooperative-group/other/text" value-type="textarea" />
+					</question>
+				</sub-questions>
 			</question>
 			<question id="question-investigator-description" parent-id="question-study-type" parent-value="investigator-initiated" header="Investigator">
 				<question-label>Which of the following describes the investigator who initiated this study?</question-label>
@@ -278,10 +288,11 @@
 				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/risk-category/more-than-min-risk-has-no-direct-benefit/how-intervention-produce-generalizable-knowledge" value-type="textarea" />
 			</question>
 			<question id="question-present-with-child" parent-id="question-vulnerable-populations-included" parent-value="children" header="Children">
-				<question-label>Will the parents or guardians be present with the child during
-					other discussions of the research?</question-label>
-				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/will-parents-present" value-type="yesNo" />
-			</question>
+				<question-label>Will the parents or
+						guardians be present with the child during discussions of
+						the research?</question-label>
+				<question-value instance-path="/protocol/subjects/vulnerable-populations/children/present-with-child" value-type="yesNo" />
+			</question>						
 			<question id="question-children-is-private-info-shared" parent-id="question-vulnerable-populations-included" parent-value="children" header="Children">
 				<question-label>Will sensitive or private
 						information (e.g., questionnaires, test results) be shared with
@@ -443,8 +454,8 @@
 			</question>
 			<question id="question-non-english-speaking-excluded-justification" parent-id="question-is-non-english-speaking-exluded" parent-value="y" header="Non-English speaking will be excluded">
 				<question-label>Explain how the nature of the research requires/justifies their exclusion.  Address means of screening.</question-label>
-				<question-value instance-path="/protocol/subjects/is-non-english-speaking-excluded/y/justification" value-type="textarea" />
-			</question>
+				<question-value instance-path="/protocol/subjects/is-non-english-speaking-exluded/y/justification" value-type="textarea" />
+			</question>						   	
 		</section>
 		<section name="Identification">
 			<question id="quesiton-subjects-identified" parent-id="" parent-value="" header="">
@@ -1170,12 +1181,12 @@
 		</section>
 	</page>
 	<page name="Drug and Devices" id="drugs-devices">
-		<section>
+		<section name="Drug">
 			<question id="question-drugs-devices" parent-id="" parent-value="" header="" value-outerclass="span12">
 				<question-value instance-path="/protocol/drugs/drug" value-type="drug" />
 			</question>
 		</section>
-		<section>
+		<section name="Device">
 			<question id="question-drugs-devices" parent-id="" parent-value="" header="" value-outerclass="span12">
 				<question-value instance-path="/protocol/devices/device" value-type="device" />
 			</question>
@@ -1338,7 +1349,7 @@
 				<question-value instance-path="/protocol/epic/epic-desc" value-type="textarea" />
 			</question>
 			<question id="question-involve-chemotherapy" parent-id="" parent-value="" header="">
-				<question-label>Does this study involve the use of chemotherapy?</question-label>
+				<question-label>Does this study involve cancer drug treatment?</question-label>
 				<question-value instance-path="/protocol/epic/involve-chemotherapy" value-type="yesNo" />
 			</question>
 		</section>

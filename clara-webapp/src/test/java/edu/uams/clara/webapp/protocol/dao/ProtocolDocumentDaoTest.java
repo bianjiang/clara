@@ -22,42 +22,42 @@ public class ProtocolDocumentDaoTest {
 	.getLogger(ProtocolDocumentDaoTest.class);
 
 	private ProtocolDao protocolDao;
-
+	
 	private ProtocolDocumentDao protocolDocumentDao;
 
 	@Test
 	public void testListProtocolFormXmlDataDocumentCategories(){
-
+		
 		Protocol protocol = protocolDao.findById(1);
-
+		
 		List<String> categories = protocolDocumentDao.listProtocolFormXmlDataDocumentCategories(protocol);
-
+		
 		logger.debug("protocol: " + protocol.getId());
 		for(String c:categories){
 			logger.debug(" {" + c + "} ");
 		}
 	}
-
+	
 	@Test
 	public void testListProtocolFormXmlDataDocuments(){
-
+		
 		//Protocol protocol = protocolDao.findById(1);
-
+		
 		//List<ProtocolFormXmlDataDocument> protocolFiles = protocolDocumentDao.listProtocolFormXmlDataDocumentsByProtocolId(1l);
-
+		
 		//logger.debug("protocol: " + protocol.getId());
 		//for(ProtocolFormXmlDataDocument pf:protocolFiles){
 		//	logger.debug(" {" + pf.getId() +"; " + pf.getTitle() + "} ");
 		//}
 	}
-
+	
 	@Test
 	public void testListProtocolFormXmlDataDocumentRevisions(){
-
+		
 		ProtocolFormXmlDataDocument protocolDocument = protocolDocumentDao.findById(1);
-
+		
 		List<ProtocolFormXmlDataDocumentWrapper> protocolFiles = protocolDocumentDao.listProtocolFormXmlDataDocumentRevisionsByParentId(protocolDocument.getId());
-
+		
 		logger.debug("protocol: " + protocolDocument.getProtocolFormXmlData().getProtocolForm().getProtocol().getId());
 		/*
 		for(ProtocolFormXmlDataDocumentWrapper pf:protocolFiles){
@@ -65,8 +65,8 @@ public class ProtocolDocumentDaoTest {
 		}
 		*/
 	}
-
-
+	
+	
 	@Autowired(required=true)
 	public void setProtocolDao(ProtocolDao protocolDao) {
 		this.protocolDao = protocolDao;
@@ -84,8 +84,8 @@ public class ProtocolDocumentDaoTest {
 	public ProtocolDocumentDao getProtocolDocumentDao() {
 		return protocolDocumentDao;
 	}
-
-
-
-
+	
+	
+	
+	
 }

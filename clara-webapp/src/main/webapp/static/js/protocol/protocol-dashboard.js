@@ -1,4 +1,4 @@
-Ext.ns('Clara.ProtocolDashboard','Clara');
+Ext.ns('Clara.ProtocolDashboard','Clara','Clara.Application');
 
 var protocolDocumentPanel;
 var protocolDashboardPanel;
@@ -7,6 +7,10 @@ var protocolDetailPanel;
 var protocolHeaderPanel;
 var protocolNotificaitonPanel;
 var protocolFormPanel;
+
+// backport for using new function names with old protocol dashboard
+Clara.Application.FormController = Clara.ProtocolDashboard;
+Clara.Application.QueueController = Clara.ProtocolDashboard;
 
 
 Clara.ProtocolDashboard.ChooseReviewRole = function(){
@@ -461,7 +465,9 @@ Clara.ProtocolDashboard.FormPanel = Ext.extend(Ext.Panel, {
 		Ext.apply(this, Ext.apply(this.initialConfig, config));
 		Clara.ProtocolDashboard.FormPanel.superclass.initComponent.apply(this, arguments);
 		
-
+		if (t.selectedFormId && t.selectedFormId > 0){
+			clog("SELECTING FORM "+t.selectedFormId);
+		}
 		
 	}
 });
@@ -480,15 +486,18 @@ Clara.ProtocolDashboard.FormGridPanel = Ext.extend(Ext.grid.GridPanel, {
     },
     selectedFormId:null,
 	highlightFormById: function(id){
-		cdebug("highlighting",id);
+		
 		var t = this;
 		var st = t.getStore();
-		var rowidx = st.findExact('protocolFormId',id);
-		if (rowidx > 0){
+		cdebug("highlightFormById",id,st);
+		var rowidx = st.findExact('protocolFormId',""+id);
+		if (rowidx > -1){
 			t.getSelectionModel().unlock();
 			t.getView().focusRow(rowidx);
 			t.getSelectionModel().selectRow(rowidx);
-			t.getSelectionModel().lock();
+			// t.getSelectionModel().lock();
+		
+			
 			// now scroll to it
 			t.scrollToRow(rowidx);
 		}
@@ -565,7 +574,10 @@ Clara.ProtocolDashboard.FormGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				}),
 		        viewConfig: {
 		    		forceFit:true,
-		    		loadMask:true	
+		    		loadMask:true,
+		    		getRowClass: function(record){
+		    			return (t.selectedFormId)?(record.get('protocolFormId') == ''+t.selectedFormId ? 'selected-form-row' : ''):'';
+		    		}
 		    	},
 		        columns: [
 
@@ -771,8 +783,9 @@ Clara.ProtocolDashboard.DashboardTabPanel = Ext.extend(Ext.Panel, {
 		}
 		
 		if (t.selectedFormId != null){
-			clog("NOT NULL",t.selectedFormId);
+			clog("selectedFormId NOT NULL",t.selectedFormId);
 			Ext.getCmp("clara-protocol-dashboard-tabpanel").setActiveTab(2);
+			
 		}
 		
 	}

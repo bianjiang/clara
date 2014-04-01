@@ -2,8 +2,12 @@ Ext.define('Clara.DetailDashboard.model.History', {
 	extend: 'Ext.data.Model',
 	fields: [{name:'id', mapping:'@id'},
 			    {name:'desc', mapping:'/'},
+			    {name:'reviewNoteBody', mapping:'/', convert: function(v){
+			    	return jQuery("<div>"+v+"</div>").find(".log-committee-note-body").text();
+			    }},
 				{name:'actor', mapping:'@actor'},
 				{name:'formId', mapping:'@form-id'},
+				{name:'formCommitteeStatusId', mapping:'@form-committee-status-id'},
 				{name:'formType', mapping:'@form-type'},
 				{name:'formTypeDesc', mapping:'@form-type', convert:function(v){return stringToHumanReadable(v);}},
 				{name:'parentFormId', mapping:'@parent-form-id'},

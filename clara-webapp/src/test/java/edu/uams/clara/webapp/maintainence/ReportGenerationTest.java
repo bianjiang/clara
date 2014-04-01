@@ -1230,8 +1230,8 @@ public class ReportGenerationTest {
 	@Test
 	public void generateWeeklyBillingProtocolInMeeting()
 			throws XPathExpressionException, SAXException, IOException {
-		String beginTime = "'2014-01-31'";
-		String endTime = "'2014-02-06'";
+		String beginTime = "'2014-03-14'";
+		String endTime = "'2014-03-20'";
 		CSVWriter writer = new CSVWriter(new FileWriter("C:\\Data\\"
 				+ beginTime + "-To-" + endTime + "-IRB-Billing-Report.csv"));
 		String[] Titleentry = { "IRB Number","PI Name","Title","Agenda Date", "Form Type", "Review Type",
@@ -1282,7 +1282,7 @@ public class ReportGenerationTest {
 			String piname = xmlHandler.getSingleStringValueByXPath(protocolxmlData, "/protocol/staffs/staff/user[roles/role/text()=\"Principal Investigator\"]/lastname/text()")+","+
 					xmlHandler.getSingleStringValueByXPath(protocolxmlData, "/protocol/staffs/staff/user[roles/role/text()=\"Principal Investigator\"]/firstname/text()");
 			String title = xmlHandler.getSingleStringValueByXPath(protocolxmlData, "/protocol/title/text()");
-			String agendaDate= DateFormatUtil.formateDateToMDY(agendaDao.getAgendaByProtocolFormIdAndAgendaItemStatus(pfID,AgendaItemStatus.NEW).getDate());
+			String agendaDate= DateFormatUtil.formateDateToMDY(agendaDao.getAgendaByProtocolFormIdAndAgendaItemStatus(pfID,AgendaItemStatus.NEW).getDate());	
 
 			String responsibleInstitution = xmlHandler
 					.getSingleStringValueByXPath(protocolxmlData,
@@ -1695,6 +1695,72 @@ public class ReportGenerationTest {
 		writer.flush();
 		writer.close();
 	}
+	
+	// @Test
+	public void processCrimsonContractInfo() throws IOException,
+			XPathExpressionException, SAXException {
+		/***
+		 * This code is used to merge records queried from crimson contract
+		 ***/
+
+		String qry = "select contract.[txt_contract_number], users.first+' '+users.lname, ctype.[txt_contract_type], contractinfo.[num_irb_ID],contact.[txt_contact_party], cstatus.[txt_approvalstatus], contract.[date_created] from [HOSP_SQL1].[ClinicalResearch].[dbo].[multipleselect] mts, [HOSP_SQL1].[ClinicalResearch].[dbo].[aria_users] users, [HOSP_SQL1].[ClinicalResearch].[dbo].[contract_info] contractinfo, [HOSP_SQL1].[ClinicalResearch].[dbo].[contract_contact] contact, [HOSP_SQL1].[ClinicalResearch].[dbo].[contract] contract, [HOSP_SQL1].[ClinicalResearch].[dbo].[contract_type] ctype, [HOSP_SQL1].[ClinicalResearch].[dbo].[contract_approvalstatus] cstatus where mts.[num_connection_ID] = contact.[num_contract_ID]  and contact.[num_contract_ID] =contractinfo.[num_contract_ID] and contract.[num_contract_ID] = mts.[num_connection_ID] and cstatus.[num_approvalstatus] = contract.[num_approvalstatus] and mts.[txt_value] = users.[pi_serial] and mts.[num_type] =1 and ctype.[num_contract_type_ID] = contractinfo.[num_contract_type_ID] and cstatus.[num_approvalstatus] <> -30";
+		Query query = em.createNativeQuery(qry);
+		List<Object[]> results = (List<Object[]>) query.getResultList();
+		
+		CSVWriter writer = new CSVWriter(new FileWriter(
+				"C:\\Data\\crimsonContractInfo2.csv"));
+		String[] Titleentry = { "Contract ID", "PI", "Type", "IRB#", "Entity",
+				"Status", "Created Date" };
+		writer.writeNext(Titleentry);
+		Map<String,Object[]> resultsMap =Maps.newHashMap();
+		Map<String,String> piMap =Maps.newHashMap();
+		Map<String,String> entityMap =Maps.newHashMap();
+		for(Object[] result : results){
+			String contractid = (String)result[0];
+			String pi = (String)result[1];
+			String entity = (String)result[4];
+			if(!resultsMap.containsKey(contractid)){
+				resultsMap.put(contractid, result);
+			}
+			
+			if(piMap.containsKey(contractid)){
+				if(!piMap.get(contractid).contains(pi)){
+				piMap.put(contractid, piMap.get(contractid)+"; "+pi);
+				}
+			}else{
+				piMap.put(contractid, pi);
+			}
+			
+			if(entityMap.containsKey(contractid)){
+				if(!entityMap.get(contractid).contains(entity)){
+				entityMap.put(contractid, entityMap.get(contractid)+"; "+entity);
+				}
+			}else{
+				entityMap.put(contractid, entity);
+			}
+		}
+		
+		for(String contractid : resultsMap.keySet()){
+			Object[] result  = resultsMap.get(contractid);
+			String pi = (String)result[1];
+			String entity = (String)result[4];
+			
+			if(piMap.containsKey(contractid)){
+				pi=piMap.get(contractid);
+			}
+			
+			if(entityMap.containsKey(contractid)){
+				entity=entityMap.get(contractid);
+			}
+			
+			String[] entry = {contractid, pi, (String)result[2], (Integer)result[3]+"", entity,
+					(String)result[5], (Date) result[6]+"" };
+			writer.writeNext(entry);
+		}
+		writer.flush();
+		writer.close();
+		
+	 }
 
 	public ProtocolFormDao getProtocolFormDao() {
 		return protocolFormDao;

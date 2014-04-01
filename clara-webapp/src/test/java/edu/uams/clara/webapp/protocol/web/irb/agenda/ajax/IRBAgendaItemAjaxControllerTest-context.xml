@@ -15,8 +15,8 @@
 	<bean id="agendaDao" class="edu.uams.clara.webapp.protocol.dao.irb.AgendaDao"/>
 	<bean id="irbReviewerDao" class="edu.uams.clara.webapp.protocol.dao.irb.IRBReviewerDao" />
 	<bean id="agendaItemReviewerDao" class="edu.uams.clara.webapp.protocol.dao.irb.AgendaItemReviewerDao" />
-
-
+	
+	
 	<!-- <bean id="irbAgendaItemAjaxController" class="edu.uams.clara.webapp.protocol.web.irb.agenda.ajax.IRBAgendaItemAjaxController" />
 	-->
 </beans>

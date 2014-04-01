@@ -60,24 +60,24 @@ public class UpdateMigratedDocumentsImpl implements
 		String protocolIdentifier = xmlHandler.getSingleStringValueByXPath(ariaXmlData, "//protocol/@id");
 		long protocolId = Long.valueOf(protocolIdentifier);
 		try {
-
+			
 			Set<String> paths = Sets.newHashSet();
 			paths.add("//protocol/documents/document");
 
 			List<Element> documentAriaEles = xmlProcessor
 					.listDomElementsByPaths(paths, ariaXmlData);
-
+			
 			long protocolFormId = protocolFormDao.getProtocolFormByProtocolIdAndProtocolFormType(protocolId, ProtocolFormType.ARCHIVE).getFormId();
-
+			
 			ProtocolFormXmlData pfdx= protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(protocolFormId, ProtocolFormXmlDataType.ARCHIVE);
-
+			
 			String xmlData = pfdx.getXmlData();
 			Document doc = null;
 			try {
 				doc = xmlProcessor
 						.loadXmlStringToDOM(xmlData);
 			}catch(Exception e){
-
+				
 			}
 			for (Element araiDocEle : documentAriaEles) {
 				try {
@@ -96,7 +96,7 @@ public class UpdateMigratedDocumentsImpl implements
 					e.printStackTrace();
 				}
 			}
-
+			
 			xmlData = DomUtils.elementToString(doc, false);
 			pfdx.setXmlData(xmlData);
 			protocolFormXmlDataDao.saveOrUpdate(pfdx);
@@ -107,16 +107,16 @@ public class UpdateMigratedDocumentsImpl implements
 	}
 
 	private Document setProtocolFormXmlData(Document doc,String protocolIdentifier, Element araiDocEle,String hashFileName,String oldUrl) {
-
-
+		
+		
 		//get existing docs path
 		List<String> existingFilePaths =Lists.newArrayList();
 		String xmlData = DomUtils.elementToString(doc,
 				false, Encoding.UTF16);
 		existingFilePaths=xmlHandler.getStringValuesByXPath(xmlData, "//protocol/documents/document/ariapath");
-
+		
 		String filepath = "https://" + fileServerHost+ "/files/protocol/" + protocolIdentifier + "/"+hashFileName;
-
+		
 		if(!existingFilePaths.contains(filepath)){
 			try {
 				Set<String> paths = Sets.newHashSet();
@@ -125,14 +125,14 @@ public class UpdateMigratedDocumentsImpl implements
 					.listDomElementsByPaths(paths, xmlData);
 				Element documentsEle;
 				Element protocolEle =(Element) doc.getElementsByTagName("protocol").item(0);
-
+				
 				if(documensEles.size()>0){
 				documentsEle = (Element)protocolEle.getElementsByTagName("documents").item(0);
 				}else{
 					documentsEle = doc.createElement("documents");
 					protocolEle.appendChild(documentsEle);
 				}
-
+				
 				Element newDocumentEle = doc
 						.createElement("document");
 				documentsEle.appendChild(newDocumentEle);
@@ -155,15 +155,15 @@ public class UpdateMigratedDocumentsImpl implements
 				newDocumentEle.setAttribute("version",
 						araiDocEle.getAttribute("version"));
 				newAriapathEle.setTextContent(filepath);
-
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-
+			
+			
 		}
 		return doc;
-
+		
 	}
 
 	private String uploadDocumenttoFileServer(String protocolIdentifier, String oldUrl)

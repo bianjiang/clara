@@ -13,7 +13,7 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
+		
 	<bean id="sponsorDao" class="edu.uams.clara.webapp.protocol.dao.thing.SponsorDao" />
 	<bean id="importCRIMSONSponsorService" class="edu.uams.clara.integration.incoming.crimson.ImportCRIMSONSponsorService" />
 

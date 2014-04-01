@@ -25,36 +25,36 @@ import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/integration/incoming/cititraining/ImportCitiTrainingDataServiceTest-context.xml" })
 public class ImportCitiTrainingDataServiceTest {
-
+	
 	private final static Logger logger = LoggerFactory
 			.getLogger(ImportCitiTrainingDataServiceTest.class);
-
+	
 	private ImportCitiTrainingDataService importCitiTrainingDataService;
-
+	
 	private CitiMemberDao citiMemberDao;
-
+	
 	private UserDao userDao;
-
+	
 	private XmlProcessor xmlProcessor;
-
-
+	
+	
 	//@Test
 	public void testGetCitiMembersByUser() throws XPathExpressionException, SAXException, IOException{
 		//String xmlData = "<metadata><is-trained>false</is-trained><citi-id>TopalogluBirgul</citi-id><nationality-changed>false</nationality-changed><citizenship-status /></metadata>";
 		User user = userDao.findById(72l); // Bigural
-
+		
 		logger.debug(user.getProfile());
-
+		
 		List<CitiMember> citiMembers = citiMemberDao.listCitiMemberByUser(user);
-
+		
 		for(CitiMember citiMember:citiMembers){
 			logger.debug("citiMember:" + citiMember.getCompletionReportNumber());
 		}
-
-
+		
+		
 	}
-
-	@Test
+	
+	@Test 
 	public void testMatchedUserForImportedCitimember(){
 		List<User> users = userDao.findAll();
 		List<User> matchedUsers = Lists.newArrayList();
@@ -78,17 +78,17 @@ public class ImportCitiTrainingDataServiceTest {
 			logger.debug(user.getId()+"");
 		}*/
 	}
-
+	
 	//@Test
 	public void testCitiDataService(){
 		importCitiTrainingDataService.run();
 	}
-
+	
 
 	public ImportCitiTrainingDataService getImportCitiTrainingDataService() {
 		return importCitiTrainingDataService;
 	}
-
+	
 	@Autowired(required=true)
 	public void setImportCitiTrainingDataService(
 			ImportCitiTrainingDataService importCitiTrainingDataService) {
@@ -122,7 +122,7 @@ public class ImportCitiTrainingDataServiceTest {
 	public void setCitiMemberDao(CitiMemberDao citiMemberDao) {
 		this.citiMemberDao = citiMemberDao;
 	}
-
-
-
+	
+	
+	
 }

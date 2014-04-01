@@ -24,34 +24,34 @@ import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCom
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "file:src/test/java/edu/uams/clara/webapp/protocol/dao/businesslogicobject/ProtocolFormCommitteeCommentDaoTest-context.xml" })
 public class ProtocolFormCommitteeCommentDaoTest {
-
+	
 	private final static Logger logger = LoggerFactory
 	.getLogger(ProtocolFormCommitteeCommentDaoTest.class);
 
 	private ProtocolFormCommitteeCommentDao protocolFormCommitteeCommentDao;
-
+	
 	@Test
 	public void testListAllParentsByProtocolFormId() throws JsonGenerationException, JsonMappingException, IOException{
 		List<ProtocolFormCommitteeComment> protocolFormCommitteeComents = protocolFormCommitteeCommentDao.listAllParentsByProtocolFormId(569);
-
+		
 		for(ProtocolFormCommitteeComment protocolFormCommitteeComment:protocolFormCommitteeComents){
 			logger.debug("parent: " + protocolFormCommitteeComment.getId());
 			if(protocolFormCommitteeComment.getReplies() != null){
 				logger.debug("size: " + protocolFormCommitteeComment.getReplies().size());
 				for(int i = 0; i < protocolFormCommitteeComment.getReplies().size(); i++){
 					ProtocolFormCommitteeComment reply = protocolFormCommitteeComment.getReplies().get(i);
-
+					
 				}
 			}
-
+			
 		}
-
+		
 		 ObjectMapper mapper = new ObjectMapper();
 		 assertTrue(mapper.canSerialize(protocolFormCommitteeComents.getClass()));
 		 ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
 	     writer.writeValue(System.out, protocolFormCommitteeComents);
 	}
-
+	
 	//@Test
 	public void commentsByProtocolFormId(){
 		List<ProtocolFormCommitteeComment> protocolFormCommitteeComents = protocolFormCommitteeCommentDao.listAllCommentsByProtocolFormId(60);
@@ -65,5 +65,5 @@ public class ProtocolFormCommitteeCommentDaoTest {
 
 	public ProtocolFormCommitteeCommentDao getProtocolFormCommitteeCommentDao() {
 		return protocolFormCommitteeCommentDao;
-	}
+	}	
 }

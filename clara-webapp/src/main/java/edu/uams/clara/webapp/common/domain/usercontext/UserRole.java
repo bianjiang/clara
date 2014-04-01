@@ -29,10 +29,10 @@ public class UserRole extends AbstractDomainEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
-
+	 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="role_id", nullable = true)
-	private Role role;
+	private Role role; 
 
 	@ManyToOne
 	@JoinColumn(name="sub_department", nullable = true)

@@ -38,7 +38,7 @@
 		class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao" />
 	<bean id="protocolFormCommitteeCommentDao"
 		class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeCommentDao" />
-	<!-- <bean id="protocolMetaDataXmlService" class="edu.uams.clara.webapp.protocol.service.impl.ProtocolMetaDataXmlServiceImpl"
+	<!-- <bean id="protocolMetaDataXmlService" class="edu.uams.clara.webapp.protocol.service.impl.ProtocolMetaDataXmlServiceImpl" 
 		/> -->
 	<bean id="xmlProcessor"
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />

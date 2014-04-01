@@ -3,12 +3,16 @@ body{
     padding-top: 60px;
 }
 
+tr.shaded-row td{
+	background-color:#f0f0f0;
+}
+
 .report-navbar-title{
 	padding-left:32px !important;
 }
 
 td.field-summary{
-	background-color:#eee;
+	background-color:#ddd;
 	border-top:1px solid black;
 }
 

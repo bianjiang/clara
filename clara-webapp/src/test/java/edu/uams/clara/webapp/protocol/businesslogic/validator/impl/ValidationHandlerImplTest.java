@@ -281,7 +281,7 @@ public class ValidationHandlerImplTest {
 //
 //		ProtocolForm protocolForm = protocolFormDao.findById(1);
 //		logger.debug("protocolForm: " + protocolForm.getProtocol().getId());
-//
+//		
 //		//List<String> documentTypeValueList = protocolFileDao.listProtocolFileCategories(protocol);
 //		values.put("/protocol/documents/document/document-type", null);
 //

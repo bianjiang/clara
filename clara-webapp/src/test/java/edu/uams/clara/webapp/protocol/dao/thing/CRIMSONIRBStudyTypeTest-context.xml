@@ -13,6 +13,6 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
-	 <bean id="crimsonIRBStudyTypeDao" class="edu.uams.clara.webapp.protocol.dao.thing.etl.CRIMSONIRBStudyTypeDao" />
+	
+	 <bean id="crimsonIRBStudyTypeDao" class="edu.uams.clara.webapp.protocol.dao.thing.etl.CRIMSONIRBStudyTypeDao" />	
 </beans>

@@ -15,13 +15,13 @@ import edu.uams.clara.integration.outgoing.webchart.dao.WebChartARIAUserDao;
 public class ExportProtocolsToWebChartServiceTest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(ExportProtocolsToWebChartServiceTest.class);
-
+	
 	private WebChartARIAUserDao webChartARIAUserDao;
 	private ExportProtocolsToWebChartService exportProtocolsToWebChartService;
-
+	
 	@Test
 	public void test(){
-		exportProtocolsToWebChartService.updateWebChartIntegration();
+		exportProtocolsToWebChartService.updateWebChartIntegration();	
 	}
 
 	public WebChartARIAUserDao getWebChartARIAUserDao() {

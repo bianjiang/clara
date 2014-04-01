@@ -1,14 +1,13 @@
 var reportGlobals = {};
 
-
-
+Ext.Loader.setPath('Clara.LetterBuilder', appContext+'/static/js/app/letterbuilder');
 
 Ext.application({
     name: 'Clara.Reports', 
     appFolder:appContext + '/static/js/app/reports',
     
-    models:['DisplayField','UserReport','Clara.Common.model.User','Protocol','Contract','UserReportCriteria','ReportCriteria','ComboCriteria'],
-    stores:['ReportDisplayFields','UserReportDisplayFields','UserReports','Clara.Common.store.Users','Protocols','Contracts','UserReportCriterias','ReportCriterias','ComboCriterias'],
+    models:['Clara.LetterBuilder.model.Recipient','DisplayField','UserReport','Clara.Common.model.User','Protocol','Contract','UserReportCriteria','ReportCriteria','ComboCriteria'],
+    stores:['ReportRecipients','ReportDisplayFields','UserReportDisplayFields','UserReports','Clara.Common.store.Users','Protocols','Contracts','UserReportCriterias','ReportCriterias','ComboCriterias'],
     controllers: ['Report','UserReport'],
     
     autoCreateViewport: true,

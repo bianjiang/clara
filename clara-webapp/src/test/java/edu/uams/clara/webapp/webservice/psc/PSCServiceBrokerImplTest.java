@@ -24,50 +24,50 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"file:src/test/java/edu/uams/clara/webapp/webservice/psc/PSCServiceBrokerImplTest-context.xml"})
 public class PSCServiceBrokerImplTest{
-
+	
 
 	private String trustFile;
 	private RestTemplate restTemplate;
 	private HttpGet httpGet;
 	private HttpPost httpPost;
 	private DefaultHttpClient httpClient;
-
+	
 	@Test
 	public void testPSCPush(){
 		String xmlData="";
-
-
-
+			
+		
+				
 	}
 	//@Test
 	public void runPost()
 			throws ClientProtocolException, IOException {
-
+			
 		String xmlData="";
-
+		
 		HttpResponse httpResponse = httpClient.execute(httpGet);
 
 		HttpEntity httpEntity = httpResponse.getEntity();
 
 		List<Cookie> cookies = httpClient.getCookieStore().getCookies();
-
+		
 		String tok = cookies.get(1).toString();
-
+		
 		System.out.println("Login form get: " + httpResponse.getStatusLine());
-
+		
 		String[] ticketTemp;
 
 		// logger.debug("ticket: "+ticket);
 		ticketTemp = tok.split("value: ");
-
+		
 		String sTok = ticketTemp[1];
-
+		
 		ticketTemp = sTok.split("]");
-
+		
 		sTok = ticketTemp[0];
-
-		EntityUtils.consume(httpEntity);
-
+		
+		EntityUtils.consume(httpEntity);	
+		
 
 
 		httpPost.addHeader("Accept", "text/xml");

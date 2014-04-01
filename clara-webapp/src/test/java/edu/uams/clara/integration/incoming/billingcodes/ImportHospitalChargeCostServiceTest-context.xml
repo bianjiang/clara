@@ -15,9 +15,11 @@
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
 
 	<bean id="hospitalChargeUpdateDao" class="edu.uams.clara.integration.incoming.billingcodes.dao.HospitalChargeUpdateDao"/>
-
+	
 	<bean id="importHospitalChargeDataService" class="edu.uams.clara.integration.incoming.billingcodes.service.ImportHospitalChargeDataService"/>
-
+	
 	<bean id="hospitalChargeProcedureDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.HospitalChargeProcedureDao" />
+	
+	<bean id="cptCodeDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.CPTCodeDao" />
 
 </beans>

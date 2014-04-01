@@ -118,10 +118,14 @@
 		{"comboId":"clarafield.combo.protocol.studysubmissionstatus","value":"in ('DETERMINED_NOT_REPORTABLE_NEW_INFORMATION','DETERMINED_NOT_HUMAN_SUBJECT_RESEARCH','DETERMINED_HUMAN_SUBJECT_RESEARCH','COMPLETED','EXPEDITED_APPROVED','ACKNOWLEDGED','APPROVED','EXEMPT_APPROVED','IRB_APPROVED','IRB_ACKNOWLEDGED','IRB_DECLINED')","name":"Completed"},
 		{"comboId":"clarafield.combo.protocol.studysubmissionstatus","value":"not in ('DETERMINED_NOT_REPORTABLE_NEW_INFORMATION','DETERMINED_NOT_HUMAN_SUBJECT_RESEARCH','DETERMINED_HUMAN_SUBJECT_RESEARCH','COMPLETED','EXPEDITED_APPROVED','ACKNOWLEDGED','APPROVED','EXEMPT_APPROVED','IRB_APPROVED','IRB_ACKNOWLEDGED','IRB_DECLINED')","name":"Not Completed"},
 		{"comboId":"clarafield.combo.protocol.studysubmissionstatus","value":"not in ('DRAFT','PENDING_PL_ENDORSEMENT','PENDING_PI_ENDORSEMENT','PENDING_TP_ENDORSEMENT','CANCELLED')","name":"Submitted"},
-		
-		{"comboId":"clarafield.combo.protocol.site","value":"UAMS - University of Arkansas for Medical Sciences","name":"UAMS - University of Arkansas for Medical Sciences"},
-		{"comboId":"clarafield.combo.protocol.site","value":"ACH - Arkansas Children&#39;s Hospital","name":"ACH - Arkansas Children's Hospital"},
-		{"comboId":"clarafield.combo.protocol.site","value":"ACHRI - Arkansas Children&#39;s Hospital Research Institute","name":"ACHRI - Arkansas Children's Hospital Research Institute"},
+
+		{"comboId":"clarafield.combo.protocol.site","value":"UAMS - UNIVERSITY OF ARKANSAS FOR MEDICAL SCIENCES","name":"UAMS - University of Arkansas for Medical Sciences"},
+		{"comboId":"clarafield.combo.protocol.site","value":"ACH - ARKANSAS CHILDREN&#39;S HOSPITAL","name":"ACH - Arkansas Children's Hospital"},
+		{"comboId":"clarafield.combo.protocol.site","value":"ACHRI - ARKANSAS CHILDREN&#39;S HOSPITAL RESEARCH INSTITUTE","name":"ACHRI - Arkansas Children's Hospital Research Institute"},
+		{"comboId":"clarafield.combo.protocol.cancerrelated","value":"y","name":"Yes"},
+		{"comboId":"clarafield.combo.protocol.cancerrelated","value":"n","name":"No"},
+		{"comboId":"clarafield.combo.protocol.hascontinuingreview","value":"in","name":"Yes"},
+		{"comboId":"clarafield.combo.protocol.hascontinuingreview","value":"not in","name":"No"},
 		
 		{"comboId":"clarafield.combo.contract.status","value":"DRAFT","name":"Draft"},
 		{"comboId":"clarafield.combo.contract.status","value":"CANCELLED","name":"Contract Cancelled"},

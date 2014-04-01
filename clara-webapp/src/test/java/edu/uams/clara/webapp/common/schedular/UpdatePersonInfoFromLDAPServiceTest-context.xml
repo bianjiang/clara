@@ -30,12 +30,12 @@
 	<bean id="ldapPersonLookupService" class="edu.uams.clara.webapp.common.service.impl.LdapPersonLookupServiceImpl">
 		<constructor-arg index="0" ref="ldapTemplate" />
 		<constructor-arg index="1" ref="personDao" />
-	</bean>
-
+	</bean>	
+	
 	<bean id="updatePersonInfoFromLDAPService" class="edu.uams.clara.webapp.common.scheduler.UpdatePersonInfoFromLDAPService" />
-
+	
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
-
+   
    <bean id="personDao" class="edu.uams.clara.webapp.common.dao.usercontext.PersonDao" />
-
+	
 </beans>

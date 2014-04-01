@@ -150,7 +150,7 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
 				Ext.getCmp("fldBookmarkSearchOperator").setDisabled(false);
 
 		} else if (type == "clarafield.combo.criteria"){
-			searchFieldOptions.comboId = sField.get("comboId")
+			searchFieldOptions.comboId = sField.get("comboId");
             searchFieldOptions.multiSelect = false;
             searchFieldOptions.maxHeight = 24;
 			searchFieldOptions.store = 'Clara.Reports.store.ComboCriterias';

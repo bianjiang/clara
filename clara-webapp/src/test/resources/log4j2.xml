@@ -5,7 +5,7 @@
 		<Console name="STDOUT" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{ISO8601} [%t] %p %c{1.} %m%n"/>
 		</Console>
-		<!--
+		<!-- 
 		<RollingFile name="RollingFile" fileName="/var/log/nginx/clara-webapp.log"
 			filePattern="/var/log/nginx/$${date:yyyy-MM}/clara-webapp-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="%d{ISO8601} [%t] %p %c{1.} %m%n" />
@@ -31,11 +31,11 @@
 		<logger name="org.hibernate.SQL" level="warn" />
 		<logger name="org.springframework.cache" level="warn" />
 		<logger name="net.sf.ehcache" level="warn" />
-		<logger name="org.hibernate.cache" level="error" />
+		<logger name="org.hibernate.cache" level="error" />	
 		<logger name="org.springframework" level="error" />
-
+		
 		<logger name="edu.uams.clara" level="debug" />
-
+		
 		<!-- Root Logger -->
 		<root level="warn">
 			<appender-ref ref="STDOUT" />

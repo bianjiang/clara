@@ -18,24 +18,24 @@ import edu.uams.clara.webapp.contract.service.ContractMetaDataXmlService;
 public class ContractMetaDataServiceTest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(ContractMetaDataServiceTest.class);
-
+	
 	private ContractMetaDataXmlService contractMetaDataXmlService;
-
+	
 	private ContractFormXmlDataDao contractFormXmlDataDao;
-
+	
 	@Test
 	public void testConsolidateContractFormXmlData() throws Exception {
 		ContractFormXmlData contractFormXmlData = contractFormXmlDataDao.findById(265l);
-
+		
 		contractFormXmlData = contractMetaDataXmlService.consolidateContractFormXmlData(contractFormXmlData, ContractFormXmlDataType.CONTRACT);
-
+		
 		logger.debug("after: " + contractFormXmlData.getXmlData());
 	}
 
 	public ContractMetaDataXmlService getContractMetaDataXmlService() {
 		return contractMetaDataXmlService;
 	}
-
+	
 	@Autowired(required = true)
 	public void setContractMetaDataXmlService(ContractMetaDataXmlService contractMetaDataXmlService) {
 		this.contractMetaDataXmlService = contractMetaDataXmlService;
@@ -44,7 +44,7 @@ public class ContractMetaDataServiceTest {
 	public ContractFormXmlDataDao getContractFormXmlDataDao() {
 		return contractFormXmlDataDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setContractFormXmlDataDao(ContractFormXmlDataDao contractFormXmlDataDao) {
 		this.contractFormXmlDataDao = contractFormXmlDataDao;

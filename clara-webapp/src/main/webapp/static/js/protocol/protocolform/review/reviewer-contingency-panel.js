@@ -217,23 +217,28 @@ Clara.Reviewer.CommentRenderer = function(v,p,r,options){
             }
         }
       
-        if (typeof(t) != "undefined" && !readOnly && typeof(t.isActingAsIRB) != "undefined" && t.isMyList()){
-            html += " - <a href='javascript:;' onClick='Clara.Reviewer.editComment("+r.data.id+", \""+gpid+"\");'>Edit</a>";
-        }
+//        if (typeof(t) != "undefined" && !readOnly && typeof(t.isActingAsIRB) != "undefined" && t.isMyList()){
+//            html += " - <a href='javascript:;' onClick='Clara.Reviewer.editComment("+r.data.id+", \""+gpid+"\");'>Edit</a>";
+//        }
 
         if (!options.meetingView && typeof(t) != "undefined" && typeof(t.isActingAsIRB) != "undefined" && (Clara.IsUser(r.data.userId) && t.isMyList())
             || claraInstance.HasAnyPermissions("CAN_DELETE_COMMENT","Delete note "+r.data.id)
-            || ((typeof(t) != "undefined" && typeof(t.isActingAsIRB) != "undefined" && t.isActingAsIRB() && !claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER'])) && // redmine #2697 (prevent IRB_REVIEWER from deleting other IRB comments)
-            (
-                r.get("committee") == "IRB_REVIEWER" ||
+            || ( 
+            		(typeof(t) != "undefined" 
+            			&& typeof(t.isActingAsIRB) != "undefined" 
+            			&& t.isActingAsIRB()
+            			&& (!claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER']) || claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_IRB_EXEMPT_REVIEWER','ROLE_IRB_EXPEDITED_REVIEWER','ROLE_IRB_CONSENT_REVIEWER','ROLE_IRB_CHAIR'])) ) //reviewers that ALSO are IRB should/can edit
+            	   && // redmine #2697 (prevent IRB_REVIEWER from deleting other IRB comments)
+                (
+                    r.get("committee") == "IRB_REVIEWER" ||
                     r.get("committee") == "IRB_CONSENT_REVIEWER" ||
                     r.get("committee") == "IRB_OFFICE" ||
                     r.get("committee") == "IRB_EXEMPT_REVIEWER" ||
                     r.get("committee") == "IRB_PREREVIEW" ||
                     r.get("committee") == "IRB_EXPEDITED_REVIEWER"
-                )
+                ) && !readOnly
             )){
-            html += " - <a href='javascript:;' onClick='Clara.Reviewer.removeComment("+r.data.id+");'>Delete</a>";
+            html += " - <a href='javascript:;' onClick='Clara.Reviewer.editComment("+r.data.id+", \""+gpid+"\");'>Edit</a> - <a href='javascript:;' onClick='Clara.Reviewer.removeComment("+r.data.id+");'>Delete</a>";
         }
 
 
@@ -380,15 +385,10 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			t.readOnly = (t.agendaItemView == false)?false:t.readOnly;
 		}
 		
-		var canAddContingency = false;
-		if ( (!t.agendaItemView && !t.readOnly && t.isMyList() && claraInstance.user.committee != "PI" && t.isActingAsIRB()) ||
-		 	 (t.agendaItemView && t.isMyList() && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE']) )
-		   ){
-			canAddContingency = true;
-		} 
+		var canAddContingency = ( !t.readOnly && t.isMyList() && claraInstance.HasAnyPermissions(['CONTINGENCY_CAN_ADD'])  ),
+		    canAddNote = false;
 		
-		var canAddNote = false;
-		if (!t.readOnly && t.isMyList() && claraInstance.user.committee != "PI" && claraInstance.HasAnyPermissions(requiredRoles.addComments, "canAddNote for t.isMyList() on review")){
+		if (!t.readOnly && t.isMyList() && claraInstance.HasAnyPermissions("COMMENT_CAN_ADD", "canAddNote for t.isMyList() on review")){
 			canAddNote = true;
 		} else if (!t.readOnly && t.agendaItemView  && claraInstance.HasAnyPermissions("COMMENT_CAN_ADD", "canAddNote for agendaItemView")){
 			canAddNote = true;

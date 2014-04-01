@@ -16,14 +16,14 @@
 
     <bean id="protocolFormXmlDataDao" class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao">
 	</bean>
-
+	
 	<bean id="budgetXmlCostUpdateImpl" class="edu.uams.clara.webapp.xml.processor.impl.BudgetXmlCostUpdateImpl">
 	</bean>
-
-	<bean id="xmlProcessor" class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
-
+	
+	<bean id="xmlProcessor" class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />	
+	
 	<bean id="hospitalChargeProcedureDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.HospitalChargeProcedureDao" />
-
+	
 	<bean id="physicianChargeProcedureDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.PhysicianChargeProcedureDao"/>
-
+	
 </beans>

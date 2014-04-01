@@ -13,7 +13,7 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
-	 <bean id="thingDao" class="edu.uams.clara.core.dao.thing.ThingDao" />
-	 <bean id="thingUpdateDao" class="edu.uams.clara.core.dao.thing.etl.ThingUpdateDao" />
+	
+	 <bean id="thingDao" class="edu.uams.clara.core.dao.thing.ThingDao" />	
+	 <bean id="thingUpdateDao" class="edu.uams.clara.core.dao.thing.etl.ThingUpdateDao" />	
 </beans>

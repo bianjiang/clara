@@ -42,6 +42,7 @@ import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormSta
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.AgendaStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
+import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem.AgendaItemStatus;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
 import edu.uams.clara.webapp.report.dao.ReportFieldDao;
@@ -270,10 +271,19 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 						// chage the start time to agenda approved
 						if (committee.equals(Committee.IRB_REVIEWER)) {
 							try {
-								AgendaStatus agendaStatus = agendaStatusDao
-										.getAgendaStatusByAgendaStatusAndProtocolFormId(
-												AgendaStatusEnum.AGENDA_APPROVED,
-												pfcs.getProtocolFormId());
+								AgendaStatus agendaStatus = null;
+								try{
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormId(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId());
+								}catch(Exception ex){
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);
+
+								}
 								startTime = agendaStatus.getModified()
 										.getTime();
 							} catch (Exception e) {
@@ -289,10 +299,19 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 								&& pfcs.getProtocolFormCommitteeStatus()
 										.equals(ProtocolFormCommitteeStatusEnum.IRB_AGENDA_ASSIGNED)) {
 							try {
-								AgendaStatus agendaStatus = agendaStatusDao
-										.getAgendaStatusByAgendaStatusAndProtocolFormId(
-												AgendaStatusEnum.AGENDA_APPROVED,
-												pfcs.getProtocolFormId());
+								AgendaStatus agendaStatus = null;
+								try{
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormId(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId());
+								}catch(Exception ex){
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);
+
+								}
 								endTime = agendaStatus.getModified().getTime();
 							} catch (Exception e) {
 								if (i != (pfcss.size() - 1)) {
@@ -415,10 +434,19 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 					// chage the start time to agenda approved
 					if (committee.equals(Committee.IRB_REVIEWER)) {
 						try {
-							AgendaStatus agendaStatus = agendaStatusDao
-									.getAgendaStatusByAgendaStatusAndProtocolFormId(
-											AgendaStatusEnum.AGENDA_APPROVED,
-											pfcs.getProtocolFormId());
+							AgendaStatus agendaStatus = null;
+							try{
+								agendaStatus = agendaStatusDao
+										.getAgendaStatusByAgendaStatusAndProtocolFormId(
+												AgendaStatusEnum.AGENDA_APPROVED,
+												pfcs.getProtocolFormId());
+							}catch(Exception ex){
+								agendaStatus = agendaStatusDao
+										.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
+												AgendaStatusEnum.AGENDA_APPROVED,
+												pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);
+
+							}
 							startTime = agendaStatus.getModified().getTime();
 							tempStartPfcs = pfcs;
 						} catch (Exception e) {
@@ -438,10 +466,20 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 							&& pfcs.getProtocolFormCommitteeStatus()
 									.equals(ProtocolFormCommitteeStatusEnum.IRB_AGENDA_ASSIGNED)) {
 						try {
-							AgendaStatus agendaStatus = agendaStatusDao
-									.getAgendaStatusByAgendaStatusAndProtocolFormId(
-											AgendaStatusEnum.AGENDA_APPROVED,
-											pfcs.getProtocolFormId());
+							AgendaStatus agendaStatus = null;
+							try{
+								agendaStatus = agendaStatusDao
+										.getAgendaStatusByAgendaStatusAndProtocolFormId(
+												AgendaStatusEnum.AGENDA_APPROVED,
+												pfcs.getProtocolFormId());
+							}catch(Exception ex){
+								agendaStatus = agendaStatusDao
+										.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
+												AgendaStatusEnum.AGENDA_APPROVED,
+												pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);
+
+							}
+							
 							endTime = agendaStatus.getModified().getTime();
 							endTimeStr = DateFormatUtil
 									.formateDate(agendaStatus.getModified());
@@ -639,17 +677,14 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 	@Override
 	public String generateReportResult(ReportTemplate reportTemplate) {
 		String finalResultXml = "<report-results>";
-		finalResultXml += "<report-result id=\""
-				+ reportTemplate.getTypeDescription() + "\"  created=\""
-				+ DateFormatUtil.formateDateToMDY(new Date()) + "\">";
-		finalResultXml += "<title>" + reportTemplate.getDescription()
-				+ "</title>";
+		
 
 		List<ReportCriteria> criterias = reportTemplate.getReportCriterias();
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		Map<String, String> fieldsRealXPathMap = Maps.newHashMap();
+		Map<String, String> queryCriteriasValueMap = Maps.newHashMap();
 
 		for (ReportCriteria rc : criterias) {
 			ReportFieldTemplate reportField = new ReportFieldTemplate();
@@ -661,7 +696,13 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 				String fieldIdentifier = reportField.getFieldIdentifier();
 
 				String value = reportField.getValue();
-
+				if(reportField.getOperator().toString().equals("AFTER")){
+					queryCriteriasValueMap.put(reportField.getFieldDisplayName(), "AFTER: "+reportField.getDisplayValue());
+				}else if(reportField.getOperator().toString().equals("BEFORE")){
+					queryCriteriasValueMap.put(reportField.getFieldDisplayName(), "BEFORE: "+reportField.getDisplayValue());
+				}else{
+					queryCriteriasValueMap.put(reportField.getFieldDisplayName(), reportField.getDisplayValue());
+				}
 				if (value != null && !value.isEmpty()) {
 					String realXpath = "";
 
@@ -763,7 +804,9 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 							} else if (value.contains("'")) {
 								realXpath = reportField.getNodeXPath().replace(
 										"{value}", value.toUpperCase());
-							} else {
+							} else if(value.toUpperCase().equals("IN")||value.toUpperCase().equals("NOT IN")){
+								realXpath = reportField.getNodeXPath().replace("{value}", value);
+							}else {
 								realXpath = reportField.getNodeXPath().replace(
 										"{value}",
 										"'" + value.toUpperCase() + "'");
@@ -791,6 +834,13 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 				e.printStackTrace();
 			}
 		}
+		finalResultXml = finalResultXml+generateSummaryCriteriaTable(reportTemplate,
+				queryCriteriasValueMap);
+		finalResultXml += "<report-result id=\""
+				+ reportTemplate.getTypeDescription() + "\"  created=\""
+				+ DateFormatUtil.formateDateToMDY(new Date()) + "\">";
+		finalResultXml += "<title>" + reportTemplate.getDescription()
+				+ "</title>";
 		String rawQeury = generateRawQeury(reportTemplate,
 				fieldsRealXPathMap);
 		List<String> rawQueryResultSearchFields  =Lists.newArrayList();

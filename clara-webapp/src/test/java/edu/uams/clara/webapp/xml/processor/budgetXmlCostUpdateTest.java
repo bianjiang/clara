@@ -20,24 +20,24 @@ import edu.uams.clara.webapp.xml.processor.impl.BudgetXmlCostUpdateImpl;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/webapp/xml/processor/budgetXmlCostUpdateTest-context.xml" })
 public class budgetXmlCostUpdateTest {
-
+	
 	private final static Logger logger = LoggerFactory
 			.getLogger(budgetXmlCostUpdateTest.class);
 
 	private ProtocolFormXmlDataDao protocolFormXmlDataDao;
 	private BudgetXmlCostUpdateImpl budgetXmlCostUpdateImpl;
-
+	
 
 	@Test
 	public void costUpdate() {
-
+		
 		ProtocolFormXmlData BudgetXmlData = getProtocolFormXmlDataDao().findById(1114);
-
+		
 		String BudgetXml = BudgetXmlData.getXmlData();
-
+		
 		BudgetXml=budgetXmlCostUpdateImpl.updateCost(BudgetXml);
 	    logger.debug(BudgetXml);
-
+		 
 	}
 
 	public ProtocolFormXmlDataDao getProtocolFormXmlDataDao() {

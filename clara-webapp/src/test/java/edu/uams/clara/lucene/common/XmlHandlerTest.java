@@ -45,44 +45,44 @@ public class XmlHandlerTest {
 
 	private final static Logger logger = LoggerFactory
 			.getLogger(XmlHandlerTest.class);
-
+	
 	/**
 	 * Marshaller is implementation independent interface
 	 */
-
+		
 	private Jaxb2Marshaller jaxb2Marshaller;
-
+	
 	private final SourceField mockSourceField(){
 		final SourceField sourceField = new SourceField("/protocol/title", Protocol.class, "metaDataXml", SourceFieldDataType.XML, "/protocol/title/text()", String.class);
 		return sourceField;
 	}
-
+	
 	private final Set<IndexRule> mockIndexRules(){
 		final SourceField title = new SourceField("/protocol/title", Protocol.class, "metaDataXml", SourceFieldDataType.XML, "/protocol/title/text()", String.class);
 		final IndexRule titleIndexRule = new IndexRule("/protocol/title", TextField.class, title);
-
+		
 		final SourceField piUserId = new SourceField("/protocol/pi@userId", Protocol.class, "metaDataXml", SourceFieldDataType.XML, "/protocol/staffs/staff/user[roles/role=\"Principal Investigator\"]@id", Long.class);
 		final IndexRule piUserIdIndexRule = new IndexRule("/protocol/pi/@userId", LongField.class, piUserId);
-
+		
 		final SourceField piFirst = new SourceField("/protocol/pi@firstname", Protocol.class, "metaDataXml", SourceFieldDataType.XML, "/protocol/staffs/staff/user[roles/role=\"Principal Investigator\"]/firstname", String.class);
 		final SourceField piLast = new SourceField("/protocol/pi@lastname", Protocol.class, "metaDataXml", SourceFieldDataType.XML, "/protocol/staffs/staff/user[roles/role=\"Principal Investigator\"]/lastname", String.class);
-
+		
 		final IndexRule piNamesIndexRule = new IndexRule("/protocol/pi/@name", TextField.class, "{first} {last}", piFirst, piLast);
-
+		
 		final Set<IndexRule> indexRules = new HashSet<IndexRule>();
 		indexRules.add(titleIndexRule);
 		indexRules.add(piUserIdIndexRule);
 		indexRules.add(piNamesIndexRule);
-
+		
 		return indexRules;
 	}
-
-
+	
+	
 	@XmlRootElement( name="root" )
 	private static class XMLFakeRoot {
-
+		
 		private List<IndexRule> indexRules;
-
+		
 		@XmlElementWrapper(name="index-rules")
 		@XmlElement(name="index-rule")
 		public List<IndexRule> getIndexRules() {
@@ -92,13 +92,13 @@ public class XmlHandlerTest {
 		public void setIndexRules(List<IndexRule> indexRules) {
 			this.indexRules = indexRules;
 		}
-
+		
 	}
-
+	
 	//@Test
 	public void testJAXB2Marshalling(){
-
-
+		
+		
 		//Writer outWriter = new StringWriter();
 		//StreamResult result = new StreamResult( outWriter );
 		File out = new File("src/test/java/edu/uams/clara/lucene/common/mock-index-rules.xml");
@@ -113,21 +113,21 @@ public class XmlHandlerTest {
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Test
 	public void testJAXB2UnMarshalling(){
-
+		
 		File xmlFile = new File("src/test/java/edu/uams/clara/lucene/common/mock-index-rules.xml");
 		Source source = new StreamSource(xmlFile);
 		IndexDocument indexDocument = (IndexDocument) jaxb2Marshaller.unmarshal(source);
-
+		
 		logger.info(Iterables.getLast(indexDocument.getIndexRules()).getIdentifier());
 	}
-
+	
 	public Jaxb2Marshaller getJaxb2Marshaller() {
 		return jaxb2Marshaller;
 	}
-
+	
 	@Autowired(required=true)
 	public void setJaxb2Marshaller(Jaxb2Marshaller jaxb2Marshaller) {
 		this.jaxb2Marshaller = jaxb2Marshaller;

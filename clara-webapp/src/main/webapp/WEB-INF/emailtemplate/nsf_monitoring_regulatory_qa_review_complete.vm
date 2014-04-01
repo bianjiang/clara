@@ -1,0 +1,48 @@
+<html>
+<head><link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/></head>
+<body>
+<div class="email-template">
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>	
+	<br/><br/>$currentDate
+	
+	#if ($hudOrNot == 'hud-use')
+		<br/><br/><strong>TP Name:</strong>  $treatingPhysicianUser.person.getFullname()<br/>
+		<br/><strong>TP Department:</strong> $treatingPhysicianUser.person.department
+	#else
+		<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()<br/>
+		<br/><strong>PI Department:</strong> $piUser.person.department
+	#end
+	
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	
+	<br/><br/>REVIEW COMPLETED
+
+	<br/><br/>The Regulatory review has been completed in the system. 
+	
+	<br/><br/>A copy of the letter can be found here:
+	#if ($protocolFormDocuments.size() == 0)
+		No documents related to this study. 
+	#end
+	<ul>
+	
+	#foreach($document in ${protocolFormDocuments})
+	<li>$document.title (<strong>Type:</strong> $document.categoryDesc) </li> #end
+	</ul>
+	
+	<br/><br/><a href=$protocolLink>Click here to access study.</a>
+	
+	<br/><br/>
+	<strong>Committee Notes/Comments:</strong>
+	<br/>
+	#if ($inLetterComments.size() > 0)
+		<ul>
+		#foreach($comment in ${inLetterComments}) 
+		<li>$comment.text <strong>made by</strong> $comment.committee.description</li>#end
+		</ul>
+	#end
+	$emailComment
+	{0}
+</div>
+</body>
+</html>

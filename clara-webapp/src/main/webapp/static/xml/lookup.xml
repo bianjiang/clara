@@ -1600,6 +1600,10 @@
 			<desc>The research is permanently closed to the enrollment of new subjects, all subjects have completed all research related interventions, and collection and analysis of private identifiable information is completed.</desc>
 		</option>
 		<option>
+			<value>research-permanently-closed-not-all-subjects-complete</value>
+			<desc>The research is permanently closed to the enrollment of new subjects, but all subjects have not completed research-related interventions.</desc>
+		</option>
+		<option>
 			<value>study-open-accrual-ongoing</value>
 			<desc>The study is open and accrual is ongoing.</desc>
 		</option>

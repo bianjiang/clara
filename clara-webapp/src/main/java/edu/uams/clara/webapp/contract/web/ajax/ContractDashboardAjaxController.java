@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.uams.clara.core.util.xml.XmlHandler;
-import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.businesslogic.BusinessObjectStatusHelperContainer;
+import edu.uams.clara.webapp.common.dao.history.TrackDao;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
+import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.relation.RelatedObject;
 import edu.uams.clara.webapp.common.domain.security.MutexLock;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
@@ -49,6 +49,7 @@ import edu.uams.clara.webapp.contract.domain.businesslogicobject.enums.ContractF
 import edu.uams.clara.webapp.contract.domain.businesslogicobject.enums.ContractFormStatusEnum;
 import edu.uams.clara.webapp.contract.domain.contractform.ContractForm;
 import edu.uams.clara.webapp.contract.domain.contractform.ContractFormXmlData;
+import edu.uams.clara.webapp.contract.service.history.ContractTrackService;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
 @Controller
@@ -62,6 +63,8 @@ public class ContractDashboardAjaxController {
 	private RelationService relationService;
 
 	private ContractFormDao contractFormDao;
+	
+	private TrackDao trackDao;
 
 	private ContractFormXmlDataDao contractFormXmlDataDao;
 
@@ -78,6 +81,8 @@ public class ContractDashboardAjaxController {
 	private AuditService auditService;
 	
 	private ObjectAclService objectAclService;
+	
+	private ContractTrackService contractTrackService;
 	
 	private BusinessObjectStatusHelperContainer businessObjectStatusHelperContainer;
 	
@@ -250,7 +255,7 @@ public class ContractDashboardAjaxController {
 				xmlResult += "<action cls='blue'><name>Forward</name><url type='javascript'>Clara.Application.FormController.ForwardSelectedContract();</url></action>";
 			}	
 			
-			if (user.getAuthorities().contains(Permission.ROLE_CONTRACT_ADMIN)) {
+			if (user.getAuthorities().contains(Permission.CAN_EXECUTE_CONTRACT_AT_ANYTIME)) {
 				xmlResult += "<action cls='blue'><name>Execute Contract</name><url type='javascript'>Clara.Application.FormController.ExecuteForm();</url></action>";
 			}
 
@@ -510,6 +515,39 @@ public class ContractDashboardAjaxController {
 		}
 
 	}
+	
+	@RequestMapping(value = "/ajax/contracts/{contractId}/update-committee-note", method = RequestMethod.POST, produces="application/xml")
+	public @ResponseBody Source updateCommitteeNot(@PathVariable("contractId") long contractId,
+			@RequestParam("logId") String logId,
+			@RequestParam("formCommitteeStatusId") long formCommitteeStatusId,
+			@RequestParam("log") String newLog,
+			@RequestParam(value="note", required=false) String note,
+			@RequestParam("action") String action){
+		Track track = trackDao.getTrackByTypeAndRefObjectID("CONTRACT", contractId);
+		
+		try {
+			track = contractTrackService.updateSingleLogContent(track, logId, newLog);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		String commiteeNote = (note != null)?note:"";
+		
+		try {
+			ContractFormCommitteeStatus cfcs = contractFormCommitteeStatusDao.findById(formCommitteeStatusId);
+			
+			cfcs.setNote(commiteeNote);
+			
+			cfcs = contractFormCommitteeStatusDao.saveOrUpdate(cfcs);
+			
+			return XMLResponseHelper.newSuccessResponseStube("Successfully!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			return XMLResponseHelper.newErrorResponseStub("Failed to edit note!");
+		}
+		
+	}
 
 	@Autowired(required = true)
 	public void setContractDao(ContractDao contractDao) {
@@ -630,6 +668,24 @@ public class ContractDashboardAjaxController {
 	public void setBusinessObjectStatusHelperContainer(
 			BusinessObjectStatusHelperContainer businessObjectStatusHelperContainer) {
 		this.businessObjectStatusHelperContainer = businessObjectStatusHelperContainer;
+	}
+
+	public ContractTrackService getContractTrackService() {
+		return contractTrackService;
+	}
+	
+	@Autowired(required = true)
+	public void setContractTrackService(ContractTrackService contractTrackService) {
+		this.contractTrackService = contractTrackService;
+	}
+
+	public TrackDao getTrackDao() {
+		return trackDao;
+	}
+	
+	@Autowired(required = true)
+	public void setTrackDao(TrackDao trackDao) {
+		this.trackDao = trackDao;
 	}
 
 }

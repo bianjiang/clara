@@ -18,8 +18,8 @@
 	<bean id="formDao" class="edu.uams.clara.webapp.form.dao.FormDao"/>
 	<bean id="formXmlDataDao" class="edu.uams.clara.webapp.form.dao.FormXmlDataDao"/>
 	<bean id="formXmlDataDocumentDao" class="edu.uams.clara.webapp.form.dao.FormXmlDataDocumentDao"/>
-
-	<bean id="xmlProcessor" class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
+	
+	<bean id="xmlProcessor" class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />	
 
 	<bean id="protocolListAjaxController" class="edu.uams.clara.webapp.protocol.web.ajax.ProtocolListAjaxController" />
 </beans>

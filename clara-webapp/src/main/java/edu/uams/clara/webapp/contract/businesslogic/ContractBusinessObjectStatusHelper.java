@@ -243,7 +243,10 @@ BusinessObjectStatusHelper {
 		contractFormCommitteeStatus.setCauseByUser(user);
 		contractFormCommitteeStatus.setCausedByCommittee(committee);
 		
-		contractFormCommitteeStatus.setNote(commiteeNote);
+		if (committee.equals(involvedCommittee)) {
+			contractFormCommitteeStatus.setNote(commiteeNote);
+		}
+		
 		contractFormCommitteeStatus.setCommittee(involvedCommittee);
 		contractFormCommitteeStatus.setXmlData(xmlData);
 		contractFormCommitteeStatus.setAction(action);

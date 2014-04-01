@@ -18,16 +18,16 @@ import edu.uams.clara.webapp.protocol.domain.Protocol;
 public class FileGenerateAndSaveServiceTest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(FileGenerateAndSaveServiceTest.class);
-
+	
 	private FileGenerateAndSaveService fileGenerateAndSaveService;
-
+	
 	private ProtocolDao protocolDao;
-
+	
 	@Test
 	public void testProcessFileGenerateAndSave() throws Exception{
 		Protocol protocol = protocolDao.findById(201793l);
 		/*
-		String htmlString = "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=us-ascii\"></head>"
+		String htmlString = "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=us-ascii\"></head>" 
 				+ "<body><div class=\"email-template\"><div class=\"uamslogo\" style=\"width:100px;height:57px;\"><img style=\"width:100px;height:57px;\" src=\"http://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png\"></div>"
 				+ "<strong>Institutional Review Board</strong><br>4301 West Markham, #636<br>Little Rock, AR 72205-7199<br>501-686-5667<br>501-686-7265 (fax)<br>"
 				+ "<a href=\"http://www.uams.edu/irb/irb.asp\" target=\"_blank\">www.uams.edu/irb/irb.asp</a>"
@@ -40,14 +40,14 @@ public class FileGenerateAndSaveServiceTest {
 				+ "<a href=\"https://clara.uams.edu/clara-webapp/protocols/201807/dashboard\">Click here to access study.</a>"
 				+ "<br><br><img src=\"http://clara.uams.edu/clara-webapp/static/images/signatures/Paal.png\"></div></body></html>";
 			*/
-		String htmlString = "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=us-ascii\"></head>"
+		String htmlString = "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=us-ascii\"></head>" 
 				+ "<body><div class=\"email-template\"><div class=\"uamslogo\" style=\"width:100px;height:57px;\"><img style=\"width:100px;height:57px;\" src=\"http://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png\"></div>"
 				+ "<br><br><strong>Research Study Number IRB#:</strong>  201793<br><strong>Title:</strong> Measuring Listening Time in an Elementary School Classroom"
 				+ "<br><br><strong>PI Name:</strong> Smiley,Donna"
 				+ "<br><br><strong>Committee Notes/Comments:</strong><br>"
 				+ "<a href=\"https://clara.uams.edu/clara-webapp/protocols/201793/dashboard\">Click here to access study.</a>"
 				+ "</div></body></html>";
-
+				
 		UploadedFile uploadedFile = fileGenerateAndSaveService
 				.processFileGenerateAndSave(protocol,
 						"Ach revision requested letter",
@@ -59,7 +59,7 @@ public class FileGenerateAndSaveServiceTest {
 	public FileGenerateAndSaveService getFileGenerateAndSaveService() {
 		return fileGenerateAndSaveService;
 	}
-
+	
 	@Autowired(required = true)
 	public void setFileGenerateAndSaveService(FileGenerateAndSaveService fileGenerateAndSaveService) {
 		this.fileGenerateAndSaveService = fileGenerateAndSaveService;
@@ -68,7 +68,7 @@ public class FileGenerateAndSaveServiceTest {
 	public ProtocolDao getProtocolDao() {
 		return protocolDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setProtocolDao(ProtocolDao protocolDao) {
 		this.protocolDao = protocolDao;

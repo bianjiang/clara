@@ -152,6 +152,7 @@ Ext.define('Clara.Documents.view.UploadWindow', {
                 							"title": d.get("title"),
                 							"uploadedFileId": d.get("id"),
                 							"category": d.get("category"),
+                							"categoryDescription": Clara.Application.DocumentController.documentTypes[d.get("category").toLowerCase()],
                 							"parentFormXmlDataDocumentId": (d.get("parentid") || 0)
                 						},
                 						success: function(data){

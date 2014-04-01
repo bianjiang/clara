@@ -24,6 +24,7 @@ Ext.define('Clara.Super.view.PostDetailWindow', {
 		            				  title:title,
 		          	    		      message:msg,
 		          	    		      messageLevel:Ext.getCmp("fldMessageLevel").getValue(),
+		          	    		      created:new Date(),
 		          	    		      expireDate:Ext.getCmp("fldExpireDate").getValue()
 		            			  });
 

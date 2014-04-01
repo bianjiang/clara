@@ -11,14 +11,14 @@
 
 	<context:property-placeholder
 		location="file:src/main/resources/META-INF/spring/*.properties,file:src/main/resources/META-INF/spring/localdev/*.properties" />
-
+		
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
 	<bean id="protocolFormXmlDataDao" class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao">
 	</bean>
-
+	
 	<bean id="budgetXmlDifferServiceImpl" class="edu.uams.clara.webapp.xml.processor.impl.BudgetXmlDifferServiceImpl">
 	</bean>
-
+	
 	<bean id="xmlProcessor" class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
 </beans>

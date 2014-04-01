@@ -32,7 +32,7 @@ public class RelatedObjectDaoTest {
 	public RelatedObjectDao getRelatedObjectDao() {
 		return relatedObjectDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setRelatedObjectDao(RelatedObjectDao relatedObjectDao) {
 		this.relatedObjectDao = relatedObjectDao;

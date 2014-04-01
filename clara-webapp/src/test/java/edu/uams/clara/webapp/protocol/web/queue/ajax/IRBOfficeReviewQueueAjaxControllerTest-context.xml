@@ -16,6 +16,6 @@
 	<bean id="irbReviewerDao" class="edu.uams.clara.webapp.protocol.dao.irb.IRBReviewerDao" />
 	<bean id="protocolFormDao" class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao" />
 	<bean id="protocolFormIRBOfficeReviewProcessStatusHelper" class="edu.uams.clara.webapp.protocol.businesslogic.irb.agenda.impl.ProtocolFormIRBOfficeReviewProcessStatusHelperImpl" />
-
+	
 	<bean id="irbOfficeReviewQueueAjaxController" class="edu.uams.clara.webapp.protocol.web.queue.ajax.IRBOfficeReviewQueueAjaxController" />
 </beans>

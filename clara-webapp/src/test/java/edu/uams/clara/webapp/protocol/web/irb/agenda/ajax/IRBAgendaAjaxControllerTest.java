@@ -23,29 +23,29 @@ public class IRBAgendaAjaxControllerTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(IRBAgendaAjaxControllerTest.class);
-
+	
 	private IRBAgendaAjaxController irbAgendaAjaxController;
-
+	
 	private AgendaDao agendaDao;
-
+	
 	private IRBReviewerDao irbReviewerDao;
-
+	
 	@Test
 	public void testListAgendaIRBReviewers() throws JsonGenerationException, JsonMappingException, IOException{
-
+		
 		/*
 		logger.debug("start");
 		Agenda agenda = agendaDao.findById(1l);
-
+		
 		logger.debug("" + agenda.getIrbRoster());
-
+		
 		List<IRBReviewer> irbReviewers = irbReviewerDao.listIRBReviewersByIRBRoster(agenda.getIrbRoster());
 		*/
 		/*
 		List<IRBReviewer> irbReviewers = irbAgendaAjaxController.listAgendaIRBReviewers(1l);
-
+		
 		ObjectMapper objectMapper = new ObjectMapper();
-
+		
 		logger.debug(objectMapper.writeValueAsString(irbReviewers));
 		*/
 	}
@@ -77,6 +77,6 @@ public class IRBAgendaAjaxControllerTest {
 		return irbReviewerDao;
 	}
 
-
-
+	
+	
 }

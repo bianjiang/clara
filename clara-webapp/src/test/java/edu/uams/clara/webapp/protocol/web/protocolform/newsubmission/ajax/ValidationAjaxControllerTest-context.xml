@@ -14,14 +14,14 @@
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
 
 	<bean id="protocolDao" class="edu.uams.clara.webapp.protocol.dao.ProtocolDao"/>
-
+	
 	<bean id="miagrationDao" class="edu.uams.clara.webapp.protocol.dao.MiagrationDao"/>
-
+	
 	<bean id="protocolFormXmlDataDao" class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao"/>
-
+	
 	<bean id="xmlProcessor"
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
-
+		
 	<bean id="validationXmlParser"
 		class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.util.ValidationXmlParser" />
 

@@ -95,7 +95,7 @@
 			<div class="question" data-subsection-title="Organization"
 				id="question-uams-faculty">
 				<div class="questionLabel">
-					<div class="questionIdentifier">Start-2.1</div>
+					<div class="questionIdentifier">Start-2.1.1</div>
 					<div class="questionLabel"><span class="question-label-text">Is the PI for this study a UAMS faculty member?</span></div>
 				</div>
 				<div class="questionValue">
@@ -104,6 +104,27 @@
 					<uams:yesno id="uams-faculty"
 						instancepath="/protocol/site-responsible/ach-achri/uams-faculty"
 						value="${uamsFaculty}" validation="required" />
+				</div>
+			</div>
+			
+			<div class="question" data-subsection-title="Organization"
+				id="question-enroll-subject-in-uams">
+				<div class="questionLabel">
+					<div class="questionIdentifier">Start-2.2</div>
+					<div class="questionLabel"><span class="question-label-text">Are you enrolling any subjects in UAMS?</span></div>
+				</div>
+				<div class="questionValue">
+					<x:set var="enrollSubjectInUams"
+						select="string($protocolInstance/protocol/site-responsible/enroll-subject-in-uams/text())" />
+					<uams:yesno id="enroll-subject-in-uams"
+						instancepath="/protocol/site-responsible/enroll-subject-in-uams"
+						value="${enrollSubjectInUams}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="budget" />
 				</div>
 			</div>
 			

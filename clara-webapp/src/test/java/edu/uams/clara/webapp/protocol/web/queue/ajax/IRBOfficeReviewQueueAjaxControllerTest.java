@@ -13,18 +13,18 @@ import edu.uams.clara.webapp.queue.web.ajax.IRBOfficeReviewQueueAjaxController;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"file:src/test/java/edu/uams/clara/webapp/protocol/web/queue/ajax/IRBOfficeReviewQueueAjaxControllerTest-context.xml"})
 public class IRBOfficeReviewQueueAjaxControllerTest {
-
+	
 	private final static Logger logger = LoggerFactory
 	.getLogger(IRBOfficeReviewQueueAjaxControllerTest.class);
-
-
+	
+	
 	private IRBOfficeReviewQueueAjaxController irbOfficeReviewQueueAjaxController;
 
 
 	@Test
 	public void textProcessReviewItem(){
 		//test Expedited item
-
+		
 		//irbOfficeReviewQueueAjaxController.processReviewItem(81l, IRBOfficeReviewAction.EXPEDITED, 1l, 1l);
 	}
 
@@ -38,6 +38,6 @@ public class IRBOfficeReviewQueueAjaxControllerTest {
 	public IRBOfficeReviewQueueAjaxController getIrbOfficeReviewQueueAjaxController() {
 		return irbOfficeReviewQueueAjaxController;
 	}
-
-
+	
+	
 }

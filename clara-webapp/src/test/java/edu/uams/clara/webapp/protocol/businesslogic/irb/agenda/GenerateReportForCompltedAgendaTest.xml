@@ -13,11 +13,11 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
+		
 	<bean id="collegeDao"
 		class="edu.uams.clara.webapp.common.dao.department.CollegeDao" />
 	<bean id="departmentDao"
 		class="edu.uams.clara.webapp.common.dao.department.DepartmentDao" />
-
-
+	
+	
 </beans>

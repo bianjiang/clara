@@ -798,6 +798,31 @@ function isArray(obj) {
     return Object.prototype.toString.call(obj) === '[object Array]';
 }
 
+
+// ADD IE8 support for indexOf
+if (!Array.prototype.indexOf)
+{
+  Array.prototype.indexOf = function(elt /*, from*/)
+  {
+    var len = this.length >>> 0;
+
+    var from = Number(arguments[1]) || 0;
+    from = (from < 0)
+         ? Math.ceil(from)
+         : Math.floor(from);
+    if (from < 0)
+      from += len;
+
+    for (; from < len; from++)
+    {
+      if (from in this &&
+          this[from] === elt)
+        return from;
+    }
+    return -1;
+  };
+}
+
 function ajax_link_clicked(url, response, timeoutSecs){
 	var response = (response && response.length > 0)?response:'string'; //default to be string
 	timeoutSecs = timeoutSecs || 120;
@@ -817,7 +842,7 @@ function ajax_link_clicked(url, response, timeoutSecs){
 				clog(msg);
 				message = (msg.error?"Error: ":"") + msg.message;
 			}
-
+			
 			Ext.Msg.show({
 			   title:'Response?',
 			   msg: message,
@@ -825,7 +850,7 @@ function ajax_link_clicked(url, response, timeoutSecs){
 			});
 			loadMask.hide();
 		}
-	});
+	});	
 
 }
 

@@ -25,22 +25,22 @@ public class IRBAgendaItemAjaxControllerTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(IRBAgendaItemAjaxControllerTest.class);
-
+	
 	//private IRBAgendaItemAjaxController irbAgendaItemAjaxController;
-
+	
 	private AgendaDao agendaDao;
-
+	
 	private IRBReviewerDao irbReviewerDao;
-
+	
 	private AgendaItemReviewerDao agendaItemReviewerDao;
-
+	
 	@Test
 	public void testRemoveIRBReviewerFromAgendaItem() throws JsonGenerationException, JsonMappingException, IOException{
-
+		
 		AgendaItemReviewer agendaItemReviewer = agendaItemReviewerDao.findById(1l);
-
+		
 		agendaItemReviewerDao.remove(agendaItemReviewer);
-
+		
 	}
 
 
@@ -61,7 +61,7 @@ public class IRBAgendaItemAjaxControllerTest {
 	public IRBReviewerDao getIrbReviewerDao() {
 		return irbReviewerDao;
 	}
-
+		
 	@Autowired(required=true)
 	public void setAgendaItemReviewerDao(AgendaItemReviewerDao agendaItemReviewerDao) {
 		this.agendaItemReviewerDao = agendaItemReviewerDao;
@@ -72,8 +72,8 @@ public class IRBAgendaItemAjaxControllerTest {
 		return agendaItemReviewerDao;
 	}
 
+	
 
-
-
-
+	
+	
 }

@@ -60,10 +60,17 @@ public class ReportResultController {
 		ReportResult result = reportResultDao.findById(reportResultId);
 		logger.debug("Viewing "+reportResultId);
 		UploadedFile uploadFile = result.getUploadedFile();
-		
+
 		String srcFilePath = uploadFile.getPath() + uploadFile.getIdentifier()
 				+ "." + uploadFile.getExtension();
-		modelMap.put("resulturl", fileserver+srcFilePath);		
+
+		try {
+			String finalXmlString = sFTPService.downloadFileFromRemoteAndConvertToXml(srcFilePath);
+
+			modelMap.put("result", finalXmlString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
 		return "report/results/view";
 	}
 	

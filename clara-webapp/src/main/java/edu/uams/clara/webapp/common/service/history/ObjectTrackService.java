@@ -3,7 +3,6 @@ package edu.uams.clara.webapp.common.service.history;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Map.Entry;
@@ -17,6 +16,8 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import edu.uams.clara.core.util.xml.DomUtils;
+import edu.uams.clara.core.util.xml.XmlHandler;
+import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.dao.history.TrackDao;
 import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
@@ -164,6 +165,21 @@ public abstract class ObjectTrackService<T> {
 		}
 		
 		return message;		
+	}
+	
+	public Track updateSingleLogContent(Track track, String logId, String newLogContent){
+		String logXml = track.getXmlData();
+		
+		try {
+			logXml = xmlProcessor.replaceOrAddNodeValueByPath("/logs/log[@id=\""+ logId +"\"]", logXml, newLogContent);
+			
+			track.setXmlData(logXml);
+			track = trackDao.saveOrUpdate(track);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return track;
 	}
 	
 	public TrackDao getTrackDao() {

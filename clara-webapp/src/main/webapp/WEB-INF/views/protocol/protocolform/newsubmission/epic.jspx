@@ -82,7 +82,7 @@
 				id="question-involve-chemotherapy">
 				<div class="questionLabel">
 					<div class="questionIdentifier">Epic-3.</div>
-					<div class="questionLabel"><span class="question-label-text">Does this study involve the use of chemotherapy?</span></div>
+					<div class="questionLabel"><span class="question-label-text">Does your study involve cancer drug treatment?</span></div>
 				</div>
 				<div class="questionValue">
 					<x:set var="involveChemotherapy"

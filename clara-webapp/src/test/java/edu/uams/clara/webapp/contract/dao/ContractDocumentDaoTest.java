@@ -23,19 +23,19 @@ public class ContractDocumentDaoTest {
 
 	private final static Logger logger = LoggerFactory
 			.getLogger(ContractDocumentDaoTest.class);
-
+	
 	private ContractDocumentDao contractDocumentDao;
 
 	@Test
 	public void testListDocuments() throws JsonGenerationException, JsonMappingException, IOException{
-
+		
 		List<ContractFormXmlDataDocumentWrapper> contractDocuments = contractDocumentDao.listContractFormXmlDataDocuments(13050l);
-
+		
 		logger.debug("cnt: " + contractDocuments.size());
 		ObjectMapper objectMapper = new ObjectMapper();
-
+		
 		logger.debug(objectMapper.writeValueAsString(contractDocuments));
-
+		
 	}
 
 	public ContractDocumentDao getContractDocumentDao() {

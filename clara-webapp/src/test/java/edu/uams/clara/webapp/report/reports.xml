@@ -25,7 +25,7 @@
 		<queries>
 			<!-- <query type="sub" id="protocolId">SELECT protocol.id FROM protocol WHERE xxx</query> -->
 			<query type="main">
-				SELECT {reportstatment} FROM protocol
+				SELECT {reportstatment} FROM protocol				
 				WHERE retired = 0 AND {conditions}
 			</query>
 			<conditions>
@@ -50,7 +50,7 @@
 		<queries>
 			<!-- <query type="sub" id="protocolId">SELECT protocol.id FROM protocol WHERE xxx</query> -->
 			<query type="main">
-				SELECT {customreportstatment} FROM contract_form
+				SELECT {customreportstatment} FROM contract_form				
 				WHERE retired = 0 AND {conditions}
 			</query>
 			<conditions>

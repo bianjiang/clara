@@ -16,6 +16,7 @@ Ext.define('Clara.LetterBuilder.view.LetterBuilderWindow', {
     parentMessageId: null,
     message: null,
     action:null,
+    messageXmlAdditionalRootTag:null,	// for "FORWARD" messages
     sendToValues: [],
     sendCCValues: [],
     onSuccess: function() { clog('LetterBuilderWindow: Success!'); },

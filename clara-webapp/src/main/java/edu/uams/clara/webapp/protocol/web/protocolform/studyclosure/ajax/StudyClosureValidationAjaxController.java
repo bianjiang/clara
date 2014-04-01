@@ -2,7 +2,6 @@ package edu.uams.clara.webapp.protocol.web.protocolform.studyclosure.ajax;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,10 +24,7 @@ import org.xml.sax.SAXException;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationResponse;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationRuleContainer;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationRuleHandler;
-import edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.Constraint;
-import edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.enums.ConstraintLevel;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.rule.Rule;
-import edu.uams.clara.webapp.common.businesslogic.form.validator.rule.ValidationRule;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDocumentDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
@@ -92,6 +88,8 @@ public class StudyClosureValidationAjaxController {
 			
 			validationResponses = validationRuleHandler.validate(reportableNewInformationValidationRules, values);
 			
+			//Redmine #2972
+			/*
 			List<String> statusValues = new ArrayList<String>();
 			try{
 				statusValues = xmlProcessor.listElementStringValuesByPath("/study-closure/study-status", xmldata);
@@ -103,6 +101,7 @@ public class StudyClosureValidationAjaxController {
 			if (statusValues.size() > 0){
 				status = statusValues.get(0);
 			}
+			
 			
 			if (status.equals("other")){
 				Constraint scQualfiedConstraint = new Constraint();
@@ -117,9 +116,7 @@ public class StudyClosureValidationAjaxController {
 				ValidationResponse scQualifiedVP = new ValidationResponse(scQualfiedConstraint, scQualifiedAdditionalData);
 
 				validationResponses.add(scQualifiedVP);
-			}
-			
-			
+			}*/
 
 		}
 		return validationResponses;

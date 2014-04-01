@@ -27,11 +27,11 @@ public interface ProtocolService {
 	
 	Map<String, Boolean> checkStudyCharacteristic(String protocolMetaData);
 	
-	boolean isPushedToEpic(String protocolMetaData);
+	//boolean isPushedToEpic(String protocolMetaData);
 	
 	boolean isPushedToPSC(String protocolMetaData);
 	
-	void addPushedToEpic(Protocol protocol);
+	void pushToEpic(Protocol protocol);
 	
 	Protocol consolidateProtocol(Protocol protocol, List<String> xPathList);
 

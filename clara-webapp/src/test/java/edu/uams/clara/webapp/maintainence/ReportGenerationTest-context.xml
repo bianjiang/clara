@@ -26,15 +26,15 @@
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
 
 	<bean id="xmlHandler" class="edu.uams.clara.core.util.xml.impl.XmlHandlerImpl" />
-
+	
 	<bean id="protocolFormStatusDao" class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao"/>
-
+	
 	<bean id="protocolFormCommitteeStatusDao" class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao"/>
-
+	
 	<bean id="contractFormDao" class="edu.uams.clara.webapp.contract.dao.contractform.ContractFormDao"/>
-
+	
 	<bean id="contractFormCommitteeStatusDao" class="edu.uams.clara.webapp.contract.dao.businesslogicobject.ContractFormCommitteeStatusDao"/>
-
+	
 	<bean id="agendaDao" class="edu.uams.clara.webapp.protocol.dao.irb.AgendaDao"/>
-
+	
 </beans>

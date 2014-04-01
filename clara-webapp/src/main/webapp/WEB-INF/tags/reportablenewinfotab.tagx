@@ -20,9 +20,9 @@
 						
 	<div class="clara-form-tabs">
 			<div class="clara-form-tab"  id="tab-first-page"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'first-page');">Start</a></div><div style="clear:both;"><!-- // --></div></div>
-			<div class="clara-form-tab"  id="tab-basic-details"><div class="tab-name"><a href="javascript:;" onclick="${clickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;basic-details&quot;);'):fn:escapeXml('javascript:;')}" class="${clickable?'clickable':'notclickable'}">Basic Details</a></div><div style="clear:both;"><!-- // --></div></div>
-			<div class="clara-form-tab"  id="tab-report"><div class="tab-name"><a href="javascript:;" onclick="${clickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;report&quot;);'):fn:escapeXml('javascript:;')}" class="${clickable?'clickable':'notclickable'}">Report</a></div><div style="clear:both;"><!-- // --></div></div>
-			<div class="clara-form-tab"  id="tab-documents"><div class="tab-name"><a href="javascript:;" onclick="${clickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;documents&quot;);'):fn:escapeXml('javascript:;')}" class="${clickable?'clickable':'notclickable'}">Documents</a></div><div style="clear:both;"><!-- // --></div></div>
+			<div class="clara-form-tab"  id="tab-basic-details"><div class="tab-name"><a href="javascript:;" onclick="${clickable?'submitXMLToNextPage( \'basic-details\');':''}" class="${clickable?'clickable':'notclickable'}">Basic Details</a></div><div style="clear:both;"><!-- // --></div></div>
+			<div class="clara-form-tab"  id="tab-report"><div class="tab-name"><a href="javascript:;" onclick="${clickable?'submitXMLToNextPage( \'report\');':''}" class="${clickable?'clickable':'notclickable'}">Report</a></div><div style="clear:both;"><!-- // --></div></div>
+			<div class="clara-form-tab"  id="tab-documents"><div class="tab-name"><a href="javascript:;" onclick="${clickable?'submitXMLToNextPage( \'documents\');':''}" class="${clickable?'clickable':'notclickable'}">Documents</a></div><div style="clear:both;"><!-- // --></div></div>
 			<div class="clara-form-tab"  id="tab-review"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'review');">Review and Submit</a></div><div style="clear:both;"><!-- // --></div></div>			
 	</div>
 	

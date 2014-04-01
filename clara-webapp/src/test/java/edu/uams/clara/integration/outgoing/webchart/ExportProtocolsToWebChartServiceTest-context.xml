@@ -13,7 +13,7 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
+		
 	<bean id="webChartARIAUserDao" class="edu.uams.clara.integration.outgoing.webchart.dao.WebChartARIAUserDao" />
 	<bean id="webChartARIAProtocolDao" class="edu.uams.clara.integration.outgoing.webchart.dao.WebChartARIAProtocolDao" />
 	<bean id="webChartARIAUserProtocolDao" class="edu.uams.clara.integration.outgoing.webchart.dao.WebChartARIAUserProtocolDao" />
@@ -29,6 +29,6 @@
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao" />
 	<bean id="exportProtocolsToWebChartService"
 		class="edu.uams.clara.integration.outgoing.webchart.ExportProtocolsToWebChartService" />
-
-
+	
+	
 </beans>

@@ -35,6 +35,12 @@ public class HospitalChargeProcedure extends AbstractDomainEntity {
 	
 	@Column(name="cost")
 	private BigDecimal cost;
+	
+	@Column(name = "si")
+	private String si;
+	
+	@Column(name = "apc")
+	private String apc;
 
 	@Column(name="effective_date", nullable = true)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -112,5 +118,21 @@ public class HospitalChargeProcedure extends AbstractDomainEntity {
 
 	public void setOverwritten(boolean isOverwritten) {
 		this.isOverwritten = isOverwritten;
+	}
+
+	public String getSi() {
+		return si;
+	}
+
+	public void setSi(String si) {
+		this.si = si;
+	}
+
+	public String getApc() {
+		return apc;
+	}
+
+	public void setApc(String apc) {
+		this.apc = apc;
 	}
 }

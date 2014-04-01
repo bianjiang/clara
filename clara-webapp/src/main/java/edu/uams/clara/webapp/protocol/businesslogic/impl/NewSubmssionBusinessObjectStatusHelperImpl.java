@@ -385,6 +385,30 @@ public class NewSubmssionBusinessObjectStatusHelperImpl extends
 			}
 			break;
 		*/
+		case UNDER_ACH_PREREVIEW:
+			if(Committee.ACHRI.equals(committee) && action.equals("ASSIGN_TO_COMMITTEES")){
+				try {
+					/*
+					XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+					
+					String enrollSubjects = xmlHandler.getSingleStringValueByXPath(protocolForm.getMetaDataXml(), "/protocol/site-responsible/enroll-subject-in-uams");
+					
+					if (enrollSubjects.equals("y")) {
+						condition = "BUDGET_REVIEW";
+					} else {
+						condition = "NO_BUDGET";
+					}
+					*/
+					if (protocolFormReviewLogicServiceContainer.getProtocolFormReviewLogicService("NEW_SUBMISSION").isInvolvedByType(protocolForm, "Budget")){
+						condition = "BUDGET_REVIEW";
+					} else {
+						condition = "NO_BUDGET";
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			break;
 		case UNDER_PREREVIEW:
 			/**
 			 * check whether there is a budget or not... and check to see if it's budget develop or review 

@@ -279,7 +279,7 @@ Ext.define('Clara.Documents.controller.Documents', {
 		if (me.getReviseButton()) me.getReviseButton().setDisabled(!canUpdateDoc);
 		if (me.getRenameButton()) me.getRenameButton().setDisabled(!canUpdateDoc);
 		
-		if (me.getChangeStatusButton()) me.getChangeStatusButton().setVisible(me.getDocumentPanel().formView == true && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']));
+		if (me.getChangeStatusButton()) me.getChangeStatusButton().setVisible(me.getDocumentPanel().formView == true && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_BUDGET_REVIEWER']));
 		
 	}
 	

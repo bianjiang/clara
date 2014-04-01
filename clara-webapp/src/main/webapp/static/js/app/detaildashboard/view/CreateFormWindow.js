@@ -23,7 +23,7 @@ Ext.define('Clara.DetailDashboard.view.CreateFormWindow', {
 	extend: 'Ext.window.Window',
 	requires:[],
 	alias: 'widget.createformwindow',
-	title: 'What kind of for do you want to create?',
+	title: 'What kind of form do you want to create?',
 	width:650,
 	modal:true,
 	height:500,
@@ -40,7 +40,8 @@ Ext.define('Clara.DetailDashboard.view.CreateFormWindow', {
 			border:false,
 			viewConfig: {
 				stripeRows: true,
-				trackOver:false
+				trackOver:false,
+				emptyText:'<h1 style="font-size:2em;">You cannot create a new form at this time.</h1><span>This usually happens when the '+claraInstance.type+' has a form that is currently under review.</span>'
 			},
 			hideHeaders:true,
 			store : new Ext.data.Store(
@@ -59,7 +60,7 @@ Ext.define('Clara.DetailDashboard.view.CreateFormWindow', {
 									 }
 								},
 						model:'AvailableForms',
-						autoLoad : true,
+						autoLoad : true
 						
 					}),
 			columns: [{

@@ -45,8 +45,6 @@ Ext.define('Clara.Reports.controller.Report', {
     	Ext.create('Clara.Reports.view.UserReportWindow', {report:rec.data,title: "Editing '"+rec.get("description")+"'"}).show();
     },
     
-
-    
     deleteReport: function(id){
     	var t = this;
     	Ext.Msg.show({

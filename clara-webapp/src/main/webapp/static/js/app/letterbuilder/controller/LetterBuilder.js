@@ -92,9 +92,14 @@ Ext.define('Clara.LetterBuilder.controller.LetterBuilder', {
 		}
 	},
 	
-	getMessageXml: function(message){
+	getMessageXml: function(message,messageXmlAdditionalRootTag){
 		message.body = this.cleanHtml(message.body);
-		if (Encoder) return "<message><to>"+message.to+"</to><cc>"+message.cc+"</cc><subject>"+Encoder.cdataWrap(message.subject)+"</subject><body>"+message.body+"</body></message>";
+		var xml = (messageXmlAdditionalRootTag)?"<"+messageXmlAdditionalRootTag+">":"";
+		if (Encoder) {
+			xml += "<message><to>"+message.to+"</to><cc>"+message.cc+"</cc><subject>"+Encoder.cdataWrap(message.subject)+"</subject><body>"+message.body+"</body></message>";
+			xml += (messageXmlAdditionalRootTag)?"</"+messageXmlAdditionalRootTag+">":"";
+			return xml;
+		}
 		else {
 			cerr("LetterBuilder.js: Need 'encoder.js' on this page to correctly wrap HTML in CDATA");
 			return "";
@@ -129,7 +134,7 @@ Ext.define('Clara.LetterBuilder.controller.LetterBuilder', {
     			'username': options.message.username || null,
     			'password': options.message.password || null,
     			'xmlData': options.message.xml || null
-    		}
+    		};
     		
     	if (options.message.parentMessageId) params.parentId = options.message.parentMessageId;
     	
@@ -180,7 +185,7 @@ Ext.define('Clara.LetterBuilder.controller.LetterBuilder', {
 						messageToSend.username = Ext.getCmp("fldMessageUsername").getValue();
 						messageToSend.password = Ext.getCmp("fldMessagePassword").getValue();												
 	
-						messageToSend.xml = me.getMessageXml(messageToSend);
+						messageToSend.xml = me.getMessageXml(messageToSend,messageWindow.messageXmlAdditionalRootTag);
 						
 						clog("claramessage",messageToSend);
 						if (messageToSend.subject == "" || messageToSend.body == "") {

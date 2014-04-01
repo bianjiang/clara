@@ -57,18 +57,17 @@ public class ReportResultServiceImpl extends CustomReportService {
 		lowercaseIdentifiers.add("sites");
 	}
 	
-
 	@Override
 	public String generateReportResult(ReportTemplate reportTemplate) {
 		String finalResultXml = "<report-results>";
-		finalResultXml += "<report-result id=\""+ reportTemplate.getTypeDescription() +"\"  created=\""+ DateFormatUtil.formateDateToMDY(new Date()) +"\">";
-		finalResultXml += "<title>"+ reportTemplate.getDescription() +"</title>";
+		
 		
 		List<ReportCriteria> criterias = reportTemplate.getReportCriterias();
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		Map<String, String> fieldsRealXPathMap = Maps.newHashMap();
+		Map<String, String> queryCriteriasValueMap = Maps.newHashMap();
 		
 		for (ReportCriteria rc : criterias) {
 			ReportFieldTemplate reportCriteriaField = new ReportFieldTemplate();
@@ -79,7 +78,13 @@ public class ReportResultServiceImpl extends CustomReportService {
 				String fieldIdentifier = reportCriteriaField.getFieldIdentifier();
 				
 				String value = reportCriteriaField.getValue();
-				
+				if(reportCriteriaField.getOperator().toString().equals("AFTER")){
+					queryCriteriasValueMap.put(reportCriteriaField.getFieldDisplayName(), "AFTER: "+reportCriteriaField.getDisplayValue());
+				}else if(reportCriteriaField.getOperator().toString().equals("BEFORE")){
+					queryCriteriasValueMap.put(reportCriteriaField.getFieldDisplayName(), "BEFORE: "+reportCriteriaField.getDisplayValue());
+				}else{
+					queryCriteriasValueMap.put(reportCriteriaField.getFieldDisplayName(), reportCriteriaField.getDisplayValue());
+				}
 				if (value != null && !value.isEmpty()) {
 					String realXpath = "";
 					
@@ -110,7 +115,7 @@ public class ReportResultServiceImpl extends CustomReportService {
 									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", "\""+ values[i] +"\"");
 									}
 								} else if(values[i].contains("'")){
-									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", values[1].toUpperCase());
+									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", values[i].toUpperCase());
 								}
 								else{
 									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", "'"+ values[i] +"'");
@@ -129,6 +134,8 @@ public class ReportResultServiceImpl extends CustomReportService {
 							}
 					} else if(value.contains("'")){
 						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
+					}else if(value.toUpperCase().equals("IN")||value.toUpperCase().equals("NOT IN")){
+						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
 					}
 					else{
 						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", "'"+ value +"'");
@@ -141,6 +148,7 @@ public class ReportResultServiceImpl extends CustomReportService {
 						realXpath = realXpath.replace("{operator}", reportCriteriaField.getOperator().getRealOperator());
 					}
 					fieldsRealXPathMap.put("{" + fieldIdentifier + ".search-xpath}" , realXpath);
+					
 					//fieldsRealXPathMap.put("{" + fieldIdentifier + ".report-xpath}", reportField.getReportableXPath());
 				}
 			} catch (JsonParseException e) {
@@ -154,7 +162,10 @@ public class ReportResultServiceImpl extends CustomReportService {
 				e.printStackTrace();
 			}
 		}
-		
+		finalResultXml = finalResultXml+generateSummaryCriteriaTable(reportTemplate,
+				queryCriteriasValueMap);
+		finalResultXml += "<report-result id=\""+ reportTemplate.getTypeDescription() +"\"  created=\""+ DateFormatUtil.formateDateToMDY(new Date()) +"\">";
+		finalResultXml += "<title>"+ reportTemplate.getDescription() +"</title>";
 		try {
 			List<ReportField> reportFields =reportFieldDao.listAllFieldsByReportTemplateId(reportTemplate.getId());
 			List<ReportField> sortedReportFields = Lists.newArrayList();

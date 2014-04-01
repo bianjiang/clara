@@ -1,7 +1,6 @@
 package edu.uams.clara.webapp.report.service.customreport;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +8,16 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.annotation.Resource;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
@@ -34,6 +37,7 @@ import edu.uams.clara.webapp.common.domain.email.EmailTemplate;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.service.EmailService;
 import edu.uams.clara.webapp.common.service.form.FormService;
+import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
 import edu.uams.clara.webapp.fileserver.service.FileGenerateAndSaveService;
 import edu.uams.clara.webapp.report.dao.ReportResultDao;
@@ -50,20 +54,22 @@ public abstract class CustomReportService {
 	private FileGenerateAndSaveService fileGenerateAndSaveService;
 	
 	private EmailService emailService;
-
+	
 	private FormService formService;
-
+	
 	private EmailTemplateDao emailTemplateDao;
-
+	
 	private VelocityEngine velocityEngine;
-
-
+	
+	private EntityManager em; 
+	
+	
 	@Value("${application.host}")
 	private String appHost;
-
+	
 	@Value("${reportFieldTemplateXml.url}")
 	private String reportFieldTemplateXml;
-
+	
 	@Value("${reportSearchableFieldsTemplateXml.url}")
 	private String reportXml;
 	
@@ -71,6 +77,7 @@ public abstract class CustomReportService {
 	
 	private CommitteeActions committeeActions = new CommitteeActions();
 	
+	private final static Logger logger = LoggerFactory.getLogger(CustomReportService.class);
 	
 	
 	protected Document getReportDoc() {
@@ -143,24 +150,29 @@ public abstract class CustomReportService {
 	
 	protected String fillMessage(String message, Map<String, String> fieldsRealXPathMap){		
 		for (Entry<String, String> fieldXpah : fieldsRealXPathMap.entrySet()) {
-			message = message.replaceAll(fieldXpah.getKey().replace("{", "\\{").replace("}", "\\}"), fieldXpah.getValue());
+			String fieldValue = fieldXpah.getValue();
+			if(fieldValue.contains("meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\"FULL BOARD\")]')=1")){
+				fieldValue="(id in (select distinct p1.protocol_id from protocol_form p1,protocol_form p2 where p1.parent_id =p2.parent_id and p1.id in (select protocol_form_id from protocol_form_status  where protocol_form_status ='EXPEDITED_APPROVED'  and retired= 0) and p2.id in (select protocol_form_id from protocol_form_status  where protocol_form_status ='IRB_DEFERRED_WITH_MINOR_CONTINGENCIES'  and retired= 0) and p1.protocol_form_type ='NEW_SUBMISSION' and p2.protocol_form_type ='NEW_SUBMISSION') or "+fieldXpah.getValue()+")";
+			}else if(fieldValue.contains("meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\"EXPEDITED\")]')=1")){
+				fieldValue="(id not in (select distinct p1.protocol_id from protocol_form p1,protocol_form p2 where p1.parent_id =p2.parent_id and p1.id in (select protocol_form_id from protocol_form_status  where protocol_form_status ='EXPEDITED_APPROVED'  and retired= 0) and p2.id in (select protocol_form_id from protocol_form_status  where protocol_form_status ='IRB_DEFERRED_WITH_MINOR_CONTINGENCIES'  and retired= 0) and p1.protocol_form_type ='NEW_SUBMISSION' and p2.protocol_form_type ='NEW_SUBMISSION')) and "+fieldValue;
+			}
+			message = message.replaceAll(fieldXpah.getKey().replace("{", "\\{").replace("}", "\\}"), fieldValue);
 		}
-		
 		return message;		
 	}
 	
 	private List<String> parameterList = Lists.newArrayList();{
 		parameterList.add("/metadata/email");
 	}
-
+	
 	private EmailTemplate loadReportCompleteEmailTemplate(
 			String identifier,
 			Map<String, Object> model
 			){
 
 		EmailTemplate emailTemplate = emailTemplateDao
-				.findByIdentifier(identifier);
-
+				.findByIdentifier(identifier);		
+		
 		final String templateContent = VelocityEngineUtils
 				.mergeTemplateIntoString(velocityEngine,
 						emailTemplate.getVmTemplate(), model);
@@ -169,13 +181,13 @@ public abstract class CustomReportService {
 
 		return emailTemplate;
 	}
-
+	
 	private void sendEmail(String desc, List<String> emails,long resultId, User currentUser) {
 		Map<String,Object> emailModel = Maps.newHashMap();
 		emailModel.put("reportType", desc);
 		emailModel.put("reportGeneratedTime", (new Date()).toString());
 		emailModel.put("reportlink", "\""+appHost+"/clara-webapp/reports/results/"+resultId+"/view\"");
-
+		
 		EmailTemplate emailTemplate = loadReportCompleteEmailTemplate("REPORT_COMPLETED_NOTIFICATION",emailModel);
 		List<String> mailTo = Lists.newArrayList();
 		List<String> ccLst = Lists.newArrayList();
@@ -185,10 +197,10 @@ public abstract class CustomReportService {
 		if(!mailTo.contains(currentUser.getPerson().getEmail())){
 			mailTo.add(currentUser.getPerson().getEmail());
 		}
-
+		
 		emailService.sendEmail(emailTemplate.getTemplateContent(), mailTo, ccLst, emailTemplate.getSubject(), null);
 	}
-
+	
 	public void uploadResultToFileServer(ReportTemplate reportTemplate) throws IOException {
 		String report = this.generateReportResult(reportTemplate);
 		int tryUploadTime =3;
@@ -208,9 +220,9 @@ public abstract class CustomReportService {
 		reportResult.setCreated(new Date());
 		reportResult.setReportTemplate(reportTemplate);
 		reportResult.setUploadedFile(uploadedFile);
-
+		
 		getReportResultDao().saveOrUpdate(reportResult);
-
+		
 		try {
 			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
 			Set<String> emailPath = Sets.newHashSet();
@@ -219,12 +231,12 @@ public abstract class CustomReportService {
 			List<String> emails = emailsMap.get("/metadata/emails/email");
 			this.sendEmail(reportTemplate.getDescription(), emails,reportResult.getId(),reportTemplate.getUser());
 		} catch (Exception e) {
-
+			
 		}
-
-
+		
+		
 	}
-
+	
 	public String generateReportStatement(ReportTemplate reportTemplate,List<String> resultsFiledsForDisplay) {
 		String reportStatement = "";
 		
@@ -282,8 +294,65 @@ public abstract class CustomReportService {
 		return reportStatement;
 	}
 	
+	public String generateSummaryCriteriaTable(ReportTemplate reportTemplate,
+			Map<String, String> queryCriteriasValueMap) {
+		String finalResultXml = "";
+
+		finalResultXml += "<report-result id=\""
+				+ reportTemplate.getTypeDescription() + "\"  created=\""
+				+ DateFormatUtil.formateDateToMDY(new Date()) + "\">";
+		finalResultXml += "<title>" + "Search Criteria" + "</title>";
+		finalResultXml += "<fields>";
+		finalResultXml += "<field id=\"" + "criterianame" + "\" desc=\"" + ""
+				+ "\" hidden=\"" + "false" + "\" />";
+		finalResultXml += "<field id=\"" + "criteriavalue" + "\" desc=\"" + ""
+				+ "\" hidden=\"" + "false" + "\" />";
+		finalResultXml += "</fields>";
+
+		finalResultXml += "<report-items>";
+		if (queryCriteriasValueMap.size() == 0) {
+			finalResultXml += "<report-item>";
+			finalResultXml += "<field id=\"" + "criterianame" + "\">";
+			finalResultXml += "Type of Study";
+			finalResultXml += "</field>";
+			finalResultXml += "<field id=\"" + "criteriavalue" + "\">";
+			finalResultXml += "All";
+			finalResultXml += "</field>";
+			finalResultXml += "</report-item>";
+
+			finalResultXml += "<report-item>";
+			finalResultXml += "<field id=\"" + "criterianame" + "\">";
+			finalResultXml += "Department";
+			finalResultXml += "</field>";
+			finalResultXml += "<field id=\"" + "criteriavalue" + "\">";
+			finalResultXml += "All Divisions, All Departments, All Colleges";
+			finalResultXml += "</field>";
+			finalResultXml += "</report-item>";
+
+		} else {
+			for (Entry<String, String> value : queryCriteriasValueMap
+					.entrySet()) {
+				try {
+					finalResultXml += "<report-item>";
+					finalResultXml += "<field id=\"" + "criterianame" + "\">";
+					finalResultXml += value.getKey();
+					finalResultXml += "</field>";
+					finalResultXml += "<field id=\"" + "criteriavalue" + "\">";
+					finalResultXml += value.getValue();
+					finalResultXml += "</field>";
+					finalResultXml += "</report-item>";
+				} catch (Exception e) {
+
+				}
+			}
+		}
+		finalResultXml += "</report-items>";
+		finalResultXml += "</report-result>";
+		return finalResultXml;
+	}
+	
 	public String generateRawQeury(ReportTemplate reportTemplate, Map<String, String> fieldsRealXPathMap) {
-		String rawQeury = "";
+		String rawQuery = "";
 		
 		try {
 			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
@@ -319,7 +388,6 @@ public abstract class CustomReportService {
 			int c = conditionLst.size();
 			
 			int i = 0;
-		
 			for(String condition : conditionLst){
 				conditions += condition;
 				
@@ -337,26 +405,35 @@ public abstract class CustomReportService {
 							"/reports/report[@type='"+ reportIdentifier +"']/queries/query[@type=\"main\"]",
 							reportDoc, XPathConstants.NODE);
 			
-			rawQeury = reportMainQuery.getTextContent().replace("{conditions}", conditions);			
+			rawQuery = reportMainQuery.getTextContent().replace("{conditions}", conditions);			
 			if(conditions.isEmpty()){
-				rawQeury =rawQeury.replace("retired = 0 AND", "retired =0");
+				rawQuery =rawQuery.replace("retired = 0 AND", "retired =0");
 			}
-			String testStudyListString ="";
-			List<Long> testStudyList =committeeActions.getTestStudyOnProduction();
+			String testStudyListQueryString ="";
+			String getTestStidiesListQuery = "SELECT [protocol_id] FROM [clara].[dbo].[test_studies]";
+			List<String> testStudyList =Lists.newArrayList();
+			try{
+			Query query = em.createNativeQuery(getTestStidiesListQuery); 
+			testStudyList = (List<String>)query.getResultList();
+			}catch(Exception e){
+				//list is empty
+			}
 			for(int k=0;k<testStudyList.size();k++){
 				if(k==0){
-					testStudyListString +="('"+testStudyList.get(k)+"'";
+					testStudyListQueryString +="('"+testStudyList.get(k)+"'";
 				}else if(k==testStudyList.size()-1){
-					testStudyListString +=",'"+testStudyList.get(k)+"')";
+					testStudyListQueryString +=",'"+testStudyList.get(k)+"')";
 				}else{
-					testStudyListString +=",'"+testStudyList.get(k)+"'";
+					testStudyListQueryString +=",'"+testStudyList.get(k)+"'";
 				}
 			}
-			rawQeury += " AND id NOT IN "+testStudyListString;
+			if(!testStudyListQueryString.isEmpty()&&(rawQuery.toUpperCase().contains("FROM PROTOCOL")||reportIdentifier.contains("Human Subject Research Dashboard"))){
+				rawQuery += " AND id NOT IN "+testStudyListQueryString;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return rawQeury;
+		return rawQuery;
 		
 	}
 	
@@ -430,20 +507,20 @@ public abstract class CustomReportService {
 	public void setFormService(FormService formService) {
 		this.formService = formService;
 	}
-
+	
 	public EmailTemplateDao getEmailTemplateDao() {
 		return emailTemplateDao;
 	}
-
+	
 	@Autowired(required=true)
 	public void setEmailTemplateDao(EmailTemplateDao emailTemplateDao) {
 		this.emailTemplateDao = emailTemplateDao;
 	}
-
+	
 	public VelocityEngine getVelocityEngine() {
 		return velocityEngine;
 	}
-
+	
 	@Autowired(required=true)
 	public void setVelocityEngine(VelocityEngine velocityEngine) {
 		this.velocityEngine = velocityEngine;
@@ -455,6 +532,15 @@ public abstract class CustomReportService {
 
 	public void setAppHost(String appHost) {
 		this.appHost = appHost;
+	}
+	
+	public EntityManager getEm() {
+		return em;
+	}
+
+	@PersistenceContext(unitName = "defaultPersistenceUnit")
+	public void setEm(EntityManager em) {
+		this.em = em;
 	}
 
 }

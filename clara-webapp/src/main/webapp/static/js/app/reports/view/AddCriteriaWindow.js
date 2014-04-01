@@ -137,7 +137,7 @@ Ext.define('Clara.Reports.view.AddCriteriaWindow', {
     	    hidden:true,
     	    listeners: {
         		expand: function(cb){
-        			clog("expanded",cb,cb.getStore())
+        			clog("expanded",cb,cb.getStore());
         		},
         		select: function(cb,recs){
         			// Pass selected operator event down to custom field(s)

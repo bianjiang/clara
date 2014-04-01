@@ -1,6 +1,6 @@
 Ext.define('Clara.Reports.view.UserReportWindow', {
     extend: 'Ext.window.Window',
-    requires:['Clara.Reports.view.ReportCriteriaGridPanel','Clara.Reports.view.ReportDisplayFieldGridPanel'],
+    requires:['Clara.LetterBuilder.ux.RecipientField','Clara.Reports.view.ReportCriteriaGridPanel','Clara.Reports.view.ReportDisplayFieldGridPanel'],
     alias: 'widget.userreportwindow',
     title: 'Report Criteria',
     width:650,
@@ -15,10 +15,13 @@ Ext.define('Clara.Reports.view.UserReportWindow', {
         type: 'border'
     },
     save: function(){
-    	var win = this;
-    	var lm = new Ext.LoadMask(win,{
-    		style: { 
-    			'z-index': (Ext.WindowManager.zseed + 5000)
+    	var win = this,
+    		data = {
+    			description: Ext.getCmp("fldReportDescription").getValue(),
+  				reportType: win.report.typeDescription,
+  				globalOperator: Ext.getCmp("fldReportOperator").getValue(),
+  				parameters:"<metadata><emails>"+Ext.getCmp("fldReportEmail").getEmailXMLValue()+"</emails></metadata>",
+  				scheduleType:Ext.getCmp("fldSchedule").getValue()
     		},
     		msg:"Generating report, Please wait..."
     	});
@@ -50,15 +53,28 @@ Ext.define('Clara.Reports.view.UserReportWindow', {
 		});
     },
     
+    getEmailArray: function(store){
+    	var emails = [];
+    	
+    		store.each(function(rec){
+    			emails.push(rec);
+    		});
+    	
+		  clog("About to return EMAILS",emails);
+		  return emails;
+    },
+    
     initComponent: function() {
-    	var t = this;
-    	clog("INIT: with report",t.report);
+    	var t = this,
+    		recipients = t.getEmailArray(Clara.Reports.app.getController("UserReport").selectedUserReport.recipients());
+    
+    	clog("INIT: with report",t.report,recipients);
     	t.items = [{
 			region:'north',
 			layout:'form',
 			bodyPadding:6,
 			border:false,
-			height:98,
+			height:118,
 			items:[{
 				xtype:'textfield',
 				fieldLabel:'Description',
@@ -70,16 +86,20 @@ Ext.define('Clara.Reports.view.UserReportWindow', {
 			},
 			{xtype:'combo',id:'fldSchedule',labelWidth:160,fieldLabel:'When will this report run?',labelSeparator:'',hideLabel:false,store:new Ext.data.ArrayStore({
 		    	  fields:['value','label'],
+<<<<<<< HEAD
 		    	  data: [["","Immediately (no schedule)"],["0 30 22 1/1 * ?","Daily"],["0 40 22 ? * SUN","Weekly"],["0 0 5 1 1/1 ?","Monthly (1st of every month)"]]
 		      }),displayField:'label',valueField:'value',queryMode: 'local',autoSelect:true,value:(typeof t.report.cron != undefined && t.report.cron)?t.report.cron:""},
+=======
+		    	  data: [["NONE","Immediately (no schedule)"],["DAILY","Daily"],["WEEKLY","Weekly"],["MONTHLY","Monthly (1st of every month)"]]
+		      }),displayField:'label',valueField:'value',queryMode: 'local',autoSelect:true,value:(typeof t.report.scheduleType != undefined && t.report.scheduleType)?t.report.scheduleType:"NONE"},
+>>>>>>> claraoriginal/master
 		      {
-		    	  xtype:'textfield',
+		    	  xtype:'recipientcombofield',
+		    	  store:'ReportRecipients',
 		    	  fieldLabel:'Email results to',
 		    	  id:'fldReportEmail',
 		    	  name:'fldReportEmail',
-		    	  allowBlank: true,
-		    	  vtype: 'email',
-		    	  value:(typeof t.report.email != 'undefined')?t.report.email:""
+		    	  allowBlank: true
 		      }
 			]
 		},{
@@ -123,7 +143,10 @@ Ext.define('Clara.Reports.view.UserReportWindow', {
     			alert("Description cannot be blank.");
     		}
     	}}];
+    	
         t.callParent();
+        clog("TRY to set email values");
+        Ext.getCmp("fldReportEmail").setValue(recipients);
     }
 });
 

@@ -5,6 +5,7 @@ Clara.Documents.Document = function(o){
 	this.hashid=										(o.hashid || '');
 	this.title=											(o.title || '');
 	this.category=										(o.category || '');
+	this.categoryDescription=							(o.categoryDescription || '');
 	this.status=										(o.status || '');
 	this.filename=										(o.filename || '');
 	this.createdDate=									(o.createdDate || '');
@@ -144,6 +145,7 @@ Clara.Documents.SendMetadata= function(doc){
 				"title": doc.title,
 				"uploadedFileId": doc.id,
 				"category": doc.category,
+				"categoryDescription": Clara.Documents.DocumentTypes[doc.category.toLowerCase()],
 				"parentFormXmlDataDocumentId": (doc.parentFormXmlDataDocumentId || 0)
 			},
 			success: function(data){
@@ -263,7 +265,7 @@ Clara.Documents.StatusWindow = Ext.extend(Ext.Window, {
 				    	      	store: new Ext.data.SimpleStore({
 				                       fields:['statustext','id'],
 				                       data: [['Draft','DRAFT'],/*['ACKNOWLEDGED','Acknowledged'],['DECLINED','Declined'],['DETERMINED','Determined'],*/
-				                              ['RSC Approved','RSC_APPROVED'],['IRB Approved','APPROVED'],['Retired','RETIRED'], ['HC Approved','HC_APPROVED']]
+				                              ['RSC Approved','RSC_APPROVED'],['IRB Approved','APPROVED'],['Retired','RETIRED'], ['HC Approved','HC_APPROVED'], ['Packet Document', 'PACKET_DOCUMENT'], ['Final Legal Approved', 'FINAL_LEGAL_APPROVED']]
 				                    }),
 					    		value:(typeof t.doc.id != 'undefined')?(t.doc.status):"",
 					    	   	forceSelection:true,
@@ -598,6 +600,7 @@ Clara.Documents.VersionWindow = Ext.extend(Ext.Window, {
 								title:docdata.title,
 								status:docdata.status,
 								category:docdata.category,
+								categoryDescription:Clara.Documents.DocumentTypes[docdata.category.toLowerCase()],
 								filename:docdata.documentname,
 								createdDate:docdata.createdDate,
 								extension:docdata.extension,
@@ -672,18 +675,19 @@ Clara.Documents.VersionWindow = Ext.extend(Ext.Window, {
 			                    {
 			                  	  	header:'Action',
 			                  	  	dataIndex:'id',
+			                  	  	
 			                  	    renderer: function(v,p,r) { 
 			                  	    	var actions = "<div class='wrap'>";
 			                  	    	if (Clara.Documents.HasPermission(r.get("category"), "canUpdate") == true) {
 			                  	    		actions += "<a href='javascript:Ext.getCmp(\"clara-documents-version-window\").showRenameWindowForSelectedVersion();' style='margin-right:6px;'><strong>Rename</strong></a> ";
 			                  	    	}
 			                  	    	
-			                  	    	if (Ext.getCmp("clara-documents-gridpanel").readOnly == false && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN'])) {
+			                  	    	if (Ext.getCmp("clara-documents-gridpanel").readOnly == false && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_BUDGET_REVIEWER'])) {
 			                  	    		actions += "<a href='javascript:Ext.getCmp(\"clara-documents-version-window\").showStatusWindowForSelectedVersion();'>Status</a> ";
 			                  	    	}
 			                  	    	
 			                  	    	if (Clara.Documents.HasPermission(r.get("category"), "canWrite") == true 
-			                  	    			&& ( r.get("status") != "RSC_APPROVED" && r.get("status") != "APPROVED" ) ) {
+			                  	    			&& ( r.get("status") != "RSC_APPROVED" && r.get("status") != "APPROVED"  && r.get("status") != "HC_APPROVED") ) {
 			                  	    		actions += "<a href='javascript:Clara.Documents.RemoveDocument(\""+v+"\");'>Delete</a>";
 			                  	    	}
 			                  	    	actions += "</div>";
@@ -743,7 +747,7 @@ clog("DOC OBJ",doc);
 			
 			if ((Ext.getCmp("clara-documents-gridpanel").readOnly == false || claraInstance.type == 'contract') // REdmine #2843: Allow contract users to delete anytime.
 					&& Clara.Documents.HasPermission(doc.category, "canWrite")
-				    && ( doc.status != "RSC_APPROVED" && doc.status != "APPROVED" )
+				    && ( doc.status != "RSC_APPROVED" && doc.status != "APPROVED" && doc.status != "HC_APPROVED" )
 			) {
 				Ext.getCmp("btn-clara-document-remove").setDisabled(false);			
 			} else {
@@ -859,6 +863,8 @@ clog("DOC OBJ",doc);
 			        					enableToggle:true,
 			        					toggleHandler: function(btn,st){
 			        						var gp = Ext.getCmp("clara-documents-gridpanel");
+			        						gp.getColumnModel().setHidden(0,!st);
+			        						gp.getColumnModel().setHidden(3,st);
 			        						if (st){
 			        							btn.setIconClass("icn-category-group-select");
 			        							gp.getStore().groupBy("parentFormId");
@@ -939,8 +945,7 @@ Clara.Documents.Panel = Ext.extend(Ext.Panel, {
 	
 	initComponent: function(){
 		var t = this;
-		
-		clog("normalized doc t.formXmlData",t.formXmlData);
+	
 		var config = (t.helpHtml)?{
 				items:[{xtype:'claradocumentfilterpanel',hideFormOnlyOption:t.hideFormOnlyOption},{
 					xtype:'container',region:'north',style:'padding:6px;',html:t.helpHtml,autoHeight:true
@@ -1244,10 +1249,17 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 		else this.getStore().load();
 	},
 
+	
+	
 	initComponent: function() {
 		var t = this;
 		
-		
+		t.savedToFormRenderer = function(v,m,r) { 
+	    	var displayCurrentForm = (Ext.getCmp("clara-documents-filterpanel").hideFormOnlyOption == false)?" (this one)":"";
+  	    	var relativeFormId = (typeof t.parentFormIds[r.get("formType")] == 'undefined')?0:t.parentFormIds[r.get("formType")].indexOf(r.get("parentFormId"));
+  	    	var displayFormId = (relativeFormId >0)?" <span class='doc-file-formid'>#"+relativeFormId+"</span>":"";
+  	    	return "<div class='document-row-info wrap'>"+((claraInstance.form && claraInstance.form.id && r.get('formId') == claraInstance.form.id)?(r.get("formTypeDesc")+displayFormId+displayCurrentForm):(r.get("formTypeDesc")+displayFormId)+"</div>");
+  	    };
 		
 		clog("All docs? "+this.allDocs);
 		Clara.Documents.MessageBus.addListener('fileselected', function(doc){
@@ -1351,6 +1363,13 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 		        loadMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
 
 		        columns: [{
+              	  	header:'Saved to form',
+              	  	dataIndex:'formId',
+              	    renderer: t.savedToFormRenderer,
+                  	sortable:false,
+                  	hidden:true,
+                  	width:100
+                },{
 			            	  	header:'Status',
 			              	  	dataIndex:'status',
 			              	  renderer: function(v,p,r) { 
@@ -1366,6 +1385,10 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 			              	    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>RSC</div></div>";
 			              	    	} else if (r.get("status") == "HC_APPROVED") {
 			              	    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>HC</div></div>";
+			              	    	} else if (r.get("status") == "PACKET_DOCUMENT") {
+			              	    		return "<div style='float:left;'><div class='icn-box-small' style='color:orange;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>Packet</div></div>";
+			              	    	} else if (r.get("status") == "FINAL_LEGAL_APPROVED") {
+			              	    		return "<div style='float:left;'><div class='icn-box-small' style='color:red;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>LEGAL</div></div>";
 			              	    	} else {
 			              	    		return "<div style='float:left;'><div class='icn-ui-check-box-uncheck-disabled' style='color:#999;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'></div></div>";
 			              	    	}
@@ -1385,12 +1408,7 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 		                  },{
 		                  	  	header:'Saved to form',
 		                  	  	dataIndex:'formId',
-		                  	    renderer: function(v,m,r) { 
-		                  	    	var displayCurrentForm = (Ext.getCmp("clara-documents-filterpanel").hideFormOnlyOption == false)?" (this one)":"";
-		                  	    	var relativeFormId = (typeof t.parentFormIds[r.get("formType")] == 'undefined')?1:(parseInt(t.parentFormIds[r.get("formType")].indexOf(r.get("parentFormId")) )+1);
-		                  	    	var displayFormId = (relativeFormId >1)?" <span class='doc-file-formid'>#"+relativeFormId+"</span>":"";
-		                  	    	return "<div class='document-row-info wrap'>"+((claraInstance.form && claraInstance.form.id && r.get('formId') == claraInstance.form.id)?(r.get("formTypeDesc")+displayFormId+displayCurrentForm):(r.get("formTypeDesc")+displayFormId)+"</div>");
-		                  	    },
+		                  	    renderer: t.savedToFormRenderer,
 			                  	sortable:true,
 			                  	width:100
 			                },{
@@ -1435,6 +1453,7 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 							hashid:docdata.hashid,
 							title:docdata.title,
 							category:docdata.category,
+							categoryDescription:Clara.Documents.DocumentTypes[docdata.category.toLowerCase()],
 							status:docdata.status,
 							filename:docdata.documentname,
 							createdDate:docdata.createdDate,

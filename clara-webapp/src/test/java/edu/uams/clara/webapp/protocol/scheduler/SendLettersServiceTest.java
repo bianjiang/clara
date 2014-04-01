@@ -29,33 +29,34 @@ import edu.uams.clara.webapp.protocol.service.email.ProtocolEmailService;
 public class SendLettersServiceTest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(SendLettersServiceTest.class);
-
+	
 	private SendExpirationOfApprovalLetterService sendExpireLetterService;
+	private SendContinuingReviewerReminderService sendContinuingReviewerReminderService;
 	private SendRevisionRequestedReminderNotificationService sendRevisionRequestedReminderNotificationService;
 	private SendEpicSecurityTeamNotificationService sendEpicSecurityTeamNotificationService;
 	private SendBudgetApprovedNotificationForPBService sendBudgetApprovedNotificationForPBService;
-
+	
 	private ProtocolDao protocolDao;
-
+	
 	private ProtocolEmailService protocolEmailService;
 	private UserDao userDao;
 	private ProtocolFormDao protocolFormDao;
-
+	
 	private EntityManager em;
 	private EmailTemplateDao emailTemplateDao;
-
-	//@Test
+	
+	@Test
 	public void testSendLetter() throws Exception {
-		sendBudgetApprovedNotificationForPBService.sendBudgetApprovedNotification(protocolDao.findById(99075));
+		sendContinuingReviewerReminderService.sendReminderLetter();
 
 	}
-
+	
 	//@Test
 	public void sendEmailOfForms() throws Exception {
 		User currentUser = userDao.findById(19);
 		ProtocolForm protocolForm = protocolFormDao.findById(16733);
 		logger.debug(protocolForm.getFormType());
-
+		
 		//protocolEmailService.sendLetter(protocolForm, Committee.IRB_OFFICE, null, currentUser, "AUDIT_RESPONSE_FULL_BOARD_APPROVED_MINOR_MET_LETTER", "", "Audit response has been approved with minor met", "Audit response has been approved with minor met", "[{\"address\":\"GROUP_studyPI\",\"type\":\"GROUP\",\"desc\":\"Study PI and staffs\"}]", "");
 
 		//protocolEmailService.sendLetter(protocolForm, Committee.IRB_OFFICE, null, currentUser, "ADUIT_FULL_BOARD_APPROVED_LETTER", "", "Audit response has been approved by IRB Full Board", "Audit response has been approved by IRB Full Board", "[{\"address\":\"GROUP_studyPI\",\"type\":\"GROUP\",\"desc\":\"Study PI and staffs\"}]", "");
@@ -64,13 +65,13 @@ public class SendLettersServiceTest {
 		protocolEmailService.sendLetter(protocolForm, Committee.IRB_OFFICE, null, currentUser, "INFORMATIONAL_REPORT_ACKNOWLEDGED_LETTER", "", "", "", "[{\"address\":\"GROUP_studyPI\",\"type\":\"GROUP\",\"desc\":\"Study PI and staffs\"}]", "");
 
 	}
-
-	@Test
+	
+	//@Test
 	public void fixEmailTemplate() {
 		String qryStr = "SELECT [identifier],[subject] ,[vm_template] FROM [clara_dev].[dbo].[email_template]";
 		Query query = em.createNativeQuery(qryStr);
-		List<Object[]> resultsTraining= (List<Object[]>)query.getResultList();
-
+		List<Object[]> resultsTraining= (List<Object[]>)query.getResultList(); 
+		
 		List<EmailTemplate> emailTemplatePros = emailTemplateDao.findAll();
 		for(int i=0;i<resultsTraining.size();i++){
 			Object[] result = resultsTraining.get(i);
@@ -88,20 +89,20 @@ public class SendLettersServiceTest {
 						logger.debug("!!!error:   "+identifier);
 						break;
 					}
-
+					
 				}
 		}
-
+		
 		}
-
-
-
-	}
+		
+		
+		
+	}	
 
 	public SendExpirationOfApprovalLetterService getSendExpireLetterService() {
 		return sendExpireLetterService;
 	}
-
+	
 	@Autowired(required = true)
 	public void setSendExpireLetterService(SendExpirationOfApprovalLetterService sendExpireLetterService) {
 		this.sendExpireLetterService = sendExpireLetterService;
@@ -181,7 +182,7 @@ public class SendLettersServiceTest {
 	public void setProtocolFormDao(ProtocolFormDao protocolFormDao) {
 		this.protocolFormDao = protocolFormDao;
 	}
-
+	
 	public EntityManager getEm() {
 		return em;
 	}
@@ -198,6 +199,16 @@ public class SendLettersServiceTest {
 	@Autowired(required = true)
 	public void setEmailTemplateDao(EmailTemplateDao emailTemplateDao) {
 		this.emailTemplateDao = emailTemplateDao;
+	}
+
+	public SendContinuingReviewerReminderService getSendContinuingReviewerReminderService() {
+		return sendContinuingReviewerReminderService;
+	}
+
+	@Autowired(required = true)
+	public void setSendContinuingReviewerReminderService(
+			SendContinuingReviewerReminderService sendContinuingReviewerReminderService) {
+		this.sendContinuingReviewerReminderService = sendContinuingReviewerReminderService;
 	}
 
 }

@@ -237,8 +237,8 @@ Clara.BudgetBuilder.StructureWindow = Ext.extend(Ext.Window, {
 			        }
 			    ]
 			},
-			{xtype:'claraBudgetArmGridPanel',id: 'gpArms', region:'west'},
-			{xtype:'claraBudgetCycleGridPanel',id: 'gpCycles', region:'center', parentWindow:t},
+			{xtype:'claraBudgetArmGridPanel',id: 'gpArms', region:'west',width:348},
+			{xtype:'claraBudgetCycleGridPanel',id: 'gpCycles', region:'center', parentWindow:t, width:300},
 			{xtype:'claraBudgetVisitGridPanel',id: 'gpVisits', region:'east', parentWindow:t}
         ];
 

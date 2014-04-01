@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -15,10 +16,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.Maps;
 
+import edu.uams.clara.core.util.xml.XmlHandler;
+import edu.uams.clara.core.util.xml.XmlHandlerFactory;
+import edu.uams.clara.integration.outgoing.epic.StudyDefinitionWSClient;
+import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.usercontext.Person;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
@@ -43,6 +49,7 @@ import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
 import edu.uams.clara.webapp.protocol.service.ProtocolFormService;
 import edu.uams.clara.webapp.protocol.service.ProtocolService;
+import edu.uams.clara.webapp.protocol.service.history.ProtocolTrackService;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
 public class ProtocolServiceImpl implements ProtocolService {
@@ -59,6 +66,10 @@ public class ProtocolServiceImpl implements ProtocolService {
 	
 	private UserService userService;
 	private ProtocolFormService protocolFormService;
+	
+	private StudyDefinitionWSClient studyDefinitionWSClient;
+	
+	private ProtocolTrackService protocolTrackService;
 	
 	private ObjectAclService objectAclService;
 	
@@ -199,6 +210,7 @@ public class ProtocolServiceImpl implements ProtocolService {
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.COMPLIANCE_APPROVED);
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.CANCELLED);
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.IRB_REVIEW_NOT_NEEDED);
+		protocolFormStatusLst.add(ProtocolFormStatusEnum.BUDGET_NOT_REVIEWED);
 	}
 	
 	@Override
@@ -319,8 +331,8 @@ public class ProtocolServiceImpl implements ProtocolService {
 		return isPushedToPSC;
 	}
 	
-	@Override
-	public boolean isPushedToEpic(String protocolMetaData) {
+	/*
+	private boolean isPushedToEpic(String protocolMetaData) {
 		boolean isPushedToEpic = false;
 		
 		try {
@@ -339,22 +351,103 @@ public class ProtocolServiceImpl implements ProtocolService {
 		
 		return isPushedToEpic;
 	}
+	*/
 	
-	@Override
-	public void addPushedToEpic(Protocol protocol) {
+	private boolean canPushToEpic(String protocolMetaData) {
+		boolean canPushToEpic = false;
+		
+		//String protocolMetaData = protocol.getMetaDataXml();
+		
+		boolean isUAMSStudy = checkStudyCharacteristic(protocolMetaData).get("isUAMSStudy");
+		
+		boolean isPushedToEpic = false;
+		
 		try {
-			String protocolMetaData = protocol.getMetaDataXml();
+			Document assertXml = xmlProcessor.loadXmlStringToDOM(protocolMetaData);
 			
-			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/pushed-to-epic", protocolMetaData, "y");
+			XPath xpathInstance = xmlProcessor.getXPathInstance();
 			
-			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/pushed-to-epic-date", protocolMetaData, DateFormatUtil.formateDateToMDY(new Date()));
-			
-			protocol.setMetaDataXml(protocolMetaData);
-			
-			protocol = protocolDao.saveOrUpdate(protocol);
+			isPushedToEpic = (Boolean) (xpathInstance
+					.evaluate(
+							"boolean(count(/protocol/pushed-to-epic[text()='y'])>0",
+							assertXml, XPathConstants.BOOLEAN));
 			
 		} catch (Exception e) {
 			//don't care
+		}
+		
+		if (isUAMSStudy && !isPushedToEpic) {
+			canPushToEpic = true;
+		}
+		
+		return canPushToEpic;
+	}
+	
+	@Override
+	public void pushToEpic(Protocol protocol) {
+		String protocolMetaData = protocol.getMetaDataXml();
+		
+		if (canPushToEpic(protocolMetaData)) {
+			try {
+				XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+				String epicTitle = xmlHandler.getSingleStringValueByXPath(protocolMetaData, "/protocol/epic/epic-title");
+				String epicSummary = xmlHandler.getSingleStringValueByXPath(protocolMetaData, "/protocol/epic/epic-desc");
+				
+				if (epicTitle.isEmpty()) {
+					epicTitle = xmlHandler.getSingleStringValueByXPath(protocolMetaData, "/protocol/title");
+				}
+				
+				if (epicSummary.isEmpty()) {
+					epicSummary = populateEpicDesc(protocolMetaData);
+				}
+				
+				studyDefinitionWSClient.retrieveProtocolDefResponse("" + protocol.getId(), epicTitle, epicSummary, protocolMetaData);
+				
+				//add flag to meta data
+				protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/pushed-to-epic", protocolMetaData, "y");
+				
+				protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/pushed-to-epic-date", protocolMetaData, DateFormatUtil.formateDateToMDY(new Date()));
+				
+				protocol.setMetaDataXml(protocolMetaData);
+				
+				protocol = protocolDao.saveOrUpdate(protocol);
+				
+				//add log
+				Track track = protocolTrackService.getOrCreateTrack("PROTOCOL",
+						protocol.getId());
+
+				Document logsDoc = protocolTrackService.getLogsDocument(track);
+
+				Element logEl = logsDoc.createElement("log");
+				
+				String logId = UUID.randomUUID().toString();
+				
+				Date now = new Date();
+				
+				logEl.setAttribute("id", logId);
+				logEl.setAttribute("parent-id", logId);
+				logEl.setAttribute("action-user-id", "0");
+				logEl.setAttribute("actor", "System");
+				logEl.setAttribute("date-time", DateFormatUtil.formateDate(now));
+				logEl.setAttribute("event-type", "PUSH_TO_EPIC");
+				logEl.setAttribute("form-id", "0");
+				logEl.setAttribute("parent-form-id", "0");
+				logEl.setAttribute("form-type", "PROTOCOL");
+				logEl.setAttribute("log-type", "ACTION");
+				logEl.setAttribute("timestamp", String.valueOf(now.getTime()));
+
+				String message = "Protocol has been pushed to EPIC by system.";
+
+				logEl.setTextContent(message);
+
+				logsDoc.getDocumentElement().appendChild(logEl);
+
+				track = protocolTrackService.updateTrack(track, logsDoc);
+				
+			} catch (Exception e) {
+
+				logger.error("failed: ", e);
+			}
 		}
 		
 	}
@@ -481,5 +574,23 @@ public class ProtocolServiceImpl implements ProtocolService {
 	@Autowired(required=true)
 	public void setProtocolFormStatusDao(ProtocolFormStatusDao protocolFormStatusDao) {
 		this.protocolFormStatusDao = protocolFormStatusDao;
+	}
+
+	public StudyDefinitionWSClient getStudyDefinitionWSClient() {
+		return studyDefinitionWSClient;
+	}
+	
+	@Autowired(required=true)
+	public void setStudyDefinitionWSClient(StudyDefinitionWSClient studyDefinitionWSClient) {
+		this.studyDefinitionWSClient = studyDefinitionWSClient;
+	}
+
+	public ProtocolTrackService getProtocolTrackService() {
+		return protocolTrackService;
+	}
+	
+	@Autowired(required=true)
+	public void setProtocolTrackService(ProtocolTrackService protocolTrackService) {
+		this.protocolTrackService = protocolTrackService;
 	}
 }

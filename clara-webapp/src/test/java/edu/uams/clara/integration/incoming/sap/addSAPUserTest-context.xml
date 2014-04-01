@@ -13,14 +13,14 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
+		
 	<bean id="sapUserUpdateDao" class="edu.uams.clara.integration.incoming.sap.dao.SAPUserUpdateDao" />
 
-	<bean id="sapUserDao" class="edu.uams.clara.webapp.common.dao.usercontext.SAPUserDao" />
+	<bean id="sapUserDao" class="edu.uams.clara.webapp.common.dao.usercontext.SAPUserDao" />	
 
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
 
 	<bean id="personDao" class="edu.uams.clara.webapp.common.dao.usercontext.PersonDao" />
-
-
+	
+	
 </beans>

@@ -561,6 +561,9 @@
 				<form type="NEW_SUBMISSION" status="ANY">
 					<form-committee-status>IN_REVIEW</form-committee-status>
 				</form>
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>PENDING_IRB_DETERMINATION</form-committee-status>
+				</form>
 				<form type="MODIFICATION" status="UNDER_CONSENT_LEGAL_REVIEW">
 					<form-committee-status>IN_LEGAL_REVIEW</form-committee-status>
 				</form>
@@ -569,6 +572,9 @@
 				</form>
 				<form type="MODIFICATION" status="ANY">
 					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>PENDING_IRB_DETERMINATION</form-committee-status>
 				</form>
 			</role>			
 		</roles>
@@ -711,9 +717,9 @@
 			</role>
 			<role identifier="ROLE_CONTRACT_LEGAL_REVIEW" committee="CONTRACT_LEGAL_REVIEW"
 				name="Contract Legal Reviewer">
-				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+				<!-- <form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
 					<form-committee-status>APPROVED</form-committee-status>
-				</form>
+				</form> -->
 				<form type="NEW_CONTRACT" status="UNDER_LEGAL_REVIEW">
 					<form-committee-status>PENDING_PI</form-committee-status>
 				</form>
@@ -735,9 +741,9 @@
 				<form type="NEW_CONTRACT" status="UNDER_LEGAL_REVIEW">
 					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
 				</form>
-				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+				<!-- <form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
 					<form-committee-status>APPROVED</form-committee-status>
-				</form>
+				</form> -->
 				<form type="AMENDMENT" status="UNDER_LEGAL_REVIEW">
 					<form-committee-status>PENDING_PI</form-committee-status>
 				</form>

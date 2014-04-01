@@ -16,10 +16,10 @@
 
 	<bean id="exportStudyReportServiceImpl"
 		class="edu.uams.clara.integration.outgoing.crimson.impl.ExportStudyReportServiceImpl">
-
+		
 	</bean>
 	<bean id="crimsonStudyDao"
 		class="edu.uams.clara.integration.incoming.crimson.dao.CrimsonStudyDao" />
-
+		
 
 </beans>

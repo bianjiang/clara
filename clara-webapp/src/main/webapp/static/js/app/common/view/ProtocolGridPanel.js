@@ -64,7 +64,7 @@ Ext.define('Clara.Common.view.ProtocolGridPanel', {
 		            				  if (r.get("sebdeptId")){
 		            					  html += ": <span class='subdept'>"+r.get("subdeptDesc")+"</span>)";
 		            				  } else {
-		            					  html += ")"
+		            					  html += ")";
 		            				  }
 		            			  }
 

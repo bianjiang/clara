@@ -21,16 +21,16 @@
 	</bean>
 	<bean id="crimsonStudyDao"
 		class="edu.uams.clara.integration.incoming.crimson.dao.CrimsonStudyDao" />
-
+		
 	<bean id="xmlProcessor"
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
 
 	<bean id="protocolDao" class="edu.uams.clara.webapp.protocol.dao.ProtocolDao" />
-
+	
 	<bean id="securableObjectDao" class="edu.uams.clara.webapp.common.dao.security.acl.SecurableObjectDao" />
-
+	
 	<bean id="securableObjectAclDao" class="edu.uams.clara.webapp.common.dao.security.acl.SecurableObjectAclDao" />
-
+	
 	<bean id="protocolFormDao"
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao" />
 	<bean id="protocolFormXmlDataDao"
@@ -41,7 +41,7 @@
 		class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolStatusDao" />
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
 	<bean id="trackDao" class="edu.uams.clara.webapp.common.dao.history.TrackDao" />
-
+	
 	<bean id="uploadedFileDao"
 		class="edu.uams.clara.webapp.fileserver.dao.UploadedFileDao" />
 
@@ -54,10 +54,10 @@
 
 	<bean id="userService"
 		class="edu.uams.clara.webapp.common.service.impl.UserServiceImpl" />
-
+		
 	<bean id="ariaLetterMigrationService"
 		class="edu.uams.clara.migration.service.impl.ARIALetterMigrationImpl" />
-
+		
 	<bean id="ldapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="${ldap.provider-url}" />
 		<property name="userDn" value="${ldap.manager-dn}" />
@@ -70,12 +70,12 @@
 		<property name="ignoreNameNotFoundException" value="true" />
 		<property name="contextSource" ref="ldapContextSource" />
 	</bean>
-
+		
 	<bean id="ldapPersonLookupService" class="edu.uams.clara.webapp.common.service.impl.LdapPersonLookupServiceImpl">
 		<constructor-arg index="0" ref="ldapTemplate" />
 		<constructor-arg index="1" ref="personDao" />
-	</bean>
-
+	</bean>	
+		
 	<bean id="sFTPService"
 		class="edu.uams.clara.webapp.fileserver.service.impl.SFTPServiceImpl">
 		<property name="localDirectory" value="${fileserver.local.dir.path}" />
@@ -85,13 +85,13 @@
 		<property name="password" value="${fileserver.sftp.password}" />
 		<property name="host" value="${fileserver.host}" />
 		<property name="port" value="22" />
-		<!-- <property name="jsch"> <bean class="com.jcraft.jsch.JSch"> <property
+		<!-- <property name="jsch"> <bean class="com.jcraft.jsch.JSch"> <property 
 			name="knownHosts" value="${fileserver.known_hosts}" /> </bean> </property> -->
 	</bean>
-
+	
 		<bean id="md5PasswordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
 	<bean id="roleDao" class="edu.uams.clara.webapp.common.dao.usercontext.RoleDao" />
-
+		
 		 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="webmail.uams.edu"/>
         <property name="port" value="25"/>
@@ -107,7 +107,7 @@
             </props>
         </property>
     </bean>
-
+    
      <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
       <property name="velocityProperties">
          <value>
@@ -116,16 +116,16 @@
          </value>
       </property>
    </bean>
-
-   <bean id="emailService" class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl" />
-
+   
+   <bean id="emailService" class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl" />	
+	
    <bean id="protocolMetaDataXmlService" class="edu.uams.clara.webapp.protocol.service.impl.ProtocolMetaDataXmlServiceImpl" />
-
+   
     <bean id="protocolAndFormStatusService" class="edu.uams.clara.webapp.protocol.service.impl.ProtocolAndFormStatusServiceImpl" />
-
+    
     <bean id="crimsonContractDao" class="edu.uams.clara.integration.incoming.crimson.dao.CrimsonContractDao" />
-
+    
     <bean id="migrationDao" class="edu.uams.clara.migration.dao.MigrationDao" />
-
+    
     <bean id="xmlHandler" class="edu.uams.clara.core.util.xml.impl.XmlHandlerImpl" />
 </beans>

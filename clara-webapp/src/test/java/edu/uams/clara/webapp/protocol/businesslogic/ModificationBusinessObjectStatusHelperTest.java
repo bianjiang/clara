@@ -53,30 +53,30 @@ public class ModificationBusinessObjectStatusHelperTest {
 						protocolForm.getId()).getProtocolFormStatus()
 				+ "; protocolId: " + protocolForm.getProtocol().getId());
 		User user = userDao.findById(1l);
-
+		
 		String action = "ASSIGN_TO_COMMITTEES";
-
-
+				
+		
 		String extraDataXml = "<committee-review><committee type=\"BUDGET_REVIEW\"><extra-content><invovled-committees><committee>COVERAGE_REVIEW</committee><committee>HOSPITAL_SERVICES</committee><committee>COMPLIANCE_REVIEW</committee><committee>IRB_ASSIGNER</committee></invovled-committees></extra-content><actor>BUDGET_REVIEW</actor><action>ASSIGN_TO_COMMITTEES</action><letter></letter></committee></committee-review>"; // "<committee-review><committee type=\"BUDGET_MANAGER\"><extra-content/><actor>BUDGET_MANAGER</actor><action>COMPLETE</action><letter/></committee></committee-review>"; //"<committee-review><committee type=\"BUDGET_REVIEW\"><extra-content><invovled-committees><committee>COVERAGE_REVIEW</committee><committee>HOSPITAL_SERVICES</committee><committee>IRB_ASSIGNER</committee><committee>COMPLIANCE_REVIEW</committee></invovled-committees></extra-content><actor>BUDGET_REVIEW</actor><action>ASSIGN_TO_COMMITTEES</action><letter></letter></committee></committee-review>";
-
+		
 		/*
 		extraDataXml = modificationBusinessObjectStatusHelper.preProcessCommitteeReviewXml(protocolForm, Committee.BUDGET_REVIEW, user,
 				action, extraDataXml);
-
+		
 		logger.debug("extraDataXml: " + extraDataXml);
-
+		
 		String condition = modificationBusinessObjectStatusHelper.checkCondition(protocolForm, Committee.BUDGET_REVIEW, user, action, extraDataXml);
-
+		
 		logger.debug("condition: " + condition);
 
 		String workflow = modificationBusinessObjectStatusHelper.checkWorkflow(protocolForm, Committee.BUDGET_REVIEW, user, action,
 				extraDataXml);
-
+		
 		logger.debug("workflow: " + workflow);
 		*/
-
+		
 		modificationBusinessObjectStatusHelper.triggerAction(protocolForm, Committee.BUDGET_REVIEW, user, action, null, extraDataXml);
-
+		
 		//newsubmssionBusinessObjectStatusHelper.triggerAction(protocolForm,
 		//		Committee.PI, user, "SIGN_SUBMIT", "IS_PI", null, null);
 

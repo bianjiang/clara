@@ -33,19 +33,19 @@ public class budgetXmlExportServiceTest {
 	@Test
 	public void test() {
 		long protocolFormId= 16148;
-
-
+		
+		
 		ProtocolFormXmlData protocolFormXmlData =protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(protocolFormId, ProtocolFormXmlDataType.BUDGET);
 		ProtocolFormXmlData budgetXmlData = getProtocolFormXmlDataDao()
 				.findById(protocolFormXmlData.getId());
 		String budgetXml = budgetXmlData.getXmlData();
-
+	
 		budgetExport.generateBudgetExcelDocument(budgetXml, BudgetDocumentType.FULL,protocolFormId);
 		logger.debug("protocolid "+budgetXmlData.getProtocolForm().getProtocol().getId());
-
+		
 	 }
-
-
+	 
+	 
 	// @Test
 	 public void multipleTest(){
 		 logger.debug("begin");
@@ -55,7 +55,7 @@ public class budgetXmlExportServiceTest {
 /*			 if(protocolFormList.get(i).getId()==9739){
 			 continue;}*/
 			 try{
-
+				
 				 long protocolFormId =protocolFormList.get(i).getId();
 				 if(protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(protocolFormId, ProtocolFormXmlDataType.BUDGET)!=null){
 					 logger.debug("processing "+protocolFormId);
@@ -63,7 +63,7 @@ public class budgetXmlExportServiceTest {
 					ProtocolFormXmlData budgetXmlData = getProtocolFormXmlDataDao()
 							.findById(protocolFormXmlData.getId());
 					String budgetXml = budgetXmlData.getXmlData();
-
+				
 					budgetExport.generateBudgetExcelDocument(budgetXml, BudgetDocumentType.FULL,protocolFormId);
 				 }
 			 }catch(Exception e){
@@ -72,12 +72,12 @@ public class budgetXmlExportServiceTest {
 				 e.printStackTrace();
 			 }
 		 }
-
+		 
 		 for(int i=0;i<exceptionList.size();i++){
 			 logger.debug("error "+exceptionList.get(i));
 		 }
-
-
+		 
+			
 	 }
 
 	public ProtocolFormXmlDataDao getProtocolFormXmlDataDao() {

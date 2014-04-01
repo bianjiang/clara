@@ -16,26 +16,26 @@
 
 	<bean id="claraUserDao"
 		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraUserDao" />
-
+		
 	<bean id="claraProtocolDao"
 		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolDao" />
 
 	<bean id="claraProtocolUserDao"
 		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolUserDao" />
-
+		
 	<bean id="claraProtocolDrugDao"
 		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolDrugDao" />
-
+		
 	<bean id="claraProtocolDiseaseDao"
 		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolDiseaseDao" />
-
+		
 	<bean id="claraFundingDao"
 		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraFundingDao" />
 
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
 
 	<bean id="protocolDao" class="edu.uams.clara.webapp.protocol.dao.ProtocolDao" />
-
+	
 	<bean id="ariaUserDao" class="edu.uams.clara.integration.incoming.crimson.dao.ARIAUserDao" />
 
 	<bean id="xmlProcessor"
@@ -46,14 +46,14 @@
 
 	<bean id="exportProtocolsToCTMSService"
 		class="edu.uams.clara.integration.outgoing.ctms.ExportProtocolsToCTMSService" />
-
+		
 	<bean id="protocolFormStatusDao"
 		class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao" />
-
+		
 	<bean id="protocolFormDao"
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao" />
-
+		
 	<bean id="protocolFormXmlDataDao"
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao" />
-
+		
 </beans>

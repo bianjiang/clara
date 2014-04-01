@@ -80,8 +80,9 @@ public class ProtocolDashboardController {
 			modelMap.put("objectPermissions", objectPermissions);
 		}
 		
-		
-		modelMap.put("user", (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		modelMap.put("user", u);
+		modelMap.put("canAddComments", Boolean.FALSE);
+		modelMap.put("canAddContingencies", Boolean.FALSE);
 
 		return "protocol/dashboard";
 	}

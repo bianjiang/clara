@@ -155,7 +155,7 @@ public class AgendaDao extends AbstractDomainDao<Agenda> {
 		
 		return query.getResultList();
 	}
-
+	
 	@Transactional(readOnly=true)
 	public Agenda getAgendaByProtocolFormIdAndAgendaItemStatus(long protocolFormId,AgendaItemStatus agendaItemStatus){
 		TypedQuery<Agenda> query = getEntityManager()

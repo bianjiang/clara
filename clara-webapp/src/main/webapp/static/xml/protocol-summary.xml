@@ -94,6 +94,7 @@
 					<possible-values>
 						<value id="RISK_ADULT_1">Adult - Minimal</value>
 						<value id="RISK_ADULT_2">Adult - Greater than minimal</value>
+						<value id="RISK_ADULT_DEFERRED">Deferred</value>
 						<value id="RISK_ADULT_NA">N/A</value>
 					</possible-values>
 				</question-value>
@@ -106,6 +107,7 @@
 						<value id="RISK_PED_2">2</value>
 						<value id="RISK_PED_3">3</value>
 						<value id="RISK_PED_4">4</value>
+						<value id="RISK_PED_DEFERRED">Deferred</value>
 						<value id="RISK_PED_NA">N/A</value>
 					</possible-values>
 				</question-value>

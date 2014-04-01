@@ -16,11 +16,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ProtocolLuceneServiceTest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(ProtocolLuceneServiceTest.class);
-
+	
 	private ProtocolLuceneService protocolLuceneService;
-
+	
 	private Jaxb2Marshaller jaxb2Marshaller;
-
+	
 	@Test
 	public void testIndexer() throws ClassNotFoundException, NoSuchMethodException, SecurityException{
 		//File xmlFile = new File("src/test/java/edu/uams/clara/lucene/common/mock-index-rules.xml");
@@ -28,11 +28,11 @@ public class ProtocolLuceneServiceTest {
 		//IndexDocument indexDocument = (IndexDocument) jaxb2Marshaller.unmarshal(source);
 		//logger.info("indexDocument: " + indexDocument.getIndexLocation());
 	}
-
+	
 	public ProtocolLuceneService getProtocolLuceneService() {
 		return protocolLuceneService;
 	}
-
+	
 	@Autowired(required=true)
 	public void setProtocolLuceneService(ProtocolLuceneService protocolLuceneService) {
 		this.protocolLuceneService = protocolLuceneService;

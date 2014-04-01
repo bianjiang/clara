@@ -228,7 +228,7 @@ public class BudgetController {
 			}
 		}
 		
-		String message = "ProtocolId: " + protocolId + " UserID: " + user.getId();
+		String message = "ProtocolId: " + protocolId + "Form Id: "+ protocolFormId +" UserID: " + user.getId();
 		
 		if (readOnly != null && readOnly) {
 			auditService.auditEvent(AuditService.AuditEvent.VIEW_BUDDGET.toString(), message, budgetXmlData.getXmlData());

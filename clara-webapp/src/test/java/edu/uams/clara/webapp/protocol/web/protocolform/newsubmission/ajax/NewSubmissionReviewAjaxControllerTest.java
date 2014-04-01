@@ -26,50 +26,50 @@ public class NewSubmissionReviewAjaxControllerTest {
 			.getLogger(NewSubmissionReviewAjaxControllerTest.class);
 	private EmailService emailService;
 	//private EmailDataService emailDataService;
-
+	
 	private UserDao userDao;
 	private VelocityEngine velocityEngine;
-
+	
 	@Test
 	public void requestPharmacyReview(){
 		//emailDataService.setEmailData(203);
-
+		
 		String templateName = "pharmacyreview.vm";
-
+		
 		List<User> users = userDao.getUsersByUserRole(Permission.ROLE_COLLEGE_DEAN);
-
+		
 		List<String> cc = new ArrayList<String>();
 		cc.add("jbian@uams.edu");
 		cc.add("fyu2@uams.edu");
-
+		
 		List<String> mailTo = new ArrayList<String>();
 		for (User u:users){
 			mailTo.add(u.getPerson().getEmail());
 		}
-
+		
 		final String templateContent = VelocityEngineUtils
 				.mergeTemplateIntoString(velocityEngine,
 						"pharmacyreview.vm", null);
-
+		
 		emailService.sendEmail(templateContent, mailTo, cc, "Test", null);
-
+		
 	}
 
 	public EmailService getEmailService() {
 		return emailService;
 	}
-
+	
 	@Autowired(required=true)
 	public void setEmailService(EmailService emailService) {
 		this.emailService = emailService;
 	}
 
-
+	
 
 	public UserDao getUserDao() {
 		return userDao;
 	}
-
+	
 	@Autowired(required=true)
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
@@ -78,10 +78,10 @@ public class NewSubmissionReviewAjaxControllerTest {
 	public VelocityEngine getVelocityEngine() {
 		return velocityEngine;
 	}
-
+	
 	@Autowired(required=true)
 	public void setVelocityEngine(VelocityEngine velocityEngine) {
 		this.velocityEngine = velocityEngine;
 	}
-
+	
 }

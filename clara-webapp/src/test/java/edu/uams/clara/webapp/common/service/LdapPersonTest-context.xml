@@ -13,7 +13,7 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
+		
 	<bean id="ldapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="${ldap.provider-url}" />
 		<property name="userDn" value="${ldap.manager-dn}" />
@@ -30,8 +30,8 @@
 	<bean id="ldapPersonLookupService" class="edu.uams.clara.webapp.common.service.impl.LdapPersonLookupServiceImpl">
 		<constructor-arg index="0" ref="ldapTemplate" />
 		<constructor-arg index="1" ref="personDao" />
-	</bean>
-
+	</bean>	
+	
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
 	<bean id="personDao" class="edu.uams.clara.webapp.common.dao.usercontext.PersonDao" />
 

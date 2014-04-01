@@ -31,7 +31,7 @@ Ext.define('Clara.DetailDashboard.view.FormReviewStatusDetailWindow', {
 							me.close();
 				        }
 				    }
-				]
+				];
 		me.callParent();
 		var st = Ext.data.StoreManager.lookup('Clara.DetailDashboard.store.FormReviewStatusDetails');
     	st.loadFormReviewStatusDetail(me.form,me.statusRecord.get("committee_code"));

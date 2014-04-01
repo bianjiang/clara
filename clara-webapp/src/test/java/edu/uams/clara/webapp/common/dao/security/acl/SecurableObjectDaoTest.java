@@ -19,17 +19,17 @@ public class SecurableObjectDaoTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(SecurableObjectDaoTest.class);
-
+	
 	private SecurableObjectDao securableObjectDao;
 
-
+	
 	@Test
 	public void testGetSecurableObjectByClassAndId(){
 		/*
 		SecurableObject securableObject =  securableObjectDao.getSecurableObjectByClassAndId(Protocol.class, 1l);
-
+		
 		if(securableObject == null){
-			securableObject = securableObjectDao.saveOrUpdate( AclObjectFactory.createSecurableObject(Protocol.class, 1l));
+			securableObject = securableObjectDao.saveOrUpdate( AclObjectFactory.createSecurableObject(Protocol.class, 1l));	
 		}
 		logger.debug(securableObject.getObjectClass() + ", " + securableObject.getObjectId());
 		*/
@@ -43,5 +43,5 @@ public class SecurableObjectDaoTest {
 	public SecurableObjectDao getSecurableObjectDao() {
 		return securableObjectDao;
 	}
-
+	
 }

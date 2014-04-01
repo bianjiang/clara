@@ -70,10 +70,10 @@ public class ContractMigrationServiceImpl implements ContractMigrationService {
 	private final static Logger logger = LoggerFactory
 			.getLogger(ContractMigrationServiceImpl.class);
 
-	// CRIMSON data
+	// CRIMSON data	
 	private CrimsonContractDao crimsonContractDao;
-	private CrimsonStudyDao crimsonStudyDao;
-
+	private CrimsonStudyDao crimsonStudyDao;	
+	
 	private UserDao userDao;
 	private PersonDao personDao;
 	private UserServiceImpl userServiceImpl;
@@ -84,15 +84,15 @@ public class ContractMigrationServiceImpl implements ContractMigrationService {
 	private ContractFormXmlDataDao contractFormXmlDataDao;
 	private TrackDao trackDao;
 	private RelatedObjectDao relatedObjectDao;
-
+	
 	private ContractFormXmlDataDocumentDao contractFormXmlDataDocumentDao;
 	private UploadedFileDao uploadedFileDao;
 	private SFTPService sFTPService;
 	private ProtocolDao protocolDao;
 	private ContractFormCommitteeStatusDao contractFormCommitteeStatusDao;
-
+	
 	private XmlProcessor xmlProcessor;
-
+	
 	private String localDirectory;
 
 	private MessageDigest messageDigest = null;
@@ -405,14 +405,14 @@ public class ContractMigrationServiceImpl implements ContractMigrationService {
 						.findReviewerGroupByID(userGroupID);
 				Object[] user = crimsonStudyDao.findAriaUserByUserID(userID);
 				String fullname = (String) user[2] + ", " + (String) user[1];
-
-
+				
+				
 
 				Element assiRevEle = doc.createElement("assigned-reviewer");
 				assiRevEle.setAttribute("assigning-committee",
 						"CONTRACT_MANAGER");
 				assiRevEle.setTextContent(fullname);
-
+				
 				String sapIDStr = (String) user[0];
 
 				// if sap is not null, search it in clara to get user id
@@ -1345,7 +1345,7 @@ public class ContractMigrationServiceImpl implements ContractMigrationService {
 		}
 
 	}
-
+	
 	private ContractFormCommitteeStatusEnum getCommitteeStatusForClara(String action, String role){
 		String combinedAction=action+" "+role;
 		ContractFormCommitteeStatusEnum contractFormCommitteeStatusEnum=null;
@@ -1425,7 +1425,7 @@ public class ContractMigrationServiceImpl implements ContractMigrationService {
 		}
 		return contractFormCommitteeStatusEnum;
 	}
-
+	
 	private Committee getCausedByCommitteeForClara(String committeeStr){
 		Committee committee =null;
 		switch (committeeStr) {
@@ -1469,7 +1469,7 @@ public class ContractMigrationServiceImpl implements ContractMigrationService {
 		causedCommitteeMap.put("CONTRACT_SUBMITTED", Committee.PI);
 		causedCommitteeMap.put("REVISED_AND_ROUTED_TO_CONTRACT_ADMIN", Committee.CONTRACT_LEGAL_REVIEW);
 		causedCommitteeMap.put("APPROVAL_WITHDRAWN", Committee.CONTRACT_LEGAL_REVIEW);
-
+		
 		for (int i = 0; i < contractReportList.size(); i++) {
 			Object[] contractReportObje = contractReportList.get(i);
 			// for start action
@@ -1479,12 +1479,12 @@ public class ContractMigrationServiceImpl implements ContractMigrationService {
 			if(contractReportObje[1]!=null){
 				int groupID  = (int)contractReportObje[1];
 				role = crimsonContractDao.getGroupNameByID(groupID).trim();
-
+				
 				if(role.equals("Contract Manager")||role.equals("Legal")||role.equals("Contract Administrator")){
 					committee = getCausedByCommitteeForClara(role);
-
+			
 			ContractFormCommitteeStatus contractFormCommitteeStatus = new ContractFormCommitteeStatus();
-
+			
 			if(contractReportObje[2]!=null){
 				contractFormCommitteeStatusEnum = getCommitteeStatusForClara((String)contractReportObje[2],  role);
 				contractFormCommitteeStatus.setContractFormCommitteeStatus(contractFormCommitteeStatusEnum);
@@ -1494,8 +1494,8 @@ public class ContractMigrationServiceImpl implements ContractMigrationService {
 			contractFormCommitteeStatus.setContractForm(contractForm);
 			contractFormCommitteeStatus.setCommittee(committee);
 			contractFormCommitteeStatus.setCausedByCommittee(causedCommitteeMap.get((String)contractReportObje[2]));
-
-
+			
+			
 			if (contractReportObje[3] != null) {
 				contractFormCommitteeStatus
 						.setModified((Date) contractReportObje[3]);
@@ -1539,9 +1539,9 @@ public class ContractMigrationServiceImpl implements ContractMigrationService {
 					}
 				}
 			}
-
+			
 			contractFormCommitteeStatusDao.saveOrUpdate(contractFormCommitteeStatus);
-
+			
 				}
 				}
 			}
@@ -1618,10 +1618,10 @@ public class ContractMigrationServiceImpl implements ContractMigrationService {
 */
 			// this two lines for test
 
-
+			
 			  for (int i = 0; i < 1; i++) { Object[] crimsonObject =
 			 crimsonContractDao.findContractByID(1812);
-
+			 
 
 			BigInteger crimsonContractID = (BigInteger) crimsonObject[0];
 			logger.debug("Processing... " + crimsonContractID);

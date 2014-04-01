@@ -49,7 +49,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	questionIds : [ 'question-study-nature' ],
-	dependantQuestionPaths : [ "/protocol/study-nature", "/protocol/study-nature/hud-use/where", "/protocol/site-responsible" ],
+	dependantQuestionPaths : [ "/protocol/study-nature", "/protocol/study-nature/hud-use/where", "/protocol/site-responsible", "/protocol/site-responsible/enroll-subject-in-uams" ],
 	execute : function(answers) {
 
 		if (answers['/protocol/study-nature'] == 'hud-use') {
@@ -75,6 +75,27 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 			claraInstance.navigation.enablePage("misc");
 		}
 		
+		if (answers['/protocol/study-nature'] == 'hud-use' && answers['/protocol/study-nature/hud-use/where'] == 'ach/achri') {
+			claraInstance.navigation.disablePage("contract");
+			claraInstance.navigation.disablePage("funding-sources");
+			claraInstance.navigation.disablePage("budget");
+		} else if (answers['/protocol/site-responsible'] == 'ach-achri' || answers['/protocol/site-responsible'] == 'other') {
+			if (answers['/protocol/site-responsible/enroll-subject-in-uams'] == 'y') {
+				claraInstance.navigation.enablePage("contract");
+				claraInstance.navigation.enablePage("funding-sources");
+				claraInstance.navigation.enablePage("budget");
+			} else {
+				claraInstance.navigation.disablePage("contract");
+				claraInstance.navigation.disablePage("funding-sources");
+				claraInstance.navigation.disablePage("budget");
+			}
+		} else {
+			claraInstance.navigation.enablePage("contract");
+			claraInstance.navigation.enablePage("funding-sources");
+			claraInstance.navigation.enablePage("budget");
+		}
+		
+		/*
 		if ((answers['/protocol/site-responsible'] == 'ach-achri') || (answers['/protocol/study-nature'] == 'hud-use' && answers['/protocol/study-nature/hud-use/where'] == 'ach/achri')) {
 			claraInstance.navigation.disablePage("contract");
 			claraInstance.navigation.disablePage("funding-sources");
@@ -84,6 +105,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 			claraInstance.navigation.enablePage("funding-sources");
 			claraInstance.navigation.enablePage("budget");
 		}
+		*/
 	}
 }));
 
@@ -749,18 +771,20 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 					.doesAnswerContains(
 							answers['/protocol/study-type/investigator-initiated/sub-type'],
 							[ 'industry-support-full-funding', 'industry-support-partial-funding', 'industry-support-drug-device-only' ])) {
+				if (answers['/protocol/site-responsible'] == "uams") {
+					jQuery("#have-new-contract-y").attr("checked", true);
 
-				jQuery("#have-new-contract-y").attr("checked", true);
-
-				//jQuery("#q1-y").attr("disabled", 'disabled');
-				// above is commented out to prevent blanking issue in IE
+					//jQuery("#q1-y").attr("disabled", 'disabled');
+					// above is commented out to prevent blanking issue in IE
+					
+					jQuery("#have-new-contract-n").attr("disabled", 'disabled');
+					
+					answers['/protocol/contract/have-new-contract'] = "y";
+					
+					jQuery('#require-contract-before-irb').val('y');
+					answers['/protocol/contract/require-contract-before-irb'] = "y";
+				}
 				
-				jQuery("#have-new-contract-n").attr("disabled", 'disabled');
-				
-				answers['/protocol/contract/have-new-contract'] = "y";
-				
-				jQuery('#require-contract-before-irb').val('y');
-				answers['/protocol/contract/require-contract-before-irb'] = "y";
 			} else {
 				jQuery('#require-contract-before-irb').val('n');
 				answers['/protocol/contract/require-contract-before-irb'] = "n";
@@ -780,7 +804,8 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	                           "/protocol/site-responsible",
 	                           "/protocol/need-budget-by-department",
 	                           "/protocol/study-nature/hud-use/where",
-	                           "/protocol/budget/potentially-billed" ],
+	                           "/protocol/budget/potentially-billed",
+	                           "/protocol/site-responsible/enroll-subject-in-uams" ],
 	execute : function(answers) {
 
 		if ((answers['/protocol/study-nature'] == "hud-use" && answers['/protocol/study-nature/hud-use/where'] == "uams") 
@@ -797,8 +822,23 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 				answers['/protocol/budget/potentially-billed'] = "y";
 			}
 		
+		/*
+		if (answers['/protocol/site-responsible'] == "ach-achri" || answers['/protocol/site-responsible'] == "other") {
+			if (answers['/protocol/site-responsible/enroll-subject-in-uams'] == "y") {
+				jQuery("#q1-y").attr("checked", true);
+				jQuery("#q1-n").attr("disabled", 'disabled');
+				
+				answers['/protocol/budget/potentially-billed'] = "y";
+			} else {
+				jQuery("#q1-n").attr("checked", true);
+				jQuery("#q1-y").attr("disabled", 'disabled');
+				
+				answers['/protocol/budget/potentially-billed'] = "n";
+			}
+		}
+		*/
 		
-		if (answers['/protocol/site-responsible'] == "ach-achri" || answers['/protocol/need-budget-by-department'] == "n"){
+		if (answers['/protocol/need-budget-by-department'] == "n"){
 			jQuery("#q1-n").attr("checked", true);
 			jQuery("#q1-y").attr("disabled", 'disabled');
 			
@@ -843,13 +883,14 @@ Clara.ProtocolForm.Rules
 			                                           "/protocol/budget/involves/fgp-fees",
 			                                           "/protocol/budget/involves/industry-support",
 			                                           "/protocol/crimson/has-budget",
-			                                           "/protocol/initial-mod"],
+			                                           "/protocol/initial-mod",
+			                                           "/protocol/budget-question-required" ],
 			            	execute : function(answers) {
 			            		var hide = true;
 			            		
 			            		// check same ruleset as the first question, since its not saved on page load
 			            		if (claraInstance.form.type == 'MODIFICATION'){
-			            			if (answers['/protocol/initial-mod'] != "y" && answers['/protocol/site-responsible'] != "ach-achri" && answers['/protocol/budget/potentially-billed'] == "y" && answers['/protocol/study-nature'] != 'hud-use'){
+			            			if (answers['/protocol/initial-mod'] != "y" && answers['/protocol/budget-question-required'] == "y" && answers['/protocol/budget/potentially-billed'] == "y" && answers['/protocol/study-nature'] != 'hud-use'){
 			            				hide = false;
 			            			}
 			            			
@@ -911,7 +952,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 			.doesAnswerContains(
 					answers['/protocol/study-nature/biomedical-clinical/study-involves/involve'],
 					[ 'devices' ])){
-			if (answers['/protocol/site-responsible'] != "ach-achri"){
+			if (answers['/protocol/site-responsible'] != "ach-achri" && answers['/protocol/site-responsible'] != "other"){
 				if (claraInstance.form.type == 'MODIFICATION'){
 					if (answers['/protocol/budget/need-budget-in-clara'] == "y"){
 						needsBudget = true;
@@ -920,6 +961,12 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 					}
 				} else {
 					needsBudget = true;
+				}
+			} else {
+				if (answers['/protocol/crimson/has-budget'] == "/protocol/budget/potentially-billed") {
+					needsBudget = true;
+				} else {
+					needsBudget = false;
 				}
 			}
 				
@@ -1251,7 +1298,8 @@ Clara.ProtocolForm.Rules
 				{
 					id : Ext.id(),
 					questionIds : [ 'question-neonates-uncertain-viability-risk' ],
-					dependantQuestionPaths : [ "/protocol/subjects/vulnerable-populations/neonates/viability" ],
+					dependantQuestionPaths : [ "/protocol/subjects/vulnerable-populations/included", 
+					                           "/protocol/subjects/vulnerable-populations/neonates/viability" ],
 					execute : function(answers) {
 						var hide = true;
 
@@ -1259,8 +1307,8 @@ Clara.ProtocolForm.Rules
 								.doesAnswerContains(
 										answers['/protocol/subjects/vulnerable-populations/included'],
 										[ 'neonates' ])
-								&& answers['/protocol/subjects/vulnerable-populations/neonates/viability'] == "uncertain-viability"
-								|| answers['/protocol/subjects/vulnerable-populations/neonates/viability'] == "both") {
+								&& (answers['/protocol/subjects/vulnerable-populations/neonates/viability'] == "uncertain-viability"
+								|| answers['/protocol/subjects/vulnerable-populations/neonates/viability'] == "both")) {
 							hide = false;
 						}
 
@@ -1281,8 +1329,8 @@ Clara.ProtocolForm.Rules
 								.doesAnswerContains(
 										answers['/protocol/subjects/vulnerable-populations/included'],
 										[ 'neonates' ])
-								&& answers['/protocol/subjects/vulnerable-populations/neonates/viability'] == "nonviable"
-								|| answers['/protocol/subjects/vulnerable-populations/neonates/viability'] == 'both') {
+								&& (answers['/protocol/subjects/vulnerable-populations/neonates/viability'] == "nonviable"
+								|| answers['/protocol/subjects/vulnerable-populations/neonates/viability'] == "both")) {
 							hide = false;
 						}
 
@@ -1557,11 +1605,15 @@ Clara.ProtocolForm.Rules
 		{
 			id : Ext.id(),
 			questionIds : [ 'question-contact-information-for-board' ],
-			dependantQuestionPaths : [ "/protocol/subjects/vulnerable-populations/research-in-international-settings/ethics-board-or-irb" ],
+			dependantQuestionPaths : [ "/protocol/subjects/vulnerable-populations/included",
+			                           "/protocol/subjects/vulnerable-populations/research-in-international-settings/ethics-board-or-irb" ],
 			execute : function(answers) {
 				var hide = true;
 
-				if (answers['/protocol/subjects/vulnerable-populations/research-in-international-settings/ethics-board-or-irb'] == "y") {
+				if (this
+						.doesAnswerContains(
+								answers['/protocol/subjects/vulnerable-populations/included'],
+								[ 'research-subjects-in-international-setting' ]) && answers['/protocol/subjects/vulnerable-populations/research-in-international-settings/ethics-board-or-irb'] == "y") {
 					hide = false;
 				}
 
@@ -2419,7 +2471,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 }));
 */
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
-	questionIds : [ 'question-inclusion-exclusion-criteria-for-this-study' ],
+	questionIds : [ 'question-inclusion-exclusion-criteria-for-this-study','question-inclusion-exclusion-criteria-for-this-study-in','question-inclusion-exclusion-criteria-for-this-study-ex' ],
 	dependantQuestionPaths : [ "/protocol/site-responsible", "/protocol/study-nature", "/protocol/misc/is-registered-at-trialsearch" ],
 	execute : function(answers) {
 
@@ -2431,37 +2483,9 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 
 		this.hide(hide);
 	}
-}));
+})); 
 
-//Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
-//	questionIds : [ 'question-re-consent-process' ],
-//	dependantQuestionPaths : [ "/protocol/consent/provider" ],
-//	execute : function(answers) {
-//
-//		var hide = true;
-//
-//		if (this.doesAnswerContains(answers['/protocol/consent/provider'],['parents-and-or-guardian'])) {
-//			hide = false;
-//		} 
-//
-//		this.hide(hide);
-//	}
-//}));
 
-//Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
-//	questionIds : [ 'question-justify-no-need-re-consent' ],
-//	dependantQuestionPaths : [ "/protocol/consent/provider", "/protocol/consent/provider/parents-and-or-guardian/re-consent-process" ],
-//	execute : function(answers) {
-//
-//		var hide = true;
-//
-//		if (this.doesAnswerContains(answers['/protocol/consent/provider'],['parents-and-or-guardian']) && answers['/protocol/consent/provider/parents-and-or-guardian/re-consent-process'] == 'n') {
-//			hide = false;
-//		} 
-//
-//		this.hide(hide);
-//	}
-//}));
 
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	questionIds : [ 'question-is-registered-at-trialsearch'],
@@ -2510,12 +2534,27 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	questionIds : [ 'question-uams-faculty' ],
-	dependantQuestionPaths : [ "/protocol/site-responsible" ],
+	dependantQuestionPaths : [ "/protocol/site-responsible", "/protocol/study-nature" ],
 	execute : function(answers) {
 
 		var hide = true;
 
-		if (answers['/protocol/site-responsible'] == 'ach-achri') {
+		if (answers['/protocol/study-nature'] != 'hud-use' && answers['/protocol/site-responsible'] == 'ach-achri') {
+			hide = false;
+		} 
+
+		this.hide(hide);
+	}
+}));
+
+Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
+	questionIds : [ 'question-enroll-subject-in-uams' ],
+	dependantQuestionPaths : [ "/protocol/site-responsible", "/protocol/study-nature" ],
+	execute : function(answers) {
+
+		var hide = true;
+
+		if (answers['/protocol/study-nature'] != 'hud-use' && (answers['/protocol/site-responsible'] == 'ach-achri' || answers['/protocol/site-responsible'] == 'other')) {
 			hide = false;
 		} 
 
@@ -2533,6 +2572,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	                'question-trial-in-compliance',
 	                'question-all-aspects-according-to-standards' ],
 	dependantQuestionPaths : [ "/protocol/site-responsible",
+	                           "/protocol/site-responsible/enroll-subject-in-uams",
 	                           "/protocol/budget/potentially-billed",
 	                              "/protocol/budget/involves/uams-clinics",
 	                              "/protocol/budget/involves/uams-inpatient-units",
@@ -2566,10 +2606,20 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 		for (var i=0,l=needsBudgetPaths.length;i<l;i++){
 			needsBudget = needsBudget || (answers[needsBudgetPaths[i]] == "y");
 		}
-
+		
+		var achOrOtherEnrollSubjects = false;
+		
+		if (answers['/protocol/study-nature'] != 'hud-use') {
+			if (needsBudget) {
+				hide = false;
+			}
+		}
+		
+		/*
 		if (answers['/protocol/site-responsible'] != 'ach-achri' && needsBudget && answers['/protocol/study-nature'] != 'hud-use') {
 			hide = false;
 		} 
+		*/
 
 		this.hide(hide);
 	}

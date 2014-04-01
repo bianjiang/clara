@@ -11,12 +11,12 @@ import edu.uams.clara.webapp.common.service.UserService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/migration/service/CreateExternalUsersTest-Context.xml" })
 public class CreateExternalUsersTest {
-
+	
 	private UserService userService;
 
 	@Test
 	public void createExternalUser() {
-
+		
 	}
 
 	public UserService getUserService() {

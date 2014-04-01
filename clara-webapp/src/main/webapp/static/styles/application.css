@@ -707,6 +707,11 @@ ul.sidebar-list li.x-list-selected{
 /*                 /DASHBOARD             */
 /*                 	                      */
 
+.selected-form-row{
+	border-left:8px solid #2980b9;
+}
+
+
 h1.form-header{
 	font-size:24px;
 	margin-bottom:0px;	

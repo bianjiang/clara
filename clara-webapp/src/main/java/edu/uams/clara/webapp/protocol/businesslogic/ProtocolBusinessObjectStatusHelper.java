@@ -33,7 +33,6 @@ import com.google.common.collect.Maps;
 import edu.uams.clara.core.util.xml.DomUtils;
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
-import edu.uams.clara.integration.outgoing.epic.StudyDefinitionWSClient;
 import edu.uams.clara.webapp.common.businesslogic.BusinessObjectStatusHelper;
 import edu.uams.clara.webapp.common.domain.email.EmailTemplate;
 import edu.uams.clara.webapp.common.domain.form.Form;
@@ -121,8 +120,6 @@ public class ProtocolBusinessObjectStatusHelper extends
 	
 	private ProtocolService protocolService;
 	
-	private StudyDefinitionWSClient studyDefinitionWSClient;
-	
 	private EpicCdmByCptCodeDao epicCdmByCptCodeDao;
 	
 	private AuditService auditService;
@@ -144,11 +141,24 @@ public class ProtocolBusinessObjectStatusHelper extends
 
 
 	private void sendBudgetApprovePBNotification(ProtocolForm protocolForm) {
-		try{
-			Protocol protocol = protocolForm.getProtocol();
-			sendBudgetApprovedNotificationForPBService.sendBudgetApprovedNotification(protocol);
-		}catch(Exception e){
-			
+		Protocol protocol = protocolForm.getProtocol();
+		try {
+			protocolEmailService.sendProtocolNotification(protocol, null, null,
+					null, "BUDGET_APPROVED_NOTIFICATION_FOR_PB", "", null, null,
+					null, "", null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void sendBudgetApproveHBNotification(ProtocolForm protocolForm) {
+		Protocol protocol = protocolForm.getProtocol();
+		try {
+			protocolEmailService.sendProtocolNotification(protocol, null, null,
+					null, "BUDGET_APPROVED_NOTIFICATION_FOR_HB", "", null, null,
+					null, "", null);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -234,6 +244,8 @@ public class ProtocolBusinessObjectStatusHelper extends
 	            //add audit operation
 	            auditService.auditEvent("GENERATE_EPIC_CDM",
 						"Epic fee schedule has been generated for Protocol: "+protocol.getId()+".");
+	            
+	            this.sendBudgetApproveHBNotification(protocolForm);
 			}}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -454,8 +466,11 @@ public class ProtocolBusinessObjectStatusHelper extends
 		protocolFormCommitteeStatus.setModified(now);
 		protocolFormCommitteeStatus.setCauseByUser(user);
 		protocolFormCommitteeStatus.setCausedByCommittee(committee);
-
-		protocolFormCommitteeStatus.setNote(commiteeNote);
+		
+		if (committee.equals(involvedCommittee)) {
+			protocolFormCommitteeStatus.setNote(commiteeNote);
+		}
+		
 		protocolFormCommitteeStatus.setCommittee(involvedCommittee);
 		protocolFormCommitteeStatus.setXmlData(xmlData);
 		protocolFormCommitteeStatus.setAction(action);
@@ -494,15 +509,15 @@ public class ProtocolBusinessObjectStatusHelper extends
 		
 		if (protocolFormXmlDataDocuments != null && !protocolFormXmlDataDocuments.isEmpty()){
 			for (ProtocolFormXmlDataDocument pfxd : protocolFormXmlDataDocuments){	
-				if (pfxd.getCategory().equals("Budget Document")) {
+				if (pfxd.getCategory().contains("budget")) {
 					if (changeBudgetDocStatus) {
 						pfxd.setStatus(ProtocolFormXmlDataDocument.Status.valueOf(status));
 					}
-				} else if (pfxd.getCategory().equals("Protocol")) {
+				} else if (pfxd.getCategory().equals("protocol")) {
 					if (changeProtocolDocStatus) {
 						pfxd.setStatus(ProtocolFormXmlDataDocument.Status.valueOf(status));
 					}
-				} else if (pfxd.getCategory().equals("Consent, Assent and HIPAA")) {
+				} else if (pfxd.getCategory().contains("consent")) {
 					if (changeConsentDocStatus) {
 						pfxd.setStatus(ProtocolFormXmlDataDocument.Status.valueOf(status));
 					}
@@ -921,7 +936,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 		String protocolFormMetaData = protocolForm.getMetaDataXml();
 		
 		try {
-			protocolFormMetaData = getXmlProcessor().replaceOrAddNodeValueByPath("/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/recent-motion", protocolFormMetaData, "Defer with minor contingencies by Expedited Review");
+			protocolFormMetaData = getXmlProcessor().replaceOrAddNodeValueByPath("/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/recent-motion-by-reviewer", protocolFormMetaData, "Defer with minor contingencies by Expedited Review");
 			
 			protocolForm.setMetaDataXml(protocolFormMetaData);
 			
@@ -1162,6 +1177,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 		
 	}
 	
+	/*
 	private boolean canPushToEpic(Protocol protocol) {
 		boolean canPushToEpic = false;
 		
@@ -1177,68 +1193,15 @@ public class ProtocolBusinessObjectStatusHelper extends
 		
 		return canPushToEpic;
 	}
-	
+	*/
+	/*
 	protected void pushToEpic(ProtocolForm protocolForm) {
 		Protocol protocol = protocolForm.getProtocol();
 		
-		String protocolMetaData = protocol.getMetaDataXml();
-		
-		if (canPushToEpic(protocol)) {
-			try {
-				XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
-				String epicTitle = xmlHandler.getSingleStringValueByXPath(protocolMetaData, "/protocol/epic/epic-title");
-				String epicSummary = xmlHandler.getSingleStringValueByXPath(protocolMetaData, "/protocol/epic/epic-desc");
-				
-				if (epicTitle.isEmpty()) {
-					epicTitle = xmlHandler.getSingleStringValueByXPath(protocolMetaData, "/protocol/title");
-				}
-				
-				if (epicSummary.isEmpty()) {
-					epicSummary = protocolService.populateEpicDesc(protocolMetaData);
-				}
-				
-				studyDefinitionWSClient.retrieveProtocolDefResponse("" + protocol.getId(), epicTitle, epicSummary, protocolMetaData);
-				
-				protocolService.addPushedToEpic(protocol);
-				
-				Track track = protocolTrackService.getOrCreateTrack("PROTOCOL",
-						protocol.getId());
-
-				Document logsDoc = protocolTrackService.getLogsDocument(track);
-
-				Element logEl = logsDoc.createElement("log");
-				
-				String logId = UUID.randomUUID().toString();
-				
-				Date now = new Date();
-				
-				logEl.setAttribute("id", logId);
-				logEl.setAttribute("parent-id", logId);
-				logEl.setAttribute("action-user-id", "0");
-				logEl.setAttribute("actor", "System");
-				logEl.setAttribute("date-time", DateFormatUtil.formateDate(now));
-				logEl.setAttribute("event-type", "PUSH_TO_EPIC");
-				logEl.setAttribute("form-id", "0");
-				logEl.setAttribute("parent-form-id", "0");
-				logEl.setAttribute("form-type", "PROTOCOL");
-				logEl.setAttribute("log-type", "ACTION");
-				logEl.setAttribute("timestamp", String.valueOf(now.getTime()));
-
-				String message = "Protocol has been pushed to EPIC by system.";
-
-				logEl.setTextContent(message);
-
-				logsDoc.getDocumentElement().appendChild(logEl);
-
-				track = protocolTrackService.updateTrack(track, logsDoc);
-				
-			} catch (Exception e) {
-
-				logger.error("failed: ", e);
-			}
-		}
+		protocolService.pushToEpic(protocol);
 		
 	}
+	*/
 	
 	@Override
 	public void triggerEvents(Form form, User user, Committee committee, String eventsTemplate, String action, String condition) throws IOException, SAXException {
@@ -1279,7 +1242,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 				this.updateApprovalStatusAndDate(protocolForm, action, (currentEventEl.getAttribute("clock-start") != null && !currentEventEl.getAttribute("clock-start").isEmpty())?currentEventEl.getAttribute("clock-start"):"", condition);
 				break;
 			case "PUSH_TO_EPIC":
-				this.pushToEpic(protocolForm);
+				protocolService.pushToEpic(protocolForm.getProtocol());
 				break;
 			case "GENERATE_EPIC_CDM":
 				this.generateEpicCDM(protocolForm);
@@ -1437,16 +1400,6 @@ public class ProtocolBusinessObjectStatusHelper extends
 	public void setProtocolService(ProtocolService protocolService) {
 		this.protocolService = protocolService;
 	}
-
-	public StudyDefinitionWSClient getStudyDefinitionWSClient() {
-		return studyDefinitionWSClient;
-	}
-	
-	@Autowired(required = true)
-	public void setStudyDefinitionWSClient(StudyDefinitionWSClient studyDefinitionWSClient) {
-		this.studyDefinitionWSClient = studyDefinitionWSClient;
-	}
-
 
 	public AuditService getAuditService() {
 		return auditService;

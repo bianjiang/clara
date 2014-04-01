@@ -19,10 +19,10 @@ public class ProtocolListAjaxControllerTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(ProtocolListAjaxControllerTest.class);
-
+	
 	private ProtocolListAjaxController protocolListAjaxController;
-
-
+	
+	
 	@Test
 	public void testListProtocolsXml() throws XPathExpressionException, SAXException, IOException{
 		//String protocols = protocolListAjaxController.listProtocolsXml();
@@ -30,7 +30,7 @@ public class ProtocolListAjaxControllerTest {
 		//logger.debug(protocols);
 	}
 
-
+	
 	@Autowired(required=true)
 	public void setProtocolListController(ProtocolListAjaxController protocolListAjaxController) {
 		this.protocolListAjaxController = protocolListAjaxController;

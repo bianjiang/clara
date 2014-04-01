@@ -52,12 +52,12 @@ public class updateMigratedDocumentsImplTest {
 					logger.debug(strLine);
 				}
 			}
-
+			
 		}catch(Exception e){
-
+				
 			}
-
-
+		
+		
 	}
 	public UpdateMigratedDocumentsImpl getUpdateMigratedDocumentsImpl() {
 		return updateMigratedDocumentsImpl;

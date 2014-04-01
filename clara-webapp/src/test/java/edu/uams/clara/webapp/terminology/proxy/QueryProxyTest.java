@@ -16,12 +16,12 @@ import edu.uams.clara.webapp.terminology.proxy.service.TerminologyCodeQueryProxy
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"file:src/test/java/edu/uams/clara/webapp/terminology/proxy/QueryProxyTest.xml"})
 public class QueryProxyTest {
-
+	
 	private final static Logger logger = LoggerFactory
 			.getLogger(QueryProxyTest.class);
-
+	
 	private TerminologyCodeQueryProxy terminologyCodeQueryProxy;
-
+	
 	//@Test
 			public void CptCodeMap(){
 				String result = terminologyCodeQueryProxy.cptAutoMap("82565");
@@ -37,25 +37,25 @@ public class QueryProxyTest {
 		String result = terminologyCodeQueryProxy.queryByContent("blood",CodeType.SNOMED_CT);
 		logger.debug(result);
 	}
-
+	
 	@Test
 	public void listCodeByTypeAndIdentifier(){
 		String result = terminologyCodeQueryProxy.listCodeByTypeAndIdentifier("DOID:104", CodeType.DISEASE_ONTOLOGY, ResultFormat.JSON_TREE);
 		logger.debug(result);
 	}
-
+	
 	//@Test
 	public void listCodeByTypeAndName(){
 		String result = terminologyCodeQueryProxy.listCodeByTypeAndName("Health", CodeType.CONDITION, ResultFormat.JSON_TREE);
 		logger.debug(result);
 	}
-
+	
 	//@Test
 	public void listChildrenByTypeAndIdentifier(){
 		String result = terminologyCodeQueryProxy.listChildrenByTypeAndIdentifier("ConID:0000027", CodeType.CONDITION, ResultFormat.JSON_TREE);
 		logger.debug(result);
 	}
-
+	
 	public TerminologyCodeQueryProxy getTerminologyCodeQueryProxy() {
 		return terminologyCodeQueryProxy;
 	}

@@ -198,7 +198,7 @@ public class BudgetAjaxController {
 			
 			String changeReason = (reason!=null)?reason:"";
 			
-			auditService.auditEvent(AuditService.AuditEvent.SAVE_BUDGET.toString(), "ProtocolId: " + protocolId + " UserID: " + u.getId() + " UserIP: " + request.getRemoteAddr() + " Reason: " + changeReason, xmlData);
+			auditService.auditEvent(AuditService.AuditEvent.SAVE_BUDGET.toString(), "ProtocolId: " + protocolId + "Form Id: "+ protocolFormId +" UserID: " + u.getId() + " UserIP: " + request.getRemoteAddr() + " Reason: " + changeReason, xmlData);
 			
 			return XMLResponseHelper.newSuccessResponseStube(Boolean.TRUE.toString());
 		} catch (Exception ex) {

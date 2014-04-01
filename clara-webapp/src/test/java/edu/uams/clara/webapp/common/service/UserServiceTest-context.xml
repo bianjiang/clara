@@ -15,10 +15,10 @@
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
 
 	<bean id="citiMemberDao" class="edu.uams.clara.webapp.common.dao.usercontext.CitiMemberDao" />
-
+	
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
 	<bean id="personDao" class="edu.uams.clara.webapp.common.dao.usercontext.PersonDao" />
-
+	
 	<bean id="userService"
 		class="edu.uams.clara.webapp.common.service.impl.UserServiceImpl" />
 

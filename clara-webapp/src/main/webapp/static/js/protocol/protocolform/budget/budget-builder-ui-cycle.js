@@ -23,7 +23,7 @@ Clara.BudgetBuilder.CycleGridPanel = Ext.extend (Ext.grid.GridPanel,{
 					}
 				}),
 				region:'center',
-				width: 185,
+				width: 285,
 				itemId: 'gpCycles',
 				margins: '0 0 0 0',
 				
@@ -46,7 +46,7 @@ Clara.BudgetBuilder.CycleGridPanel = Ext.extend (Ext.grid.GridPanel,{
 
 
 					metadata.attr = 'ext:hide="user" ext:qtip="' + msg + '"';
-					return value;
+					return "<div class='wrap'>"+value+"</div>";
 				},
 
 				store: new Ext.data.ArrayStore({fields:[{name:'id', type:'integer'},{name:'index', type:'integer'},'name',{name:'startday', type:'integer'},{name:'endday',type:'integer'},{name:'repetitions',type:'integer'},'repeatforever']}),

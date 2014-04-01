@@ -12,8 +12,8 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
-
+		
+		
 	<bean id="roleDao" class="edu.uams.clara.webapp.common.dao.usercontext.RoleDao" />
 	<bean id="emailService"
 		class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl" />
@@ -39,7 +39,7 @@
 		class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao" />
 	<bean id="protocolFormCommitteeCommentDao"
 		class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeCommentDao" />
-	<!-- <bean id="protocolMetaDataXmlService" class="edu.uams.clara.webapp.protocol.service.impl.ProtocolMetaDataXmlServiceImpl"
+	<!-- <bean id="protocolMetaDataXmlService" class="edu.uams.clara.webapp.protocol.service.impl.ProtocolMetaDataXmlServiceImpl" 
 		/> -->
 	<bean id="xmlProcessor"
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
@@ -188,7 +188,7 @@
 	<bean id="newsubmssionBusinessObjectStatusHelper"
 		class="edu.uams.clara.webapp.protocol.businesslogic.impl.NewSubmssionBusinessObjectStatusHelperImpl">
 		<property name="workflowXmlFilePath" value="${workflow.xml.newsubmission.uri}" />
-
+		
 	</bean>
 
 </beans>

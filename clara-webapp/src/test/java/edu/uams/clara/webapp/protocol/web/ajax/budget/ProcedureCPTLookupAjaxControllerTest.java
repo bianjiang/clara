@@ -26,29 +26,29 @@ public class ProcedureCPTLookupAjaxControllerTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(ProcedureCPTLookupAjaxControllerTest.class);
-
+	
 	private ProcedureCPTLookupAjaxController procedureCPTLookupAjaxController;
-
+	
 	private HospitalChargeProcedureDao hospitalChargeProcedureDao;
-
+	
 	//@Test
 	public void testFindProceduresByKeyword() throws JsonGenerationException, JsonMappingException, IOException {
 		List<ProcedureWrapper> procedures = procedureCPTLookupAjaxController.findProceduresByKeyword("cbc");
-
+		
 		ObjectMapper objectMapper = new ObjectMapper();
-
+		
 		logger.debug(objectMapper.writeValueAsString(procedures));
 	}
-
+	
 	@Test
 	public void testHospitalProcedureDao() throws JsonGenerationException, JsonMappingException, IOException {
 		List<HospitalChargeProcedure> procedures = hospitalChargeProcedureDao.findByCptCode("71030");
-
+		
 		//ObjectMapper objectMapper = new ObjectMapper();
-
+		
 		logger.debug("count: " + procedures.size());
 	}
-
+	
 	@Autowired(required=true)
 	public void setProcedureCPTLookupAjaxController(
 			ProcedureCPTLookupAjaxController procedureCPTLookupAjaxController) {
@@ -62,7 +62,7 @@ public class ProcedureCPTLookupAjaxControllerTest {
 	public HospitalChargeProcedureDao getHospitalChargeProcedureDao() {
 		return hospitalChargeProcedureDao;
 	}
-
+	
 	@Autowired(required=true)
 	public void setHospitalChargeProcedureDao(HospitalChargeProcedureDao hospitalChargeProcedureDao) {
 		this.hospitalChargeProcedureDao = hospitalChargeProcedureDao;

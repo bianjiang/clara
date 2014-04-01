@@ -16,7 +16,7 @@ import edu.uams.clara.integration.outgoing.crimson.impl.ExportStudyReportService
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/integration/outgoing/crimson/ExportStudyReportServiceTest-context.xml" })
 
 public class ExportStudyReportServiceTest {
-
+	
 	private ExportStudyReportServiceImpl exportStudyReportServiceImpl;
 
 	@Test
@@ -27,7 +27,7 @@ public class ExportStudyReportServiceTest {
 	public ExportStudyReportServiceImpl getExportStudyReportServiceImpl() {
 		return exportStudyReportServiceImpl;
 	}
-
+	
 	@Autowired(required = true)
 	public void setExportStudyReportServiceImpl(
 			ExportStudyReportServiceImpl exportStudyReportServiceImpl) {

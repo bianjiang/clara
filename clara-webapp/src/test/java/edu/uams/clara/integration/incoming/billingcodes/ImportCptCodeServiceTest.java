@@ -11,9 +11,9 @@ import edu.uams.clara.integration.incoming.billingcodes.service.ImportCptCodeSer
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/integration/incoming/billingcodes/ImportCptCodeServiceTest-context.xml" })
 public class ImportCptCodeServiceTest {
-
+	
 	private ImportCptCodeService importCptCodeService;
-
+	
 	@Test
 	public void test(){
 		importCptCodeService.run();
@@ -27,5 +27,5 @@ public class ImportCptCodeServiceTest {
 	public void setImportCptCodeService(ImportCptCodeService importCptCodeService) {
 		this.importCptCodeService = importCptCodeService;
 	}
-
+	
 }

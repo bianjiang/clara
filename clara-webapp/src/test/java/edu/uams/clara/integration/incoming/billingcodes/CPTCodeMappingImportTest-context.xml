@@ -13,12 +13,12 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
+	
 	<bean id="cptCodeMappingDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.CPTCodeMappingDao"/>
 	<bean id="cptCodeDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.CPTCodeDao"/>
 	<bean id="hospitalChargeProcedureDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.HospitalChargeProcedureDao"/>
 	<bean id="physicianChargeProcedureDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.PhysicianChargeProcedureDao"/>
-
+	
 	<bean id="procedureCPTLookupAjaxController" class="edu.uams.clara.webapp.protocol.web.protocolform.budget.ajax.lookup.ProcedureCPTLookupAjaxController" />
-
+	
 </beans>

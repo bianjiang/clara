@@ -98,8 +98,7 @@
 
 	<bean id="protocolService"
 		class="edu.uams.clara.webapp.protocol.service.impl.ProtocolServiceImpl">
-		<property name="baseProtocolIdentifier" value="${application.base.protocol.identifier}" />
-	</bean>
+		</bean>
 
 	<bean id="emailService"
 		class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl" />
@@ -112,10 +111,10 @@
 
 	<bean id="sendExpirationOfApprovalLetterService"
 		class="edu.uams.clara.webapp.protocol.scheduler.SendExpirationOfApprovalLetterService" />
-
+		
 	<bean id="sendEpicSecurityTeamNotificationService"
 		class="edu.uams.clara.webapp.protocol.scheduler.SendEpicSecurityTeamNotificationService" />
-
+		
 	<bean id="sendBudgetApprovedNotificationForPBService"
 		class="edu.uams.clara.webapp.protocol.scheduler.SendBudgetApprovedNotificationForPBService" />
 
@@ -154,6 +153,9 @@
 
 	<bean id="fileGenerateAndSaveService"
 		class="edu.uams.clara.webapp.fileserver.service.impl.FileGenerateAndSaveServiceImpl" />
+<bean id="studyDefinitionWSClient"
+		class="edu.uams.clara.integration.outgoing.epic.impl.StudyDefinitionWSClientImpl" />
+
 
 	<bean id="sFTPService"
 		class="edu.uams.clara.webapp.fileserver.service.impl.SFTPServiceImpl">
@@ -165,7 +167,7 @@
 		<property name="host" value="${fileserver.host}" />
 		<property name="port" value="22" />
 	</bean>
-
+	
 	<bean id="xmlHandler" class="edu.uams.clara.core.util.xml.impl.XmlHandlerImpl" />
-
+	
 </beans>

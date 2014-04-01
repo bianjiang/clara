@@ -564,6 +564,7 @@ public class ProtocolFormReviewLogicAjaxController {
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/review/committee-comments/{protocolFormCommitteeCommentId}/move", method = RequestMethod.POST)
 	public @ResponseBody
 	String moveProtocolFormCommitteeComment(
+			@PathVariable("protocolFormId") long protocolFormId,
 			@PathVariable("protocolFormCommitteeCommentId") long protocolFormCommitteeCommentId,
 			@RequestParam("committee") Committee committee,
 			@RequestParam("userId") long userId,
@@ -618,9 +619,12 @@ public class ProtocolFormReviewLogicAjaxController {
 
 		} else {
 			try {
+				ProtocolForm protocolForm = protocolFormDao.findById(protocolFormId);
+				
 				protocolFormCommitteeComment.setCommittee(committee);
 				protocolFormCommitteeComment.setUser(user);
 				protocolFormCommitteeComment.setModified(new Date());
+				protocolFormCommitteeComment.setProtocolForm(protocolForm);
 
 				protocolFormCommitteeCommentDao
 						.saveOrUpdate(protocolFormCommitteeComment);

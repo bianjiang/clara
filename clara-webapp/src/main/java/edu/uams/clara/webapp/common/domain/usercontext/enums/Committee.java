@@ -49,9 +49,9 @@ public enum Committee {
 	PBS("Patient Business Services", Permission.ROLE_PBS, "pbs", false),
 	BEACON_TEAM("Beacon Team", Permission.ROLE_BEACON_TEAM, "beacon-team", false),
 	WILLOW_TEAM("Willow Team", Permission.ROLE_WILLOW_TEAM, "willow-team", false);
-
+	
 	private String description;
-
+	
 	private String tagName;
 	
 	private Permission rolePermissionIdentifier;

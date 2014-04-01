@@ -24,29 +24,29 @@ public class IRBReviewerDaoTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(IRBReviewerDaoTest.class);
-
+	
 	private IRBReviewerDao irbReviewerDao;
 
 	@Test
 	public void testlistAllIRBReviewers() throws JsonGenerationException, JsonMappingException, IOException{
 		List<IRBReviewer> irbReviewers = irbReviewerDao.listAllIRBReviewers();
-
-
+		
+		
 		ObjectMapper objectMapper = new ObjectMapper();
-
+		
 		String json = objectMapper.writeValueAsString(irbReviewers);
-
+		
 		logger.debug(json);
-
+		
 	}
 
 	public IRBReviewerDao getIrbReviewerDao() {
 		return irbReviewerDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setIrbReviewerDao(IRBReviewerDao irbReviewerDao) {
 		this.irbReviewerDao = irbReviewerDao;
 	}
-
+	
 }

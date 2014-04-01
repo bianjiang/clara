@@ -43,7 +43,7 @@ public class DrugUpdateTest {
 			while ((rawdata = reader.readLine()) != null) {
 
 				String item[] = rawdata.split(",");
-
+				
 				if(item.length<2)
 					continue;
 
@@ -59,7 +59,7 @@ public class DrugUpdateTest {
 				drug.setIdentifier(item[0].trim());
 				drug.setDescription(item[1]);
 				drug.setValue(item[1]);
-
+				
 				//logger.debug(item[0]);
 
 				drugDao.saveOrUpdate(drug);

@@ -31,7 +31,7 @@ import edu.uams.clara.webapp.protocol.domain.budget.code.HospitalChargeProcedure
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/integration/incoming/billingcodes/BillingCodesUpdateTest-context.xml" })
 public class BillingCodesUpdateTest {
-
+	
 	private HospitalChargeProcedureDao hospitalChargeProcedureDao;
 	private HospitalChargeUpdateDao hospitalChargeUpdateDao;
 	private PhysicianChargeUpdateDao physicianChargeUpdateDao;
@@ -99,28 +99,28 @@ public class BillingCodesUpdateTest {
 	public void updateHospitalCost() {
 		Set<String> newCptCodeSet = Sets.newHashSet();
 		Set<String> oldCptCodeSet = Sets.newHashSet();
-
+		
 		List<HospitalChargeUpdate> hospitalChargeUpdateList = hospitalChargeUpdateDao.findAll();
-
+		
 		for (HospitalChargeUpdate hospitalCharageUpdate : hospitalChargeUpdateList){
 			String newCptCode = hospitalCharageUpdate.getCptCode();
 			BigDecimal cost = hospitalCharageUpdate.getCost();
 			String desc = hospitalCharageUpdate.getDescription();
-
+			
 			newCptCodeSet.add(newCptCode);
-
+					
 			try {
 				HospitalChargeProcedure hospitalChargeProcedure = hospitalChargeProcedureDao.findByCptCodeOnly(newCptCode);
-
+				
 				hospitalChargeProcedure.setCost(cost);
 				hospitalChargeProcedure.setDescription(desc);
 				hospitalChargeProcedure.setRetired(Boolean.FALSE);
 				hospitalChargeProcedure.setRetiredDate(null);
-
+				
 				hospitalChargeProcedureDao.saveOrUpdate(hospitalChargeProcedure);
 			} catch (Exception e) {
 				HospitalChargeProcedure newHospitalChargeProcedure = new HospitalChargeProcedure();
-
+				
 				newHospitalChargeProcedure.setCost(cost);
 				newHospitalChargeProcedure.setCptCode(newCptCode);
 				newHospitalChargeProcedure.setDescription(desc);
@@ -128,26 +128,26 @@ public class BillingCodesUpdateTest {
 				newHospitalChargeProcedure.setHospitalOnly(Boolean.TRUE);
 				newHospitalChargeProcedure.setOverwritten(Boolean.FALSE);
 				newHospitalChargeProcedure.setRetired(Boolean.FALSE);
-
+				
 				hospitalChargeProcedureDao.saveOrUpdate(newHospitalChargeProcedure);
-			}
+			}		
 		}
-
+		
 		List<HospitalChargeProcedure> hospitalChargeProcedureList = hospitalChargeProcedureDao
 				.findAll();
-
+		
 		for (HospitalChargeProcedure hcp : hospitalChargeProcedureList){
 			oldCptCodeSet.add(hcp.getCptCode());
 		}
-
+		
 		Set<String> toDeleteSet = Sets.difference(newCptCodeSet, oldCptCodeSet);
-
+		
 		for (String toDeleteCptCode : toDeleteSet){
 			HospitalChargeProcedure toDeletehospitalChargeProcedure = hospitalChargeProcedureDao.findByCptCodeOnly(toDeleteCptCode);
-
+			
 			toDeletehospitalChargeProcedure.setRetired(Boolean.TRUE);
 			toDeletehospitalChargeProcedure.setRetiredDate(new Date());
-
+			
 			hospitalChargeProcedureDao.saveOrUpdate(toDeletehospitalChargeProcedure);
 		}
 		/*
@@ -160,9 +160,9 @@ public class BillingCodesUpdateTest {
 				HospitalChargeProcedure hospitalChargeProcedure = hospitalChargeProcedureList
 						.get(procedureId);
 				String cptcode = hospitalChargeProcedure.getCptCode();
-
-
-
+				
+				
+				
 				if (hospitalChargeUpdateDao.findByCptCode(cptcode).size() > 0) {
 					int index = 0;
 					for (int cptForUp = 0; cptForUp < hospitalChargeUpdateDao
@@ -196,9 +196,9 @@ public class BillingCodesUpdateTest {
 					hospitalChargeProcedureDao
 							.saveOrUpdate(hospitalChargeProcedure);
 				}
-
+				
 			}
-
+			
 			//insert record not in database
 			List<HospitalChargeUpdate> hospitalChargeUpdateList = hospitalChargeUpdateDao.findAll();
 			for(int j=0;j<hospitalChargeUpdateList.size();j++){
@@ -221,7 +221,7 @@ public class BillingCodesUpdateTest {
 					.saveOrUpdate(hospitalChargeProcedure);
 				}
 			}
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

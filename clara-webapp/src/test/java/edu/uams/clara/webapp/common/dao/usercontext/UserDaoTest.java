@@ -16,24 +16,24 @@ public class UserDaoTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(UserDaoTest.class);
-
+	
 	private UserDao userDao;
 
-
+	
 	//@Test
 	public void testFinById(){
 		User u = userDao.findById(1l);
-
+		
 		logger.debug("u: " + u.getUsername());
 	}
-
+	
 	//@Test
 	public void testGetUserByUsername(){
 		User u = userDao.getUserByUsername("testuser");
-
+		
 		logger.debug(u.getPerson().getLastname() + ", " + u.getPerson().getFirstname());
 	}
-
+	
 	@Autowired(required = true)
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
@@ -42,5 +42,5 @@ public class UserDaoTest {
 	public UserDao getUserDao() {
 		return userDao;
 	}
-
+	
 }

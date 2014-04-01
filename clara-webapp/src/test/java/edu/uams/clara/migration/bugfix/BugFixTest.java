@@ -91,13 +91,13 @@ public class BugFixTest {
 	private CrimsonStudyDao crimsonStudyDao;
 
 	private EntityManager em;
-
-
+	
+	
 	@Test
 	public void fixPlanCode() throws NumberFormatException, IOException{
 		List<Protocol> protocols = Lists.newArrayList();
 		protocols=protocolDao.listProtocolsByIdRange(0, 200000);
-
+		
 		//protocols.add(protocolDao.findById(104727));
 
 		for(Protocol p : protocols){
@@ -122,11 +122,11 @@ public class BugFixTest {
 			}
 			if(existPlanCode.isEmpty()){
 				xml =(String) xmlProcessor.addSubElementToElementIdentifiedByXPath("/protocol/summary/hospital-service-determinations", xml, "<insurance-plan-code></insurance-plan-code>", false).get("finalXml");
-				xml=xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/hospital-service-determinations/insurance-plan-code", xml, planCode);
+				xml=xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/hospital-service-determinations/insurance-plan-code", xml, planCode);	
 			}
 			if(existGuarantorCpde.isEmpty()){
 				xml =(String) xmlProcessor.addSubElementToElementIdentifiedByXPath("/protocol/summary/hospital-service-determinations", xml, "<corporate-gurantor-code></corporate-gurantor-code>", false).get("finalXml");
-				xml=xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/hospital-service-determinations/corporate-gurantor-code", xml, guarantorCpde);
+				xml=xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/hospital-service-determinations/corporate-gurantor-code", xml, guarantorCpde);	
 			}
 			p.setMetaDataXml(xml);
 			protocolDao.saveOrUpdate(p);
@@ -136,19 +136,19 @@ public class BugFixTest {
 			}
 		}
 	}
-
+	
 	//@Test
 	public void fixMigrationQuestionInNonInitialModForm(){
 // /protocol/modification/to-modify-section/complete-migration
 		List<ProtocolFormXmlData> pfxds= protocolFormXmlDataDao.listProtocolformXmlDatasByType(ProtocolFormXmlDataType.MODIFICATION);
 		//List<ProtocolFormXmlData> pfxds = Lists.newArrayList();
 		//pfxds.add(protocolFormXmlDataDao.findById(15480));
-
+		
 		logger.debug("working");
 		for(ProtocolFormXmlData pfxd :pfxds){
 			String xml = pfxd.getXmlData();
 			ProtocolForm pf = pfxd.getProtocolForm();
-
+			
 			String pfXml  = pf.getMetaDataXml();
 			String initialMod = xmlHandler.getSingleStringValueByXPath(pfXml, "/protocol/initial-mod");
 			if(initialMod.equals("y")){
@@ -179,7 +179,7 @@ public class BugFixTest {
 				}
 				pfxd.setXmlData(xml);
 				protocolFormXmlDataDao.saveOrUpdate(pfxd);
-
+				
 				resultMap= new HashMap<String, Object>(0);
 				try {
 					resultMap = xmlProcessor.deleteElementByPath(
@@ -188,14 +188,14 @@ public class BugFixTest {
 				} catch (Exception e) {
 					logger.info("element does not exist.");
 				}
-
+				
 				pf.setMetaDataXml(pfXml);
 				protocolFormDao.saveOrUpdate(pf);
 				logger.debug(pf.getFormId()+"");
 			}
 		}
 	}
-
+	
 	//@Test
 	public void fixMissingIRBReviewCommitteeStatus(){
 
@@ -207,8 +207,8 @@ public class BugFixTest {
 		//commiteeStatusMap.put(ProtocolFormCommitteeStatusEnum.PENDING_IRB_REVIEW_RE_ASSIGNMENT, ProtocolFormCommitteeStatusEnum.REMOVED_FROM_IRB_AGENDA);
 		commiteeStatusMap.put(ProtocolFormCommitteeStatusEnum.TABLED, ProtocolFormCommitteeStatusEnum.TABLED);
 		commiteeStatusMap.put(ProtocolFormCommitteeStatusEnum.ACKNOWLEDGED, ProtocolFormCommitteeStatusEnum.ACKNOWLEDGED);
-
-
+		
+		
 		List<ProtocolForm> pfs =Lists.newArrayList();
 		pfs = protocolFormDao.findAll();
 		//pfs.add(protocolFormDao.findById(13919));
@@ -224,7 +224,7 @@ public class BugFixTest {
 		for(ProtocolFormCommitteeStatus pfcs: pfcss){
 			pfcssForIRBReviewEnums.add(pfcs.getProtocolFormCommitteeStatus());
 		}
-
+		
 		for(Map.Entry<ProtocolFormCommitteeStatusEnum,ProtocolFormCommitteeStatusEnum> entry : commiteeStatusMap.entrySet() ){
 			if(pfcssForIRBOFFICEnums.contains(entry.getKey())&&!pfcssForIRBReviewEnums.contains(entry.getValue())&&pfcss.size()>0){
 				ProtocolFormCommitteeStatus pfcs = new ProtocolFormCommitteeStatus();
@@ -244,14 +244,14 @@ public class BugFixTest {
 		}
 		}
 	}
-
-
+	
+	
 	//@Test
 	public void insertRecord(){
 		long pfid = 16767;
 		ProtocolForm pf = protocolFormDao.findById(pfid);
 		List<ProtocolFormStatus> pfss=protocolFormStatusDao.getAllProtocolFormStatusByFormId(pfid);
-
+		 	
 		for(ProtocolFormStatus pfs:pfss){
 			pfs.setRetired(true);
 			logger.debug(pfs.getId()+"");
@@ -262,20 +262,20 @@ public class BugFixTest {
 		List<ProtocolFormCommitteeStatus> pfcstemp2 = protocolFormCommitteeStatusDao.listAllByCommitteeAndProtocolFormId(Committee.IRB_PREREVIEW, pfid);
 		pfcss.addAll(pfcstemp1);
 		pfcss.addAll(pfcstemp2);
-
+		
 		for(ProtocolFormCommitteeStatus pfcs : pfcss){
 			pfcs.setRetired(true);
 			protocolFormCommitteeStatusDao.saveOrUpdate(pfcs);
 			logger.debug(pfcs.getId()+"");
 		}
-
+		
 		ProtocolFormStatus newPfs =new ProtocolFormStatus();
 		newPfs.setModified(new Date());
 		newPfs.setCauseByUser(userDao.findById(158));
 		newPfs.setProtocolForm(pf);
 		newPfs.setProtocolFormStatus(ProtocolFormStatusEnum.UNDER_COMPLIANCE_REVIEW);
 		protocolFormStatusDao.saveOrUpdate(newPfs);
-
+		
 		ProtocolFormCommitteeStatus newPfc = new ProtocolFormCommitteeStatus();
 		newPfc.setCauseByUser(userDao.findById(158));
 		newPfc.setCausedByCommittee(Committee.PI);
@@ -298,18 +298,18 @@ public class BugFixTest {
 		while ((strLine = br.readLine()) != null) {
 			pxfdIds.add(strLine);
 		}
-
+		
 		//pxfdIds.add("10652");
-
+		
 		for(String pfxdidStr :pxfdIds){
 			logger.debug(pfxdidStr);
 			long pfxdId = Long.valueOf(pfxdidStr);
 			ProtocolFormXmlData pfxd = protocolFormXmlDataDao.findById(pfxdId);
 			String xml = pfxd.getXmlData();
-
+			
 			String answer = xmlProcessor.listElementStringValuesByPath("/protocol/budget/not-duplicate-existing-studies", xml).get(0);
 			String explain = xmlHandler.getSingleStringValueByXPath(xml, "/protocol/budget/not-duplicate-existing-studies/explain");
-
+				
 			Map<String, Object> resultMap = new HashMap<String, Object>(
 							0);
 			try {
@@ -319,26 +319,26 @@ public class BugFixTest {
 					} catch (Exception e) {
 						logger.info("element does not exist.");
 					}
-
-
+			
+			
 			logger.debug(answer);
 			if(answer.equals("y")){
 				xml =(String) xmlProcessor.addSubElementToElementIdentifiedByXPath("/protocol/budget", xml, "<duplicate-existing-studies></duplicate-existing-studies>", false).get("finalXml");
-				xml=xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget/duplicate-existing-studies", xml, "n");
+				xml=xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget/duplicate-existing-studies", xml, "n");	
 			}else if(answer.equals("n")){
 				xml =(String) xmlProcessor.addSubElementToElementIdentifiedByXPath("/protocol/budget", xml, "<duplicate-existing-studies></duplicate-existing-studies>", false).get("finalXml");
-				xml=xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget/duplicate-existing-studies", xml, "y");
+				xml=xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget/duplicate-existing-studies", xml, "y");	
 				xml =(String) xmlProcessor.addSubElementToElementIdentifiedByXPath("/protocol/budget/duplicate-existing-studies", xml, "<explain></explain>", false).get("finalXml");
-				xml=xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget/duplicate-existing-studies/explain", xml, explain);
+				xml=xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget/duplicate-existing-studies/explain", xml, explain);	
 			}
-
+			
 			pfxd.setXmlData(xml);
 			protocolFormXmlDataDao.saveOrUpdate(pfxd);
-
-
+			
+			
 		}
 	}
-
+	
 	//@Test
 	public void fixMissingDepartmentInfoInProtocol() throws IOException, XPathExpressionException, SAXException{
 		FileInputStream fstream;
@@ -350,7 +350,7 @@ public class BugFixTest {
 		while ((strLine = br.readLine()) != null) {
 			protocolIds.add(strLine);
 		}
-
+		
 		for(String pidStr :protocolIds){
 			long pid = Long.valueOf(pidStr);
 			Protocol  p = protocolDao.findById(pid);
@@ -358,13 +358,13 @@ public class BugFixTest {
 			/*if(pid!=103668){
 				continue;
 			}*/
-
-
-
+			
+			
+			
 			try{
 			ProtocolFormXmlData pfxd = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolIdAndType(pid, ProtocolFormXmlDataType.MODIFICATION);
 			String pfxdXml =  pfxd.getXmlData();
-
+			
 			Set<String> paths = Sets.newHashSet();
 			paths.add("/protocol/responsible-department");
 			//if the protocol does not has this element, add it first
@@ -375,7 +375,7 @@ public class BugFixTest {
 				logger.debug("no tags!!! Adding");
 				protocolXml =(String) xmlProcessor.addSubElementToElementIdentifiedByXPath("/protocol", protocolXml, "<responsible-department></responsible-department>", false).get("finalXml");
 			}
-
+			
 			List<Element> departmentEles = xmlProcessor.listDomElementsByPaths(paths, pfxdXml);
 			Element departmentEle = departmentEles.get(0);
 			if(!departmentEle.getAttribute("collegedesc").isEmpty()){
@@ -398,14 +398,14 @@ public class BugFixTest {
 			}
 			p.setMetaDataXml(protocolXml);
 			protocolDao.saveOrUpdate(p);
-
+			
 			}catch(Exception e){
 				logger.debug(pidStr);
 			}
 		}
 	}
-
-
+	
+	
 	//@Test
 	public void getNotMigratedStudies() throws IOException{
 		FileInputStream fstream;
@@ -426,14 +426,14 @@ public class BugFixTest {
 			System.out.println(pid);
 		}
 	}
-
+	
 	//@Test
 	public void fixInitialModTagMissing() throws XPathExpressionException, SAXException, IOException{
 		String qry ="select id from protocol_form  where id in (select min(id) from protocol_form where retired =0 and protocol_id<200000 and protocol_form_type ='MODIFICATION' and parent_id =id   group by protocol_id) and meta_data_xml.exist('/protocol/initial-mod')=0";
 		Query query = em.createNativeQuery(qry);
 		List<BigInteger> pfIDs = (List<BigInteger>) query.getResultList();
 		logger.debug(pfIDs.size()+"");
-
+		
 		for(BigInteger pfIDBig: pfIDs){
 			long pfID = pfIDBig.longValue();
 			/*if(pfID!=16149){
@@ -451,8 +451,8 @@ public class BugFixTest {
 	//copy existing accural goal local from form_xml_data to form and protocol
 	//@Test
 	public void copyAccuralGoal() throws IOException, XPathExpressionException, SAXException{
-		/*select distinct  ps.protocol_form_id from protocol_form_status ps, protocol_form pf where ps.id in (select max(id) from protocol_form_status where retired =0 group by protocol_form_id)and
-		ps.protocol_form_status in ('EXEMPT_APPROVED','IRB_APPROVED','IRB_ACKNOWLEDGED','EXPEDITED_APPROVED')
+		/*select distinct  ps.protocol_form_id from protocol_form_status ps, protocol_form pf where ps.id in (select max(id) from protocol_form_status where retired =0 group by protocol_form_id)and  
+		ps.protocol_form_status in ('EXEMPT_APPROVED','IRB_APPROVED','IRB_ACKNOWLEDGED','EXPEDITED_APPROVED') 
 		and ps.protocol_form_id =pf.id and pf.protocol_form_type ='CONTINUING_REVIEW' and pf.retired =0*/
 		FileInputStream fstream;
 		fstream = new FileInputStream("C:\\Data\\id.txt");
@@ -467,12 +467,12 @@ public class BugFixTest {
 			if(accrulLocal ==null||accrulLocal.isEmpty()){
 				continue;
 			}
-
+			
 			String pfXml = pf.getMetaDataXml();
 			pfXml= xmlProcessor.replaceOrAddNodeValueByPath("/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-approval", pfXml, accrulLocal);
 			pf.setMetaDataXml(pfXml);
 			protocolFormDao.saveOrUpdate(pf);
-
+			
 			Protocol p = pf.getProtocol();
 			String pXml = p.getMetaDataXml();
 			pXml = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval", pXml, accrulLocal);
@@ -480,8 +480,8 @@ public class BugFixTest {
 			protocolDao.saveOrUpdate(p);
 		}
 	}
-
-
+	
+	
 	//@Test
 	public void addPharmsyCreatedAgg() throws IOException, XPathExpressionException, SAXException{
 		FileInputStream fstream;
@@ -498,9 +498,9 @@ public class BugFixTest {
 			pfxd.setXmlData(xmlData);
 			protocolFormXmlDataDao.saveOrUpdate(pfxd);
 		}
-
+			
 	}
-
+	
 	//@Test
 	public void addPharmacyRequest()throws IOException, XPathExpressionException, SAXException{
 		FileInputStream fstream;
@@ -512,18 +512,18 @@ public class BugFixTest {
 		while ((strLine = br.readLine()) != null) {
 			formIds.add(strLine);
 		}
-
+		
 		for(String formIdStr : formIds){
 			long formId = Long.valueOf(formIdStr);
 			logger.debug(formIdStr);
 			ProtocolForm pf = protocolFormDao.findById(formId);
 			String xmlData = pf.getProtocol().getMetaDataXml();
-
+			
 			String piID = xmlHandler
 					.getSingleStringValueByXPath(
 							xmlData,
 							"/protocol/staffs/staff/user[roles/role/text()=\"Principal Investigator\"]/@id");
-
+			
 			ProtocolFormCommitteeStatus protocolFormCommitteeStatus = new ProtocolFormCommitteeStatus();
 			protocolFormCommitteeStatus.setAction("REQUEST_REVIEW");
 			protocolFormCommitteeStatus.setRetired(false);
@@ -533,11 +533,11 @@ public class BugFixTest {
 			protocolFormCommitteeStatus.setProtocolForm(pf);
 			protocolFormCommitteeStatus.setCausedByCommittee(Committee.PI);
 			protocolFormCommitteeStatus.setCauseByUser(userDao.findById(Long.valueOf(piID)));
-
+			
 			protocolFormCommitteeStatusDao.saveOrUpdate(protocolFormCommitteeStatus);
 		}
 	}
-
+	
 	//@Test
 	public void addRolesAndResponsibilityToUsers()throws IOException, XPathExpressionException, SAXException{
 		FileInputStream fstream;
@@ -549,7 +549,7 @@ public class BugFixTest {
 		while ((strLine = br.readLine()) != null) {
 			protocolIds.add(strLine);
 		}
-
+		
 		fstream = new FileInputStream("C:\\Data\\protocolForm.txt");
 		 in = new DataInputStream(fstream);
 		 br = new BufferedReader(new InputStreamReader(in));
@@ -558,7 +558,7 @@ public class BugFixTest {
 		while ((strLine2 = br.readLine()) != null) {
 			formList.add(strLine2);
 		}
-
+		
 		fstream = new FileInputStream("C:\\Data\\protocolFormMetaData.txt");
 		 in = new DataInputStream(fstream);
 		 br = new BufferedReader(new InputStreamReader(in));
@@ -567,7 +567,7 @@ public class BugFixTest {
 		while ((strLine3 = br.readLine()) != null) {
 			metaDataList.add(strLine3);
 		}
-
+		
 		Set<String> rolePaths = Sets.newHashSet();
 		rolePaths.add("//staffs/staff/user[@id=\"763\"]/roles/role");
 		Set<String> respPaths = Sets.newHashSet();
@@ -586,9 +586,9 @@ public class BugFixTest {
 				String elementStr  ="<staff id=\""+staffid+"\"> <user id=\"763\" phone=\"\" pi_serial=\"13937\" sap=\"7169\"><lastname>Myrick</lastname><firstname>Rebecca</firstname><email>MyrickRebeccaS@uams.edu</email><roles><role>Budget Manager</role></roles><reponsibilities><responsibility>Budget Manager</responsibility><responsibility>Managing CLARA submission</responsibility></reponsibilities><conflict-of-interest>false</conflict-of-interest></user><notify>true</notify></staff>";
 				xmlData =(String) xmlProcessor.addSubElementToElementIdentifiedByXPath("//staffs", xmlData, elementStr, false).get("finalXml");
 			}else{
-
+				
 			xmlData = xmlProcessor.replaceOrAddNodeValueByPath("//staffs/staff[user[@id=\"763\"]]/notify", xmlData, "true");
-
+			
 			List<Element> roleEles = xmlProcessor.listDomElementsByPaths(rolePaths, xmlData);
 			List<Element> respEles = xmlProcessor.listDomElementsByPaths(respPaths, xmlData);
 			boolean roleExist = false;
@@ -610,7 +610,7 @@ public class BugFixTest {
 			}
 			if(!roleExist){
 				xmlData =(String) xmlProcessor.addSubElementToElementIdentifiedByXPath("//staffs/staff/user[@id=\"763\"]/roles", xmlData, "<role>Budget Manager</role>", false).get("finalXml");
-
+				
 			}
 			if(!resp1Exisit){
 				try{
@@ -627,13 +627,13 @@ public class BugFixTest {
 			p.setMetaDataXml(xmlData);
 			protocolDao.saveOrUpdate(p);
 		}
-
+		
 		//protocolForm
 	/*	for(String pfidStr: formList){
 			long pfid = Long.valueOf(pfidStr);
 			ProtocolForm pf = protocolFormDao.findById(pfid);
 			String xmlData = pf.getMetaDataXml();
-
+			
 			//check if the user is one staffList
 			String lastname="";
 			lastname = xmlHandler.getSingleStringValueByXPath(xmlData,"//staffs/staff/user[@id=\"763\"]/lastname");
@@ -663,7 +663,7 @@ public class BugFixTest {
 			}
 			if(!roleExist){
 				xmlData =(String) xmlProcessor.addSubElementToElementIdentifiedByXPath("//staffs/staff/user[@id=\"763\"]/roles", xmlData, "<role>Budget Manager</role>", false).get("finalXml");
-
+				
 			}
 			if(!resp1Exisit){
 				try{
@@ -678,7 +678,7 @@ public class BugFixTest {
 			pf.setMetaDataXml(xmlData);
 			protocolFormDao.saveOrUpdate(pf);
 		}
-
+		
 		//protocolFormXmlData
 		for(String pfxdidStr: metaDataList){
 			long pfxdid = Long.valueOf(pfxdidStr);
@@ -713,7 +713,7 @@ public class BugFixTest {
 			}
 			if(!roleExist){
 				xmlData =(String) xmlProcessor.addSubElementToElementIdentifiedByXPath("//staffs/staff/user[@id=\"763\"]/roles", xmlData, "<role>Budget Manager</role>", false).get("finalXml");
-
+				
 			}
 			if(!resp1Exisit){
 				try{
@@ -729,7 +729,7 @@ public class BugFixTest {
 			protocolFormXmlDataDao.saveOrUpdate(pfxd);
 		}*/
 	}
-
+	
 	//@Test
 	public void hasDrugorDevices() throws IOException{
 		FileInputStream fstream;
@@ -741,7 +741,7 @@ public class BugFixTest {
 		while ((strLine = br.readLine()) != null) {
 			drugsList.add(strLine);
 		}
-
+		
 		fstream = new FileInputStream("C:\\Data\\devices.txt");
 		 in = new DataInputStream(fstream);
 		 br = new BufferedReader(new InputStreamReader(in));
@@ -750,7 +750,7 @@ public class BugFixTest {
 		while ((strLine2 = br.readLine()) != null) {
 			devicesList.add(strLine2);
 		}
-
+		
 		fstream = new FileInputStream("C:\\Data\\whole.txt");
 		 in = new DataInputStream(fstream);
 		 br = new BufferedReader(new InputStreamReader(in));
@@ -770,7 +770,7 @@ public class BugFixTest {
 			}
 		}
 	}
-
+	
 	//@Test
 	public void fixSummaryQuestionAnswerCasesensitive() {
 		List<String> pathsList = Lists.newArrayList();
@@ -797,7 +797,7 @@ public class BugFixTest {
 				try {
 					String value = xmlHandler.getSingleStringValueByXPath(xml,
 							path);
-
+					
 					if(path.equals("//summary/irb-determination/suggested-next-review-type") ){
 						if (value.toLowerCase().equals("expedited")) {
 							xml=xmlProcessor.replaceOrAddNodeValueByPath(path, xml,
@@ -811,7 +811,7 @@ public class BugFixTest {
 						}
 					}
 					else{
-
+					
 					if (value.toLowerCase().equals("yes")) {
 						xml=xmlProcessor.replaceOrAddNodeValueByPath(path, xml,
 								"yes");
@@ -823,8 +823,8 @@ public class BugFixTest {
 								"na");
 					}
 					}
-
-
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -1729,12 +1729,12 @@ public class BugFixTest {
 		}
 		/*
 		 * FileInputStream fstream;
-		 *
+		 * 
 		 * fstream = new FileInputStream("C:\\Data\\irblist.txt");
 		 * DataInputStream in = new DataInputStream(fstream); BufferedReader br
 		 * = new BufferedReader(new InputStreamReader(in)); String strLine;
 		 * while ((strLine = br.readLine()) != null) {
-		 *
+		 * 
 		 * Protocol protocol = protocolDao.findById(Long.valueOf(strLine)); try{
 		 * String xmlData = protocol.getMetaDataXml(); String approvalDate =
 		 * xmlHandler.getSingleStringValueByXPath(xmlData,
@@ -1876,7 +1876,7 @@ public class BugFixTest {
 				 * xmlProcessor.addAttributesByPath(
 				 * "/protocol/staffs/staff/user[email=\"" + email + "\"]",
 				 * xmlData, attributeMap);
-				 *
+				 * 
 				 * } catch (Exception e) { Map<String, String> attributeMap =
 				 * new HashMap<String, String>(); attributeMap.put("id", "");
 				 * xmlData = xmlProcessor.addAttributesByPath(

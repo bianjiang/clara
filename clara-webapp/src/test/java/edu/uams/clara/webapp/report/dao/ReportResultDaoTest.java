@@ -23,19 +23,19 @@ import edu.uams.clara.webapp.report.service.customreport.CustomReportServiceCont
 public class ReportResultDaoTest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(ReportResultDaoTest.class);
-
+	
 	private ReportResultDao reportResultDao;
-
+	
 	private ReportTemplateDao reportTemplateDao;
-
+	
 	private CustomReportServiceContainer customReportServiceContainer;
-
+	
 	//@Test
 	public void testGetAuditReport(){
 		String lastApprovalDateSt =  " meta_data_xml.exist('/protocol/most-recent-study/approval-date[. > \"02/18/2013\"]')=1";
 		String nextApprovalDateSt =  " meta_data_xml.exist('/protocol/most-recent-study/approval-end-date[. > \"2013-12-01\"]')=1";
 		//String nextApprovalDateSt =  " meta_data_xml.exist('/protocol/most-recent-study/approval-end-date[. "+ filterMap.get(nextApprovalDateFilter) +" \""+ nextApprovalDate +"\"]')=1";
-
+		
 		List<AuditReport> audiReportLst = reportResultDao.getAuditReport(0, 0, "", "", "Full Board");
 		String reportResult = "";
 		for (AuditReport ar : audiReportLst){
@@ -44,21 +44,21 @@ public class ReportResultDaoTest {
 			reportResult += "<td class=\"pi\">"+ ar.getPiName() +"</td>";
 			reportResult += "<td class=\"title\">"+ StringEscapeUtils.escapeXml(ar.getProtocolTitle()) +"</td></tr>";
 		}
-
+		
 		logger.debug("final: " + reportResult);
 	}
-
+	
 	@Test
 	public void testGenerateReport() {
 		ReportTemplate report = reportTemplateDao.findById(85l);
-
+		
 		String source = customReportServiceContainer.getCustomReportService(report.getTypeDescription()).generateReportResult(report);
 	}
 
 	public ReportResultDao getReportResultDao() {
 		return reportResultDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setReportResultDao(ReportResultDao reportResultDao) {
 		this.reportResultDao = reportResultDao;
@@ -67,7 +67,7 @@ public class ReportResultDaoTest {
 	public ReportTemplateDao getReportTemplateDao() {
 		return reportTemplateDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setReportTemplateDao(ReportTemplateDao reportTemplateDao) {
 		this.reportTemplateDao = reportTemplateDao;
@@ -76,7 +76,7 @@ public class ReportResultDaoTest {
 	public CustomReportServiceContainer getCustomReportServiceContainer() {
 		return customReportServiceContainer;
 	}
-
+	
 	@Autowired(required = true)
 	public void setCustomReportServiceContainer(
 			CustomReportServiceContainer customReportServiceContainer) {

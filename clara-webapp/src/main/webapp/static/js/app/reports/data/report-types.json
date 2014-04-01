@@ -33,6 +33,16 @@
         },
         {
             "id": 4, 
+            "type":"Cancer Related COM Study",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"CancerRelatedStudy",
+             "forceQueue": false
+        },
+        
+        {
+            "id": 5, 
             "type":"Overdue Notice",
             "category":"Contract",
             "icnCls":"",
@@ -42,7 +52,7 @@
             "forceQueue": false
         },
         {
-            "id": 5, 
+            "id": 6, 
             "type":"Human Subject Research Dashboard-Summary of protocols by type of review and initiator",
             "category":"Protocol",
             "icnCls":"",
@@ -51,7 +61,7 @@
             "forceQueue": false
         },
         {
-            "id": 6, 
+            "id": 7, 
             "type":"Human Subject Research Dashboard-Summary of protocols by type of review and sources of funding",
             "category":"Protocol",
             "icnCls":"",
@@ -60,7 +70,7 @@
              "forceQueue": false
         },
         {
-            "id": 7, 
+            "id": 8, 
             "type":"Human Subject Research Dashboard-Summary of Principal Investigators",
             "category":"Protocol",
             "icnCls":"",
@@ -69,7 +79,7 @@
              "forceQueue": false
         },
         {
-            "id": 8, 
+            "id": 9, 
             "type":"Human Subject Research Dashboard-Summary of Protocols Open",
             "category":"Protocol",
             "icnCls":"",
@@ -78,7 +88,7 @@
              "forceQueue": false
         },
         {
-            "id": 9, 
+            "id": 10, 
             "type":"Human Subject Research Dashboard-Studies Submitted for Continuing Review",
             "category":"Protocol",
             "icnCls":"",
@@ -87,7 +97,7 @@
              "forceQueue": false
         },
         {
-            "id": 10, 
+            "id": 11, 
             "type":"Human Subject Research Dashboard-Patient Enrollment on Studies Submitted for Continuing Review",
             "category":"Protocol",
             "icnCls":"",
@@ -96,7 +106,7 @@
              "forceQueue": false
         },
         {
-            "id": 11, 
+            "id": 12, 
             "type":"Human Subject Research Dashboard-Protocols closed to enrollment and follow-up",
             "category":"Protocol",
             "icnCls":"",
@@ -105,8 +115,8 @@
              "forceQueue": false
         },
         {
-            "id": 12, 
-            "type":"Human Subject Research Dashboard-Full Review Studies Closed-Reasons for Closure",
+            "id": 13, 
+            "type":"Human Subject Research Dashboard-Full Board Review Studies Closed-Reasons for Closure",
             "category":"Protocol",
             "icnCls":"",
             "environments": "development,training,production",
@@ -114,8 +124,8 @@
              "forceQueue": false
         },
         {
-            "id": 13, 
-            "type":"Human Subject Research Dashboard-Full Review Studies Closed-Cumulative Patients Enrolled",
+            "id": 14, 
+            "type":"Human Subject Research Dashboard-Full Board Review Studies Closed-Cumulative Patients Enrolled",
             "category":"Protocol",
             "icnCls":"",
             "environments": "development,training,production",
@@ -123,14 +133,33 @@
              "forceQueue": false
         },
         {
-            "id": 14, 
+            "id": 15, 
             "type":"Human Subject Research Dashboard-Process Measures",
             "category":"Protocol",
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:ProcessMeasures",
              "forceQueue": false
+        },
+        {
+            "id": 16, 
+            "type":"Agenda Report",
+            "category":"Agenda",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"AgendaReport",
+             "forceQueue": false
+        },
+        {
+            "id": 17, 
+            "type":"IRB Billing Report",
+            "category":"Agenda",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"IRBBillingReport",
+             "forceQueue": false
         }
+        
         
         ]
 }

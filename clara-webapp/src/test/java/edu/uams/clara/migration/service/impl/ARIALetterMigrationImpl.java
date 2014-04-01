@@ -363,7 +363,7 @@ public class ARIALetterMigrationImpl implements ARIALetterMigrationService {
 					continue;
 				}
 				//logger.debug(irbNum + "");
-
+ 
 				ProtocolFormXmlData protocolFormXmlData = null;
 				try {
 					protocolFormXmlData = protocolFormXmlDataDao
@@ -444,7 +444,7 @@ public class ARIALetterMigrationImpl implements ARIALetterMigrationService {
 				}else{
 					actualType = letter.getLetterCategory().replace("", "");
 				}
-
+				
 				letterEle.setAttribute("type", actualType);
 
 				File fileDir = new File(localDirectory);
@@ -491,7 +491,7 @@ public class ARIALetterMigrationImpl implements ARIALetterMigrationService {
 			}
 
 		}
-
+		
 		//only for firsttime, latter, move read to the top and write for each new add
 		BufferedReader input = new BufferedReader(
 				new FileReader(

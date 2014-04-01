@@ -27,60 +27,60 @@ public class ProcedureWrapperTest {
 
 	private final static Logger logger  = LoggerFactory
 	.getLogger(ProcedureWrapperTest.class);
-
+	
 	private CPTCodeDao cptCodeDao;
-
+	
 	private HospitalChargeProcedureDao hospitalChargeProcedureDao;
-
+	
 	private PhysicianChargeProcedureDao physicianChargeProcedureDao;
 
 	//@Test
 	public void testCPTCodeDaofindByKeyword(){
-
+		
 		List<CPTCode> cptCodes = cptCodeDao.findByKeyword("cbc");
-
+		
 		for(CPTCode cptCode:cptCodes){
 			logger.debug(cptCode.getCode() + ": " + cptCode.getShortDescription());
 		}
 	}
-
+	
 	@Test
 	public void testListProcedures() throws JsonGenerationException, JsonMappingException, IOException{
 		List<CPTCode> cptCodes = cptCodeDao.findByKeyword("cbc");
-
+		
 		ProcedureWrapper procedureWrapper = null;
 		List<ProcedureWrapper> procedures = new ArrayList<ProcedureWrapper>();
-
-		for(CPTCode cptCode:cptCodes){
-
+		
+		for(CPTCode cptCode:cptCodes){							
+						
 			logger.debug(cptCode.getCode() + ": " + cptCode.getShortDescription());
-
+			
 			List<HospitalChargeProcedure> hospitalProcedures = hospitalChargeProcedureDao.findByCptCode(cptCode.getCode());
 			logger.debug("hospitalProcedures: " + hospitalProcedures.size());
-
+						
 			List<PhysicianChargeProcedure> physicianProcedures = physicianChargeProcedureDao.findByCptCode(cptCode.getCode());
 			logger.debug("physicianProcedures: " + physicianProcedures.size());
-
+			
 			if(hospitalProcedures.size() > 0 || physicianProcedures.size() > 0){
 				procedureWrapper = new ProcedureWrapper();
 				procedureWrapper.setCptCode(cptCode);
 			}else{
-				continue;
+				continue;			
 			}
 			if(hospitalProcedures.size() > 0) {
 				procedureWrapper.setHospitalProcedure(hospitalProcedures.get(0));
 			}
 			procedureWrapper.setPhysicianProcedures(physicianProcedures);
-
-
-			procedures.add(procedureWrapper);
+		
+			
+			procedures.add(procedureWrapper);			
 		}
-
+		
 		ObjectMapper objectMapper = new ObjectMapper();
-
+		
 		logger.debug(objectMapper.writeValueAsString(procedures));
 	}
-
+	
 	@Autowired(required=true)
 	public void setCptCodeDao(CPTCodeDao cptCodeDao) {
 		this.cptCodeDao = cptCodeDao;

@@ -20,11 +20,12 @@
 
 	<bean id="budgetXmlTransformService"
 		class="edu.uams.clara.webapp.xml.processor.impl.BudgetXmlTransformServiceImpl">
-
+	
 	</bean>
 	<bean id="protocolFormXmlDataDao"
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao" />
-
-
-
+	
+	
+	
 </beans>
+

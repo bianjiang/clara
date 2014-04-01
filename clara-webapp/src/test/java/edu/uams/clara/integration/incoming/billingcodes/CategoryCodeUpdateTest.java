@@ -90,21 +90,21 @@ public class CategoryCodeUpdateTest {
 
 				if (item.length < 2)
 					continue;
-
+				
 				CPTCode cptCode = cptCodeDao.findByCode(item[0].trim());
-
+				
 				if(cptCode == null)
 					continue;
-
+				
 				if(item[1].trim().length()<4)
 				item[1] = "0" + item[1].trim();
-
+				
 				CategoryCode categoryCode = categoryCodeDao.findByCode(item[1]);
-
+				
 				cptCode.setCategoryCode(categoryCode);
-
+				
 				cptCodeDao.saveOrUpdate(cptCode);
-
+					
 
 			}
 

@@ -52,10 +52,10 @@ public class HospitalCodeLoaderTest {
 		CDM_OVERRIDE(167, 168),
 		CDM_UB82_B(244, 248),
 		EFFECTIVE_DATE(168, 176);
-
+		
 		private int start;
 		private int end;
-
+		
 		private Field(int start, int end){
 			this.start = start;
 			this.end = end;
@@ -76,14 +76,14 @@ public class HospitalCodeLoaderTest {
 		public int getEnd() {
 			return end;
 		}
-
+		
 	}
-
+	
 	private String getFieldValue(final String strLine, Field field){
 		return strLine.substring(field.start, field.end).trim();
 	}
-
-
+	
+	
 	@Test
 	public void loadCDMintoTempTable() throws IOException {
 		EntityManager em = emf.createEntityManager();
@@ -94,7 +94,7 @@ public class HospitalCodeLoaderTest {
 		Query query = em.createNativeQuery(q);
 		query.executeUpdate();
 		q = "CREATE TABLE [dbo].[MPAC_CDM] ( ";
-
+		
 		for (Field field : Field.values()) {
 			switch (field) {
 			case TRANSACTION_CODE:
@@ -111,17 +111,17 @@ public class HospitalCodeLoaderTest {
 			}
 
 		}
-
+		
 		//q += " CONSTRAINT [PK_" + Field.TRANSACTON_CODE + "] PRIMARY KEY CLUSTERED (";
 		//q += " [" + Field.TRANSACTON_CODE + "] ASC) ";
 		q += " ) ON [PRIMARY]";
-
+		
 		query = em.createNativeQuery(q);
-
+		
 		query.executeUpdate();
-
+		
 		em.flush();
-
+		
 		Resource cdmTxtFile = resourceLoader
 				.getResource("budgetcode/KPCDMDLD.txt");
 
@@ -130,11 +130,11 @@ public class HospitalCodeLoaderTest {
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
 		String strLine = null;
-
+		
 		String value = null;
-
+		
 		String insertQuery = "INSERT INTO [dbo].[MPAC_CDM] (";
-
+		
 		for (Field field : Field.values()) {
 			switch (field) {
 			case EFFECTIVE_DATE://last one
@@ -143,11 +143,11 @@ public class HospitalCodeLoaderTest {
 			default:
 				insertQuery += "[" + field + "], ";
 				break;
-			}
+			}			
 		}
-
+		
 		insertQuery += ") VALUES (";
-
+		
 		for (Field field : Field.values()) {
 			switch (field) {
 			case EFFECTIVE_DATE://last one
@@ -156,30 +156,30 @@ public class HospitalCodeLoaderTest {
 			default:
 				insertQuery += ":" + field + ", ";
 				break;
-			}
+			}			
 		}
 		insertQuery += ")";
-
+		
 		query = em.createNativeQuery(insertQuery);
-
+		
 		int i = 0;
 		while((strLine = br.readLine()) != null){
-
+						
 			for(Field field:Field.values()){
 				value = getFieldValue(strLine, field);
 				query.setParameter(field.toString(), value);
-			}
-
+			}	
+						
 			query.executeUpdate();
-
+			
 			if(i % 100 == 0){
 				em.flush();
 				em.clear();
 			}
-
+			
 			i ++;
 		}
-
+				
 		em.getTransaction().commit();
 		em.close();
 		emf.close();

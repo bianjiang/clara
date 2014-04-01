@@ -1391,6 +1391,10 @@
 								<desc>Approve</desc>
 							</decision>
 							<decision>
+								<value>BUDGET_NOT_REVIEWED</value>
+								<desc>Budget Not Reviewed</desc>
+							</decision>
+							<decision>
 								<value>REVISION_REQUESTED</value>
 								<desc>Revision requested</desc>
 							</decision>
@@ -1413,6 +1417,23 @@
 									<notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_COMPLIANCE_REVIEW_APPROVED">
 										<logs>
 											<log log-type="NOTIFICATION" email-template-identifier="MODIFICATION_COMPLIANCE_REVIEW_APPROVED" event-type="MODIFICATION_COMPLIANCE_REVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Hospital Compliance Reviewer ({USER_WITH_EMAIL_LINK}) has approved the modification.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+								</notifications>
+							</action>
+							<action type="BUDGET_NOT_REVIEWED" condition="" update-meta-data="true">
+								<change-status>
+									<form-status status="BUDGET_NOT_REVIEWED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="COMPLIANCE_REVIEW" status="APPROVED" />
+									</form-committee-statuses>
+									<document-status status="HC_APPROVED" change-budget-doc-status="true"  change-protocol-doc-status="false" change-consent-doc-status="false" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_COMPLIANCE_REVIEW_APPROVED_BUDGET_NOT_REVIEWED">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="MODIFICATION_COMPLIANCE_REVIEW_APPROVED_BUDGET_NOT_REVIEWED" event-type="MODIFICATION_COMPLIANCE_REVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Hospital Compliance Reviewer ({USER_WITH_EMAIL_LINK}) has approved the modification and budget is not reviewed.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>	
 								</notifications>

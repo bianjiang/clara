@@ -210,6 +210,14 @@
 			</rule>
 		</prerequisites>	
 	</rule>	
+	<rule path="/protocol/site-responsible/enroll-subject-in-uams" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if you are enrolling any subjects in UAMS is required!" level="ERROR"/>	
+		<prerequisites>
+			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="MEMBEROF" data="ach-achri,other" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>	
+	</rule>	
 	<rule path="/protocol/title" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
 		<constraint type="REQUIRED" data="" error-msg="To indicate the title of the study is required!" level="ERROR"/>		
 	</rule>	
@@ -3212,7 +3220,7 @@
 		</prerequisites>
 	</rule>
 	<rule path="/protocol/epic/involve-chemotherapy" value-type="java.lang.String" pagename="Epic" pageref="epic">
-		<constraint type="REQUIRED" data="" error-msg="To indicate if this study involves the use of chemotherapy is required!" level="ERROR" />
+		<constraint type="REQUIRED" data="" error-msg="To indicate if this study involves cancer drug treatment is required!" level="ERROR" />
 		<prerequisites>
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
@@ -3227,11 +3235,8 @@
 						provided by an university, private company, a non-profit,
 						foundation or other entity outside of UAMS is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>	
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3240,11 +3245,8 @@
 						any data, technology, biological materials, animals, drugs and
 						devices to a foreign entity is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>	
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3254,11 +3256,8 @@
 			<rule path="/protocol/contract/transfer-to-foreign-entity" value-type="java.lang.String" pagename="Contract" pageref="contract">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>	
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3267,56 +3266,32 @@
 					tests or procedures that will potentially be billed to a UAMS
 					patient or a third party payer is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
 	<rule path="/protocol/budget/involves/uams-clinics" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if your protocol involves UAMS Clinics is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
 	<rule path="/protocol/budget/involves/uams-inpatient-units" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if your protocol involves UAMS Inpatient Units is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
 	<rule path="/protocol/budget/involves/uams-ss-ou" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if your protocol involves UAMS Short Stay or Infusion Center is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3331,98 +3306,56 @@
 	<rule path="/protocol/budget/involves/uams-clinicallab" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if your protocol involves UAMS Clinical Laboratory Services is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
 	<rule path="/protocol/budget/involves/uams-radiology" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if your protocol involves UAMS Radiology Procedures and Services is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
 	<rule path="/protocol/budget/involves/uams-pharmacy" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if your protocol involves UAMS Pharmacy (Research, Inpatient, or Outpatient) Services is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
 	<rule path="/protocol/budget/involves/uams-other" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if your protocol involves other UAMS Clinical, Diagnostic, or Therapeutic Services (ECG, Pulmonary Functions, ECHO, etc.) is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
 	<rule path="/protocol/budget/involves/uams-supplies" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if your protocol involves supplies from UAMS Central Supply is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
 	<rule path="/protocol/budget/involves/fgp-fees" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if your protocol involves professional fees billed through the Faculty Group Practice is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
 	<rule path="/protocol/budget/involves/industry-support" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if your protocol involves funds, drugs, devices, or other support from industry is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3432,15 +3365,6 @@
 		<prerequisites>
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="EQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3455,14 +3379,8 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3477,17 +3395,11 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget/test-intervention" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3503,14 +3415,8 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3524,14 +3430,8 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3545,17 +3445,11 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget/duplicate-existing-studies" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3568,14 +3462,8 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3590,14 +3478,8 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3611,14 +3493,8 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3633,14 +3509,8 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
-				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -3653,11 +3523,8 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/initial-mod" value-type="java.lang.String" pagename="Review" pageref="review">
 				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
@@ -3673,11 +3540,8 @@
 			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/site-responsible" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach-achri" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
-			<rule path="/protocol/study-nature/hud-use/where" value-type="java.lang.String" pagename="First Page" pageref="first-page">
-				<constraint type="NOTEQUAL" data="ach/achri" error-msg="Since you choose, ..." level="ERROR"/>		
+			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget/need-budget-in-clara" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		

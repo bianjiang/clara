@@ -81,6 +81,7 @@
 							    //tbar:{xtype:'claraagendaitemtoolbar', agenda:currentAgenda},
 								agenda:currentAgenda,
 								agendaItem:currentAgendaItem,
+								selectedFormId:claraInstance.form.id,
 								protocolInfoEl: 'summary-bar',
 							region:'center'
 						}

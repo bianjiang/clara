@@ -30,27 +30,27 @@ import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/webapp/protocol/service/ProtocolFormServiceTest-context.xml" })
 public class ProtocolFormServiceTest {
-
+	
 	private final static Logger logger = LoggerFactory
 			.getLogger(ProtocolFormServiceTest.class);
 
 	private XmlProcessor xmlProcessor;
-
+	
 	private UserDao userDao;
-
+	
 	private ProtocolFormXmlDataDao protocolFormXmlDataDao;
-
-
+	
+	
 	@Test
 	public void testBudgetOnlyTriger(){
 		String workflow= workFlowDetermination(protocolFormXmlDataDao.findById(18908));
 		logger.debug(workflow);
 	}
-
-
+	
+	
 	private String workFlowDetermination(ProtocolFormXmlData protocolFormXmlData) {
 		String workflow = "";
-
+		
 		String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
 
 		try{
@@ -58,27 +58,27 @@ public class ProtocolFormServiceTest {
 			switch(protocolFormXmlData.getProtocolFormXmlDataType()){
 			case PROTOCOL:
 				String studyNaturePath = "/protocol/study-nature";
-
+				
 				List<String> studyNatureValues = xmlProcessor.listElementStringValuesByPath(studyNaturePath, protocolFormXmlDataString);
-
+				
 				String studyNatureValue = (studyNatureValues!=null && !studyNatureValues.isEmpty())?studyNatureValues.get(0):"";
-
+				
 				String siteId = xmlProcessor.getAttributeValueByPathAndAttributeName("/protocol/study-sites/site", protocolFormXmlDataString, "site-id");
 
 				if (studyNatureValue.equals("hud-use")){
 					workflow = "HUD";
 				} else {
 					List<String> primaryResValues = xmlProcessor.listElementStringValuesByPath("/protocol/site-responsible", protocolFormXmlData.getXmlData());
-
-					String primaryResValue = (primaryResValues!=null && !primaryResValues.isEmpty())?primaryResValues.get(0):"";
-
+					
+					String primaryResValue = (primaryResValues!=null && !primaryResValues.isEmpty())?primaryResValues.get(0):""; 
+					
 					if (primaryResValue.equals("ach-achri") || (siteId != null && !siteId.isEmpty() && (siteId.equals("2") || siteId.equals("1")))){
 						workflow = "ACH";
 					} else if (primaryResValue.equals("uams")){
 						List<String> studyTypeValues = xmlProcessor.listElementStringValuesByPath("/protocol/study-type", protocolFormXmlData.getXmlData());
-
-						String studyTypeValue = (studyTypeValues!=null && !studyTypeValues.isEmpty())?studyTypeValues.get(0):"";
-
+						
+						String studyTypeValue = (studyTypeValues!=null && !studyTypeValues.isEmpty())?studyTypeValues.get(0):""; 
+						
 						if (studyTypeValue.equals("investigator-initiated")){
 							workflow = "INVESTIGATOR";
 						} else {
@@ -91,9 +91,9 @@ public class ProtocolFormServiceTest {
 				break;
 			case EMERGENCY_USE:
 				List<String> euValues = xmlProcessor.listElementStringValuesByPath("//ieu-or-eu", protocolFormXmlData.getXmlData());
-
-				String euValue = (euValues!=null && !euValues.isEmpty())?euValues.get(0):"";
-
+				
+				String euValue = (euValues!=null && !euValues.isEmpty())?euValues.get(0):""; 
+				
 				if (euValue.equals("intended-emergency-use")){
 					workflow = "INTENDED";
 				} else if (euValue.equals("emergency-use-follow-up-report")){
@@ -119,10 +119,10 @@ public class ProtocolFormServiceTest {
 				pathList.add("/protocol/site-responsible");
 				pathList.add("/protocol/migrated");
 				pathList.add("/protocol/modification/to-modify-section/complete-budget-migration");
-
+				
 				try {
 					Map<String, List<String>> values = getXmlProcessor().listElementStringValuesByPaths(pathList, protocolFormXmlDataString);
-
+					
 					//String hasCrimsonBudget = (values.get("/protocol/crimson/has-budget") != null && !values.get("/protocol/crimson/has-budget").isEmpty())?values.get("/protocol/crimson/has-budget").get(0):"";
 					//String potentiallyBilled = (values.get("/protocol/budget/potentially-billed") != null && !values.get("/protocol/budget/potentially-billed").isEmpty())?values.get("/protocol/budget/potentially-billed").get(0):"";
 					//String needBudgetInClara = (values.get("/protocol/budget/need-budget-in-clara") != null && !values.get("/protocol/budget/need-budget-in-clara").isEmpty())?values.get("/protocol/budget/need-budget-in-clara").get(0):"";
@@ -171,38 +171,38 @@ public class ProtocolFormServiceTest {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
+				
 				/*
 				Map<String, String> workFlowPair = new HashMap<String, String>();
 				workFlowPair.put("budget", "BUDGET_ONLY");
 				workFlowPair.put("irb", "IRB");
 				workFlowPair.put("gatekeeper", "GATEKEEPER");
 				workFlowPair.put("irb-mig", "CRIMSON");
-
+				
 				List<String> toModificationValues = xmlProcessor.listElementStringValuesByPath("//modification/require-review", protocolFormXmlData.getXmlData());
-
-				String toModificationValue = (toModificationValues!=null && !toModificationValues.isEmpty())?toModificationValues.get(0):"";
-
+				
+				String toModificationValue = (toModificationValues!=null && !toModificationValues.isEmpty())?toModificationValues.get(0):""; 
+				
 				workflow = workFlowPair.get(toModificationValue);
 				*/
 				break;
 			default:
 				break;
 			}
-
+			
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-
+		
 		logger.debug("workflow: " + workflow);
 		return workflow;
 	}
-
+	
 	//@Test
 	public void testIsPIOrNot() throws XPathExpressionException, IOException, SAXException{
 		ProtocolFormXmlData protocolFormXmlData = protocolFormXmlDataDao.findById(826l);
 		User currentUser = userDao.findById(1l);
-
+		
 		String x = "/protocol/staffs/staff/user[@id='" + currentUser.getId()
 				+ "']/roles/role[contains(.,'Principal Investigator')]";
 		logger.debug("xPath: " + x);
@@ -231,13 +231,13 @@ public class ProtocolFormServiceTest {
 					+ "; is the PI or Not on protocolFormXmlDataId: "
 					+ protocolFormXmlData.getId() + "; due to: "
 					+ e.getMessage());
-
+			
 		}
-
+		
 		logger.debug("isPI: " + isPI);
 
 
-
+		
 	}
 
 	public XmlProcessor getXmlProcessor() {

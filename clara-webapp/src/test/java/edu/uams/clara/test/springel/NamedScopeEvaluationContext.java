@@ -46,11 +46,11 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
  *
  */
 public class NamedScopeEvaluationContext extends StandardEvaluationContext {
-
+	
 	/**
 	 * The multiple scopes to search at property access time.
 	 * I couldn't decide whether to call it "context"
-	 * or "scope", so here it's called both. This indecision
+	 * or "scope", so here it's called both. This indecision 
 	 * is prevalent throughout the implementation. Sorry.
 	 */
 	ContextScope contextScope;
@@ -65,7 +65,7 @@ public class NamedScopeEvaluationContext extends StandardEvaluationContext {
 		this.setRootObject(contextScope);
 		this.addPropertyAccessor(new MapAccessor());
 	}
-
+	
 	/**
 	 * Adds a Scope, or Context, however you term it.
 	 * @param contextName The name of the context / scope.
@@ -74,19 +74,19 @@ public class NamedScopeEvaluationContext extends StandardEvaluationContext {
 	public void addContext(String contextName, Object context) {
 		contextScope.put(contextName, context);
 	}
-
+	
 	/**
 	 * This is the container for Multiple Named Scopes.
 	 * It inherits from an ordered-access map, each attempt to
-	 * access a property in the map will first check for a
+	 * access a property in the map will first check for a 
 	 * context with the name provided in the key. If none exists,
 	 * we then go on to check each scope in turn for the presence
-	 * of that property, utilizing all @see{PropertyAccessor}
+	 * of that property, utilizing all @see{PropertyAccessor} 
 	 * instances registered to this EvaluationContext. Sweet.
 	 * @author Clark Duplichien
 	 */
 	class ContextScope extends LinkedHashMap<String, Object> {
-
+		
 		/**
 		 * If a given property is found within a specific context,
 		 * we cache the property name and the context it's found in.
@@ -97,16 +97,16 @@ public class NamedScopeEvaluationContext extends StandardEvaluationContext {
 		 * validation rules for on a single form.
 		 */
 		LinkedHashMap<String, ExpressionState> stateCache;
-
+		
 		/**
 		 * Constructor initializes the state cache.
 		 */
 		ContextScope() {
 			stateCache = new LinkedHashMap<String, ExpressionState>();
 		}
-
+		
 		/**
-		 * 1) Ignore null, we ain't got it.
+		 * 1) Ignore null, we ain't got it. 
 		 * 2) Check within the actual map, key might be the name of a scope.
 		 * 3) See if the key describes a readable property within the scopes.
 		 */
@@ -120,11 +120,11 @@ public class NamedScopeEvaluationContext extends StandardEvaluationContext {
 				return getReadableState(key) != null;
 			}
 		}
-
+		
 		/**
 		 * Same behavior described in containsKey,
-		 * except that we return the result.
-		 * We unwrap the result in case it was an
+		 * except that we return the result. 
+		 * We unwrap the result in case it was an 
 		 * expressison state itself.
 		 */
 		@Override
@@ -136,21 +136,21 @@ public class NamedScopeEvaluationContext extends StandardEvaluationContext {
 				return unwrapExpressionState(super.get(key));
 			} else if (this.containsKey(key)) {
 				ExpressionState expressionState = getReadableState(key);
-				PropertyOrFieldReference propRef =
+				PropertyOrFieldReference propRef = 
 					new PropertyOrFieldReference(true, key.toString(), 1);
 				return unwrapExpressionState(propRef.getValue(expressionState));
 			} else {
 				return null;
 			}
 		}
-
+		
 		/**
 		 * Since our map implementation actually stores
 		 * ExpressionStates as values, this can lead to some potentially
-		 * curious cases where specific field access may be multiply
+		 * curious cases where specific field access may be multiply 
 		 * wrapped ExpressionStates.
-		 * Or so I thought at the time.... May need to check if it's
-		 * really necessary to iterate in this method.
+		 * Or so I thought at the time.... May need to check if it's 
+		 * really necessary to iterate in this method. 
 		 * @param potentialExpressionState Object that might be an ExpressionState
 		 * @return Object that is certainly not an ExpressionState instance
 		 */
@@ -161,16 +161,16 @@ public class NamedScopeEvaluationContext extends StandardEvaluationContext {
 			}
 			return object;
 		}
-
+		
 		/**
-		 * Basically, we need to determine if any of the scopes
+		 * Basically, we need to determine if any of the scopes 
 		 * or contexts contain the property named by key. Since
 		 * we don't really know what each of the contexts actually
 		 * is in terms of implementation, we test each one using the
 		 * property accessors registered to this EvaluationContext.
-		 * The first state from which the property can be successfully
+		 * The first state from which the property can be successfully 
 		 * read using an accessor is the readable state.
-		 * This should work fine unless a property accessor were to
+		 * This should work fine unless a property accessor were to 
 		 * return an incorrect value from its canRead method (SWF-1472).
 		 * @param key The name of the property to discover.
 		 * @return ExpressionState from which the property may be read.
@@ -178,8 +178,8 @@ public class NamedScopeEvaluationContext extends StandardEvaluationContext {
 		protected ExpressionState getReadableState(Object key) {
 			if (stateCache.containsKey(key)) {
 				return stateCache.get(key);
-			}
-
+			} 
+			
 			for (String superKey : super.keySet()) {
 				ExpressionState state = (ExpressionState) super.get(superKey);
 				List<PropertyAccessor> propertyAccessors = state.getPropertyAccessors();
@@ -198,11 +198,11 @@ public class NamedScopeEvaluationContext extends StandardEvaluationContext {
 								}
 							}
 						}
-						if (accessorApplicable && accessor.canRead(state.getEvaluationContext(),
+						if (accessorApplicable && accessor.canRead(state.getEvaluationContext(), 
 									state.getRootContextObject().getValue(), key.toString())) {
 							stateCache.put(key.toString(), state);
 							return state;
-						}
+						}						
 					} catch (AccessException ae) {
 						continue;
 					}
@@ -210,14 +210,14 @@ public class NamedScopeEvaluationContext extends StandardEvaluationContext {
 			}
 			return null;
 		}
-
+		
 		/**
 		 * Store an ExpressionState version of the passed in context.
 		 * Return an unwrapped version of the previous context.
 		 */
 		@Override
 		public Object put(String key, Object value) {
-			Object previousValue = super.put(key,
+			Object previousValue = super.put(key, 
 					new ExpressionState(NamedScopeEvaluationContext.this, new TypedValue(value),
 							new SpelParserConfiguration(false, false)));
 			return unwrapExpressionState(previousValue);

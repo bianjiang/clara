@@ -13,19 +13,19 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
+	
 	<bean id="citiMemberUpdateDao" class="edu.uams.clara.integration.incoming.cititraining.dao.CitiMemberUpdateDao" />
-
+		
 	<bean id="citiMemberDao" class="edu.uams.clara.webapp.common.dao.usercontext.CitiMemberDao" />
-
+	
 	<bean id="cptCodeMappingDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.CPTCodeMappingDao"/>
 	<bean id="cptCodeDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.CPTCodeDao"/>
-
+		
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
-
+	
 	<bean id="hospitalChargeProcedureDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.HospitalChargeProcedureDao" />
-
+	
 	<bean id="hospitalChargeUpdateDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.HospitalChargeUpdateDao" />
-
+	
 	<bean id="physicianChargeUpdateDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.PhysicianChargeUpdateDao" />
 </beans>

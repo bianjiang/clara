@@ -13,8 +13,8 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
-	 <bean id="salaryDao" class="edu.uams.clara.webapp.common.dao.usercontext.etl.SalaryDao" />
-
-	  <bean id="personDao" class="edu.uams.clara.webapp.common.dao.usercontext.PersonDao" />
+	
+	 <bean id="salaryDao" class="edu.uams.clara.webapp.common.dao.usercontext.etl.SalaryDao" />	
+	 
+	  <bean id="personDao" class="edu.uams.clara.webapp.common.dao.usercontext.PersonDao" />	
 </beans>

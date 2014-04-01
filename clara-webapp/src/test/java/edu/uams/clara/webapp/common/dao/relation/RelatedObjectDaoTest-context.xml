@@ -17,5 +17,5 @@
 	<bean id="relatedObjectDao"
 		class="edu.uams.clara.webapp.common.dao.relation.RelatedObjectDao" />
 
-
+	
 </beans>

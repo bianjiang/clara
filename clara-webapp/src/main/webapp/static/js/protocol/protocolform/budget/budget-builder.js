@@ -505,13 +505,32 @@ Clara.BudgetBuilder.ConfirmRemoveEpoch = function(tp,t){
 };
 
 Clara.BudgetBuilder.ShowProcedureNotes = function(procid){
-	var epoch = Ext.getCmp("budget-tabpanel").activeEpoch;
-	var proc = epoch.getProcedureById(procid);
-	Ext.Msg.alert("Notes",proc.notes);
+	var epoch = Ext.getCmp("budget-tabpanel").activeEpoch,
+		proc = epoch.getProcedureById(procid),
+		notes = '';
+	
+	if (proc.notes !== ''){
+		notes +="<div class='proc-notes proc-notes-billing'><h1>Billing Notes</h1>"+proc.notes+"</div>";
+	}
+	if (proc.clinicalNotes !== ''){
+		notes +="<div class='proc-notes proc-notes-clinical'><h1>Clinical Notes</h1>"+proc.clinicalNotes+"</div>";
+	}
+	
+	Ext.Msg.show({
+		   title:proc.getDescription(),
+		   msg: notes,
+		   minWidth:400,
+		   maxWidth:600,
+		   buttons: Ext.Msg.OK,
+		   animEl:'procnotelink-'+procid,
+		   iconCls:'icn-sticky-note'
+		});
+	
 	return false;
 };
 
 Clara.BudgetBuilder.ConfirmRemoveProcedure = function(procid){
+	
 	Ext.Msg.show({
 		title:"WARNING: About to delete procedure",
 		msg:"Are you sure you want to delete this procedure?", 
@@ -519,12 +538,30 @@ Clara.BudgetBuilder.ConfirmRemoveProcedure = function(procid){
 		icon:Ext.MessageBox.WARNING,
 		fn: function(btn){
 			if (btn == 'yes'){
-				var epoch = Ext.getCmp("budget-tabpanel").activeEpoch;
+				var epoch = Ext.getCmp("budget-tabpanel").activeEpoch,
+					previousProcedure = null,
+					currentProcId = null,
+					previousProcId = null;
+				
+				// First traverse the gridpanel via jquery and get the previous procedure (so we can highlight it)
+				jQuery(".procrow-desc").each(function(){
+					previousProcId = currentProcId;
+					currentProcId = jQuery(this).attr("id");
+					if (currentProcId === "procrow-desc-"+procid){
+						clog("FOUND "+currentProcId+" TO DELETE. Previous was:",previousProcId);
+						if (previousProcId !== null) {
+							previousProcedure = epoch.getProcedureById(previousProcId.split("-")[2]);
+						}
+					}
+				});
+				
+				
 				epoch.removeProcedureById(procid);
 				//cdebug(epoch);
 				Clara.BudgetBuilder.SaveAction = "Remove procedure";
 				Clara.BudgetBuilder.MessageBus.fireEvent('epochcontentupdated', epoch);
-				
+				clog("Will highlight previous procedure?",previousProcedure);
+				if (previousProcedure !== null) Clara.BudgetBuilder.MessageBus.fireEvent('procedurechanged', previousProcedure);
 				budget.save();
 			}
 		}

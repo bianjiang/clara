@@ -17,19 +17,19 @@ import edu.uams.clara.webapp.protocol.dao.thing.GrantDao;
 public class ImportCRIMSONProjectTest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(ImportCRIMSONProjectTest.class);
-
+	
 	private ImportCRIMSONProjectService importCRIMSONProjectService;
-
+	
 	private GrantDao grantDao;
-
+	
 	private CRIMSONProjectDao crimsonProjectDao;
-
+	
 	//@Test
 	public void testFindCRIMSONProjectByPRN(){
 		CRIMSONProject crimsonProject = crimsonProjectDao.findByPRN("04527");
 		logger.debug("projectTitle: " + crimsonProject.getTitle());
 	}
-
+	
 	@Test
 	public void testUpdateGrantWithCRIMSONProject(){
 		importCRIMSONProjectService.importProjectToClickGrant();
@@ -62,5 +62,5 @@ public class ImportCRIMSONProjectTest {
 	public void setCrimsonProjectDao(CRIMSONProjectDao crimsonProjectDao) {
 		this.crimsonProjectDao = crimsonProjectDao;
 	}
-
+	
 }

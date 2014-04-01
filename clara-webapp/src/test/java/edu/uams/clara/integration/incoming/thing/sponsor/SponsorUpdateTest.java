@@ -26,12 +26,12 @@ public class SponsorUpdateTest {
 	private SponsorDao sponsorDao;
 
 	private ImportCRIMSONSponsorService sponsorUpdateService;
-
+	
 
 	@Test // use ImportCRIMSONSponsorService
 	public void sponsorUpdate() {
 		sponsorUpdateService.updateSponsorListFromCRIMSON();
-
+		
 	}
 
 	public SponsorDao getSponsorDao() {

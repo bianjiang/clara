@@ -14,10 +14,10 @@ import edu.uams.clara.webapp.xml.processor.impl.BudgetXmlTransformServiceImpl;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/webapp/xml/processor/budgetXmlTransformServiceTest-context.xml" })
 public class budgetXmlTransformServiceTest {
-
+	
 	private final static Logger logger = LoggerFactory
 			.getLogger(budgetXmlTransformServiceTest.class);
-
+	
 	private BudgetXmlTransformService budgetXmlTransformService;
 
 	private ProtocolFormXmlDataDao protocolFormXmlDataDao;
@@ -27,7 +27,7 @@ public class budgetXmlTransformServiceTest {
 		String result =budgetXmlTransformService.outputCLARABudgetToPSCTemplate(protocolFormXmlDataDao.findById(10707).getXmlData(), "136961");
 		logger.debug(result);
 	}
-
+	
 	public ProtocolFormXmlDataDao getProtocolFormXmlDataDao() {
 		return protocolFormXmlDataDao;
 	}

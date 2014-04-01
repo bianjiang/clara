@@ -84,7 +84,8 @@ public class ProtocolFormCommitteeCommentDao extends AbstractDomainDao<ProtocolF
 	@Transactional(readOnly = true)
 	public List<ProtocolFormCommitteeComment> listCommentsByProtocolFormIdAndCommitteeAndInLetterOrNot(long protocolFormId, Committee committee, boolean inLetter, List<CommentType> commentTypeList){
 		String query = "SELECT pfcc FROM ProtocolFormCommitteeComment pfcc "
-				+ " WHERE pfcc.protocolForm.id = :protocolFormId AND pfcc.retired = :retired AND pfcc.committee = :committee AND pfcc.inLetter = :inLetter"
+				+ " WHERE " + (committee.equals(Committee.IRB_REVIEWER)?"pfcc.protocolForm.parent.id IN (select pf.parent.id from ProtocolForm pf WHERE pf.id = :protocolFormId) ":" pfcc.protocolForm.id = :protocolFormId ")
+				+ " AND pfcc.retired = :retired AND pfcc.committee = :committee AND pfcc.inLetter = :inLetter"
 				+ " AND pfcc.commentType NOT IN :commentTypeList"
 				+ " ORDER BY pfcc.modified DESC";
 

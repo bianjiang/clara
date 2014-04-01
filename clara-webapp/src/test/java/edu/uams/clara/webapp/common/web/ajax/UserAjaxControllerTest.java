@@ -24,43 +24,43 @@ public class UserAjaxControllerTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(UserAjaxControllerTest.class);
-
+	
 
 	private UserAjaxController userAjaxController;
-
+	
 	@Test
 	public void testListAllOrderByName() throws JsonGenerationException, JsonMappingException, IOException{
 		List<Role> roles = userAjaxController.getRoles();
-
+		
 		//Hibernate.initialize(roles);
-
+		
 		for(Role r:roles){
 			logger.debug(r.getName());
 			//r.getDefaultPermissions().size();
 		}
-
-
+		
+		
 		ObjectMapper objectMapper = new ObjectMapper();
-
+		
 		String json = objectMapper.writeValueAsString(roles);
-
+		
 		logger.debug(json);
-
+		
 	}
-
+	
 	@Test
 	public void testCreateUserRole(){
 		//UserRole userRole = userAjaxController.createUserRole(1l, 4l, 431l);
 		//logger.debug("userRoleId: " + userRole.getId());
 	}
-
+	
 	@Test
 	public void testListUserRoles() throws JsonGenerationException, JsonMappingException, IOException{
 		List<UserRole> userRoles = userAjaxController.getUserRoles(1l);
 		ObjectMapper objectMapper = new ObjectMapper();
-
+		
 		String json = objectMapper.writeValueAsString(userRoles);
-
+		
 		logger.debug(json);
 	}
 

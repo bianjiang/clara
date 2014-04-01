@@ -381,7 +381,7 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 		
 		if (user.getAuthorities().contains(Permission.VIEW_ALL_CONTRACT)){
 			viewAllContract = true;
-		}
+		} 
 		
 		String queryTotal = "";
 		String query = "";
@@ -428,7 +428,51 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 							+ ") " : "")
 					+ ")";
 			*/
+			String permissionConditionString = "1<>1";
 			
+			if (user.getAuthorities().contains(Permission.VIEW_COM_CONTRACT)) {
+				String CTACondition = "retired = 0 AND meta_data_xml.value('(/contract/staffs/staff/user[roles/role = \"Principal Investigator\"]/@id)[1]','bigint') IN (SELECT id FROM user_account WHERE retired = 0 AND person_id IN "
+								+ " (SELECT id FROM person WHERE department LIKE '%COM%' AND retired = 0)) "
+								+ " AND meta_data_xml.exist('/contract/type[text() = \"clinical-trial-agreement\"]')=1";
+				
+				permissionConditionString = CTACondition;
+			}
+			
+			String permissionPIDQuery = " (SELECT DISTINCT c.id FROM contract_form c, securable_object_acl soa, securable_object so "
+					+ (filter != null ? ", contract_form_status cfs" : "")
+					+ " WHERE soa.retired = :retired "
+					+ " AND so.retired = :retired "
+					+ " AND c.retired = :retired "
+					+ " AND so.id = soa.securable_object_id "
+					+ " AND soa.owner_class = :ownerClass AND soa.owner_id = :ownerId "
+					// need to modify it if more permissions added in the future
+					+ " AND (soa.permission = 'READ' OR soa.permission = 'ACCESS') "
+					+ " AND so.object_class = :objectClass AND so.object_id = c.contract_id "
+					+ (filter != null ? " AND cfs.id = (SELECT MAX(cfs.id) FROM contract_form_status cfs WHERE cfs.contract_form_id = c.id AND cfs.contract_status = :contractStatus) "
+							: "") + ")"
+					+ " UNION SELECT DISTINCT id FROM contract_form WHERE ("
+					+ permissionConditionString + ")";
+			
+			String searchPIDQuery = null;
+			
+			if(!xpathWhereClause.trim().isEmpty()) {
+				searchPIDQuery = "(SELECT DISTINCT id FROM contract_form WHERE "
+						// search should be performed based on the permission
+						// constrains.
+						+ ((searchCriterias != null) ? " (" + xpathWhereClause
+								+ ")) " : "");
+			}
+			
+			logger.debug("searchPIDQuery: " + searchPIDQuery);
+
+			queryTotal = " SELECT COUNT(DISTINCT cform.contract_id) FROM contract_form cform WHERE cform.id IN ("
+					+ permissionPIDQuery + ")" + (searchPIDQuery == null?"":" AND cform.id IN (" + searchPIDQuery + ")");
+			logger.debug("query:" + queryTotal);
+
+			query = " SELECT cform.* FROM contract_form cform WHERE cform.id IN ("
+					+ permissionPIDQuery + ")" + (searchPIDQuery == null?"":" AND cform.id IN (" + searchPIDQuery + ")") + " ORDER BY cform.id DESC";
+			
+			/*
 			queryTotal = " SELECT COUNT(DISTINCT cf.contract_id) FROM contract_form cf WHERE cf.id IN ("
 					+ " SELECT DISTINCT c.id FROM contract_form c, securable_object_acl soa, securable_object so "
 					+ (filter != null ? ", contract_form_status cfs" : "")
@@ -460,6 +504,7 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 							: "")
 					+ ((searchCriterias != null) ? " AND  (" + xpathWhereClause
 							+ ") " : "") + ") AND cf.contract_form_type = 'NEW_CONTRACT' ORDER BY cf.id DESC";
+			*/
 		}
 
 		Query tq = getEntityManager().createNativeQuery(queryTotal);

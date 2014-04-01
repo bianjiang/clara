@@ -15,14 +15,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.google.common.collect.Lists;
 
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.domain.security.MutexLock;
-import edu.uams.clara.webapp.common.domain.usercontext.Person;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
@@ -35,18 +32,13 @@ import edu.uams.clara.webapp.protocol.dao.irb.IRBReviewerDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.AgendaStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeComment;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.AgendaStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.irb.Agenda;
 import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem;
 import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem.AgendaItemCategory;
-import edu.uams.clara.webapp.protocol.domain.irb.AgendaItemReviewer;
 import edu.uams.clara.webapp.protocol.domain.irb.AgendaItemWrapper;
-import edu.uams.clara.webapp.protocol.domain.irb.IRBReviewer;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
-import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
-import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
 
 @Controller
 public class IRBAgendaController {
@@ -264,13 +256,13 @@ public class IRBAgendaController {
 		List<AgendaItem> newSubAndReportedList = Lists.newArrayList();
 		List<AgendaItem> contiRevAndReportedList = Lists.newArrayList();*/
 		List<AgendaItem> minutsList = Lists.newArrayList();
-
+		
 		String xmlData = "";
-
+		
 		String metaData = "";
-
+		
 		XmlHandler xmlHanlder = null;
-
+		
 		try {
 			xmlHanlder = XmlHandlerFactory.newXmlHandler();
 		} catch (Exception e) {
@@ -287,11 +279,11 @@ public class IRBAgendaController {
 			}
 			
 			String reponse = "";
-
+			
 			try {
 				reponse = (!metaData.isEmpty())?xmlHanlder.getSingleStringValueByXPath(metaData, "/protocol/summary/irb-determination/recent-motion"):"";
 			} catch (Exception e) {
-
+				
 			}
 
 			if (reponse.equals("Defer with major contingencies")) {
@@ -307,7 +299,7 @@ public class IRBAgendaController {
 						.compareTo(ProtocolFormType.NEW_SUBMISSION) == 0) {
 					try {
 						String hud = (!xmlData.isEmpty())?xmlHanlder.getSingleStringValueByXPath(xmlData, "/protocol/study-nature"):"";
-
+						
 						if (hud.equals("hud-use")) {
 							hudList.add(agendaItems.get(i));
 						} else {
@@ -327,7 +319,7 @@ public class IRBAgendaController {
 						.compareTo(ProtocolFormType.MODIFICATION) == 0) {
 					try {
 						String audit = (!xmlData.isEmpty())?xmlHanlder.getSingleStringValueByXPath(xmlData, "/protocol/modification/to-modify-section/is-audit"):"";
-
+						
 						if (audit.equals("y")) {
 							auditList.add(agendaItems.get(i));
 						} else {
@@ -421,6 +413,8 @@ public class IRBAgendaController {
 		User currentUser = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		
+		Agenda agenda = agendaDao.findById(agendaId);
+		
 		boolean readOnly = false;
 		
 		if (currentUser.getAuthorities().contains(Permission.VIEW_AGENDA_ONLY)){
@@ -436,11 +430,14 @@ public class IRBAgendaController {
 		}
 
 		AgendaItem agendaItem = agendaItemDao.findById(agendaItemId);
+		
+		Boolean ifOnIRBRoster = irbReviewerDao.checkIfOnIRBRosterByIRBRosterAndUserId(agenda.getIrbRoster(), currentUser.getId());
 
-		modelMap.put("user", (User) SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal());
+		modelMap.put("user", currentUser);
 		modelMap.put("agendaItem", agendaItem);
 		modelMap.put("readOnly", readOnly);
+		modelMap.put("canAddComments", ifOnIRBRoster);
+		modelMap.put("canAddContingencies", ifOnIRBRoster);
 
 		return "agendas/agenda-item";
 	}

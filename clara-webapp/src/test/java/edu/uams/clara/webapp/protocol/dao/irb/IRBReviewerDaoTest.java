@@ -19,14 +19,14 @@ public class IRBReviewerDaoTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(IRBReviewerDaoTest.class);
-
+	
 	private IRBReviewerDao irbReviewerDao;
-
+	
 	//@Test
 	public void testListIRBReviewersByIRBRoster(){
-
+		
 		List<IRBReviewer> irbReviewers = irbReviewerDao.listIRBReviewersByIRBRoster(IRBRoster.WEEK_4);
-
+		
 		for(IRBReviewer irbReviewer:irbReviewers){
 			logger.debug(irbReviewer.getUser().getUsername());
 		}
@@ -39,8 +39,8 @@ public class IRBReviewerDaoTest {
 			logger.debug(irbReviewer.getUser().getUsername());
 		}
 	}
-
-
+	
+	
 	@Autowired(required=true)
 	public void setIrbReviewerDao(IRBReviewerDao irbReviewerDao) {
 		this.irbReviewerDao = irbReviewerDao;
@@ -49,6 +49,6 @@ public class IRBReviewerDaoTest {
 	public IRBReviewerDao getIrbReviewerDao() {
 		return irbReviewerDao;
 	}
-
-
+	
+	
 }

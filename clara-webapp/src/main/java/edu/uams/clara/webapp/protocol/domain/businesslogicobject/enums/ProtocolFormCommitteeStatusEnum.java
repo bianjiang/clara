@@ -57,7 +57,9 @@ public enum ProtocolFormCommitteeStatusEnum{
 	IN_REVIEW_FOR_BUDGET("In Review", "INFO", "START"),
 	IRB_REVIEW_NOT_NEEDED("IRB Review Not Needed", "INFO", "END"),
 	PENDING_IRB_DETERMINATION("Pending IRB Determination", "INFO", "END"),
-	REGULATORY_AFFAIRS_INVOLVEMENT_NOT_REQUIRED("Regulatory Affairs Involvement not required", "INFO", "END");
+	REGULATORY_AFFAIRS_INVOLVEMENT_NOT_REQUIRED("Regulatory Affairs Involvement not required", "INFO", "END"),
+	CONTRACT_REQUIRED("Contract is Required", "INFO", "END"),
+	CONTRACT_NOT_REQUIRED("Contract is NOT Required", "INFO", "END");
 	
 	private String description;
 	private String priorityLevel;

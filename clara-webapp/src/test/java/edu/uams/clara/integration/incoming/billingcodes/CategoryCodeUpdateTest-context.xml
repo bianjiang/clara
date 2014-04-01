@@ -13,9 +13,9 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
+	
 	<bean id="cptCodeDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.CPTCodeDao"/>
-
+	
 	<bean id="categoryDao" class="edu.uams.clara.webapp.protocol.dao.budget.code.CategoryCodeDao" />
-
+	
 </beans>

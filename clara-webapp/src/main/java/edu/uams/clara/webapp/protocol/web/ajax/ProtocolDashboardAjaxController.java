@@ -237,6 +237,12 @@ public class ProtocolDashboardAjaxController {
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_TP_ENDORSEMENT);
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_PI_ENDORSEMENT);
 	}
+	
+	private List<ProtocolFormStatusEnum> canEditBudgetStatusLst = new ArrayList<ProtocolFormStatusEnum>();{
+		canEditBudgetStatusLst.add(ProtocolFormStatusEnum.DRAFT);
+		canEditBudgetStatusLst.add(ProtocolFormStatusEnum.PENDING_TP_ENDORSEMENT);
+		canEditBudgetStatusLst.add(ProtocolFormStatusEnum.PENDING_PI_ENDORSEMENT);
+	}
 
 	private String getActionXml(long protocolId, ProtocolForm protocolForm,
 			ProtocolFormStatus protocolFormStatus,
@@ -319,6 +325,7 @@ public class ProtocolDashboardAjaxController {
 		return xmlResult;
 	}
 	
+	/*
 	private boolean canPushToEpic(long protocolId, User u) {
 		boolean canPushToEpic = false;
 		
@@ -338,6 +345,7 @@ public class ProtocolDashboardAjaxController {
 		
 		return canPushToEpic;
 	}
+	*/
 
 	/**
 	 * return a list of forms associated with this protocol. the controller will
@@ -441,17 +449,42 @@ public class ProtocolDashboardAjaxController {
 					+ "/"
 					+ formTypeMachineReadable
 					+ "/summary?noheader=true&amp;review=false</url></action>";
+			
+			if (u.getAuthorities().contains(Permission.CAN_UPLOAD_FINAL_LEGAL_APPROVAL_CONSENT)) {
+				xmlResult += "<action cls='red'><name>Upload Final Legal Approval Consent</name><url type='javascript'>Clara.Application.FormController.ShowWarningMessage({message:'Only used for uploading Final Legal Approval consent!', url:'/protocols/"
+						+ protocolId
+						+ "/protocol-forms/"
+						+ protocolFormId
+						+ "/review?committee=CONTRACT_LEGAL_REVIEW&amp;docAction=UPLOAD_FINAL_LEGAL_APPROVAL_CONSENT'});</url></action>";
+			}
+			
+			String assignAgendaDate = "";
+			
+			try {
+				Date agendaDate = agendaItemDao.getAgendaDateByProtocolFormId(protocolFormId);
+
+				assignAgendaDate = DateFormatUtil.formateDateToMDY(agendaDate);
+			} catch (Exception e) {
+				logger.info("No assigned agenda!");
+			}
 
 			if (protocolForm.getProtocolFormType().equals(ProtocolFormType.NEW_SUBMISSION) || protocolForm.getProtocolFormType().equals(ProtocolFormType.ARCHIVE)){
 				ProtocolStatus protocolStatus = protocolDao.getLatestProtocolStatusByProtocolId(protocolId);
 				
 				if (protocolStatus.getProtocolStatus().equals(ProtocolStatusEnum.OPEN)){
 					if (hasEditPermission){
+						/*
 						xmlResult += "<action cls='blue'><name>Upload Packet</name><url>/protocols/"
 								+ protocolId
 								+ "/protocol-forms/"
 								+ protocolFormId
 								+ "/review?committee=PI&amp;docAction=UPLOAD_PACKET</url></action>";
+						*/
+						xmlResult += "<action cls='red'><name>Upload Packet</name><url type='javascript'>Clara.Application.FormController.ShowWarningMessage({message:'Documents uploaded as packets will not be reviewed by the IRB.', url:'/protocols/"
+								+ protocolId
+								+ "/protocol-forms/"
+								+ protocolFormId
+								+ "/review?committee=PI&amp;docAction=UPLOAD_PACKET'});</url></action>";
 					}
 					
 				}
@@ -493,6 +526,9 @@ public class ProtocolDashboardAjaxController {
 						boolean piCanEditBudget = false;
 						boolean budgetHasBeenApproved = false;
 						
+						boolean canEditBudget = false;
+						boolean canDeleteBudget = false;
+						
 						XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
 						
 						String budgetApprovedDate = xmlHandler.getSingleStringValueByXPath(protocolForm.getObjectMetaData(), "/protocol/summary/budget-determination/approval-date");
@@ -512,11 +548,29 @@ public class ProtocolDashboardAjaxController {
 									piCanEditBudget = false;
 								}
 							} else {
-								piCanEditBudget = false;
+								if (canEditBudgetStatusLst.contains(pformStatus.getProtocolFormStatus())){
+									piCanEditBudget = true;
+								} else {
+									piCanEditBudget = false;
+								}
+								
 							}
 						}
 						
-						if ((u.getAuthorities().contains(Permission.EDIT_BUDGET) || piCanEditBudget) && !budgetHasBeenApproved) {
+						//Redmine #3000: Let user with budget reviewer role be able to edit budget before IRB meeting
+						if (piCanEditBudget) {
+							canEditBudget = true;
+						} else {
+							if (u.getAuthorities().contains(Permission.ROLE_BUDGET_REVIEWER) || u.getAuthorities().contains(Permission.ROLE_COVERAGE_REVIEWER)) {
+								if (assignAgendaDate == null || assignAgendaDate.isEmpty()) {
+									canEditBudget = true; 
+								} else {
+									canEditBudget = false; 
+								}
+							}
+						}
+						
+						if (canEditBudget) {
 							xmlResult += "<action cls='white'><name>Edit Budget</name><url target='_blank'>/protocols/"
 									+ protocolId
 									+ "/protocol-forms/"
@@ -524,9 +578,33 @@ public class ProtocolDashboardAjaxController {
 									+ "/budgets/budgetbuilder</url></action>";
 						}
 						
+						/*
+						if ((u.getAuthorities().contains(Permission.EDIT_BUDGET) || piCanEditBudget) && !budgetHasBeenApproved) {
+							xmlResult += "<action cls='white'><name>Edit Budget</name><url target='_blank'>/protocols/"
+									+ protocolId
+									+ "/protocol-forms/"
+									+ protocolFormId
+									+ "/budgets/budgetbuilder</url></action>";
+						}
+						*/
+						
+						if (u.getAuthorities().contains(Permission.DELETE_BUDGET)) {
+							if (!budgetHasBeenApproved) {
+								canDeleteBudget = true;
+							}
+						} else if (piCanEditBudget) {
+							canDeleteBudget = true;
+						}
+						
+						if (canDeleteBudget) {
+							xmlResult += "<action cls='red'><name>Delete Budget</name><url type='javascript'>Clara.Application.FormController.RemoveBudget();</url></action>";
+						}
+						
+						/*
 						if ((u.getAuthorities().contains(Permission.DELETE_BUDGET) || piCanEditBudget) && !budgetHasBeenApproved) {
 							xmlResult += "<action cls='red'><name>Delete Budget</name><url type='javascript'>Clara.Application.FormController.RemoveBudget();</url></action>";
 						}
+						*/
 						
 						String protocolXml= protocolForm.getObjectMetaData();
 						
@@ -689,16 +767,6 @@ public class ProtocolDashboardAjaxController {
 			*/
 
 			xmlResult += "</actions>";
-			
-			String assignAgendaDate = "";
-			
-			try {
-				Date agendaDate = agendaItemDao.getAgendaDateByProtocolFormId(protocolFormId);
-
-				assignAgendaDate = DateFormatUtil.formateDateToMDY(agendaDate);
-			} catch (Exception e) {
-				logger.info("No assigned agenda!");
-			}
 
 			xmlResult += "<status><description>"
 					+ org.apache.commons.lang.StringEscapeUtils
@@ -732,8 +800,18 @@ public class ProtocolDashboardAjaxController {
 		
 		Protocol protocol = protocolDao.findById(protocolId);
 		
-		String protocolMetaData = protocol.getMetaDataXml();
+		//String protocolMetaData = protocol.getMetaDataXml();
 		
+		try {
+			protocolService.pushToEpic(protocol);
+			
+			return JsonResponseHelper.newSuccessResponseStube("Successfully pushed!");
+		} catch (Exception e) {
+			logger.error("failed: ", e);
+			return JsonResponseHelper.newErrorResponseStub("failed: " + e.getMessage());
+		}
+		
+		/*
 		if(canPushToEpic(protocolId, u)) {
 			try {
 				XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
@@ -761,6 +839,7 @@ public class ProtocolDashboardAjaxController {
 		} else {
 			return JsonResponseHelper.newErrorResponseStub("Don't have the right to push to EPIC!");
 		}
+		*/
 	}
 
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/get-user-role-list", method = RequestMethod.GET, produces="application/xml")

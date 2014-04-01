@@ -29,46 +29,46 @@ import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/webapp/protocol/service/history/ProtocolTrackServiceTest-context.xml" })
 public class ProtocolTrackServiceTest {
-
+	
 	private final static Logger logger = LoggerFactory
 			.getLogger(ProtocolTrackServiceTest.class);
 
 	private ProtocolTrackService protocolTrackService;
-
+	
 	private UserDao userDao;
-
+	
 	private ProtocolFormDao protocolFormDao;
-
+	
 	private XmlProcessor xmlProcess;
 
 	//@Test
 	public void testFillMessage(){
 		String message = "A new protocol# {PROTOCOL_IDENTIFIER} has been created by {USER_WITH_EMAIL_LINK}.";
-
+		
 		ProtocolForm protocolFrom = protocolFormDao.findById(589l);
 		Committee committee = Committee.PI;
 		User user = userDao.findById(1l);
-
+		
 		//Map<String, String> attributeValues = protocolTrackService.getAttributeValues(protocolFrom, committee, user, "");
 		//message = protocolTrackService.fillMessage(message, attributeValues);
-
-		logger.debug("message: " + message);
+		
+		logger.debug("message: " + message);		
 	}
-
+	
 	//@Test
 	public void generateLogElement() throws IOException, SAXException{
 		String logsTemplate = "<logs><log event-type=\"NEW_PROTOCOL_CREATED\" form-type=\"{FORM_TYPE}\" form-id=\"{FORM_ID}\" action-user-id=\"{USER_ID}\" actor=\"{USER_NAME}\" timestamp=\"{NOW_TIMESTAMP}\" date-time=\"{NOW_DATETIME}\">A new protocol# {PROTOCOL_IDENTIFIER} has been created by {USER_WITH_EMAIL_LINK}.</log></logs>";
-
+		
 		ProtocolForm protocolFrom = protocolFormDao.findById(589l);
 		Committee committee = Committee.PI;
 		User user = userDao.findById(1l);
-
+		
 		//Map<String, String> attributeValues = protocolTrackService.getAttributeValues(protocolFrom, committee, user, null);
-
+				
 		//Track track = protocolTrackService.createTrack("PROTOCOL", null, protocolFrom.getProtocol().getId());
-
+		
 		//Document logsDoc = protocolTrackService.getLogsDocument(track);
-
+		
 
 		Document logsTemplateDoc = xmlProcess.loadXmlStringToDOM(logsTemplate);
 
@@ -88,32 +88,32 @@ public class ProtocolTrackServiceTest {
 			}
 
 			//attributes = protocolTrackService.fillAttributeValue(attributes, attributeValues);
-
+			
 			//String logTextContent = protocolTrackService.fillMessage(logEl.getTextContent(), attributeValues);
 
 			//logsDoc = protocolTrackService.appendLogToLogsDoc(logsDoc, user, logTextContent, attributes);
 
 		}
-
+		
 		//logger.debug("final logs:" + DomUtils.elementToString(logsDoc));
-
+		
 	}
-
+	
 	@Test
 	public void testLogStatusChange() throws IOException, SAXException{
 		String logsTemplate = "<logs><log event-type=\"NEW_PROTOCOL_CREATED\" form-type=\"{FORM_TYPE}\" form-id=\"{FORM_ID}\" action-user-id=\"{USER_ID}\" actor=\"{USER_NAME}\" timestamp=\"{NOW_TIMESTAMP}\" date-time=\"{NOW_DATETIME}\">A new protocol# {PROTOCOL_IDENTIFIER} has been created by {USER_WITH_EMAIL_LINK}.</log></logs>";
-
+		
 		ProtocolForm protocolFrom = protocolFormDao.findById(589l);
 		Committee committee = Committee.PI;
 		User user = userDao.findById(1l);
-
-		for(int i = 0; i< 1000; i++){
+		
+		for(int i = 0; i< 1000; i++){		
 			//protocolTrackService.logStatusChange(protocolFrom, committee, user, null, logsTemplate);
 		}
-
+		
 	}
-
-
+	
+	
 	public ProtocolTrackService getProtocolTrackService() {
 		return protocolTrackService;
 	}
@@ -122,20 +122,20 @@ public class ProtocolTrackServiceTest {
 	public void setProtocolTrackService(ProtocolTrackService protocolTrackService) {
 		this.protocolTrackService = protocolTrackService;
 	}
-
+	
 	public ProtocolFormDao getProtocolFormDao() {
 		return protocolFormDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setProtocolFormDao(ProtocolFormDao protocolFormDao) {
 		this.protocolFormDao = protocolFormDao;
 	}
-
+	
 	public UserDao getUserDao() {
 		return userDao;
 	}
-
+	
 	@Autowired(required = true)
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
@@ -149,5 +149,5 @@ public class ProtocolTrackServiceTest {
 	public void setXmlProcess(XmlProcessor xmlProcess) {
 		this.xmlProcess = xmlProcess;
 	}
-
+	
 }

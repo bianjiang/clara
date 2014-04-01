@@ -6,7 +6,9 @@ Ext.define('Clara.Reports.model.UserReport', {
             	 return new Date(v);
 			 }},
 			 {name:'cron',mapping:'cronExpression'},
-			 {name:'email',mapping:'email'}
+			 {name:'scheduleType'}
+			 
+			 
 			 ],
              
              hasMany: [{
@@ -15,6 +17,13 @@ Ext.define('Clara.Reports.model.UserReport', {
 	        	 associationKey: 'reportCriterias',
 	        	 reader: {
 	        		 root:'reportCriterias'
+	        	 }
+	         },{
+	        	 model:'Clara.LetterBuilder.model.Recipient',
+	        	 name:'recipients',
+	        	 accociationKey:'recipients',
+	        	 reader: {
+	        		 root:'recipients'
 	        	 }
 	         }],
     proxy: {

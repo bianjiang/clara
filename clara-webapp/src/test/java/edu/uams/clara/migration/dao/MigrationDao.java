@@ -16,7 +16,7 @@ public class MigrationDao {
 	private final static Logger logger = LoggerFactory
 			.getLogger(ProtocolDao.class);
 	private EntityManager em;
-
+	
 	@Transactional
 	public void insertProtocol(long id, int concurrent_version,
 			Date created, String meta_data_xml, String protocol_identifier) {
@@ -44,21 +44,21 @@ public class MigrationDao {
 		 * Boolean.FALSE); String query1Result = ""; try {
 		 * qry1.getSingleResult(); query1Result=""+qry1.getSingleResult(); }
 		 * catch (Exception e) { query1Result ="null"; }
-		 *
+		 * 
 		 * if (query1Result.equals("null")){ logger.debug("creating......");
 		 * String query = "SET IDENTITY_INSERT [clara].[dbo].[protocol]  ON;" +
 		 * " insert into [clara].[dbo].[protocol] (id, concurrent_version, retired, created, locked, meta_data_xml, protocol_identifier) values (:id, :concurrent_version, :retired, :created, :locked, :meta_data_xml, :protocol_identifier);"
 		 * + "" + "SET IDENTITY_INSERT  [clara].[dbo].[protocol]  OFF;";
-		 *
+		 * 
 		 * Query qry = getEntityManager().createNativeQuery(query);
 		 * qry.setParameter("id", id); qry.setParameter("concurrent_version",
 		 * concurrent_version); qry.setParameter("retired", false);
 		 * qry.setParameter("locked", false); qry.setParameter("created",
 		 * created); qry.setParameter("meta_data_xml", meta_data_xml);
 		 * qry.setParameter("protocol_identifier", protocol_identifier);
-		 *
+		 * 
 		 * qry.executeUpdate(); }
-		 *
+		 * 
 		 * if (!query1Result.equals("null")) { // protocol existed String query2
 		 * =
 		 * "UPDATE [clara].[dbo].[protocol] set retired = :retired, locked =:locked, meta_data_xml = :meta_data_xml, created =:created,concurrent_version=:concurrent_version, protocol_identifier =:protocol_identifier"
@@ -74,19 +74,19 @@ public class MigrationDao {
 		 * "SET IDENTITY_INSERT [clara].[dbo].[protocol]  ON;" +
 		 * " insert into [clara].[dbo].[protocol] (id, concurrent_version, retired, created, locked, meta_data_xml, protocol_identifier) values (:id, :concurrent_version, :retired, :created, :locked, :meta_data_xml, :protocol_identifier);"
 		 * + "" + "SET IDENTITY_INSERT  [clara].[dbo].[protocol]  OFF;";
-		 *
+		 * 
 		 * Query qry = getEntityManager().createNativeQuery(query);
 		 * qry.setParameter("id", id); qry.setParameter("concurrent_version",
 		 * concurrent_version); qry.setParameter("retired", false);
 		 * qry.setParameter("locked", false); qry.setParameter("created",
 		 * created); qry.setParameter("meta_data_xml", meta_data_xml);
 		 * qry.setParameter("protocol_identifier", protocol_identifier);
-		 *
+		 * 
 		 * qry.executeUpdate(); }
 		 */
 
 	}
-
+	
 	public EntityManager getEm() {
 		return em;
 	}

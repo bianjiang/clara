@@ -73,6 +73,43 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
         	}
     	});
     },
+   
+    updateHistoryRecord: function(oldRec, newNoteText){
+    	var me = this;
+    	var action = (!newNoteText || newNoteText == '')?"DELETE":"EDIT";
+    	var log = oldRec.get("desc");
+    	clog("LOG IS ",log);
+    	jQuery("body").append("<div style='display:none;' id='ldd-"+oldRec.get("id")+"'>"+log+"</div>");
+    	
+    	clog("FAKE DIV HTML IS",jQuery("#ldd-"+oldRec.get("id")).html());
+    	
+    	if (action === "EDIT") jQuery("#ldd-"+oldRec.get("id")).find("span.log-committee-note-body").text(newNoteText);
+    	else jQuery("#ldd-"+oldRec.get("id")).find(".log-committee-note").replaceWith("<!-- NOTE DELETED BY USER ID "+claraInstance.user.id+". -->");
+    	
+    	log = jQuery("#ldd-"+oldRec.get("id")).html();
+    	
+    	
+    	clog("AJAX IT",newNoteText,log);
+    	
+    	jQuery("#ldd-"+oldRec.get("id")).remove();
+    	
+    	Ext.Ajax
+		.request({
+			url : appContext+"/ajax/"+claraInstance.type+"s/"+claraInstance.id+"/update-committee-note",
+			method : 'POST',
+			success : function() {
+			  me.reloadHistory();
+			},
+			params : {
+				action: action,
+				note: newNoteText,
+				logId: oldRec.get("id"),
+				formCommitteeStatusId: oldRec.get("formCommitteeStatusId"),
+				log:log
+				}
+		});
+		
+    },
     
     addSelectedObject: function(){
     	var me = this;
@@ -118,7 +155,7 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
     	var me = this,
     		objectType = me.selectedRelatedObject.relatedObjectType,
     		objectTypeCap = (objectType == "protocol")?"Protocol":"Contract";
-    	clog("About to remove related object. Rec:",me.selectedRelatedObject)
+    	clog("About to remove related object. Rec:",me.selectedRelatedObject);
     	Ext.Msg.show({
  		   title:'Remove related '+objectType+'?',
  		   msg: 'Are you sure? (This will NOT delete the related '+objectType+' from Clara)',
@@ -190,6 +227,11 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
     	var letterStore = Ext.data.StoreManager.lookup('Clara.DetailDashboard.store.Letters');
     	letterStore.load();
     	Ext.getCmp("btnNewCorrectionLetter").setDisabled(true);
+    },
+    
+    reloadHistory: function(){
+    	var st = Ext.data.StoreManager.lookup('Clara.DetailDashboard.store.History');
+    	st.load();
     },
     
     onPrintHistory : function() {

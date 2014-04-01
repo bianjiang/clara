@@ -32,10 +32,10 @@ import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/integration/outgoing/ctms/ExportProtocolUserServiceTest-context.xml" })
 public class ExportProtocolUserServiceTest {
-
+	
 	private final static Logger logger = LoggerFactory
 			.getLogger(ExportProtocolUserServiceTest.class);
-
+	
 	private ExportProtocolsToCTMSService exportProtocolUserToCTMSService;
 
 	private UserDao userDao;
@@ -43,14 +43,14 @@ public class ExportProtocolUserServiceTest {
 	private ClaraUserDao claraUserDao;
 
 	private ClaraProtocolUserDao claraProtocolUserDao;
-
+	
 	private ClaraProtocolDao claraProtocolDao;
 
 	private ProtocolDao protocolDao;
-
+	
 	private ClaraFundingDao claraFundingDao;
 	private ClaraProtocolDiseaseDao claraProtocolDiseaseDao;
-
+	
 	public ClaraUser mockClaraUser(){
 		User user = userDao.findById(1l);
 
@@ -70,47 +70,47 @@ public class ExportProtocolUserServiceTest {
 		claraUser.setPhone(phone);
 		claraUser.setUserId(user.getId());
 		claraUser.setUserType(UserType.CLARA);
-
+		
 		return claraUser;
 	}
 
 	//@Test
 	public void testBuildQuery() {
-
+		
 		//ClaraUser claraUser = mockClaraUser();
-
+		
 		//claraUser = claraUserDao.insert(claraUser);
-
+		
 		//logger.debug("insert: " +  claraUser.getId());
-
+		
 		ClaraUser claraUser = claraUserDao.findById(1l);
-
+		
 		claraUser.setFirstName("Whatever");
-
+		
 		claraUser = claraUserDao.update(claraUser);
 		logger.debug("updated: " +  claraUser.getId());
-
-		logger.debug("after change: " + claraUser.getFirstName());
+		
+		logger.debug("after change: " + claraUser.getFirstName());		
 	}
-
+	
 	private boolean shouldRun = false;
-
+	
 	@Test
 	public void testUpdateIntegration() throws Exception {
 
 		//logger.error(LogUtils.email(), "send a email");
 		//logger.debug("about to run export to CTMS; but shouldRun? : " + this.isShouldRun());
-
+		
 		//ClaraProtocol claraProtocol = claraProtocolDao.findByIRBNumber("18");
 		//logger.debug("id: " + claraProtocol.getId());
 		long startTime = System.nanoTime();
 		exportProtocolUserToCTMSService.updateCTMSIntegration("NOT_CLOSED");
 		long endTime = System.nanoTime();
-
+		
 		logger.debug("Export to CTMS finished and it took: " + toSeconds(endTime - startTime) + " seconds");
 	}
-
-
+	
+	
 	//@Test
 	public void test(){
 		ClaraProtocol claraProtocol = new ClaraProtocol();
@@ -120,7 +120,7 @@ public class ExportProtocolUserServiceTest {
 */	}
 
 	private double toSeconds(long nanoSeconds){
-		return ((double) nanoSeconds) / 1000000000;
+		return ((double) nanoSeconds) / 1000000000;  
 	}
 
 	public ClaraUserDao getClaraUserDao() {

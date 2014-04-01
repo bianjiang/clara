@@ -1107,6 +1107,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     	jQuery("#"+t.id+"_fldTotal").text(Ext.util.Format.usMoney(this.procedure.cost.getTotal()));
     	t.refreshResidual();
     	jQuery("#"+t.id+"_fldNotes").val(this.procedure.notes);
+    	jQuery("#"+t.id+"_fldClinicalNotes").val(this.procedure.clinicalNotes);
     	
     	var prodcedureToUse = (this.isSubprocedure)?this.parentProcedure:this.procedure;
     	Ext.getCmp(t.id+"_fldExpenseCategory").setValue(prodcedureToUse.expensecategory);
@@ -1154,6 +1155,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     			locationDesc:null	// deprecated
     		},
     		notes:null,
+    		clinicalNotes:null,
     		cost:{
     			misc:null,
     			sponsor:null,
@@ -1217,6 +1219,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     			locationDesc:null	// chosen on second tab
     		},
     		notes:null,
+    		clinicalNotes:null,
     		cost:{
     			misc:null,
     			sponsor:null,
@@ -1268,6 +1271,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     			locationDesc:null
     		},
     		notes:null,
+    		clinicalNotes:null,
     		cost:{
     			misc:cost,
     			sponsor:null,
@@ -1322,6 +1326,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     			locationDesc:null
     		},
     		notes:null,
+    		clinicalNotes:null,
     		cost:{
     			misc:p.cost,
     			sponsor:null,
@@ -1361,6 +1366,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     			locationDesc:null
     		},
     		notes:null,
+    		clinicalNotes:null,
     		cost:{
     			sponsor:null,
     			price:null
@@ -1398,6 +1404,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     			locationDesc:null
     		},
     		notes:null,
+    		clinicalNotes:null,
     		cost:{
     			sponsor:null,
     			price:null
@@ -1923,35 +1930,59 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
                                     	            width: 105,
                                     	            id: t.id+'_fldResidual',
                                     	            hidden: (t.proceduretype == 'outside' || (t.isSubprocedure && t.proceduretype == 'officevisit'))?true:false                                                	        
-                                    	        },
-                                    	        {
-                                    	            xtype: 'label',
-                                    	            text: 'Notes:',
-                                    	            x: 10,
-                                    	            y: 165,
-                                    	            style: 'font-size:14px;text-align:left;',
-                                    	            width: 300
                                     	        }
                                     	    ]
                                     },{
                                     	xtype:'panel',
                                     	region:'center',
-                                    	layout:'fit',
+                                    	layout:'hbox',
+                                    	height:170,
+                                    	defaults: {flex: 1, layout: 'form', border: false,labelAlign:'top'},
+                                    	
+                                    	
+                                    	
                                     	items:[{
-                                    		xtype: 'textarea',
-										    id:t.id+'_fldNotes',
-										    disabled:t.readOnly,
-                            	            tabIndex:220,
-										    value:(t.procedure && t.procedure.notes)?t.procedure.notes:'',
-	                			            listeners: {
-	                			        		'change': function(fld,newv,oldv){
-	                			        			t.procedure.notes = jQuery("#"+t.id+"_fldNotes").val();
-	                			        		},
-	                			        		'keyup':function(fld,e){
-	                			        			t.procedure.notes = jQuery("#"+t.id+"_fldNotes").val();
-	                			        		}
-	                        	        	}
-										}],
+                                    	       items:[{
+                                           		xtype: 'textarea',
+    										    id:t.id+'_fldNotes',
+    										    disabled:t.readOnly,
+    										    fieldLabel:'Billing Notes',
+    										    labelStyle: 'font-weight:bold;',
+    										    labelSeparator:'',
+    										    height:150,
+    										    anchor:'100% 100%',
+                                	            tabIndex:220,
+    										    value:(t.procedure && t.procedure.notes)?t.procedure.notes:'',
+    	                			            listeners: {
+    	                			        		'change': function(fld,newv,oldv){
+    	                			        			t.procedure.notes = jQuery("#"+t.id+"_fldNotes").val();
+    	                			        		},
+    	                			        		'keyup':function(fld,e){
+    	                			        			t.procedure.notes = jQuery("#"+t.id+"_fldNotes").val();
+    	                			        		}
+    	                        	        	}
+    										}]},{
+                                    	       items:[{
+                                           		xtype: 'textarea',
+    										    id:t.id+'_fldClinicalNotes',
+    										    disabled:t.readOnly,
+                                	            tabIndex:225,
+                                	            fieldLabel:'Clinical Notes',
+                                	            labelStyle: 'font-weight:bold;',
+                                	            labelSeparator:'',
+    										    height:150,
+                                	            anchor:'100% 100%',
+    										    value:(t.procedure && t.procedure.clinicalNotes)?t.procedure.clinicalNotes:'',
+    	                			            listeners: {
+    	                			        		'change': function(fld,newv,oldv){
+    	                			        			t.procedure.clinicalNotes = jQuery("#"+t.id+"_fldClinicalNotes").val();
+    	                			        		},
+    	                			        		'keyup':function(fld,e){
+    	                			        			t.procedure.clinicalNotes = jQuery("#"+t.id+"_fldClinicalNotes").val();
+    	                			        		}
+    	                        	        	}
+    										}]
+    										}],
 										padding: 10,
                                     	border:false
                                     }

@@ -99,7 +99,7 @@ private  List<String> reviewTypes = Lists.newArrayList();
 									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", "\""+ values[i] +"\"");
 									}
 								} else if(values[i].contains("'")){
-									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", values[1].toUpperCase());
+									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", values[i].toUpperCase());
 								}
 								else{
 									realXpath += reportCriteriaField.getNodeXPath().replace("{value}", "'"+ values[i] +"'");
@@ -115,6 +115,8 @@ private  List<String> reviewTypes = Lists.newArrayList();
 						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", "\""+ value +"\"");
 							}
 					} else if(value.contains("'")){
+						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
+					}else if(value.toUpperCase().equals("IN")||value.toUpperCase().equals("NOT IN")){
 						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
 					}
 					else{
@@ -181,15 +183,15 @@ private  List<String> reviewTypes = Lists.newArrayList();
 			
 			finalResultXml += "<report-items>";
 			
-			String rawQeury = generateRawQeury(reportTemplate, fieldsRealXPathMap);
+			String rawQuery = generateRawQeury(reportTemplate, fieldsRealXPathMap);
 			
 			String reportStatement = generateReportStatement(reportTemplate,resultsFiledsForDisplay);
 			
-			rawQeury = rawQeury.replace("{reportstatment}", reportStatement);
+			rawQuery = rawQuery.replace("{reportstatment}", reportStatement);
 			if(reportStatement.contains("FROM protocol")){
-				rawQeury=rawQeury.replace("FROM protocol WHERE", "WHERE");
+				rawQuery=rawQuery.replace("FROM protocol WHERE", "WHERE");
 			}
-			String realQuery = fillMessage(rawQeury, fieldsRealXPathMap);
+			String realQuery = fillMessage(rawQuery, fieldsRealXPathMap);
 			
 			logger.debug("real query: " + realQuery);
 			realQuery +=reviewTypeQryStr;

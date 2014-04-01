@@ -252,7 +252,7 @@ public class MigrationServiceImpl implements MigrationService {
 		 * irbDeterminationEle.appendChild(consentWaivedkEle); try {
 		 * consentWaivedkEle.setTextContent(nodes.item(0).getNodeValue()); }
 		 * catch (Exception e) {
-		 *
+		 * 
 		 * }
 		 */
 		xPathExpression = xPath.compile("//protocol/review/HIPAAWaiver/text()");
@@ -632,7 +632,7 @@ public class MigrationServiceImpl implements MigrationService {
 			 * else if (approvalstatus.getAttribute("IRBReviewStatus").equals(
 			 * "Expedited")) { orgApprovalStatusEle.setTextContent("Expedited");
 			 * // orgApprovalStatusForClaraEle.setTextContent("Expedited"); }
-			 *
+			 * 
 			 * else if (approvalstatus.getAttribute("IRBReviewStatus").equals(
 			 * "Exempt")) { orgApprovalStatusEle.setTextContent("Exempt"); //
 			 * orgApprovalStatusForClaraEle.setTextContent("Exempt"); }
@@ -840,7 +840,7 @@ public class MigrationServiceImpl implements MigrationService {
 				 * userEle.setAttribute("id", "" +
 				 * userDao.getUserBySAP(sapIDStr).get(0) .getId()); } catch
 				 * (Exception e) { }
-				 *
+				 * 
 				 * }
 				 */
 
@@ -1000,7 +1000,7 @@ public class MigrationServiceImpl implements MigrationService {
 
 		if (crimsonStudyDao.findCTObjectbyIRBNum(irbNum) != null) {
 			Object crimsonCT[] = crimsonStudyDao.findCTObjectbyIRBNum(irbNum);
-
+			
 			//add plan number
 			int ctID = (int) crimsonCT[14];
 			Object[] planCodeInfo = crimsonStudyDao.findPlanCodeByCTNum(ctID+"");
@@ -1008,15 +1008,15 @@ public class MigrationServiceImpl implements MigrationService {
 				Element hospitalDeterEle = protocolMetaDataDoc
 						.createElement("hospital-service-determinations");
 				summaryEle.appendChild(hospitalDeterEle);
-
+				
 				Element planCodeEle = protocolMetaDataDoc
 						.createElement("insurance-plan-code");
 				hospitalDeterEle.appendChild(planCodeEle);
-
+				
 				Element corporateCodeEle = protocolMetaDataDoc
 						.createElement("corporate-gurantor-code");
 				hospitalDeterEle.appendChild(corporateCodeEle);
-
+				
 				if(planCodeInfo[0]!=null){
 					corporateCodeEle.setTextContent((String)planCodeInfo[0]);
 				}
@@ -1026,7 +1026,7 @@ public class MigrationServiceImpl implements MigrationService {
 			}
 
 			// add budget items
-
+			
 			Element budDeterEle = protocolMetaDataDoc
 					.createElement("budget-determination");
 			summaryEle.appendChild(budDeterEle);
@@ -1591,9 +1591,9 @@ public class MigrationServiceImpl implements MigrationService {
 		 * .getLastProtocolFormXmlDataByProtocolIdAndType( Long.valueOf(irbNum),
 		 * ProtocolFormXmlDataType.ARCHIVE) .getXmlData(); } catch (Exception e)
 		 * { existingFormData = ""; }
-		 *
+		 * 
 		 * Document existtingFormXmlData = null;
-		 *
+		 * 
 		 * if (existingFormData.isEmpty()){ existtingFormXmlData = doc; } else {
 		 * try { existtingFormXmlData = xmlProcessor
 		 * .loadXmlStringToDOM(existingFormData); } catch (SAXException e) {
@@ -1627,7 +1627,7 @@ public class MigrationServiceImpl implements MigrationService {
 			 * airaDocument.getAttribute("id") + "']/ariapath/text()"); NodeList
 			 * existingDocuemnts = (NodeList) xPathExpression
 			 * .evaluate(existtingFormXmlData, XPathConstants.NODESET);
-			 *
+			 * 
 			 * if (existingDocuemnts.getLength() > 0) { String existPath =
 			 * existingDocuemnts.item(0) .getTextContent(); String[]
 			 * splitExistHashName = existPath.split("/"); String existHashName =
@@ -3356,7 +3356,7 @@ public class MigrationServiceImpl implements MigrationService {
 			Element logEle = loginfo.createElement("log");
 			logEle.setAttribute("action-user-id", "73");
 			logEle.setAttribute("actor", "Yuan, Jiawei");
-
+			
 			logEle.setAttribute("date-time", DateFormat.getInstance().format(logDate));
 			logEle.setAttribute("event-type", "" + "ARCHIVE");
 			logEle.setTextContent("Archive protocol #"

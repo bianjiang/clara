@@ -17,12 +17,12 @@
 	<bean id="xmlProcessor"
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
 	<bean id="trackDao" class="edu.uams.clara.webapp.common.dao.history.TrackDao" />
-
+	
 	<bean id="protocolTrackService" class="edu.uams.clara.webapp.protocol.service.history.ProtocolTrackService" />
-
+	
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
 	<bean id="protocolFormDao"
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao" />
-
-
+	
+	
 </beans>

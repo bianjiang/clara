@@ -417,6 +417,11 @@ public class IRBAgendaAjaxController {
 							user,
 							"REMOVED_FROM_AGENDA",
 							null, null);
+					
+					AgendaItem agendaItem = agendaItemDao.findById(agendaItemWrapper.getId());
+					agendaItem.setAgendaItemStatus(AgendaItemStatus.REMOVED);
+					
+					agendaItem = agendaItemDao.saveOrUpdate(agendaItem);
 				}
 			}
 

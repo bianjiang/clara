@@ -14,9 +14,9 @@ public class ProtocolDashboardAjaxControllerTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(ProtocolDashboardAjaxControllerTest.class);
-
+	
 	private ProtocolDashboardAjaxController protocolDashboardAjaxController;
-
+			
 	@Test
 	public void testListProtocolForms() {
 		//String forms = protocolDashboardAjaxController.listProtocolForms(1);

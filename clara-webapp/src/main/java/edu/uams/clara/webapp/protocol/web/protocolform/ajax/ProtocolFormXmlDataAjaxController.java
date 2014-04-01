@@ -47,9 +47,11 @@ import edu.uams.clara.webapp.common.service.relation.RelationService;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.common.util.XMLResponseHelper;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
+import edu.uams.clara.webapp.protocol.dao.irb.AgendaItemDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
+import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
@@ -74,6 +76,8 @@ public class ProtocolFormXmlDataAjaxController {
 	private ProtocolFormDao protocolFormDao;
 
 	private ProtocolFormXmlDataDao protocolFormXmlDataDao;
+	
+	private AgendaItemDao agendaItemDao;
 
 	private ProtocolMetaDataXmlService protocolMetaDataXmlService;
 	
@@ -249,11 +253,17 @@ public class ProtocolFormXmlDataAjaxController {
 		
 		if (objectAclService.hasEditObjectAccess(Protocol.class,
 				protocolForm.getProtocol().getId(), u) || u.getAuthorities().contains(Permission.CANCEL_PROTOCOL_FORM)){
-			try{
-				XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+			try {
+				AgendaItem agendaItem = agendaItemDao.getLatestByProtocolFormId(protocolFormId);
 				
-				//String cancelReason = xmlHandler.getSingleStringValueByXPath(xml, "/cancel-reason");
-				
+				if (agendaItem != null) {
+					return XMLResponseHelper.newErrorResponseStub("This form is on "+ DateFormatUtil.formateDateToMDY(agendaItem.getAgenda().getDate()) + " agenda.  Please remove it from agenda first!");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			try{				
 				if (objectAclService.hasEditObjectAccess(Protocol.class,
 				protocolForm.getProtocol().getId(), u)) {
 					xml = "<committee-review><committee type=\"PI\">" + xml + "</committee></committee-review>";
@@ -341,6 +351,7 @@ public class ProtocolFormXmlDataAjaxController {
 		}
 	}
 	
+	/*
 	private void updateBudgetInfoByDepartment(ProtocolFormXmlData protocolFormXmlData, String xmlData){
 		String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
 		
@@ -363,6 +374,47 @@ public class ProtocolFormXmlDataAjaxController {
 			}
 		}
 
+	}
+	*/
+	
+	private void processXmlData(ProtocolFormXmlData protocolFormXmlData, String xmlData) {
+		String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
+		
+		String value = "";
+		
+		if (xmlData.contains("<responsible-department")){
+			if (xmlData.contains("REP Regional Programs")){
+				value = "n";
+			} else {
+				value = "y";
+			}
+			
+			try{
+				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget-by-department", protocolFormXmlDataString, value);
+				
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			XmlHandler xmlHanlder = XmlHandlerFactory.newXmlHandler();
+			
+			String enrollSubjects = xmlHanlder.getSingleStringValueByXPath(protocolFormXmlDataString, "/protocol/site-responsible/enroll-subject-in-uams");
+			String responsibleSite = xmlHanlder.getSingleStringValueByXPath(protocolFormXmlDataString, "/protocol/site-responsible");
+			String hudUseLocation = xmlHanlder.getSingleStringValueByXPath(protocolFormXmlDataString, "/protocol/study-nature/hud-use/where");
+			
+			if ((enrollSubjects.equals("y") || responsibleSite.equals("uams")) && !hudUseLocation.equals("ach/achri")) {
+				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget-question-required", protocolFormXmlDataString, "y");
+			} else {
+				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget-question-required", protocolFormXmlDataString, "n");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		protocolFormXmlData.setXmlData(protocolFormXmlDataString);
+		protocolFormXmlDataDao.saveOrUpdate(protocolFormXmlData);
 	}
 	
 	private String updateIRBFee(String protocolFormXmlDataString, String xmlData) {
@@ -446,7 +498,7 @@ public class ProtocolFormXmlDataAjaxController {
 				updateBudgetExpenses(protocolForm, protocolFormXmlData.getXmlData());
 			}
 			
-			updateBudgetInfoByDepartment(protocolFormXmlData, xmldata);
+			processXmlData(protocolFormXmlData, xmldata);
 			
 			logger.debug("elementXml: " + xmldata);
 			if(xmldata.contains("</staffs>")){
@@ -969,5 +1021,14 @@ public class ProtocolFormXmlDataAjaxController {
 	@Autowired(required=true)
 	public void setRelationService(RelationService relationService) {
 		this.relationService = relationService;
+	}
+
+	public AgendaItemDao getAgendaItemDao() {
+		return agendaItemDao;
+	}
+	
+	@Autowired(required=true)
+	public void setAgendaItemDao(AgendaItemDao agendaItemDao) {
+		this.agendaItemDao = agendaItemDao;
 	}
 }

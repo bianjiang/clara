@@ -21,16 +21,16 @@ public class ProtocolValidationTest {
 	.getLogger(ProtocolValidationTest.class);
 
 	private ValidationRuleContainer validaitonRuleContainer;
-
+	
 	private ValidationRuleHandler validationRuleHandler;
 	private XmlProcessor xmlProcessor;
 
 	private ProtocolDao protocolDao;
-
+	
 	private ProtocolDocumentDao protocolDocumentDao;
-
+	
 	private ProtocolFormDao protocolFormDao;
-
+	
 	//@Test
 	/*
 	public void testProtocolValidation(){
@@ -61,15 +61,15 @@ public class ProtocolValidationTest {
 		List<ValidationRule> protocolValidationRules = validaitonRuleContainer.getValidationRules("protocolValidationRules");
 
 		ProtocolForm newsubmissionForm = protocolFormDao.findById(1);
-
+		
 		logger.debug("protocol: " + newsubmissionForm.getProtocol().getId());
-
+		
 		for(Entry<ProtocolFormXmlDataType, ProtocolFormXmlData> entry:newsubmissionForm.getTypedProtocolFormXmlDatas().entrySet()){
 			logger.debug(entry.getKey().toString() + ": " + entry.getValue().getXmlData());
 		}
 
 		ProtocolFormXmlData protocolXmlData = newsubmissionForm.getTypedProtocolFormXmlDatas().get(ProtocolFormXmlDataType.PROTOCOL);
-
+	
 		String xmlData = protocolXmlData.getXmlData();
 
 		Assert.hasText(xmlData);
@@ -133,7 +133,7 @@ public class ProtocolValidationTest {
 	public ValidationRuleContainer getValidaitonRuleContainer() {
 		return validaitonRuleContainer;
 	}
-
+	
 
 	@Autowired(required=true)
 	public void setProtocolDocumentDao(ProtocolDocumentDao protocolDocumentDao) {

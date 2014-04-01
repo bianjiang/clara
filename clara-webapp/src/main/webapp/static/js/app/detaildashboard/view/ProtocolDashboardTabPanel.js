@@ -4,7 +4,7 @@ Ext.define('Clara.DetailDashboard.view.ProtocolDashboardTabPanel',{
 	border:false,
 	requires:['Clara.DetailDashboard.view.HistoryPanel','Clara.DetailDashboard.view.LetterPanel','Clara.DetailDashboard.view.FormDetailPanel','Clara.Documents.view.DocumentPanel'],
 	initComponent: function(){
-		this.activeTab = 2,
+		this.activeTab = 2;
 		this.items=[{
 			xtype:'panel',
 			title:'Overview',

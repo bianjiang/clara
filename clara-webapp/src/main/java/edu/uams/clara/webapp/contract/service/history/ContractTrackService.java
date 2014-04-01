@@ -58,6 +58,7 @@ public class ContractTrackService extends BusinessObjectTrackService<Contract> {
 		return track;
 	}
 	
+	/*
 	@Override
 	public String getCommitteeNote(Form form, Committee committee) {
 		ContractForm contractForm = (ContractForm) form;
@@ -65,6 +66,23 @@ public class ContractTrackService extends BusinessObjectTrackService<Contract> {
 		ContractFormCommitteeStatus cfscs = contractFormCommitteeStatusDao.getLatestByCommitteeAndContractFormId(committee, contractForm.getId());
 		
 		return (cfscs!=null)?cfscs.getNote():"";
+	}
+	*/
+	
+	@Override
+	public Map<String, String> getFormCommitteeStatusAttributeValues(Form form,
+			Committee committee, Map<String, String> attributeValues) {
+		ContractForm contractForm = (ContractForm) form;
+
+		try {
+			ContractFormCommitteeStatus cfscs = contractFormCommitteeStatusDao.getLatestByCommitteeAndContractFormId(committee, contractForm.getId());
+
+			attributeValues.put("{FORM_COMMITTEE_STATUS_ID}", String.valueOf(cfscs.getId()));
+		} catch (Exception e) {
+			//don't care
+		}
+		
+		return attributeValues;
 	}
 
 	public ContractFormCommitteeStatusDao getContractFormCommitteeStatusDao() {

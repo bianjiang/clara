@@ -28,16 +28,16 @@ import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "file:src/test/java/edu/uams/clara/integration/outgoing/clarabasic/ClaraBasicInfoTest-context.xml" })
 public class ClaraBasicInfoTest {
-
+	
 	private final static Logger logger = LoggerFactory
 			.getLogger(ClaraBasicInfoTest.class);
-
+	
 	private XmlProcessor xmlProcessor;
 	private XmlHandler xmlHandler;
 	private ProtocolDao protocolDao;
 	private ProtocolFormDao protocolFormDao;
 	private ProtocolFormXmlDataDao protocolFormXmlDataDao;
-
+	
 	@Test
 	public void generateBasicInfo() throws XPathExpressionException, SAXException, IOException{
 		Protocol p = protocolDao.findById(201959);
@@ -45,18 +45,18 @@ public class ClaraBasicInfoTest {
 		String protocolXml = p.getMetaDataXml();
 		String phase= xmlHandler.getSingleStringValueByXPath(protocolXml, "/protocol/phases/phase");
 		String typeofStudy =xmlProcessor.listElementStringValuesByPath("/protocol/study-type", protocolXml).get(0);
-
+		
 		String budget = pfxd.getXmlData();
 		Set<String> pathSet = Sets.newHashSet();
 		pathSet.add("//epochs/epoch");
 		int epochNum = xmlProcessor.listDomElementsByPaths(pathSet, budget).size();
 		pathSet.clear();
-		pathSet.add("//cycles/cycle/visits/visit");
+		pathSet.add("//cycles/cycle/visits/visit");		
 		int visitNum = xmlProcessor.listDomElementsByPaths(pathSet, budget).size();
 		logger.debug(phase+" "+typeofStudy+" "+epochNum+" "+visitNum);
 	}
 
-
+	
 	public ProtocolDao getProtocolDao() {
 		return protocolDao;
 	}
@@ -84,7 +84,7 @@ public class ClaraBasicInfoTest {
 			ProtocolFormXmlDataDao protocolFormXmlDataDao) {
 		this.protocolFormXmlDataDao = protocolFormXmlDataDao;
 	}
-
+	
 	public XmlProcessor getXmlProcessor() {
 		return xmlProcessor;
 	}

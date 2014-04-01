@@ -250,16 +250,19 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 	private Map<String, String> riskPairMap = Maps.newHashMap();{
 		riskPairMap.put("RISK_ADULT_1", "Minimal");
 		riskPairMap.put("RISK_ADULT_2", "Greater than minimal");
+		riskPairMap.put("RISK_ADULT_DEFERRED", "Deferred");
 		riskPairMap.put("RISK_ADULT_NA", "N/A");
 		riskPairMap.put("RISK_PED_1", "1");
 		riskPairMap.put("RISK_PED_2", "2");
 		riskPairMap.put("RISK_PED_3", "3");
 		riskPairMap.put("RISK_PED_4", "4");
+		riskPairMap.put("RISK_PED_DEFERRED", "Deferred");
 		riskPairMap.put("RISK_PED_NA", "N/A");
 		riskPairMap.put("N/A", "N/A");
 	}
 	
 	private Map<String, String> nonComplianceDeterminationPairMap = Maps.newHashMap();{
+		nonComplianceDeterminationPairMap.put("NA", "N/A");
 		nonComplianceDeterminationPairMap.put("na", "N/A");
 		nonComplianceDeterminationPairMap.put("N/A", "N/A");
 		nonComplianceDeterminationPairMap.put("no", "No Evidence of Non-Compliance");
@@ -288,23 +291,24 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		commentTypeList.add(CommentType.CONTINGENCY_MINOR);
 
 		//ProtocolForm protocolForm = protocolFormDao.findById(protocolFormId);
-		List<ProtocolFormCommitteeComment> protocolFormCommitteeCommentList = new ArrayList<ProtocolFormCommitteeComment>();
-		protocolFormCommitteeCommentList = protocolFormCommitteeCommentDao.listCommentsByProtocolFormIdAndCommitteeAndInLetterOrNot(protocolForm.getId(), committee, true, commentTypeList);
+		//List<ProtocolFormCommitteeComment> protocolFormCommitteeCommentList = new ArrayList<ProtocolFormCommitteeComment>();
+		List<ProtocolFormCommitteeComment> protocolFormCommitteeCommentList = protocolFormCommitteeCommentDao.listCommentsByProtocolFormIdAndCommitteeAndInLetterOrNot(protocolForm.getId(), committee, true, commentTypeList);
 		
-		List<ProtocolFormCommitteeComment> protocolFormCommitteeContigencyList = new ArrayList<ProtocolFormCommitteeComment>();
-		protocolFormCommitteeContigencyList = protocolFormCommitteeCommentDao.listCommentsByProtocolFormIdAndCommitteeAndCommentTypeList(protocolForm.getId(), committee, commentTypeList);
+		//List<ProtocolFormCommitteeComment> protocolFormCommitteeContigencyList = new ArrayList<ProtocolFormCommitteeComment>();
+		List<ProtocolFormCommitteeComment> protocolFormCommitteeContigencyList = protocolFormCommitteeCommentDao.listCommentsByProtocolFormIdAndCommitteeAndCommentTypeList(protocolForm.getId(), committee, commentTypeList);
 		
-		List<ProtocolFormCommitteeComment> fullBoardContigencyList = new ArrayList<ProtocolFormCommitteeComment>();
-		fullBoardContigencyList = protocolFormCommitteeCommentDao.listCommentsByProtocolFormIdAndCommitteeAndCommentTypeList(protocolForm.getId(), Committee.IRB_REVIEWER, commentTypeList);
+		//List<ProtocolFormCommitteeComment> fullBoardContigencyList = new ArrayList<ProtocolFormCommitteeComment>();
+		List<ProtocolFormCommitteeComment> fullBoardContigencyList = protocolFormCommitteeCommentDao.listCommentsByProtocolFormIdAndCommitteeAndCommentTypeList(protocolForm.getId(), Committee.IRB_REVIEWER, commentTypeList);
 		
-		List<ProtocolFormCommitteeComment> protocolFormCommitteeMinorContigencyList = new ArrayList<ProtocolFormCommitteeComment>();
-		protocolFormCommitteeMinorContigencyList = protocolFormCommitteeCommentDao.listCommentsByProtocolFormIdAndCommitteeAndCommentType(protocolForm.getId(), committee, CommentType.CONTINGENCY_MINOR);
+		//List<ProtocolFormCommitteeComment> protocolFormCommitteeMinorContigencyList = new ArrayList<ProtocolFormCommitteeComment>();
+		List<ProtocolFormCommitteeComment> protocolFormCommitteeMinorContigencyList = protocolFormCommitteeCommentDao.listCommentsByProtocolFormIdAndCommitteeAndCommentType(protocolForm.getId(), committee, CommentType.CONTINGENCY_MINOR);
 		
-		List<ProtocolFormCommitteeComment> protocolFormCommitteeMajorContigencyList = new ArrayList<ProtocolFormCommitteeComment>();
-		protocolFormCommitteeMajorContigencyList = protocolFormCommitteeCommentDao.listCommentsByProtocolFormIdAndCommitteeAndCommentType(protocolForm.getId(), committee, CommentType.CONTINGENCY_MAJOR);
+		//List<ProtocolFormCommitteeComment> protocolFormCommitteeMajorContigencyList = new ArrayList<ProtocolFormCommitteeComment>();
+		List<ProtocolFormCommitteeComment> protocolFormCommitteeMajorContigencyList = protocolFormCommitteeCommentDao.listCommentsByProtocolFormIdAndCommitteeAndCommentType(protocolForm.getId(), committee, CommentType.CONTINGENCY_MAJOR);
 
-		List<ProtocolFormXmlDataDocument> protocolFormDocumentList = new ArrayList<ProtocolFormXmlDataDocument>();
+		List<ProtocolFormXmlDataDocument> protocolFormDocumentList = protocolFormXmlDataDocumentDao.getLatestDocumentExcludeCertainTypesByProtocolFormId(protocolForm.getId(), budgetCategoryList);
 		//protocolFormDocumentList = protocolFormXmlDataDocumentDao.listDocumentsByProtocolFormIdAndStatus(protocolForm.getId(), Status.DRAFT);
+		/*
 		protocolFormDocumentList = protocolFormXmlDataDocumentDao.getLatestDocumentByProtocolFormId(protocolForm.getId());
 		for(int i =0;i<protocolFormDocumentList.size();i++){
 			ProtocolFormXmlDataDocument pfdd = protocolFormDocumentList.get(i);
@@ -313,10 +317,10 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 				i--;
 			}
 		}
+		*/
 		
-		
-		List<ProtocolFormXmlDataDocumentWrapper> protocolFormDocumentByCommitteeList = new ArrayList<ProtocolFormXmlDataDocumentWrapper>();
-		protocolFormDocumentByCommitteeList = protocolFormXmlDataDocumentDao.listDocumentsByProtocolFormIdAndCommittee(protocolForm.getId(), committee);
+		//List<ProtocolFormXmlDataDocumentWrapper> protocolFormDocumentByCommitteeList = new ArrayList<ProtocolFormXmlDataDocumentWrapper>();
+		List<ProtocolFormXmlDataDocumentWrapper> protocolFormDocumentByCommitteeList = protocolFormXmlDataDocumentDao.listDocumentsByProtocolFormIdAndCommittee(protocolForm.getId(), committee);
 		
 		ProtocolFormXmlData protoclFormXmlData = protocolForm.getTypedProtocolFormXmlDatas().get(protocolForm.getProtocolFormType().getDefaultProtocolFormXmlDataType());
 		
@@ -391,7 +395,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		finalTemplateValues.put("protocolId", String.valueOf(protocol.getId()));
 		finalTemplateValues.put("submitDate", getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/form-submit-date", ""));
 		finalTemplateValues.put("protocolFormType", protocolForm.getProtocolFormType().getDescription());
-		finalTemplateValues.put("protocolTitle", getFormService().getSafeStringValueByKey(metaDataValues, "/protocol/title", ""));
+		finalTemplateValues.put("protocolTitle", org.apache.commons.lang.StringEscapeUtils.escapeHtml(getFormService().getSafeStringValueByKey(metaDataValues, "/protocol/title", "")));
 		finalTemplateValues.put("protocolType", getFormService().getSafeStringValueByKey(metaDataValues, "/protocol/study-type", ""));
 		
 		String phiDesc = "";
@@ -539,6 +543,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		committeeMatchMap.put("realIRBOffice", Committee.IRB_OFFICE);
 		committeeMatchMap.put("realMonitioring", Committee.MONITORING_REGULATORY_QA);
 		committeeMatchMap.put("realBeaconTeam", Committee.BEACON_TEAM);
+		committeeMatchMap.put("realWillowTeam", Committee.WILLOW_TEAM);
 	}
 	
 	private static Map<String, String> realRecipientMatchMap = new HashMap<String, String>();{
@@ -832,7 +837,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		finalTemplateValues.put("oneWeekFromCurrentDate", oneWeekFromCurrentDate);
 		finalTemplateValues.put("oneWeekBeforeCurrentDate", oneWeekBeforeCurrentDate);
 		finalTemplateValues.put("protocolId", String.valueOf(protocol.getId()));
-		finalTemplateValues.put("protocolTitle", getFormService().getSafeStringValueByKey(values, "/protocol/title", ""));
+		finalTemplateValues.put("protocolTitle", org.apache.commons.lang.StringEscapeUtils.escapeHtml(getFormService().getSafeStringValueByKey(values, "/protocol/title", "")));
 		finalTemplateValues.put("protocolType", getFormService().getSafeStringValueByKey(values, "/protocol/study-type", ""));
 		finalTemplateValues.put("emailComment", emailComment);
 		finalTemplateValues.put("currentDate", DateFormatUtil.formateDateToMDY(currentDate));

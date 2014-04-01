@@ -23,27 +23,27 @@ public class RoleDaoTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(RoleDaoTest.class);
-
+	
 	private RoleDao roleDao;
 
 	@Test
 	public void testListAllOrderByName() throws JsonGenerationException, JsonMappingException, IOException{
 		List<Role> roles = roleDao.listAllOrderByName();
-
+		
 		//Hibernate.initialize(roles);
-
+		
 		for(Role r:roles){
 			logger.debug(r.getName());
 			//r.getDefaultPermissions().size();
 		}
-
-
+		
+		
 		ObjectMapper objectMapper = new ObjectMapper();
-
+		
 		String json = objectMapper.writeValueAsString(roles);
-
+		
 		logger.debug(json);
-
+		
 	}
 
 	@Autowired(required = true)
@@ -54,5 +54,5 @@ public class RoleDaoTest {
 	public RoleDao getRoleDao() {
 		return roleDao;
 	}
-
+	
 }

@@ -15,9 +15,9 @@
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
 
     <bean id="contractFormDao" class="edu.uams.clara.webapp.contract.dao.contractform.ContractFormDao" />
-
-	<bean id="xmlProcessor" class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
-
-	<bean id="dateFormatUtil" class="edu.uams.clara.webapp.common.util.DateFormatUtil" />
-
+	
+	<bean id="xmlProcessor" class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />	
+	
+	<bean id="dateFormatUtil" class="edu.uams.clara.webapp.common.util.DateFormatUtil" />	
+	
 </beans>

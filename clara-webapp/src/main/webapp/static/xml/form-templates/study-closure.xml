@@ -4,6 +4,12 @@
 			<question id="question-study-status" parent-id="" parent-value="" header="">
 				<question-label>What is the status of the study?</question-label>
 				<question-value instance-path="/study-closure/study-status" lookup-path="study-closure-study-status" value-type="radio" />
+				<sub-questions>
+					<question id="question-study-status-other" parent-id="" parent-value="" header="Other">
+						<question-label>Please describe</question-label>
+						<question-value  instance-path="/study-closure/study-status/other/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
 			</question>
 			<question id="question-study-closure-reason" parent-id="question-study-status" parent-value="permanently-closed-to-enrollment" header="Permanently closed to enrollment">
 				<question-label>What is the reason for the study closure?</question-label>

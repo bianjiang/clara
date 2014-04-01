@@ -12,7 +12,7 @@ import edu.uams.clara.webapp.common.scheduler.UpdatePersonInfoFromLDAPService;
 @ContextConfiguration( { "file:src/test/java/edu/uams/clara/webapp/common/schedular/UpdatePersonInfoFromLDAPServiceTest-context.xml" })
 public class UpdatePersonInfoFromLDAPServiceTest {
 	private UpdatePersonInfoFromLDAPService updatePersonInfoFromLDAPService;
-
+	
 	@Test
 	public void test(){
 		updatePersonInfoFromLDAPService.updatePersonFromLDAP();

@@ -44,7 +44,7 @@ public class addSAPUserTest {
 	public void addSAPUser() {
 		try {
 			String rawdata = null;
-
+			
 			String csvFileName = "budgetcode/Security.csv";
 
 			Resource csvFile = resourceLoader.getResource(csvFileName);
@@ -55,7 +55,7 @@ public class addSAPUserTest {
 					new InputStreamReader(in));
 			while ((rawdata = reader.readLine()) != null) {
 				String item[] = rawdata.split(",");
-
+				
 				SAPUser sapUser = new SAPUser();
 				sapUser.setSap(item[0]);
 				sapUser.setSsn(item[1]);
@@ -73,7 +73,7 @@ public class addSAPUserTest {
 
 		}
 	}
-
+	
 	//update sapuser
 	@Test
 	public void newUpdateSapUser(){
@@ -84,9 +84,9 @@ public class addSAPUserTest {
 			Object[] sapUserUpdate =null;
 			try{
 				sapUserUpdate=sapUserUpdateDao.findSapUserBySapFromLinkedServer(sapUser.getSap());
-
+				
 			}catch(Exception e){
-
+				
 			}
 			/*if(sapUserUpdate==null){
 				sapUser.setRetired(true);
@@ -107,9 +107,9 @@ public class addSAPUserTest {
 				}
 				sapUserDao.saveOrUpdate(sapUser);
 			}
-
+			
 		}//end for
-
+		
 		//insert new users
 		List<Object[]> sapUserUpdateList =sapUserUpdateDao.findAllSapUserBySapFromLinkedServer();
 		for(int i =0;i<sapUserUpdateList.size();i++){
@@ -123,7 +123,7 @@ public class addSAPUserTest {
 				sapUser=sapUserDao.getSapUserBysapID(sapID);
 				}
 			}catch(Exception e){
-
+				
 			}
 			if(sapUser==null){
 				sapUser = new SAPUser();
@@ -149,15 +149,15 @@ public class addSAPUserTest {
 				sapUserDao.saveOrUpdate(sapUser);
 			}
 		}//end for
-
+				
 	}
-
-
-
+	
+	
+	
 	//update sapuser, old version, update based on txt file
 	//@Test
 	public void oldUpdateSapUser(){
-
+		
 		//update existing users
 		List<SAPUser> sapUserList =sapUserDao.findAll();
 		for(int i =0;i<sapUserList.size();i++){
@@ -166,7 +166,7 @@ public class addSAPUserTest {
 			try{
 				sapUserUpdate=sapUserUpdateDao.getSapUserBysapID(sapUser.getSap());
 			}catch(Exception e){
-
+				
 			}
 			if(sapUserUpdate==null){
 				sapUser.setRetired(true);
@@ -181,7 +181,7 @@ public class addSAPUserTest {
 				sapUserDao.saveOrUpdate(sapUser);
 			}
 		}//end for
-
+		
 		//add new sap users
 		List<SAPUserUpdate> sapUserUpdateList =sapUserUpdateDao.findAll();
 		for(int i =0;i<sapUserUpdateList.size();i++){
@@ -190,7 +190,7 @@ public class addSAPUserTest {
 			try{
 				sapUser=sapUserDao.getSapUserBysapID(sapUserUpdate.getSap());
 			}catch(Exception e){
-
+				
 			}
 			if(sapUser==null){
 				sapUser = new SAPUser();

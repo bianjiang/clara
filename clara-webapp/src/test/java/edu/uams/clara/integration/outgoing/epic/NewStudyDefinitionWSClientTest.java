@@ -29,11 +29,11 @@ import edu.uams.clara.webapp.protocol.service.ProtocolService;
 public class NewStudyDefinitionWSClientTest {
 	private final static Logger logger = LoggerFactory
 			.getLogger(NewStudyDefinitionWSClientTest.class);
-
+	
 	private StudyDefinitionWSClient studyDefinitionWSClient;
 	private ProtocolDao protocolDao;
 	private ProtocolService	protocolService;
-
+	
 	//@Test
 	public void testMessageGeneration() throws XPathExpressionException, ParserConfigurationException, IOException, SAXException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		String irbNumber = "201923";
@@ -41,7 +41,7 @@ public class NewStudyDefinitionWSClientTest {
 		Protocol protocol = protocolDao.findById(protocolId);
 		String epicTitle = "TEST CLARA EPIC INTERFACE";
 		String epicSummary = "Whatever summary";
-
+		
 		Method method2 = studyDefinitionWSClient.getClass().getDeclaredMethod("getProtocolUserInfoXml", String.class);
 		method2.setAccessible(true);
 		String userinfo =  (String) method2.invoke(studyDefinitionWSClient, protocol.getMetaDataXml());
@@ -51,16 +51,16 @@ public class NewStudyDefinitionWSClientTest {
 				logger.debug(result);
 		//logger.debug(DomUtils.toString(studyDefinitionWSClient.createRetrieveProtocolDefResponseRequestPayload(irbNumber, epicTitle, epicSummary)));
 	}
-
+	
 	@Test
 	public void testRetrieveProtocolDefResponse() throws Exception{
 		long protocolId = 138725;
 
 		Protocol protocol = protocolDao.findById(protocolId);
 		//logger.debug(protocol.getMetaDataXml());
-
+		
 		String protocolMetaData = protocol.getMetaDataXml();
-
+		
 		try {
 			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
 			String epicTitle = xmlHandler.getSingleStringValueByXPath(protocolMetaData, "/protocol/epic/epic-title");
@@ -70,26 +70,26 @@ public class NewStudyDefinitionWSClientTest {
 			if (epicTitle.isEmpty()) {
 				epicTitle = xmlHandler.getSingleStringValueByXPath(protocolMetaData, "/protocol/title");
 			}
-
+			
 			if (epicDesc.isEmpty()) {
 				epicDesc = protocolService.populateEpicDesc(protocolMetaData);
 			}
-
+			
 			//logger.debug("title: " + title);
 			studyDefinitionWSClient.retrieveProtocolDefResponse(""+protocolId, epicTitle, epicDesc, protocolMetaData);
-
+			
 			//protocolService.addPushedToEpic(protocol);
-
+			
 		} catch (Exception e) {
 
 			logger.error("failed: " + e);
-
+			
 		}
-
+		
 		//studyDefinitionWSClient.retrieveProtocolDefResponse(irbNumber, epicTitle, epicSummary);
-
+		
 	}
-
+	
 
 
 	public StudyDefinitionWSClient getStudyDefinitionWSClient() {
@@ -113,7 +113,7 @@ public class NewStudyDefinitionWSClientTest {
 	public ProtocolService getProtocolService() {
 		return protocolService;
 	}
-
+	
 	@Autowired(required=true)
 	public void setProtocolService(ProtocolService protocolService) {
 		this.protocolService = protocolService;

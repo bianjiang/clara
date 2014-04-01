@@ -28,11 +28,15 @@ import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Footer;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.slf4j.Logger;
@@ -189,7 +193,8 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 				Element armEle = sortedarmList.get(i);
 
 				// create sheet
-				String sheetName = epoch.getAttribute("name") + "-"
+				String sheetName = "Phase "+(eopchLen+1)+"-"+"Arm "+(i+1);
+				/*String sheetName = epoch.getAttribute("name") + "-"
 						+ armEle.getAttribute("name");
 
 				if (sheetName.length() > 30) {
@@ -206,12 +211,14 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 
 				if (sheetName.contains("'")) {
 					sheetName = sheetName.replace("\'", "");
-				}
+				}*/
 
 				sheetNameList.add(sheetName);
-
+				
 				Sheet sheet = wb.createSheet(sheetName);
-
+				Drawing drawing = sheet.createDrawingPatriarch();
+				ClientAnchor anchor = createHelper.createClientAnchor();
+				
 				// create row for budget info
 				Header header = sheet.getHeader();
 				header.setCenter(getProtocolTitle(protocol));
@@ -364,8 +371,21 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 								.createRichTextString("Phase: "
 										+ epoch.getAttribute("name") + " Arm: "
 										+ armEle.getAttribute("name")));
+						String armNotes = armEle.getElementsByTagName("notes").item(0).getTextContent();
+						if(!armNotes.isEmpty()){
+						anchor.setCol1(cellForPhaseTitle.getColumnIndex());
+					    anchor.setCol2(cellForPhaseTitle.getColumnIndex()+1);
+					    anchor.setRow1(phaseTitleRow.getRowNum());
+					    anchor.setRow2(phaseTitleRow.getRowNum()+3);
+						Comment comment = drawing.createCellComment(anchor);
+						RichTextString str = createHelper.createRichTextString(armNotes);
+					    comment.setString(str);
+					    comment.setAuthor("CLARA");
+					    cellForPhaseTitle.setCellComment(comment);
+						}
 					}
 				}
+				
 
 				/*
 				 * if (budgetDocumentType.equals(BudgetDocumentType.ALL)) {
@@ -1178,7 +1198,9 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 		for (int proTypeLen = 0; proTypeLen < procedureTypeList.size(); proTypeLen++) {
 
 			Row procedureNameRow = sheet.createRow(curRow);
-
+			
+			
+			
 			// cerate cell 0 for boarder use and cell places for boarder
 			Cell boarderCell = procedureNameRow.createCell(0);
 			boarderCell.setCellStyle(styleForTitle);
@@ -1228,9 +1250,30 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 				if (proCabudgetDocumentTypeory.equals("Misc.")) {
 					proCabudgetDocumentTypeory = "MISC";
 				}
-
-				NodeList notesList = procedure.getElementsByTagName("notes");
-				Node notes = notesList.item(0);
+				
+				String billingNotes = "";
+				String clinicalNotes = "";
+				try{
+				Element procedureClinicalNoteEle = (Element) procedure.getElementsByTagName("clinical-notes").item(0);
+				clinicalNotes= procedureClinicalNoteEle.getTextContent();
+				}catch(Exception e){
+					//no clinical notes
+				}
+				
+				try{
+					Element procedureBillingNoteEle = (Element) procedure.getElementsByTagName("notes").item(0);
+					billingNotes= procedureBillingNoteEle.getTextContent();
+				}catch(Exception e){
+						//no billing notes
+				}
+				String procedureNotes = "";
+				if(!billingNotes.isEmpty()){
+					procedureNotes +=  "Billing Notes: "+billingNotes+"\n";
+				}
+				if(!clinicalNotes.isEmpty()){
+					procedureNotes +=  "Clinical Notes: "+clinicalNotes;
+				}
+				
 				if (proCabudgetDocumentTypeory.equals(procedureTypeList
 						.get(proTypeLen))) {
 
@@ -1302,8 +1345,8 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 
 					if (procedure.getAttribute("cptcode").equals("0")) {
 						cellForPro.setCellValue(createHelper
-								.createRichTextString(toTitleCase(procedure
-										.getAttribute("description"))));
+								.createRichTextString(procedure
+										.getAttribute("description")));
 
 						String[] splitProName = procedure.getAttribute(
 								"description").split(" ");
@@ -1328,18 +1371,22 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 					}
 
 					else if ("Misc.".equals(procedure.getAttribute("category"))) {
-						if(procedure.getAttribute("conditional").trim().endsWith("true")){
-							cellForCpt.setCellValue(createHelper
-									.createRichTextString("* MISC"));
-						}else{
-						cellForCpt.setCellValue(createHelper
-								.createRichTextString("MISC"));
+						String conditionalTag = "";
+						if(procedure.getAttribute("alternative").trim().endsWith("true")){
+							conditionalTag +=" [ ";
 						}
+						else if(procedure.getAttribute("conditional").trim().endsWith("true")){
+							conditionalTag +=" * ";
+						}
+						
+						cellForCpt.setCellValue(createHelper
+								.createRichTextString(conditionalTag+"MISC"));
+						
 						cellForCpt.setCellStyle(cptCodeCellStyle);
 
 						cellForPro.setCellValue(createHelper
-								.createRichTextString(toTitleCase(procedure
-										.getAttribute("description"))));
+								.createRichTextString(procedure
+										.getAttribute("description")));
 						String[] splitProName = procedure.getAttribute(
 								"description").split(" ");
 						wordLength = 0;
@@ -1363,15 +1410,18 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 								.getDefaultRowHeightInPoints()));
 
 					} else {
-						if(procedure.getAttribute("conditional").trim().endsWith("true")){
-							cellForCpt.setCellValue(createHelper
-									.createRichTextString("* "+procedure
-											.getAttribute("cptcode")));
-						}else{
-						cellForCpt.setCellValue(createHelper
-								.createRichTextString(procedure
-										.getAttribute("cptcode")));
+						String conditionalTag = "";
+						if(procedure.getAttribute("alternative").trim().endsWith("true")){
+							conditionalTag +=" [ ";
 						}
+						else if(procedure.getAttribute("conditional").trim().endsWith("true")){
+							conditionalTag +=" * ";
+						}
+						
+						cellForCpt.setCellValue(createHelper
+								.createRichTextString(conditionalTag+procedure
+										.getAttribute("cptcode")));
+						
 						
 						cellForCpt.setCellStyle(cptCodeCellStyle);
 
@@ -1398,13 +1448,13 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 							}
 
 							if (!hostpitalChargeStr.isEmpty())
-								description = toTitleCase(procedure
-										.getAttribute("description"))
+								description = procedure
+										.getAttribute("description")
 										+ " (H $"
 										+ hostpitalChargeStr + ")";
 							else
-								description = toTitleCase(procedure
-										.getAttribute("description"));
+								description = procedure
+										.getAttribute("description");
 
 						} else
 							description = procedure.getAttribute("description")
@@ -1671,9 +1721,9 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 						cellForResidual.setCellStyle(moneyCellStyle);
 					}
 					if (!budgetDocumentType.equals(BudgetDocumentType.NO_NOTES)) {
-						cellForNotes.setCellValue(notes.getTextContent());
+						cellForNotes.setCellValue(procedureNotes);
 						// calculate space for notes
-						String[] splitNotes = notes.getTextContent().split(" ");
+						String[] splitNotes = procedureNotes.split(" ");
 						wordLength = 0;
 						rowHight = 1;
 						for (int wordNum = 0; wordNum < splitNotes.length; wordNum++) {
@@ -1683,6 +1733,9 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 							// from
 							// the
 							// next line
+							if(splitNotes[wordNum].contains("\n")){
+								wordLength+=20000;
+							}
 							if (splitNotes[wordNum].length() * 256 > 10000
 									&& wordNum > 0)
 								wordLength += 10000 - splitNotes[wordNum - 1]

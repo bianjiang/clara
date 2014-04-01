@@ -215,7 +215,7 @@
 			<x:set var="stringValue" select="string($value)"/>
 			<x:set var="textValue" select="string($value/text())" />
 			<c:choose>
-				<c:when test="${fn:length(value) > 0 and !(type ne 'drug' and type ne 'archiveletter' and type ne 'department' and type ne 'funding-source' and stringValue eq '' and textValue eq '')}">
+				<c:when test="${fn:length(value) > 0 and !(type ne 'drug' and type ne 'device' and type ne 'archiveletter' and type ne 'department' and type ne 'funding-source' and stringValue eq '' and textValue eq '')}">
 
 					<c:choose>
 						<c:when test="${type eq 'yesNo'}">

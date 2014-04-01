@@ -375,6 +375,7 @@ public class NewSubmissionValidationAjaxController {
 		ignoreValidationQuestionSet.add("/protocol/budget/involves/fgp-fees");
 		ignoreValidationQuestionSet.add("/protocol/budget/involves/industry-support");
 		ignoreValidationQuestionSet.add("/protocol/epic/involve-chemotherapy");
+		ignoreValidationQuestionSet.add("/protocol/site-responsible/enroll-subject-in-uams");
 	}
 
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/new-submission/protocol-form-xml-datas/{protocolFormXmlDataId}/validate", method = RequestMethod.GET)

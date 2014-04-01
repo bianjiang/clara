@@ -21,16 +21,16 @@
 	<bean id="protocolFormXmlDataDao"
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao">
 	</bean>
-
+	
 	<bean id="protocolFormDao"
 		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao">
 	</bean>
-
+	
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
 
 	<bean id="xmlProcessor"
 		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
-
+		
 	<bean id="hospitalChargeProcedureDao"
 		class="edu.uams.clara.webapp.protocol.dao.budget.code.HospitalChargeProcedureDao" />
 

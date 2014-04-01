@@ -19,7 +19,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import edu.uams.clara.webapp.common.dao.history.TrackDao;
 import edu.uams.clara.webapp.common.domain.email.EmailTemplate;
 import edu.uams.clara.webapp.common.domain.form.Form;
 import edu.uams.clara.webapp.common.domain.history.Track;
@@ -164,6 +163,7 @@ public abstract class BusinessObjectTrackService<T> extends
 						(attributeRawValues.get("REVISION_REQUEST_COMMITTEE") != null) ? attributeRawValues
 								.get("REVISION_REQUEST_COMMITTEE").toString()
 								: "");
+		attributeValues = getFormCommitteeStatusAttributeValues(form, committee, attributeValues);
 
 		return attributeValues;
 	}
@@ -338,5 +338,8 @@ public abstract class BusinessObjectTrackService<T> extends
 
 	public abstract Track getOrCreateTrackFromChildObject(Form form);
 
-	public abstract String getCommitteeNote(Form form, Committee committee);
+	//public abstract String getCommitteeNote(Form form, Committee committee);
+	
+	public abstract Map<String, String> getFormCommitteeStatusAttributeValues(Form form, Committee committee,
+			Map<String, String> attributeValues);
 }

@@ -18,17 +18,17 @@
 	<bean id="emailDataService" class="edu.uams.clara.webapp.common.service.impl.EmailDataServiceImpl"  />
 	<bean id="emailService" class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl"  />
 	<bean id="xmlProcessor" class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
-
+	
 	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
       <property name="velocityProperties">
          <props>
-		<prop key="resource.loader">file</prop>
-		<prop key="file.resource.loader.class">
-			org.apache.velocity.runtime.resource.loader.FileResourceLoader
-		</prop>
-		<prop key="file.resource.loader.path">src/main/webapp/WEB-INF/emailtemplate/</prop>
-		<prop key="file.resource.loader.cache">false</prop>
-	</props>
+      		<prop key="resource.loader">file</prop>
+      		<prop key="file.resource.loader.class">
+        		org.apache.velocity.runtime.resource.loader.FileResourceLoader
+      		</prop>
+      		<prop key="file.resource.loader.path">src/main/webapp/WEB-INF/emailtemplate/</prop>
+      		<prop key="file.resource.loader.cache">false</prop>
+    	</props>
       </property>
    </bean>
 

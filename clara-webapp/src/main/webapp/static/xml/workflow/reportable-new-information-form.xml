@@ -944,7 +944,7 @@
 				</commitee>
 			</form-status>
 			<form-status value="ANY" form-committee-status="ANY">
-				<committee name="ANY">
+				<committee name="ANY" default="true">
 					<review-page page-name="committee-review" >
 						<decisions>
 							<decision>

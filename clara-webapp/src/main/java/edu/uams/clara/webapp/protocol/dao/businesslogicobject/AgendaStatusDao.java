@@ -9,6 +9,7 @@ import edu.uams.clara.core.dao.AbstractDomainDao;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.AgendaStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.AgendaStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.irb.Agenda;
+import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem.AgendaItemStatus;
 
 @Repository
 public class AgendaStatusDao extends AbstractDomainDao<AgendaStatus> {
@@ -45,6 +46,27 @@ public class AgendaStatusDao extends AbstractDomainDao<AgendaStatus> {
 		q.setMaxResults(1);
 		q.setHint("org.hibernate.cacheable", true);
 		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("agendaStatus", agendaStatus);
+		q.setParameter("protocolFormId", protocolFormId);
+	
+		return q.getSingleResult();
+	}
+	
+	@Transactional(readOnly = true)
+	public AgendaStatus getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(AgendaStatusEnum agendaStatus,long protocolFormId, AgendaItemStatus agendaItemStatus){
+		String query = "SELECT agendastatus FROM AgendaStatus agendastatus "
+			+ " WHERE agendastatus.agenda.id in (SELECT a.id FROM Agenda a  WHERE a.retired = a.retired AND a.id = (SELECT ad.agenda.id FROM AgendaItem ad WHERE ad.agendaItemStatus = :agendaItemStatus AND ad.protocolFormId = :protocolFormId))"
+			+ " AND agendastatus.retired = :retired "
+			+ " AND agendastatus.agendaStatus=:agendaStatus"
+			+ " ORDER BY agendastatus.id DESC";
+
+		TypedQuery<AgendaStatus> q = getEntityManager().createQuery(query,
+				AgendaStatus.class);
+		q.setFirstResult(0);
+		q.setMaxResults(1);
+		q.setHint("org.hibernate.cacheable", true);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("agendaItemStatus", agendaItemStatus);
 		q.setParameter("agendaStatus", agendaStatus);
 		q.setParameter("protocolFormId", protocolFormId);
 	

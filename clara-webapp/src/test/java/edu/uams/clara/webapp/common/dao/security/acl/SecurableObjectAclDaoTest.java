@@ -22,23 +22,23 @@ public class SecurableObjectAclDaoTest {
 
 	private final static Logger logger = LoggerFactory
 	.getLogger(SecurableObjectAclDaoTest.class);
-
+	
 	private SecurableObjectAclDao securableObjectAclDao;
 	private SecurableObjectDao securableObjectDao;
-
+	
 	@Test
 	public void testGetSecurableObjectByClassAndId(){
 		/*
 		SecurableObject securableObject =  securableObjectDao.getSecurableObjectByClassAndId(Protocol.class, 1l);
 		if(securableObject == null){
-			securableObject = securableObjectDao.saveOrUpdate( AclObjectFactory.createSecurableObject(Protocol.class, 1l));
+			securableObject = securableObjectDao.saveOrUpdate( AclObjectFactory.createSecurableObject(Protocol.class, 1l));	
 		}
-
+		
 		SecurableObjectAcl securableObjectAcl =  securableObjectAclDao.getSecurableObjectAclByOwnerAndSecurableObjectAndPermission(User.class, 1l, securableObject, Permission.READ);
 		if(securableObjectAcl == null){
-			securableObjectAcl = securableObjectAclDao.saveOrUpdate( AclObjectFactory.createSecurableObjectAcl(securableObject, Permission.READ, User.class, 1l));
+			securableObjectAcl = securableObjectAclDao.saveOrUpdate( AclObjectFactory.createSecurableObjectAcl(securableObject, Permission.READ, User.class, 1l));	
 		}
-
+		
 		logger.debug(securableObjectAcl.getOwnerClass() + ", " + securableObjectAcl.getOwnerId());
 		*/
 	}
@@ -62,7 +62,7 @@ public class SecurableObjectAclDaoTest {
 		return securableObjectDao;
 	}
 
-
-
-
+	
+	
+	
 }

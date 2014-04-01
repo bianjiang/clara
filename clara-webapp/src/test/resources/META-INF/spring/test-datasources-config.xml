@@ -20,7 +20,7 @@
 		<property name="maxStatements" value="150" />
 		<property name="maxIdleTime" value="3600" />
 	</bean>
-	<!--
+	<!-- 
 	<bean id="defaultCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
 		<property name="configLocation" value="classpath:/ehcache-2.xml" />
 		<property name="shared" value="true"/>
@@ -32,10 +32,10 @@
 		<property name="dataSource" ref="pooledDataSource" />
 		<qualifier value="defaultPersistenceUnit"/>
 	</bean>
-
+	
 	<!-- by default use the main transaction manager -->
 	<tx:annotation-driven mode="aspectj" transaction-manager="transactionManager" />
-
+	
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="defaultPersistenceUnit" />

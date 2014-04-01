@@ -26,6 +26,7 @@ import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.service.UserAuthenticationService;
 import edu.uams.clara.webapp.common.service.audit.AuditService;
+import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.common.util.XMLResponseHelper;
 import edu.uams.clara.webapp.common.util.response.JsonResponse;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
@@ -298,13 +299,25 @@ public class IRBAgendaItemAjaxController {
 			Agenda agenda = agendaDao.findById(agendaId);
 			ProtocolForm protocolForm = protocolFormDao.findById(protocolFormId);
 			
+			//check if the agenda item exists in this agenda
 			List<AgendaItemWrapper> agendaItemLst = agendaItemDao.listByAgendaId(agenda.getId());
 			if (agendaItemLst != null){
 				for (AgendaItemWrapper ai : agendaItemLst){
 					if (ai.getProtocolFormId() == protocolForm.getId()){
-						return new JsonResponse(true, "Agenda Item already exists in the agenda!", "", false, null);
+						return new JsonResponse(true, "Agenda Item already exists in this agenda!", "", false, null);
 					}
 				}
+			}
+			
+			//check if the protocol form has already been assigned to other agenda
+			try {
+				AgendaItem existingAgendaItem = agendaItemDao.getLatestByProtocolFormId(protocolFormId);
+				
+				if (existingAgendaItem != null && existingAgendaItem.getAgendaItemStatus().equals(AgendaItemStatus.NEW)) {
+					return new JsonResponse(true, "Agenda Item already exists in "+ DateFormatUtil.formateDateToMDY(existingAgendaItem.getAgenda().getDate()) +" agenda!", "", false, null);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
 			User user = userDao.findById(userId);

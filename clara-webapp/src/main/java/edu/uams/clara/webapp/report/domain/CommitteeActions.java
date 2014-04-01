@@ -463,6 +463,19 @@ public class CommitteeActions {
 		draftFormStatus.add(ProtocolFormStatusEnum.PENDING_TP_ENDORSEMENT);
 	}
 	
+	private  List<ProtocolFormStatusEnum> revisionRequestedStatus = Lists.newArrayList();
+	{
+		revisionRequestedStatus.add(ProtocolFormStatusEnum.REVISION_REQUESTED);
+		revisionRequestedStatus.add(ProtocolFormStatusEnum.IRB_DEFERRED_WITH_MINOR_CONTINGENCIES);
+		revisionRequestedStatus.add(ProtocolFormStatusEnum.IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES);
+	}
+	
+	private  List<ProtocolFormStatusEnum> irbSubmissionStatus = Lists.newArrayList();
+	{
+		irbSubmissionStatus.add(ProtocolFormStatusEnum.UNDER_IRB_PREREVIEW);
+		irbSubmissionStatus.add(ProtocolFormStatusEnum.PENDING_IRB_REVIEW_RE_ASSIGNMENT);
+	}
+	
 	private  List<ProtocolFormStatusEnum> piStartActions = Lists.newArrayList();{
 		piStartActions.add(ProtocolFormStatusEnum.DRAFT);
 		piStartActions.add(ProtocolFormStatusEnum.UNDER_REVISION);
@@ -478,6 +491,20 @@ public class CommitteeActions {
 		piStartActions.add(ProtocolFormStatusEnum.UNDER_REVISION_MINOR_CONTINGENCIES);
 		piStartActions.add(ProtocolFormStatusEnum.REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT);
 		piStartActions.add(ProtocolFormStatusEnum.REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT);
+	}
+	
+	private  List<ProtocolFormStatusEnum> reviewTypeBeforeIRB = Lists.newArrayList();
+	{
+		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_PREREVIEW);
+		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_ACH_PREREVIEW);
+		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_BUDGET_MANAGER_REVIEW);
+		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_BUDGET_REVIEW);
+		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_COVERAGE_REVIEW);
+		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_HOSPITAL_SERVICES_REVIEW);
+		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_DEPARTMENT_REVIEW);
+		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_COLLEGE_REVIEW);
+		
+		
 	}
 	
 	private  List<ProtocolFormStatusEnum> completeFormStatus = Lists.newArrayList();
@@ -504,37 +531,6 @@ public class CommitteeActions {
 		irbApprovalNSFFormStatus.add(ProtocolFormStatusEnum.IRB_APPROVED);
 	}
 	
-	private  List<Long> testStudyOnProduction = Lists.newArrayList();
-	{
-		testStudyOnProduction.add(201775l);
-		testStudyOnProduction.add(201821l);
-		testStudyOnProduction.add(201855l);
-		testStudyOnProduction.add(201890l);
-		testStudyOnProduction.add(201913l);
-		testStudyOnProduction.add(201957l);
-		testStudyOnProduction.add(202038l);
-		testStudyOnProduction.add(202041l);
-		testStudyOnProduction.add(202055l);
-		testStudyOnProduction.add(202071l);
-		testStudyOnProduction.add(202096l);
-		testStudyOnProduction.add(202104l);
-		testStudyOnProduction.add(202126l);
-		testStudyOnProduction.add(202138l);
-		testStudyOnProduction.add(202279l);
-		testStudyOnProduction.add(202292l);
-		testStudyOnProduction.add(202302l);
-		testStudyOnProduction.add(202310l);
-		testStudyOnProduction.add(202330l);
-		testStudyOnProduction.add(202337l);
-		testStudyOnProduction.add(202354l);
-		testStudyOnProduction.add(202385l);
-		testStudyOnProduction.add(202452l);
-		testStudyOnProduction.add(202456l);
-		testStudyOnProduction.add(202487l);
-		testStudyOnProduction.add(202554l);
-		testStudyOnProduction.add(202580l);
-	}
-	
 	
 	public Map<Committee, List<ProtocolFormCommitteeStatusEnum>> getStartCommitteeStatusMap() {
 		return startCommitteeStatusMap;
@@ -548,9 +544,6 @@ public class CommitteeActions {
 	public List<ProtocolFormStatusEnum> getCompleteFormStatus() {
 		return completeFormStatus;
 	}
-	public List<Long> getTestStudyOnProduction() {
-		return testStudyOnProduction;
-	}
 	public  List<ProtocolFormStatusEnum> getPiStartActions() {
 		return piStartActions;
 	}
@@ -563,4 +556,14 @@ public class CommitteeActions {
 	public Map<Committee, List<ProtocolFormCommitteeStatusEnum>> getEndCommitteeStatusMapForHSR() {
 		return endCommitteeStatusMapForHSR;
 	}
+	public List<ProtocolFormStatusEnum> getRevisionRequestedStatus() {
+		return revisionRequestedStatus;
+	}
+	public List<ProtocolFormStatusEnum> getIrbSubmissionStatus() {
+		return irbSubmissionStatus;
+	}
+	public List<ProtocolFormStatusEnum> getReviewTypeBeforeIRB() {
+		return reviewTypeBeforeIRB;
+	}
+
 }

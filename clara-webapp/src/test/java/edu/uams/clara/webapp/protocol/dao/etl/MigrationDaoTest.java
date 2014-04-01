@@ -279,7 +279,7 @@ public class MigrationDaoTest {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -380,20 +380,20 @@ public class MigrationDaoTest {
 		try {
 			/*
 			 * for (Long protocolId : protocolIds){
-			 *
+			 * 
 			 * List<ProtocolForm> pfLst =
 			 * protocolFormDao.listProtocolFormsByProtocolIdAndProtocolFormType
 			 * (protocolId, ProtocolFormType.ARCHIVE);
-			 *
+			 * 
 			 * for (ProtocolForm pf : pfLst){ ProtocolFormXmlData pfxd =
 			 * pf.getTypedProtocolFormXmlDatas
 			 * ().get(pf.getProtocolFormType().getDefaultProtocolFormXmlDataType
 			 * ());
-			 *
+			 * 
 			 * String xmlData = pfxd.getXmlData();
-			 *
+			 * 
 			 * String id = UUID.randomUUID().toString();
-			 *
+			 * 
 			 * String staffXml = "<staff id=\""+ id +
 			 * "\"><user id=\"761\" phone=\"+1 (501) 526-8439\" pi_serial=\"14341\" sap=\"6720\">"
 			 * + "<lastname>Waldrip</lastname>" + "<firstname>Jan</firstname>" +
@@ -404,14 +404,14 @@ public class MigrationDaoTest {
 			 * "<responsibility>Managing CLARA submission</responsibility>" +
 			 * "</reponsibilities>" + "</user>" + "<notify>false</notify>" +
 			 * "</staff>";
-			 *
+			 * 
 			 * Map<String,Object> resultMap =
 			 * xmlProcessor.addElementByPath("/protocol/staffs/staff", xmlData,
 			 * staffXml, false);
-			 *
+			 * 
 			 * pfxd.setXmlData(resultMap.get("finalXml").toString());
 			 * protocolFormXmlDataDao.saveOrUpdate(pfxd); }
-			 *
+			 * 
 			 * objectAclService.updateObjectAclByUserAndPermissions(Protocol.class
 			 * , protocolId, user, permissionSet); }
 			 */
@@ -505,7 +505,7 @@ public class MigrationDaoTest {
 		 * for (Protocol p : pfxddLst){ String meta = p.getMetaDataXml(); meta =
 		 * meta.replace("<role>study coordinator</role>",
 		 * "<role>Study Coordinator</role>");
-		 *
+		 * 
 		 * p.setMetaDataXml(meta); protocolDao.saveOrUpdate(p); }
 		 */
 
@@ -614,50 +614,50 @@ public class MigrationDaoTest {
 
 		/*
 		 * List<Contract> contractLst = contractDao.findAll();
-		 *
+		 * 
 		 * for (Contract contract : contractLst){ if (contract.getId() ==
 		 * 20034){ continue; } String contractMetaData =
 		 * contract.getMetaDataXml(); try { String createdStr =
 		 * xmlProcessor.getAttributeValueByPathAndAttributeName("/contract",
 		 * contractMetaData, "created");
-		 *
+		 * 
 		 * try { Date date = new
 		 * SimpleDateFormat("yyyy-MM-dd").parse(createdStr); contractMetaData =
 		 * xmlProcessor.replaceAttributeValueByPathAndAttributeName("/contract",
 		 * "created", contractMetaData, DateFormatUtil.formateDateToMDY(date));
-		 *
+		 * 
 		 * contract.setMetaDataXml(contractMetaData);
 		 * contractDao.saveOrUpdate(contract); } catch (IllegalArgumentException
 		 * e){
-		 *
+		 * 
 		 * }
-		 *
+		 * 
 		 * } catch (Exception e){ e.printStackTrace(); }
-		 *
+		 * 
 		 * List<ContractForm> contractFormLst =
 		 * contractFormDao.listContractFormsByContractId(contract.getId());
-		 *
+		 * 
 		 * for (ContractForm contractForm : contractFormLst){ String
 		 * contractFormMetaData = contractForm.getMetaDataXml(); try { String
 		 * createdStr =
 		 * xmlProcessor.getAttributeValueByPathAndAttributeName("/contract",
 		 * contractFormMetaData, "created");
-		 *
+		 * 
 		 * try { Date date = new
 		 * SimpleDateFormat("yyyy-MM-dd").parse(createdStr);
 		 * contractFormMetaData =
 		 * xmlProcessor.replaceAttributeValueByPathAndAttributeName("/contract",
 		 * "created", contractFormMetaData,
 		 * DateFormatUtil.formateDateToMDY(date));
-		 *
+		 * 
 		 * contractForm.setMetaDataXml(contractFormMetaData);
 		 * contractFormDao.saveOrUpdate(contractForm); } catch
 		 * (IllegalArgumentException e){
-		 *
+		 * 
 		 * }
-		 *
+		 * 
 		 * } catch (Exception e){ e.printStackTrace(); }
-		 *
+		 * 
 		 * ContractFormXmlData cfxd =
 		 * contractForm.getTypedContractFormXmlDatas()
 		 * .get(contractForm.getContractFormType
@@ -665,20 +665,20 @@ public class MigrationDaoTest {
 		 * cfxd.getXmlData(); try { String createdStr =
 		 * xmlProcessor.getAttributeValueByPathAndAttributeName("/contract",
 		 * contractFormXmlData, "created");
-		 *
+		 * 
 		 * try { Date date = new
 		 * SimpleDateFormat("yyyy-MM-dd").parse(createdStr); contractFormXmlData
 		 * =
 		 * xmlProcessor.replaceAttributeValueByPathAndAttributeName("/contract",
 		 * "created", contractFormXmlData,
 		 * DateFormatUtil.formateDateToMDY(date));
-		 *
+		 * 
 		 * cfxd.setXmlData(contractFormXmlData);
 		 * contractFormXmlDataDao.saveOrUpdate(cfxd); } catch
 		 * (IllegalArgumentException e){
-		 *
+		 * 
 		 * }
-		 *
+		 * 
 		 * } catch (Exception e){ e.printStackTrace(); } } }
 		 */
 	}
@@ -724,50 +724,50 @@ public class MigrationDaoTest {
 		/*
 		 * List<Protocol> protocolLst = protocolDao.listProtocolsByIdRange(0,
 		 * 200000);
-		 *
+		 * 
 		 * for (Protocol p : protocolLst){ if (p.getId() == 72426) continue;
 		 * logger.debug("protocol Id: " + p.getId()); String protocolMetaData =
 		 * p.getMetaDataXml(); try { String accuralGoal =
 		 * xmlHandler.getSingleStringValueByXPath(protocolMetaData,
 		 * "/protocol/subjects/accural-goal"); String accuralGaolInt = "";
-		 *
+		 * 
 		 * if (accuralGoal.isEmpty()) { accuralGaolInt = ""; } else {
 		 * accuralGaolInt =
 		 * (!accuralGoal.equals("0.0"))?String.valueOf(Float.valueOf
 		 * (accuralGoal).intValue()):"0"; }
-		 *
+		 * 
 		 * protocolMetaData =
 		 * xmlProcessor.replaceOrAddNodeValueByPath("/protocol/accural-goal",
 		 * protocolMetaData, accuralGaolInt);
-		 *
+		 * 
 		 * Map<String, String> attriutes = Maps.newHashMap();
 		 * attriutes.put("value", accuralGoal); protocolMetaData =
 		 * xmlProcessor.addAttributesByPath("/protocol/accural-goal",
 		 * protocolMetaData, attriutes);
-		 *
+		 * 
 		 * } catch (Exception e){ e.printStackTrace(); }
-		 *
+		 * 
 		 * try { String accuralGoalLocal =
 		 * xmlHandler.getSingleStringValueByXPath(protocolMetaData,
 		 * "/protocol/subjects/accural-goal-local"); String accuralGaolLocalInt
 		 * = "";
-		 *
+		 * 
 		 * if (accuralGoalLocal.isEmpty()) { accuralGaolLocalInt = ""; } else {
 		 * accuralGaolLocalInt =
 		 * (!accuralGoalLocal.equals("0.0"))?String.valueOf
 		 * (Float.valueOf(accuralGoalLocal).intValue()):"0"; }
-		 *
+		 * 
 		 * protocolMetaData =
 		 * xmlProcessor.replaceOrAddNodeValueByPath("/protocol/accural-goal-local"
 		 * , protocolMetaData, accuralGaolLocalInt);
-		 *
+		 * 
 		 * Map<String, String> attriutes = Maps.newHashMap();
 		 * attriutes.put("value", accuralGoalLocal); protocolMetaData =
 		 * xmlProcessor.addAttributesByPath("/protocol/accural-goal-local",
 		 * protocolMetaData, attriutes);
-		 *
+		 * 
 		 * } catch (Exception e){ e.printStackTrace(); }
-		 *
+		 * 
 		 * p.setMetaDataXml(protocolMetaData); protocolDao.saveOrUpdate(p); }
 		 */
 
@@ -776,33 +776,33 @@ public class MigrationDaoTest {
 		 * miagrationDao.listAllMigratedProtocolAcknowledged();
 		 * logger.debug("size: " + protocolLst.size()); for (Protocol p :
 		 * protocolLst){ if (p.getId() == 132662) continue;
-		 *
+		 * 
 		 * logger.debug("protocol id : " + p.getId());
-		 *
+		 * 
 		 * ProtocolForm pf =
 		 * protocolFormDao.getLatestProtocolFormByProtocolIdAndProtocolFormType
 		 * (p.getId(), ProtocolFormType.ARCHIVE);
-		 *
+		 * 
 		 * String protocolMetaData =p.getMetaDataXml(); String protocolFormMeta
 		 * = pf.getMetaDataXml();
-		 *
+		 * 
 		 * try { Map<String, List<String>> pfMetaResultMap =
 		 * xmlProcessor.listElementStringValuesByPaths(irbDeterminSet,
 		 * protocolFormMeta);
-		 *
+		 * 
 		 * for (Entry<String, List<String>> entry : pfMetaResultMap.entrySet()){
 		 * if (entry.getValue() != null && !entry.getValue().isEmpty()){ String
 		 * pfValue = entry.getValue().get(0);
-		 *
+		 * 
 		 * String valueInProtocol =
 		 * xmlHandler.getSingleStringValueByXPath(protocolMetaData,
 		 * entry.getKey());
-		 *
+		 * 
 		 * if (valueInProtocol.isEmpty()){ protocolMetaData =
 		 * xmlProcessor.replaceOrAddNodeValueByPath(entry.getKey(),
 		 * protocolMetaData, pfValue); } } } } catch (Exception e) {
 		 * e.printStackTrace(); }
-		 *
+		 * 
 		 * p.setMetaDataXml(protocolMetaData); protocolDao.saveOrUpdate(p); }
 		 */
 
@@ -850,7 +850,7 @@ public class MigrationDaoTest {
 		List<Protocol> protocolLst = miagrationDao.findFormStaffOnProtocol();
 
 		logger.debug("size: " + protocolLst.size());
-
+		
 		for (Protocol p : protocolLst) {
 			logger.debug(p.getId()+"");
 			ProtocolForm pf = null;
@@ -930,48 +930,48 @@ public class MigrationDaoTest {
 
 		}
 	}
-
+	
 	private Map<ProtocolFormXmlDataType, Map<String, String>> xPathPairMap = new EnumMap<ProtocolFormXmlDataType, Map<String, String>>(
 			ProtocolFormXmlDataType.class);
 	{
 		Map<String, String> newSubmissionXPathPairs = new HashMap<String, String>();
 		newSubmissionXPathPairs.put("/protocol/extra/prmc-related-or-not",
 				"/protocol/extra/prmc-related-or-not");
-
+		
 		xPathPairMap.put(ProtocolFormXmlDataType.PROTOCOL,
 				newSubmissionXPathPairs);
-
+		
 		Map<String, String> modificationXPathPairs = new HashMap<String, String>();
 		modificationXPathPairs.put("/protocol/extra/prmc-related-or-not",
 				"/protocol/extra/prmc-related-or-not");
-
+		
 		xPathPairMap.put(ProtocolFormXmlDataType.MODIFICATION,
 				modificationXPathPairs);
 	}
-
+	
 	@Test
 	public void updateProtocolMetaDataForCancerStudy(){
-
+		
 		List<ProtocolForm> pfList = this.miagrationDao.listCancerStudyProotcolForms();
 		logger.debug("@@@@@@@@@@@@@@@@ size: " + pfList.size());
 
 		for (ProtocolForm pf : pfList) {
-
+			
 			Protocol p = pf.getProtocol();
-
+			
 			if (p.getId() < 202782) continue;
 			logger.debug("####### protocolFormId:" + pf.getId());
 			String protocolMetaDataXml = p.getMetaDataXml();
 			/*
 			try {
 				Map<String, List<String>> values = xmlProcessor.listElementStringValuesByPaths(paths, protocolMetaDataXml);
-
+				
 				if (values.size() > 0) continue;
 			} catch (Exception e) {
-
+				
 			}
 			*/
-
+			
 			try {
 				//logger.debug("before mergeByXPaths -> protocol.metadataxml: "
 						//+ protocolMetaDataXml);

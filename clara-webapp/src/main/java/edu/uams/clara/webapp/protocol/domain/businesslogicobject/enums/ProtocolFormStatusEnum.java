@@ -79,7 +79,8 @@ public enum ProtocolFormStatusEnum {
 	COMPLIANCE_APPROVED("Hospital Compliance Approved", "INFO"),
 	COMPLIANCE_REJECTED("Hospital Compliance Rejected", "ERROR"),
 	ON_HOLD("On Hold", "WARN"),
-	IRB_REVIEW_NOT_NEEDED("IRB Review Not Needed", "INFO");
+	IRB_REVIEW_NOT_NEEDED("IRB Review Not Needed", "INFO"),
+	BUDGET_NOT_REVIEWED("Budget Not Reviewed", "INFO");
 	
 	private String description;
 	private String priorityLevel;

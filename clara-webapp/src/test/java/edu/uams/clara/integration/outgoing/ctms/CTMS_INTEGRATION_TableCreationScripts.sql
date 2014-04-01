@@ -15,7 +15,7 @@ CREATE TABLE [dbo].[clara_protocol](
 	[phases] [varchar](255) NULL,
 	[local_accrual_gaol] [varchar](50) NULL,
 	[irb_status] [varchar](50) NULL,
- CONSTRAINT [PK_clara_protocol] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_clara_protocol] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
@@ -38,7 +38,7 @@ CREATE TABLE [dbo].[clara_protocoldrug](
 	[clara_protocol_id] [bigint] NOT NULL,
 	[drug_name] [varchar](1000) NOT NULL,
 	[drug_id] [varchar](255) NULL,
- CONSTRAINT [PK_clara_protocoldrug] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_clara_protocoldrug] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
@@ -61,7 +61,7 @@ CREATE TABLE [dbo].[clara_protocoluser](
 	[clara_user_id] [bigint] NOT NULL,
 	[clara_protocol_id] [bigint] NOT NULL,
 	[clara_protocoluser_role] [varchar](50) NULL,
- CONSTRAINT [PK_clara_protocoluser] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_clara_protocoluser] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
@@ -90,7 +90,7 @@ CREATE TABLE [dbo].[clara_user](
 	[middle_name] [varchar](255) NULL,
 	[phone] [varchar](50) NULL,
 	[email] [varchar](100) NULL,
- CONSTRAINT [PK_clara_users] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_clara_users] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]

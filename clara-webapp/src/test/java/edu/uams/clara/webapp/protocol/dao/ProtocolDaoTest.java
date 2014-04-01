@@ -18,41 +18,41 @@ import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "file:src/test/java/edu/uams/clara/webapp/protocol/dao/ProtocolDaoTest-context.xml" })
 public class ProtocolDaoTest {
-
+	
 	private final static Logger logger = LoggerFactory
 	.getLogger(ProtocolDaoTest.class);
 
 	private ProtocolDao protocolDao;
-
+	
 	//@Test
 	public void testListProtocolsByUser(){
 		User u = new User();
 		u.setId(1l);
 		List<Protocol> protocols = protocolDao.listProtocolsByUser(u);
-
+		
 		for(Protocol p:protocols){
 			logger.debug("" + p.getId());
 		}
 	}
-
-
+		
+	
 	//@Test
 	public void testListLastestProtocolXmlDatas(){
 		List<ProtocolFormXmlData> protocolXmlDatas = protocolDao.listLastestProtocolXmlDatas();
-
+		
 		for(ProtocolFormXmlData pXml:protocolXmlDatas){
 			logger.debug("" + pXml.getId());
 		}
 	}
-
-
+	
+	
 	@Test
 	public void testGetLastestProtocolXmlData(){
 		 protocolDao.getLatestProtocolFormByProtocolIdAndProtocolFormType(201148,ProtocolFormType.NEW_SUBMISSION);
-
+		
 		//logger.debug("" + protocolXmlDatas.getId());
-
-
+		
+		
 	}
 
 	@Autowired(required=true)

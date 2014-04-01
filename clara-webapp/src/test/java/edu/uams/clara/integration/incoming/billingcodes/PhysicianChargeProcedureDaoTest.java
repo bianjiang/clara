@@ -248,8 +248,8 @@ public class PhysicianChargeProcedureDaoTest {
 
 	@Test
 	public void updateInfo() {
-
-
+		
+		
 		List<PhysicianChargeUpdate> updateList = physicianChargeUpdateDao
 				.findAll();
 		for (int i = 0; i < updateList.size(); i++) {
@@ -290,7 +290,7 @@ public class PhysicianChargeProcedureDaoTest {
 						.saveOrUpdate(physicianChargeProcedure);
 
 		}
-
+		
 		List<PhysicianChargeProcedure> existingList = physicianChargeProcedureDao.findAll();
 		for(int j=0;j<existingList.size();j++){
 			PhysicianChargeProcedure physicianChargeProcedure = existingList.get(j);

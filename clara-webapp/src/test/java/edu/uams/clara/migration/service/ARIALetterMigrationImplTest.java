@@ -21,7 +21,7 @@ public class ARIALetterMigrationImplTest {
 	public void test() throws IOException {
 		ariaLetterMigrationService.migrateLetter();
 	}
-
+	
 	//@Test
 	public void delete() throws IOException, XPathExpressionException {
 		ariaLetterMigrationService.deleteErrorLetter();;

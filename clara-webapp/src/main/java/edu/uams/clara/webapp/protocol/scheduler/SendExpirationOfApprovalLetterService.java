@@ -70,7 +70,7 @@ public class SendExpirationOfApprovalLetterService {
 		
 		List<Protocol> expiredProtocolLst = protocolDao.listExpiredProtocol();
 		
-		String achCCList = "BrackeenMargieI@uams.edu,StormentJanetS@uams.edu,HollowayAmanda@uams.edu,JContorno@uams.edu";
+		String achCCList = "BrackeenMargieI@uams.edu,StormentJanetS@uams.edu,HollowayAmanda@uams.edu,JContorno@uams.edu,GrayhamKS@archildrens.org";
 		
 		String achWithDrugCCList = "FurgersonBillyC@uams.edu";
 

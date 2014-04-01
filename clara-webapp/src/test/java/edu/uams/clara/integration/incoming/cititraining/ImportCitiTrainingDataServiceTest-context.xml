@@ -13,10 +13,10 @@
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
-
-	<bean id ="importCitiTrainingDataService" class="edu.uams.clara.integration.incoming.cititraining.ImportCitiTrainingDataService" />
+	
+	<bean id ="importCitiTrainingDataService" class="edu.uams.clara.integration.incoming.cititraining.ImportCitiTrainingDataService" />		
 	<bean id="citiMemberDao" class="edu.uams.clara.webapp.common.dao.usercontext.CitiMemberDao" />
 	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
-	<bean id="xmlProcessor" class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
-
+	<bean id="xmlProcessor" class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />	
+	
 </beans>

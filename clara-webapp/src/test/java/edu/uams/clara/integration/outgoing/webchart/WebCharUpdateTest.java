@@ -43,8 +43,8 @@ public class WebCharUpdateTest {
 	private ProtocolStatusDao protocolStatusDao;
 	private UserDao userDao;
 	private UserServiceImpl userServiceImpl;
-
-
+	
+	
 
 	@Test
 	public void updateARIAUserProtocol() throws IOException, XPathExpressionException {
@@ -60,10 +60,10 @@ public class WebCharUpdateTest {
 				int ariaUserIDInt = Integer.valueOf(ariaUserID);
 				String userIDStr = "";
 				if (!ariaUserID.isEmpty()) {
-
+					
 					String sapIDStr = ariaProtocolUpdateDao
 							.findAriaUserSapByUserID(ariaUserIDInt);
-
+					
 					try{
 						Integer.valueOf(sapIDStr);
 					}catch(Exception e){
@@ -72,7 +72,7 @@ public class WebCharUpdateTest {
 					if (!sapIDStr.isEmpty()) {
 						// convert sap in into clara format, remove 000 in
 						// front
-
+						
 						int sapID = Integer.valueOf(sapIDStr);
 						sapIDStr = String.valueOf(sapID);
 						// if user existed, directly use the id
@@ -96,16 +96,16 @@ public class WebCharUpdateTest {
 						}
 
 					}
-
+					
 				}
-				//user not in clara and cannot be created
+				//user not in clara and cannot be created 
 				if(userIDStr.isEmpty()){
 					userIDStr = String.valueOf(ariaUserIDInt+1000000);
 				}
 				int ariaProtocolID = (int)ariaUserProtocol[2];
 				Date date = new Date();
 				ariaProtocolUpdateDao.updateAriaUserIDinARIAUserProtocol(ariaProtocolID, date, userIDStr);
-
+				
 			}
 			}
 		}//end for
@@ -141,7 +141,7 @@ public class WebCharUpdateTest {
 					}
 				}
 			}
-
+			
 		}
 	}
 
@@ -154,10 +154,10 @@ public class WebCharUpdateTest {
 			int ariaUserIDInt = Integer.valueOf(ariaUserID);
 			String userIDStr = "";
 			if (!ariaUserID.isEmpty()) {
-
+				
 				String sapIDStr = ariaProtocolUpdateDao
 						.findAriaUserSapByUserID(ariaUserIDInt);
-
+				
 				try{
 					Integer.valueOf(sapIDStr);
 				}catch(Exception e){
@@ -166,7 +166,7 @@ public class WebCharUpdateTest {
 				if (!sapIDStr.isEmpty()) {
 					// convert sap in into clara format, remove 000 in
 					// front
-
+					
 					int sapID = Integer.valueOf(sapIDStr);
 					sapIDStr = String.valueOf(sapID);
 					// if user existed, directly use the id
@@ -190,11 +190,11 @@ public class WebCharUpdateTest {
 					}
 
 				}
-
-
-
+				
+				
+				
 			}
-			//user not in clara and cannot be created
+			//user not in clara and cannot be created 
 			if(userIDStr.isEmpty()){
 				userIDStr = String.valueOf(ariaUserIDInt+1000000);
 				int ARIAUserID = (int)ariaUserList.get(i)[0];
@@ -209,15 +209,15 @@ public class WebCharUpdateTest {
 				String phone = user.getPerson().getWorkphone();
 				String email =  user.getPerson().getEmail();
 				ariaProtocolUpdateDao.updateAriaUser(ARIAUserID, date, userIDStr,name,phone,email);
-
+				
 			}
-
-
+			
+			
 		}
 		}
 	}
-
-
+	
+	
 	//@Test
 	public void updateAriaProtocols() throws XPathExpressionException,
 			IOException {

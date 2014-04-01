@@ -21,13 +21,13 @@ public class SiteDaoTest {
 	.getLogger(SiteDaoTest.class);
 
 	private SiteDao siteDao;
-
+	
 	@Test
 	public void testSearchforSiteByKeywordAndCommon(){
 		String keyword = "ACH";
 		Boolean common = Boolean.TRUE;
 		List<Site> sites = siteDao.searchByKeywordAndCommon(keyword, common);
-
+		
 		for(Site site:sites){
 			logger.debug("site: " + site.getSiteName());
 		}

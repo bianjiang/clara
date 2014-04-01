@@ -242,12 +242,12 @@
 						class="edu.uams.clara.webapp.report.service.customreport.impl.HSRReportRestultServiceImpl">
 					</bean>	
 				</entry>
-				<entry key="Human Subject Research Dashboard-Full Review Studies Closed-Reasons for Closure">
+				<entry key="Human Subject Research Dashboard-Full Board Review Studies Closed-Reasons for Closure">
 					<bean
 						class="edu.uams.clara.webapp.report.service.customreport.impl.HSRReportRestultServiceImpl">
 					</bean>	
 				</entry>
-				<entry key="Human Subject Research Dashboard-Full Review Studies Closed-Cumulative Patients Enrolled">
+				<entry key="Human Subject Research Dashboard-Full Board Review Studies Closed-Cumulative Patients Enrolled">
 					<bean
 						class="edu.uams.clara.webapp.report.service.customreport.impl.HSRReportRestultServiceImpl">
 					</bean>	
@@ -262,6 +262,16 @@
 						class="edu.uams.clara.webapp.report.service.customreport.impl.CancerRelatedReportServiceImpl">
 					</bean>	
 				</entry>
+				<entry key="Agenda Report">
+					<bean
+						class="edu.uams.clara.webapp.report.service.customreport.impl.AgendaReportServiceImpl">
+					</bean>	
+				</entry>	
+				<entry key="IRB Billing Report">
+					<bean
+						class="edu.uams.clara.webapp.report.service.customreport.impl.IRBBillingReportServiceImpl">
+					</bean>	
+				</entry>				
 			</map>
 		</property>
 	</bean>

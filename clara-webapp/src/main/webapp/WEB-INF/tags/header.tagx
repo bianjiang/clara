@@ -70,6 +70,14 @@
 					</c:if>
 					<div class="header-link ${pageclass}"><a href="/clara-webapp/admin">Admin</a></div>
 				</sec:authorize>
+				
+				<sec:authorize access="hasRole('ROLE_SECRET_ADMIN')">	 
+					<c:set var="pageclass" value=""/>
+					<c:if test="${pagetype == 'secret'}">
+						<c:set var="pageclass" value="currentpage"/>
+					</c:if>
+					<div class="header-link ${pageclass}"><a href="/clara-webapp/super">IT Admin</a></div>
+				</sec:authorize>
 	
 				<div class="header-link"><a href="https://clara.uams.edu/wiki/doku.php?id=start" target="_blank">Help</a></div>
 	

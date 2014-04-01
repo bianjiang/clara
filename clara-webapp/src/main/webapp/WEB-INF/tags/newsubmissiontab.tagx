@@ -17,6 +17,9 @@
 							
 	<x:set var="siteResponsible"
 							select="string($protocolInstance/protocol/site-responsible/text())" />
+	
+	<x:set var="siteResponsibleEnrollSubjectsInUams"
+							select="string($protocolInstance/protocol/site-responsible/enroll-subject-in-uams/text())" />
 							
 	<x:set var="needBudget"
 							select="string($protocolInstance/protocol/budget/potentially-billed/text())" />
@@ -42,9 +45,21 @@
 		<c:set var="hudClickable" value="true" />		
 	</c:if>
 	
-	<c:if test="${siteResponsible ne 'ach-achri' and achHudStudy ne 'true'}">
-		<c:set var="siteResponsibleClickable" value="true" />		
+	<c:if test="${achHudStudy eq false}">
+		<c:if test="${siteResponsible eq 'ach-achri' or siteResponsible eq 'other'}">
+			<c:if test="${siteResponsibleEnrollSubjectsInUams eq 'y'}">
+				<c:set var="siteResponsibleClickable" value="true" />
+			</c:if>
+		</c:if>
+		
+		<c:if test="${siteResponsible eq 'uams'}">
+			<c:set var="siteResponsibleClickable" value="true" />
+		</c:if>
 	</c:if>
+	
+	<!-- <c:if test="${siteResponsible ne 'ach-achri' and achHudStudy ne 'true' and siteResponsibleEnrollSubjectsInUams ne 'n'}">
+		<c:set var="siteResponsibleClickable" value="true" />		
+	</c:if> -->
 	
 	<c:if test="${needBudget eq 'y'}">
 		<c:set var="needBudgetClickable" value="true" />		
@@ -68,19 +83,19 @@
 				</c:if>
 				<div class="clara-form-tab" id="tab-first-page"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'first-page');">Start</a></div><div id="btnSub-first-page" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
 					<div class="clara-form-tab" id="tab-basic-details"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'basic-details');">Basic Details</a></div><div id="btnSub-basic-details" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-sites"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;sites&quot;);'):fn:escapeXml('javascript:;')}" class="${hudClickable?'clickable':'notclickable'}">Sites</a></div><div id="btnSub-sites" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-sites"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?'submitXMLToNextPage( \'sites\');':''}" class="${hudClickable?'clickable':'notclickable'}">Sites</a></div><div id="btnSub-sites" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
 					<div class="clara-form-tab" id="tab-staff"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'staff');">Staff</a></div><div style="clear:both;"><!-- // --></div></div>
 					<div class="clara-form-tab" id="tab-subjects"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'subjects');">Subjects</a></div><div id="btnSub-subjects" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-hipaa"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;hipaa&quot;);'):fn:escapeXml('javascript:;')}" class="${hudClickable?'clickable':'notclickable'}">HIPAA</a></div><div id="btnSub-hipaa" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-consent"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;consent&quot;);'):fn:escapeXml('javascript:;')}" class="${hudClickable?'clickable':'notclickable'}">Consent</a></div><div id="btnSub-consent" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-risks"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;risks&quot;);'):fn:escapeXml('javascript:;')}" class="${hudClickable?'clickable':'notclickable'}">Risks</a></div><div id="btnSub-risks" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-monitoring"><div class="tab-name"><a href="javascript:;" onclick="${monitoringClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;monitoring&quot;);'):fn:escapeXml('javascript:;')}" class="${monitoringClickable?'clickable':'notclickable'}">Data and Safety Monitoring</a></div><div id="btnSub-monitoring" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-misc"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;misc&quot;);'):fn:escapeXml('javascript:;')}" class="${hudClickable?'clickable':'notclickable'}">Miscellaneous</a></div><div id="btnSub-misc" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-drugs-devices"><div class="tab-name"><a href="javascript:;" onclick="${clickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;drugs-devices&quot;);'):fn:escapeXml('javascript:;')}" class="${clickable?'clickable':'notclickable'}">Drugs and Devices</a></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-funding-sources"><div class="tab-name"><a href="javascript:;" onclick="${siteResponsibleClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;funding-sources&quot;);'):fn:escapeXml('javascript:;')}" class="${siteResponsibleClickable?'clickable':'notclickable'}">Funding Sources</a></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-budget"><div class="tab-name"><a href="javascript:;" onclick="${siteResponsibleClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;budget&quot;);'):fn:escapeXml('javascript:;')}" class="${siteResponsibleClickable?'clickable':'notclickable'}">Budget and Coverage</a></div><div id="btnSub-budget" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-contract"><div class="tab-name"><a href="javascript:;" onclick="${siteResponsibleClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;contract&quot;);'):fn:escapeXml('javascript:;')}" class="${siteResponsibleClickable?'clickable':'notclickable'}">Contract</a></div><div id="btnSub-contract" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
-					<div class="clara-form-tab" id="tab-epic"><div class="tab-name"><a href="javascript:;" onclick="${needBudgetClickable?fn:escapeXml('javascript:submitXMLToNextPage( &quot;epic&quot;);'):fn:escapeXml('javascript:;')}" class="${needBudgetClickable?'clickable':'notclickable'}">Epic</a></div><div id="btnSub-epic" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-hipaa"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?'submitXMLToNextPage( \'hipaa\');':''}" class="${hudClickable?'clickable':'notclickable'}">HIPAA</a></div><div id="btnSub-hipaa" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-consent"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?'submitXMLToNextPage( \'consent\');':''}" class="${hudClickable?'clickable':'notclickable'}">Consent</a></div><div id="btnSub-consent" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-risks"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?'submitXMLToNextPage( \'risks\');':''}" class="${hudClickable?'clickable':'notclickable'}">Risks</a></div><div id="btnSub-risks" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-monitoring"><div class="tab-name"><a href="javascript:;" onclick="${monitoringClickable?'submitXMLToNextPage( \'monitoring\');':''}" class="${monitoringClickable?'clickable':'notclickable'}">Data and Safety Monitoring</a></div><div id="btnSub-monitoring" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-misc"><div class="tab-name"><a href="javascript:;" onclick="${hudClickable?'submitXMLToNextPage( \'misc\');':''}" class="${hudClickable?'clickable':'notclickable'}">Miscellaneous</a></div><div id="btnSub-misc" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-drugs-devices"><div class="tab-name"><a href="javascript:;" onclick="${clickable?'submitXMLToNextPage( \'drugs-devices\');':''}" class="${clickable?'clickable':'notclickable'}">Drugs and Devices</a></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-funding-sources"><div class="tab-name"><a href="javascript:;" onclick="${siteResponsibleClickable?'submitXMLToNextPage( \'funding-sources\');':''}" class="${siteResponsibleClickable?'clickable':'notclickable'}">Funding Sources</a></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-budget"><div class="tab-name"><a href="javascript:;" onclick="${siteResponsibleClickable?'submitXMLToNextPage( \'budget\');':''}" class="${siteResponsibleClickable?'clickable':'notclickable'}">Budget and Coverage</a></div><div id="btnSub-budget" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-contract"><div class="tab-name"><a href="javascript:;" onclick="${siteResponsibleClickable?'submitXMLToNextPage( \'contract\');':''}" class="${siteResponsibleClickable?'clickable':'notclickable'}">Contract</a></div><div id="btnSub-contract" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
+					<div class="clara-form-tab" id="tab-epic"><div class="tab-name"><a href="javascript:;" onclick="${needBudgetClickable?'submitXMLToNextPage( \'epic\');':''}" class="${needBudgetClickable?'clickable':'notclickable'}">Epic</a></div><div id="btnSub-epic" class="subsectionbutton icn-application-list-disabled"><!-- // --></div><div style="clear:both;"><!-- // --></div></div>
 			
 			<div class="clara-form-tab" id="tab-documents"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'documents');">Documents</a></div><div style="clear:both;"><!-- // --></div></div>
 			<div class="clara-form-tab" id="tab-review"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'review');">Review and Submit</a></div><div style="clear:both;"><!-- // --></div></div>

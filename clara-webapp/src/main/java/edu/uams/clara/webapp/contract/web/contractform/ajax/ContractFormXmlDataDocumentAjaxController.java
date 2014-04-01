@@ -80,6 +80,7 @@ public class ContractFormXmlDataDocumentAjaxController {
 			@RequestParam("userId") long userId,
 			@RequestParam("uploadedFileId") long uploadedFileId,
 			@RequestParam("category") String category,
+			@RequestParam("categoryDescription") String categoryDesc,
 			@RequestParam("committee") Committee committee,
 			@RequestParam(value="title", required=false) String title) throws Exception {
 		Contract contract = contractDao.findById(contractId);
@@ -130,6 +131,7 @@ public class ContractFormXmlDataDocumentAjaxController {
 		}
 		contractDocument.setTitle(title);
 		contractDocument.setCategory(category);
+		contractDocument.setCategoryDesc(categoryDesc);
 		contractDocument.setCommittee(committee);
 		contractDocument.setCreated(new Date());
 		

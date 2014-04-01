@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules>
 	<rule path="/contract/basic-information/nature" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
-		<constraint type="REQUIRED" data="" error-msg="The title of this contract is required!" level="ERROR"/>
-	</rule>
+		<constraint type="REQUIRED" data="" error-msg="The title of this contract is required!" level="ERROR"/>		
+	</rule>	
 	<rule path="/contract/basic-information/contract-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
 		<constraint type="REQUIRED" data="" error-msg="To indicate the type of the contract is required!" level="ERROR"/>
 	</rule>
@@ -10,70 +10,70 @@
 		<constraint type="REQUIRED" data="" error-msg="To indicate the sub type of this contract is required since you selected Confidentiality Disclosure Agreement!" level="ERROR"/>
 		<prerequisites>
 			<rule path="/contract/basic-information/contract-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
-				<constraint type="EQUAL" data="confidentiality-disclosure-agreement" error-msg="Since you choose, ..." level="ERROR"/>
+				<constraint type="EQUAL" data="confidentiality-disclosure-agreement" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule>	
 	<rule path="/contract/basic-information/contract-type/clinical-trial-agreement/sub-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
 		<constraint type="REQUIRED" data="" error-msg="To indicate the type of this contract is required since you selected Clinical Trial Agreement!" level="ERROR"/>
 		<prerequisites>
 			<rule path="/contract/basic-information/contract-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
-				<constraint type="EQUAL" data="clinical-trial-agreement" error-msg="Since you choose, ..." level="ERROR"/>
+				<constraint type="EQUAL" data="clinical-trial-agreement" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule>	
 	<rule path="/contract/basic-information/contract-type/material-transfer-agreement/sub-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
 		<constraint type="REQUIRED" data="" error-msg="To indicate the type of this contract is required since you selected Material Transfer Agreement!" level="ERROR"/>
 		<prerequisites>
 			<rule path="/contract/basic-information/contract-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
-				<constraint type="EQUAL" data="material-transfer-agreement" error-msg="Since you choose, ..." level="ERROR"/>
+				<constraint type="EQUAL" data="material-transfer-agreement" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule>	
 	<rule path="/contract/basic-information/contract-type/research-agreement/sub-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
 		<constraint type="REQUIRED" data="" error-msg="To indicate the type of this contract is required since you selected Research Agreement!" level="ERROR"/>
 		<prerequisites>
 			<rule path="/contract/basic-information/contract-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
-				<constraint type="EQUAL" data="research-agreement" error-msg="Since you choose, ..." level="ERROR"/>
+				<constraint type="EQUAL" data="research-agreement" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule>	
 	<rule path="/contract/basic-information/contract-type/subcontracts/sub-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
 		<constraint type="REQUIRED" data="" error-msg="To indicate the type of this contract is required since you selected Subcontracts!" level="ERROR"/>
 		<prerequisites>
 			<rule path="/contract/basic-information/contract-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
-				<constraint type="EQUAL" data="subcontracts" error-msg="Since you choose, ..." level="ERROR"/>
+				<constraint type="EQUAL" data="subcontracts" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule>	
 	<rule path="/contract/basic-information/contract-type/license/sub-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
 		<constraint type="REQUIRED" data="" error-msg="To indicate the type of this contract is required since you selected License!" level="ERROR"/>
 		<prerequisites>
 			<rule path="/contract/basic-information/contract-type" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
-				<constraint type="EQUAL" data="license" error-msg="Since you choose, ..." level="ERROR"/>
+				<constraint type="EQUAL" data="license" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule>	
 	<rule path="/contract/basic-information/is-study-related" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
 		<constraint type="REQUIRED" data="" error-msg="To indicate whether this contract is related to any existing protocol is required!" level="ERROR"/>
-	</rule>
+	</rule>	
 	<rule path="/contract/protocol" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
 		<constraint type="REQUIRED" data="" error-msg="To indicate which protocol this contract is related to is required!" level="ERROR"/>
 		<prerequisites>
 			<rule path="/contract/basic-information/is-study-related" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
-				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule>	
 	<rule path="/contract/protocol" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
 		<constraint type="REQUIRED" data="" error-msg="To indicate the protocol id is required!" level="ERROR"/>
 		<prerequisites>
 			<rule path="/contract/basic-information/is-study-related" value-type="java.lang.String" pagename="Basic Information" pageref="first-page">
-				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule>	
 	<rule path="/contract/staffs/staff/user/roles/role" value-type="" pagename="Staff" pageref="staff">
-		<constraint type="CONTAINS" data="Principal Investigator" error-msg="Principal Investigator is required for the study!" level="ERROR"/>
-	</rule>
+		<constraint type="CONTAINS" data="Principal Investigator" error-msg="Principal Investigator is required for the study!" level="ERROR"/>		
+	</rule>	
 </rules>
