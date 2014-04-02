@@ -65,6 +65,3 @@ Acknowledgments
 =====
 The work is supported by the Translational Research Institute (TRI) at the University of Arkasnas for Medical Sciences (UAMS) funded by award UL1TR000039 through National Center for Advancing Translational Sciences (i.e., formerly UL1RR029884 through the NIH National Center for Research Resources). The content is solely the responsibility of the authors and does not necessarily represent the official views of the NIH.
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bianjiang/clara/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
