@@ -162,8 +162,15 @@ All tables have id as *primary key*, concurrent_version as *version control numb
 	* `department`: mapped to `dbo.department.id`
 	* `sub_department`: mapped to `dbo.sub_department.id`
 
+MISC on database
+=====
+### Performance and Optimization (i.e., create table and XML indexes)
+The script for creating neccessary table and XML indexes can be found [Optimization Scripts](clara-doc/optimization/SQLSERVERINDEX). 
 
-How form works in CALRA?
+### Other databases
+During the first few iterations of implementing CLARA, we actually supported both SQL Server and PostgreSql, which both have the required capabilities (i.e., handle XML natively). The use of SQL Server is necessary for adequate performance to support a production-level system. However, the implementation of CLARA leverages database abstraction layer (i.e., JPA over Hibernate) extensively that hides the low-level implementation details for accessing the database. An adopter of CLARA can easily replace SQL Server with an open-source database like PostgreSQL with reasonable efforts (e.g., changing the driver, and configuration files of Hibernate and JPA).
+
+How forms work in CALRA?
 =====
 
 ### How (XML) `forms` are stored, versioned, and organized in database?
