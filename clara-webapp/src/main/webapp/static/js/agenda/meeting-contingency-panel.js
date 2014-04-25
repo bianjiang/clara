@@ -414,7 +414,7 @@ Clara.IRBMeeting.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 					//hideGroupedColumn : true,
 					showGroupName : false,
 					enableGroupingMenu:false,
-			        groupTextTpl: '{text}'
+					groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})',
 			    }),
 				store: new Ext.data.GroupingStore({
 					groupField: '',
@@ -448,7 +448,9 @@ Clara.IRBMeeting.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 						         {name:'userId',mapping:'userId'},
 						         {name:'text', mapping:'text'},
 						         {name:'commentType', mapping:'commentType'},
-						         {name:'commentStatus', mapping:'commentStatus'},
+						         {name:'commentStatus', mapping:'commentStatus', convert:function(v){
+						        	 return (v)?v:"No status";
+						         }},
 						         {name:'contingencyType', mapping:'contingencyType'},
 						         {name:'inLetter', mapping:'inLetter'},
 						         {name:'replies',mapping:'children',convert:function(v,node){ 
@@ -531,7 +533,23 @@ Clara.IRBMeeting.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
    	    	        		}
    		 	    		}
 
-   		           	 },'-',{
+   		           	 },{
+	   		           	 	iconCls:'icn-users',
+	   		           	 	text: 'Group by Status',
+	   		           	 	//hidden:t.isMyList(),
+	   			           	enableToggle: true,
+	   			            pressed: false,
+	   			            toggleHandler: function(item, pressed){
+	   			            	clog("Groupby status",t.store);
+	   			            	
+	   	    	        		if (pressed){
+	   	    	        			t.store.groupBy("commentStatus");
+	   	    	        		} else {
+	   	    	        			t.store.clearGrouping();
+	   	    	        		}
+	   		 	    		}	
+	   		           	 	
+	   		           	 },'-',{
    		           		 xtype:'button',
    		           		 text:'Show Edit History',
    		           		 id:'btnShowEditLog',
@@ -593,6 +611,11 @@ Clara.IRBMeeting.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				    	header:'Committee',
 				    	dataIndex: 'committee',
 				    	hidden: true
+				    },{
+				    	id:'commentStatus',
+				    	header:'Status',
+				    	hidden:true,
+				    	dataIndex:'commentStatus'
 				    },{
 						id:'commentType',
 						dataIndex:'commentType',

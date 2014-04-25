@@ -57,5 +57,7 @@
 	<field identifier="daterange" display-name="Date Range" xtype="clarafield.date" type="ELEMENT_NODE" allowed-operators="BEFORE|AFTER|BETWEEN" data-source="edu.uams.clara.webapp.protocol.domain.Protocol"/>
 	<field identifier="approveddaterange" display-name="Approved Date Range" xtype="clarafield.date" type="ELEMENT_NODE" allowed-operators="BEFORE|AFTER|BETWEEN" data-source="edu.uams.clara.webapp.protocol.domain.Protocol"/>
 	
+	<!-- auto date update to today -->
+	<field identifier="autodateupdate" display-name="Approved Date Range(Schedule Only! From a Date to Today)" xtype="clarafield.date" type="ELEMENT_NODE" allowed-operators="EQUALS" data-source="edu.uams.clara.webapp.protocol.domain.Protocol"/>
 	
 </fields>

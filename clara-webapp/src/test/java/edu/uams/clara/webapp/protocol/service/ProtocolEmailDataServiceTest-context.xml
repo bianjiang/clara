@@ -8,7 +8,7 @@
 	<context:annotation-config />
 
 	<context:property-placeholder
-		location="file:src/main/resources/META-INF/spring/*.properties,file:src/main/resources/META-INF/spring/clara/*.properties" />
+		location="file:src/main/resources/META-INF/spring/*.properties,file:src/main/resources/META-INF/spring/localdev/*.properties" />
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />

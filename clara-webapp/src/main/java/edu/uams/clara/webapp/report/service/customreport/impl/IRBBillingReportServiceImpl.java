@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,7 +20,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
@@ -156,7 +154,6 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 					.getSingleStringValueByXPath(protocolxmlData,
 							"/protocol/study-type/investigator-initiated/investigator-description");
 
-			Set<String> supportTypePath = Sets.newHashSet();
 			List<Element> subtypes = xmlHandler.listElementsByXPath(protocolxmlData, "/protocol/study-type/investigator-initiated/sub-type");
 			int subtypesSzie = subtypes.size();
 			int subtypeIndex = 0;
@@ -270,17 +267,21 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 			String tempFundingEntity ="<field id=\"fundingentity\">";
 			String tempSubtypes ="<field id=\"supporttype\">";
 			
+			boolean firstLine = true;
 			while (subtypeIndex < subtypesSzie) {
-				if(!tempSubtypes.isEmpty()){
+				if(!firstLine){
 					tempSubtypes+="&lt;br&gt;";
+				}else{
+					firstLine = false;
 				}
-				tempSubtypes +=subtypes.get(subtypeIndex).getTextContent();;
+				tempSubtypes +=subtypes.get(subtypeIndex).getTextContent();
 				subtypeIndex++;
 			}
 			tempSubtypes += "</field>";
 			finalResultXml +=tempSubtypes;
 			List<Element> fundings = xmlHandler.listElementsByXPath(protocolxmlData, "/protocol/funding/funding-source");
 
+			firstLine = true;
 			for (Element funding : fundings) {
 				String fundingName = funding.getAttribute("name");
 				String fundingAmount = funding.getAttribute("amount");
@@ -297,27 +298,31 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 					fundingName ="";
 				}
 				
-					if(!tempFundingName.isEmpty()){
+					if(!firstLine){
 						tempFundingName+="&lt;br&gt;";
 					}
 					
 					tempFundingName +=fundingName;
 					
-					if(!tempFundingAmount.isEmpty()){
+					if(!firstLine){
 						tempFundingAmount+="&lt;br&gt;";
 					}
 					tempFundingAmount +=fundingAmount;
 					
-					if(!type.isEmpty()){
-						type+="&lt;br&gt;";
+					if(!firstLine){
+						tempFundingType+="&lt;br&gt;";
 					}
 					tempFundingType +=type;
 					
-					if(!fundingEntityName.isEmpty()){
-						fundingEntityName+="&lt;br&gt;";
+					if(!firstLine){
+						tempFundingEntity+="&lt;br&gt;";
 					}
 					
 					tempFundingEntity +=fundingEntityName;
+					
+					if(firstLine){
+						firstLine = false;
+					}
 				
 			}
 			tempFundingName += "</field>";
@@ -481,6 +486,12 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 
 					}
 
+					//for scheduel only, create a time range from a date to the running date
+					if(fieldIdentifier.equals("autodateupdate")){
+						date2 = DateFormatUtil.formateDateToMDY(new Date());
+						date1 = value;
+					}
+					
 					//date range donot need to add query conditions here
 					if(!date1.isEmpty()&&!fieldIdentifier.equals("submissiontimespan")){
 						continue;

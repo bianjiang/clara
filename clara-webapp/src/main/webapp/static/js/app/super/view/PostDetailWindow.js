@@ -18,7 +18,7 @@ Ext.define('Clara.Super.view.PostDetailWindow', {
 		            		  var msg = Ext.getCmp("fldMessage").getValue();
 		            		  var title = Ext.getCmp("fldTitle").getValue();
 		            		  
-		            		  if (msg.length <= 8000){
+		            		  if (msg.length <= 18000){
 		            			  
 		            			  var rec = Ext.create('Clara.Super.model.MessagePost', {
 		            				  title:title,
@@ -42,7 +42,7 @@ Ext.define('Clara.Super.view.PostDetailWindow', {
 		            			    });
 		            			  
 		            		  } else {
-		            			  alert("HTML of message cannot be more than 8000 characters.");
+		            			  alert("HTML of message cannot be more than 18000 characters.");
 		            		  }
 		            		  
 		          	    		

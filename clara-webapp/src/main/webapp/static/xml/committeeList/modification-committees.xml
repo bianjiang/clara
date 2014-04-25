@@ -18,4 +18,5 @@
 	<committee name="ACHRI" desc="ACHRI" individual-assignment="true" assigned-by="IRB,GATEKEEPER" />
 <!-- 	<committee name="IRB_ASSIGNER" order="7" required="TRUE" desc="IRB Office Review" assigned-by="BUDGET" checked="true" /> -->
 	<committee name="PI" order="7" required="TRUE" desc="PI (Sign Off)" assigned-by="BUDGET" individual-assignment="false" checked="true" />
+	<committee name="IRB_ASSIGNER" order="8" required="TRUE" desc="IRB" assigned-by="" individual-assignment="false" />
 </committees>

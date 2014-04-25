@@ -160,8 +160,11 @@ BusinessObjectStatusHelper {
 			EmailTemplate emailTemplate = null;
 			
 			if (notificationType.equals("NOTIFICATION")){
-				emailTemplate = contractEmailService.sendNotification(contractForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment, mailToLst, ccLst);
-				
+				try {
+					emailTemplate = contractEmailService.sendNotification(contractForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment, mailToLst, ccLst);
+				} catch (Exception e) {
+					logger.error("failed to send notification: " + emailTemplateIdentifier + "; form id: " + contractForm.getId(), e);
+				}
 			}else if (notificationType.equals("LETTER")){
 				String letterName = notificationEl.getAttribute("letter-name"); 
 				String docType = notificationEl.getAttribute("doc-type");
@@ -173,9 +176,12 @@ BusinessObjectStatusHelper {
 				if(docType == null || docType.isEmpty()){
 					docType = "Letter";
 				}
-
-				emailTemplate = contractEmailService.sendLetter(contractForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment, letterName, docType, mailToLst, ccLst);		
 				
+				try {
+					emailTemplate = contractEmailService.sendLetter(contractForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment, letterName, docType, mailToLst, ccLst);
+				} catch (Exception e) {
+					logger.error("failed to send letter: " + emailTemplateIdentifier + "; form id: " + contractForm.getId(), e);
+				}
 			}
 			
 			if (emailTemplate != null){ //impossible to be null
@@ -262,8 +268,7 @@ BusinessObjectStatusHelper {
 	//need to change to event driven later ...
 	@Override
 	public void changeObjectFormDocumentStatus(Form form, Date now,
-			Committee committee, User user, String status, boolean changeBudgetDocStatus, boolean changeProtocolDocStatus,
-			boolean changeConsentDocStatus) {
+			Committee committee, User user, String status, Element documentStatusEl) {
 		logger.debug("changing ObjectFormDocumentStatus to " + status);
 		
 		ContractForm contractForm = (ContractForm) form;
@@ -449,6 +454,13 @@ BusinessObjectStatusHelper {
 			throws IOException, SAXException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	protected String getCommitteeReviewFormCommitteeStatus(
+			Committee nextCommittee) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -74,8 +74,8 @@ public class ProtocolFormXmlDataDao extends
 			long protocolFormId, ProtocolFormXmlDataType protocolFormXmlDataType) {
 
 		String query = "SELECT pfxd FROM ProtocolFormXmlData pfxd "
-				+ " WHERE pfxd.retired = :retired AND pfxd.protocolFormXmlDataType = :protocolFormXmlDataType AND pfxd.parent.id IN ("
-				+ " SELECT pd.parent.id FROM ProtocolFormXmlData pd WHERE pd.protocolForm.id = :protocolFormId AND pd.retired = :retired) "
+				+ " WHERE pfxd.retired = :retired AND pfxd.protocolFormXmlDataType = :protocolFormXmlDataType AND pfxd.protocolForm.parent.id IN ("
+				+ " SELECT pf.parent.id FROM ProtocolForm pf WHERE pf.id = :protocolFormId AND pf.retired = :retired) "
 				+ " ORDER BY pfxd.created DESC";
 
 		TypedQuery<ProtocolFormXmlData> q = getEntityManager().createQuery(

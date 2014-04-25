@@ -441,7 +441,7 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 					},
 					autoLoad:(t.autoLoadComments),
 					groupField: '',
-					remoteGroup: true,
+					remoteGroup: false,
 					reader: new Ext.data.JsonReader({
 						idProperty: 'id',
 						fields: [
@@ -456,7 +456,9 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 						         {name:'commentType', mapping:'commentType'},
 						         {name:'inLetter', mapping:'inLetter'},
 						         {name:'isPrivate'},
-						         {name:'commentStatus', mapping:'commentStatus'},
+						         {name:'commentStatus', mapping:'commentStatus', convert:function(v){
+						        	 return (v)?v:"No status";
+						         }},
 						         {name:'replies',mapping:'children',convert:function(v,node){ 
 						        	 var replyReader = new Ext.data.JsonReader({
 						        			root: 'children',
@@ -527,7 +529,6 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
    		 	    		}	
    		           	 	
    		           	 },{
-	   	    	    		scope:this,
 	   		           	 	iconCls:'icn-users',
 	   		           	 	text: 'Group by Committee',
 	   		           	 	hidden:t.isMyList(),
@@ -535,13 +536,29 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	   			            pressed: false,
 	   			            toggleHandler: function(item, pressed){
 	   	    	        		if (pressed){
-	   	    	        			this.store.groupBy("committee");
+	   	    	        			t.store.groupBy("committee");
 	   	    	        		} else {
-	   	    	        			this.store.clearGrouping();
+	   	    	        			t.store.clearGrouping();
 	   	    	        		}
 	   		 	    		}	
 	   		           	 	
-	   		           	 },'-',{
+	   		           	 },{
+		   		           	 	iconCls:'icn-users',
+		   		           	 	text: 'Group by Status',
+		   		           	 	//hidden:t.isMyList(),
+		   			           	enableToggle: true,
+		   			            pressed: false,
+		   			            toggleHandler: function(item, pressed){
+		   			            	clog("Groupby status",t.store);
+		   			            	
+		   	    	        		if (pressed){
+		   	    	        			t.store.groupBy("commentStatus");
+		   	    	        		} else {
+		   	    	        			t.store.clearGrouping();
+		   	    	        		}
+		   		 	    		}	
+		   		           	 	
+		   		           	 },'-',{
 		   	    	    		scope:this,
 		   		           	 	iconCls:'icn-printer',
 		   		           	 	
@@ -563,7 +580,7 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		   			             */
 		   		 	    		}	
 		   		           	 	
-		   		           	 }]
+		   		           	 },'-']
 	    	    }),
 				
 				columns: [{
@@ -573,6 +590,12 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				    	hidden: true,
 				    	menuDisabled:true
 				    },{
+				    	id:'commentStatus',
+				    	header:'Status',
+				    	hidden:true,
+				    	dataIndex:'commentStatus'
+				    },
+				    {
 						id:'modified',
 						dataIndex:'timestamp',
 						sortable:true,

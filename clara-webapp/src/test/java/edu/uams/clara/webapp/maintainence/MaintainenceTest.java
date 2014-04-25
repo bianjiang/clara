@@ -28,6 +28,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.google.common.collect.Lists;
+
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import edu.uams.clara.core.util.xml.XmlHandler;
@@ -492,7 +494,7 @@ public class MaintainenceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void updateBudgetXmlData() {
 		ProtocolForm pf = protocolFormDao.findById(17805l);
 		
@@ -512,6 +514,31 @@ public class MaintainenceTest {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testFunction() {
+		//List<ProtocolForm> list = this.maintainenceDao.listRevisionRequestedProtocolFormFrom();
+		
+		//logger.debug("pf list size: " + list.size());
+		List<ProtocolForm> list = Lists.newArrayList();
+		
+		ProtocolForm pff = protocolFormDao.findById(21083l);
+		list.add(pff);
+		logger.debug("@@@@@@@@@@@@@ pf list size: " + list.size());
+		for (ProtocolForm pf : list) {
+			logger.debug("pf parent id: " + pf.getParentFormId());
+			
+			ProtocolFormXmlData oldestPfxd = maintainenceDao.getOldestProtocolFormXmlData(pf.getParentFormId(), ProtocolFormXmlDataType.PHARMACY);
+			
+			List<ProtocolFormXmlData> pfxdList = maintainenceDao.listProtocolFormXmlDataVersions(pf.getParentFormId(), ProtocolFormXmlDataType.PHARMACY);
+			logger.debug("pfxd list size: " + pfxdList.size());
+			for (ProtocolFormXmlData pfxd : pfxdList) {
+				pfxd.setParent(oldestPfxd);
+				
+				pfxd = protocolFormXmlDataDao.saveOrUpdate(pfxd);
+			}
 		}
 	}
 

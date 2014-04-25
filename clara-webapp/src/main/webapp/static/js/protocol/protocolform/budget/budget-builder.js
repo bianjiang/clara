@@ -62,21 +62,46 @@ Clara.BudgetBuilder.GetProtocolCoverSheet = function(showIds, printOnLoad){
 };
 
 Clara.BudgetBuilder.SetFA = function(){
-	Ext.Msg.show({
-		title:'Budget F&A',
-		msg:'Enter a new F&A (in percent)',
-		buttons:Ext.Msg.OKCANCEL,
-		icon: Ext.MessageBox.info,
-		value:budget.FA,
-		prompt:true,
-		fn:function(btn, text){
-	    	if (btn == 'ok'){
-	    		Clara.BudgetBuilder.SaveAction = "Budget F&A";
-	    		budget.updateFA(parseFloat(text));
-	    		budget.save();
-	    	}
-		}
+	
+	var winFA = new Ext.Window({
+		id:"winSetBudgetFA",
+		width:280,
+		height:130,
+		modal:true,
+		padding:6,
+		title:'Set Budget F&A',
+		layout:'form',
+		items:[{
+			xtype:'numberfield',
+			id:'fldBudgetFAPercent',
+			allowBlank:false,
+			allowDecimal:true,
+			allowNegative:false,
+			fieldLabel:'Enter a new F&A (in percent)',
+			value:budget.FA
+		}],
+		buttons:[{
+			text:"Cancel",
+			handler:function(){
+				Ext.getCmp("winSetBudgetFA").close();
+			}
+		},{
+			text:'OK',
+			handler:function(){
+				if (Ext.getCmp("fldBudgetFAPercent").validate()){
+					var newFA = Ext.getCmp("fldBudgetFAPercent").getValue();
+					Clara.BudgetBuilder.SaveAction = "Budget F&A";
+		    		budget.updateFA(parseFloat(newFA));
+		    		budget.save();
+		    		Ext.getCmp("winSetBudgetFA").close();
+				} else {
+					alert("Invalid F&A. Check the value and try again.");
+				}
+			}
+		}]
 	});
+	winFA.show();
+	
 };
 
 Clara.BudgetBuilder.PromptSimpleBudgetVisits = function(){
@@ -279,14 +304,14 @@ Clara.BudgetBuilder.MessageBus.addListener('afterbudgetexport',function(budget){
 	//cdebug("after export fired.");
 	alert("Budget documents uploaded.");
 	exportExcelMask.hide();
-	if(Ext.isChrome) location.reload();
+	location.reload();
 });
 
 Clara.BudgetBuilder.MessageBus.addListener('onbudgetexporterror',function(budget){
 	//cdebug("error export fired.");
 	alert("Budget documents uploaded.");
 	exportExcelMask.hide();
-	if(Ext.isChrome) location.reload();
+	location.reload();
 });
 
 Clara.BudgetBuilder.MessageBus.addListener('beforeloadexternalexpenses',function(budget){

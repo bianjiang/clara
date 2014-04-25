@@ -1136,8 +1136,8 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 		// since none is removed at begin, thus new space is needed when get it
 		// back
 		if (hasNone == 1) {
-			procedureTypeList.set(0, "NONE");
 			procedureTypeList.add("increaseSpaceOnly");
+			procedureTypeList.set(0, "NONE");
 		}
 
 		for (int i = 0; i < ListForTypeSort.size(); i++) {

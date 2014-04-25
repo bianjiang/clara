@@ -272,7 +272,7 @@ public abstract class CustomReportService {
 				
 
 				String xpath = this.getFieldReportXpathMap().get(fieldIdentifier);
-				if(i != 0){
+				if(i != 0&&reportStatement.contains(" as ")){
 					reportStatement += " , "+xpath + " as " + alias;;
 				}else{
 				reportStatement += xpath + " as " + alias;

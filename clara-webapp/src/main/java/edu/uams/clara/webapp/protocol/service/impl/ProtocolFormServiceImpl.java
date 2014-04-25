@@ -638,7 +638,9 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				
 				String studyNatureValue = (studyNatureValues!=null && !studyNatureValues.isEmpty())?studyNatureValues.get(0):"";
 				
-				String siteId = xmlProcessor.getAttributeValueByPathAndAttributeName("/protocol/study-sites/site", protocolFormXmlDataString, "site-id");
+				//String siteId = xmlProcessor.getAttributeValueByPathAndAttributeName("/protocol/study-sites/site", protocolFormXmlDataString, "site-id");
+				
+				List<String> siteIds = xmlProcessor.getAttributeValuesByPathAndAttributeName("/protocol/study-sites/site", protocolFormXmlDataString, "site-id");
 
 				if (studyNatureValue.equals("hud-use")){
 					String hudSite = xmlHandler.getSingleStringValueByXPath(protocolFormXmlDataString, "/protocol/study-nature/hud-use/where");
@@ -654,7 +656,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 					
 					String primaryResValue = (primaryResValues!=null && !primaryResValues.isEmpty())?primaryResValues.get(0):""; 
 					
-					if (primaryResValue.equals("ach-achri") || (siteId != null && !siteId.isEmpty() && (siteId.equals("2") || siteId.equals("1")))){
+					if (primaryResValue.equals("ach-achri") || (siteIds != null && !siteIds.isEmpty() && (siteIds.contains("2") || siteIds.contains("1")))){
 						workflow = "ACH";
 					} else if (primaryResValue.equals("uams")){
 						List<String> studyTypeValues = xmlProcessor.listElementStringValuesByPath("/protocol/study-type", protocolFormXmlData.getXmlData());
@@ -718,13 +720,13 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 					//String needBudgetInClara = (values.get("/protocol/budget/need-budget-in-clara") != null && !values.get("/protocol/budget/need-budget-in-clara").isEmpty())?values.get("/protocol/budget/need-budget-in-clara").get(0):"";
 					String isAudit = (values.get("/protocol/modification/to-modify-section/is-audit") != null && !values.get("/protocol/modification/to-modify-section/is-audit").isEmpty())?values.get("/protocol/modification/to-modify-section/is-audit").get(0):"";
 					String budgetModified = (values.get("/protocol/modification/to-modify-section/involve-change-in/budget-modified") != null && !values.get("/protocol/modification/to-modify-section/involve-change-in/budget-modified").isEmpty())?values.get("/protocol/modification/to-modify-section/involve-change-in/budget-modified").get(0):"";
-					String contractModified = (values.get("/protocol/modification/to-modify-section/involve-change-in/contract-modified") != null && !values.get("/protocol/modification/to-modify-section/involve-change-in/contract-modified").isEmpty())?values.get("/protocol/modification/to-modify-section/involve-change-in/contract-modified").get(0):"";
-					String piModified = (values.get("/protocol/modification/to-modify-section/involve-change-in/pi-modified") != null && !values.get("/protocol/modification/to-modify-section/involve-change-in/pi-modified").isEmpty())?values.get("/protocol/modification/to-modify-section/involve-change-in/pi-modified").get(0):"";
+					//String contractModified = (values.get("/protocol/modification/to-modify-section/involve-change-in/contract-modified") != null && !values.get("/protocol/modification/to-modify-section/involve-change-in/contract-modified").isEmpty())?values.get("/protocol/modification/to-modify-section/involve-change-in/contract-modified").get(0):"";
+					//String piModified = (values.get("/protocol/modification/to-modify-section/involve-change-in/pi-modified") != null && !values.get("/protocol/modification/to-modify-section/involve-change-in/pi-modified").isEmpty())?values.get("/protocol/modification/to-modify-section/involve-change-in/pi-modified").get(0):"";
 					String procedureDeleted = (values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/procedure") != null && !values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/procedure").isEmpty())?values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/procedure").get(0):"";
 					String pharmacyDeleted = (values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/pharmacy") != null && !values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/pharmacy").isEmpty())?values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/pharmacy").get(0):"";
-					String subjectDeleted = (values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/subjects") != null && !values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/subjects").isEmpty())?values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/subjects").get(0):"";
-					String amendToInjury = (values.get("/protocol/modification/to-modify-section/amendment-to-injury") != null && !values.get("/protocol/modification/to-modify-section/amendment-to-injury").isEmpty())?values.get("/protocol/modification/to-modify-section/amendment-to-injury").get(0):"";
-					String submitToMedicare = (values.get("/protocol/modification/to-modify-section/submit-to-medicare") != null && !values.get("/protocol/modification/to-modify-section/submit-to-medicare").isEmpty())?values.get("/protocol/modification/to-modify-section/submit-to-medicare").get(0):"";
+					//String subjectDeleted = (values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/subjects") != null && !values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/subjects").isEmpty())?values.get("/protocol/modification/to-modify-section/involve-addition-deletion-of/subjects").get(0):"";
+					//String amendToInjury = (values.get("/protocol/modification/to-modify-section/amendment-to-injury") != null && !values.get("/protocol/modification/to-modify-section/amendment-to-injury").isEmpty())?values.get("/protocol/modification/to-modify-section/amendment-to-injury").get(0):"";
+					//String submitToMedicare = (values.get("/protocol/modification/to-modify-section/submit-to-medicare") != null && !values.get("/protocol/modification/to-modify-section/submit-to-medicare").isEmpty())?values.get("/protocol/modification/to-modify-section/submit-to-medicare").get(0):"";
 					String conductUnderUams = (values.get("/protocol/modification/to-modify-section/conduct-under-uams") != null && !values.get("/protocol/modification/to-modify-section/conduct-under-uams").isEmpty())?values.get("/protocol/modification/to-modify-section/conduct-under-uams").get(0):"";
 					String studyType = (values.get("/protocol/study-type") != null && !values.get("/protocol/study-type").isEmpty())?values.get("/protocol/study-type").get(0):"";
 					String respSite = (values.get("/protocol/site-responsible") != null && !values.get("/protocol/site-responsible").isEmpty())?values.get("/protocol/site-responsible").get(0):"";
@@ -743,7 +745,8 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 								workflow = "IRB";
 							}
 						} else {
-							if (budgetModified.equals("y") || contractModified.equals("y") || piModified.equals("y") || procedureDeleted.equals("y") || pharmacyDeleted.equals("y") || subjectDeleted.equals("y") || amendToInjury.equals("y") || submitToMedicare.equals("y")) {
+							//if (budgetModified.equals("y") || contractModified.equals("y") || piModified.equals("y") || procedureDeleted.equals("y") || pharmacyDeleted.equals("y") || subjectDeleted.equals("y") || amendToInjury.equals("y") || submitToMedicare.equals("y")) {
+							if (budgetModified.equals("y") || procedureDeleted.equals("y") || pharmacyDeleted.equals("y")) {
 								if (studyType.equals("investigator-initiated")) {
 									if (conductUnderUams.equals("y")) {
 										workflow = "GATEKEEPER";

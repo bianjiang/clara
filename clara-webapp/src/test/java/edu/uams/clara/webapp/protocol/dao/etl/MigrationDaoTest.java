@@ -951,17 +951,29 @@ public class MigrationDaoTest {
 	
 	@Test
 	public void updateProtocolMetaDataForCancerStudy(){
+		List<ProtocolFormStatusEnum> protocolFormStatues = Lists.newArrayList();
+		protocolFormStatues.add(ProtocolFormStatusEnum.IRB_ACKNOWLEDGED);
+		protocolFormStatues.add(ProtocolFormStatusEnum.IRB_APPROVED);
+		protocolFormStatues.add(ProtocolFormStatusEnum.EXPEDITED_APPROVED);
+		protocolFormStatues.add(ProtocolFormStatusEnum.EXEMPT_APPROVED);
 		
-		List<ProtocolForm> pfList = this.miagrationDao.listCancerStudyProotcolForms();
+		List<Protocol> pfList = this.miagrationDao.listCancerStudyProotcolForms();
 		logger.debug("@@@@@@@@@@@@@@@@ size: " + pfList.size());
 
-		for (ProtocolForm pf : pfList) {
+		for (Protocol p : pfList) {
 			
-			Protocol p = pf.getProtocol();
+			//Protocol p = pf.getProtocol();
 			
-			if (p.getId() < 202782) continue;
-			logger.debug("####### protocolFormId:" + pf.getId());
+			if (p.getId() != 138027) continue;
+			
+			//if (p.getId() < 202782) continue;
+			logger.debug("####### protocolId:" + p.getId());
+			
+			ProtocolForm pf = protocolFormDao.getLatestProtocolFormByProtocolIdAndProtocolFormTypeAndProtocolFormStatues(p.getId(), ProtocolFormType.MODIFICATION, protocolFormStatues);
+			logger.debug("&&&&&&& protocolFormId:" + pf.getId());
+			
 			String protocolMetaDataXml = p.getMetaDataXml();
+			String protocolFormMetaData = pf.getMetaDataXml();
 			/*
 			try {
 				Map<String, List<String>> values = xmlProcessor.listElementStringValuesByPaths(paths, protocolMetaDataXml);
@@ -976,7 +988,7 @@ public class MigrationDaoTest {
 				//logger.debug("before mergeByXPaths -> protocol.metadataxml: "
 						//+ protocolMetaDataXml);
 				protocolMetaDataXml = xmlProcessor.mergeByXPaths(
-						protocolMetaDataXml, pf.getMetaDataXml(),
+						protocolMetaDataXml, protocolFormMetaData,
 						XmlProcessor.Operation.UPDATE_IF_EXIST,
 						xPathPairMap.get(pf
 								.getProtocolFormType().getDefaultProtocolFormXmlDataType()));

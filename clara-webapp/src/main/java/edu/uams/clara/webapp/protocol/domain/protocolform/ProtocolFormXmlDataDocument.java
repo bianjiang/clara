@@ -40,6 +40,7 @@ public class ProtocolFormXmlDataDocument extends AbstractDomainEntity {
 		RETIRED("Retired"),
 		HC_APPROVED("HC Approved"),
 		PACKET_DOCUMENT("Packet Documet"),
+		EPIC_DOCUMENT("Epic Documet"),
 		FINAL_LEGAL_APPROVED("Final Legal Approved");
 		
 		private String description;

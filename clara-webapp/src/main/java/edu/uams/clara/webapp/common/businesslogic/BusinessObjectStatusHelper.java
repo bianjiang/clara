@@ -678,6 +678,7 @@ public abstract class BusinessObjectStatusHelper {
 				
 				stepEl.setAttribute("next-object-status",getCommitteeReviewObjectStatus(nextCommittee));
 				stepEl.setAttribute("next-form-status",getCommitteeReviewFormStatus(nextCommittee));
+				stepEl.setAttribute("next-form-committee-status",getCommitteeReviewFormCommitteeStatus(nextCommittee));
 				recordedWorkflowPathEl.appendChild(stepEl);
 			}
 			
@@ -695,6 +696,9 @@ public abstract class BusinessObjectStatusHelper {
 			Committee nextCommittee);
 	
 	protected abstract String getCommitteeReviewObjectStatus(
+			Committee nextCommittee);
+	
+	protected abstract String getCommitteeReviewFormCommitteeStatus(
 			Committee nextCommittee);
 
 	/***
@@ -1250,8 +1254,10 @@ public abstract class BusinessObjectStatusHelper {
 								
 							
 								if(workflowControlMode && nextCommitteeTrackEl != null && nextCommitteeTrackEl.hasAttribute("next-committee")){
-									String status = formCommitteeStatusEl
-											.getAttribute("status");
+									//String status = formCommitteeStatusEl
+											//.getAttribute("status"); 
+									
+									String status = nextCommitteeTrackEl.getAttribute("next-form-committee-status");
 									
 									logger.debug("next-committee: " + nextCommitteeTrackEl.getAttribute("next-committee"));
 									
@@ -1297,11 +1303,7 @@ public abstract class BusinessObjectStatusHelper {
 						for (int p=0; p < documentStatusNst.getLength(); p++){
 							Element documentStatusEl = (Element) documentStatusNst.item(p);
 							
-							boolean changeBudgetDocStatus = Boolean.valueOf(documentStatusEl.getAttribute("change-budget-doc-status"));
-							boolean changeProtocolDocStatus = Boolean.valueOf(documentStatusEl.getAttribute("change-protocol-doc-status"));
-							boolean changeConsentDocStatus = Boolean.valueOf(documentStatusEl.getAttribute("change-consent-doc-status"));
-							
-							changeObjectFormDocumentStatus(form, now, committee, user, documentStatusEl.getAttribute("status"), changeBudgetDocStatus, changeProtocolDocStatus, changeConsentDocStatus);
+							changeObjectFormDocumentStatus(form, now, committee, user, documentStatusEl.getAttribute("status"), documentStatusEl);
 						}
 					}
 
@@ -1469,7 +1471,7 @@ public abstract class BusinessObjectStatusHelper {
 			String status, String committeeNote, String xmlData, String action);
 	
 	public abstract void changeObjectFormDocumentStatus(Form form, Date now,
-			Committee committee, User user, String status, boolean changeBudgetDocStatus, boolean changeProtocolDocStatus, boolean changeConsentDocStatus);
+			Committee committee, User user, String status, Element documentStatusEl);
 
 	public abstract void triggerEvents(Form form, User user, Committee committee, String eventsTemplate, String action, String condition) throws IOException, SAXException;
 	

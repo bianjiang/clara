@@ -193,6 +193,55 @@ public class ModificationBusinessObjectStatusHelperImpl extends
 				
 				protocol = getProtocolDao().saveOrUpdate(protocol);
 			}
+			
+			if (committee.equals(Committee.BUDGET_REVIEW) && action.equals("ASSIGN_TO_COMMITTEES")) {
+				NodeList invovledCommittees = (NodeList) xPath
+						.evaluate(
+								"//invovled-committees/committee",
+								extraDataXmlDoc,
+								XPathConstants.NODESET);
+				
+				List<Committee> selectedCommittees = new ArrayList<Committee>();
+
+				for (int j = 0; j < invovledCommittees.getLength(); j++) {
+					Element invovledCommitteeEl = (Element) invovledCommittees
+							.item(j);
+					logger.debug("preProcessCommitteeReviewXml->invovled-committee: "
+							+ invovledCommitteeEl.getTextContent()
+							+ "; type: "
+							+ invovledCommitteeEl
+									.getAttribute("type"));
+
+					Committee involvedCommittee = Committee
+							.valueOf(invovledCommitteeEl
+									.getTextContent());
+
+					selectedCommittees.add(involvedCommittee);
+				}
+				
+				if (!selectedCommittees.contains(Committee.PI)) {
+					selectedCommittees.add(Committee.IRB_ASSIGNER);
+				}
+				
+				Element invovledCommitteesEl = extraDataXmlDoc.createElement("invovled-committees");
+				
+				for(Committee c:selectedCommittees){
+					Element cEl = extraDataXmlDoc.createElement("committee");
+					cEl.setTextContent(c.toString());
+					invovledCommitteesEl.appendChild(cEl);
+				}
+				
+				Element oInvovledCommitteesEl = (Element) xPath
+						.evaluate(
+								"//invovled-committees",
+								extraDataXmlDoc,
+								XPathConstants.NODE);
+				
+				Node oP = oInvovledCommitteesEl.getParentNode();
+				oP.removeChild(oInvovledCommitteesEl);
+				oP.appendChild(invovledCommitteesEl);	
+					
+			}
 		
 			extraDataXml =  DomUtils.elementToString(extraDataXmlDoc);
 			

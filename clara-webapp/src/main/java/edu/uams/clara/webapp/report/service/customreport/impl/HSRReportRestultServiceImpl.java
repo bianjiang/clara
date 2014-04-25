@@ -208,7 +208,7 @@ public class HSRReportRestultServiceImpl extends CustomReportService {
 							+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 							+ iniator
 							+ "\")]')=1 "
-							+ " and " + queryCriterias+" and "+submittedStudyQueryStr;
+							+ queryCriterias+" and "+submittedStudyQueryStr;
 					
 					if(collegeId!=100000l){
 						queryStr+=" and meta_data_xml.exist('/protocol/responsible-department[@collegeid = \""
@@ -388,7 +388,7 @@ private String subType2Report(String queryCriterias) {
 							+ " and " +reviewTypeCondition
 							+ " and "
 							+ fundingSourceQueryStr
-							+ " and " + queryCriterias + " and "+submittedStudyQueryStr;
+							+ queryCriterias + " and "+submittedStudyQueryStr;
 					
 					if(collegeId!=100000l){
 						queryStr+=" and meta_data_xml.exist('/protocol/responsible-department[@collegeid = \""
@@ -574,7 +574,7 @@ private String subType3Report(String queryCriterias) {
 						+" and " +reviewTypeCondition
 						+" and meta_data_xml.exist('/protocol/responsible-department[@deptid = \""
 						+ department.getId() + "\"]')=1"
-						+ " and " + queryCriterias;
+						+ queryCriterias;
 				
 				if(collegeId!=100000l){
 					queryStr+=" and meta_data_xml.exist('/protocol/responsible-department[@collegeid = \""
@@ -734,7 +734,7 @@ private String subType4Report(String queryCriterias,String date1,String date2) {
 						+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 						+ iniator
 						+ "\")]')=1 "
-						+ " and " +timeRangeQuery+" and "+queryCriterias;
+						+ " and " +timeRangeQuery+queryCriterias;
 				
 				if(collegeId!=100000l){
 					queryStr+=" and meta_data_xml.exist('/protocol/responsible-department[@collegeid = \""
@@ -918,7 +918,7 @@ private String subType5Report(String queryCriterias,String date1,String date2) {
 						+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 						+ iniator
 						+ "\")]')=1 "
-						+ " and " + queryCriterias;
+						+ queryCriterias;
 				
 				if(collegeId!=100000l){
 					queryStr+=" and meta_data_xml.exist('/protocol/responsible-department[@collegeid = \""
@@ -1104,7 +1104,7 @@ private String subType6Report(String queryCriterias,String date1,String date2) {
 						+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 						+ iniator
 						+ "\")]')=1 "
-						+ " and " + queryCriterias;
+						+ queryCriterias;
 				
 				if(collegeId!=100000l){
 					queryStr+=" and meta_data_xml.exist('/protocol/responsible-department[@collegeid = \""
@@ -1217,9 +1217,8 @@ private String subType6Report(String queryCriterias,String date1,String date2) {
  * Protocols closed to enrollment and follow-up between (date1) and (date2)
  * ******/
 private String subType7Report(String queryCriterias,String date1,String date2) {
-	String timeRangeQuery = "id in (select distinct protocol_id from protocol_status where protocol_status ='CLOSED' and retired =0 and Datediff(day, '"+date1+"',modified)>0 and Datediff(day, '"+date2+"',modified)<0 "
-			+ ")";
-		List<BigInteger> pids = Lists.newArrayList();
+	String timeRangeQuery = "(id in (select distinct protocol_id from protocol_status where protocol_status ='CLOSED' and retired =0 and Datediff(day, '"+date1+"',modified)>0 and Datediff(day, '"+date2+"',modified)<0 "
+			+ ") or id in (select distinct protocol_id from protocol_form where retired = 0 and id in(select protocol_form_id from protocol_form_xml_data where xml_data.value('(/continuing-review/general-study-info/study-status/statuses/status/text())[1]','varchar(100)') in ('research-permanently-closed-limited-to-data','research-permanently-closed-private-identifiable-information') and retired = 0) and id in (select protocol_form_id from protocol_form_status where protocol_form_status in ('EXEMPT_APPROVED','EXPEDITED_APPROVED','IRB_APPROVED') ) and protocol_form_type ='CONTINUING_REVIEW'))";
 
 	String reportResultXml = "<report-result id=\"" + "" + "\"  created=\""
 			+ DateFormatUtil.formateDateToMDY(new Date()) + "\">";
@@ -1262,16 +1261,16 @@ private String subType7Report(String queryCriterias,String date1,String date2) {
 			int initiatorTotal =0;
 			Query query = null;
 			for (String reviewType : this.getReviewTypes()) {
-				String reviewTypeCondition =  " meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""+ reviewType+ "\")]')=1 ";
+				String reviewTypeCondition =  "meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\""+ reviewType+ "\")]')=1 ";
 				reviewTypeCondition= reviewtypeQuery(reviewType, reviewTypeCondition);
-				String queryStr = " select sum(meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','bigint')) "
-						+ " from protocol where  meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','bigint') is not null "
-						+ " and retired = 0 "
+				String queryStr = " select  count(distinct id) "
+						+ " from protocol where retired = 0 "
 						+ " and " +reviewTypeCondition
 						+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 						+ iniator
 						+ "\")]')=1 "
-						+ " and " + timeRangeQuery +" and "+queryCriterias;
+						+ " and " + timeRangeQuery +queryCriterias;
+				
 				
 				if(collegeId!=100000l){
 					queryStr+=" and meta_data_xml.exist('/protocol/responsible-department[@collegeid = \""
@@ -1290,12 +1289,14 @@ private String subType7Report(String queryCriterias,String date1,String date2) {
 									"/protocol/study-type/investigator-initiated/investigator-description/text()");
 				}
 				query = em.createNativeQuery(queryStr);
-				long typeTotal  = 0;
+				
+				int typeTotal  = 0;
 				try{
-					typeTotal= ((BigInteger) query.getSingleResult()).longValue();
+					typeTotal= (Integer) query.getSingleResult();
 				}catch(Exception e){
-					
+					e.printStackTrace();
 				}
+				
 				if (reviewType.equals("FULL BOARD")) {
 					allCount[0] = allCount[0]+typeTotal;
 				}else if(reviewType.equals("EXPEDITED")) {
@@ -1417,7 +1418,7 @@ private String subType8Report(String queryCriterias,String date1,String date2) {
 						+ iniator
 						+ "\")]')=1 "
 						+ " and id in (select distinct protocol_id from protocol_form where retired =0 and id in (select distinct protocol_form_id from protocol_form_xml_data where retired=0 and   xml_data.exist('/study-closure/study-status/permanently-closed-to-enrollment/reason/text()[fn:contains(.,\""+closeReason+"\")]')=1))"
-						+ " and " + queryCriterias;
+						+ queryCriterias;
 				if(collegeId!=100000l){
 					queryStr+=" and meta_data_xml.exist('/protocol/responsible-department[@collegeid = \""
 							+ collegeId + "\"]')=1";
@@ -1550,7 +1551,7 @@ private String subType9Report(String queryCriterias,String date1,String date2) {
 						+ " and meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.),\""
 						+ iniator
 						+ "\")]')=1 "
-						+ " and " + queryCriterias;
+						+ queryCriterias;
 				if(i==0){
 					queryStr ="select sum(meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','bigint')) " +queryStr +"and meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','bigint') is not null ";
 				}else if(i==1){
@@ -1628,7 +1629,7 @@ private String subType9Report(String queryCriterias,String date1,String date2) {
 					+ " and "
 					+ reviewTypeCondition
 					+ " and id>200000"
-					+ " and " + queryCriterias;
+					+ queryCriterias;
 
 			Query query = em.createNativeQuery(queryStr);
 			List<BigInteger> protocolIds = query.getResultList();
@@ -1763,7 +1764,7 @@ private List<Integer> initiationToCloseCount(String queryCriterias,String review
 				+ reviewType
 				+ "\")]')=1 "
 				+ " and id>200000"
-				+ " and " + queryCriterias+")";
+				+ queryCriterias+")";
 	
 	
 	Query query = em.createNativeQuery(queryStr);
@@ -2431,6 +2432,8 @@ private  Map<String,List<Integer>> getSummaryTimeFromSubmissionToIRBApprove(Set<
 		String queryCriterias = fillMessage(rawQeury, fieldsRealXPathMap);
 		if(fieldsRealXPathMap.isEmpty()){
 			queryCriterias= queryCriterias.replace("AND", "");
+		} else{
+			queryCriterias = " and "+queryCriterias;
 		}
 		String finalResultXml = "<report-results>";
 		finalResultXml = finalResultXml+generateSummaryCriteriaTable(reportTemplate,

@@ -3027,7 +3027,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>	
 			</rule>
 		</prerequisites>
@@ -3038,7 +3038,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>	
 			</rule>
 		</prerequisites>
@@ -3049,7 +3049,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>	
 			</rule>
 		</prerequisites>
@@ -3200,7 +3200,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
@@ -3216,7 +3216,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
@@ -3236,7 +3236,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
@@ -3251,7 +3251,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
@@ -3266,7 +3266,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
@@ -3283,7 +3283,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
@@ -3299,7 +3299,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
@@ -3314,7 +3314,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
@@ -3330,7 +3330,7 @@
 			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
@@ -3341,7 +3341,7 @@
 	<rule path="/protocol/budget-created" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 		<constraint type="REQUIRED" data="" error-msg="Budget is required!" level="ERROR" />
 		<prerequisites>
-			<rule path="/protocol/budget/potentially-billed" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<rule path="/protocol/need-budget" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">

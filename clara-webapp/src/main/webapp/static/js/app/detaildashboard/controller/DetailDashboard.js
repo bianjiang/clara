@@ -104,7 +104,7 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
 				action: action,
 				note: newNoteText,
 				logId: oldRec.get("id"),
-				formCommitteeStatusId: oldRec.get("formCommitteeStatusId"),
+				formCommitteeStatusId: (oldRec.get("formCommitteeStatusId") != "")?oldRec.get("formCommitteeStatusId"):0,
 				log:log
 				}
 		});

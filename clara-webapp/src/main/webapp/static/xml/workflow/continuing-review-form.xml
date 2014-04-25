@@ -829,7 +829,7 @@
 										<form-committee-status involved-committee="IRB_OFFICE" status="APPROVED" />
 										<form-committee-status involved-committee="IRB_REVIEWER" status="APPROVED" />
 									</form-committee-statuses>
-									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<events>
 									<event clock-start="Full Board">UPDATE_APPROVAL_DATE_STATUS</event>
@@ -1080,7 +1080,7 @@
 											involved-committee="IRB_EXPEDITED_REVIEWER" status="APPROVED"
 											note="" />
 									</form-committee-statuses>
-									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<events>
 									<event>ASSIGN_TO_AGENDA</event>
@@ -1205,7 +1205,7 @@
 											involved-committee="IRB_EXEMPT_REVIEWER" status="APPROVED"
 											note="" />
 									</form-committee-statuses>
-									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<events>
 									<event clock-start="Exempt">UPDATE_APPROVAL_DATE_STATUS</event>

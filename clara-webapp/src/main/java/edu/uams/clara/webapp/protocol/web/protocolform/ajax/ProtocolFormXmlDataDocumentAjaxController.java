@@ -131,6 +131,8 @@ public class ProtocolFormXmlDataDocumentAjaxController {
 		protocolDocument.setCreated(new Date());
 		if (category.contains("packet")) {
 			protocolDocument.setStatus(Status.PACKET_DOCUMENT);
+		} else if (category.contains("epic")) {
+			protocolDocument.setStatus(Status.EPIC_DOCUMENT);
 		} else {
 			if (committee.equals(Committee.CONTRACT_LEGAL_REVIEW)) {
 				protocolDocument.setStatus(Status.FINAL_LEGAL_APPROVED);

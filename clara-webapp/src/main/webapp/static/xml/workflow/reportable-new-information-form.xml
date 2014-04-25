@@ -762,7 +762,7 @@
 										<form-committee-status involved-committee="IRB_OFFICE" status="APPROVED" />
 										<form-committee-status involved-committee="IRB_REVIEWER" status="APPROVED" />
 									</form-committee-statuses>
-									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<notifications>
 									<notification notification-type="LETTER" letter-name="Reportable New Information Full Board Approved Letter" doc-type="Reportable New Information Full Board Approved Letter" email-template-identifier="REPORTABLE_NEW_INFORMATION_FULL_BOARD_APPROVED_LETTER">
@@ -867,6 +867,7 @@
 										<form-committee-status involved-committee="IRB_OFFICE" status="ACKNOWLEDGED" />
 										<form-committee-status involved-committee="IRB_REVIEWER" status="ACKNOWLEDGED" />
 									</form-committee-statuses>
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<notifications>
 									<notification notification-type="LETTER" letter-name="Reportable New Information Full Board Acknowledgement Letter" doc-type="Reportable New Information Full Board Acknowledgement Letter" email-template-identifier="REPORTABLE_NEW_INFORMATION_FULL_BOARD_ACKNOWLEDGEMENT_LETTER">
@@ -997,7 +998,7 @@
 											involved-committee="IRB_EXPEDITED_REVIEWER" status="APPROVED"
 											note="" />
 									</form-committee-statuses>
-									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<events>
 									<event>ASSIGN_TO_AGENDA</event>

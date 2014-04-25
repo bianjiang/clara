@@ -420,7 +420,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		finalTemplateValues.put("piUser", (piUser!=null)?piUser:"");
 		finalTemplateValues.put("treatingPhysicianUser", (treatingPhysicianUser!=null)?treatingPhysicianUser:"");
 		finalTemplateValues.put("studyCoordinatorLst", studyCoordinatorLst);
-		finalTemplateValues.put("reviewerName", (user!=null)?user.getPerson().getFirstname() + " " + user.getPerson().getLastname():"");
+		finalTemplateValues.put("reviewerName", (user!=null)?"<a href=\"mailto:"+ user.getPerson().getEmail() +"\">"+ user.getPerson().getFullname() +"</a>":"");
 		finalTemplateValues.put("protocolLink", this.dashbaordLink(protocol.getId()));
 		finalTemplateValues.put("formType", protocolForm.getProtocolFormType().getDescription());
 		finalTemplateValues.put("queueLink", this.queueLink());
@@ -544,6 +544,8 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		committeeMatchMap.put("realMonitioring", Committee.MONITORING_REGULATORY_QA);
 		committeeMatchMap.put("realBeaconTeam", Committee.BEACON_TEAM);
 		committeeMatchMap.put("realWillowTeam", Committee.WILLOW_TEAM);
+		committeeMatchMap.put("realLegalReviewer", Committee.CONTRACT_LEGAL_REVIEW);
+		committeeMatchMap.put("realContractReviewer", Committee.CONTRACT_ADMIN);
 	}
 	
 	private static Map<String, String> realRecipientMatchMap = new HashMap<String, String>();{

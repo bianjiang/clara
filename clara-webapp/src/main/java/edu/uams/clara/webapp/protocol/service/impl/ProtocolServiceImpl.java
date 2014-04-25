@@ -369,17 +369,16 @@ public class ProtocolServiceImpl implements ProtocolService {
 			
 			isPushedToEpic = (Boolean) (xpathInstance
 					.evaluate(
-							"boolean(count(/protocol/pushed-to-epic[text()='y'])>0",
-							assertXml, XPathConstants.BOOLEAN));
-			
+							"boolean(count(/protocol/pushed-to-epic[text()='y'])>0)",
+							assertXml, XPathConstants.BOOLEAN));			
 		} catch (Exception e) {
-			//don't care
+			//e.printStackTrace();
 		}
 		
 		if (isUAMSStudy && !isPushedToEpic) {
 			canPushToEpic = true;
 		}
-		
+
 		return canPushToEpic;
 	}
 	
@@ -409,7 +408,7 @@ public class ProtocolServiceImpl implements ProtocolService {
 				protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/pushed-to-epic-date", protocolMetaData, DateFormatUtil.formateDateToMDY(new Date()));
 				
 				protocol.setMetaDataXml(protocolMetaData);
-				
+
 				protocol = protocolDao.saveOrUpdate(protocol);
 				
 				//add log

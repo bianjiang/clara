@@ -364,9 +364,17 @@ public class ProtocolQueueServiceImpl extends QueueService {
 					
 					if (committee.equals(Committee.IRB_REVIEWER)){
 						//let reviewers see the assigned items in their queue after agenda is approved
-						Agenda agenda = agendaDao.getAgendaByProtocolFormIdAndAgendaItemStatus(protocolForm.getId(), AgendaItemStatus.NEW);
+						Agenda agenda = null;
 						
-						if (unapprovedAgendaStatuses.contains(agendaStatusDao.getAgendaStatusByAgendaId(agenda.getId()).getAgendaStatus())) {
+						try {
+							agenda = agendaDao.getAgendaByProtocolFormIdAndAgendaItemStatus(protocolForm.getId(), AgendaItemStatus.NEW);
+							
+							if (unapprovedAgendaStatuses.contains(agendaStatusDao.getAgendaStatusByAgendaId(agenda.getId()).getAgendaStatus())) {
+								continue outerloop;
+							}
+						} catch (Exception e) {
+							//e.printStackTrace();
+							
 							continue outerloop;
 						}
 						

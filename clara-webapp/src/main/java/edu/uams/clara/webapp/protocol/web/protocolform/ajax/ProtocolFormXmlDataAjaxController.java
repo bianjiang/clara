@@ -31,6 +31,7 @@ import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import edu.uams.clara.core.util.xml.DomUtils;
 import edu.uams.clara.core.util.xml.XmlHandler;
@@ -377,6 +378,20 @@ public class ProtocolFormXmlDataAjaxController {
 	}
 	*/
 	
+	private Set<String> xPathExpressions = Sets.newHashSet();{
+		xPathExpressions.add("/protocol/budget/potentially-billed");
+		xPathExpressions.add("/protocol/budget/involves/uams-clinics");
+		xPathExpressions.add("/protocol/budget/involves/uams-inpatient-units");
+		xPathExpressions.add("/protocol/budget/involves/uams-ss-ou");
+		xPathExpressions.add("/protocol/budget/involves/uams-clinicallab");
+		xPathExpressions.add("/protocol/budget/involves/uams-radiology");
+		xPathExpressions.add("/protocol/budget/involves/uams-pharmacy");
+		xPathExpressions.add("/protocol/budget/involves/uams-other");
+		xPathExpressions.add("/protocol/budget/involves/uams-supplies");
+		xPathExpressions.add("/protocol/budget/involves/fgp-fees");
+		xPathExpressions.add("/protocol/budget/involves/industry-support");
+	}
+	
 	private void processXmlData(ProtocolFormXmlData protocolFormXmlData, String xmlData) {
 		String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
 		
@@ -393,6 +408,22 @@ public class ProtocolFormXmlDataAjaxController {
 				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget-by-department", protocolFormXmlDataString, value);
 				
 			} catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		if (xmlData.contains("<budget>")){
+			try {
+				XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+				
+				Map<String, String> values = xmlHandler.getFirstStringValuesByXPaths(protocolFormXmlDataString, xPathExpressions);
+
+				if (values.containsValue("y")) {
+					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget", protocolFormXmlDataString, "y");
+				} else {
+					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget", protocolFormXmlDataString, "n");
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -498,7 +529,9 @@ public class ProtocolFormXmlDataAjaxController {
 				updateBudgetExpenses(protocolForm, protocolFormXmlData.getXmlData());
 			}
 			
-			processXmlData(protocolFormXmlData, xmldata);
+			if (protocolForm.getProtocolFormType().equals(ProtocolFormType.NEW_SUBMISSION) || protocolForm.getProtocolFormType().equals(ProtocolFormType.MODIFICATION)) {
+				processXmlData(protocolFormXmlData, xmldata);
+			}
 			
 			logger.debug("elementXml: " + xmldata);
 			if(xmldata.contains("</staffs>")){

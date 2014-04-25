@@ -271,7 +271,7 @@ public class ProtocolDashboardAjaxController {
 		case PENDING_PI_ENDORSEMENT:
 		case PENDING_TP_ENDORSEMENT:
 		//case PENDING_PL_ENDORSEMENT:
-			if (hasEditPermission || u.getAuthorities().contains(Permission.ROLE_SYSTEM_ADMIN)) {
+			if (hasEditPermission || u.getAuthorities().contains(Permission.ROLE_SYSTEM_ADMIN) || u.getAuthorities().contains(Permission.ROLE_BUDGET_REVIEWER)) {
 				xmlResult += "<action cls='green'><name>Edit "+ protocolForm.getProtocolFormType().getDescription() +"</name><url>/protocols/"
 						+ protocolId
 						+ "/protocol-forms/"
@@ -450,12 +450,22 @@ public class ProtocolDashboardAjaxController {
 					+ formTypeMachineReadable
 					+ "/summary?noheader=true&amp;review=false</url></action>";
 			
+			/*
 			if (u.getAuthorities().contains(Permission.CAN_UPLOAD_FINAL_LEGAL_APPROVAL_CONSENT)) {
 				xmlResult += "<action cls='red'><name>Upload Final Legal Approval Consent</name><url type='javascript'>Clara.Application.FormController.ShowWarningMessage({message:'Only used for uploading Final Legal Approval consent!', url:'/protocols/"
 						+ protocolId
 						+ "/protocol-forms/"
 						+ protocolFormId
 						+ "/review?committee=CONTRACT_LEGAL_REVIEW&amp;docAction=UPLOAD_FINAL_LEGAL_APPROVAL_CONSENT'});</url></action>";
+			}
+			*/
+			
+			if (u.getAuthorities().contains(Permission.ROLE_PHARMACY_REVIEW)) {
+				xmlResult += "<action cls='blue'><name>Upload Epic Pharmacy Information</name><url type='javascript'>Clara.Application.FormController.ShowWarningMessage({message:'Only used for uploading Epic Pharmacy Information.', url:'/protocols/"
+						+ protocolId
+						+ "/protocol-forms/"
+						+ protocolFormId
+						+ "/review?committee=PHARMACY_REVIEW&amp;docAction=UPLOAD_EPIC_PHARMACY_INFORMATION'});</url></action>";
 			}
 			
 			String assignAgendaDate = "";
@@ -1466,6 +1476,18 @@ public class ProtocolDashboardAjaxController {
 							
 							if (allowHudRenewalForm) {
 								newFormList += "<form type=\"protocol\" id=\"humanitarian-use-device-renewal\" title=\"Humanitarian Use Device: Renewal Application\"><description></description></form>";
+							}
+							
+							if (allowModForm && allowStaffOnlyModForm){
+								newFormList += "<form type=\"protocol\" id=\"modification\" title=\"Modification\"><description>Use this form to complete the entry of a migrated study in the CLARA system, to submit a change to an ongoing study, or to respond to an audit on a study.</description></form>";
+								newFormList += "<form type=\"protocol\" id=\"staff\" title=\"Staff Only Modification\"><description>Use this form to add and/or remove study staff, or to change staff roles, responsibilities, or notifications ONLY.</description></form>";
+								newFormList += "<form type=\"protocol\" id=\"reportable-new-information\" title=\"Reportable New Information\"><description><![CDATA[Use this form to report study events to the IRB, including adverse events, deviations, and notifications. See <a href=\"http://www.uams.edu/irb/03-23-2011%20IRB%20Policy%20Updates/IRB%20Policy%2010.2.pdf\" target=\"_blank\">UAMS IRB Policy 10.2</a> for more information.]]></description></form>";
+								if (allowStudyClosureForm) newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>Use this form to request closure of a study.</description></form>";
+								//newFormList += "<form type=\"protocol\" id=\"audit\" title=\"Audit\"><description></description></form>";
+							} else {
+								newFormList += "<form type=\"protocol\" id=\"reportable-new-information\" title=\"Reportable New Information\"><description><![CDATA[Use this form to report study events to the IRB, including adverse events, deviations, and notifications. See <a href=\"http://www.uams.edu/irb/03-23-2011%20IRB%20Policy%20Updates/IRB%20Policy%2010.2.pdf\" target=\"_blank\">UAMS IRB Policy 10.2</a> for more information.]]></description></form>";
+								if (allowStudyClosureForm) newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>Use this form to request closure of a study.</description></form>";
+								//newFormList += "<form type=\"protocol\" id=\"audit\" title=\"Audit\"><description></description></form>";
 							}
 							
 							/*

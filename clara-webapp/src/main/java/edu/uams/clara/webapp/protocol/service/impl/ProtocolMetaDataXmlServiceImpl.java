@@ -207,7 +207,7 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/summary/irb-determination/reportable-to-ohrp");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/hipaa-waived-date",
 				"/protocol/summary/irb-determination/hipaa-waived-date");
-		//continuingReviewXPathPairs.put("/continuing-review/staffs", "/protocol/staffs");
+		continuingReviewXPathPairs.put("/continuing-review/staffs", "/protocol/staffs");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/first-subject-enrolled-date", "/protocol/summary/irb-determination/first-subject-enrolled-date");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-approval", "/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval");
 
@@ -247,6 +247,8 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/extra/has-budget-or-not");
 		modificationXPathPairs.put("/protocol/extra/prmc-related-or-not",
 				"/protocol/extra/prmc-related-or-not");
+		modificationXPathPairs.put("/protocol/extra/has-contract-or-not",
+				"/protocol/extra/has-contract-or-not");
 		modificationXPathPairs.put("/protocol/committee-review",
 				"/protocol/committee-review");
 		modificationXPathPairs.put("/protocol/modification/to-modify-section/conduct-under-uams",
@@ -527,8 +529,7 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				hrsdXPathPairs);
 
 		Map<String, String> continuingReviewXPathPairs = new HashMap<String, String>();
-		//continuingReviewXPathPairs.put("/continuing-review/staffs",
-				//"/continuing-review/staffs");
+		continuingReviewXPathPairs.put("/continuing-review/staffs", "/continuing-review/staffs");
 		continuingReviewXPathPairs.put("/continuing-review/subject-accrual/first-subject-enrolled-date", "/continuing-review/summary/irb-determination/first-subject-enrolled-date");
 		continuingReviewXPathPairs.put("/continuing-review/subject-accrual/enrollment/local/since-approval", "/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-approval");
 		protocolFormXPathPairMap.put(ProtocolFormXmlDataType.CONTINUING_REVIEW,

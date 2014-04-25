@@ -212,6 +212,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 			hide = false;
 			
 		}
+		
 		this.hide(hide);
 	}
 }));
@@ -233,6 +234,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	}
 }));
 
+/*
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	id : Ext.id(),
 	questionIds : [ 'question-involve-new-or-increased-risks' ],
@@ -253,3 +255,4 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 
 	}
 }));
+*/

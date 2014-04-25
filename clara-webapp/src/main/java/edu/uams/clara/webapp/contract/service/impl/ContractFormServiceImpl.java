@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.slf4j.Logger;
@@ -31,11 +30,6 @@ import edu.uams.clara.webapp.contract.domain.contractform.ContractFormXmlData;
 import edu.uams.clara.webapp.contract.domain.contractform.enums.ContractFormType;
 import edu.uams.clara.webapp.contract.domain.contractform.enums.ContractFormXmlDataType;
 import edu.uams.clara.webapp.contract.service.ContractFormService;
-import edu.uams.clara.webapp.protocol.domain.Protocol;
-import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
-import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
-import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
-import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
 public class ContractFormServiceImpl implements ContractFormService {

@@ -70,6 +70,8 @@ Ext.define('Clara.Documents.view.DocumentPanel', {
       	    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>HC</div></div>";
       	    	} else if (r.get("status") == "PACKET_DOCUMENT") {
       	    		return "<div style='float:left;'><div class='icn-box-small' style='color:orange;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>Packet</div></div>";
+      	    	} else if (r.get("status") == "EPIC_DOCUMENT") {
+      	    		return "<div style='float:left;'><div class='icn-box-small' style='color:red;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>Epic</div></div>";
       	    	} else if (r.get("status") == "FINAL_LEGAL_APPROVED") {
       	    		return "<div style='float:left;'><div class='icn-box-small' style='color:red;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>LEGAL</div></div>";
       	    	} else {

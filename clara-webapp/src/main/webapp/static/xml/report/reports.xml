@@ -612,6 +612,7 @@
 	<report type="IRB Billing Report">
 		<fields>
 		<field identifier="approveddaterange" />
+		<field identifier="autodateupdate" />
 		</fields>
 		<results>
 		</results>

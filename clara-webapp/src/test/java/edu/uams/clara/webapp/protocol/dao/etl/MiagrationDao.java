@@ -383,11 +383,18 @@ public class MiagrationDao {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<ProtocolForm> listCancerStudyProotcolForms(){
-		String qry = "SELECT * FROM protocol_form WHERE retired =:retired AND protocol_form_type = 'NEW_SUBMISSION' AND meta_data_xml.exist('/protocol/extra/prmc-related-or-not[text()=\"y\"]')=1";
+	public List<Protocol> listCancerStudyProotcolForms(){
+		String qry = "select * from protocol where id in ("
+				+ " select protocol_id from protocol_form"
+				+ " where meta_data_xml.exist('/protocol/extra/prmc-related-or-not[text()=\"y\"]')=1"
+				+ "and protocol_form_type = 'MODIFICATION'"
+				+ " and retired = :retired)"
+				+ " and meta_data_xml.exist('/protocol/extra/prmc-related-or-not[text()=\"y\"]')=0"
+				+ " and meta_data_xml.exist('/protocol/status[text()=\"Open\"]')=1"
+				+ " and retired = :retired";
 		
-		TypedQuery<ProtocolForm> q = (TypedQuery<ProtocolForm>) em
-				.createNativeQuery(qry, ProtocolForm.class);
+		TypedQuery<Protocol> q = (TypedQuery<Protocol>) em
+				.createNativeQuery(qry, Protocol.class);
 		q.setHint("org.hibernate.cacheable", false);
 		q.setParameter("retired", Boolean.FALSE);
 		//Query query = em.createNativeQuery(qry);

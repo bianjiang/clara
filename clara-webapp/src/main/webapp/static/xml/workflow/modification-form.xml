@@ -113,7 +113,12 @@
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted and ACH Gatekeeper is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
-									</notification>								
+									</notification>		
+									<notification xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>						
 								</notifications>
 							</action>
 							<action type="SIGN_SUBMIT" condition="IS_PI" workflow="COMPLIANCE" email-template-identifier="">
@@ -139,6 +144,11 @@
 									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>									
 								</notifications>
@@ -324,6 +334,11 @@
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted and ACH Gatekeeper is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
 									</notification>										
 								</notifications>
 							</action>
@@ -351,7 +366,12 @@
 										<logs>
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
-									</notification>									
+									</notification>
+									<notification xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
 								</notifications>
 							</action>
 							<action type="SIGN_SUBMIT" condition="IS_PI" workflow="BUDGET_ONLY" email-template-identifier="">
@@ -1411,7 +1431,7 @@
 										<form-committee-status
 											involved-committee="COMPLIANCE_REVIEW" status="APPROVED" />
 									</form-committee-statuses>
-									<document-status status="HC_APPROVED" change-budget-doc-status="true"  change-protocol-doc-status="false" change-consent-doc-status="false" />
+									<document-status status="HC_APPROVED" change-budget-doc-status="true"  change-protocol-doc-status="false" change-consent-doc-status="false" change-epic-doc-status="false" />
 								</change-status>
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_COMPLIANCE_REVIEW_APPROVED">
@@ -1428,7 +1448,7 @@
 										<form-committee-status
 											involved-committee="COMPLIANCE_REVIEW" status="APPROVED" />
 									</form-committee-statuses>
-									<document-status status="HC_APPROVED" change-budget-doc-status="true"  change-protocol-doc-status="false" change-consent-doc-status="false" />
+									<document-status status="HC_APPROVED" change-budget-doc-status="true"  change-protocol-doc-status="false" change-consent-doc-status="false" change-epic-doc-status="false" />
 								</change-status>
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_COMPLIANCE_REVIEW_APPROVED_BUDGET_NOT_REVIEWED">
@@ -1599,7 +1619,7 @@
 										<form-committee-status
 											involved-committee="BUDGET_REVIEW" status="APPROVED" />
 										<form-committee-status
-											involved-committee="NEXT_COMMITTEE" status="IN_REVIEW" />
+											involved-committee="NEXT_COMMITTEE" status="NEXT_FORM_COMMITTEE_STATUS" />
 										<form-committee-status
 											involved-committee="OPTIONAL_COMMITTEES" status="IN_REVIEW" />
 									</form-committee-statuses>
@@ -1789,7 +1809,7 @@
 										<form-committee-status
 											involved-committee="COVERAGE_REVIEW" status="APPROVED" />
 										<form-committee-status
-											involved-committee="NEXT_COMMITTEE" status="IN_REVIEW" />
+											involved-committee="NEXT_COMMITTEE" status="NEXT_FORM_COMMITTEE_STATUS" />
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -1874,7 +1894,7 @@
 										<form-committee-status
 											involved-committee="COVERAGE_REVIEW" status="APPROVED" />
 										<form-committee-status
-											involved-committee="NEXT_COMMITTEE" status="IN_REVIEW" />
+											involved-committee="NEXT_COMMITTEE" status="NEXT_FORM_COMMITTEE_STATUS" />
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -2181,7 +2201,7 @@
 										<form-committee-status
 											involved-committee="HOSPITAL_SERVICES" status="APPROVED" />										
 										<form-committee-status
-											involved-committee="NEXT_COMMITTEE" status="IN_REVIEW" />									
+											involved-committee="NEXT_COMMITTEE" status="NEXT_FORM_COMMITTEE_STATUS" />									
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -2292,7 +2312,7 @@
 									<form-status status="NEXT_COMMITTEE_FORM_STATUS" />
 									<form-committee-statuses>
 										<form-committee-status
-											involved-committee="NEXT_COMMITTEE" status="IN_REVIEW" />	
+											involved-committee="NEXT_COMMITTEE" status="NEXT_FORM_COMMITTEE_STATUS" />	
 										<form-committee-status
 											involved-committee="DEPARTMENT_CHAIR" status="APPROVED" />									
 									</form-committee-statuses>
@@ -2408,7 +2428,7 @@
 										<form-committee-status
 											involved-committee="COLLEGE_DEAN" status="APPROVED" />	
 										<form-committee-status
-											involved-committee="NEXT_COMMITTEE" status="IN_REVIEW" />									
+											involved-committee="NEXT_COMMITTEE" status="NEXT_FORM_COMMITTEE_STATUS" />									
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -2456,8 +2476,25 @@
 									</form-committee-statuses>
 								</change-status>
 								<logs>
-									<log log-type="ACTION" event-type="COLLEGE_DEAN_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget and the study is currently under IRB pre-review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
+									<log log-type="ACTION" event-type="PI_SIGN_OFF" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and the study is currently under IRB pre-review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
 								</logs>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
+									<notification form-xpath-condition="boolean(count(/protocol/modification/to-modify-section/involve-addition-deletion-of/pharmacy[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_BUDGET_APPROVE_TO_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_BUDGET_APPROVE_TO_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Pharmacy is notified. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
+									<!-- <notification xpath-condition="boolean(count(/protocol/site-responsible[text()='uams'])>0 and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_WILLOW">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_WILLOW" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget and Willow team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification> -->
+								</notifications>
 							</action>
 						</actions>
 					</review-page>
@@ -2622,7 +2659,7 @@
 											involved-committee="IRB_PREREVIEW" status="ACKNOWLEDGED"
 											/>
 									</form-committee-statuses>
-									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<notifications>
 									<notification form-xpath-condition="boolean(count(/protocol/initial-mod[text()='y'])>0)" notification-type="LETTER" letter-name="Modification Data Migration Acknowledged Letter" doc-type="Modification Data Migration Acknowledged Letter" email-template-identifier="MODIFICATION_DATA_MIGRATION_ACKNOWLEDGED">
@@ -2815,7 +2852,7 @@
 										<form-committee-status involved-committee="IRB_OFFICE" status="APPROVED" />
 										<form-committee-status involved-committee="IRB_REVIEWER" status="APPROVED" />
 									</form-committee-statuses>
-									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<notifications>
 									<notification form-xpath-condition="boolean(count(/protocol/modification/to-modify-section/is-audit[text()='y'])=0)" xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with major contingencies'])=0)" notification-type="LETTER" letter-name="Modification Full Board Approved Letter" doc-type="Modification Full Board Approved Letter" email-template-identifier="MODIFICATION_FULL_BOARD_APPROVED_LETTER">
@@ -3014,7 +3051,7 @@
 											involved-committee="IRB_EXPEDITED_REVIEWER" status="APPROVED"
 											note="" />
 									</form-committee-statuses>
-									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<events>
 									<event>ASSIGN_TO_AGENDA</event>

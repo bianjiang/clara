@@ -179,6 +179,10 @@ public class NewSubmissionReviewLogicServiceImpl extends
 		if (isInvolvedByType(protocolForm, "Contract")) {
 			checkedCommittees.add(Committee.PROTOCOL_LEGAL_REVIEW);
 		}
+		
+		if (isInvolvedByType(protocolForm, "Device")) {
+			checkedCommittees.add(Committee.MONITORING_REGULATORY_QA);
+		}
 
 		if (isInvolvedByType(protocolForm, "PRMC")) {
 			checkedCommittees.add(Committee.PRMC);

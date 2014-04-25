@@ -1,6 +1,7 @@
 package edu.uams.clara.webapp.protocol.service;
 
 import java.io.IOException;
+
 import javax.xml.xpath.XPathExpressionException;
 
 import org.junit.Test;
@@ -19,6 +20,7 @@ import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
 import edu.uams.clara.webapp.protocol.dao.irb.AgendaDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
+import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.scheduler.SendContinuingReviewerReminderService;
 import edu.uams.clara.webapp.protocol.service.email.ProtocolEmailDataService;
@@ -65,17 +67,22 @@ public class ProtocolEmailDataServiceTest {
 	@Test
 	public void sendEmail() throws Exception {
 		//Agenda agenda = agendaDao.findById(53l);
-		User currentUser = userDao.findById(124l);
+		User currentUser = userDao.findById(68l);
 		
-		ProtocolForm protocolForm = protocolFormDao.findById(20133l);
+		ProtocolForm protocolForm = protocolFormDao.findById(11820l);
+		
+		Protocol protocol = protocolDao.findById(202028l);
 		
 		//Protocol p = protocolDao.findById(134922l);
 		//logger.debug("Send agenda approval letter to chair ...");
 		// EmailTemplate emailTemplate = protocolEmailDataService.loadObjectEmailTemplate("AGENDA_APPROVED_LETTER", null, agenda, null, null, currentUser, "");
 		//protocolEmailService.sendAgendaLetter(agenda, null, null, currentUser, emailTemplate.getIdentifier(), "", "Agenda Approved Letter", "Letter", emailTemplate.getTo(), emailTemplate.getCc(), emailTemplate.getRealSubject());
-		protocolEmailService.sendLetter(protocolForm, Committee.IRB_PREREVIEW, null, currentUser, "STAFF_ONLY_MODIFICATION_ACKNOWLEDGED_LETTER", "", "Staff Only Modification Acknowledged Letter", "Staff Only Modification Acknowledged Letter", "[{\"address\":\"GROUP_studyPI\",\"type\":\"GROUP\",\"desc\":\"Study PI and Staffs\"}]", "");
+		//protocolEmailService.sendLetter(protocolForm, Committee.IRB_PREREVIEW, null, currentUser, "STAFF_ONLY_MODIFICATION_ACKNOWLEDGED_LETTER", "", "Staff Only Modification Acknowledged Letter", "Staff Only Modification Acknowledged Letter", "[{\"address\":\"GROUP_studyPI\",\"type\":\"GROUP\",\"desc\":\"Study PI and Staffs\"}]", "");
 		//protocolEmailService.sendNotification(protocolForm, Committee.IRB_REVIEWER, null, currentUser, "NEW_SUBMISSION_FULL_BOARD_APPROVE_TO_PBS", "", "[{\"address\":\"INDIVIDUAL_BeasleyJanetA@uams.edu\",\"type\":\"INDIVIDUAL\",\"desc\":\"Janet Beasley\"},{\"address\":\"INDIVIDUAL_CooperSaundraG@uams.edu\",\"type\":\"INDIVIDUAL\",\"desc\":\"Saundra Cooper\"}]", "");
 		//protocolEmailService.sendProtocolLetter(p, null, null, null, "EXPIRATION_OF_APPROVAL_LETTER", "", "Expiration of Approval Letter", "Letter", null, "", "Expiration of Approval Letter");
+		protocolEmailService.sendProtocolNotification(protocol, null, null,
+				null, "BUDGET_APPROVED_NOTIFICATION_FOR_HB", "", null, null,
+				null, "", null);
 	}
 	
 	//@Test

@@ -21,7 +21,7 @@ Clara.ProtocolForm.Rules
 					claraInstance.navigation.enablePage("accrual-of-subjects");
 					claraInstance.navigation.enablePage("study-report");
 					claraInstance.navigation.enablePage("conflict-of-interest");
-					//claraInstance.navigation.enablePage("staff");
+					claraInstance.navigation.enablePage("staff");
 					claraInstance.navigation.enablePage("documents");
 					
 				} else {
@@ -33,7 +33,7 @@ Clara.ProtocolForm.Rules
 					claraInstance.navigation.disablePage("accrual-of-subjects");
 					claraInstance.navigation.disablePage("study-report");
 					claraInstance.navigation.disablePage("conflict-of-interest");
-					//claraInstance.navigation.disablePage("staff");
+					claraInstance.navigation.disablePage("staff");
 					//claraInstance.navigation.disablePage("risks");
 					claraInstance.navigation.disablePage("documents");
 				}
@@ -106,14 +106,14 @@ Clara.ProtocolForm.Rules
 						claraInstance.navigation.disablePage("accrual-of-subjects");
 						claraInstance.navigation.disablePage("study-report");
 						claraInstance.navigation.disablePage("conflict-of-interest");
-						//claraInstance.navigation.disablePage("staff");
+						claraInstance.navigation.disablePage("staff");
 						//claraInstance.navigation.disablePage("risks");
 						claraInstance.navigation.disablePage("documents");
 				} else {
 					claraInstance.navigation.enablePage("accrual-of-subjects");
 					claraInstance.navigation.enablePage("study-report");
 					claraInstance.navigation.enablePage("conflict-of-interest");
-					//claraInstance.navigation.enablePage("staff");
+					claraInstance.navigation.enablePage("staff");
 					//claraInstance.navigation.enablePage("risks");
 					claraInstance.navigation.enablePage("documents");
 				}

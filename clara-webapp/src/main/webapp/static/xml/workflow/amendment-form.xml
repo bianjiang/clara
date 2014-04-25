@@ -529,9 +529,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Contract Route to Legal From Contract" doc-type="Contract Route to Legal From Contract" email-template-identifier="AMENDMENT_ROUTE_TO_LEGAL_FROM_CONTRACT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="AMENDMENT_ROUTE_TO_LEGAL_FROM_CONTRACT">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="AMENDMENT_ROUTE_TO_LEGAL_FROM_CONTRACT" event-type="CONTRACT_ADMIN_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract Admin and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="AMENDMENT_ROUTE_TO_LEGAL_FROM_CONTRACT" event-type="CONTRACT_ADMIN_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract Admin and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -685,9 +685,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Contract Revised and Route to Contract From Legal" doc-type="Contract Revised and Route to Contract From Legal" email-template-identifier="AMENDMENT_REVISIED_AND_ROUTE_TO_CONTRACT_FROM_LEAGL">
+									<notification notification-type="NOTIFICATION" email-template-identifier="AMENDMENT_REVISIED_AND_ROUTE_TO_CONTRACT_FROM_LEAGL">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="AMENDMENT_REVISIED_AND_ROUTE_TO_CONTRACT_FROM_LEAGL" event-type="LEGAL_COMPLETED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Legal and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="AMENDMENT_REVISIED_AND_ROUTE_TO_CONTRACT_FROM_LEAGL" event-type="LEGAL_COMPLETED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Legal and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -782,9 +782,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Contract Pending Final Approval" doc-type="Contract Pending Final Approval" email-template-identifier="AMENDMENT_PENDING_FINAL_APPROVAL">
+									<notification form-xpath-condition="boolean(count(/contract/type/research-agreement/sub-type[text()='master-agreement'])=0)" notification-type="NOTIFICATION" email-template-identifier="AMENDMENT_PENDING_FINAL_APPROVAL">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="AMENDMENT_PENDING_FINAL_APPROVAL" event-type="LEGAL_COMPLETED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Legal and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="AMENDMENT_PENDING_FINAL_APPROVAL" event-type="LEGAL_COMPLETED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Legal and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -891,9 +891,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Contract Revised and Route to Legal From Contract" doc-type="Contract Revised and Route to Legal From Contract" email-template-identifier="AMENDMENT_REVISED_AND_ROUTE_TO_LEGAL_FROM_CONTRACT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="AMENDMENT_REVISED_AND_ROUTE_TO_LEGAL_FROM_CONTRACT">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="AMENDMENT_REVISED_AND_ROUTE_TO_LEGAL_FROM_CONTRACT" event-type="SEND_BACK_TO_LEGAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="AMENDMENT_REVISED_AND_ROUTE_TO_LEGAL_FROM_CONTRACT" event-type="SEND_BACK_TO_LEGAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -988,9 +988,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Withdraw Approval By Legal" doc-type="Withdraw Approval By Legal" email-template-identifier="AMENDMENT_WITHDRAW_APPROVAL_BY_LEGAL">
+									<notification notification-type="NOTIFICATION" email-template-identifier="AMENDMENT_WITHDRAW_APPROVAL_BY_LEGAL">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="AMENDMENT_WITHDRAW_APPROVAL_BY_LEGAL" event-type="LEGAL_WITHDRAW_APPROVAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Final Legal Approval of Amendment has been withdrawn by the Legal and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="AMENDMENT_WITHDRAW_APPROVAL_BY_LEGAL" event-type="LEGAL_WITHDRAW_APPROVAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Final Legal Approval of Amendment has been withdrawn by the Legal and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -1005,9 +1005,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Contract Pending Signature" doc-type="Contract Pending Signature" email-template-identifier="AMENDMENT_READY_FOR_SIGNATURE">
+									<notification notification-type="NOTIFICATION" email-template-identifier="AMENDMENT_READY_FOR_SIGNATURE">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="AMENDMENT_READY_FOR_SIGNATURE" event-type="CONTRACT_ADMIN_PENDING_SIGNATURE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="AMENDMENT_READY_FOR_SIGNATURE" event-type="CONTRACT_ADMIN_PENDING_SIGNATURE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -1048,9 +1048,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Contract Executed" doc-type="Contract Executed" email-template-identifier="AMENDMENT_EXECUTED">
+									<notification form-xpath-condition="boolean(count(/contract/type/research-agreement/sub-type[text()='master-agreement'])=0)" notification-type="NOTIFICATION" email-template-identifier="AMENDMENT_EXECUTED">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="AMENDMENT_EXECUTED" event-type="CONTRACT_EXECUTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract Admin and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="AMENDMENT_EXECUTED" event-type="CONTRACT_EXECUTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract Admin and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -1065,9 +1065,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Contract Restricted Executed" doc-type="Contract Restricted Executed" email-template-identifier="AMENDMENT_RESTRICTED_CONTRACT_EXECUTED">
+									<notification notification-type="NOTIFICATION" email-template-identifier="AMENDMENT_RESTRICTED_CONTRACT_EXECUTED">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="AMENDMENT_RESTRICTED_CONTRACT_EXECUTED" event-type="CONTRACT_EXECUTED_PENDING_DOCUMENTS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract Admin and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="AMENDMENT_RESTRICTED_CONTRACT_EXECUTED" event-type="CONTRACT_EXECUTED_PENDING_DOCUMENTS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract Admin and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -1084,9 +1084,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Withdraw Approval By Legal" doc-type="Withdraw Approval By Legal" email-template-identifier="AMENDMENT_WITHDRAW_APPROVAL_BY_LEGAL">
+									<notification notification-type="NOTIFICATION" email-template-identifier="AMENDMENT_WITHDRAW_APPROVAL_BY_LEGAL">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="AMENDMENT_WITHDRAW_APPROVAL_BY_LEGAL" event-type="LEGAL_WITHDRAW_APPROVAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Final Legal Approval of Amendment has been withdrawn by the Legal and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="AMENDMENT_WITHDRAW_APPROVAL_BY_LEGAL" event-type="LEGAL_WITHDRAW_APPROVAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Final Legal Approval of Amendment has been withdrawn by the Legal and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -1124,9 +1124,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Contract Executed" doc-type="Contract Executed" email-template-identifier="AMENDMENT_EXECUTED">
+									<notification form-xpath-condition="boolean(count(/contract/type/research-agreement/sub-type[text()='master-agreement'])=0)" notification-type="NOTIFICATION" email-template-identifier="AMENDMENT_EXECUTED">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="AMENDMENT_EXECUTED" event-type="CONTRACT_EXECUTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract Admin and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="AMENDMENT_EXECUTED" event-type="CONTRACT_EXECUTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Amendment has been processed by the Contract Admin and the contract is currently {FORM_STATUS_DESC}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>

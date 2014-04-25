@@ -853,11 +853,10 @@ Clara.ProtocolForm.Rules
 		{
 			id : Ext.id(),
 			questionIds : [ 'question-epic-title' ],
-			                dependantQuestionPaths : [ "/protocol/budget/potentially-billed",
+			                dependantQuestionPaths : [ "/protocol/need-budget",
 			                                           "/protocol/study-nature" ],
 			            	execute : function(answers) {
-
-			            		if (answers['/protocol/budget/potentially-billed'] == "y" && answers['/protocol/study-nature'] != "hud-use"){
+			            		if (answers['/protocol/need-budget'] == "y" && answers['/protocol/study-nature'] != "hud-use"){
 			            			claraInstance.navigation.enablePage("epic");
 			            		} else {
 			            			claraInstance.navigation.disablePage("epic");
@@ -871,17 +870,8 @@ Clara.ProtocolForm.Rules
 		{
 			id : Ext.id(),
 			questionIds : [ 'question-need-budget-in-clara' ],
-			                dependantQuestionPaths : [ "/protocol/budget/potentially-billed",
-			                                           "/protocol/budget/involves/uams-clinics",
-			                                           "/protocol/budget/involves/uams-inpatient-units",
-			                                           "/protocol/budget/involves/uams-ss-ou",
-			                                           "/protocol/budget/involves/uams-clinicallab",
-			                                           "/protocol/budget/involves/uams-radiology",
-			                                           "/protocol/budget/involves/uams-pharmacy",
-			                                           "/protocol/budget/involves/uams-other",
-			                                           "/protocol/budget/involves/uams-supplies",
-			                                           "/protocol/budget/involves/fgp-fees",
-			                                           "/protocol/budget/involves/industry-support",
+			                dependantQuestionPaths : [ "/protocol/study-nature",
+			                                           "/protocol/need-budget",
 			                                           "/protocol/crimson/has-budget",
 			                                           "/protocol/initial-mod",
 			                                           "/protocol/budget-question-required" ],
@@ -890,7 +880,7 @@ Clara.ProtocolForm.Rules
 			            		
 			            		// check same ruleset as the first question, since its not saved on page load
 			            		if (claraInstance.form.type == 'MODIFICATION'){
-			            			if (answers['/protocol/initial-mod'] != "y" && answers['/protocol/budget-question-required'] == "y" && answers['/protocol/budget/potentially-billed'] == "y" && answers['/protocol/study-nature'] != 'hud-use'){
+			            			if (answers['/protocol/initial-mod'] != "y" && answers['/protocol/budget-question-required'] == "y" && answers['/protocol/need-budget'] == "y" && answers['/protocol/study-nature'] != 'hud-use'){
 			            				hide = false;
 			            			}
 			            			
@@ -963,7 +953,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 					needsBudget = true;
 				}
 			} else {
-				if (answers['/protocol/crimson/has-budget'] == "/protocol/budget/potentially-billed") {
+				if (answers['/protocol/crimson/has-budget'] == "yes") {
 					needsBudget = true;
 				} else {
 					needsBudget = false;

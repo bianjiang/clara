@@ -519,7 +519,7 @@ public class ContractDashboardAjaxController {
 	@RequestMapping(value = "/ajax/contracts/{contractId}/update-committee-note", method = RequestMethod.POST, produces="application/xml")
 	public @ResponseBody Source updateCommitteeNot(@PathVariable("contractId") long contractId,
 			@RequestParam("logId") String logId,
-			@RequestParam("formCommitteeStatusId") long formCommitteeStatusId,
+			@RequestParam(value="formCommitteeStatusId", required=false) long formCommitteeStatusId,
 			@RequestParam("log") String newLog,
 			@RequestParam(value="note", required=false) String note,
 			@RequestParam("action") String action){
@@ -533,20 +533,23 @@ public class ContractDashboardAjaxController {
 		
 		String commiteeNote = (note != null)?note:"";
 		
-		try {
-			ContractFormCommitteeStatus cfcs = contractFormCommitteeStatusDao.findById(formCommitteeStatusId);
-			
-			cfcs.setNote(commiteeNote);
-			
-			cfcs = contractFormCommitteeStatusDao.saveOrUpdate(cfcs);
-			
+		if (formCommitteeStatusId != 0) {
+			try {
+				ContractFormCommitteeStatus cfcs = contractFormCommitteeStatusDao.findById(formCommitteeStatusId);
+				
+				cfcs.setNote(commiteeNote);
+				
+				cfcs = contractFormCommitteeStatusDao.saveOrUpdate(cfcs);
+				
+				return XMLResponseHelper.newSuccessResponseStube("Successfully!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+				return XMLResponseHelper.newErrorResponseStub("Failed to edit note!");
+			}
+		} else {
 			return XMLResponseHelper.newSuccessResponseStube("Successfully!");
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-			return XMLResponseHelper.newErrorResponseStub("Failed to edit note!");
 		}
-		
 	}
 
 	@Autowired(required = true)

@@ -22,7 +22,7 @@
 							select="string($protocolInstance/protocol/site-responsible/enroll-subject-in-uams/text())" />
 							
 	<x:set var="needBudget"
-							select="string($protocolInstance/protocol/budget/potentially-billed/text())" />
+							select="string($protocolInstance/protocol/need-budget/text())" />
 							
 	<x:set var="hudLocation"
 							select="string($protocolInstance/protocol/study-nature/hud-use/where/text())" />

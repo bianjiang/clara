@@ -159,7 +159,7 @@
 		 <![CDATA[
 		 		<span>
                 	<li>A single-site study may have more than one location (for example, ACH, ACHRI, and UAMS can each be a separate location, if the study is conducted by one investigator).</li>
-                	<li>Industry-sponsored studies should list only those locations that are under UAMS IRB oversight.</li>
+                	<li>Only those locations that are under UAMS IRB oversight should be listed.</li>
                 </span> 
                 ]]>
 		</helpcontent>
@@ -789,6 +789,10 @@
 		 <![CDATA[
                 <span>
                 	<li>If you have any questions, please contact (501)526-6808 or send your request to <a href="mailto:CLARABudgetHelp@uams.edu">CLARABudgetHelp@uams.edu</a></li>
+                	<li><strong>Does your protocol involve supplies from UAMS Central Supply?</strong><br/>
+                		a. Answer "YES" if you are obtaining any supplies that are dispensed to an individual patient and could/will be billed to an individual patient (example: hemodialysis catheter to be surgically implanted in a specific patient).<br/>
+                		b. Answer "NO" if you are obtaining bulk supplies that are purchased for the study but are not linked to an individual patient and will not be billed to an individual patient (example: a box of exam gloves that will be used to handle blood specimens in a lab).
+                	</li>
                 </span>
                 ]]>
 		</helpcontent>

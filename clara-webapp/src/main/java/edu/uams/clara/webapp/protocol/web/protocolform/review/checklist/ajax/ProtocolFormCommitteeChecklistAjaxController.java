@@ -110,7 +110,7 @@ public class ProtocolFormCommitteeChecklistAjaxController {
 			}
 
 		}catch(Exception ex){
-			ex.printStackTrace();
+			//ex.printStackTrace();
 			
 			return XMLResponseHelper.xmlResult(Boolean.FALSE);
 		}

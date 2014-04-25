@@ -390,7 +390,7 @@
 										<form-committee-status
 											involved-committee="IRB_OFFICE" status="ACKNOWLEDGED" />
 									</form-committee-statuses>
-									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" />
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<events>
 									<event>UPDATE_APPROVAL_DATE_STATUS</event>

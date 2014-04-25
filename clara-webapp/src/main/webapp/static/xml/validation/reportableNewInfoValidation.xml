@@ -162,9 +162,9 @@
 			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
 				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
+			<!-- <rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
 				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
+			</rule> -->
 		</prerequisites>			
 	</rule>
 	<rule path="/reportable-new-information/report/related-to-the-research/y/describe-related-to-the-research" value-type="java.lang.String" pagename="Report" pageref="report">
@@ -176,9 +176,9 @@
 			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
 				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
+			<!-- <rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
 				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
+			</rule> -->
 			<rule path="/reportable-new-information/report/related-to-the-research" value-type="java.lang.String" pagename="Report" pageref="report">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
@@ -193,12 +193,12 @@
 			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
 				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
+			<!-- <rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
 				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/reportable-new-information/report/related-to-the-research" value-type="java.lang.String" pagename="Report" pageref="report">
 				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
+			</rule> -->
 		</prerequisites>	
 	</rule>
 	<rule path="/reportable-new-information/report/involve-new-or-increased-risks/y/describe-involve-new-or-increased-risks" value-type="java.lang.String" pagename="Report" pageref="report">
@@ -210,12 +210,12 @@
 			<rule path="/reportable-new-information/basic-details/was-effect-previously-identified" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
 				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
+			<!-- <rule path="/reportable-new-information/report/unexpected-or-unanticipated" value-type="java.lang.String" pagename="Report" pageref="report">
 				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/reportable-new-information/report/related-to-the-research" value-type="java.lang.String" pagename="Report" pageref="report">
 				<constraint type="NOTEQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
+			</rule> -->
 			<rule path="/reportable-new-information/report/involve-new-or-increased-risks" value-type="java.lang.String" pagename="Report" pageref="report">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>

@@ -84,4 +84,6 @@
 <document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-study-drug-information" desc="Packet - Drug Information" protocol="true" default-visible="true" contract="true"/>
 <document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-eligibility-information" desc="Packet - Eligibility Information" protocol="true" default-visible="true" contract="true"/>
 <document-type update="false" write="false" read="true" enabled="true" category="Packet" value="packet-special-instructions" desc="Packet - Special Instructions" protocol="true" default-visible="true" contract="true"/>
+
+<document-type update="false" write="false" read="true" enabled="true" category="Epic" value="epic-pharmacy-information" desc="Epic Pharmacy Information" protocol="true" default-visible="true" contract="true"/>
 </document-types>

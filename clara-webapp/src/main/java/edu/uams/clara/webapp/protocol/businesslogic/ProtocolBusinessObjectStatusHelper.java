@@ -362,10 +362,13 @@ public class ProtocolBusinessObjectStatusHelper extends
 
 			if (notificationType.equals("NOTIFICATION")) {
 				logger.debug("send notification ...");
-				emailTemplate = protocolEmailService.sendNotification(
-						protocolForm, committee, attributeRawValues, user, emailTemplateIdentifier,
-						emailComment, mailToLst, ccLst);
-
+				try {
+					emailTemplate = protocolEmailService.sendNotification(
+							protocolForm, committee, attributeRawValues, user, emailTemplateIdentifier,
+							emailComment, mailToLst, ccLst);
+				} catch (Exception e) {
+					logger.error("failed to send notification: " + emailTemplateIdentifier + "; form id: " + protocolForm.getId(), e);
+				}
 			} else if (notificationType.equals("LETTER")) {
 				String letterName = notificationEl.getAttribute("letter-name");
 				String docType = notificationEl.getAttribute("doc-type");
@@ -378,10 +381,13 @@ public class ProtocolBusinessObjectStatusHelper extends
 					docType = "Letter";
 				}
 				logger.debug("send letter ...");
-				emailTemplate = protocolEmailService.sendLetter(protocolForm,
-						committee, attributeRawValues, user, emailTemplateIdentifier, emailComment,
-						letterName, docType, mailToLst, ccLst);
-
+				try {
+					emailTemplate = protocolEmailService.sendLetter(protocolForm,
+							committee, attributeRawValues, user, emailTemplateIdentifier, emailComment,
+							letterName, docType, mailToLst, ccLst);
+				} catch (Exception e) {
+					logger.error("failed to send letter: " + emailTemplateIdentifier + "; form id: " + protocolForm.getId(), e);
+				}
 			}
 
 			if (emailTemplate != null) { // impossible to be null
@@ -434,7 +440,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 		
 		if (status.equals(ProtocolFormStatusEnum.PENDING_PI_SIGN_OFF.toString())){
 			logger.debug("change document stastus");
-			this.changeObjectFormDocumentStatus(protocolForm, now, committee, user, Status.RSC_APPROVED.toString(), true, true, true);
+			this.changeObjectFormDocumentStatus(protocolForm, now, committee, user, Status.RSC_APPROVED.toString(), null);
 			
 			String protocolFormMetaData = protocolForm.getMetaDataXml();
 			
@@ -500,10 +506,22 @@ public class ProtocolBusinessObjectStatusHelper extends
 	
 	@Override
 	public void changeObjectFormDocumentStatus(Form form, Date now,
-			Committee committee, User user, String status, boolean changeBudgetDocStatus, boolean changeProtocolDocStatus, boolean changeConsentDocStatus) {
+			Committee committee, User user, String status, Element documentStatusEl) {
 		logger.debug("changing ObjectFormDocumentStatus to " + status);
 		
 		ProtocolForm protocolForm = (ProtocolForm) form;
+		
+		boolean changeBudgetDocStatus = true;
+		boolean changeProtocolDocStatus = true;
+		boolean changeConsentDocStatus = true;
+		boolean changeEpicDocStatus = true;
+		
+		if (documentStatusEl != null) {
+			changeBudgetDocStatus = Boolean.valueOf(documentStatusEl.getAttribute("change-budget-doc-status"));
+			changeProtocolDocStatus = Boolean.valueOf(documentStatusEl.getAttribute("change-protocol-doc-status"));
+			changeConsentDocStatus = Boolean.valueOf(documentStatusEl.getAttribute("change-consent-doc-status"));
+			changeEpicDocStatus = Boolean.valueOf(documentStatusEl.getAttribute("change-epic-doc-status"));
+		}
 		
 		List<ProtocolFormXmlDataDocument> protocolFormXmlDataDocuments = protocolFormXmlDataDocumentDao.getLatestDocumentByProtocolFormId(protocolForm.getId());
 		
@@ -519,6 +537,10 @@ public class ProtocolBusinessObjectStatusHelper extends
 					}
 				} else if (pfxd.getCategory().contains("consent")) {
 					if (changeConsentDocStatus) {
+						pfxd.setStatus(ProtocolFormXmlDataDocument.Status.valueOf(status));
+					}
+				} else if (pfxd.getCategory().contains("epic")) {
+					if (changeEpicDocStatus) {
 						pfxd.setStatus(ProtocolFormXmlDataDocument.Status.valueOf(status));
 					}
 				} else {
@@ -986,6 +1008,15 @@ public class ProtocolBusinessObjectStatusHelper extends
 		committeeObjectStatusPair.put(Committee.IRB_ASSIGNER,
 				ProtocolStatusEnum.UNDER_IRB_PREREVIEW);
 	}
+	
+	private Map<Committee, ProtocolFormCommitteeStatusEnum> committeeStatusPair = new HashMap<Committee, ProtocolFormCommitteeStatusEnum>();{
+		committeeStatusPair.put(Committee.COVERAGE_REVIEW, ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		committeeStatusPair.put(Committee.HOSPITAL_SERVICES, ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		committeeStatusPair.put(Committee.DEPARTMENT_CHAIR, ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		committeeStatusPair.put(Committee.COLLEGE_DEAN, ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		committeeStatusPair.put(Committee.PI, ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		committeeStatusPair.put(Committee.IRB_ASSIGNER, ProtocolFormCommitteeStatusEnum.PENDING_REVIEWER_ASSIGNMENT);
+	}
 
 	// get the form status if this committee is in review
 	@Override
@@ -1005,6 +1036,16 @@ public class ProtocolBusinessObjectStatusHelper extends
 			return committeeObjectStatusPair.get(nextCommittee).toString();
 		}
 
+		return null;
+	}
+	
+	@Override
+	protected String getCommitteeReviewFormCommitteeStatus(Committee nextCommittee) {
+		if (nextCommittee != null
+				&& committeeStatusPair.containsKey(nextCommittee)) {
+			return committeeStatusPair.get(nextCommittee).toString();
+		}
+		
 		return null;
 	}
 	

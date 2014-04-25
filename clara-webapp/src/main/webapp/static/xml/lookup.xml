@@ -953,7 +953,7 @@
 		</option>
 	</study-types>
 	<cooperative-groups>
-		<option>
+		<!-- <option>
 			<value>acrin</value>
 			<desc>ACRIN - American College of Radiology Imaging Network</desc>
 		</option>
@@ -976,39 +976,45 @@
 		<option>
 			<value>nsabp</value>
 			<desc>NSABP - National Surgical Adjuvant Breast and Bowel Project</desc>
+		</option> -->
+		<option>
+			<value>alliance</value>
+			<desc>Alliance - Alliance for Clinical Trials Oncology</desc>
 		</option>
 		<option>
 			<value>cog</value>
 			<desc>COG - Children's Oncology Group</desc>
 		</option>
 		<option>
-			<value>ncctg</value>
-			<desc>NCCTG - North Central Cancer Treatment Group</desc>
+			<value>ctsu-cancer-trials-support-unit</value>
+			<desc>CTSU - Cancer Trials Support Unit</desc>
 		</option>
 		<option>
 			<value>ecog</value>
-			<desc>ECOG - Eastern Cooperative Oncology Group</desc>
+			<desc>ECOG-ACRIN - Cancer Research group</desc>
 		</option>
 		<option>
-			<value>rtog</value>
-			<desc>RTOG - Radiation Therapy Oncology Group</desc>
+			<value>nrg-oncology</value>
+			<desc>NRG Oncology</desc>
 		</option>
 		<option>
 			<value>swog</value>
 			<desc>SWOG - Southwest Oncology Group</desc>
 		</option>
 		<option>
-			<value>alliance</value>
-			<desc>Alliance</desc>
-		</option>
-		<option>
-			<value>ctsu-cancer-trials-support-unit</value>
-			<desc>CTSU Cancer Trials Support Unit</desc>
-		</option>
-		<option>
 			<value>other</value>
 			<desc>Other</desc>
 		</option>
+		
+		<!-- <option>
+			<value>ncctg</value>
+			<desc>NCCTG - North Central Cancer Treatment Group</desc>
+		</option>
+		
+		<option>
+			<value>rtog</value>
+			<desc>RTOG - Radiation Therapy Oncology Group</desc>
+		</option> -->
 	</cooperative-groups>
 	<study-subtypes>
 		<option>

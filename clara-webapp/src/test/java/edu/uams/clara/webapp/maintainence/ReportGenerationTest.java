@@ -8,14 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
@@ -1230,8 +1226,8 @@ public class ReportGenerationTest {
 	@Test
 	public void generateWeeklyBillingProtocolInMeeting()
 			throws XPathExpressionException, SAXException, IOException {
-		String beginTime = "'2014-03-14'";
-		String endTime = "'2014-03-20'";
+		String beginTime = "'2014-04-18'";
+		String endTime = "'2014-04-24'";
 		CSVWriter writer = new CSVWriter(new FileWriter("C:\\Data\\"
 				+ beginTime + "-To-" + endTime + "-IRB-Billing-Report.csv"));
 		String[] Titleentry = { "IRB Number","PI Name","Title","Agenda Date", "Form Type", "Review Type",
@@ -1761,6 +1757,81 @@ public class ReportGenerationTest {
 		writer.close();
 		
 	 }
+	
+	
+	//@Test
+	public void findresearchstaffnamereport() throws IOException{
+		List<String> budgetAdmins = Lists.newArrayList();
+		List<String> budgetManagers = Lists.newArrayList();
+		List<String> studyCoordinators = Lists.newArrayList();
+		List<String> researchStaffs = Lists.newArrayList();
+		
+		CSVWriter writer = new CSVWriter(new FileWriter("C:\\Data\\NameList.csv"));
+		String[] Titleentry = { "Budget Administrator","Budget Manager","Study Coordinator","Research Staff" };
+		writer.writeNext(Titleentry);
+		
+		String qry1 = "select distinct meta_data_xml.value('(/protocol/staffs/staff/user[roles/role[fn:contains(fn:upper-case(.),\"BUDGET ADMINISTRATOR\")]]/lastname/text())[1]','varchar(50)')+ ' ' +meta_data_xml.value('(/protocol/staffs/staff/user[roles/role[fn:contains(fn:upper-case(.),\"BUDGET ADMINISTRATOR\")]]/firstname/text())[1]','varchar(50)') from protocol where retired = 0 and  meta_data_xml.exist('/protocol/staffs/staff/user/roles/role[text()=\"Budget Administrator\"]')=1";
+		String qry2 = "select distinct meta_data_xml.value('(/protocol/staffs/staff/user[roles/role[fn:contains(fn:upper-case(.),\"BUDGET MANAGER\")]]/lastname/text())[1]','varchar(50)')+ ' ' +meta_data_xml.value('(/protocol/staffs/staff/user[roles/role[fn:contains(fn:upper-case(.),\"BUDGET MANAGER\")]]/firstname/text())[1]','varchar(50)') from protocol where retired = 0 and  meta_data_xml.exist('/protocol/staffs/staff/user/roles/role[text()=\"Budget Manager\"]')=1";
+		String qry3 = "select distinct meta_data_xml.value('(/protocol/staffs/staff/user[roles/role[fn:contains(fn:upper-case(.),\"STUDY COORDINATOR\")]]/lastname/text())[1]','varchar(50)')+ ' ' +meta_data_xml.value('(/protocol/staffs/staff/user[roles/role[fn:contains(fn:upper-case(.),\"STUDY COORDINATOR\")]]/firstname/text())[1]','varchar(50)') from protocol where retired = 0 and  meta_data_xml.exist('/protocol/staffs/staff/user/roles/role[text()=\"Study Coordinator\"]')=1";
+		String qry4 = "select distinct meta_data_xml.value('(/protocol/staffs/staff/user[roles/role[fn:contains(fn:upper-case(.),\"SUPPORT STAFF\")]]/lastname/text())[1]','varchar(50)')+ ' ' +meta_data_xml.value('(/protocol/staffs/staff/user[roles/role[fn:contains(fn:upper-case(.),\"SUPPORT STAFF\")]]/firstname/text())[1]','varchar(50)') from protocol where retired = 0 and  meta_data_xml.exist('/protocol/staffs/staff/user/roles/role[text()=\"Support Staff\"]')=1";
+		
+		int maxSize = 0;
+		Query query = em.createNativeQuery(qry1);
+		budgetAdmins = (List<String>) query.getResultList();
+		if(maxSize<budgetAdmins.size()){
+			maxSize=budgetAdmins.size();
+		}
+		query = em.createNativeQuery(qry2);
+		budgetManagers = (List<String>) query.getResultList();
+		if(maxSize<budgetManagers.size()){
+			maxSize=budgetManagers.size();
+		}
+		query = em.createNativeQuery(qry3);
+		studyCoordinators = (List<String>) query.getResultList();
+		if(maxSize<studyCoordinators.size()){
+			maxSize=studyCoordinators.size();
+		}
+		query = em.createNativeQuery(qry4);
+		researchStaffs = (List<String>) query.getResultList();
+		if(maxSize<researchStaffs.size()){
+			maxSize=researchStaffs.size();
+		}
+		
+		for(int i=0;i<maxSize;i++){
+			String budgetAdmin = "";
+			String budgetManager="";
+			String studyCoordinator = "";
+			String researchStaff = "";
+			
+			try{
+				budgetAdmin = budgetAdmins.get(i);
+			}catch(Exception e){
+			}
+			
+			try{
+				budgetManager = budgetManagers.get(i);
+			}catch(Exception e){
+			}
+			
+			try{
+				studyCoordinator = studyCoordinators.get(i);
+			}catch(Exception e){
+			}
+			
+			try{
+				researchStaff = researchStaffs.get(i);
+				if(budgetAdmins.contains(researchStaff)||budgetManagers.contains(researchStaff)||studyCoordinators.contains(researchStaff)){
+					researchStaff = "";
+				}
+			}catch(Exception e){
+			}
+			
+			String[] entry = {budgetAdmin,budgetManager,studyCoordinator,researchStaff};
+			writer.writeNext(entry);
+		}
+		writer.flush();
+		writer.close();
+	}
 
 	public ProtocolFormDao getProtocolFormDao() {
 		return protocolFormDao;

@@ -11,7 +11,9 @@ import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.uams.clara.webapp.protocol.domain.Protocol;
+import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
+import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
 
 public class MaintainenceDao {
 	
@@ -132,6 +134,48 @@ public class MaintainenceDao {
 				.createNativeQuery(qry, Protocol.class);
 		q.setHint("org.hibernate.cacheable", false);
 		q.setParameter("retired", Boolean.FALSE);
+		
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<ProtocolForm> listRevisionRequestedProtocolFormFrom(){
+		String qry = "select pf.* from protocol_form pf where id in ("
+				+ " select protocol_form_id from protocol_form_committee_status where protocol_form_committee_status = 'REVISION_REQUESTED' and retired = :retired)";
+		TypedQuery<ProtocolForm> q = (TypedQuery<ProtocolForm>) em
+				.createNativeQuery(qry, ProtocolForm.class);
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
+	public ProtocolFormXmlData getOldestProtocolFormXmlData(long protocolFormParentId, ProtocolFormXmlDataType protocolFormXmlDataType){
+		String qry = "select pfxd.* from protocol_form_xml_data pfxd where pfxd.protocol_form_id IN (select id from protocol_form where parent_id = :protocolFormParentId and retired = :retired) and pfxd.retired = :retired and pfxd.protocol_form_xml_data_type = :protocolFormXmlDataType order by pfxd.id";
+		TypedQuery<ProtocolFormXmlData> q = (TypedQuery<ProtocolFormXmlData>) em
+				.createNativeQuery(qry, ProtocolFormXmlData.class);
+		q.setFirstResult(0);
+		q.setMaxResults(1);
+		
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("protocolFormParentId", protocolFormParentId);
+		q.setParameter("protocolFormXmlDataType", protocolFormXmlDataType.toString());
+		
+		return q.getSingleResult();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<ProtocolFormXmlData> listProtocolFormXmlDataVersions(long protocolFormParentId, ProtocolFormXmlDataType protocolFormXmlDataType){
+		String qry = "select * from protocol_form_xml_data where protocol_form_id IN (select id from protocol_form where parent_id = :protocolFormParentId and retired = :retired) and retired = :retired and protocol_form_xml_data_type = :protocolFormXmlDataType order by id";
+		TypedQuery<ProtocolFormXmlData> q = (TypedQuery<ProtocolFormXmlData>) em
+				.createNativeQuery(qry, ProtocolFormXmlData.class);
+		
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("protocolFormParentId", protocolFormParentId);
+		q.setParameter("protocolFormXmlDataType", protocolFormXmlDataType.toString());
 		
 		return q.getResultList();
 	}
