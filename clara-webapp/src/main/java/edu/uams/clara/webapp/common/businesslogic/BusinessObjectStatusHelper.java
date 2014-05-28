@@ -1244,6 +1244,32 @@ public abstract class BusinessObjectStatusHelper {
 											status, committeeNote,
 											storeXmlData ? extraDataXml : null,
 											action);
+									
+									if (formCommitteeStatusEl.hasChildNodes()) {
+										NodeList revisionRequestCommitteeNsl = formCommitteeStatusEl
+												.getElementsByTagName("revision-request-committee");
+										
+										for (int j = 0; j < revisionRequestCommitteeNsl.getLength(); j++) {
+											Element revisionRequestCommitteeEl = (Element) revisionRequestCommitteeNsl.item(j);
+											
+											String realRevisionRequestCommittee = revisionRequestCommitteeEl
+													.getAttribute("committee");
+											
+											if (realRevisionRequestCommittee.equals(revisionRequestedCommittee)) {
+												changeObjectFormCommitteeStatus(
+														form,
+														now,
+														committee,
+														user,
+														Committee
+																.valueOf(revisionRequestCommitteeEl
+																		.getAttribute("involved-committee")),
+														revisionRequestCommitteeEl.getAttribute("status"), committeeNote,
+														storeXmlData ? extraDataXml : null,
+														action);
+											}
+										}
+									}
 
 								}
 

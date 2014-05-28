@@ -105,6 +105,12 @@
 				<form type="STAFF" status="UNDER_IRB_PREREVIEW">
 					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
 				</form>
+				<form type="PRIVACY_BOARD" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="STUDY_RESUMPTION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
 			</role>
 		</roles>
 	</queue>
@@ -132,6 +138,9 @@
 					<form-committee-status>IN_REVIEW</form-committee-status>
 				</form>
 				<form type="REPORTABLE_NEW_INFORMATION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="PRIVACY_BOARD" status="UNDER_IRB_PREREVIEW">
 					<form-committee-status>IN_REVIEW</form-committee-status>
 				</form>
 				<form type="AUDIT" status="PENDING_ASSESSMENT">
@@ -199,7 +208,13 @@
 				<form type="HUMANITARIAN_USE_DEVICE_RENEWAL" status="PENDING_IRB_REVIEW_ASSIGNMENT">
 					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
 				</form>
+				<form type="PRIVACY_BOARD" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
 				<form type="HUMANITARIAN_USE_DEVICE_RENEWAL" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="PRIVACY_BOARD" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
 					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
 				</form>
 				<form type="CONTINUING_REVIEW" status="PENDING_IRB_REVIEW_ASSIGNMENT">
@@ -227,6 +242,9 @@
 					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
 				</form>
 				<form type="STUDY_CLOSURE" status="UNDER_IRB_OFFICE_REVIEW">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
+				<form type="STUDY_RESUMPTION" status="UNDER_IRB_OFFICE_REVIEW">
 					<form-committee-status>IN_REVIEW</form-committee-status>
 				</form>
 				<form type="AUDIT" status="PENDING_IRB_REVIEW_ASSIGNMENT">
@@ -258,6 +276,9 @@
 				<form type="EMERGENCY_USE" status="IRB_AGENDA_ASSIGNED">
 					<form-committee-status>IN_REVIEW</form-committee-status>
 				</form>
+				<form type="PRIVACY_BOARD" status="IRB_AGENDA_ASSIGNED">
+					<form-committee-status>IN_REVIEW</form-committee-status>
+				</form>
 			</role>			
 		</roles>
 	</queue>
@@ -272,6 +293,9 @@
 				<form type="CONTINUING_REVIEW" status="PENDING_EXPEDITED_IRB_REVIEW">
 					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
 				</form>
+				<form type="REPORTABLE_NEW_INFORMATION" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
+				</form>
 				<form type="MODIFICATION" status="PENDING_EXPEDITED_IRB_REVIEW">
 					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
 				</form>
@@ -279,6 +303,9 @@
 					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
 				</form>
 				<form type="HUMANITARIAN_USE_DEVICE_RENEWAL" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
+				</form>
+				<form type="PRIVACY_BOARD" status="PENDING_EXPEDITED_IRB_REVIEW">
 					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
 				</form>
 			</role>			

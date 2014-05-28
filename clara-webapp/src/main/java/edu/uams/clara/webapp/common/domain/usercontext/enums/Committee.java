@@ -17,6 +17,7 @@ public enum Committee {
 	COVERAGE_MANAGER("Coverage Manager", Permission.ROLE_COVERAGE_MANAGER, "coverage-manager", true),
 	SUB_DEPARTMENT_CHIEF("Sub-Department Chief", Permission.ROLE_SUB_DEPARTMENT_CHIEF, "sub-department-chief", true),
 	DEPARTMENT_CHAIR("Department Chair", Permission.ROLE_DEPARTMENT_CHAIR, "department-chair", true),
+	DEPARTMENT_ADMIN("Department Admin", Permission.ROLE_DEPARTMENT_ADMIN, "department-admin", true),
 	COLLEGE_DEAN("Dean of College", Permission.ROLE_COLLEGE_DEAN, "college-dean", true),
 	IRB_REVIEWER("IRB Reviewer", Permission.ROLE_IRB_REVIEWER, "irb-reviewer", true),
 	PHARMACY_REVIEW("Pharmacy Review", Permission.ROLE_PHARMACY_REVIEW, "pharmacy-review", true),

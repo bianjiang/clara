@@ -1,0 +1,30 @@
+<rules>
+	<rule path="/study-resumption/study-close-reason" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the reason study was closed is required!" level="ERROR"/>	
+	</rule>
+	<rule path="/study-resumption/study-reopen-reason" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicate the study reopen reason is required!" level="ERROR"/>	
+	</rule>
+	<rule path="/study-resumption/any-changes-since-last-open" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been any changes to the protocol since it was last open is required!" level="ERROR"/>	
+	</rule>
+	<rule path="/study-resumption/any-changes-since-last-open/y/explain" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To explain changes to the protocol since it was last open is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/study-resumption/any-changes-since-last-open" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/study-resumption/activities-during-close" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if any study-related activities were performed during the closed period is required!" level="ERROR"/>	
+	</rule>
+	<rule path="/study-resumption/activities-during-close/y/explain" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+		<constraint type="REQUIRED" data="" error-msg="To explain study-related activities performed during the closed period is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/study-resumption/activities-during-close" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+</rules>

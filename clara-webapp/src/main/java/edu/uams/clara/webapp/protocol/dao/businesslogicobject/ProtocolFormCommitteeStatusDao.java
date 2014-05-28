@@ -198,6 +198,13 @@ public class ProtocolFormCommitteeStatusDao extends
 			Set<ProtocolFormCommitteeStatusEnum> protocolFormCommitteeStatuses,
 			ProtocolFormType protocolFormtype,
 			boolean showHistory) {
+		
+		//default completed item period is one month
+		String completeItemPeriod = "DATEADD(MONTH, -1, GETDATE())";
+		
+		if (committee.equals(Committee.BUDGET_REVIEW) || committee.equals(Committee.COVERAGE_REVIEW)) {
+			completeItemPeriod = "DATEADD(MONTH, -3, GETDATE())";
+		}
 
 		String query = "SELECT pfcs FROM ProtocolFormCommitteeStatus pfcs, ProtocolFormStatus pfs, ProtocolForm pf "
 				+ " WHERE pfcs.protocolForm.parent.id = pfs.protocolForm.parent.id "
@@ -214,7 +221,7 @@ public class ProtocolFormCommitteeStatusDao extends
 				+ " GROUP BY ppfcs.protocolForm.parent.id)"
 				+ " AND pfcs.protocolForm.id = pf.id "
 				+ " AND pf.protocolFormType = :protocolFormtype "
-				+ (showHistory ? "AND pfcs.modified > DATEADD(MONTH, -1, GETDATE())" : "");
+				+ (showHistory ? "AND pfcs.modified > "+ completeItemPeriod +"" : "");
 
 		TypedQuery<ProtocolFormCommitteeStatus> q = getEntityManager()
 				.createQuery(query, ProtocolFormCommitteeStatus.class);

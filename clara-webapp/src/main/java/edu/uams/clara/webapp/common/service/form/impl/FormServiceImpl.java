@@ -1,6 +1,10 @@
 package edu.uams.clara.webapp.common.service.form.impl;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +24,17 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import edu.uams.clara.core.util.xml.DomUtils;
+import edu.uams.clara.core.util.xml.XmlHandler;
+import edu.uams.clara.core.util.xml.XmlHandlerFactory;
+import edu.uams.clara.webapp.common.dao.usercontext.CitiMemberDao;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.form.Form;
+import edu.uams.clara.webapp.common.domain.usercontext.CitiMember;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
+import edu.uams.clara.webapp.common.service.UserService;
 import edu.uams.clara.webapp.common.service.form.FormService;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
@@ -35,6 +45,10 @@ public class FormServiceImpl implements FormService {
 	private XmlProcessor xmlProcessor;
 	
 	private UserDao userDao;
+	
+	private CitiMemberDao citiMemberDao;
+	
+	private UserService userService;
 	
 	public enum UserSearchField{
 		ROLE, RESPONSIBILITY;
@@ -236,6 +250,108 @@ public class FormServiceImpl implements FormService {
 		if (values == null) return exceptedReturnValueForNull;
 		return values.get(key) != null && values.get(key).size() > 0?values.get(key).get(0):exceptedReturnValueForNull;
 	}
+	
+	private String updateProfile(User user) {
+		Date now = new Date();
+
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		
+		String extraInfoXml = "<extra>";
+		String citiInfo = "<citi-training-complete>n</citi-training-complete>";
+		String notes = "";
+		
+		String profile = user.getProfile();
+		
+		String citiCompleted = "";
+		
+		if (profile != null && !profile.isEmpty()) {
+			Map<String, String> profileValues = userService.getUserProfileInfo(profile);
+			
+			citiCompleted = profileValues.get("citiTrainingComplete");
+			notes = "<notes>" + profileValues.get("notes") + "</notes>";
+		}
+		
+		if (citiCompleted.equals("true")) {
+			citiInfo = "<citi-training-complete>y</citi-training-complete>";
+		} else {
+			try {
+				List<CitiMember> citiMembers = citiMemberDao
+						.listCitiMemberByUser(user);
+				for (CitiMember citiMember : citiMembers) {
+
+					try {
+						Date expireDate = df.parse(citiMember
+								.getDateCompletionExpires());
+						if (!expireDate.before(now)) {
+							citiInfo = "<citi-training-complete>y</citi-training-complete>";
+						}
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+					}
+
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		extraInfoXml += citiInfo + notes;
+		
+		extraInfoXml += "</extra>";
+		
+		return extraInfoXml;
+	}
+	
+	@Override
+	public String addExtraStaffInformation(String formBaseTag, String formXmlData) {
+		String finalMergedString = formXmlData;
+		
+		try {
+			List<String> userIds = xmlProcessor.getAttributeValuesByPathAndAttributeName("/"+ formBaseTag +"/staffs/staff/user", formXmlData, "id");
+
+			if (userIds != null && !userIds.isEmpty()) {
+				Document xmlDataDoc = xmlProcessor.loadXmlStringToDOM(finalMergedString);
+				
+				NodeList staffNodeLst = xmlDataDoc.getElementsByTagName("user");
+				
+				if (staffNodeLst != null && staffNodeLst.getLength() > 0) {
+					for (int i = 0; i < staffNodeLst.getLength(); i++) {
+						Element currentEl = (Element) staffNodeLst.item(i);
+						
+						String userIdStr = currentEl.getAttribute("id");
+						
+						long userId = Long.valueOf(userIdStr);
+						
+						User user = userDao.findById(userId);
+												
+						String extraInfoXml = updateProfile(user);
+						
+						try {
+							Document newDom = xmlProcessor.parse(extraInfoXml);
+							
+							Element newElementRoot = (Element) newDom.getFirstChild();
+							
+							currentEl.appendChild(xmlDataDoc.importNode(newElementRoot, true));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+					}
+				}
+				
+				finalMergedString = DomUtils.elementToString(xmlDataDoc);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			finalMergedString = formXmlData;
+		}
+		
+		return finalMergedString;
+	}
 
 	public XmlProcessor getXmlProcessor() {
 		return xmlProcessor;
@@ -253,6 +369,24 @@ public class FormServiceImpl implements FormService {
 	@Autowired(required=true)
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
+	}
+
+	public CitiMemberDao getCitiMemberDao() {
+		return citiMemberDao;
+	}
+	
+	@Autowired(required=true)
+	public void setCitiMemberDao(CitiMemberDao citiMemberDao) {
+		this.citiMemberDao = citiMemberDao;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+	
+	@Autowired(required=true)
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 }

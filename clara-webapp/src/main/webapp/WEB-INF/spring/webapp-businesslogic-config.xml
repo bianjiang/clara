@@ -95,6 +95,18 @@
 						<property name="workflowXmlFilePath" value="${workflow.xml.staff.uri}" />
 					</bean>						
 				</entry>
+				<entry key="PRIVACY_BOARD">
+					<bean
+						class="edu.uams.clara.webapp.protocol.businesslogic.impl.PrivacyBoardBusinessObjectStatusHelperImpl">
+						<property name="workflowXmlFilePath" value="${workflow.xml.privacyboard.uri}" />
+					</bean>						
+				</entry>
+				<entry key="STUDY_RESUMPTION">
+					<bean
+						class="edu.uams.clara.webapp.protocol.businesslogic.impl.StudyResumptionBusinessObjectStatusHelperImpl">
+						<property name="workflowXmlFilePath" value="${workflow.xml.studyresumption.uri}" />
+					</bean>						
+				</entry>
 			</map>
 		</property>
 	</bean>

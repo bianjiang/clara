@@ -15,8 +15,9 @@ Ext.define('Clara.Documents.controller.Documents', {
 	       { ref: 'reviseButton', selector: '#btnDocumentRevise'},
 	       { ref: 'printButton', selector: '#btnPrintDocumentList'},
 	       { ref: 'renameButton', selector: '#btnDocumentRename'},
+	       { ref: 'changeTypeButton', selector: '#btnDocumentChangeType'},
 	       { ref: 'deleteButton', selector: '#btnDocumentDelete'},
-	       { ref: 'changeStatusButton', selector: '#btnDocumentChangeStatus'}
+	       { ref: 'changeTypeButton', selector: '#btnDocumentChangeType'}
 	],
 	
 	init: function() {
@@ -99,6 +100,12 @@ Ext.define('Clara.Documents.controller.Documents', {
 					click: function(){
 						var doc = me.selectedDocument;
 	        			me.renameDocument(doc);
+					}
+				},
+				'#btnDocumentChangeType':{
+					click: function(){
+						var doc = me.selectedDocument;
+	        			me.changeDocumentType(doc);
 					}
 				},
 				'#btnDocumentChangeStatus':{

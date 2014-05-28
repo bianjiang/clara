@@ -10,6 +10,7 @@ Ext.define('Clara.Documents.view.DocumentActionToolbar',{
 		Ext.getCmp("btnDocumentViewVersions").setDisabled(true);
 		Ext.getCmp("btnDocumentRevise").setDisabled(true);
 		Ext.getCmp("btnDocumentRename").setDisabled(true);
+		Ext.getCmp("btnDocumentChangeType").setDisabled(true);
 		Ext.getCmp("btnDocumentDelete").setDisabled(true);
 	},
 	
@@ -40,6 +41,13 @@ Ext.define('Clara.Documents.view.DocumentActionToolbar',{
                 hidden:true,
                 id:'btnDocumentChangeStatus',
                 iconCls:'icn-lightning'
+            },
+            {
+                xtype: 'button',
+                text: 'Rename',
+                iconCls:'icn-pencil-field',
+                id:'btnDocumentChangeType',
+                hidden:true
             },
             {
                 xtype: 'button',

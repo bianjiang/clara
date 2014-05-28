@@ -25,6 +25,8 @@
 	<field identifier="enrollmentinformation" display-name="Enrollment Information"  data-source="edu.uams.clara.webapp.protocol.domain.Protocol" report-xpath="meta_data_xml.value('(/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval/text())[1]','varchar(50)')"/>
 	<field identifier="pushedtoepic" display-name="Pushed to Epic"  data-source="edu.uams.clara.webapp.protocol.domain.Protocol" report-xpath="meta_data_xml.value('(/protocol/pushed-to-epic/text())[1]','varchar(50)')"/>
 	<field identifier="agendadate" display-name="Agenda Date" xtype="clarafield.date" type="ELEMENT_NODE" allowed-operators="BEFORE|AFTER|BETWEEN" data-source="edu.uams.clara.webapp.protocol.domain.irb.Agenda" search-xpath="Datediff(day, {value},date){operator}0"  />
+	<field identifier="fromcrimson" display-name="Original in CRIMSON" xtype="clarafield.combo.protocol.fromcrimson" type="ELEMENT_NODE" allowed-operators="EQUALS" data-source="edu.uams.clara.webapp.protocol.domain.Protocol"  search-xpath="id {value} 200000" />
+	<field identifier="hasbudget" display-name="Has Budget" xtype="clarafield.combo.protocol.hasbudget" type="ELEMENT_NODE" allowed-operators="EQUALS" data-source="edu.uams.clara.webapp.protocol.domain.Protocol"  search-xpath="id {value} (select distinct protocol_id from protocol_form where retired=0 and id in(select distinct protocol_form_id from protocol_form_xml_data where retired = 0 and protocol_form_xml_data_type ='BUDGET'))" />
 	
 	
 	<!-- <field identifier="clinicaltrailgov" display-name="Registration With ClinicalTrials.gov" xtype="clarafield.combo.protocol.clicnicaltrail" type="ELEMENT_NODE" allowed-operators="EQUALS" data-source="edu.uams.clara.webapp.protocol.domain.Protocol"  search-xpath="meta_data_xml.exist('/protocol/summary/clinical-trials-determinations'){value}"/>
@@ -58,6 +60,6 @@
 	<field identifier="approveddaterange" display-name="Approved Date Range" xtype="clarafield.date" type="ELEMENT_NODE" allowed-operators="BEFORE|AFTER|BETWEEN" data-source="edu.uams.clara.webapp.protocol.domain.Protocol"/>
 	
 	<!-- auto date update to today -->
-	<field identifier="autodateupdate" display-name="Approved Date Range(Schedule Only! From a Date to Today)" xtype="clarafield.date" type="ELEMENT_NODE" allowed-operators="EQUALS" data-source="edu.uams.clara.webapp.protocol.domain.Protocol"/>
+	<field identifier="approvedinlastxdays" display-name="Approved in Last ( ) Days (Today Included)" xtype="numberfield" allowed-operators="EQUALS" type="ELEMENT_NODE" data-source="edu.uams.clara.webapp.protocol.domain.Protocol"/>
 	
 </fields>

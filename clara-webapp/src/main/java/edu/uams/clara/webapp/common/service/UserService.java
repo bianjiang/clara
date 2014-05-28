@@ -1,6 +1,7 @@
 package edu.uams.clara.webapp.common.service;
 
 import java.util.List;
+import java.util.Map;
 
 import edu.uams.clara.webapp.common.domain.usercontext.Person;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
@@ -48,5 +49,7 @@ public interface UserService {
 	User getUserByUserId(long userId);
 	
 	User getUserByEmail(String email);
+	
+	Map<String, String> getUserProfileInfo(String profile);
 
 }

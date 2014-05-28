@@ -557,7 +557,9 @@
 									<form-status status="BEFORE_REVISION_REQUESTED_STATUS" />
 									<form-committee-statuses>
 										<form-committee-status
-											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="" />
+											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="">
+											<revision-request-committee committee="BUDGET_REVIEW" involved-committee="COVERAGE_REVIEW" status="NOTIFIED" />
+										</form-committee-status>
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
@@ -649,7 +651,9 @@
 									<form-status status="BEFORE_REVISION_REQUESTED_STATUS" />
 									<form-committee-statuses>
 										<form-committee-status
-											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="" />
+											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="">
+											<revision-request-committee committee="BUDGET_REVIEW" involved-committee="COVERAGE_REVIEW" status="NOTIFIED" />
+										</form-committee-status>
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
@@ -1286,7 +1290,7 @@
 						<actions>							
 							<action type="ASSIGN_REVIEWER" condition="NO_DEVICE">
 								<change-status>
-									<status status="UNDER_BUDGET_REVIEW" />
+									<!-- <status status="UNDER_BUDGET_REVIEW" /> -->
 									<form-status status="UNDER_BUDGET_REVIEW" />
 									<form-committee-statuses>
 										<form-committee-status
@@ -1307,7 +1311,7 @@
 							</action>
 							<action type="ASSIGN_REVIEWER" condition="HAVE_DEVICE">
 								<change-status>
-									<status status="UNDER_BUDGET_REVIEW" />
+									<!-- <status status="UNDER_BUDGET_REVIEW" /> -->
 									<form-status status="UNDER_BUDGET_REVIEW" />
 									<form-committee-statuses>
 										<form-committee-status

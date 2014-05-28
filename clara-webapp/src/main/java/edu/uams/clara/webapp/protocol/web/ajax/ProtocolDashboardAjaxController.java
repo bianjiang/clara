@@ -230,10 +230,10 @@ public class ProtocolDashboardAjaxController {
 	
 	private List<ProtocolFormStatusEnum> canEditProtocolFormStatusLst = new ArrayList<ProtocolFormStatusEnum>();{
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.DRAFT);
-		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.REVISED);
+		//canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.REVISED);
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION);
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.REVISION_PENDING_PI_ENDORSEMENT);
-		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.REVISION_REQUESTED);
+		//canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.REVISION_REQUESTED);
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_TP_ENDORSEMENT);
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_PI_ENDORSEMENT);
 	}
@@ -1428,6 +1428,13 @@ public class ProtocolDashboardAjaxController {
 		return new JsonResponse(false, "", "", false, emailTemplate);
 	}
 	
+	private final String modificationFormDesc = "Use this form to complete the entry of a migrated study in the CLARA system, to submit a change to an ongoing study, or to respond to an audit on a study.";
+	private final String continuingFormDesc = "Use this form to submit a continuing review for ongoing studies.";
+	private final String staffOnlyModificationFormDesc = "Use this form to add and/or remove study staff, or to change staff roles, responsibilities, or notifications ONLY.";
+	private final String reportableNewInfoFormDesc = "<![CDATA[Use this form to report study events to the IRB, including adverse events, deviations, and notifications. See <a href=\"http://www.uams.edu/irb/03-23-2011%20IRB%20Policy%20Updates/IRB%20Policy%2010.2.pdf\" target=\"_blank\">UAMS IRB Policy 10.2</a> for more information.]]>";
+	private final String studyClosureFormDesc = "Use this form to request closure of a study.";
+	private final String studyResumptionFormDesc = "Use this form to reopen a closed study, for study resumption.";
+	
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/new-form-types.xml", method = RequestMethod.GET)
 	public @ResponseBody String getNewFormList(@PathVariable("protocolId") long protocolId){
 		Protocol protocol = protocolDao.findById(protocolId);
@@ -1479,14 +1486,14 @@ public class ProtocolDashboardAjaxController {
 							}
 							
 							if (allowModForm && allowStaffOnlyModForm){
-								newFormList += "<form type=\"protocol\" id=\"modification\" title=\"Modification\"><description>Use this form to complete the entry of a migrated study in the CLARA system, to submit a change to an ongoing study, or to respond to an audit on a study.</description></form>";
-								newFormList += "<form type=\"protocol\" id=\"staff\" title=\"Staff Only Modification\"><description>Use this form to add and/or remove study staff, or to change staff roles, responsibilities, or notifications ONLY.</description></form>";
-								newFormList += "<form type=\"protocol\" id=\"reportable-new-information\" title=\"Reportable New Information\"><description><![CDATA[Use this form to report study events to the IRB, including adverse events, deviations, and notifications. See <a href=\"http://www.uams.edu/irb/03-23-2011%20IRB%20Policy%20Updates/IRB%20Policy%2010.2.pdf\" target=\"_blank\">UAMS IRB Policy 10.2</a> for more information.]]></description></form>";
-								if (allowStudyClosureForm) newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>Use this form to request closure of a study.</description></form>";
+								newFormList += "<form type=\"protocol\" id=\"modification\" title=\"Modification\"><description>"+ this.modificationFormDesc +"</description></form>";
+								newFormList += "<form type=\"protocol\" id=\"staff\" title=\"Staff Only Modification\"><description>"+ this.staffOnlyModificationFormDesc +"</description></form>";
+								newFormList += "<form type=\"protocol\" id=\"reportable-new-information\" title=\"Reportable New Information\"><description>"+ this.reportableNewInfoFormDesc +"</description></form>";
+								if (allowStudyClosureForm) newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>"+ this.studyClosureFormDesc +"</description></form>";
 								//newFormList += "<form type=\"protocol\" id=\"audit\" title=\"Audit\"><description></description></form>";
 							} else {
-								newFormList += "<form type=\"protocol\" id=\"reportable-new-information\" title=\"Reportable New Information\"><description><![CDATA[Use this form to report study events to the IRB, including adverse events, deviations, and notifications. See <a href=\"http://www.uams.edu/irb/03-23-2011%20IRB%20Policy%20Updates/IRB%20Policy%2010.2.pdf\" target=\"_blank\">UAMS IRB Policy 10.2</a> for more information.]]></description></form>";
-								if (allowStudyClosureForm) newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>Use this form to request closure of a study.</description></form>";
+								newFormList += "<form type=\"protocol\" id=\"reportable-new-information\" title=\"Reportable New Information\"><description>"+ this.reportableNewInfoFormDesc +"</description></form>";
+								if (allowStudyClosureForm) newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>"+ this.studyClosureFormDesc +"</description></form>";
 								//newFormList += "<form type=\"protocol\" id=\"audit\" title=\"Audit\"><description></description></form>";
 							}
 							
@@ -1499,20 +1506,20 @@ public class ProtocolDashboardAjaxController {
 							return newFormList + "</forms>";
 						} else {
 							if (onlyAllowModForm){
-								newFormList += "<form type=\"protocol\" id=\"modification\" title=\"Modification\"><description>Use this form to complete the entry of a migrated study in the CLARA system, to submit a change to an ongoing study, or to respond to an audit on a study.</description></form>";
+								newFormList += "<form type=\"protocol\" id=\"modification\" title=\"Modification\"><description>"+ this.modificationFormDesc +"</description></form>";
 							} else {
 								//#2925 make it impossible to submit modifications on a study while it has a continuing review in review
 								//#2932 CHANGE BACK: No concurrent submission for modifications and continuing reviews
 								if (allowModForm && allowCrForm && allowStaffOnlyModForm){
-									newFormList += "<form type=\"protocol\" id=\"continuing-review\" title=\"Continuing Review\"><description>Use this form to submit a continuing review for ongoing studies.</description></form>";
-									newFormList += "<form type=\"protocol\" id=\"modification\" title=\"Modification\"><description>Use this form to complete the entry of a migrated study in the CLARA system, to submit a change to an ongoing study, or to respond to an audit on a study.</description></form>";
-									newFormList += "<form type=\"protocol\" id=\"staff\" title=\"Staff Only Modification\"><description>Use this form to add and/or remove study staff, or to change staff roles, responsibilities, or notifications ONLY.</description></form>";
-									newFormList += "<form type=\"protocol\" id=\"reportable-new-information\" title=\"Reportable New Information\"><description><![CDATA[Use this form to report study events to the IRB, including adverse events, deviations, and notifications. See <a href=\"http://www.uams.edu/irb/03-23-2011%20IRB%20Policy%20Updates/IRB%20Policy%2010.2.pdf\" target=\"_blank\">UAMS IRB Policy 10.2</a> for more information.]]></description></form>";
-									if (allowStudyClosureForm) newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>Use this form to request closure of a study.</description></form>";
+									newFormList += "<form type=\"protocol\" id=\"continuing-review\" title=\"Continuing Review\"><description>"+ this.continuingFormDesc +"</description></form>";
+									newFormList += "<form type=\"protocol\" id=\"modification\" title=\"Modification\"><description>"+ this.modificationFormDesc +"</description></form>";
+									newFormList += "<form type=\"protocol\" id=\"staff\" title=\"Staff Only Modification\"><description>"+ this.staffOnlyModificationFormDesc +"</description></form>";
+									newFormList += "<form type=\"protocol\" id=\"reportable-new-information\" title=\"Reportable New Information\"><description>"+ this.reportableNewInfoFormDesc +"</description></form>";
+									if (allowStudyClosureForm) newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>"+ this.studyClosureFormDesc +"</description></form>";
 									//newFormList += "<form type=\"protocol\" id=\"audit\" title=\"Audit\"><description></description></form>";
 								} else {
-									newFormList += "<form type=\"protocol\" id=\"reportable-new-information\" title=\"Reportable New Information\"><description><![CDATA[Use this form to report study events to the IRB, including adverse events, deviations, and notifications. See <a href=\"http://www.uams.edu/irb/03-23-2011%20IRB%20Policy%20Updates/IRB%20Policy%2010.2.pdf\" target=\"_blank\">UAMS IRB Policy 10.2</a> for more information.]]></description></form>";
-									if (allowStudyClosureForm) newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>Use this form to request closure of a study.</description></form>";
+									newFormList += "<form type=\"protocol\" id=\"reportable-new-information\" title=\"Reportable New Information\"><description>"+ this.reportableNewInfoFormDesc +"</description></form>";
+									if (allowStudyClosureForm) newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>"+ this.studyClosureFormDesc +"</description></form>";
 									//newFormList += "<form type=\"protocol\" id=\"audit\" title=\"Audit\"><description></description></form>";
 								}
 							}
@@ -1520,19 +1527,20 @@ public class ProtocolDashboardAjaxController {
 					} else if (latestProtocolStatus.getProtocolStatus().equals(ProtocolStatusEnum.EXPIRED)) {
 						
 						if (onlyAllowModForm){
-							newFormList += "<form type=\"protocol\" id=\"modification\" title=\"Modification\"><description>Use this form to complete the entry of a migrated study in the CLARA system, to submit a change to an ongoing study, or to respond to an audit on a study.</description></form>";
+							newFormList += "<form type=\"protocol\" id=\"modification\" title=\"Modification\"><description>"+ this.modificationFormDesc +"</description></form>";
 						} else {
-							if (allowCrForm) {
-								newFormList += "<form type=\"protocol\" id=\"continuing-review\" title=\"Continuing Review\"><description>Use this form to submit a continuing review for ongoing studies.</description></form>";
+							if (allowCrForm && allowModForm) {
+								newFormList += "<form type=\"protocol\" id=\"continuing-review\" title=\"Continuing Review\"><description>"+ this.continuingFormDesc +"</description></form>";
 							} 
 							
 							if (allowStudyClosureForm) {
-								newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>Use this form to request closure of a study.</description></form>";
+								newFormList += "<form type=\"protocol\" id=\"study-closure\" title=\"Study Closure\"><description>"+ this.studyClosureFormDesc +"</description></form>";
 							}
 						}
+					} else if (latestProtocolStatus.getProtocolStatus().equals(ProtocolStatusEnum.CLOSED)) {
+						newFormList += "<form type=\"protocol\" id=\"study-resumption\" title=\"Study Resumption\"><description>"+ this.studyResumptionFormDesc +"</description></form>";
 					}
-					
-				} else {
+				}  else {
 					if (type.equals("Emergency Use")){
 						newFormList += "<form type=\"protocol\" id=\"emergency-use\" title=\"Emergency Use: Followup\"><description></description></form>";
 						return newFormList + "</forms>";

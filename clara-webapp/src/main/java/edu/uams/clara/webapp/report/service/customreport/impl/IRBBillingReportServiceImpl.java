@@ -2,6 +2,7 @@ package edu.uams.clara.webapp.report.service.customreport.impl;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -487,9 +488,19 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 					}
 
 					//for scheduel only, create a time range from a date to the running date
-					if(fieldIdentifier.equals("autodateupdate")){
-						date2 = DateFormatUtil.formateDateToMDY(new Date());
-						date1 = value;
+					if(fieldIdentifier.equals("approvedinlastxdays")){
+						Date currentDate =  new Date();
+						
+						date2 = DateFormatUtil.formateDateToMDY(currentDate);
+						Calendar c = Calendar.getInstance(); 
+						c.setTime(currentDate); 
+						c.add(Calendar.DATE, -(Integer.valueOf(value)));
+						currentDate = c.getTime();
+						date1 = DateFormatUtil.formateDateToMDY(currentDate);
+						
+						queryCriteriasValueMap.put(
+								"Time Span",
+								"BETWEEN: " + date1+"~"+date2);
 					}
 					
 					//date range donot need to add query conditions here
@@ -515,7 +526,8 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 				e.printStackTrace();
 			}
 		}
-		
+		finalResultXml = finalResultXml+generateSummaryCriteriaTable(reportTemplate,
+				queryCriteriasValueMap);
 		finalResultXml = processTitleLineInfo(finalResultXml,reportTemplate);
 		finalResultXml = processIRBBillingInfo(finalResultXml,date1,date2);
 		finalResultXml =finalResultXml.replace("<![CDATA[null]]>", "");

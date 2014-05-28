@@ -874,15 +874,27 @@ Clara.ProtocolForm.Rules
 			                                           "/protocol/need-budget",
 			                                           "/protocol/crimson/has-budget",
 			                                           "/protocol/initial-mod",
-			                                           "/protocol/budget-question-required" ],
+			                                           "/protocol/budget-question-required",
+			                                           "/protocol/migrated",
+			                                           "/protocol/budget-created"],
 			            	execute : function(answers) {
 			            		var hide = true;
 			            		
 			            		// check same ruleset as the first question, since its not saved on page load
 			            		if (claraInstance.form.type == 'MODIFICATION'){
-			            			if (answers['/protocol/initial-mod'] != "y" && answers['/protocol/budget-question-required'] == "y" && answers['/protocol/need-budget'] == "y" && answers['/protocol/study-nature'] != 'hud-use'){
+			            			if (answers['/protocol/migrated'] == "y" && answers['/protocol/initial-mod'] != "y" && answers['/protocol/budget-question-required'] == "y" && answers['/protocol/need-budget'] == "y" && answers['/protocol/study-nature'] != 'hud-use') {
+			            				if (answers['/protocol/budget-created'] == "y") {
+			            					hide = true;
+			            				} else {
+			            					hide = false;
+			            				}
+			            			}
+			            			
+			            			/*
+			            			if (answers['/protocol/migrated'] == "y" && answers['/protocol/initial-mod'] != "y" && answers['/protocol/budget-question-required'] == "y" && answers['/protocol/need-budget'] == "y" && answers['/protocol/study-nature'] != 'hud-use'){
 			            				hide = false;
 			            			}
+			            			*/
 			            			
 			            		}
 			            		
@@ -943,7 +955,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 					answers['/protocol/study-nature/biomedical-clinical/study-involves/involve'],
 					[ 'devices' ])){
 			if (answers['/protocol/site-responsible'] != "ach-achri" && answers['/protocol/site-responsible'] != "other"){
-				if (claraInstance.form.type == 'MODIFICATION'){
+				if (claraInstance.form.type == 'MODIFICATION' && answers['/protocol/migrated'] == "y"){
 					if (answers['/protocol/budget/need-budget-in-clara'] == "y"){
 						needsBudget = true;
 					} else {

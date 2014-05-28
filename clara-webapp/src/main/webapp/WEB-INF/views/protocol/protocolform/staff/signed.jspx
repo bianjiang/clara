@@ -14,13 +14,12 @@
 	<c:import var="helpxml" url="/static/xml/help.xml" />
 
 
-	<x:parse doc="${protocolFormXmlData.xmlData}" var="staffInstance" />
-	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="pbInstance" />
 	
 	<x:set var="protocolTitle"
-		select="string($protocolInstance/protocol/title/text())" />
+		select="string($pbInstance/privacy-board/title/text())" />
 	<x:set var="signedByPiOrNot"
-		select="string($staffInstance/staff/signed-by/text())" />
+		select="string($pbInstance/privacy-board/signed-by/text())" />
 
 	<x:parse doc="${helpxml}" var="help" scope="application" />
 
@@ -35,7 +34,7 @@
 
 		<div class="formArea">
 			<div id="signed-no-messages">
-				Your Staff Only Modification form has been signed and submitted!
+				Your Privacy Board form has been signed and submitted!
 				
 				<ul class="signed-information">
 					<li class="bulletitem">
@@ -75,7 +74,7 @@
 							claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
 									
 							renderFormViewport(
-									"<strong>Staff Only Modification</strong>: Form Already Signed"
+									"<strong>Privacy Board</strong>: Form Already Signed"
 									);
 						});
 	</script>

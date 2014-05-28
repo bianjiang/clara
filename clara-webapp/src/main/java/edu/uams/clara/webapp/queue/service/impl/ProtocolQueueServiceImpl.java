@@ -251,7 +251,7 @@ public class ProtocolQueueServiceImpl extends QueueService {
 					
 					ProtocolStatus latestProtocolStatus = protocolStatusDao.findProtocolStatusByProtocolId(protocolForm.getProtocol().getId());
 					
-					if (latestProtocolStatus.getProtocolStatus().equals(ProtocolStatusEnum.CLOSED)) {
+					if (latestProtocolStatus.getProtocolStatus().equals(ProtocolStatusEnum.CLOSED) && !protocolForm.getProtocolFormType().equals(ProtocolFormType.STUDY_RESUMPTION)) {
 						continue;
 					}
 

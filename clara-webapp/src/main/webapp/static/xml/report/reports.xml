@@ -28,6 +28,8 @@
 			<field identifier="nct" />
 			<field identifier="iscancerstudy" />
 			<field identifier="hascontinuingreview" />
+			<field identifier="fromcrimson" />
+			<field identifier="hasbudget" />
 			<!-- <field identifier="clinicaltrailgov" /> -->
 			<!-- <field identifier="protocolformstatus" /> -->
 		</fields>
@@ -148,6 +150,8 @@
 				<condition involve="{hascontinuingreview.search-xpath}">{hascontinuingreview.search-xpath}</condition>
 				<condition involve="{pushedtoepic.search-xpath}">{pushedtoepic.search-xpath}</condition>
 				<condition involve="{college.search-xpath}">{college.search-xpath}</condition>
+				<condition involve="{hasbudget.search-xpath}">{hasbudget.search-xpath}</condition>
+				<condition involve="{fromcrimson.search-xpath}">{fromcrimson.search-xpath}</condition>
 			</conditions>
 		</queries>
 	</report>
@@ -612,7 +616,7 @@
 	<report type="IRB Billing Report">
 		<fields>
 		<field identifier="approveddaterange" />
-		<field identifier="autodateupdate" />
+		<field identifier="approvedinlastxdays" />
 		</fields>
 		<results>
 		</results>

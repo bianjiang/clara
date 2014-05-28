@@ -226,9 +226,6 @@ Clara.Documents.RenameWindow = Ext.extend(Ext.Window, {
 });
 Ext.reg('claradocumentrenamewindow', Clara.Documents.RenameWindow);
 
-
-
-
 Clara.Documents.StatusWindow = Ext.extend(Ext.Window, {
 	width:400,
 	modal:true,
@@ -324,6 +321,112 @@ Clara.Documents.StatusWindow = Ext.extend(Ext.Window, {
 Ext.reg('claradocumentstatuswindow', Clara.Documents.StatusWindow);
 
 
+Clara.Documents.TypeWindow = Ext.extend(Ext.Window, {
+	width:800,
+	modal:true,
+	id:'clara-documents-typewindow',
+	autoHeight:true,
+	closable:true,
+	closeAction:'close',
+	title:'Change type',
+	iconCls:'icn-lightning',
+	doc:{},
+	constructor:function(config){		
+		Clara.Documents.TypeWindow.superclass.constructor.call(this, config);
+	},	
+	initComponent: function(){
+		var t = this;
+		clog("CHANGE TYPE WINDOW: DOC",t.doc);
+		var config = {
+				listeners:{
+					show: function(w){
+						clog("SHOW: doctypes",Clara.Documents.DocumentTypes);
+						Ext.getCmp("fldDocumentChangeToType").getStore().loadData(Clara.Documents.DocumentTypes);
+					}
+				},
+				items:[{
+					xtype:'form',
+					id:'clara-documents-typewindow-form',
+					fileUpload: true,
+					labelWidth: 100,
+					border:false,
+					frame: false,
+			    	autoHeight:true,
+			    	bodyStyle: 'padding: 10px;',
+			    	items:[{
+			        	xtype:'combo',
+		    	   		width:655,
+		    	      	fieldLabel:"Document type",
+		    	      	disabled:false,
+		    	      	typeAhead:false,
+			    	   	store:Clara.Documents.DocumentTypeStore, 
+			    		value:(typeof t.doc.id != 'undefined')?(t.doc.category):"",
+			    	   	forceSelection:true,
+			    	   	displayField:'desc', 
+			    	   	tpl:new Ext.XTemplate(
+                        		  '<tpl for="."><div class="x-combo-list-item"><span class="documentcategory">{category}:</span> <span class="{descCls}">{desc}</span></div></tpl>'
+                                ),
+			    	   	valueField:'doctype', 
+			    	   	mode:'remote', 
+			    	   	triggerAction:'all',
+			    	   	editable:false,
+			    	   	allowBlank:false,
+			    	   	id:'clara-documents-changetypewindow-details-type',
+			    	   	listeners:{
+			    	   		'select':function(c, record, index){
+			    	   				if (index<0) {
+			    	   					Ext.getCmp('btn-clara-documents-typewindow-save').setDisabled(true);
+			    	   				} else {
+			    	   					Ext.getCmp('btn-clara-documents-typewindow-save').setDisabled(false);
+			    	   				}
+			    	   			
+			       			}
+			       		}
+		    	   }
+			    	]    
+				}],
+				buttons: [
+
+							{
+								scope:this,
+					            text: 'Save',
+					            id:'btn-clara-documents-typewindow-save',
+					            handler: function(){
+					            	if (Ext.getCmp("clara-documents-changetypewindow-details-type").validate()){
+										var url = appContext+"/ajax/"+claraInstance.type+"s/"+claraInstance.id+"/"+claraInstance.type+"-forms/"+claraInstance.form.id+"/"+claraInstance.type+"-form-xml-datas/"+claraInstance.form.xmlDataId+"/documents/"+t.doc.id+"/change-type";
+										Ext.Ajax.request({
+											   url: url,
+											   method:'POST',
+											   success: function(response,opts){
+												   Clara.Documents.MessageBus.fireEvent('filerenamed');
+												   t.close();
+											   },
+											   failure: function(){
+												   cwarn("Error changing type.",response, opts);
+												   alert("Error changing type. Please try again in a few moments.");
+											   },
+											   params: { userId: claraInstance.user.id, category: Ext.getCmp("clara-documents-changetypewindow-details-type").getValue(), categoryDescription: Ext.getCmp("clara-documents-changetypewindow-details-type").getRawValue()}
+											});
+										
+									} else {
+										alert("Please choose a type.");
+									}
+					            }
+					        },							{
+								text:'Cancel',
+								disabled:false,
+								handler: function(){
+									t.close();
+								}
+							}]
+		};
+		Ext.apply(this, Ext.apply(this.initialConfig, config));
+		Clara.Documents.TypeWindow.superclass.initComponent.apply(this, arguments);		
+	}
+});
+Ext.reg('claradocumenttypewindow', Clara.Documents.TypeWindow);
+
+
 Clara.Documents.UploadWindow = Ext.extend(Ext.Window, {
 	width:800,
 	modal:true,
@@ -411,7 +514,7 @@ Clara.Documents.UploadWindow = Ext.extend(Ext.Window, {
 							{	xtype:'textfield',
 							    fieldLabel: 'Document <span style="font-weight:800;">name</span>',
 							    id: 'clara-documents-uploadwindow-details-title',
-							    value:(typeof t.doc.id != 'undefined')?(t.doc.title):"",
+							    value:"", // REMOVED BY REQUEST OF KATE HENNING (5/15/14) TO REQUIRE USERS TO ENTER NEW NAME FOR NEW VERSIONS. OLD CODE: (typeof t.doc.id != 'undefined')?(t.doc.title):"",
 							    width:655
 							},
 							{
@@ -509,8 +612,9 @@ Clara.Documents.VersionWindow = Ext.extend(Ext.Window, {
 		new Clara.Documents.StatusWindow({doc:Ext.getCmp("clara-documents-version-window").selecteddoc}).show();
 	},
 	loadDocuments: function(){
-		Ext.getCmp("clara-documents-version-gridpanel").getStore().removeAll();
-		Ext.getCmp("clara-documents-version-gridpanel").getStore().load();
+		var gp = Ext.getCmp("clara-documents-version-gridpanel");
+		if (gp) gp.getStore().removeAll();
+		if (gp) gp.getStore().load();
 	},
 	initComponent: function(){	
 		var t = this;
@@ -528,7 +632,7 @@ Clara.Documents.VersionWindow = Ext.extend(Ext.Window, {
 		});
 		
 		Clara.Documents.MessageBus.addListener('filerenamed', function(data){
-			clog("Clara.Documents.VersionWindow: fileremoved: REFRESHING GRIDPANEL");
+			clog("Clara.Documents.VersionWindow: filerenamed: REFRESHING GRIDPANEL");
 			t.loadDocuments();
 		});
 		
@@ -723,6 +827,7 @@ Clara.Documents.HasPermission = function(category, permission){
 
 Clara.Documents.DetailBar = Ext.extend(Ext.Toolbar, {
 	readOnly:false,
+	enableOverflow:true,
 	constructor:function(config){		
 		Clara.Documents.DetailBar.superclass.constructor.call(this, config);
 	},
@@ -766,6 +871,8 @@ clog("DOC OBJ",doc);
 			
 			Ext.getCmp("btn-clara-document-changestatus").setVisible(Ext.getCmp("clara-documents-gridpanel").readOnly == false && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']));
 			
+			Ext.getCmp("btn-clara-document-changetype").setVisible(Ext.getCmp("clara-documents-gridpanel").readOnly == false && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_IRB_PREREVIEW','ROLE_SYSTEM_ADMIN']));
+			
 
 		});
 		Clara.Documents.MessageBus.addListener('filterselected', function(doc){
@@ -807,6 +914,17 @@ clog("DOC OBJ",doc);
 			                            handler: function(){
 			                            	var doc = Ext.getCmp("clara-documents-gridpanel").selectedDocument;
 		                        			new Clara.Documents.StatusWindow({doc:doc}).show();
+		                        		}
+			                        },
+			                        {
+			                            xtype: 'button',
+			                            text: 'Change Type',
+			                            hidden:true,
+			                            id:'btn-clara-document-changetype',
+			                            iconCls:'icn-lightning',
+			                            handler: function(){
+			                            	var doc = Ext.getCmp("clara-documents-gridpanel").selectedDocument;
+		                        			new Clara.Documents.TypeWindow({doc:doc}).show();
 		                        		}
 			                        },
 			                        {

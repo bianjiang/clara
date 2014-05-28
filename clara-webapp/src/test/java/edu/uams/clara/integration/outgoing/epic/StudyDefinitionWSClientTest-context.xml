@@ -23,6 +23,8 @@
 		
 	<bean id="protocolStatusDao"
 		class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolStatusDao" />
+		
+	<bean id="citiMemberDao" class="edu.uams.clara.webapp.common.dao.usercontext.CitiMemberDao" />
 	
 	<bean id="sendBudgetApprovedNotificationForPBService"
 		class="edu.uams.clara.webapp.protocol.scheduler.SendBudgetApprovedNotificationForPBService" />

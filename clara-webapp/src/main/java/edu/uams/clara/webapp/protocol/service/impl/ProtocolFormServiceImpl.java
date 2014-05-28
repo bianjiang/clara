@@ -79,6 +79,11 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 		lists.add(ProtocolFormXmlDataType.STAFF);
 		copyLists.put(ProtocolFormType.STAFF,
 				lists);
+		
+		lists = new HashSet<ProtocolFormXmlDataType>();
+		lists.add(ProtocolFormXmlDataType.PRIVACY_BOARD);
+		copyLists.put(ProtocolFormType.PRIVACY_BOARD,
+				lists);
 
 		lists = new HashSet<ProtocolFormXmlDataType>();
 		lists.add(ProtocolFormXmlDataType.EMERGENCY_USE);
@@ -101,6 +106,10 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 		lists = new HashSet<ProtocolFormXmlDataType>();
 		lists.add(ProtocolFormXmlDataType.STUDY_CLOSURE);
 		copyLists.put(ProtocolFormType.STUDY_CLOSURE, lists);
+		
+		lists = new HashSet<ProtocolFormXmlDataType>();
+		lists.add(ProtocolFormXmlDataType.STUDY_RESUMPTION);
+		copyLists.put(ProtocolFormType.STUDY_RESUMPTION, lists);
 		
 		lists = new HashSet<ProtocolFormXmlDataType>();
 		lists.add(ProtocolFormXmlDataType.HUMANITARIAN_USE_DEVICE_RENEWAL);
@@ -197,6 +206,16 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 	private ProtocolFormXmlDataDocumentDao protocolFormXmlDataDocumentDao;
 
 	private BusinessObjectStatusHelperContainer businessObjectStatusHelperContainer;
+	
+	private String unlockBudget(String budgetXmlData) {
+		try {
+			budgetXmlData = xmlProcessor.replaceAttributeValueByPathAndAttributeName("/budget", "locked", budgetXmlData, "false");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return budgetXmlData;
+	}
 
 	@Override
 	public ProtocolForm createRevision(ProtocolForm protocolForm) {
@@ -275,6 +294,19 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 		protocolFormStatuses.add(ProtocolFormStatusEnum.EXEMPT_APPROVED);
 		protocolFormStatuses.add(ProtocolFormStatusEnum.EXPEDITED_APPROVED);
 	};
+	
+	private Map<ProtocolFormType, String> questionVersionMap = Maps.newHashMap();{
+		//questionVersionMap.put(ProtocolFormType.NEW_SUBMISSION, "<question-version-id>1.0</question-version-id>");
+		questionVersionMap.put(ProtocolFormType.CONTINUING_REVIEW, "1.0");
+		questionVersionMap.put(ProtocolFormType.MODIFICATION, "1.0");
+		questionVersionMap.put(ProtocolFormType.STUDY_CLOSURE, "1.0");
+		questionVersionMap.put(ProtocolFormType.REPORTABLE_NEW_INFORMATION, "1.0");
+		//questionVersionMap.put(ProtocolFormType.HUMAN_SUBJECT_RESEARCH_DETERMINATION, "<question-version-id>1.0</question-version-id>");
+		//questionVersionMap.put(ProtocolFormType.EMERGENCY_USE, "<question-version-id>1.0</question-version-id>");
+		questionVersionMap.put(ProtocolFormType.HUMANITARIAN_USE_DEVICE_RENEWAL, "1.0");
+		questionVersionMap.put(ProtocolFormType.STAFF, "1.0");
+		questionVersionMap.put(ProtocolFormType.STUDY_RESUMPTION, "1.0");
+	}
 
 	@Override
 	public ProtocolFormXmlData createNewForm(ProtocolFormType protocolFormType,
@@ -292,7 +324,11 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				+ p.getProtocolIdentifier() + "\" type=\""+ protocolFormType.getDescription() +"\">";
 		String protocolFormXmlStringEnd = "</" + protocolFormType.getBaseTag()
 				+ ">";
-		String protocolFormXmlString = "";
+		
+		String versionIdXmlString = "<question-version-id>" + questionVersionMap.get(protocolFormType) + "</question-version-id>";
+		
+		String protocolFormXmlString = versionIdXmlString;
+
 		String finalXmlString = "";
 		
 		ProtocolForm originalProtocolForm = null;
@@ -351,10 +387,10 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 			newSubmissionPulledXml += formService.pullFromOtherForm("/protocol/original-study", p.getMetaDataXml());
 			newSubmissionPulledXml += formService.pullFromOtherForm("/protocol/most-recent-study", p.getMetaDataXml());
 
-			protocolFormXmlString = newSubmissionPulledXml;
+			protocolFormXmlString += newSubmissionPulledXml;
 			break;
 		case MODIFICATION:
-			protocolFormXmlString = "<committee-review>" + formService.pullFromOtherForm("//committee-review/committee", originalProtocolForm.getMetaDataXml()) + "</committee-review>";
+			protocolFormXmlString += "<committee-review>" + formService.pullFromOtherForm("//committee-review/committee", originalProtocolForm.getMetaDataXml()) + "</committee-review>";
 			//protocolFormXmlString += formService.pullFromOtherForm("/protocol/staffs", p.getMetaDataXml());
 			break;
 		case STUDY_CLOSURE:
@@ -389,8 +425,8 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 					p.getMetaDataXml());
 			newSubmissionXml += formService.pullFromOtherForm("/protocol/original-study", p.getMetaDataXml());
 			newSubmissionXml += formService.pullFromOtherForm("/protocol/most-recent-study", p.getMetaDataXml());
-
-			protocolFormXmlString = crPulledXmlData + newSubmissionXml;
+			
+			protocolFormXmlString += crPulledXmlData + newSubmissionXml;
 			break;
 		case REPORTABLE_NEW_INFORMATION:
 			protocolFormXmlString = "<is-reportable>n</is-reportable>";
@@ -399,21 +435,28 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 			nsfToRNIPulledXml += formService.pullFromOtherForm("/protocol/staffs",
 					p.getMetaDataXml());
 			
-			protocolFormXmlString = protocolFormXmlString + nsfToRNIPulledXml;
+			protocolFormXmlString += nsfToRNIPulledXml;
+			break;
+		case STUDY_RESUMPTION:
+			String nsfToSRPulledXml = "";
+			nsfToSRPulledXml += formService.pullFromOtherForm("/protocol/staffs",
+					p.getMetaDataXml());
+			
+			protocolFormXmlString += nsfToSRPulledXml;
 			break;
 		case AUDIT:
 			String metaToAuditPulledXml = "";
 			metaToAuditPulledXml += formService.pullFromOtherForm("/protocol/staffs",
 					p.getMetaDataXml());
 			
-			protocolFormXmlString = protocolFormXmlString + metaToAuditPulledXml;
+			protocolFormXmlString += metaToAuditPulledXml;
 			break;
 		case STAFF:
 			String metaToStaffPulledXml = "";
 			metaToStaffPulledXml += formService.pullFromOtherForm("/protocol/staffs",
 					p.getMetaDataXml());
 			
-			protocolFormXmlString = protocolFormXmlString + metaToStaffPulledXml;
+			protocolFormXmlString += metaToStaffPulledXml;
 			break;
 		case HUMANITARIAN_USE_DEVICE_RENEWAL:
 			String nsfPulledXml = formService.pullFromOtherForm(
@@ -427,7 +470,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 			//initialApplicationPulledXmlData += formService.pullFromOtherForm(
 			//		"/protocol/treatment-location", p.getMetaDataXml());
 
-			protocolFormXmlString = nsfPulledXml;
+			protocolFormXmlString += nsfPulledXml;
 			break;
 		case EMERGENCY_USE:
 			ProtocolForm pf = protocolFormDao
@@ -460,7 +503,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 			euBasicPulledXml += formService.pullFromOtherForm("/emergency-use/staffs",
 					pfxd.getXmlData());
 		
-			protocolFormXmlString = "<type>follow-up</type>" + euBasicPulledXml;
+			protocolFormXmlString += "<type>follow-up</type>" + euBasicPulledXml;
 			break;
 		default:
 			break;
@@ -506,6 +549,8 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				protocolFormXmlDataXml = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/migrated", protocolFormXmlDataXml, "y");
 				
 				protocolFormXmlDataXml = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/initial-mod", protocolFormXmlDataXml, "y");
+				
+				protocolFormXmlDataXml = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/question-version-id", protocolFormXmlDataXml, questionVersionMap.get(protocolFormType));
 				
 				/*//delete staffs
 				resultMap=xmlProcessor.deleteElementByPath("/protocol/staffs", protocolFormXmlDataXml);
@@ -561,6 +606,21 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				resultMap=xmlProcessor.deleteElementByPath("/protocol/modification", originalXmlData);
 				originalXmlData = resultMap.get("finalXml").toString();
 				
+				originalXmlData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/question-version-id", originalXmlData, questionVersionMap.get(protocolFormType));
+				
+				//if NCT number is entered in summary, it needs to be pulled to modification form
+				try {
+					XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+					
+					String nctNumber = xmlHandler.getSingleStringValueByXPath(p.getMetaDataXml(), "/protocol/summary/clinical-trials-determinations/nct-number");
+					
+					if (!nctNumber.isEmpty()) {
+						originalXmlData = xmlHandler.replaceOrAddNodeValueByPath("/protocol/misc/is-registered-at-clinical-trials", originalXmlData, "y");
+						originalXmlData = xmlHandler.replaceOrAddNodeValueByPath("/protocol/misc/is-registered-at-clinical-trials/nct-number", originalXmlData, nctNumber);
+					}
+				} catch (Exception e) {
+					//don't care
+				}
 				
 				fxd.setXmlData(originalXmlData);
 			}
@@ -581,7 +641,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				&& originalBudgetXmlData != null) {
 			bfxd = new ProtocolFormXmlData();
 			bfxd.setProtocolForm(f);
-			bfxd.setXmlData(originalBudgetXmlData.getXmlData());
+			bfxd.setXmlData(this.unlockBudget(originalBudgetXmlData.getXmlData()));
 			bfxd.setParent(originalBudgetXmlData);
 			bfxd.setProtocolFormXmlDataType(originalBudgetXmlData
 					.getProtocolFormXmlDataType());
@@ -753,7 +813,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 									} else {
 										workflow = "BUDGET_ONLY";
 									}
-								} else if (studyType.equals("industry-sponsored") || studyType.equals("industry-sponsored")) {
+								} else if (studyType.equals("industry-sponsored") || studyType.equals("cooperative-group")) {
 									workflow = "BUDGET_ONLY";
 								}
 							} else {
@@ -1184,6 +1244,9 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 			isSpecficRole = formService.isCurrentUserSpecificRoleOrNot(
 					protocolForm, user, "Treating Physician") ? "IS_TP"
 					: "IS_NOT_TP";
+		} else if (protocolForm.getProtocolFormType().equals(
+				ProtocolFormType.PRIVACY_BOARD)) {
+			isSpecficRole = "IS_PI";
 		} else {
 			if (workflow.equals("HUD")) {
 				isSpecficRole = formService.isCurrentUserSpecificRoleOrNot(
@@ -1256,27 +1319,116 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 		return protocolForm;
 	}
 	
+	private Set<String> xPathExpressions = Sets.newHashSet();{
+		xPathExpressions.add("/protocol/budget/potentially-billed");
+		xPathExpressions.add("/protocol/budget/involves/uams-clinics");
+		xPathExpressions.add("/protocol/budget/involves/uams-inpatient-units");
+		xPathExpressions.add("/protocol/budget/involves/uams-ss-ou");
+		xPathExpressions.add("/protocol/budget/involves/uams-clinicallab");
+		xPathExpressions.add("/protocol/budget/involves/uams-radiology");
+		xPathExpressions.add("/protocol/budget/involves/uams-pharmacy");
+		xPathExpressions.add("/protocol/budget/involves/uams-other");
+		xPathExpressions.add("/protocol/budget/involves/uams-supplies");
+		xPathExpressions.add("/protocol/budget/involves/fgp-fees");
+		xPathExpressions.add("/protocol/budget/involves/industry-support");
+		xPathExpressions.add("/protocol/migrated");
+		xPathExpressions.add("/protocol/initial-mod");
+		xPathExpressions.add("/protocol/budget-created");
+		xPathExpressions.add("/protocol/budget/need-budget-in-clara");
+		xPathExpressions.add("/protocol/site-responsible");
+		xPathExpressions.add("/protocol/study-nature");
+		xPathExpressions.add("/protocol/study-nature/hud-use/where");
+		xPathExpressions.add("/protocol/site-responsible/enroll-subject-in-uams");
+	}
+	
 	@Override
-	public boolean requireBudget(ProtocolForm protocolForm) {
-		String protocolFormMetaData = protocolForm.getMetaDataXml();
+	public Map<String, Boolean> budgetRelatedDetermination(ProtocolFormXmlData protocolFormXmlData) {
+		Map<String, Boolean> budgetRelatedDeterminationMap = Maps.newHashMap();
 		
+		String xmlData = protocolFormXmlData.getXmlData();
+		
+		boolean budgetSectionEnabled = false;
 		boolean requireBudget = false;
 		
 		try {
 			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
 			
-			String potentialBilled = xmlHandler.getSingleStringValueByXPath(protocolFormMetaData, "/protocol/extra/has-budget-or-not");
+			Map<String, String> values = xmlHandler.getFirstStringValuesByXPaths(xmlData, xPathExpressions);
 			
-			String siteResponsible = xmlHandler.getSingleStringValueByXPath(protocolFormMetaData, "/protocol/site-responsible");
+			String migratedStudy = values.get("/protocol/migrated");
+			String initialMod = values.get("/protocol/initial-mod");
+			String budgetCreated = values.get("/protocol/budget-created");
+			String recreateBudget = values.get("/protocol/budget/need-budget-in-clara");
+			String responsibleSite = values.get("/protocol/site-responsible");
+			String enrollSubject = values.get("/protocol/site-responsible/enroll-subject-in-uams");
+			String studyNature = values.get("/protocol/study-nature");
+			String hudLocation = values.get("/protocol/study-nature/hud-use/where");
 			
-			if (potentialBilled.equals("y") && siteResponsible.equals("uams")) {
-				requireBudget = true;
+			String potentialBilled = values.get("/protocol/budget/potentially-billed");
+			String involveUamsClinics = values.get("/protocol/budget/involves/uams-clinics");
+			String involveUamsInpatientUnits = values.get("/protocol/budget/involves/uams-inpatient-units");
+			String involveUamsSsOu = values.get("/protocol/budget/involves/uams-ss-ou");
+			String involveUamsClinicallab = values.get("/protocol/budget/involves/uams-clinicallab");
+			String involveUamsRadiology = values.get("/protocol/budget/involves/uams-radiology");
+			String involveUamsPharmacy = values.get("/protocol/budget/involves/uams-pharmacy");
+			String involveUamsOther = values.get("/protocol/budget/involves/uams-other");
+			String involveUamsSupplies = values.get("/protocol/budget/involves/uams-supplies");
+			String involveFgpFees = values.get("/protocol/budget/involves/fgp-fees");
+			String involveIndustrySupport = values.get("/protocol/budget/involves/industry-support");
+			
+			boolean budgetScreening = (potentialBilled.equals("y") || involveUamsClinics.equals("y") || involveUamsInpatientUnits.equals("y") 
+					|| involveUamsSsOu.equals("y") || involveUamsClinicallab.equals("y") || involveUamsRadiology.equals("y") 
+					|| involveUamsPharmacy.equals("y") || involveUamsOther.equals("y") || involveUamsSupplies.equals("y") || involveFgpFees.equals("y")
+					|| involveIndustrySupport.equals("y"))?true:false;
+			
+			if (responsibleSite.equals("uams")) {
+				budgetSectionEnabled = true;
+				
+				if (protocolFormXmlData.getProtocolForm().getProtocolFormType().equals(ProtocolFormType.NEW_SUBMISSION)) {
+					if (budgetScreening) requireBudget = true;
+				} else {
+					if (migratedStudy.equals("y")) {
+						if (!initialMod.equals("y")) {
+							if (!budgetCreated.equals("y")) {
+								if (recreateBudget.equals("y")) {
+									requireBudget = true;
+								}
+							} else {
+								if (budgetScreening) {
+									requireBudget = true;
+								}
+							}
+						}
+					} else {
+						if (budgetScreening) {
+							requireBudget = true;
+						}
+					}
+				}
+			} else {
+				if (enrollSubject.equals("y") || (studyNature.equals("hud-use") && hudLocation.equals("uams"))) {
+					budgetSectionEnabled = true;
+					
+					if (budgetScreening) requireBudget = true;
+				}
 			}
-		} catch (Exception e) {
 			
+			budgetRelatedDeterminationMap.put("budgetSectionEnabled", budgetSectionEnabled);
+			budgetRelatedDeterminationMap.put("budgetRequired", requireBudget);
+			
+			
+			//String potentialBilled = xmlHandler.getSingleStringValueByXPath(protocolFormMetaData, "/protocol/extra/has-budget-or-not");
+			
+			//String siteResponsible = xmlHandler.getSingleStringValueByXPath(protocolFormMetaData, "/protocol/site-responsible");
+			
+			//if (potentialBilled.equals("y") && siteResponsible.equals("uams")) {
+			//	requireBudget = true;
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
-		return requireBudget;
+		return budgetRelatedDeterminationMap;
 	}
 	
 	@Override

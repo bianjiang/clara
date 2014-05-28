@@ -78,7 +78,7 @@ Ext.define('Clara.Documents.view.UploadWindow', {
 			    fieldLabel: 'Document <span style="font-weight:800;">name</span>',
 			    id: 'fldSelectedDocumentName',
 			    allowBlank:false,
-			    value:(me.doc !== null)?(me.doc.get("title")):"",
+			    value:"", // REMOVED BY REQUEST OF KATE HENNING (5/15/14) TO REQUIRE USERS TO ENTER NEW NAME FOR NEW VERSIONS. OLD CODE: value:(me.doc !== null)?(me.doc.get("title")):"",
 			    width:655
 			},
 			{

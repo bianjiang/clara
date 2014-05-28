@@ -236,12 +236,12 @@ public class BudgetAjaxController {
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/budgets/list-versions", method = RequestMethod.GET, produces="application/xml")
 	public @ResponseBody
 	Source listBudgetVersions(
-			@PathVariable("protocolFormId") long protocolFormId) {
+			@PathVariable("protocolId") long protocolId) {
 		try{
 			String finalXml = "<list>";
 
 			List<ProtocolFormXmlData> budgetXmlDataLst = protocolFormXmlDataDao
-					.listProtocolformXmlDatasByFormIdAndType(protocolFormId,
+					.listProtocolformXmlDatasByProtocolIdAndType(protocolId,
 							ProtocolFormXmlDataType.BUDGET);
 
 			for (ProtocolFormXmlData pfxd : budgetXmlDataLst) {

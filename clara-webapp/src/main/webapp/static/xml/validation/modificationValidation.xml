@@ -3526,10 +3526,16 @@
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
+			<rule path="/protocol/migrated" value-type="java.lang.String" pagename="Review" pageref="review">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
 			<rule path="/protocol/initial-mod" value-type="java.lang.String" pagename="Review" pageref="review">
 				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
+				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/protocol/budget-created" value-type="java.lang.String" pagename="Review" pageref="review">
 				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
@@ -3543,10 +3549,13 @@
 			<rule path="/protocol/budget-question-required" value-type="java.lang.String" pagename="First Page" pageref="first-page">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
-			<rule path="/protocol/budget/need-budget-in-clara" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
+			<!-- <rule path="/protocol/budget/need-budget-in-clara" value-type="java.lang.String" pagename="Budget and Coverage" pageref="budget">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
-			</rule>
+			</rule> -->
 			<rule path="/protocol/modification/to-modify-section/is-audit" value-type="java.lang.String" pagename="Modification" pageref="modification">
+				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/protocol/initial-mod" value-type="java.lang.String" pagename="Review" pageref="review">
 				<constraint type="NOTEQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>

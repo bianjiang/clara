@@ -160,6 +160,12 @@
 					<uams:textarea instancepath="/protocol/hipaa/access-existing-phi/y/desc"
 						id="describe-phi-accessed" value="${describePhiAccessed}" hasNA="false" validation="required"/>
 				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="describe-phi-accessed" />
+				</div>
 			</div>
 			
 			<div class="question clearfix" id="question-existing-hipaa-phi-details">

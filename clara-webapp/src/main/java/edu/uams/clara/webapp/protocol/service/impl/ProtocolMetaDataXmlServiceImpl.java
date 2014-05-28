@@ -29,6 +29,8 @@ import org.xml.sax.SAXException;
 import com.google.common.collect.Lists;
 
 import edu.uams.clara.core.util.xml.DomUtils;
+import edu.uams.clara.core.util.xml.XmlHandler;
+import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
@@ -74,6 +76,10 @@ public class ProtocolMetaDataXmlServiceImpl implements
 	
 	public Map<String, String> getProtocolFromToProtocolMetaDataMapping(ProtocolFormXmlDataType type){
 		return xPathPairMap.get(type);
+	}
+	
+	private List<String> needValueCheckFormMetaDataPathLst = Lists.newArrayList();{
+		needValueCheckFormMetaDataPathLst.add("/protocol/summary/clinical-trials-determinations/nct-number");
 	}
 
 	// define the fields of protocol metaData...
@@ -358,6 +364,12 @@ public class ProtocolMetaDataXmlServiceImpl implements
 //				"/protocol/approval-status");
 		xPathPairMap.put(ProtocolFormXmlDataType.STUDY_CLOSURE,
 				studyClosureXPathPairs);
+		
+		Map<String, String> studyResumptionXPathPairs = new HashMap<String, String>();
+//		studyClosureXPathPairs.put("/study-closure/approval-status",
+//				"/protocol/approval-status");
+		xPathPairMap.put(ProtocolFormXmlDataType.STUDY_RESUMPTION,
+				studyResumptionXPathPairs);
 
 		Map<String, String> emergencyUseXPathPairs = new HashMap<String, String>();
 		emergencyUseXPathPairs.put("/emergency-use/title", "/protocol/title");
@@ -446,6 +458,15 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		xPathPairMap.put(
 				ProtocolFormXmlDataType.STAFF,
 				staffXPathPairs);
+		
+		Map<String, String> privacyBoardXPathPairs = new HashMap<String, String>();
+		privacyBoardXPathPairs.put("/privacy-board/staffs", "/protocol/staffs");
+		privacyBoardXPathPairs.put("/privacy-board/title", "/protocol/title");
+		privacyBoardXPathPairs.put("/privacy-board/describe-pb-item", "/protocol/describe-pb-item");
+
+		xPathPairMap.put(
+				ProtocolFormXmlDataType.PRIVACY_BOARD,
+				privacyBoardXPathPairs);
 	}
 
 	private Map<ProtocolFormXmlDataType, Map<String, String>> protocolFormXPathPairMap = new EnumMap<ProtocolFormXmlDataType, Map<String, String>>(
@@ -676,6 +697,25 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		protocolFormXPathPairMap.put(
 				ProtocolFormXmlDataType.STAFF,
 				staffXPathPairs);
+		
+		Map<String, String> privacyBoardXPathPairs = new HashMap<String, String>();
+		privacyBoardXPathPairs.put("/privacy-board/staffs", "/privacy-board/staffs");
+		privacyBoardXPathPairs.put("/privacy-board/title", "/privacy-board/title");
+		privacyBoardXPathPairs.put("/privacy-board/describe-pb-item", "/privacy-board/describe-pb-item");
+
+		protocolFormXPathPairMap.put(
+				ProtocolFormXmlDataType.PRIVACY_BOARD,
+				privacyBoardXPathPairs);
+		
+		Map<String, String> studyResumptionXPathPairs = new HashMap<String, String>();
+		studyResumptionXPathPairs.put("/study-resumption/study-close-reason", "/study-resumption/study-close-reason");
+		studyResumptionXPathPairs.put("/study-resumption/study-reopen-reason", "/study-resumption/study-reopen-reason");
+		studyResumptionXPathPairs.put("/study-resumption/any-changes-since-last-open", "/study-resumption/any-changes-since-last-open");
+		studyResumptionXPathPairs.put("/study-resumption/activities-during-close", "/study-resumption/activities-during-close");
+
+		protocolFormXPathPairMap.put(
+				ProtocolFormXmlDataType.PRIVACY_BOARD,
+				privacyBoardXPathPairs);
 	}
 
 	@Override
@@ -976,10 +1016,22 @@ public class ProtocolMetaDataXmlServiceImpl implements
 			return p;
 		}
 		try {
+			Map<String, String> toUpdateMap = xPathPairMap.get(protocolFormXmlDataType);
+			
+			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+			
+			for (String path : this.needValueCheckFormMetaDataPathLst) {
+				String value = xmlHandler.getSingleStringValueByXPath(protocolForm.getMetaDataXml(), path);
+
+				if (value.isEmpty()) {
+					toUpdateMap.remove(path);
+				}
+			}
+			
 			String protocolMetaDataXml = xmlProcessor.mergeByXPaths(
 					p.getMetaDataXml(), protocolForm.getMetaDataXml(),
 					XmlProcessor.Operation.UPDATE_IF_EXIST,
-					xPathPairMap.get(protocolFormXmlDataType));
+					toUpdateMap);
 			logger.debug("after mergeByXPaths -> protocol.metadataxml: "
 					+ protocolMetaDataXml);
 
@@ -1138,6 +1190,12 @@ public class ProtocolMetaDataXmlServiceImpl implements
 			break;
 		case STAFF:
 			lookupPath = validationXmlPath + "/staffValidation.xml";
+			break;
+		case PRIVACY_BOARD:
+			lookupPath = validationXmlPath + "/privacyBoardValidation.xml";
+			break;
+		case STUDY_RESUMPTION:
+			lookupPath = validationXmlPath + "/studyResumptionValidation.xml";
 			break;
 		}
 

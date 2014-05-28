@@ -1078,8 +1078,9 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
 		var t=this;
 		var studyType = claraInstance.budget.studyType || '';
     	var total = t.procedure.cost.getTotal();
-    	t.procedure.cost.sponsor = total;
+    	t.procedure.cost.sponsor = ((studyType == 'cooperative-group'||studyType == 'investigator-initiated')?0:total);
     	t.procedure.cost.price = total;
+    	
     	Ext.getCmp(t.id+"_fldSponsor").setValue((studyType == 'cooperative-group'||studyType == 'investigator-initiated')?0:total);
     	// misc procedures: fill "cost" field
 		if (t.procedure.type == 'misc' || t.procedure.type == 'drugdispensing'){

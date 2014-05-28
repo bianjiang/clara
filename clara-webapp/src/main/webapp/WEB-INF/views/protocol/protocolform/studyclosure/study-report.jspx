@@ -121,7 +121,7 @@
 			<div class="question"
 				id="question-subjects-or-others-complained">
 				<div class="questionLabel">
-					Have any subjects or others complained about the research since your last year?
+					Have any subjects or others complained about the research since your last report?
 				</div>
 				<div class="questionValue">
 					<x:set var="subjectsOrOthersComplained"

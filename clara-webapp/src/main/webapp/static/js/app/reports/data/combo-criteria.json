@@ -113,6 +113,11 @@
 		{"comboId":"clarafield.combo.protocol.formtype","value":"HUMANITARIAN_USE_DEVICE_RENEWAL","name":"Humanitarian Use Device Renewal Application"},
 		{"comboId":"clarafield.combo.protocol.formtype","value":"AUDIT","name":"Audit"},
 		{"comboId":"clarafield.combo.protocol.nctNumber","value":"!=\"\"","name":"Has NCT Number"},
+		{"comboId":"clarafield.combo.protocol.hasbudget","value":"in","name":"Yes"},
+		{"comboId":"clarafield.combo.protocol.hasbudget","value":"not in","name":"No"},
+		{"comboId":"clarafield.combo.protocol.fromcrimson","value":"<","name":"Yes"},
+		{"comboId":"clarafield.combo.protocol.fromcrimson","value":">","name":"No"},
+		
 		{"comboId":"clarafield.combo.protocol.clicnicaltrail","value":"=1","name":"Registered With ClinicalTrails.gov"},
 		{"comboId":"clarafield.combo.protocol.clicnicaltrail","value":"=0","name":"Not Registered With ClinicalTrails.gov"},
 		{"comboId":"clarafield.combo.protocol.studysubmissionstatus","value":"in ('DETERMINED_NOT_REPORTABLE_NEW_INFORMATION','DETERMINED_NOT_HUMAN_SUBJECT_RESEARCH','DETERMINED_HUMAN_SUBJECT_RESEARCH','COMPLETED','EXPEDITED_APPROVED','ACKNOWLEDGED','APPROVED','EXEMPT_APPROVED','IRB_APPROVED','IRB_ACKNOWLEDGED','IRB_DECLINED')","name":"Completed"},

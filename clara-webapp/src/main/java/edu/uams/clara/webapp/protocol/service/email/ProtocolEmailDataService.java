@@ -90,6 +90,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		protocolXmlDataXPaths.add("/emergency-use/basic-details/test-article-name");
 		protocolXmlDataXPaths.add("/emergency-use/basic-details/patient-full-name");
 		protocolXmlDataXPaths.add("/emergency-use/basic-details/patient-diagnosis");
+		protocolXmlDataXPaths.add("/protocol/epic/involve-chemotherapy");
 		
 		return protocolXmlDataXPaths;
 	}
@@ -427,6 +428,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		finalTemplateValues.put("pedDetermination", (involvePed)?"The IRB determined the risk for children who enter this study to be Peds 1.":"");
 		finalTemplateValues.put("adultDetermination", (involveAdult)?"The IRB determined the risk for adults who enter this study to be minimal.":"");
 		finalTemplateValues.put("signature", signature);
+		finalTemplateValues.put("involveChemotheray", getFormService().getSafeStringValueByKey(values, "/protocol/epic/involve-chemotherapy", ""));
 		finalTemplateValues.put("emailComment", emailComment);
 		finalTemplateValues.put("currentDate", DateFormatUtil.formateDateToMDY(currentDate));
 		finalTemplateValues.put("threeYearsFromCurrentDate", threeYearsFromCurrentDate);
@@ -604,6 +606,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		
 		Map<String, String> subjectAttributsValues = new HashMap<String, String>();
 		subjectAttributsValues.put("{protocolId}", String.valueOf(protocolForm.getProtocol().getId()));
+		subjectAttributsValues.put("{protocolFormType}", protocolForm.getProtocolFormType().getDescription());
 		if (committee != null) {
 			subjectAttributsValues.put("{committee}", committee.getDescription());
 		}

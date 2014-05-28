@@ -1,0 +1,21 @@
+<form name="Privacy Board" id="privacy-board" type="PRIVACY_BOARD">
+	<page name="Start" id="first-page">
+		<section>
+			<question id="question-title" parent-id="" parent-value="" header="">
+				<question-label>What is the title</question-label>
+				<question-value instance-path="/privacy-board/title" value-type="textarea" />
+			</question>
+			<question id="question-describe-pb-item" parent-id="" parent-value="" header="">
+				<question-label>Please describe the item that is being submitted to the UAMS Privacy Board for review:</question-label>
+				<question-value instance-path="/privacy-board/describe-pb-item" value-type="textarea" />
+			</question>
+		</section>
+	</page>
+	<page name="Staff" id="staff">
+		<section>
+			<question id="question-staff" parent-id="" parent-value="" header="" value-outerclass="span12">
+				<question-value instance-path="/privacy-board/staffs/staff" value-type="staff" />
+			</question>
+		</section>
+	</page>
+</form>

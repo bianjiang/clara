@@ -48,6 +48,12 @@
 				<entry key="contractValidationRules">
 					<bean class="edu.uams.clara.webapp.contract.businesslogic.contractform.validator.ruleinitiator.ContractValidationRuleInitiator" />
 				</entry>
+				<entry key="privacyBoardValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.PrivacyBoardValidationRuleInitiator" />
+				</entry>
+				<entry key="studyResumptionValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.StudyResumptionValidationRuleInitiator" />
+				</entry>
 			</map>
 		</property>
 	</bean>

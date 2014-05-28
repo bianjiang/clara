@@ -18,9 +18,10 @@
 			<th id="email"><b>Email</b></th>
 			<th id="role"><b>Roles</b></th>
 			<th id="responsibility"><b>Responsibilities</b></th>
-			<th id="notification"><b>Receive Notification</b></th>
+			<th id="notification"><b>Notifications?</b></th>
 			<th id="conflict"><b>Conflict</b></th>
-			<th id="training"><b>Training</b></th>
+			<th id="training"><b>Citi Training</b></th>
+			<th id="notes"><b>Notes</b></th>
 		</tr>
 		</thead>
 		<x:forEach var="staff" select="$value">
@@ -41,6 +42,8 @@
 			
 			<x:set var="conflictValue" select="string(user/conflict-of-interest/text())" />
 			
+			<x:set var="citiTrained" select="string(user/extra/citi-training-complete/text())"/>
+			
 			<c:choose>
 				<c:when test="${conflictValue eq 'true'}">
 					<c:set var="conflictValue" value="yes" />
@@ -49,8 +52,18 @@
 					<c:set var="conflictValue" value="no" />
 				</c:otherwise>
 			</c:choose>
+			<c:choose>
+				<c:when test="${citiTrained eq 'y'}">
+					<c:set var="citiTrainedClass" value="" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="citiTrainedClass" value="warning" />
+				</c:otherwise>
+			</c:choose>
+			
+			
 			<x:set var="uid" select="string(user/@id)" />
-			<tr class="staffrow ${diffclass}" id="staffrow-${uid}">
+			<tr class="staffrow ${citiTrainedClass} ${diffclass}" id="staffrow-${uid}">
 				<td class="${diffclass}" headers="name" valign="top">
 					<a target='_blank' href='/clara-webapp/user/${uid}/profile'><x:out select="user/lastname" />,<x:out
 						select="user/firstname" /></a></td>
@@ -90,7 +103,19 @@
 				<td class="${diffclass}" headers="conflict" valign="top">${conflictValue}
 				<c:out value=" "/><x:out select="user/conflict-of-interest-description" />
 				</td>
-				<td class="staffcell-training ${diffclass}" headers="training" valign="top"><div class="statusicon"><!-- // --></div></td>
+								
+				<td class="staffcell-training ${diffclass}" headers="training" valign="top">
+					<c:if test="${citiTrained eq 'y'}">
+						<div class="statusicon statusicon-ok"><!--  -->Yes</div>
+					</c:if>
+					<c:if test="${citiTrained eq 'n'}">
+						<div class="statusicon statusicon-warning"><!--  --><span class="text-error" style="font-weight:800;">Missing or expired.</span></div>
+					</c:if>
+				</td> 
+				
+				<td class="staffcell-notes ${diffclass}" headers="notes" valign="top">
+					<x:out select="user/extra/notes"/>
+				</td>
 			</tr>
 			<sec:authorize access="hasRole('VIEW_STAFF_SALARY')">
 				<tr class="staffrow staffsalaryrow ${diffclass}" id="staffsalaryrow-${uid}">

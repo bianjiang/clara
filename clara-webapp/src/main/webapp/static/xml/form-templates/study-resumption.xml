@@ -1,0 +1,34 @@
+<form name="Study Resumption" id="study-resumption" type="STUDY_RESUMPTION">
+	<page name="Start" id="first-page">
+		<section>
+			<question id="question-study-close-reason" parent-id="" parent-value="" header="">
+				<question-label>Reason study was closed:</question-label>
+				<question-value instance-path="/study-resumption/study-close-reason" value-type="textarea" />
+			</question>
+			<question id="question-study-reopen-reason" parent-id="" parent-value="" header="">
+				<question-label>Reason study should be reopened:</question-label>
+				<question-value instance-path="/study-resumption/study-reopen-reason" value-type="textarea" />
+			</question>
+			<question id="question-any-changes-since-last-open" parent-id="" parent-value="" header="">
+				<question-label>Have there been any changes to the protocol since it was last open?</question-label>
+				<question-value  instance-path="/study-resumption/any-changes-since-last-open" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-any-changes-since-last-open-explain" parent-id="" parent-value="" header="Yes">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-resumption/any-changes-since-last-open/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+			<question id="question-activities-during-close" parent-id="" parent-value="" header="">
+				<question-label>Were any study-related activities performed during the closed period?</question-label>
+				<question-value  instance-path="/study-resumption/activities-during-close" value-type="yesNo" />
+				<sub-questions>
+					<question id="question-activities-during-close-explain" parent-id="" parent-value="" header="Yes">
+						<question-label>Please explain</question-label>
+						<question-value  instance-path="/study-resumption/activities-during-close/y/explain" value-type="textarea" />
+					</question>
+				</sub-questions>
+			</question>
+		</section>
+	</page>
+</form>

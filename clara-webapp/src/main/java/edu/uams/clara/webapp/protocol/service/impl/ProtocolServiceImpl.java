@@ -99,7 +99,7 @@ public class ProtocolServiceImpl implements ProtocolService {
 		p.setMetaDataXml(protocolMetaDataXmlString);
 		p = protocolDao.saveOrUpdate(p);
 		
-		String protocolFormXmlString = "<"+ protocolFormType.getBaseTag() +" id=\"" + p.getId() + "\" identifier=\"" + p.getProtocolIdentifier() + "\" type=\""+ protocolFormType.getDescription() +"\"></"+ protocolFormType.getBaseTag() +">";
+		String protocolFormXmlString = "<"+ protocolFormType.getBaseTag() +" id=\"" + p.getId() + "\" identifier=\"" + p.getProtocolIdentifier() + "\" type=\""+ protocolFormType.getDescription() +"\"><question-version-id>1.0</question-version-id></"+ protocolFormType.getBaseTag() +">";
 					
 		ProtocolForm f = new ProtocolForm();
 		f.setProtocolFormType(protocolFormType);

@@ -512,6 +512,14 @@ public class ProtocolFormController {
 				}
 			}
 		}
+		
+		String formXmlData = protocolForm
+				.getTypedProtocolFormXmlDatas()
+				.get(protocolForm.getProtocolFormType()
+						.getDefaultProtocolFormXmlDataType())
+				.getXmlData();
+		
+		formXmlData = formService.addExtraStaffInformation(protocolForm.getProtocolFormType().getBaseTag(), formXmlData);
 
 		modelMap.put("isLocked", isLocked);
 		modelMap.put("isLockedUserString", isLockedUserString);
@@ -537,11 +545,7 @@ public class ProtocolFormController {
 		modelMap.put("formType", protocolForm.getProtocolFormType());
 		modelMap.put(
 				"formXmlData",
-				protocolForm
-						.getTypedProtocolFormXmlDatas()
-						.get(protocolForm.getProtocolFormType()
-								.getDefaultProtocolFormXmlDataType())
-						.getXmlData());
+				formXmlData);
 		modelMap.put(
 				"formXmlDataId",
 				protocolForm
@@ -627,6 +631,8 @@ public class ProtocolFormController {
 			protocolFormService
 					.triggerPIAction("REVISE", nv, currentUser, null);
 
+		} else {
+			nv = protocolFormDao.getLatestProtocolFormByProtocolIdAndProtocolFormType(protocolId, protocolForm.getProtocolFormType());
 		}
 		// modelMap.put("protocolForm", nv);
 		modelMap.put("committee", committee);

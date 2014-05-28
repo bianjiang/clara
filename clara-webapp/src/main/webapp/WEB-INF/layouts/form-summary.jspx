@@ -133,30 +133,7 @@
 				jQuery("tr.staffrow").each(function(idx){
 					staffIds.push(jQuery(this).attr("id").split("-")[1]);
 				});
-				if (staffIds.length > 0){
-					<![CDATA[
-					jQuery.ajax({
-						url:appContext+"/ajax/users/validate-training",
-						data:{
-							userList:staffIds
-						},
-						type: "POST",
-						async: true,
-						dataType:'json',
-						success: function(resp){
-							var data = resp.data;
-							clog("Staff training AJAX: Got response from server",data);
-							for (var i=0,l=staffIds.length;i<l;i++){
-								if (data[staffIds[i]] == false){
-									if (!(jQuery("#staffrow-"+staffIds[i]).hasClass('row-diff-A') || jQuery("#staffrow-"+staffIds[i]).hasClass('row-diff-D') || jQuery("#staffrow-"+staffIds[i]).hasClass('row-diff-M'))) jQuery("#staffrow-"+staffIds[i]).addClass("warning");
-									jQuery("#staffrow-"+staffIds[i]+" td.staffcell-training div.statusicon").html("Missing or expired CITI training.");
-								}
-								jQuery("#staffrow-"+staffIds[i]+" td.staffcell-training div.statusicon").addClass((data[staffIds[i]] == false)?"statusicon-warning":"statusicon-ok");
-							}
-						}
-					});
-					]]>
-				}
+				
 			});
 			
 			</script>

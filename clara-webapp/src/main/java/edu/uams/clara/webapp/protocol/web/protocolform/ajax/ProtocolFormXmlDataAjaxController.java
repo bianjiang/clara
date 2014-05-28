@@ -29,13 +29,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
 import edu.uams.clara.core.util.xml.DomUtils;
-import edu.uams.clara.core.util.xml.XmlHandler;
-import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.businesslogic.BusinessObjectStatusHelperContainer;
 import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.relation.RelatedObject;
@@ -96,11 +91,14 @@ public class ProtocolFormXmlDataAjaxController {
 	
 	private BusinessObjectStatusHelperContainer businessObjectStatusHelperContainer;
 	
+	/*
 	private List<ProtocolFormType> toUpdateProtocolMetaDataFormTypeLst = Lists.newArrayList();{
 		toUpdateProtocolMetaDataFormTypeLst.add(ProtocolFormType.NEW_SUBMISSION);
 		toUpdateProtocolMetaDataFormTypeLst.add(ProtocolFormType.EMERGENCY_USE);
 		toUpdateProtocolMetaDataFormTypeLst.add(ProtocolFormType.HUMAN_SUBJECT_RESEARCH_DETERMINATION);
+		toUpdateProtocolMetaDataFormTypeLst.add(ProtocolFormType.PRIVACY_BOARD);
 	}
+	*/
 
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/{protocolFormXmlDataType}/update", method = RequestMethod.POST, produces="application/xml")
 	public @ResponseBody
@@ -135,7 +133,7 @@ public class ProtocolFormXmlDataAjaxController {
 
 			protocolForm = protocolMetaDataXmlService.updateProtocolFormMetaDataXml(protocolFormXmlData, null);
 
-			if (toUpdateProtocolMetaDataFormTypeLst.contains(protocolForm.getProtocolFormType())){
+			if (protocolForm.getProtocolFormType().getCanUpdateMetaData()){
 				protocolMetaDataXmlService
 				.updateProtocolMetaDataXml(protocolForm);
 			}
@@ -178,7 +176,7 @@ public class ProtocolFormXmlDataAjaxController {
 			protocolForm.setRetired(true);
 			protocolFormDao.saveOrUpdate(protocolForm);
 			
-			if (protocolForm.getProtocolFormType().equals(ProtocolFormType.NEW_SUBMISSION) || protocolForm.getProtocolFormType().equals(ProtocolFormType.HUMAN_SUBJECT_RESEARCH_DETERMINATION) || protocolForm.getProtocolFormType().equals(ProtocolFormType.EMERGENCY_USE)){
+			if (protocolForm.getProtocolFormType().getCanUpdateMetaData()){
 				/*
 				 * Need to delete all relations, eg. contracts if protocol is deleted
 				 * */
@@ -378,20 +376,6 @@ public class ProtocolFormXmlDataAjaxController {
 	}
 	*/
 	
-	private Set<String> xPathExpressions = Sets.newHashSet();{
-		xPathExpressions.add("/protocol/budget/potentially-billed");
-		xPathExpressions.add("/protocol/budget/involves/uams-clinics");
-		xPathExpressions.add("/protocol/budget/involves/uams-inpatient-units");
-		xPathExpressions.add("/protocol/budget/involves/uams-ss-ou");
-		xPathExpressions.add("/protocol/budget/involves/uams-clinicallab");
-		xPathExpressions.add("/protocol/budget/involves/uams-radiology");
-		xPathExpressions.add("/protocol/budget/involves/uams-pharmacy");
-		xPathExpressions.add("/protocol/budget/involves/uams-other");
-		xPathExpressions.add("/protocol/budget/involves/uams-supplies");
-		xPathExpressions.add("/protocol/budget/involves/fgp-fees");
-		xPathExpressions.add("/protocol/budget/involves/industry-support");
-	}
-	
 	private void processXmlData(ProtocolFormXmlData protocolFormXmlData, String xmlData) {
 		String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
 		
@@ -412,33 +396,23 @@ public class ProtocolFormXmlDataAjaxController {
 			}
 		}
 		
-		if (xmlData.contains("<budget>")){
-			try {
-				XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
-				
-				Map<String, String> values = xmlHandler.getFirstStringValuesByXPaths(protocolFormXmlDataString, xPathExpressions);
-
-				if (values.containsValue("y")) {
-					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget", protocolFormXmlDataString, "y");
-				} else {
-					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget", protocolFormXmlDataString, "n");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
 		try {
-			XmlHandler xmlHanlder = XmlHandlerFactory.newXmlHandler();
+			Map<String, Boolean> budgetRelatedDeterminationMap = protocolFormService.budgetRelatedDetermination(protocolFormXmlData);
 			
-			String enrollSubjects = xmlHanlder.getSingleStringValueByXPath(protocolFormXmlDataString, "/protocol/site-responsible/enroll-subject-in-uams");
-			String responsibleSite = xmlHanlder.getSingleStringValueByXPath(protocolFormXmlDataString, "/protocol/site-responsible");
-			String hudUseLocation = xmlHanlder.getSingleStringValueByXPath(protocolFormXmlDataString, "/protocol/study-nature/hud-use/where");
+			boolean budgetSectionEnabled = budgetRelatedDeterminationMap.get("budgetSectionEnabled");
 			
-			if ((enrollSubjects.equals("y") || responsibleSite.equals("uams")) && !hudUseLocation.equals("ach/achri")) {
+			if (budgetSectionEnabled) {
 				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget-question-required", protocolFormXmlDataString, "y");
 			} else {
 				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget-question-required", protocolFormXmlDataString, "n");
+			}
+			
+			boolean budgetRequired = budgetRelatedDeterminationMap.get("budgetRequired");
+			
+			if (budgetSectionEnabled && budgetRequired) {
+				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget", protocolFormXmlDataString, "y");
+			} else {
+				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget", protocolFormXmlDataString, "n");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -509,12 +483,12 @@ public class ProtocolFormXmlDataAjaxController {
 
 			// logger.debug(mergedXmlString);
 
-			logger.debug(protocolFormXmlData.getProtocolFormXmlDataType()
-					.toString());
+			//logger.debug(protocolFormXmlData.getProtocolFormXmlDataType()
+					//.toString());
 
 			protocolForm = protocolMetaDataXmlService.updateProtocolFormMetaDataXml(protocolFormXmlData, null);
 
-			if (toUpdateProtocolMetaDataFormTypeLst.contains(protocolForm.getProtocolFormType())){
+			if (protocolForm.getProtocolFormType().getCanUpdateMetaData()){
 				protocolMetaDataXmlService
 				.updateProtocolMetaDataXml(protocolForm);
 			}
@@ -600,7 +574,7 @@ public class ProtocolFormXmlDataAjaxController {
 			
 			protocolForm = protocolMetaDataXmlService.updateProtocolFormMetaDataXml(protocolFormXmlData, null);
 
-			if (toUpdateProtocolMetaDataFormTypeLst.contains(protocolForm.getProtocolFormType())){
+			if (protocolForm.getProtocolFormType().getCanUpdateMetaData()){
 				protocolMetaDataXmlService
 				.updateProtocolMetaDataXml(protocolForm);
 			}
@@ -671,7 +645,7 @@ public class ProtocolFormXmlDataAjaxController {
 
 			protocolForm = protocolMetaDataXmlService.updateProtocolFormMetaDataXml(protocolFormXmlData, null);
 			
-			if (toUpdateProtocolMetaDataFormTypeLst.contains(protocolForm.getProtocolFormType())){
+			if (protocolForm.getProtocolFormType().getCanUpdateMetaData()){
 				protocolMetaDataXmlService
 				.updateProtocolMetaDataXml(protocolForm);
 			}
@@ -736,7 +710,7 @@ public class ProtocolFormXmlDataAjaxController {
 
 		protocolForm = protocolMetaDataXmlService.updateProtocolFormMetaDataXml(protocolFormXmlData, null);
 
-		if (toUpdateProtocolMetaDataFormTypeLst.contains(protocolForm.getProtocolFormType())){
+		if (protocolForm.getProtocolFormType().getCanUpdateMetaData()){
 			protocolMetaDataXmlService
 			.updateProtocolMetaDataXml(protocolForm);
 		}
@@ -785,7 +759,7 @@ public class ProtocolFormXmlDataAjaxController {
 
 		protocolForm = protocolMetaDataXmlService.updateProtocolFormMetaDataXml(protocolFormXmlData, null);
 
-		if (toUpdateProtocolMetaDataFormTypeLst.contains(protocolForm.getProtocolFormType())){
+		if (protocolForm.getProtocolFormType().getCanUpdateMetaData()){
 			protocolMetaDataXmlService
 			.updateProtocolMetaDataXml(protocolForm);
 		}	
@@ -863,7 +837,7 @@ public class ProtocolFormXmlDataAjaxController {
 			//protocolForm.setMetaDataXml(protocolFormXmlData.toString());
 			//protocolForm = protocolFormDao.saveOrUpdate(protocolForm);
 			protocolForm = protocolMetaDataXmlService.updateProtocolFormMetaDataXml(protocolFormXmlData, null);
-			if (toUpdateProtocolMetaDataFormTypeLst.contains(protocolForm.getProtocolFormType())){
+			if (protocolForm.getProtocolFormType().getCanUpdateMetaData()){
 				protocolMetaDataXmlService
 				.updateProtocolMetaDataXml(protocolForm);
 			}

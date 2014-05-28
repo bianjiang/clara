@@ -105,10 +105,10 @@ public class CitiMemberDao extends AbstractDomainDao<CitiMember> {
 		if(user.getUsername() != null){
 			query.setParameter("username", user.getUsername());
 		}
-		if(user.getPerson() != null && user.getPerson().getSap() != null){
+		if(user.getPerson() != null && user.getPerson().getSap() != null && !user.getPerson().getSap().isEmpty()){
 			query.setParameter("employeeNumber", user.getPerson().getSap());
 		}
-		if(user.getPerson() != null && user.getPerson().getEmail() != null){
+		if(user.getPerson() != null && user.getPerson().getEmail() != null && !user.getPerson().getEmail().isEmpty()){
 			query.setParameter("emailAddress", user.getPerson().getEmail());
 		}			
 		

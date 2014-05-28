@@ -3,6 +3,7 @@ package edu.uams.clara.webapp.common.service.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.RandomStringUtils;
@@ -15,8 +16,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import edu.uams.clara.core.util.xml.XmlHandler;
+import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.dao.usercontext.PersonDao;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.dao.usercontext.UserRoleDao;
@@ -326,6 +330,30 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	private Set<String> profileXpathSet = Sets.newHashSet();{
+		profileXpathSet.add("/metadata/citi-training-complete");
+		profileXpathSet.add("/metadata/notes");
+	}
+	
+	@Override
+	public Map<String, String> getUserProfileInfo(String profile) {
+		Map<String, String> result = Maps.newHashMap();
+		
+		try {
+			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+			
+			Map<String, String> values = xmlHandler.getFirstStringValuesByXPaths(profile, profileXpathSet);
+			
+			result.put("citiTrainingComplete", values.get("/metadata/citi-training-complete"));
+			result.put("notes", values.get("/metadata/notes"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 	@Autowired(required = false)

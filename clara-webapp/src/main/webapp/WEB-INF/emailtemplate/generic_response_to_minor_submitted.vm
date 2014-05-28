@@ -1,0 +1,23 @@
+<html>
+<head><link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/></head>
+<body>
+<div class="email-template">
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	<br/><br/>The response to minor contingencies of $protocolFormType form has been submitted for review in CLARA. Please review the study in your queue.
+	
+	#if ($hudOrNot == 'hud-use')
+		<br/><br/><strong>TP Name:</strong>  $treatingPhysicianUser.person.getFullname()<br/>
+		<br/><strong>TP Department:</strong> $treatingPhysicianUser.person.department
+	#else
+		<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()<br/>
+		<br/><strong>PI Department:</strong> $piUser.person.department
+	#end
+	
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	
+	<br/><br/><a href=$queueLink>Click here to the queue.</a>
+
+</div>
+</body>
+</html>

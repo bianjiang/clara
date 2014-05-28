@@ -36,6 +36,7 @@ Ext.define('Clara.User.view.UserDetailPanel', {
 							
 							var data = "<metadata>";
 							data += "<is-trained>" + Ext.getCmp("fldUserTrained").getValue() + "</is-trained>";
+							data += "<notes>" + Ext.getCmp("fldUserProfileNotes").getValue() + "</notes>";
 							if (claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN'])){
 								data += "<citi-id>" + Ext.getCmp("fldCitiId").getValue() + "</citi-id>"+
 								"<citi-training-expiredate>" + Ext.getCmp("fldCitiTrainingExpires").getValue() + "</citi-training-expiredate>"+
@@ -283,6 +284,14 @@ Ext.define('Clara.User.view.UserDetailPanel', {
 			    		   id:'fldCitiNotes',
 			    		   flex:1,
 			    		   readOnly:!claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN'])
+			    	   },{
+			    		   //fldUserProfileNotes
+			    		   xtype:'textarea',
+			    		   fieldLabel:'User Notes',
+			    		   name:'fldUserProfileNotes',
+			    		   id:'fldUserProfileNotes',
+			    		   flex:1,
+			    		   readOnly:!claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN'])
 			    	   }]
 			       
 			       },{
@@ -342,12 +351,13 @@ Ext.define('Clara.User.view.UserDetailPanel', {
 				var citidate = jQuery(data).find("citi-training-expiredate").text();
 				//var cititrainingcomplete= (jQuery(data).find("citi-training-complete").text()=="true")?true:false;
 				var citinotes= jQuery(data).find("citi-notes").text();
+				var userProfileNotes= jQuery(data).find("notes").text();
 				var altEmail = jQuery(data).find("alternate-email").text();
 				var nc= (jQuery(data).find("nationality-changed").text()=="true")?true:false;
 				Ext.getCmp("fldUserTrained").setValue(ist);
 				Ext.getCmp("fldCitiId").setValue(citiid);
 				if (citidate && Ext.String.trim(citidate) != "") Ext.getCmp("fldCitiTrainingExpires").setValue(new Date(citidate));
-				//Ext.getCmp("fldCitiTrainingComplete").setValue(cititrainingcomplete);
+				Ext.getCmp("fldUserProfileNotes").setValue(userProfileNotes);
 				Ext.getCmp("fldCitiNotes").setValue(citinotes);
 				Ext.getCmp("fldUserCitizenship").setValue(cs);
 				Ext.getCmp("fldUserNationalityChanged").setValue(nc);

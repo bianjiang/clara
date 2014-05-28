@@ -137,6 +137,9 @@ public class ReportResultServiceImpl extends CustomReportService {
 					}else if(value.toUpperCase().equals("IN")||value.toUpperCase().equals("NOT IN")){
 						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
 					}
+					else if(value.equals("<")||value.equals(">")){
+						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
+					}
 					else{
 						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", "'"+ value +"'");
 					}}

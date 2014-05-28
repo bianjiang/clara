@@ -708,7 +708,8 @@ Clara.Config.NewProtocolOptionStore = new Ext.data.ArrayStore({
 	      ['hsd','Human Subject Research Determination Request', 'Uncertain whether your research involves the <strong>use of human subjects</strong>? Begin by filling out this form.',appContext+"/protocols/protocol-forms/human-subject-research-determination/create"],
 	      /*['singleuse','Single Use IND', 'Submit a protocol that uses an investigational drug or device on a single human research subject that does not fit the requirements of an <strong>Emergency Use Protocol</strong>.',appContext+"/protocols/protocol-forms/new-submission/create"],*/
 		  //['hud','Humanitarian Use Device Application', 'As defined in 21 CFR 814.3(n), a HUD is a "medical device intended to benefit patients in the treatment or diagnosis of a disease or condition that affects or is manifested in fewer than 4,000 individuals in the United States per year."',appContext+"/protocols/protocol-forms/humanitarian-use-device/create"],
-		  ['emergencyuse','Emergency Use Notification/Follow-up Report', 'This includes notifications and follow-up reports.',appContext+"/protocols/protocol-forms/emergency-use/create"]
+		  ['emergencyuse','Emergency Use Notification/Follow-up Report', 'This includes notifications and follow-up reports.',appContext+"/protocols/protocol-forms/emergency-use/create"],
+		  ['privacyboard','Privacy Board Form', 'Use this form to submit an item to the UAMS Privacy Board, for the other.',appContext+"/protocols/protocol-forms/privacy-board/create"]
 	       ]
 });
 

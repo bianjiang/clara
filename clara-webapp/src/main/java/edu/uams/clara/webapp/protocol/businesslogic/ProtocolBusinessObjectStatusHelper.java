@@ -44,7 +44,6 @@ import edu.uams.clara.webapp.common.service.audit.AuditService;
 import edu.uams.clara.webapp.common.service.relation.RelationService;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
-import edu.uams.clara.webapp.protocol.dao.budget.code.EpicCdmByCptCodeDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolStatusDao;
@@ -120,7 +119,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 	
 	private ProtocolService protocolService;
 	
-	private EpicCdmByCptCodeDao epicCdmByCptCodeDao;
+	//private EpicCdmByCptCodeDao epicCdmByCptCodeDao;
 	
 	private AuditService auditService;
 	
@@ -152,11 +151,12 @@ public class ProtocolBusinessObjectStatusHelper extends
 	}
 	
 	private void sendBudgetApproveHBNotification(ProtocolForm protocolForm) {
-		Protocol protocol = protocolForm.getProtocol();
+		//Protocol protocol = protocolForm.getProtocol();
 		try {
-			protocolEmailService.sendProtocolNotification(protocol, null, null,
-					null, "BUDGET_APPROVED_NOTIFICATION_FOR_HB", "", null, null,
-					null, "", null);
+			//protocolEmailService.sendProtocolNotification(protocol, null, null,
+					//null, "BUDGET_APPROVED_NOTIFICATION_FOR_HB", "", null, null,
+					//null, "", null);
+			protocolEmailService.sendNotification(protocolForm, Committee.PI, null, null, "BUDGET_APPROVED_NOTIFICATION_FOR_HB", "", null, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -177,7 +177,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 				long protocolId = pfxd.getProtocolForm().getProtocol().getId();
 				logger.debug("protooclId: " + protocolId);
 				
-				CSVWriter writer = new CSVWriter(new FileWriter("C:\\Data\\epic\\"+ protocolId +" HB "+ budgetApproveDate.replace("/", "-") +".csv"));
+				CSVWriter writer = new CSVWriter(new FileWriter(""+ protocolId +" HB "+ budgetApproveDate.replace("/", "-") +".csv"));
 				
 				try {
 					List<String> cpdCodeLst = xmlProcessor.getAttributeValuesByPathAndAttributeName("/budget/epochs/epoch/procedures/procedure[@type=\"normal\"]", budgetXmlData, "cptcode");
@@ -189,13 +189,13 @@ public class ProtocolBusinessObjectStatusHelper extends
 							
 							try {
 								
-								String epicCdmCode = epicCdmByCptCodeDao.getEpicCdmByCptCode(cptCode);
-								logger.debug("cptCode: " + cptCode + " cdm code: " + epicCdmCode);
+								//String epicCdmCode = epicCdmByCptCodeDao.getEpicCdmByCptCode(cptCode);
+								//logger.debug("cptCode: " + cptCode + " cdm code: " + epicCdmCode);
 								String cost = xmlProcessor.getAttributeValueByPathAndAttributeName("/budget/epochs/epoch/procedures/procedure[@type=\"normal\" and @cptcode=\""+ cptCode +"\"]/hosp", budgetXmlData, "cost");
 								logger.debug("cost: " + cost);
 								//logger.debug("protooclId: " + protocolId + "cpt code: " + cptCode + " epic cdm code: " + epicCdmCode + " cost: " + cost);
 
-								String[] entry = {String.valueOf(protocolId), epicCdmCode, cost};
+								String[] entry = {String.valueOf(protocolId), cptCode, cost};
 								
 								writer.writeNext(entry);
 								
@@ -623,7 +623,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 										.getDefaultProtocolFormXmlDataType()),
 						extraDataXml);
 		
-		if (protocolForm.getProtocolFormType().equals(ProtocolFormType.NEW_SUBMISSION) || protocolForm.getProtocolFormType().equals(ProtocolFormType.EMERGENCY_USE) || protocolForm.getProtocolFormType().equals(ProtocolFormType.HUMAN_SUBJECT_RESEARCH_DETERMINATION)){
+		if (protocolForm.getProtocolFormType().getCanUpdateMetaData()){
 			protocolMetaDataXmlService.updateProtocolMetaDataXml(protocolForm);
 		} else {
 			if (updateMetaData){
@@ -721,7 +721,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 			logger.debug("Failed to set form submit date!");
 		}
 
-		if ((protocolForm.getProtocolFormType().equals(ProtocolFormType.NEW_SUBMISSION) || protocolForm.getProtocolFormType().equals(ProtocolFormType.MODIFICATION)) && !getProtocolFormService().requireBudget(protocolForm)) {
+		if ((protocolForm.getProtocolFormType().equals(ProtocolFormType.NEW_SUBMISSION) || protocolForm.getProtocolFormType().equals(ProtocolFormType.MODIFICATION)) && !getProtocolFormService().budgetRelatedDetermination(protocolForm.getTypedProtocolFormXmlDatas().get(protocolForm.getProtocolFormType().getDefaultProtocolFormXmlDataType())).get("budgetRequired")) {
 			List<String> xpathList = Lists.newArrayList();
 			xpathList.add("/protocol/budget-created");
 			
@@ -1450,17 +1450,6 @@ public class ProtocolBusinessObjectStatusHelper extends
 	public void setAuditService(AuditService auditService) {
 		this.auditService = auditService;
 	}
-
-
-	public EpicCdmByCptCodeDao getEpicCdmByCptCodeDao() {
-		return epicCdmByCptCodeDao;
-	}
-
-	@Autowired(required = true)
-	public void setEpicCdmByCptCodeDao(EpicCdmByCptCodeDao epicCdmByCptCodeDao) {
-		this.epicCdmByCptCodeDao = epicCdmByCptCodeDao;
-	}
-
 
 	public SendBudgetApprovedNotificationForPBService getSendBudgetApprovedNotificationForPBService() {
 		return sendBudgetApprovedNotificationForPBService;

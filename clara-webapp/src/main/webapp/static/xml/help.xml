@@ -1105,4 +1105,16 @@
                 ]]>
 		</helpcontent>
 	</nct-number>
+	<describe-phi-accessed>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+					<strong>Protected Health Information (PHI): Information that identifies an individual, or that could reasonably be used to identify an individual, and that</strong>
+					<br/>(i) relates to the past, present or future physical or mental health or condition of the individual; 
+					<br/>(ii) relates to the provision of health care services to the individual; or 
+					<br/>(iii) relates to the past, present, or future payment for the provision of health care services to an individual
+                </span>
+                ]]>
+		</helpcontent>
+	</describe-phi-accessed>
 </help>

@@ -394,9 +394,18 @@ public class ProtocolFormXmlDataDocumentServiceImpl implements
 										ProtocolFormType.NEW_SUBMISSION) || protocolForm
 										.getProtocolFormType().equals(
 												ProtocolFormType.ARCHIVE))) {
-							currentEl.setAttribute("read", "true");
-							currentEl.setAttribute("write", "false");
-							currentEl.setAttribute("update", "false");
+							if (currentEl.getAttribute("category").equals(
+							"Epic") && currentUser.getAuthorities().contains(
+									Permission.ROLE_PHARMACY_REVIEW)) {
+								currentEl.setAttribute("read", "true");
+								currentEl.setAttribute("write", "true");
+								currentEl.setAttribute("update", "true");
+							} else {
+								currentEl.setAttribute("read", "true");
+								currentEl.setAttribute("write", "false");
+								currentEl.setAttribute("update", "false");
+							}
+							
 						} else {
 							if (canEditDocStatusLst
 									.contains(lastestProtocolFormStatus

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.collect.Lists;
+
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
@@ -219,12 +221,44 @@ public class ProtocolFormXmlDataDocumentAjaxController {
 			document = protocolFormXmlDataDocumentDao.saveOrUpdate(document);
 			
 			auditService.auditEvent("DOCUMENT_STATUS_UPDATE",
-					"User: " + userId + " has updated document status: "+ document.getId());
+					"User: " + userId + " has updated document status: "+ protocolFormXmlDataDocumentId);
 			
 			return JsonResponseHelper.newDataResponseStub(document);
 		}catch(Exception ex){
-			logger.error("failed rename protocolDocument: " + protocolFormXmlDataDocumentId,  ex);
+			logger.error("failed update protocolDocument status: " + protocolFormXmlDataDocumentId,  ex);
 			return JsonResponseHelper.newErrorResponseStub("failed to change the document's status, do you have the permission to do so?");
+		}
+	}
+	
+	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/protocol-form-xml-datas/{protocolFormXmlDataId}/documents/{protocolFormXmlDataDocumentId}/change-type", method = RequestMethod.POST, produces="application/json")
+	public @ResponseBody
+	JsonResponse changeProtocolFormXmlDataDocumentType(@PathVariable("protocolId") long protocolId,
+			@PathVariable("protocolFormId") long protocolFormId,
+			@PathVariable("protocolFormXmlDataDocumentId") long protocolFormXmlDataDocumentId,
+			@RequestParam("userId") long userId,
+			@RequestParam("category") String category,
+			@RequestParam("categoryDescription") String categoryDesc) throws Exception{
+		List<ProtocolFormXmlDataDocument> finalDocumentLst = Lists.newArrayList();
+				
+		try{
+			List<ProtocolFormXmlDataDocument> documentLst = protocolFormXmlDataDocumentDao.listDocumentRevisionsByProtocolFormXmlDataDocumentId(protocolFormXmlDataDocumentId);
+			
+			for (ProtocolFormXmlDataDocument pfxdd : documentLst) {
+				pfxdd.setCategory(category);
+				pfxdd.setCategoryDesc(categoryDesc);
+				
+				pfxdd = protocolFormXmlDataDocumentDao.saveOrUpdate(pfxdd);
+				
+				finalDocumentLst.add(pfxdd);
+			}
+			
+			auditService.auditEvent("DOCUMENT_TYPE_UPDATE",
+					"User: " + userId + " has changed document: "+ protocolFormXmlDataDocumentId +" type to: "+ categoryDesc);
+			
+			return JsonResponseHelper.newDataResponseStub(finalDocumentLst);
+		}catch(Exception ex){
+			logger.error("failed change protocolDocument type: " + protocolFormXmlDataDocumentId,  ex);
+			return JsonResponseHelper.newErrorResponseStub("failed to change the document's type, do you have the permission to do so?");
 		}
 	}
 

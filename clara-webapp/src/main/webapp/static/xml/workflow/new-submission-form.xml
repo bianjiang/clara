@@ -846,7 +846,9 @@
 									<form-status status="BEFORE_REVISION_REQUESTED_STATUS" />
 									<form-committee-statuses>
 										<form-committee-status
-											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="" />
+											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="">
+											<revision-request-committee committee="BUDGET_REVIEW" involved-committee="COVERAGE_REVIEW" status="NOTIFIED" />
+										</form-committee-status>
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
@@ -948,7 +950,9 @@
 									<form-status status="BEFORE_REVISION_REQUESTED_STATUS" />
 									<form-committee-statuses>
 										<form-committee-status
-											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="" />
+											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="">
+											<revision-request-committee committee="BUDGET_REVIEW" involved-committee="COVERAGE_REVIEW" status="NOTIFIED" />
+										</form-committee-status>
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
@@ -3304,7 +3308,7 @@
 									</form-committee-statuses>
 								</change-status>
 								<events>
-									<event>SEND_PB_NOTIFICATION</event>
+									<!-- <event>SEND_PB_NOTIFICATION</event> -->
 									<event>GENERATE_EPIC_CDM</event>
 								</events>
 								<notifications>
@@ -3322,11 +3326,6 @@
 									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
-										</logs>
-									</notification>
-									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='uams'])>0 and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_WILLOW">
-										<logs>
-											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_WILLOW" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget and Willow team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
 									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='uams'])>0 and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_WILLOW">

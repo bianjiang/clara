@@ -1,0 +1,73 @@
+<div class="clara-content-area" xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:form="http://www.springframework.org/tags/form" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:roo="urn:jsptagdir:/WEB-INF/tags" 
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:x="http://java.sun.com/jsp/jstl/xml" 
+	xmlns:p="http://devsphere.com/xml/taglib/process" 
+	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+	
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<c:import var="helpxml" url="/static/xml/help.xml" />
+	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+
+	<x:parse doc="${protocolFormXmlData.xmlData}" var="srInstance" />
+	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
+	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" />
+
+	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
+
+		
+			<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
+			    <uams:studyresumptiontab name="documents" srInstance="${srInstance}" />
+			</div>
+			
+			<div id="clara-form-pagecontent">
+			
+							<div class="formArea">
+								
+									<input id="pagefragment" name="pagefragment" type="hidden" value="" />
+			
+									<div id='page-wizard-wrapper'>
+										<!--  //  -->
+									</div>
+									
+						
+						</div>
+						
+				</div>
+
+					<div id="clara-form-actionbuttons">
+		<div id="btnPrevPage"><!-- // --></div>
+		<div id="btnNextPage"><!-- // --></div>
+	</div>
+	
+	
+<spring:url value="/static/js/uploadify.swf" var="swf_uploadify" />
+<spring:url value="/static/images/cancel.png" var="image_cancel" />
+<spring:url value="/static/images/btnBrowse.png" var="image_browse" />
+<script type="text/javascript">
+			jQuery(document).ready(function() {
+				claraInstance.navigation.init(claraFormPageName);
+				claraInstance.title = (jQuery("#claraFormTitle").text() == '')?"Untitled Protocol":jQuery("#claraFormTitle").text();
+				
+				var dp = new Clara.Documents.Panel({border:false});
+
+				var p = new Ext.Panel({items:[dp],layout:'fit',border:false, 
+					tbar: new Ext.Toolbar({
+				    	items:[{xtype:'button',iconCls:'icn-arrow-180',text:'Back',handler:function(){gotoPage('staff');}},'->',{xtype:'button',iconCls:'icn-arrow',text:'Next',handler:function(){gotoPage('review');}}]
+				    })
+				});
+				
+				renderFormViewport("<strong>Study Resumption</strong>: Documents",p);
+				
+			});
+</script>
+
+
+</div>
+

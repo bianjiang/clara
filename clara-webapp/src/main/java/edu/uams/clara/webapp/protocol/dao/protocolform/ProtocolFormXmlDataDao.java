@@ -68,6 +68,27 @@ public class ProtocolFormXmlDataDao extends
 
 		return q.getSingleResult();
 	}
+	
+	
+	@Transactional(readOnly = true)
+	public List<ProtocolFormXmlData> listProtocolformXmlDatasByProtocolIdAndType(
+			long protocolId, ProtocolFormXmlDataType protocolFormXmlDataType) {
+
+		String query = "SELECT pfxd FROM ProtocolFormXmlData pfxd "
+				+ " WHERE pfxd.retired = :retired AND pfxd.protocolFormXmlDataType = :protocolFormXmlDataType AND pfxd.protocolForm.protocol.id = :protocolId "
+				+ " ORDER BY pfxd.created DESC";
+
+		TypedQuery<ProtocolFormXmlData> q = getEntityManager().createQuery(
+				query, ProtocolFormXmlData.class);
+
+		q.setHint("org.hibernate.cacheable", true);
+
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("protocolFormXmlDataType", protocolFormXmlDataType);
+		q.setParameter("protocolId", protocolId);
+		return q.getResultList();
+
+	}
 
 	@Transactional(readOnly = true)
 	public List<ProtocolFormXmlData> listProtocolformXmlDatasByFormIdAndType(

@@ -160,10 +160,17 @@
 		<x:forEach var="page" select="$sTemplate/form/page">
 			<x:set var="pageId" select="string($page/@id)" />
 			<x:set var="pagePermission" select="string($page/@edit-permission)" />
+			<x:set var="pageDenyEditPermission" select="string($page/@deny-edit-permission)" />
 			<c:set var="canEditPage" value="false" />
+			<c:set var="denyEditPage" value="false" />
 			<c:forEach var="permission" items="${user.authorities}">
 				<c:if test="${permission eq pagePermission}">
 					<c:set var="canEditPage" value="true" />
+				</c:if>
+			</c:forEach>
+			<c:forEach var="permission" items="${user.authorities}">
+				<c:if test="${permission eq pageDenyEditPermission}">
+					<c:set var="denyEditPage" value="true" />
 				</c:if>
 			</c:forEach>
 			<div class="summary-page" id="summary-page-${pageId}">
@@ -175,7 +182,7 @@
 					</div>
 					<div class="span4 pull-right" style="text-align: right;">
 						<div class="tools-edit-page">
-							<c:if test="${pageId ne ''}">
+							<c:if test="${pageId ne '' and denyEditPage eq false}">
 								<a href="javascript:;"
 								onclick="switchToEditView(editUrlContext+'/${pageId}');">Edit
 								this page</a>

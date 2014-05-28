@@ -19,4 +19,6 @@ public interface FormService {
 	Map<String, List<String>> getValuesFromXmlString(String xmlString, List<String> xPathList);
 	
 	String getSafeStringValueByKey(Map<String, List<String>> values, String key, String exceptedReturnValueForNull);
+	
+	String addExtraStaffInformation(String formBaseTag, String formXmlData);
 }

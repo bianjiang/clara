@@ -1,5 +1,13 @@
 package edu.uams.clara.webapp.fileserver.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import au.com.bytecode.opencsv.CSVReader;
 import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
@@ -23,7 +32,7 @@ public class FileGenerateAndSaveServiceTest {
 	
 	private ProtocolDao protocolDao;
 	
-	@Test
+	//@Test
 	public void testProcessFileGenerateAndSave() throws Exception{
 		Protocol protocol = protocolDao.findById(201793l);
 		/*
@@ -54,6 +63,16 @@ public class FileGenerateAndSaveServiceTest {
 						IOUtils.toInputStream(htmlString),
 						"html",
 						"text/html");
+	}
+	
+	@Test
+	public void copyToShareFolder() throws IOException {
+		//String fromFileContent = "test test!!!";
+		String toFilePath = "smb://Filesrv1/IT Research/";
+		String toShareFolderUserName = "yufan";
+		String toShareFolderUserPassword = "yaya821013$";
+		
+		fileGenerateAndSaveService.copyFileToSharedFolder("C://data//cdm.csv", toFilePath, toShareFolderUserName, toShareFolderUserPassword, "test.csv");
 	}
 
 	public FileGenerateAndSaveService getFileGenerateAndSaveService() {

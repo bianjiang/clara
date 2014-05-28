@@ -239,6 +239,35 @@ public class ProtocolFormXmlDataDocumentDao extends
 	}
 	
 	@Transactional(readOnly = true)
+	public List<ProtocolFormXmlDataDocument> listDocumentRevisionsByProtocolFormXmlDataDocumentId(
+			long protocolFormXmlDataId) {
+		
+		/*
+		String query = "SELECT pfd FROM ProtocolFormXmlDataDocument pfd "
+			+ " WHERE pfd.id IN ("
+			+ " SELECT MAX(pfdd.id) FROM ProtocolFormXmlDataDocument pfdd, ProtocolForm pf "
+			+ " WHERE pfdd.retired = :retired"
+			+ " AND pf.id = :protocolFormId AND ("
+			+ " pfdd.protocolFormXmlData.protocolForm.parent.id = pf.parent.id "
+			+ " AND pfdd.protocolFormXmlData.protocolForm.created <= pf.created) "
+			+ " GROUP BY pfdd.parent.id ) ORDER BY pfd.id DESC";
+		*/
+		
+		String nativeQuery = "SELECT pfd.* FROM protocol_form_xml_data_document pfd"
+						+ " WHERE pfd.parent_id IN (SELECT pfxd.parent_id FROM protocol_form_xml_data_document pfxd WHERE pfxd.id = :protocolFormXmlDataId AND pfxd.retired = :retired) "
+						+ " AND pfd.retired = :retired";
+
+		TypedQuery<ProtocolFormXmlDataDocument> q = (TypedQuery<ProtocolFormXmlDataDocument>) getEntityManager()
+				.createNativeQuery(nativeQuery, ProtocolFormXmlDataDocument.class);
+
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("protocolFormXmlDataId", protocolFormXmlDataId);
+
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
 	public List<ProtocolFormXmlDataDocument> getLatestDocumentExcludeCertainTypesByProtocolFormId(
 			long protocolFormId, List<String> excludedDocTypes) {
 		

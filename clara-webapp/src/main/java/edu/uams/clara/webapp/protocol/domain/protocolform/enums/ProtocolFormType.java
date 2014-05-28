@@ -6,20 +6,22 @@ import java.util.Map;
 
 
 public enum ProtocolFormType {
-	NEW_SUBMISSION("New Submission", "new-submission", ProtocolFormXmlDataType.PROTOCOL, "protocol"),
-	HUMAN_SUBJECT_RESEARCH_DETERMINATION("Human Subject Research Determination", "human-subject-research-determination" , ProtocolFormXmlDataType.HUMAN_SUBJECT_RESEARCH_DETERMINATION, "hsrd"),
-	RESPONSE("Response to Contingencies", "response" , ProtocolFormXmlDataType.RESPONSE, "response"),
-	MODIFICATION("Modification", "modification", ProtocolFormXmlDataType.MODIFICATION, "protocol"),
-	CONTINUING_REVIEW("Continuing Review", "continuing-review", ProtocolFormXmlDataType.CONTINUING_REVIEW, "continuing-review"),
-	REPORTABLE_NEW_INFORMATION("Reportable New Information", "reportable-new-information", ProtocolFormXmlDataType.REPORTABLE_NEW_INFORMATION, "reportable-new-information"),
-	DEATH_REPORT("Death Report", "death-report", ProtocolFormXmlDataType.DEATH_REPORT, "death-report"),
-	STUDY_CLOSURE("Study Closure Form", "study-closure", ProtocolFormXmlDataType.STUDY_CLOSURE, "study-closure"),
-	HUMANITARIAN_USE_DEVICE("Humanitarian Use Device Initial Application", "humanitarian-use-device", ProtocolFormXmlDataType.HUMANITARIAN_USE_DEVICE, "hud"),
-	EMERGENCY_USE("Emergency Use", "emergency-use", ProtocolFormXmlDataType.EMERGENCY_USE, "emergency-use"),
-	HUMANITARIAN_USE_DEVICE_RENEWAL("Humanitarian Use Device Renewal Application", "humanitarian-use-device-renewal", ProtocolFormXmlDataType.HUMANITARIAN_USE_DEVICE_RENEWAL, "hud-renewal"),
-	AUDIT("Audit", "audit", ProtocolFormXmlDataType.AUDIT, "audit"),
-	ARCHIVE("Archive", "archive", ProtocolFormXmlDataType.ARCHIVE, "archive"),
-	STAFF("Staff Only Modification", "staff", ProtocolFormXmlDataType.STAFF, "staff");
+	NEW_SUBMISSION("New Submission", "new-submission", ProtocolFormXmlDataType.PROTOCOL, "protocol", true),
+	HUMAN_SUBJECT_RESEARCH_DETERMINATION("Human Subject Research Determination", "human-subject-research-determination" , ProtocolFormXmlDataType.HUMAN_SUBJECT_RESEARCH_DETERMINATION, "hsrd", true),
+	RESPONSE("Response to Contingencies", "response" , ProtocolFormXmlDataType.RESPONSE, "response", false),
+	MODIFICATION("Modification", "modification", ProtocolFormXmlDataType.MODIFICATION, "protocol", false),
+	CONTINUING_REVIEW("Continuing Review", "continuing-review", ProtocolFormXmlDataType.CONTINUING_REVIEW, "continuing-review", false),
+	REPORTABLE_NEW_INFORMATION("Reportable New Information", "reportable-new-information", ProtocolFormXmlDataType.REPORTABLE_NEW_INFORMATION, "reportable-new-information", false),
+	DEATH_REPORT("Death Report", "death-report", ProtocolFormXmlDataType.DEATH_REPORT, "death-report", false),
+	STUDY_CLOSURE("Study Closure Form", "study-closure", ProtocolFormXmlDataType.STUDY_CLOSURE, "study-closure", false),
+	HUMANITARIAN_USE_DEVICE("Humanitarian Use Device Initial Application", "humanitarian-use-device", ProtocolFormXmlDataType.HUMANITARIAN_USE_DEVICE, "hud", false),
+	EMERGENCY_USE("Emergency Use", "emergency-use", ProtocolFormXmlDataType.EMERGENCY_USE, "emergency-use", true),
+	HUMANITARIAN_USE_DEVICE_RENEWAL("Humanitarian Use Device Renewal Application", "humanitarian-use-device-renewal", ProtocolFormXmlDataType.HUMANITARIAN_USE_DEVICE_RENEWAL, "hud-renewal", false),
+	AUDIT("Audit", "audit", ProtocolFormXmlDataType.AUDIT, "audit", false),
+	ARCHIVE("Archive", "archive", ProtocolFormXmlDataType.ARCHIVE, "archive", false),
+	STAFF("Staff Only Modification", "staff", ProtocolFormXmlDataType.STAFF, "staff", false),
+	PRIVACY_BOARD("Privacy Board", "privacy-board", ProtocolFormXmlDataType.PRIVACY_BOARD, "privacy-board", true),
+	STUDY_RESUMPTION("Study Resumption", "study-resumption", ProtocolFormXmlDataType.STUDY_RESUMPTION, "study-resumption", false);
 	
 	private String description;
 	
@@ -29,11 +31,14 @@ public enum ProtocolFormType {
 	
 	private ProtocolFormXmlDataType defaultProtocolFormXmlDataType;
 	
-	private ProtocolFormType(String description, String urlEncoded, ProtocolFormXmlDataType defaultProtocolFormXmlDataType, String baseTag){
+	private Boolean canUpdateMetaData;
+	
+	private ProtocolFormType(String description, String urlEncoded, ProtocolFormXmlDataType defaultProtocolFormXmlDataType, String baseTag, Boolean canUpdateMetaData){
 		this.description = description;
 		this.urlEncoded = urlEncoded;
 		this.defaultProtocolFormXmlDataType = defaultProtocolFormXmlDataType;
 		this.baseTag = baseTag;
+		this.canUpdateMetaData = canUpdateMetaData;
 	}
 	
 	private static final Map<String, ProtocolFormType> lookupByUrlCode = new HashMap<String, ProtocolFormType>();
@@ -79,5 +84,13 @@ public enum ProtocolFormType {
 
 	public String getBaseTag() {
 		return baseTag;
+	}
+
+	public Boolean getCanUpdateMetaData() {
+		return canUpdateMetaData;
+	}
+
+	public void setCanUpdateMetaData(Boolean canUpdateMetaData) {
+		this.canUpdateMetaData = canUpdateMetaData;
 	}	
 }

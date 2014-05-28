@@ -51,6 +51,11 @@ Clara.Queues.AssignableTypeForItem = function(formTypeId){
 		types.push(assignableType.fullBoard);
 		types.push(assignableType.expedited);
 	}
+	else if (formTypeId == 'privacy-board'){
+		types.push(assignableType.fullBoard);
+		types.push(assignableType.expedited);
+		types.push(assignableType.reported);
+	}
 	return types;
 };
 

@@ -321,7 +321,7 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 		},
 		{
 			actor:"ROLE_IRB_ASSIGNER",
-			forms:['emergency-use','human-subject-research-determination','study-closure'],
+			forms:['emergency-use','human-subject-research-determination','study-closure', 'study-resumption'],
 			canAssignTo:[["IRB Office","ROLE_IRB_OFFICE"]]
 		},
 		{
@@ -331,7 +331,7 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 		},
 		{
 			actor:"ROLE_IRB_ASSIGNER",
-			forms:['reportable-new-information','humanitarian-use-device-renewal','staff'],
+			forms:['reportable-new-information','humanitarian-use-device-renewal','staff','privacy-board'],
 			canAssignTo:[["IRB Prereview","ROLE_IRB_PREREVIEW"],["IRB Office","ROLE_IRB_OFFICE"]]
 		},
 		{

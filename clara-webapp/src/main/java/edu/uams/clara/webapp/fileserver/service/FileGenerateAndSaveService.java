@@ -15,4 +15,6 @@ public interface FileGenerateAndSaveService {
 	UploadedFile processFileGenerateAndSaveLocal(String filename,
 			InputStream fileIn, String ext, String contentType)
 			throws IOException;
+	
+	void copyFileToSharedFolder(String fromFilePath, String toFilePath, String toShareFolderUserName, String toShareFolderUserPassword, String fileName);
 }

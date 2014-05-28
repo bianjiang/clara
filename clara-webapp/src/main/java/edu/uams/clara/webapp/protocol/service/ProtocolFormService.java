@@ -46,7 +46,7 @@ public interface ProtocolFormService {
 	
 	ProtocolForm consolidateProtocolForm(ProtocolForm protocolForm, List<String> xPathList);
 	
-	boolean requireBudget(ProtocolForm protocolForm);
+	Map<String, Boolean> budgetRelatedDetermination(ProtocolFormXmlData protocolFormXmlData);
 	
 	Map<String, Boolean> nctNumberValidation(ProtocolForm protocolForm);
 }
