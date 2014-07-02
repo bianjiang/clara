@@ -9,7 +9,13 @@
 
 	<jsp:directive.attribute name="value" type="org.w3c.dom.NodeList"
 		required="true" rtexprvalue="true" />
-
+		
+	<div class="clearall">
+		<!-- // -->
+	</div>
+	<div>
+		<span>Funding Source:</span>
+	</div>
 	<table class="summary-table table table-striped table-bordered table-condensed">
 		<tr>
 			<th id="type"><b>Type</b></th>

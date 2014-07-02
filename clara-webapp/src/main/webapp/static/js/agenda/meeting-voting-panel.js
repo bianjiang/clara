@@ -50,7 +50,7 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 	},
 	tbar:{
 		xtype:'toolbar',
-		items:['->',{
+		items:[{
         	xtype:'button',
         	text:'Make Motion..',
         	id:'btnMakeMotion',

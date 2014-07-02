@@ -5,7 +5,8 @@
 	<committee name="BUDGET_REVIEW" desc="Budget Review" individual-assignment="false" assigned-by="GATEKEEPER" />	
 	<committee name="COVERAGE_REVIEW" order="3" individual-assignment="false" required="TRUE" desc="Coverage Review" assigned-by="BUDGET" />
 	<committee name="HOSPITAL_SERVICES" order="4" individual-assignment="false" required="TRUE" desc="Hospital Services" assigned-by="BUDGET" />
-	<committee name="DEPARTMENT_CHAIR" order="5" individual-assignment="false" required="TRUE" desc="Colledge Adminstration" assigned-by="BUDGET" />
+	<committee name="DEPARTMENT_CHAIR" order="5" individual-assignment="false" required="TRUE" desc="College Adminstration" assigned-by="BUDGET" />
+	<committee name="COLLEGE_DEAN" order="6" individual-assignment="false" required="TRUE" desc="College Dean" assigned-by="" />
 	<committee name="PROTOCOL_LEGAL_REVIEW" desc="Protocol Legal Review" individual-assignment="true" assigned-by="GATEKEEPER" />
 	<!-- <committee name="COLLEGE_DEAN" order="6" required="TRUE" desc="College" assigned-by="BUDGET" />	-->
 	<committee name="COMPLIANCE_REVIEW" desc="UAMS Compliance Review" individual-assignment="true" assigned-by="BUDGET,IRB,GATEKEEPER" />	

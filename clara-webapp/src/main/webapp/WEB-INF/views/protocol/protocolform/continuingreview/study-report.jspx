@@ -305,8 +305,89 @@
 				<div style="clear: both;">
 					<!-- // -->
 				</div>
-				<div class="questionHelp">
+				<!-- <div class="questionHelp">
 					<uams:helpinfo lookupid="any-adverse-events" />
+				</div> -->
+			</div>
+			
+			<div class="question"
+				id="question-adverse-events-accur-at-frequency">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since there have been any internal or local adverse events in the research, please answer the
+						following question:</h1>
+					<span class="question-label-text">Did these adverse events occur at the frequency and level of severity expected, as documented in the current research protocol, the informed consent document, and any investigator brochure/device manual?</span>       
+				</div>
+				<div class="questionValue">
+					<x:set var="adverseEventsAccurAtFrequency"
+						select="string($crInstance/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency/text())" />
+					<uams:yesno
+						id="adverse-events-accur-at-frequency"
+						instancepath="/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency"
+						value="${adverseEventsAccurAtFrequency}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">Please explain why or why not</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency/explain"
+						rows="4" id="adverse-events-accur-at-frequency-explain">
+						<x:out
+							select="$crInstance/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency/explain" />
+					</textarea>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-adverse-events-change-risk">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since there have been any internal or local adverse events in the research, please answer the
+						following question:</h1>
+					<span class="question-label-text">Did these adverse events change the risk/benefit ratio for local subjects, or reflect a discernible pattern that would indicate an impact on human subject protections?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="adverseEventsChangeRisk"
+						select="string($crInstance/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk/text())" />
+					<uams:yesno
+						id="adverse-events-change-risk"
+						instancepath="/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk"
+						value="${adverseEventsChangeRisk}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">Please explain why or why not</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk/explain"
+						rows="4" id="adverse-events-change-risk-explain">
+						<x:out
+							select="$crInstance/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk/explain" />
+					</textarea>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-sponsor-provide-information">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since there have been any internal or local adverse events in the research, please answer the
+						following question:</h1>
+					<span class="question-label-text">The study sponsor has provided information indicating that these events represent a change in the risk/benefit ratio for local subjects,and that amended study documents and/or procedures are expected?</span>      
+				</div>
+				<div class="questionValue">
+					<x:set var="sponsorProvideInformation"
+						select="string($crInstance/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information/text())" />
+					<uams:yesno
+						id="sponsor-provide-information"
+						instancepath="/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information"
+						value="${sponsorProvideInformation}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">Please explain why or why not</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information/explain"
+						rows="4" id="sponsor-provide-information-explain">
+						<x:out
+							select="$crInstance/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information/explain" />
+					</textarea>
 				</div>
 			</div>
 			
@@ -331,8 +412,65 @@
 						textAreaTitle="Please provide a summary:"
 						valueToShowTextArea="y" />
 				</div>
-				<div class="questionHelp">
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<!-- <div class="questionHelp">
 					<uams:helpinfo lookupid="any-adverse-events" />
+				</div> -->
+			</div>
+			
+			<div class="question"
+				id="question-deviations-occur-in-pattern">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since some protocol deviations or violations have occurred in this study, please answer the
+						following question:</h1>
+					<span class="question-label-text">Did the protocol deviations/violations occur in a pattern that indicates a need to revise study processes?</span>      
+				</div>
+				<div class="questionValue">
+					<x:set var="deviationsOccurInPattern"
+						select="string($crInstance/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern/text())" />
+					<uams:yesno
+						id="deviations-occur-in-pattern"
+						instancepath="/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern"
+						value="${deviationsOccurInPattern}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">Please explain why or why not</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern/explain"
+						rows="4" id="deviations-occur-in-pattern-explain">
+						<x:out
+							select="$crInstance/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern/explain" />
+					</textarea>
+				</div>
+			</div>
+			
+			<div class="question"
+				id="question-deviations-negatively-impact">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since some protocol deviations or violations have occurred in this study, please answer the
+						following question:</h1>
+					<span class="question-label-text">Did the protocol deviations/violations negatively impact the ability to use the data?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="deviationsNegativelyImpact"
+						select="string($crInstance/continuing-review/study-report/any-deviations/y/deviations-negatively-impact/text())" />
+					<uams:yesno
+						id="deviations-negatively-impact"
+						instancepath="/continuing-review/study-report/any-deviations/y/deviations-negatively-impact"
+						value="${deviationsNegativelyImpact}" validation="required" />
+				</div>
+				<br /> <br />
+				<div class="questionLabel">Please explain why or why not</div>
+				<div class="questionValue">
+					<textarea class="question-el"
+						name="/continuing-review/study-report/any-deviations/y/deviations-negatively-impact/explain"
+						rows="4" id="deviations-negatively-impact-explain">
+						<x:out
+							select="$crInstance/continuing-review/study-report/any-deviations/y/deviations-negatively-impact/explain" />
+					</textarea>
 				</div>
 			</div>
 			

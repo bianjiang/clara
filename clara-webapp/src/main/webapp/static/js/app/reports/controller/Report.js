@@ -42,6 +42,9 @@ Ext.define('Clara.Reports.controller.Report', {
     onReportDoubleClick: function(gp,rec,item,idx,e,eopts){
     	clog("dbl",gp,rec,item);
         Clara.Reports.app.getController("UserReport").selectedUserReport = rec;
+        if (piwik_enabled()){
+			_paq.push(['trackEvent', 'REPORTS', 'Edit report: Window open for '+rec.get("description")]);
+		}
     	Ext.create('Clara.Reports.view.UserReportWindow', {report:rec.data,title: "Editing '"+rec.get("description")+"'"}).show();
     },
     
@@ -63,6 +66,9 @@ Ext.define('Clara.Reports.controller.Report', {
                  		async: false,
              			dataType:'xml',
              			success: function(data){
+             				if (piwik_enabled()){
+             					_paq.push(['trackEvent', 'REPORTS', 'Report deleted: '+id]);
+             				}
                  			clog("Deleted.");
                  			t.refreshReportPanel();
                  		}, error: function(data){
@@ -82,6 +88,9 @@ Ext.define('Clara.Reports.controller.Report', {
 
     createNewReport: function(){
     	clog("createNewReport");
+    	if (piwik_enabled()){
+				_paq.push(['trackEvent', 'REPORTS', 'New Report window open']);
+			}
     	Ext.create('Clara.Reports.view.ReportTypesWindow', {}).show();
     },
     

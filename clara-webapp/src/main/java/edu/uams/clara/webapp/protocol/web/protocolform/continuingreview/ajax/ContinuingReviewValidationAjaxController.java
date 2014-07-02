@@ -18,8 +18,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.xml.sax.SAXException;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationResponse;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationRuleContainer;
@@ -27,6 +31,7 @@ import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationRuleH
 import edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.Constraint;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.enums.ConstraintLevel;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.rule.Rule;
+import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.service.form.FormService;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDocumentDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
@@ -74,11 +79,25 @@ public class ContinuingReviewValidationAjaxController {
 		
 		return needCR;
 	}
+	
+	private Set<String> ignoreValidationQuestionSet = Sets.newHashSet();{
+		ignoreValidationQuestionSet.add("/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency");
+		ignoreValidationQuestionSet.add("/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency/explain");
+		ignoreValidationQuestionSet.add("/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk");
+		ignoreValidationQuestionSet.add("/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk/explain");
+		ignoreValidationQuestionSet.add("/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information");
+		ignoreValidationQuestionSet.add("/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information/explain");
+		ignoreValidationQuestionSet.add("/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern");
+		ignoreValidationQuestionSet.add("/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern/explain");
+		ignoreValidationQuestionSet.add("/continuing-review/study-report/any-deviations/y/deviations-negatively-impact");
+		ignoreValidationQuestionSet.add("/continuing-review/study-report/any-deviations/y/deviations-negatively-impact/explain");
+	}
 
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/continuing-review/protocol-form-xml-datas/{protocolFormXmlDataId}/validate", method = RequestMethod.GET)
 	public @ResponseBody
 	List<ValidationResponse> validateProtocolContinuingReviewForm(
-			@PathVariable("protocolFormXmlDataId") long protocolFormXmlDataId) {
+			@PathVariable("protocolFormXmlDataId") long protocolFormXmlDataId,
+			@RequestParam("committee") Committee committee) {
 		ProtocolFormXmlData protocolXmlData = null;
 		try{
 		 protocolXmlData = protocolFormXmlDataDao.findById(protocolFormXmlDataId);
@@ -94,6 +113,21 @@ public class ContinuingReviewValidationAjaxController {
 		if(StringUtils.hasText(xmldata)){
 
 			List<Rule> continuingReviewValidationRules = getValidationRuleContainer().getValidationRules("continuingReviewValidationRules");
+			
+			//ignore some validations temprarily when in review, might need to add it back later ...
+			if (!committee.equals(Committee.PI)) {
+				List<Rule> needToBeRemovedRuleList = Lists.newArrayList();
+				
+				for (int i=0; i < continuingReviewValidationRules.size(); i++) {
+					if (ignoreValidationQuestionSet.contains(continuingReviewValidationRules.get(i).getValueKey())) {
+						needToBeRemovedRuleList.add(continuingReviewValidationRules.get(i));
+						//protocolValidationRules.remove(i);
+					}
+				}
+				
+				continuingReviewValidationRules.removeAll(needToBeRemovedRuleList);
+				
+			}
 
 			Assert.notNull(continuingReviewValidationRules);
 			

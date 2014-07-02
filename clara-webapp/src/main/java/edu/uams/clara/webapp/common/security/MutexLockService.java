@@ -21,4 +21,6 @@ public interface MutexLockService {
 	void unlockMutexLock(MutexLock mutexLock);
 	
 	void updateMutexLock(MutexLock mutexLock);
+	
+	void unlockExpiredMutexLock();
 }

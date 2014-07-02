@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.xml.sax.SAXException;
 
+import com.google.common.collect.Lists;
+
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.security.MutexLock;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
@@ -577,6 +579,13 @@ public class ProtocolFormController {
 
 		return "form/summary";
 	}
+	
+	private List<ProtocolFormStatusEnum> toCreateRevisionFormList = Lists.newArrayList();{
+		toCreateRevisionFormList.add(ProtocolFormStatusEnum.REVISION_REQUESTED);
+		toCreateRevisionFormList.add(ProtocolFormStatusEnum.IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES);
+		toCreateRevisionFormList.add(ProtocolFormStatusEnum.IRB_DEFERRED_WITH_MINOR_CONTINGENCIES);
+		toCreateRevisionFormList.add(ProtocolFormStatusEnum.IRB_TABLED);
+	}
 
 	@RequestMapping(value = "/protocols/{protocolId}/protocol-forms/{protocolFormId}/{protocolFormUrlName}/revise", method = RequestMethod.GET)
 	public String reviseForm(
@@ -596,10 +605,7 @@ public class ProtocolFormController {
 		ProtocolForm nv = protocolForm;
 
 		// only PI can createa a revision when it's revision requested.
-		if (ProtocolFormStatusEnum.REVISION_REQUESTED.equals(protocolFormStatus
-				.getProtocolFormStatus()) || ProtocolFormStatusEnum.IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES.equals(protocolFormStatus
-						.getProtocolFormStatus()) || ProtocolFormStatusEnum.IRB_DEFERRED_WITH_MINOR_CONTINGENCIES.equals(protocolFormStatus
-								.getProtocolFormStatus())
+		if (toCreateRevisionFormList.contains(protocolFormStatus.getProtocolFormStatus())
 				&& Committee.PI.equals(committee)) {
 			nv = protocolFormService.createRevision(protocolForm);
 		}

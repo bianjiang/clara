@@ -32,6 +32,9 @@ Ext.define('Clara.User.view.UserDetailPanel', {
 		  					//jobtitle:Ext.getCmp("fldUserTitle").getValue()
 		  				  },
 		  				  success: function(){
+		  					if (piwik_enabled()){
+		  						_paq.push(['trackEvent', 'USER', 'Editing offcampus user '+profile.id]);
+		  					}
 		  					url = appContext + "/ajax/users/"+profile.id+"/saveuserprofile";
 							
 							var data = "<metadata>";
@@ -98,6 +101,9 @@ Ext.define('Clara.User.view.UserDetailPanel', {
 						                						},
 						                						success: function(data){
 						                							clog(data.data);
+						                							if (piwik_enabled()){
+						                		  						_paq.push(['trackEvent', 'USER', 'Saved CV file for user '+profile.id]);
+						                		  					}
 						                							profile.cvFilePath = data.data.uploadedFile.path;
 						                							profile.cvFileId = data.data.uploadedFile.identifier;
 						                							profile.cvFileExtension = data.data.uploadedFile.extension;

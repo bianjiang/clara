@@ -61,7 +61,7 @@ public class StudyDefinitionWSClientTest {
 	
 	@Test
 	public void testRetrieveProtocolDefResponse() throws Exception{
-		long protocolId = 202653l;
+		long protocolId = 203136l;
 
 		Protocol protocol = protocolDao.findById(protocolId);
 		
@@ -117,7 +117,7 @@ public class StudyDefinitionWSClientTest {
 		for (Protocol p : protocolList){
 			//String protocolMetaData = p.getMetaDataXml();
 			
-			protocolService.pushToEpic(p);
+			//protocolService.pushToEpic(p);
 			/*
 			try {
 				XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();

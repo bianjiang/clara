@@ -169,6 +169,20 @@
 					id="default-fa" name="/protocol/default-fa" type="hidden"
 					value="${defaultFA}" />
 			</div>
+			
+			<div class="question" id="question-support-type-describe">
+				<div class="questionIdentifier">Basic-Details-2.2.3</div>
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since you are
+						submitting Investigator Initiated study, answer the following
+						question:</h1>
+					<span class="question-label-text">Please describe your study support:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="supportTypeDescribe" select="string($protocolInstance/protocol/study-type/investigator-initiate/support-type-describe/text())" />
+					<uams:textarea validation="required" instancepath="/protocol/study-type/investigator-initiate/support-type-describe" value="${supportTypeDescribe}" id="support-type-describe" hasNA="false"/>
+				</div>
+			</div>
 
 			<div class="question clearfix" id="question-patient-locations">
 				<div class="questionIdentifier">Basic-Details-3</div>

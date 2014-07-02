@@ -407,7 +407,7 @@ Clara.BudgetBuilder.CycleWindow = Ext.extend(Ext.Window, {
 		                				unitvalue:1,
 		                				name:("Day 1"),
 		                				notes:'',
-		                				subjectcount:0,
+		                				subjectcount:1,
 		                				cycleindex:1
 		                			}), true);
 		                			

@@ -163,6 +163,13 @@ public abstract class BusinessObjectTrackService<T> extends
 						(attributeRawValues.get("REVISION_REQUEST_COMMITTEE") != null) ? attributeRawValues
 								.get("REVISION_REQUEST_COMMITTEE").toString()
 								: "");
+		
+		attributeValues
+		.put("{NEXT_COMMITTEE}",
+				(attributeRawValues.get("NEXT_COMMITTEE") != null) ? attributeRawValues
+						.get("NEXT_COMMITTEE").toString()
+						: "");
+		
 		attributeValues = getFormCommitteeStatusAttributeValues(form, committee, attributeValues);
 
 		return attributeValues;

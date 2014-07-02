@@ -21,7 +21,8 @@ public enum ProtocolFormType {
 	ARCHIVE("Archive", "archive", ProtocolFormXmlDataType.ARCHIVE, "archive", false),
 	STAFF("Staff Only Modification", "staff", ProtocolFormXmlDataType.STAFF, "staff", false),
 	PRIVACY_BOARD("Privacy Board", "privacy-board", ProtocolFormXmlDataType.PRIVACY_BOARD, "privacy-board", true),
-	STUDY_RESUMPTION("Study Resumption", "study-resumption", ProtocolFormXmlDataType.STUDY_RESUMPTION, "study-resumption", false);
+	STUDY_RESUMPTION("Study Resumption", "study-resumption", ProtocolFormXmlDataType.STUDY_RESUMPTION, "study-resumption", false),
+	OFFICE_ACTION("Office Action", "office-action", ProtocolFormXmlDataType.OFFICE_ACTION, "office-action", false);
 	
 	private String description;
 	

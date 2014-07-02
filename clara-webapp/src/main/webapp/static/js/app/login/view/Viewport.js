@@ -2,7 +2,7 @@ Ext.define('Clara.Login.view.Viewport',{
 	extend: 'Ext.container.Viewport',
 	border:false,
 	requires:['Clara.Login.view.ResetPasswordWindow'],
-	layout:'fit',
+	layout:'border',
 	bodyStyle: 'background:#333;',
 	initComponent: function(){
 		var me = this;
@@ -12,7 +12,34 @@ Ext.define('Clara.Login.view.Viewport',{
 			}	
 		};
 		me.items =[{
+			region:'east',
+			xtype:'gridpanel',
+			hideHeaders:true,
+			store:'Clara.Common.store.MessagePosts',
+			collapsible:true,
+			border:false,
+			iconCls:'icn-newspaper',
+			title:'CLARA News',
+			width:400,
+			viewConfig:{
+				getRowClass: function(rec){
+					return (rec.get("messageLevel") == "SEVERE")?"severe-news-item":((rec.get("messageLevel") == "MODERATE")?"moderate-news-item":"");
+				}
+			},
+			columns:[{
+				header:'',
+				dataIndex: 'message',
+				flex: 1,
+				renderer:function(v,p,r){
+					var msg = r.get("message");
+					
+					return "<div class='news-post news-post-"+r.get("messageLevel")+" wrap'><div class='news-post-title'><h1>"+r.get("title")+"</h1></div><div class='news-post-message'>"+msg+"</div></div>";
+				}
+			}]
+		
+	    },{
 				xtype:'panel',
+				region:'center',
 				bodyStyle: 'background:#333; color:white;',
 				border:false,
 				layout: {
@@ -27,8 +54,8 @@ Ext.define('Clara.Login.view.Viewport',{
 					    	width:400
 					    },{
 					        xtype: 'form',
-					        padding:12,
-					        width:344,
+					        bodyPadding:6,
+					        width:384,
 					        title: 'Log in using your UAMS account',
 					        frame:true,
 					        buttons:[{
@@ -95,25 +122,6 @@ Ext.define('Clara.Login.view.Viewport',{
 					    	xtype:'container',
 					    	contentEl:'login-message',
 					    	style:'margin-top:16px;margin-bottom:16px;text-align:center;'
-					    },{
-
-							xtype:'gridpanel',
-							hideHeaders:true,
-							store:'Clara.Common.store.MessagePosts',
-							collapsible:true,
-							border:false,
-							iconCls:'icn-newspaper',
-							title:'CLARA News',
-							width:800,
-							columns:[{
-								header:'',
-								dataIndex: 'message',
-								flex: 1,
-								renderer:function(v,p,r){
-									return "<div class='news-post wrap'><h1>"+r.get("title")+"</h1><div class='news-post-message'>"+r.get("message")+"</div></div>";
-								}
-							}]
-						
 					    },{
 					    	xtype:'container',
 					    	html:'<img src="'+appContext+'/static/images/uams-logo.png"/>',

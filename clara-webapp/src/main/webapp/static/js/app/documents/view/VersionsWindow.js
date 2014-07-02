@@ -43,7 +43,11 @@ Ext.define('Clara.Documents.view.VersionsWindow', {
 					    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>IRB</div></div>";
 					    	} else if (r.get("status") == "RSC_APPROVED") {
 					    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>RSC</div></div>";
-					    	} else if (r.get("status") == "HC_APPROVED") {
+					    	}
+					    	else if (r.get("status") == "ACKNOWLEDGED"){
+	              	    		return "<div style='float:left;'><div class='icn-ui-check-box-mix' style='color:#999;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>Acknowledged</div></div>";
+	              	    	}
+					    	else if (r.get("status") == "HC_APPROVED") {
 					    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>HC</div></div>";
 					    	} else {
 					    		return "<div style='float:left;'><div class='icn-ui-check-box-uncheck-disabled' style='color:#999;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'></div></div>";

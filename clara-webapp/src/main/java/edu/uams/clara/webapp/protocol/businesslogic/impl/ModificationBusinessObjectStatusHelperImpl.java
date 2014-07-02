@@ -219,6 +219,10 @@ public class ModificationBusinessObjectStatusHelperImpl extends
 					selectedCommittees.add(involvedCommittee);
 				}
 				
+				if (selectedCommittees.contains(Committee.DEPARTMENT_CHAIR)) {
+					selectedCommittees.add(Committee.COLLEGE_DEAN);
+				}
+				
 				if (!selectedCommittees.contains(Committee.PI)) {
 					selectedCommittees.add(Committee.IRB_ASSIGNER);
 				}

@@ -193,10 +193,17 @@ Clara.BudgetBuilder.SetVisibleEpochSubjectCount = function(count){
 		prompt:true,
 		fn:function(btn, text){
 	    	if (btn == 'ok'){
-	    		Clara.BudgetBuilder.SaveAction = "Subject Count";
-	    		//budget.updateFA(parseFloat(text));
-	    		budget.setEpochSubjectCount(Ext.getCmp("budget-tabpanel").activeEpoch,(parseInt(text) || 0));
-	    		budget.save();
+	    		if (parseInt(text) && parseInt(text) > 0){
+	    			Clara.BudgetBuilder.SaveAction = "Subject Count";
+		    		//budget.updateFA(parseFloat(text));
+		    		budget.setEpochSubjectCount(Ext.getCmp("budget-tabpanel").activeEpoch,(parseInt(text) || 1));
+		    		budget.save();
+	    		} else {
+	    			alert("Please enter a number larger that zero.");
+	    			Clara.BudgetBuilder.SetVisibleEpochSubjectCount(count);
+	    		}
+	    		
+	    		
 	    	}
 		}
 	});
@@ -206,8 +213,10 @@ Clara.BudgetBuilder.SetVisibleEpochSubjectCount = function(count){
 Clara.BudgetBuilder.MessageBus.addListener('budgetloaded', function(){
 	// Check locked, set background image
 	if (budget.locked){
-		jQuery("body").css('background-image', 'url('+appContext+'/static/images/bg_budget_locked.gif)');
-		jQuery(".clara-budget-protocol-info h1").append(" (<strong>This budget is LOCKED to changes.</strong>)");
+		if (jQuery(".clara-budget-protocol-info h1").text().indexOf("is LOCKED to") < 0){	// prevent double adding..
+			jQuery("body").css('background-image', 'url('+appContext+'/static/images/bg_budget_locked.gif)');
+			jQuery(".clara-budget-protocol-info h1").append(" (<strong>This budget is LOCKED to changes.</strong>)");
+		}
 	}
 	globalAjaxMask.hide();
 });

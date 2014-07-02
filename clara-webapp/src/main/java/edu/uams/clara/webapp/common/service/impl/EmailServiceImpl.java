@@ -23,8 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.common.collect.Lists;
 
-import edu.uams.clara.core.util.xml.XmlHandler;
-import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.dao.usercontext.RoleDao;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
@@ -47,6 +45,8 @@ public class EmailServiceImpl implements EmailService {
 
 	@Value("${fileserver.remote.dir.path}")
 	private String fileRemoteDirPath;
+	
+	private boolean shouldSendEmail = false;
 
 	private void removeEmptyAndNull(List<String> in) {
 		Iterator<String> i = in.iterator();
@@ -63,6 +63,7 @@ public class EmailServiceImpl implements EmailService {
 	public void sendEmail(final String text, final List<String> mailTo,
 			final List<String> cc, final String realSubject,
 			final List<String> files) {
+		if (!this.shouldSendEmail) return;
 
 		if (mailTo != null) {
 			removeEmptyAndNull(mailTo);
@@ -314,5 +315,14 @@ public class EmailServiceImpl implements EmailService {
 
 	public void setFileRemoteDirPath(String fileRemoteDirPath) {
 		this.fileRemoteDirPath = fileRemoteDirPath;
+	}
+
+	public boolean isShouldSendEmail() {
+		return shouldSendEmail;
+	}
+	
+	@Value("${should.sendemail}")
+	public void setShouldSendEmail(boolean shouldSendEmail) {
+		this.shouldSendEmail = shouldSendEmail;
 	}
 }

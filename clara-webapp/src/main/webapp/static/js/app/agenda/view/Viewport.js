@@ -17,6 +17,7 @@ Ext.define('Clara.Agenda.view.Viewport',{
 						region:'north',
 						bodyCls:'background-normal',
 						border:0
+						
 					},{
 						xtype:'panel',
 						layout:'border',
@@ -28,7 +29,7 @@ Ext.define('Clara.Agenda.view.Viewport',{
 							width:280,
 							split:true,
 							dockedItems: [{
-								dock: 'top',
+								dock: 'bottom',
 								border:false,
 								xtype: 'toolbar',
 								items: [{
@@ -38,8 +39,30 @@ Ext.define('Clara.Agenda.view.Viewport',{
 									hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']))
 								}
 								]
+							},{
+								dock:'top',
+								border:false,
+								xtype:'toolbar',
+								items:[{
+									xtype:'numberfield',
+									allowNegative:false,
+									allowDecimals:false,
+									hideTrigger:true,
+									emptyText:'Search by IRB number..',
+									id:'fldSearchAgendasByIRB',
+									flex:2
+								},{
+									xtype:'button',
+									iconCls:'icn-magnifier',
+									id:'btnSearchAgendas',
+									disabled:true
+								},{
+									xtype:'button',
+									iconCls:'icn-cross',
+									id:'btnClearSearchAgendas',
+									disabled:true
+								}]
 							}]
-							
 						
 						},{
 							xtype:'agendaitemgridpanel',
@@ -101,6 +124,7 @@ Ext.define('Clara.Agenda.view.Viewport',{
 									id:'btnSendAgenda',
 									iconCls:'icn-mail-send',
 									text:'<strong>Send Agenda..</strong>',
+									hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_IRB_OFFICE_CHAIR'])),
 									disabled:true
 									},'-',
 											      
@@ -117,13 +141,15 @@ Ext.define('Clara.Agenda.view.Viewport',{
 												id:'btnCancelAgenda',
 												iconCls:'icn-calendar--minus',
 												text:'Cancel..',
-												disabled:true
+												disabled:true,
+												hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']))
 											},{
 									
 												id:'btnRemoveAgenda',
 												iconCls:'icn-minus-button',
 												text:'Remove..',
-												disabled:true
+												disabled:true,
+												hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']))
 											}]
 										},{
 											xtype:'button',

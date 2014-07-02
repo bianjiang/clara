@@ -279,6 +279,14 @@
 			</rule> -->
 		</prerequisites>
 	</rule>	
+	<rule path="/protocol/study-type/investigator-initiate/support-type-describe" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To describe your study support is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/protocol/require-support-type" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>	
 	<rule path="/protocol/patient-locations/location" value-type="java.util.List" pagename="Basic Details" pageref="basic-details">
 		<constraint type="REQUIRED" data="" error-msg="To indicate where the study will take place is required!" level="ERROR"/>	
 		<prerequisites>

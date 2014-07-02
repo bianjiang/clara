@@ -58,6 +58,9 @@ Ext.application({
     
     launch: function() {
     	clog("Ext.app launch."); 
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DDB', 'Launch']);
+		}
     	Clara.Application.DashboardController = this.getController("Clara.DetailDashboard.controller.DetailDashboard");
     	Clara.Application.DocumentController = this.getController("Clara.Documents.controller.Documents");
     	Clara.Application.FormController = this.getController("Clara.DetailDashboard.controller.Form");

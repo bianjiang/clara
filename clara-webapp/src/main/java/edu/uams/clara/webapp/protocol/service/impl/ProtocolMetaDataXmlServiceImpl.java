@@ -1197,6 +1197,9 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		case STUDY_RESUMPTION:
 			lookupPath = validationXmlPath + "/studyResumptionValidation.xml";
 			break;
+		case OFFICE_ACTION:
+			lookupPath = validationXmlPath + "/officeActionValidation.xml";
+			break;
 		}
 
 		 //String testPath =

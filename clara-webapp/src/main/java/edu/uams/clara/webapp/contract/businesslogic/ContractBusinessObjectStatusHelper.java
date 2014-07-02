@@ -450,7 +450,7 @@ BusinessObjectStatusHelper {
 
 	@Override
 	public void triggerEvents(Form form, User user, Committee committee,
-			String eventsTemplate, String action, String condition)
+			String eventsTemplate, String action, String condition,Map<String, Object> attributeRawValues)
 			throws IOException, SAXException {
 		// TODO Auto-generated method stub
 		

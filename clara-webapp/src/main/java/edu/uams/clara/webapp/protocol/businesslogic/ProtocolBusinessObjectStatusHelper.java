@@ -1,5 +1,7 @@
 package edu.uams.clara.webapp.protocol.businesslogic;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -43,6 +46,8 @@ import edu.uams.clara.webapp.common.exception.ClaraRunTimeException;
 import edu.uams.clara.webapp.common.service.audit.AuditService;
 import edu.uams.clara.webapp.common.service.relation.RelationService;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
+import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
+import edu.uams.clara.webapp.fileserver.service.FileGenerateAndSaveService;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
@@ -76,6 +81,7 @@ import edu.uams.clara.webapp.protocol.service.ProtocolMetaDataXmlService;
 import edu.uams.clara.webapp.protocol.service.ProtocolService;
 import edu.uams.clara.webapp.protocol.service.email.ProtocolEmailService;
 import edu.uams.clara.webapp.protocol.service.history.ProtocolTrackService;
+import edu.uams.clara.webapp.xml.processor.BudgetXmlExportService;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
 public class ProtocolBusinessObjectStatusHelper extends
@@ -123,7 +129,11 @@ public class ProtocolBusinessObjectStatusHelper extends
 	
 	private AuditService auditService;
 	
+	private BudgetXmlExportService budgetExportService;
+	
 	private SendBudgetApprovedNotificationForPBService sendBudgetApprovedNotificationForPBService;
+	
+	private FileGenerateAndSaveService fileGenerateAndSaveService;
 	
 	
 
@@ -409,48 +419,72 @@ public class ProtocolBusinessObjectStatusHelper extends
 
 		logger.debug("changing ObjectStatus to " + status);
 		ProtocolForm protocolForm = (ProtocolForm) form;
+		
+		if (status.equals("REMOVE_CURRENT_OBJECT_STATUS")) {
+			try {
+				ProtocolStatus latestObjectStatus = protocolStatusDao.findProtocolStatusByProtocolId(protocolForm.getProtocol().getId());
+				
+				latestObjectStatus.setRetired(true);
+				latestObjectStatus = protocolStatusDao.saveOrUpdate(latestObjectStatus);
+			} catch (Exception e) {
+				//don't care
+			}
+			
+		} else {
+			ProtocolStatus protocolStatus = new ProtocolStatus();
+			protocolStatus.setProtocol(protocolForm.getProtocol());
+			protocolStatus.setModified(now);
+			protocolStatus.setCausedByCommittee(committee);
+			protocolStatus.setCauseByUser(user);
+			protocolStatus.setProtocolStatus(ProtocolStatusEnum.valueOf(status));
 
-		ProtocolStatus protocolStatus = new ProtocolStatus();
-		protocolStatus.setProtocol(protocolForm.getProtocol());
-		protocolStatus.setModified(now);
-		protocolStatus.setCausedByCommittee(committee);
-		protocolStatus.setCauseByUser(user);
-		protocolStatus.setProtocolStatus(ProtocolStatusEnum.valueOf(status));
-
-		protocolStatusDao.saveOrUpdate(protocolStatus);
-
+			protocolStatusDao.saveOrUpdate(protocolStatus);
+		}
 	}
 
 	@Override
 	public void changeObjectFormStatus(Form form, Date now,
 			Committee committee, User user, String status) {
 		logger.debug("changing ObjectFormStatus to " + status);
-
-		ProtocolForm protocolForm = (ProtocolForm) form;
-
-		ProtocolFormStatus protocolFormStatus = new ProtocolFormStatus();
-		protocolFormStatus.setProtocolForm(protocolForm);
-		protocolFormStatus.setModified(now);
-		protocolFormStatus.setCausedByCommittee(committee);
-		protocolFormStatus.setCauseByUser(user);
-		protocolFormStatus.setProtocolFormStatus(ProtocolFormStatusEnum
-				.valueOf(status));
-
-		protocolFormStatusDao.saveOrUpdate(protocolFormStatus);
 		
-		if (status.equals(ProtocolFormStatusEnum.PENDING_PI_SIGN_OFF.toString())){
-			logger.debug("change document stastus");
-			this.changeObjectFormDocumentStatus(protocolForm, now, committee, user, Status.RSC_APPROVED.toString(), null);
-			
-			String protocolFormMetaData = protocolForm.getMetaDataXml();
-			
+		ProtocolForm protocolForm = (ProtocolForm) form;
+		
+		if (status.equals("REMOVE_CURRENT_FORM_STATUS")) {
 			try {
-				protocolFormMetaData = getXmlProcessor().replaceOrAddNodeValueByPath("/protocol/summary/budget-determination/approval-date", protocolFormMetaData, DateFormatUtil.formateDateToMDY(new Date()));
+				ProtocolFormStatus latestFormStatus = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(protocolForm.getId());
 				
-				protocolForm.setMetaDataXml(protocolFormMetaData);
-				protocolFormDao.saveOrUpdate(protocolForm);
+				latestFormStatus.setRetired(true);
+				latestFormStatus = protocolFormStatusDao.saveOrUpdate(latestFormStatus);
 			} catch (Exception e) {
-				e.printStackTrace();
+				//don't care
+			}
+			
+		} else {
+
+			ProtocolFormStatus protocolFormStatus = new ProtocolFormStatus();
+			protocolFormStatus.setProtocolForm(protocolForm);
+			protocolFormStatus.setModified(now);
+			protocolFormStatus.setCausedByCommittee(committee);
+			protocolFormStatus.setCauseByUser(user);
+			protocolFormStatus.setProtocolFormStatus(ProtocolFormStatusEnum
+					.valueOf(status));
+
+			protocolFormStatusDao.saveOrUpdate(protocolFormStatus);
+			
+			if (status.equals(ProtocolFormStatusEnum.PENDING_PI_SIGN_OFF.toString())){
+				logger.debug("change document stastus");
+				this.changeObjectFormDocumentStatus(protocolForm, now, committee, user, Status.RSC_APPROVED.toString(), null);
+				
+				String protocolFormMetaData = protocolForm.getMetaDataXml();
+				
+				try {
+					protocolFormMetaData = getXmlProcessor().replaceOrAddNodeValueByPath("/protocol/summary/budget-determination/approval-date", protocolFormMetaData, DateFormatUtil.formateDateToMDY(new Date()));
+					
+					protocolForm.setMetaDataXml(protocolFormMetaData);
+					protocolFormDao.saveOrUpdate(protocolForm);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -465,43 +499,57 @@ public class ProtocolBusinessObjectStatusHelper extends
 			String status, String commiteeNote, String xmlData, String action) {
 
 		logger.debug("changing ObjectFormCommitteeStatus to " + status);
-
+		
 		ProtocolForm protocolForm = (ProtocolForm) form;
-		ProtocolFormCommitteeStatus protocolFormCommitteeStatus = new ProtocolFormCommitteeStatus();
-		protocolFormCommitteeStatus.setProtocolForm(protocolForm);
-		protocolFormCommitteeStatus.setModified(now);
-		protocolFormCommitteeStatus.setCauseByUser(user);
-		protocolFormCommitteeStatus.setCausedByCommittee(committee);
 		
-		if (committee.equals(involvedCommittee)) {
-			protocolFormCommitteeStatus.setNote(commiteeNote);
-		}
-		
-		protocolFormCommitteeStatus.setCommittee(involvedCommittee);
-		protocolFormCommitteeStatus.setXmlData(xmlData);
-		protocolFormCommitteeStatus.setAction(action);
-
-		protocolFormCommitteeStatus
-				.setProtocolFormCommitteeStatus(ProtocolFormCommitteeStatusEnum
-						.valueOf(status));
-
-		protocolFormCommitteeStatusDao
-				.saveOrUpdate(protocolFormCommitteeStatus);
-		
-		if (action.equals("REQUEST_REVIEW") || action.equals("REQUEST_WAIVER") || (committee.equals(Committee.GATEKEEPER) && action.equals("ASSIGN_TO_COMMITTEES") && involvedCommittee.equals(Committee.PHARMACY_REVIEW)) || (committee.equals(Committee.BUDGET_REVIEW) && action.equals("ROUTE_TO_PHARMACY"))){
-			ProtocolFormXmlData protocolFormXmlData = protocolForm.getTypedProtocolFormXmlDatas().get(protocolForm.getProtocolFormType().getDefaultProtocolFormXmlDataType());
-			
-			String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
-			
-			try{
-				protocolFormXmlDataString = getXmlProcessor().replaceOrAddNodeValueByPath("/protocol/pharmacy-created", protocolFormXmlDataString, "y");
-			} catch (Exception e){
-				//don't care
+		if (status.equals("REMOVE_CURRENT_FORM_COMMITTEE_STATUS")) {
+			try {
+				ProtocolFormCommitteeStatus latestFormCommitteeStatus = protocolFormCommitteeStatusDao.getLatestByCommitteeAndProtocolFormId(involvedCommittee, protocolForm.getId());
+				
+				latestFormCommitteeStatus.setRetired(true);
+				latestFormCommitteeStatus = protocolFormCommitteeStatusDao.saveOrUpdate(latestFormCommitteeStatus);
+			} catch (Exception e) {
+				logger.debug("Committee: " + involvedCommittee.toString() + " Status: " + status + " does not exist!");
 			}
 			
-			protocolFormXmlData.setXmlData(protocolFormXmlDataString);
-			protocolFormXmlDataDao.saveOrUpdate(protocolFormXmlData);
+		} else {
+			ProtocolFormCommitteeStatus protocolFormCommitteeStatus = new ProtocolFormCommitteeStatus();
+			protocolFormCommitteeStatus.setProtocolForm(protocolForm);
+			protocolFormCommitteeStatus.setModified(now);
+			protocolFormCommitteeStatus.setCauseByUser(user);
+			protocolFormCommitteeStatus.setCausedByCommittee(committee);
+			
+			if (committee.equals(involvedCommittee)) {
+				protocolFormCommitteeStatus.setNote(commiteeNote);
+			}
+			
+			protocolFormCommitteeStatus.setCommittee(involvedCommittee);
+			protocolFormCommitteeStatus.setXmlData(xmlData);
+			protocolFormCommitteeStatus.setAction(action);
+
+			protocolFormCommitteeStatus
+					.setProtocolFormCommitteeStatus(ProtocolFormCommitteeStatusEnum
+							.valueOf(status));
+
+			protocolFormCommitteeStatusDao
+					.saveOrUpdate(protocolFormCommitteeStatus);
+			
+			if (action.equals("REQUEST_REVIEW") || action.equals("REQUEST_WAIVER") || (committee.equals(Committee.GATEKEEPER) && action.equals("ASSIGN_TO_COMMITTEES") && involvedCommittee.equals(Committee.PHARMACY_REVIEW)) || (committee.equals(Committee.BUDGET_REVIEW) && action.equals("ROUTE_TO_PHARMACY"))){
+				ProtocolFormXmlData protocolFormXmlData = protocolForm.getTypedProtocolFormXmlDatas().get(protocolForm.getProtocolFormType().getDefaultProtocolFormXmlDataType());
+				
+				String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
+				
+				try{
+					protocolFormXmlDataString = getXmlProcessor().replaceOrAddNodeValueByPath("/protocol/pharmacy-created", protocolFormXmlDataString, "y");
+				} catch (Exception e){
+					//don't care
+				}
+				
+				protocolFormXmlData.setXmlData(protocolFormXmlDataString);
+				protocolFormXmlDataDao.saveOrUpdate(protocolFormXmlData);
+			}
 		}
+
 	}
 	
 	@Override
@@ -892,7 +940,8 @@ public class ProtocolBusinessObjectStatusHelper extends
 			String statusPath = "";
 
 			if (protocolForm.getProtocolFormType().equals(
-					ProtocolFormType.NEW_SUBMISSION)) {
+					ProtocolFormType.NEW_SUBMISSION) || protocolForm.getProtocolFormType().equals(
+							ProtocolFormType.OFFICE_ACTION)) {
 				statusPath = "/protocol/original-study/approval-status";
 				
 				/*
@@ -1062,6 +1111,10 @@ public class ProtocolBusinessObjectStatusHelper extends
 				
 				Document currentBudgetXmlDataDom = getXmlProcessor().loadXmlStringToDOM(budgetXmlData.getXmlData());
 				
+				Element budgetRootEl = currentBudgetXmlDataDom.getDocumentElement();
+				
+				long maxId = Long.valueOf((budgetRootEl.getAttribute("idGenerator") != null && !budgetRootEl.getAttribute("idGenerator").isEmpty())?budgetRootEl.getAttribute("idGenerator"):"10000");
+				
 				Element pharmacyEl = (Element) (xPath.evaluate("/pharmacy",
 						currentPharmacyXmlDataDom, XPathConstants.NODE));
 				
@@ -1076,6 +1129,8 @@ public class ProtocolBusinessObjectStatusHelper extends
 					initialExpenseEl.setAttribute("cost", pharmacyEl.getAttribute("total"));
 					initialExpenseEl.setAttribute("description", "Pharmacy Fee " + waivedOrNot);
 				} else {
+					maxId++;
+					
 					Element newInitialExpenseNode = currentBudgetXmlDataDom.createElement("expense");
 					newInitialExpenseNode.setAttribute("type", "Initial Cost");
 					newInitialExpenseNode.setAttribute("subtype", "Pharmacy Fee");
@@ -1086,6 +1141,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 					newInitialExpenseNode.setAttribute("count", "1");
 					newInitialExpenseNode.setAttribute("description", "Pharmacy Fee " + waivedOrNot);
 					newInitialExpenseNode.setAttribute("notes", "");
+					newInitialExpenseNode.setAttribute("id", String.valueOf(maxId));
 					
 					expensesEl.appendChild(newInitialExpenseNode);
 				}
@@ -1117,6 +1173,8 @@ public class ProtocolBusinessObjectStatusHelper extends
 							invoicableExpenseEl.setAttribute("description", "" + otherPharmacyFeeEl.getAttribute("description") + waivedOrNot);
 							invoicableExpenseEl.setAttribute("notes", "");
 						} else {
+							maxId++;
+							
 							Element newInvoicableExpenseNode = currentBudgetXmlDataDom.createElement("expense");
 							newInvoicableExpenseNode.setAttribute("type", "Invoicable");
 							newInvoicableExpenseNode.setAttribute("subtype", "Pharmacy Fee");
@@ -1127,6 +1185,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 							newInvoicableExpenseNode.setAttribute("count", "1");
 							newInvoicableExpenseNode.setAttribute("description", "" + otherPharmacyFeeEl.getAttribute("description") + waivedOrNot);
 							newInvoicableExpenseNode.setAttribute("notes", "");
+							newInvoicableExpenseNode.setAttribute("id", String.valueOf(maxId));
 							
 							expensesEl.appendChild(newInvoicableExpenseNode);
 						}
@@ -1244,8 +1303,111 @@ public class ProtocolBusinessObjectStatusHelper extends
 	}
 	*/
 	
+	private void generateBudgetDocuement(ProtocolForm protocolForm, Map<String, Object> attributeRawValues,String submissionType){
+		
+		ProtocolFormXmlData budgetXmlData = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(protocolForm.getFormId(),ProtocolFormXmlDataType.BUDGET);
+		//if has budget continue
+		if(budgetXmlData!=null){
+			//if it is original submission, do not need to consider committee
+			boolean generateDoc = false;
+			if(submissionType.equals("original")){
+				generateDoc = true;
+			}else if(submissionType.equals("revision")){
+				Committee committee = Committee.valueOf(attributeRawValues.get("REVISION_REQUEST_COMMITTEE").toString());
+				if(committee.equals(Committee.BUDGET_REVIEW)){
+					generateDoc = true;
+				}
+			}
+			if(generateDoc){
+				String budgetXml = budgetXmlData.getXmlData();
+				
+				ByteArrayOutputStream outputStream = null;
+				
+				List<ProtocolFormXmlDataDocument> budgetDocuments = new ArrayList<ProtocolFormXmlDataDocument>();
+				
+				for(BudgetXmlExportService.BudgetDocumentType budgetDocumentType:BudgetXmlExportService.BudgetDocumentType.values()){
+					
+					if(!budgetDocumentType.isActive()){
+						continue;
+					}
+					outputStream = budgetExportService.generateBudgetExcelDocument(budgetXml, budgetDocumentType, protocolForm.getFormId());
+					
+					// modelMap.put("xmlData", xmlData);
+					UploadedFile uploadedFile = new UploadedFile();;
+					try {
+						uploadedFile = fileGenerateAndSaveService
+								.processFileGenerateAndSave(protocolForm.getProtocol(), budgetDocumentType.getFileName(), new ByteArrayInputStream(outputStream.toByteArray()), "xls",
+										"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+
+					ProtocolFormXmlDataDocument budgetDocument = new ProtocolFormXmlDataDocument();
+
+					ProtocolFormXmlDataDocument parentBudgetDocument = null;
+
+					//List<ProtocolFormXmlDataDocumentWrapper> protocolDocumentLst = protocolFormXmlDataDocumentDao
+					//		.listDocumentsByProtocolFormIdAndCategory(protocolFormId,
+					//				budgetDocumentType.getCategory());
+					
+					ProtocolFormXmlDataDocument latestBudgetDocument = null;
+					
+					try{
+						latestBudgetDocument = protocolFormXmlDataDocumentDao.getLatestDocumentByProtocolFormIdAndCategory(protocolForm.getFormId(), budgetDocumentType.getCategory());
+					} catch (Exception e){
+						logger.debug("no previously generated budget document, don't care...");
+						//e.printStackTrace();
+					}
+					
+					
+					long versionId = 0;
+					//String desc = " Original";
+					//logger.debug("protocol budget list: " + protocolDocumentLst);
+					if (latestBudgetDocument != null){
+						parentBudgetDocument = latestBudgetDocument;
+						versionId = latestBudgetDocument.getVersionId() + 1;
+					} else {
+						parentBudgetDocument = budgetDocument;
+					}
+					
+					/*if (protocolDocumentLst.size() == 0) {
+						parentBudgetDocument = budgetDocument;
+					} else {
+						parentBudgetDocument = protocolFormXmlDataDocumentDao.findById(protocolDocumentLst.get(0).);
+						versionId = protocolDocumentLst.get(0).getVersionId() + 1;
+						//desc = " Revision " + String.valueOf(versionId);
+					}*/
+
+					budgetDocument.setUploadedFile(uploadedFile);
+					budgetDocument.setTitle(uploadedFile.getFilename());
+					budgetDocument.setCategory(budgetDocumentType.getCategory());
+					budgetDocument.setCommittee(Committee.PI); // @TODO to be updated, need to
+															// find out which committee will
+															// do this...
+					budgetDocument.setStatus(Status.DRAFT);
+					budgetDocument.setCreated(new Date());
+					budgetDocument.setParent((parentBudgetDocument == budgetDocument)?parentBudgetDocument:parentBudgetDocument.getParent());
+
+					budgetDocument.setProtocolFormXmlData(budgetXmlData);
+					logger.debug("versionId: " + versionId);
+					budgetDocument.setVersionId(versionId);
+
+					User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+					//u.setId(1l); // need to pass userID from the client.
+					budgetDocument.setUser(u);
+
+					budgetDocument = protocolFormXmlDataDocumentDao
+							.saveOrUpdate(budgetDocument);
+					budgetDocuments.add(budgetDocument);
+			}
+				}
+		}
+
+		
+	}
+	
 	@Override
-	public void triggerEvents(Form form, User user, Committee committee, String eventsTemplate, String action, String condition) throws IOException, SAXException {
+	public void triggerEvents(Form form, User user, Committee committee, String eventsTemplate, String action, String condition, Map<String, Object> attributeRawValues) throws IOException, SAXException {
 		ProtocolForm protocolForm = (ProtocolForm) form;
 
 		XmlProcessor xmlProcessor = getXmlProcessor();
@@ -1255,10 +1417,8 @@ public class ProtocolBusinessObjectStatusHelper extends
 
 		NodeList events = eventsTemplateDoc.getDocumentElement()
 				.getElementsByTagName("event");
-		
 		for (int i = 0; i < events.getLength(); i++) {
 			Element currentEventEl = (Element) events.item(i);
-			
 			logger.debug("event type: " + currentEventEl.getTextContent());
 			switch (currentEventEl.getTextContent()) {
 			case "SET_SUBMIT_DATE": 
@@ -1283,7 +1443,9 @@ public class ProtocolBusinessObjectStatusHelper extends
 				this.updateApprovalStatusAndDate(protocolForm, action, (currentEventEl.getAttribute("clock-start") != null && !currentEventEl.getAttribute("clock-start").isEmpty())?currentEventEl.getAttribute("clock-start"):"", condition);
 				break;
 			case "PUSH_TO_EPIC":
-				protocolService.pushToEpic(protocolForm.getProtocol());
+				Protocol protocol = protocolDao.findById(protocolForm.getProtocol().getId());
+
+				protocolService.pushToEpic(protocol);
 				break;
 			case "GENERATE_EPIC_CDM":
 				this.generateEpicCDM(protocolForm);
@@ -1291,6 +1453,10 @@ public class ProtocolBusinessObjectStatusHelper extends
 			case "ASSIGN_TO_AGENDA":
 				this.assignToAgenda(protocolForm);
 				break;
+			case "GENERATE_BUDGET_DOCUMENT":
+				this.generateBudgetDocuement(protocolForm,attributeRawValues, currentEventEl.getAttribute("submission-type"));
+				break;
+				
 			//case "CLEAN_RECENT_MOTION":
 				//this.cleanRecentMotion(protocolForm);
 				//break;
@@ -1459,5 +1625,26 @@ public class ProtocolBusinessObjectStatusHelper extends
 	public void setSendBudgetApprovedNotificationForPBService(
 			SendBudgetApprovedNotificationForPBService sendBudgetApprovedNotificationForPBService) {
 		this.sendBudgetApprovedNotificationForPBService = sendBudgetApprovedNotificationForPBService;
+	}
+
+
+	public BudgetXmlExportService getBudgetExportService() {
+		return budgetExportService;
+	}
+
+
+	@Autowired(required = true)
+	public void setBudgetExportService(BudgetXmlExportService budgetExportService) {
+		this.budgetExportService = budgetExportService;
+	}
+
+
+	public FileGenerateAndSaveService getFileGenerateAndSaveService() {
+		return fileGenerateAndSaveService;
+	}
+
+	@Autowired(required = true)
+	public void setFileGenerateAndSaveService(FileGenerateAndSaveService fileGenerateAndSaveService) {
+		this.fileGenerateAndSaveService = fileGenerateAndSaveService;
 	}
 }

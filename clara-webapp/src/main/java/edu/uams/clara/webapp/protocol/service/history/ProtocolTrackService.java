@@ -27,7 +27,7 @@ public class ProtocolTrackService extends BusinessObjectTrackService<Protocol> {
 	public String getFormStatus(Map<String, Object> attributeRawValues) {
 		ProtocolFormStatusEnum protocolFormStatus = null;
 		
-		if(attributeRawValues.get("FORM_STATUS") != null && !attributeRawValues.get("FORM_STATUS").toString().isEmpty()){
+		if(attributeRawValues.get("FORM_STATUS") != null && !attributeRawValues.get("FORM_STATUS").toString().isEmpty() && !attributeRawValues.get("FORM_STATUS").equals("REMOVE_CURRENT_FORM_STATUS")){
 			protocolFormStatus = ProtocolFormStatusEnum.valueOf(attributeRawValues.get("FORM_STATUS").toString());
 		}
 		

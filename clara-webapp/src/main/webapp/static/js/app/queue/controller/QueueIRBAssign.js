@@ -47,12 +47,18 @@ Ext.define('Clara.Queue.controller.QueueIRBAssign', {
 				"reviewerUserRoleId":agendaItemReviewerId
 			},
 			success: function(response){
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'QUEUE_IRB', 'Processed agenda item ('+queueItem.get("formId")+')']);
+				}
 				me.loadingMask.hide();
 				me.getIrbAssignmentWindow().close();
 				Clara.Application.getController("Queue").onQueueSelect(null,Clara.Application.getController("Queue").selectedQueue);	// reload the queue list by reselecting it
 			},
 			failure: function(error) {
 				cwarn('processAgendaItem: Ext.Ajax failure',error);
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'ERROR', 'QUEUE_IRB: Failure processing agenda item ('+queueItem.get("formId")+')']);
+				}
 				me.loadingMask.hide();
 			}
 		});
@@ -71,12 +77,18 @@ Ext.define('Clara.Queue.controller.QueueIRBAssign', {
 				"userId": claraInstance.user.id
 			},
 			success: function(response){
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'QUEUE_IRB', 'Assigned item ('+queueItem.get("formId")+') to agenda '+agendaId]);
+				}
 				me.loadingMask.hide();
 				me.getIrbAssignmentWindow().close();
 				Clara.Application.getController("Queue").onQueueSelect(null,Clara.Application.getController("Queue").selectedQueue);	// reload the queue list by reselecting it
 			},
 			failure: function(error) {
 				cwarn('assignItemToAgenda: Ext.Ajax failure',error);
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'ERROR', 'QUEUE_IRB: Failure assigning item ('+queueItem.get("formId")+') to agenda '+agendaId]);
+				}
 				me.loadingMask.hide();
 			}
 		});

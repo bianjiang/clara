@@ -9,6 +9,8 @@ Ext.ns('Clara','Clara.Config');
 var CLARA_AJAX_TIMEOUT = 30000;
 var CLARA_SESSION_TIMEOUT = 60*60*1000;	// 60 minutes
 
+function piwik_enabled() { return (typeof _paq !== "undefined"); }
+
 Array.prototype.hasValue = function(value) {
 	  var i;
 	  for (i=0; i<this.length; i++) { if (this[i] === value) return true; }
@@ -55,6 +57,9 @@ Ext.override(Ext.data.Connection, {
 		requestexception: function(conn,r,opt){
 			var result = conn.parseStatus(r.xhr.status);
 			cwarn("Ext.data.Connection requestexception: "+result,conn,r,opt);
+			if (piwik_enabled()){
+				_paq.push(['trackEvent', 'AJAX_WARNING', 'Ext.data.Connection requestexception: '+result]);
+			}
 		}
 	}
 
@@ -206,6 +211,9 @@ var claraInstance = {
 			this.expired=true;
 			jQuery("body").html("<div class='sessionexpiremessage'>Your CLARA session has expired.<br/><a href='javascript:location.reload();'>Reload page to continue.</a></div>");
 			clearTimeout(this.syncTimeoutId);
+			if (piwik_enabled()){
+				_paq.push(['trackEvent', 'SESSION_EXPIRE', 'UserId: '+claraInstance.user.id]);
+			}
 		}
 	},
 	
@@ -334,6 +342,9 @@ function closeCurrentForm(callback, saveFormFirst){
 	
 	
 	function _closeForm(){
+		if (piwik_enabled()){
+			_paq.push(['trackEvent', 'FORM_CLOSE', 'UserId: '+claraInstance.user.id+' Type: '+claraInstance.type+' FormId: '+claraInstance.form.id]);
+		}
 		var url = appContext+"/ajax/users/"+claraInstance.user.id+"/close-open-form";
 		jQuery.ajax({
 			  type: 'POST',
@@ -709,7 +720,7 @@ Clara.Config.NewProtocolOptionStore = new Ext.data.ArrayStore({
 	      /*['singleuse','Single Use IND', 'Submit a protocol that uses an investigational drug or device on a single human research subject that does not fit the requirements of an <strong>Emergency Use Protocol</strong>.',appContext+"/protocols/protocol-forms/new-submission/create"],*/
 		  //['hud','Humanitarian Use Device Application', 'As defined in 21 CFR 814.3(n), a HUD is a "medical device intended to benefit patients in the treatment or diagnosis of a disease or condition that affects or is manifested in fewer than 4,000 individuals in the United States per year."',appContext+"/protocols/protocol-forms/humanitarian-use-device/create"],
 		  ['emergencyuse','Emergency Use Notification/Follow-up Report', 'This includes notifications and follow-up reports.',appContext+"/protocols/protocol-forms/emergency-use/create"],
-		  ['privacyboard','Privacy Board Form', 'Use this form to submit an item to the UAMS Privacy Board, for the other.',appContext+"/protocols/protocol-forms/privacy-board/create"]
+		  ['privacyboard','Privacy Board Form', 'Use this form to submit an item to the UAMS Privacy Board.',appContext+"/protocols/protocol-forms/privacy-board/create"]
 	       ]
 });
 

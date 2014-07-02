@@ -90,6 +90,22 @@ public class MutexLockServiceImpl implements MutexLockService {
 		}
 	}
 	
+
+	@Override
+	public void unlockExpiredMutexLock() {
+		List<MutexLock> mutexLocks = mutexLockDao.findAllLocked();
+		Date currentTime = new Date();
+		for(MutexLock mutexLock: mutexLocks){
+			Date lockedTime = mutexLock.getModified();
+			//if locked for more than 24 hours, unlock it
+			if((currentTime.getTime()-lockedTime.getTime())/(1000*60*60)>24){
+				mutexLock.setLocked(false);
+				mutexLockDao.saveOrUpdate(mutexLock);
+			}
+		}
+		
+	}
+	
 	@Override
 	public void unlockMutexLock(MutexLock mutexLock) {
 		mutexLock.setLocked(false);
@@ -112,4 +128,5 @@ public class MutexLockServiceImpl implements MutexLockService {
 	public void setMutexLockDao(MutexLockDao mutexLockDao) {
 		this.mutexLockDao = mutexLockDao;
 	}
+
 }

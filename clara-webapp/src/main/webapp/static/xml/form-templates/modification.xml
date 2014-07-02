@@ -97,7 +97,7 @@
 			</question>
 			<question id="question-site-responsible" parent-id="" parent-value="" header="">
 				<question-label>Which institution is primarily responsible for this study?</question-label>
-				<question-value instance-path="/protocol/site-responsible" lookup-path="hud-be-used" value-type="select" />
+				<question-value instance-path="/protocol/site-responsible" lookup-path="site-responsible" value-type="select" />
 			</question>
 			<question id="question-uams-faculty" parent-id="question-site-responsible" parent-value="ach-achri" header="ACH-ACHRI">
 				<question-label>Is the PI for this study a UAMS faculty member?</question-label>
@@ -144,10 +144,16 @@
 			<question id="question-study-subtype" parent-id="question-study-type" parent-value="investigator-initiated" header="Investigator">
 				<question-label>Which of the following support types will this study use?</question-label>
 				<question-value instance-path="/protocol/study-type/investigator-initiated/sub-type" lookup-path="study-subtypes" value-type="other" />
+				<sub-questions>
+					<question id="question-study-subtype-other" parent-id="" parent-value="" header="Other">
+						<question-label>Please indicate the type:</question-label>
+						<question-value instance-path="/protocol/study-type/investigator-initiated/sub-type/other/text" value-type="textarea" />
+					</question>
+				</sub-questions>
 			</question>
-			<question id="question-other-sub-type" parent-id="question-study-subtype" parent-value="other" header="Other Support Type">
-				<question-label>Please indicate the type:</question-label>
-				<question-value instance-path="/protocol/study-type/investigator-initiated/sub-type/other/explain" value-type="textarea" />
+			<question id="question-support-type-describe" parent-id="" parent-value="" header="">
+				<question-label>Please describe your study support:</question-label>
+				<question-value instance-path="/protocol/study-type/investigator-initiate/support-type-describe" value-type="textarea" />
 			</question>
 			<question id="question-patient-locations" parent-id="" parent-value="" header="">
 				<question-label>In which of the following settings will this study take place?</question-label>

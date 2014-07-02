@@ -85,15 +85,15 @@
 	</page>
 	<page name="Contract Determination" id="contract-execution-dates" edit-permission="EDIT_CONTRACT_BASIC">
 		<section>
-			<question id="question-start-date" parent-id="" parent-value="" header="">
+			<question id="question-start-date" class="has-no-page" parent-id="" parent-value="" header="">
 				<question-label>Contract Beginning Date:</question-label>
 				<question-value instance-path="/contract/basic-info/contract-begin-date" shownovalue="true" value-type="date" from-form-metadata="true" editable="true"/>
 			</question>
-			<question id="question-end-date" parent-id="" parent-value="" header="">
+			<question id="question-end-date" class="has-no-page" parent-id="" parent-value="" header="">
 				<question-label>Contract End Date:</question-label>
 				<question-value instance-path="/contract/basic-info/contract-end-date" shownovalue="true" value-type="date" from-form-metadata="true" editable="true"/>
 			</question>
-			<question id="question-execution-date" parent-id="" parent-value="" header="">
+			<question id="question-execution-date" class="has-no-page" parent-id="" parent-value="" header="">
 				<question-label>Contract Execution Date:</question-label>
 				<question-value instance-path="/contract/basic-info/contract-execution-date" shownovalue="true" value-type="date" from-form-metadata="true" editable="true"/>
 			</question>
@@ -101,14 +101,14 @@
 	</page>
 	<page name="Assigned Budget/Coverage Reviewers" id="assigned-budget-reviewers">
 		<section>
-			<question id="question-assigned-reviewers" parent-id="" parent-value="" header="">
+			<question id="question-assigned-reviewers" class="has-no-page" parent-id="" parent-value="" header="">
 				<question-value instance-path="/contract/committee-review/committee/assigned-reviewers/assigned-reviewer" value-type="assigned-reviewers" />
 			</question>
 		</section>
 	</page>
 	<page name="Assigned Contract/Legal Reviewers" id="assigned-budget-reviewers">
 		<section>
-			<question id="question-assigned-reviewers" parent-id="" parent-value="" header="">
+			<question id="question-assigned-reviewers" class="has-no-page" parent-id="" parent-value="" header="">
 				<question-value instance-path="/contract/committee-review/committee/assigned-reviewers/assigned-reviewer" value-type="assigned-reviewers" from-form-metadata="true" />
 			</question>
 		</section>

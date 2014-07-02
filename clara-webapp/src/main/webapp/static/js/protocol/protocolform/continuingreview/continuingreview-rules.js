@@ -187,6 +187,55 @@ Clara.ProtocolForm.Rules
 			}
 		}));
 
+Clara.ProtocolForm.Rules
+.addRule(new Clara.ProtocolForm.Rule(
+		{
+			id : Ext.id(),
+			questionIds : [ 'question-adverse-events-accur-at-frequency', 'question-adverse-events-change-risk' ],
+			dependantQuestionPaths : [ "/continuing-review/study-report/any-adverse-events",
+			                           "/continuing-review/has-external-sponsor" ],
+			execute : function(answers) {
+				var hide = true;
+				if (answers['/continuing-review/study-report/any-adverse-events'] == 'y' && 
+						answers['/continuing-review/has-external-sponsor'] == 'n') {
+					hide = false;
+				}
+				this.hide(hide);
+			}
+		}));
+
+Clara.ProtocolForm.Rules
+.addRule(new Clara.ProtocolForm.Rule(
+		{
+			id : Ext.id(),
+			questionIds : [ 'question-sponsor-provide-information' ],
+			dependantQuestionPaths : [ "/continuing-review/study-report/any-adverse-events",
+			                           "/continuing-review/has-external-sponsor" ],
+			execute : function(answers) {
+				var hide = true;
+				if (answers['/continuing-review/study-report/any-adverse-events'] == 'y' && 
+						answers['/continuing-review/has-external-sponsor'] == 'y') {
+					hide = false;
+				}
+				this.hide(hide);
+			}
+		}));
+
+Clara.ProtocolForm.Rules
+.addRule(new Clara.ProtocolForm.Rule(
+		{
+			id : Ext.id(),
+			questionIds : [ 'question-deviations-occur-in-pattern','question-deviations-negatively-impact' ],
+			dependantQuestionPaths : [ "/continuing-review/study-report/any-deviations" ],
+			execute : function(answers) {
+				var hide = true;
+				if (answers['/continuing-review/study-report/any-deviations'] == 'y') {
+					hide = false;
+				}
+				this.hide(hide);
+			}
+		}));
+
 /*
 Clara.ProtocolForm.Rules
 .addRule(new Clara.ProtocolForm.Rule(

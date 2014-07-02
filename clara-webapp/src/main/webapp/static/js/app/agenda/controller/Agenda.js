@@ -11,8 +11,14 @@ Ext
 						ref : 'agendaItems',
 						selector : 'agendaitemgridpanel'
 					}, {
-						ref : 'newAgendaButton',
-						selector : '#btnNewAgenda'
+						ref : 'searchAgendasByIRBField',
+						selector : '#fldSearchAgendasByIRB'
+					}, {
+						ref : 'searchAgendasButton',
+						selector : '#btnSearchAgendas'
+					}, {
+						ref : 'clearSearchAgendasButton',
+						selector : '#btnClearSearchAgendas'
 					}, {
 						ref : 'startMeetingButton',
 						selector : '#btnStartMeeting'
@@ -66,6 +72,7 @@ Ext
 						});
 						me.on("agendasUpdated", function() {
 							me.onAgendaUpdate();
+							me.getAgendasStore().load();
 						});
 
 						// Start listening for events on views
@@ -80,6 +87,36 @@ Ext
 							'button[action=create_agenda]' : {
 								click : function() {
 									me.showCreateAgendaWindow();
+								}
+							},
+							'#btnSearchAgendas' : {
+								click : function() {
+									var irbValue = me.getSearchAgendasByIRBField().getValue();
+									if (irbValue && irbValue != "" && irbValue > 0){
+										clog("Searching for "+irbValue);
+										me.searchAgendasByIRB(irbValue);
+									}else{
+										alert("Nothing to search for.");
+									}
+								}
+							},
+							'#btnClearSearchAgendas' : {
+								click : function() {
+									me.getSearchAgendasByIRBField().reset();
+									me.getClearSearchAgendasButton().setDisabled(true);
+									me.getAgendasStore().getProxy().url = appContext+"/ajax/agendas/list";
+									me.fireEvent("agendasUpdated");
+								}
+							},
+							'#fldSearchAgendasByIRB' : {
+								change : function(fld) {
+									if (!fld.getValue() || fld.getValue() == 0 || fld.getValue() == "") {
+										me.getClearSearchAgendasButton().setDisabled(true);
+										me.getSearchAgendasButton().setDisabled(true);
+									} else {
+										me.getClearSearchAgendasButton().setDisabled(false);
+										me.getSearchAgendasButton().setDisabled(false);
+									}
 								}
 							},
 							'#btnNewAgenda' : {
@@ -181,6 +218,13 @@ Ext
 								+ this.selectedAgenda.get("id") + "/minutes");
 					},
 
+					searchAgendasByIRB: function(irb){
+						var me = this;
+						me.onAgendaUpdate();
+						me.getAgendasStore().getProxy().url = appContext+"/ajax/agendas/search";
+						me.getAgendasStore().load({params:{'protocolId':irb}});
+					},
+					
 					assignReviewers : function() {
 						Ext.create(
 								'Clara.Agenda.view.AgendaItemReviewerWindow',
@@ -616,7 +660,7 @@ Ext
 						clog("onAgendaUpdate");
 						me.selectedAgenda = null;
 						me.selectedAgendaItem = null;
-						me.getAgendasStore().load();
+						
 
 						// Update UI / Button states
 						Ext.getDom("agenda-item-details").innerHTML = "<span style='font-weight:100;'>No agenda selected.</span>";

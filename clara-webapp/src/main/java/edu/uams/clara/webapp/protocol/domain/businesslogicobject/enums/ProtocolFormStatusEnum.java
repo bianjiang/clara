@@ -80,7 +80,9 @@ public enum ProtocolFormStatusEnum {
 	COMPLIANCE_REJECTED("Hospital Compliance Rejected", "ERROR"),
 	ON_HOLD("On Hold", "WARN"),
 	IRB_REVIEW_NOT_NEEDED("IRB Review Not Needed", "INFO"),
-	BUDGET_NOT_REVIEWED("Budget Not Reviewed", "INFO");
+	BUDGET_NOT_REVIEWED("Budget Not Reviewed", "INFO"),
+	UNDER_REVISION_RESPONSE_TO_TABLED("Under Revision Response to Tabled", "INFO"),
+	RESPONSE_TO_TABLED_PENDING_PI_ENDORSEMENT("Response to Tabled Pending PI Endorsement", "WARN");
 	
 	private String description;
 	private String priorityLevel;

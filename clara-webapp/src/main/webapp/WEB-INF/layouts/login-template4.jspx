@@ -21,7 +21,7 @@
 		
 		<tiles:useAttribute id="styles" name="styles" ignore="true" classname="java.util.List" />
 
-		<spring:url value="/static/styles/ext4/ext-all.css" var="css_url"/>
+		<spring:url value="/static/styles/ext4/ext-all-neptune.css" var="css_url"/>
 		<link rel="stylesheet" type="text/css" media="screen" href="${css_url}" />
 		
 		<c:set var="templateBuildNumber" value="100"/>
@@ -122,6 +122,21 @@
 					</c:if>
 				</div>
 			</div>
+					<!-- Piwik -->
+		<script type="text/javascript">
+		  var _paq = _paq || [];
+		  _paq.push(['trackPageView']);
+		  _paq.push(['enableLinkTracking']);
+		  (function() {
+		    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://clarafs.uams.edu/piwik/";
+		    _paq.push(['setTrackerUrl', u+'piwik.php']);
+		    _paq.push(['setSiteId', 1]);
+		    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+		    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+		  })();
+		</script>
+		<noscript><p><img src="http://clarafs.uams.edu/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+		<!-- End Piwik Code -->
 	</body>
 </html>
 </jsp:root>

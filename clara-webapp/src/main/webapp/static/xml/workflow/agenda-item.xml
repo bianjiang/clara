@@ -6,7 +6,7 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<status status="IRB_AGENDA_ASSIGNED" />
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -33,7 +33,7 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<status status="IRB_AGENDA_ASSIGNED" />
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -42,6 +42,25 @@
 											involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
 										<form-committee-status
 											involved-committee="IRB_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+							<action type="ASSIGNED_TO_AGENDA" condition="REPORTED">
+								<change-status>
+									<status status="REMOVE_CURRENT_OBJECT_STATUS" />
+									<form-status status="REMOVE_CURRENT_FORM_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -84,7 +103,7 @@
 					</review-page>
 				</committee>
 			</form-status>
-			<form-status value="EXPEDITED_APPROVED" form-committee-status="EXPEDITED_IRB_REVIEW">
+			<form-status value="EXPEDITED_APPROVED" form-committee-status="ANY">
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
@@ -118,7 +137,7 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -145,15 +164,33 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
-									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
 									<form-committee-statuses>
 										<form-committee-status
 											involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
 										<form-committee-status
 											involved-committee="IRB_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+							<action type="ASSIGNED_TO_AGENDA" condition="REPORTED">
+								<change-status>
+									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
+									<form-status status="REMOVE_CURRENT_FORM_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -196,7 +233,7 @@
 					</review-page>
 				</committee>
 			</form-status>
-			<form-status value="EXPEDITED_APPROVED" form-committee-status="EXPEDITED_IRB_REVIEW">
+			<form-status value="EXPEDITED_APPROVED" form-committee-status="ANY">
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
@@ -230,7 +267,7 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -257,15 +294,33 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
-									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
 									<form-committee-statuses>
 										<form-committee-status
 											involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
 										<form-committee-status
 											involved-committee="IRB_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+							<action type="ASSIGNED_TO_AGENDA" condition="REPORTED">
+								<change-status>
+									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
+									<form-status status="REMOVE_CURRENT_FORM_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -308,7 +363,7 @@
 					</review-page>
 				</committee>
 			</form-status>
-			<form-status value="EXPEDITED_APPROVED" form-committee-status="EXPEDITED_IRB_REVIEW">
+			<form-status value="EXPEDITED_APPROVED" form-committee-status="ANY">
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
@@ -342,7 +397,7 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -369,15 +424,33 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
-									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
 									<form-committee-statuses>
 										<form-committee-status
 											involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
 										<form-committee-status
 											involved-committee="IRB_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+							<action type="ASSIGNED_TO_AGENDA" condition="REPORTED">
+								<change-status>
+									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
+									<form-status status="REMOVE_CURRENT_FORM_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -420,7 +493,7 @@
 					</review-page>
 				</committee>
 			</form-status>
-			<form-status value="EXPEDITED_APPROVED" form-committee-status="EXPEDITED_IRB_REVIEW">
+			<form-status value="EXPEDITED_APPROVED" form-committee-status="ANY">
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
@@ -454,7 +527,7 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -481,15 +554,33 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
-									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
 									<form-committee-statuses>
 										<form-committee-status
 											involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
 										<form-committee-status
 											involved-committee="IRB_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+							<action type="ASSIGNED_TO_AGENDA" condition="REPORTED">
+								<change-status>
+									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
+									<form-status status="REMOVE_CURRENT_FORM_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -532,7 +623,7 @@
 					</review-page>
 				</committee>
 			</form-status>
-			<form-status value="EXPEDITED_APPROVED" form-committee-status="EXPEDITED_IRB_REVIEW">
+			<form-status value="EXPEDITED_APPROVED" form-committee-status="ANY">
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
@@ -566,7 +657,7 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<status status="IRB_AGENDA_ASSIGNED" />
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -651,7 +742,7 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -678,15 +769,33 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
-									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
 									<form-committee-statuses>
 										<form-committee-status
 											involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
 										<form-committee-status
 											involved-committee="IRB_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+							<action type="ASSIGNED_TO_AGENDA" condition="REPORTED">
+								<change-status>
+									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
+									<form-status status="REMOVE_CURRENT_FORM_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -729,7 +838,7 @@
 					</review-page>
 				</committee>
 			</form-status>
-			<form-status value="EXPEDITED_APPROVED" form-committee-status="EXPEDITED_IRB_REVIEW">
+			<form-status value="EXPEDITED_APPROVED" form-committee-status="ANY">
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
@@ -763,7 +872,7 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -790,15 +899,33 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
-									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
 									<form-committee-statuses>
 										<form-committee-status
 											involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
 										<form-committee-status
 											involved-committee="IRB_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+							<action type="ASSIGNED_TO_AGENDA" condition="REPORTED">
+								<change-status>
+									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
+									<form-status status="REMOVE_CURRENT_FORM_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
 									</form-committee-statuses>
 								</change-status>
 								<logs>
@@ -847,7 +974,7 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -874,7 +1001,110 @@
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>
-							<action type="ASSIGNED_TO_AGENDA">
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
+								<change-status>
+									<form-status status="IRB_AGENDA_ASSIGNED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+							<action type="ASSIGNED_TO_AGENDA" condition="REPORTED">
+								<change-status>
+									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
+									<form-status status="REMOVE_CURRENT_FORM_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="IRB_AGENDA_ASSIGNED" form-committee-status="ANY">
+				<committee name="IRB_OFFICE">
+					<review-page page-name="null">
+						<actions>
+							<action type="REMOVED_FROM_AGENDA">
+								<change-status>
+									<status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVED_FROM_IRB_AGENDA" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="REMOVED_FROM_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										removed from an IRB meeting agenda and placed back in IRB
+										Office queue as "Pending IRB Review Re-Assignment".</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="EXPEDITED_APPROVED" form-committee-status="ANY">
+				<committee name="IRB_OFFICE">
+					<review-page page-name="null">
+						<actions>
+							<action type="REMOVED_FROM_AGENDA">
+								<change-status>
+									<status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVED_FROM_IRB_AGENDA" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="REMOVED_FROM_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										removed from an IRB meeting agenda and placed back in IRB
+										Office queue as "Pending IRB Review Re-Assignment".</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+		</form>
+		<form type="OFFICE_ACTION">
+			<form-status value="PENDING_IRB_REVIEW_ASSIGNMENT" form-committee-status="ANY">
+				<committee name="IRB_OFFICE">
+					<review-page page-name="null">
+						<actions>
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
 								<change-status>
 									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
 									<form-status status="IRB_AGENDA_ASSIGNED" />
@@ -897,7 +1127,80 @@
 					</review-page>
 				</committee>
 			</form-status>
+			<form-status value="PENDING_IRB_REVIEW_RE_ASSIGNMENT" form-committee-status="ANY">
+				<committee name="IRB_OFFICE">
+					<review-page page-name="null">
+						<actions>
+							<action type="ASSIGNED_TO_AGENDA" condition="FULL_BOARD">
+								<change-status>
+									<form-status status="IRB_AGENDA_ASSIGNED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="IRB_AGENDA_ASSIGNED" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+							<action type="ASSIGNED_TO_AGENDA" condition="REPORTED">
+								<change-status>
+									<!-- <status status="IRB_AGENDA_ASSIGNED" /> -->
+									<form-status status="REMOVE_CURRENT_FORM_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVE_CURRENT_FORM_COMMITTEE_STATUS" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="ASSIGNED_TO_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										assigned to an IRB meeting agenda.</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
 			<form-status value="IRB_AGENDA_ASSIGNED" form-committee-status="ANY">
+				<committee name="IRB_OFFICE">
+					<review-page page-name="null">
+						<actions>
+							<action type="REMOVED_FROM_AGENDA">
+								<change-status>
+									<!-- <status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" /> -->
+									<form-status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+										<form-committee-status
+											involved-committee="IRB_REVIEWER" status="REMOVED_FROM_IRB_AGENDA" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="REMOVED_FROM_AGENDA"
+										form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}"
+										actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">A
+										{FORM_TYPE} of protocol# {PROTOCOL_IDENTIFIER} has been
+										removed from an IRB meeting agenda and placed back in IRB
+										Office queue as "Pending IRB Review Re-Assignment".</span></log>
+								</logs>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="EXPEDITED_APPROVED" form-committee-status="ANY">
 				<committee name="IRB_OFFICE">
 					<review-page page-name="null">
 						<actions>

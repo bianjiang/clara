@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +45,10 @@ public class PersonDao extends AbstractDomainDao<Person> {
 			person = query.getSingleResult();
 		} catch (NoResultException ex) {
 			// do nothing, return null;
+		} catch (EmptyResultDataAccessException er) {
+			// do nothing, return null;
 		}
+		
 		return person;
 	}
 	

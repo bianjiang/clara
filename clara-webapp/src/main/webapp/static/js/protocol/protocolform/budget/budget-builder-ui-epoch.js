@@ -27,7 +27,9 @@ Clara.BudgetBuilder.NewEpochWindow = Ext.extend(Ext.Window, {
 					name = name.substr(0,31);
 					var epochNameExists = (budget.getEpochByName(name) != null);
 					var epochNameIsBlank = (name == "");
-					if (!epochNameExists && !epochNameIsBlank && Clara.BudgetBuilder.validatePhaseName(name)){
+					var isSimpleAndHasNoSubjects = (epoch.simple && t.subjectCount < 1);
+						
+					if (!isSimpleAndHasNoSubjects && !epochNameExists && !epochNameIsBlank && Clara.BudgetBuilder.validatePhaseName(name)){
 			    		var id = budget.newId();
 			
 			    		var e = new Clara.BudgetBuilder.Epoch({
@@ -55,6 +57,7 @@ Clara.BudgetBuilder.NewEpochWindow = Ext.extend(Ext.Window, {
 						t.epoch=null;
 						t.close();
 					} else {
+						if (isSimpleAndHasNoSubjects) alert("You need to have at least one subject.");
 						if (epochNameExists) alert("A phase already exists with that name. Choose another one and try again.");
 						if (epochNameIsBlank) alert("Phase name cannot be blank.");
 						if (!Clara.BudgetBuilder.validatePhaseName(name)) alert("Phase name cannot contain the following: "+Clara.BudgetBuilder.InvalidPhaseCharacters);

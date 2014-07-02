@@ -30,6 +30,8 @@
 			<field identifier="hascontinuingreview" />
 			<field identifier="fromcrimson" />
 			<field identifier="hasbudget" />
+			<field identifier="hascrimsonbudget" />
+			<field identifier="initialmodnotfinished" />
 			<!-- <field identifier="clinicaltrailgov" /> -->
 			<!-- <field identifier="protocolformstatus" /> -->
 		</fields>
@@ -152,6 +154,8 @@
 				<condition involve="{college.search-xpath}">{college.search-xpath}</condition>
 				<condition involve="{hasbudget.search-xpath}">{hasbudget.search-xpath}</condition>
 				<condition involve="{fromcrimson.search-xpath}">{fromcrimson.search-xpath}</condition>
+				<condition involve="{hascrimsonbudget.search-xpath}">{hascrimsonbudget.search-xpath}</condition>
+				<condition involve="{initialmodnotfinished.search-xpath}">{initialmodnotfinished.search-xpath}</condition>
 			</conditions>
 		</queries>
 	</report>

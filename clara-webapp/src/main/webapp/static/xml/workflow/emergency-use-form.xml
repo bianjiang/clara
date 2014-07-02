@@ -718,6 +718,7 @@
 						<actions>							
 							<action type="CANCEL_PROTOCOL_FORM" condition="">
 								<change-status>
+									<status status="CANCELLED" />
 									<form-status status="CANCELLED" />
 								</change-status>
 								<notifications>

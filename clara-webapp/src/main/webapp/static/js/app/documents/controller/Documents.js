@@ -159,9 +159,15 @@ Ext.define('Clara.Documents.controller.Documents', {
 		Ext.ux.grid.Printer.title = "Document List";
 		Ext.ux.grid.Printer.printAutomatically = false;
 		Ext.ux.grid.Printer.print(me.getDocumentPanel());
+		if (piwik_enabled()){
+			_paq.push(['trackEvent', 'PRINT', 'Print window opened: Document List']);
+		}
 	},
 	
 	reviseDocument: function(doc, callbackFn){
+		if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DOCUMENTS', 'Revise Document: Window Opened for '+doc.get("title")+' ('+doc.get("id")+')']);
+		}
 		Ext.create("Clara.Documents.view.UploadWindow", {doc:doc, callbackFn: callbackFn, title:'Revising "'+doc.get("title")+'"..'}).show();
 	},
 	
@@ -179,6 +185,9 @@ Ext.define('Clara.Documents.controller.Documents', {
 								"title":text
 							},
 							success: function(data){
+								if (piwik_enabled()){
+									_paq.push(['trackEvent', 'DOCUMENTS', 'Renamed Document: '+text+' ('+doc.get("id")+')']);
+								}
 								me.onDocumentsUpdated();
 								if (callbackFn) callbackFn();
 							}
@@ -206,6 +215,9 @@ Ext.define('Clara.Documents.controller.Documents', {
 								"committee":claraInstance.user.committee
 							},
 							success: function(data){
+								if (piwik_enabled()){
+									_paq.push(['trackEvent', 'DOCUMENTS', 'Deleted Document: '+doc.get("title")+' ('+doc.get("id")+')']);
+								}
 								me.onDocumentsUpdated();
 								if (callbackFn) callbackFn();
 							}
@@ -257,7 +269,9 @@ Ext.define('Clara.Documents.controller.Documents', {
 		var me = this;
 		me.selectedDocument = doc;
 		clog("Document selected:",doc);
-		
+		if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DOCUMENTS', 'Selected Document: '+doc.get("title")+' ('+doc.get("id")+')']);
+		}
 		// Enable appropriate buttons
 		
 		if (me.hasDocumentPermission(doc.get("category"), "canRead")) {

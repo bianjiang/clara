@@ -38,7 +38,12 @@ function renderPermissions(){
 		jQuery(this).closest(".tools-edit-page").hide();
 		jQuery(this).closest(".tools-locked-page").show();
 	});
-
+	
+	// Hide any "edit this page" link for summary-only editable sections
+	jQuery(".has-no-page").each(function(idx){
+		jQuery(this).closest(".summary-page").find(".tools-edit-page").hide();
+		//jQuery(this).closest(".summary-page").find(".tools-locked-page").show();
+	});
 }
 
 function performSearch(str) {

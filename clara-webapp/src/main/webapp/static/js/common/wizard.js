@@ -158,6 +158,8 @@ Clara.Forms.WizardPanel = Ext.extend(Ext.form.FormPanel, {
 		    }
 	    }
 	    
+	    
+	    
 		    if (next != -1 && next != numCards) {
 		    	l.setActiveItem(next);
 		    	Ext.getCmp("card-prev").setDisabled((next == 0) && (claraInstance.navigation.current.id == "first-page"));	// prevent going back before the first page of a section
@@ -290,9 +292,11 @@ Clara.Forms.WizardPanel = Ext.extend(Ext.form.FormPanel, {
 					      id:'card-prev',
 					      text:'Back',
 					      handler: function(){
+					    	  
 				    	  	//if (wizpanel.validateActiveCard(true)){
 				    	  		wizpanel.navHandler(-1);
 				    	  	//}
+				    	  		
 				    	  },
 					      disabled:((claraInstance.navigation.current.id == "first-page")),
 					      iconCls:'icn-arrow-180'
@@ -301,6 +305,7 @@ Clara.Forms.WizardPanel = Ext.extend(Ext.form.FormPanel, {
 				            id: 'card-next',
 				            text: 'Next',
 				            handler: function(){
+				            
 				    	  	if (wizpanel.validateActiveCard()){
 				    	  		wizpanel.navHandler(1);
 				    	  	}

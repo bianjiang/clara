@@ -12,6 +12,7 @@ import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolStatusEnum;
+import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
 

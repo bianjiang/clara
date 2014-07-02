@@ -34,7 +34,7 @@ public abstract class ProtocolFormReviewLogicService {
 	
 	private Map<String, String> isInvolvedByTypeRules = new HashMap<String, String>();
 	{
-		isInvolvedByTypeRules.put("Budget", "boolean(count(/protocol/budget/potentially-billed[text()='y'])>0)");
+		isInvolvedByTypeRules.put("Budget", "boolean(count(/protocol/need-budget[text()='y'])>0)");
 		isInvolvedByTypeRules.put("Contract", "boolean(count(/protocol/contract/have-new-contract[text()='y'])>0)");
 		isInvolvedByTypeRules.put("ContractAmendment", "boolean(count(/protocol/modification/notify-contract[text()='y'])>0)");
 		//isInvolvedByTypeRules.put("Biosafety", "not(count(/protocol/misc/biosafety/bio-hazard-materials/material[text()='na'])>0)");

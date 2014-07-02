@@ -229,6 +229,21 @@
 		</div>
 		<div style="clear:both;"><!-- // --></div>
 		<div style="margin-top:90px;width:100%;text-align:center;color:#ccc;font-size:20px;font-weight:100;"><a href="https://clara.uams.edu/wiki/doku.php?id=start" target="_blank"><strong style="font-weight:800;">CLARA Help</strong></a> | <a href="http://www.uams.edu/irb/irb.asp" target="_blank" style="color:#6699ff;text-decoration:none;"><strong>UAMS IRB</strong></a> | <a href="http://www.uams.edu" target="_blank" style="color:#6699ff;text-decoration:none;"><strong>UAMS Main Site</strong></a></div>
+			<!-- Piwik -->
+		<script type="text/javascript">
+		  var _paq = _paq || [];
+		  _paq.push(['trackPageView']);
+		  _paq.push(['enableLinkTracking']);
+		  (function() {
+		    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://clarafs.uams.edu/piwik/";
+		    _paq.push(['setTrackerUrl', u+'piwik.php']);
+		    _paq.push(['setSiteId', 1]);
+		    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+		    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+		  })();
+		</script>
+		<noscript><p><img src="http://clarafs.uams.edu/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+		<!-- End Piwik Code -->
 	</body>
 </html>
 </jsp:root>

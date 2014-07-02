@@ -36,6 +36,7 @@ import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.contract.domain.businesslogicobject.enums.ContractStatusEnum;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
+import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
 import edu.uams.clara.webapp.protocol.service.ProtocolMetaDataXmlService;
 
@@ -506,7 +507,7 @@ public class XmlProcessorTest {
 		assertEquals("assertEquals", expectedXml, finalXml);
 	}
 
-	@Test
+	//@Test
 	public void testListElements() throws XPathExpressionException,
 			SAXException, IOException {
 		// String originalXml =
@@ -586,14 +587,14 @@ public class XmlProcessorTest {
 		logger.trace("finalXml: " + resultXml);
 	}
 
-	// @Test
+	@Test
 	public void testListElementsValueByPaths() throws XPathExpressionException,
 			SAXException, IOException {
-		String originalXml = "<protocol id=\"1\"><title>WhateverTitle</title><phases><phase>I</phase><phase>II</phase></phases><drugs><drug id=\"1\"><name>Whateverdrug</name></drug><drug id=\"2\"><name>iamno2</name></drug></drugs></protocol>";
+		ProtocolForm pf =  protocolFormDao.findById(11738l);
+		
+		String originalXml = pf.getMetaDataXml();
 		Set<String> paths = new HashSet<String>(0);
-		paths.add("/protocol/drugs/drug/name");
-		paths.add("/protocol/phases/phase");
-		paths.add("/protocol/title");
+		paths.add("/protocol/funding/funding-source/@type");
 
 		Map<String, List<String>> results = xmlProcessor
 				.listElementStringValuesByPaths(paths, originalXml);

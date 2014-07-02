@@ -78,6 +78,14 @@ public class ProtocolServiceImpl implements ProtocolService {
 	private XmlProcessor xmlProcessor;
 	
 	private long baseProtocolIdentifier = 0;
+	
+	private Map<ProtocolFormType, String> questionVersionMap = Maps.newHashMap();{
+		//questionVersionMap.put(ProtocolFormType.NEW_SUBMISSION, "<question-version-id>1.0</question-version-id>");
+		questionVersionMap.put(ProtocolFormType.PRIVACY_BOARD, "1.0");
+		questionVersionMap.put(ProtocolFormType.NEW_SUBMISSION, "1.1");
+		questionVersionMap.put(ProtocolFormType.EMERGENCY_USE, "1.0");
+		questionVersionMap.put(ProtocolFormType.HUMAN_SUBJECT_RESEARCH_DETERMINATION, "1.0");
+	}
 
 
 	@Override
@@ -99,7 +107,7 @@ public class ProtocolServiceImpl implements ProtocolService {
 		p.setMetaDataXml(protocolMetaDataXmlString);
 		p = protocolDao.saveOrUpdate(p);
 		
-		String protocolFormXmlString = "<"+ protocolFormType.getBaseTag() +" id=\"" + p.getId() + "\" identifier=\"" + p.getProtocolIdentifier() + "\" type=\""+ protocolFormType.getDescription() +"\"><question-version-id>1.0</question-version-id></"+ protocolFormType.getBaseTag() +">";
+		String protocolFormXmlString = "<"+ protocolFormType.getBaseTag() +" id=\"" + p.getId() + "\" identifier=\"" + p.getProtocolIdentifier() + "\" type=\""+ protocolFormType.getDescription() +"\"><question-version-id>"+ questionVersionMap.get(protocolFormType) +"</question-version-id></"+ protocolFormType.getBaseTag() +">";
 					
 		ProtocolForm f = new ProtocolForm();
 		f.setProtocolFormType(protocolFormType);
@@ -383,7 +391,7 @@ public class ProtocolServiceImpl implements ProtocolService {
 	}
 	
 	@Override
-	public void pushToEpic(Protocol protocol) {
+	public void pushToEpic(Protocol protocol) {		
 		String protocolMetaData = protocol.getMetaDataXml();
 		
 		if (canPushToEpic(protocolMetaData)) {

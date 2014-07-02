@@ -163,7 +163,12 @@ public class DefaultXmlProcessorImpl implements XmlProcessor {
 					.getElementsByTagName(currentNode.getNodeName());
 
 			for (int j = 0; j < matchedNodes.getLength(); j++) {
-				finalDomRoot.removeChild(matchedNodes.item(j));
+				try {
+					finalDomRoot.removeChild(matchedNodes.item(j));
+				} catch (Exception e) {
+					logger.debug("Failed to remove node: " + matchedNodes.item(j).getNodeName());
+				}
+				
 			}
 
 			finalDomRoot.appendChild(finalDom.importNode(currentNode, true));

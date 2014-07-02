@@ -53,10 +53,16 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
     },
     
     onCreateSubmission: function(){
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DASHBOARD', 'Create Submission Window']);
+		}
     	Ext.create('Clara.Dashboard.view.CreateSubmissionWindow',{}).show();
     },
     
     onCreateContract: function(){
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DASHBOARD', 'Create Contract Window']);
+		}
 	    	Ext.create('Clara.Dashboard.view.CreateSubmissionWindow',{
 	    		activeTab:1
 	    	}).show();
@@ -73,6 +79,9 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
     
     onRunBookmark: function(){
     	this.saveBookmark(true);
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DB_BOOKMARK', 'Running search without save']);
+		}
     },
     
     onBookmarkSave: function(){
@@ -81,6 +90,9 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
     
     onBookmarkSelect: function(gp,rec,item){
     	clog("Dashboard Controller: onBookmarkSelect",rec,item);
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DB_BOOKMARK', 'Selected: '+rec.get("name")]);
+		}
     	var me = this;
     	
     	// Disable deleting for first 3 bookmarks (protocols) or first 1 (contracts)
@@ -112,6 +124,10 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
     	var st = me.getBookmarkWindow().down("grid").getStore();
     	// var newRecord = st.recordType(newRow);
     	st.add(newRow);
+
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DB_BOOKMARK', 'Added criteria']);
+		}
 	},
 	onBookmarkSearchFieldSelect: function(cb,recs){
 		var sField = recs[0];
@@ -180,10 +196,14 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
 						    method: 'POST',
 						    params: data,
 						    success: function(response){
+						    	if (piwik_enabled()){
+									_paq.push(['trackEvent', 'DB_BOOKMARK', 'Removed: '+rec.get("name")]);
+								}
 						        var text = response.responseText;
 						        clog("seccess remove bm",text,response);
 						        Ext.data.StoreManager.lookup('Clara.Dashboard.store.Bookmarks').load();
 						        me.getRemoveBookmarkButton().setDisabled(true);
+						        
 						    }
 						});
 						
@@ -234,7 +254,9 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
 					    success: function(response){
 					        var text = response.responseText;
 					        clog("seccess save",text,response);
-	
+					        if (piwik_enabled()){
+								_paq.push(['trackEvent', 'DB_BOOKMARK', 'Saved: '+name]);
+							}
 					        Ext.data.StoreManager.lookup('Clara.Dashboard.store.Bookmarks').load();
 					        criteriaStore.removeAll();
 					        me.getRemoveBookmarkButton().setDisabled(true);
@@ -248,6 +270,9 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
 	},
 	
     onAddBookmark: function(){
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DB_BOOKMARK', 'Open New Bookmark window']);
+		}
     	Ext.create("Clara.Dashboard.view.BookmarkWindow",{modal:true}).show();
     }
     

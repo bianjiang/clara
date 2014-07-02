@@ -71,7 +71,7 @@
 		</c:if>
 	</c:if>
 
-	<div class="summary-row summary-question ${subqrowclass} ${diffclass} row-fluid" id="${id}">
+	<div class="summary-row summary-question ${subqrowclass} ${diffclass} row-fluid ${questionclass}" id="${id}">
 	
 		<c:if test="${!empty label}">
 			<div class="${valueouterclass}">

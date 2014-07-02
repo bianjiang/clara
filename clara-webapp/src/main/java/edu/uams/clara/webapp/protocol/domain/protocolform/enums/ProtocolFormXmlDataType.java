@@ -24,5 +24,6 @@ public enum ProtocolFormXmlDataType {
 	ARCHIVE, 
 	STAFF, 
 	PRIVACY_BOARD,
-	STUDY_RESUMPTION;
+	STUDY_RESUMPTION,
+	OFFICE_ACTION;
 }

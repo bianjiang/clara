@@ -62,6 +62,27 @@ public class ProtocolFormCommitteeStatusDao extends
 
 	}
 	
+	@Transactional(readOnly = true)
+	public List<ProtocolFormCommitteeStatus> listAllByCommitteeAndProtocolFormIdandStatus(
+			Committee committee, long protocolFormId, ProtocolFormCommitteeStatusEnum protocolFormCommitteeStatusEnum) {
+		String query = "SELECT fcs FROM ProtocolFormCommitteeStatus fcs, ProtocolForm pf "
+				+ " WHERE fcs.protocolForm.parent.id = pf.parent.id "
+				+ " AND pf.id = :protocolFormId AND fcs.committee = :committee"
+				+ " AND fcs.retired = :retired AND pf.retired = :retired AND fcs.protocolFormCommitteeStatus = :protocolFormCommitteeStatusEnum AND fcs.protocolForm.retired = :retired AND pf.parent.retired = :retired ORDER BY fcs.modified ASC";
+
+		TypedQuery<ProtocolFormCommitteeStatus> q = getEntityManager()
+				.createQuery(query, ProtocolFormCommitteeStatus.class);
+
+		q.setHint("org.hibernate.cacheable", true);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("committee", committee);
+		q.setParameter("protocolFormId", protocolFormId);
+		q.setParameter("protocolFormCommitteeStatusEnum", protocolFormCommitteeStatusEnum);
+		
+		return q.getResultList();
+
+	}
+	
 	
 	@Transactional(readOnly = true)
 	public List<ProtocolFormCommitteeStatus> listAllOfCurrentFormByCommitteeAndProtocolFormId(

@@ -1359,7 +1359,7 @@ public abstract class BusinessObjectStatusHelper {
 				
 				if (eventsEl != null) {
 					try {
-						this.triggerEvents(form, user, committee, DomUtils.elementToString(eventsEl), action, condition);
+						this.triggerEvents(form, user, committee, DomUtils.elementToString(eventsEl), action, condition,attributeRawValues);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -1499,7 +1499,7 @@ public abstract class BusinessObjectStatusHelper {
 	public abstract void changeObjectFormDocumentStatus(Form form, Date now,
 			Committee committee, User user, String status, Element documentStatusEl);
 
-	public abstract void triggerEvents(Form form, User user, Committee committee, String eventsTemplate, String action, String condition) throws IOException, SAXException;
+	public abstract void triggerEvents(Form form, User user, Committee committee, String eventsTemplate, String action, String condition, Map<String, Object> attributeRawValues) throws IOException, SAXException;
 	
 	public abstract void updateAssignedCommittees(Form form, List<Committee> selectedCommittees);
 

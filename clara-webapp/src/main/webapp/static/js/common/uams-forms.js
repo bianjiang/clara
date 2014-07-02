@@ -331,6 +331,9 @@ function addCustomValue(name,index,id,wrapperelement){
 	newRowHTML += "<input name='"+name+"' id='custom_"+id+"_"+index+"' data-attributes=\"'type':'custom'\" class='form-custom-value question-el'/>";
 	newRowHTML += "<button id='btnRemove_"+id+"_"+index+"' onclick=\"confirmAndRemoveCustomValue('#custom_"+id+"_"+index+"');return false;\">Remove</button></label> </div>";
 	jQuery(wrapperelement).append(newRowHTML);
+	if (piwik_enabled()){
+		_paq.push(['trackEvent', 'FORM', 'Adding custom value: '+name+' '+id]);
+	}
 }
 
 function confirmAndRemoveCustomValue(customValueElement){
@@ -340,6 +343,9 @@ function confirmAndRemoveCustomValue(customValueElement){
 		if (c) jQuery(customValueElement).remove();
 	} else {
 		jQuery(customValueElement).remove();
+	}
+	if (piwik_enabled()){
+		_paq.push(['trackEvent', 'FORM', 'Removing custom value: '+customValue+' from '+customValueElement]);
 	}
 }
 

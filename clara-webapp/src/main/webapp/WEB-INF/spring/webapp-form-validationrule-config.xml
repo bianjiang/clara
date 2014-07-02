@@ -54,6 +54,9 @@
 				<entry key="studyResumptionValidationRules">
 					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.StudyResumptionValidationRuleInitiator" />
 				</entry>
+				<entry key="officeActionValidationRules">
+					<bean class="edu.uams.clara.webapp.protocol.businesslogic.protocolform.validator.ruleinitiator.OfficeActionValidationRuleInitiator" />
+				</entry>
 			</map>
 		</property>
 	</bean>

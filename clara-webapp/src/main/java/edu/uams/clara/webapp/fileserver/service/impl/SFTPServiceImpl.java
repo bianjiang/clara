@@ -186,6 +186,13 @@ public class SFTPServiceImpl implements SFTPService {
 		uploadedFileDao.saveOrUpdate(uploadedFile);
 
 	}
+	
+	@Override
+	public void uploadLocalUploadedFileToRemote(String fileName)
+			throws JSchException {
+		uploadLocalFileToRemote(fileName);
+		
+	}
 
 	public String getLocalDirectory() {
 		return localDirectory;

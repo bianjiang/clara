@@ -98,6 +98,9 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
 			url : appContext+"/ajax/"+claraInstance.type+"s/"+claraInstance.id+"/update-committee-note",
 			method : 'POST',
 			success : function() {
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'DDB_HISTORY', 'Update committee note']);
+				}
 			  me.reloadHistory();
 			},
 			params : {
@@ -118,6 +121,9 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
 				url : appContext+"/ajax/add-related-object",
 				method : 'POST',
 				success : function() {
+					if (piwik_enabled()){
+						_paq.push(['trackEvent', 'DDB_RELATED', 'Added related object']);
+					}
 				  if (me.selectedRelatedObject.relatedObjectType == "protocol") me.getAddRelatedProtocolWindow().close();
 			      else me.getAddRelatedContractWindow().close();
 				  var store = Ext.data.StoreManager.lookup((me.selectedRelatedObject.relatedObjectType == "protocol")?'Clara.DetailDashboard.store.RelatedProtocols':'Clara.DetailDashboard.store.RelatedContracts');
@@ -167,6 +173,9 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
  						url : appContext+"/ajax/delete-related-object",
  						method : 'POST',
  						success : function() {
+ 							if (piwik_enabled()){
+ 								_paq.push(['trackEvent', 'DDB_RELATED', 'Removed related object']);
+ 							}
  							  Ext.getCmp('btnRemoveRelated'+objectTypeCap).setDisabled(true);
 		    				  me.selectedRelatedObject = {};
 		    				  var store = Ext.data.StoreManager.lookup('Clara.DetailDashboard.store.Related'+objectTypeCap+'s');
@@ -214,10 +223,16 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
     createLetter: function(template){
     	clog("createLetter: "+template);
     	var me = this;
+    	if (piwik_enabled()){
+				_paq.push(['trackEvent', 'DDB_LETTER', 'Create letter window opened']);
+			}
     	Ext.create("Clara.LetterBuilder.view.LetterBuilderWindow",{
     		templateId:template,
     		parentMessageId:(template == "IRB_CORRECTION_LETTER")?me.selectedLetter.get("id"):null,
     		onSuccess: function(){
+    			if (piwik_enabled()){
+						_paq.push(['trackEvent', 'DDB_LETTER', 'Letter created']);
+					}
     			me.reloadLetters();
     		}
     	}).show();
@@ -239,6 +254,9 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
 		Ext.ux.grid.Printer.title = "History";
 		Ext.ux.grid.Printer.printAutomatically = false;
 		Ext.ux.grid.Printer.print(me.getHistoryPanel());
+		if (piwik_enabled()){
+				_paq.push(['trackEvent', 'PRINT', 'Print window opened: History']);
+			}
 	},
     
     onToggleGroupHistory: function(btn,pressed){

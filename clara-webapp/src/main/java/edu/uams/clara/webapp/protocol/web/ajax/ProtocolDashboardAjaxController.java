@@ -257,6 +257,8 @@ public class ProtocolDashboardAjaxController {
 		case UNDER_REVISION_MINOR_CONTINGENCIES:
 		case REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT:
 		case REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT:
+		case UNDER_REVISION_RESPONSE_TO_TABLED:
+		case RESPONSE_TO_TABLED_PENDING_PI_ENDORSEMENT:
 			if (hasEditPermission) {
 				xmlResult += "<action cls='green'><name>Continue Revision</name><url target='_blank'>/protocols/"
 						+ protocolId
@@ -291,6 +293,7 @@ public class ProtocolDashboardAjaxController {
 		case IRB_DEFERRED:
 		case IRB_DEFERRED_WITH_MINOR_CONTINGENCIES:
 		case IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES:
+		case IRB_TABLED:
 			if (hasEditPermission) {
 				xmlResult += "<action cls='green'><name>Revise</name><url>/protocols/"
 						+ protocolId
@@ -1434,6 +1437,7 @@ public class ProtocolDashboardAjaxController {
 	private final String reportableNewInfoFormDesc = "<![CDATA[Use this form to report study events to the IRB, including adverse events, deviations, and notifications. See <a href=\"http://www.uams.edu/irb/03-23-2011%20IRB%20Policy%20Updates/IRB%20Policy%2010.2.pdf\" target=\"_blank\">UAMS IRB Policy 10.2</a> for more information.]]>";
 	private final String studyClosureFormDesc = "Use this form to request closure of a study.";
 	private final String studyResumptionFormDesc = "Use this form to reopen a closed study, for study resumption.";
+	private final String officeActionFormDesc = "For use by IRB Office Staff only.";
 	
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/new-form-types.xml", method = RequestMethod.GET)
 	public @ResponseBody String getNewFormList(@PathVariable("protocolId") long protocolId){
@@ -1540,6 +1544,7 @@ public class ProtocolDashboardAjaxController {
 					} else if (latestProtocolStatus.getProtocolStatus().equals(ProtocolStatusEnum.CLOSED)) {
 						newFormList += "<form type=\"protocol\" id=\"study-resumption\" title=\"Study Resumption\"><description>"+ this.studyResumptionFormDesc +"</description></form>";
 					}
+					
 				}  else {
 					if (type.equals("Emergency Use")){
 						newFormList += "<form type=\"protocol\" id=\"emergency-use\" title=\"Emergency Use: Followup\"><description></description></form>";
@@ -1551,7 +1556,11 @@ public class ProtocolDashboardAjaxController {
 				logger.error("something goes wrong...", e);
 			}
 		}
-
+		
+		if (u.getAuthorities().contains(Permission.ROLE_IRB_OFFICE)) {
+			newFormList += "<form type=\"protocol\" id=\"office-action\" title=\"Office Action\"><description>"+ officeActionFormDesc +"</description></form>";
+		}
+		
 		newFormList += "</forms>";
 		return newFormList;
 	}

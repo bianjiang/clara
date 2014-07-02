@@ -406,7 +406,7 @@
 											involved-committee="IRB_PREREVIEW" status="ACKNOWLEDGED"
 											/>
 									</form-committee-statuses>
-									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
+									<document-status status="ACKNOWLEDGED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<notifications>
 									<notification notification-type="LETTER" letter-name="Staff Only Modification Acknowledged Letter" doc-type="Staff Only Modification Acknowledged Letter" email-template-identifier="STAFF_ONLY_MODIFICATION_ACKNOWLEDGED_LETTER">
@@ -631,6 +631,7 @@
 										<form-committee-status involved-committee="IRB_OFFICE" status="ACKNOWLEDGED" />
 										<form-committee-status involved-committee="IRB_REVIEWER" status="ACKNOWLEDGED" />
 									</form-committee-statuses>
+									<document-status status="ACKNOWLEDGED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<notifications>
 									<notification notification-type="LETTER" letter-name="Modification Full Board acknowledged Letter" doc-type="Modification Full Board acknowledged Letter" email-template-identifier="MODIFICATION_FULL_BOARD_ACKNOWLEDGED_LETTER">

@@ -362,7 +362,7 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_TO_IRB_OFFICE">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_TO_IRB_OFFICE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to major contingencies has been submitted to IRB Office for review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -380,7 +380,7 @@
 									<form-status status="REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_RESPONSE_TO_MAJOR_SUBMITTED_TO_PI">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to major contingencies has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -411,7 +411,7 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_TO_IRB_OFFICE">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_TO_IRB_OFFICE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to major contingencies has been submitted to IRB Office for review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -429,7 +429,7 @@
 									<form-status status="REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_RESPONSE_TO_MAJOR_SUBMITTED_TO_PI">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MAJOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to major contingencies has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -461,7 +461,7 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to minor contingencies has been submitted to IRB Office for expedited review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -479,7 +479,7 @@
 									<form-status status="REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_RESPONSE_TO_MINOR_SUBMITTED_TO_PI">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to minor contingencies has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -511,7 +511,7 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to minor contingencies has been submitted to IRB Office for expedited review by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -529,7 +529,7 @@
 									<form-status status="REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_RESPONSE_TO_MINOR_SUBMITTED_TO_PI">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="CONTINUING_REVIEW_RESPONSE_TO_MINOR_CONTINGENCIES_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} response to minor contingencies has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -961,6 +961,7 @@
 										<form-committee-status involved-committee="IRB_OFFICE" status="ACKNOWLEDGED" />
 										<form-committee-status involved-committee="IRB_REVIEWER" status="ACKNOWLEDGED" />
 									</form-committee-statuses>
+									<document-status status="ACKNOWLEDGED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<notifications>
 									<notification notification-type="LETTER" letter-name="Continuing Review Full Board acknowledged Letter" doc-type="Continuing Review Full Board acknowledged Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_ACKNOWLEDGED_LETTER">

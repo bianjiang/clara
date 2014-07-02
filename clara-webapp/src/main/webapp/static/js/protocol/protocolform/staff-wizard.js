@@ -528,6 +528,9 @@ Clara.NewSubmission.ProtocolStaffWindow = Ext.extend(Ext.Window, {
         		data: "username="+username,
         		async: false,
         		success: function(data){
+        			if (piwik_enabled()){
+						_paq.push(['trackEvent', 'USER', 'Form: New Staff: CreateAccount ('+data.userId+')']);
+					}
         			data.userid = data.userId;				// We're no longer getting a user object like from the search results.
         			clog("createAccount: saved rec",data);
         			user.set("id",data.id);
@@ -624,7 +627,9 @@ Clara.NewSubmission.ProtocolStaffWindow = Ext.extend(Ext.Window, {
                                                 data: "username="+t.user.username,
                                                 success: function(savedUser){
                                                         t.user.id = savedUser.id;
-
+                                                        if (piwik_enabled()){
+                                    						_paq.push(['trackEvent', 'USER', 'Form: New Staff: CreateAccount ('+t.user.id+')']);
+                                    					}
                                                 }
                                         });
                                 }
@@ -643,8 +648,19 @@ Clara.NewSubmission.ProtocolStaffWindow = Ext.extend(Ext.Window, {
 
 
                         clog(t.staff);
-                        if (t.editing) t.staff.update();
-                        else t.staff.save();
+                        if (t.editing) {
+                        	t.staff.update();
+                        	 if (piwik_enabled()){
+         						_paq.push(['trackEvent', 'USER', 'Form: New Staff: Updated ('+t.user.id+')']);
+         					}
+                        }
+                        else {
+                        	t.staff.save();
+                        	if (piwik_enabled()){
+         						_paq.push(['trackEvent', 'USER', 'Form: New Staff: Saved ('+t.user.id+')']);
+         					}
+                        }
+                        
                         Ext.getCmp("protocol-staff-panel").loadStaff();
                         t.close();
                 } else {

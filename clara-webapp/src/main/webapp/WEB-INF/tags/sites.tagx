@@ -15,6 +15,9 @@
 	<div class="clearall">
 		<!-- // -->
 	</div>
+	<div>
+		<span>Site(s):</span>
+	</div>
 	<table class="summary-table table table-striped table-bordered table-condensed">
 		<tr>
 			<th id="name"><b>Site Name</b></th>

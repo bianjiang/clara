@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+  
+    <definition extends="protocol/protocolform/officeaction" name="protocol/protocolform/officeaction/first-page">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/officeaction/first-page.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+            <add-attribute value="/static/js/common/wizard.js" />
+            <add-attribute value="/static/js/common/summary.js" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/officeaction" name="protocol/protocolform/officeaction/documents">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/officeaction/documents.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+       
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/officeaction" name="protocol/protocolform/officeaction/review">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/officeaction/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/officeaction" name="protocol/protocolform/officeaction/signed">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/officeaction/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+   		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/officeaction-noheader" name="protocol/protocolform/officeaction/first-page-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/officeaction/first-page.jspx"/>
+         <put-list-attribute name="javascripts" inherit="true">
+    		<add-attribute value="/static/js/common/wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/department-panel.js" />
+  		</put-list-attribute>
+  		  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/officeaction-noheader" name="protocol/protocolform/officeaction/documents-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/officeaction/documents.jspx"/>
+         <put-list-attribute name="javascripts" inherit="true">
+        <!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/ext/ux/ext.ux.fileuploadfield.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+
+    <definition extends="protocol/protocolform/officeaction-noheader" name="protocol/protocolform/officeaction/review-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/officeaction/review.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        <!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
+    		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
+    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
+    		<add-attribute value="/static/js/common/form-review.js" />
+  		</put-list-attribute>
+  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+    
+    <definition extends="protocol/protocolform/officeaction-noheader" name="protocol/protocolform/officeaction/signed-noheader">
+        <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/officeaction/signed.jspx"/>
+        <put-list-attribute name="javascripts" inherit="true">
+        <!--<add-attribute value="/static/js/encoder.js" />-->  
+   		</put-list-attribute>
+  		  		<put-list-attribute name="styles" inherit="true">
+        	<add-attribute value="/static/styles/review-summary.css" />
+  		</put-list-attribute>
+    </definition>
+</tiles-definitions>

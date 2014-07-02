@@ -10,8 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
-
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
@@ -26,16 +24,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
-import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.service.form.FormService;
 import edu.uams.clara.webapp.common.service.form.impl.FormServiceImpl.UserSearchField;
@@ -56,7 +51,6 @@ import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
-import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlDataDocument;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
@@ -517,28 +511,23 @@ public class MaintainenceTest {
 		}
 	}
 	
+	private Set<String> paths = Sets.newHashSet();{
+		paths.add("/protocol/funding/funding-source/@type");
+	}
+	
 	@Test
 	public void testFunction() {
-		//List<ProtocolForm> list = this.maintainenceDao.listRevisionRequestedProtocolFormFrom();
+		Map<String, List<String>> results = null;
 		
-		//logger.debug("pf list size: " + list.size());
-		List<ProtocolForm> list = Lists.newArrayList();
-		
-		ProtocolForm pff = protocolFormDao.findById(21083l);
-		list.add(pff);
-		logger.debug("@@@@@@@@@@@@@ pf list size: " + list.size());
-		for (ProtocolForm pf : list) {
-			logger.debug("pf parent id: " + pf.getParentFormId());
+		try {
+			ProtocolForm pf =  protocolFormDao.findById(11738l);
 			
-			ProtocolFormXmlData oldestPfxd = maintainenceDao.getOldestProtocolFormXmlData(pf.getParentFormId(), ProtocolFormXmlDataType.PHARMACY);
+			results = xmlProcessor.listElementStringValuesByPaths(paths,
+					pf.getMetaDataXml());
 			
-			List<ProtocolFormXmlData> pfxdList = maintainenceDao.listProtocolFormXmlDataVersions(pf.getParentFormId(), ProtocolFormXmlDataType.PHARMACY);
-			logger.debug("pfxd list size: " + pfxdList.size());
-			for (ProtocolFormXmlData pfxd : pfxdList) {
-				pfxd.setParent(oldestPfxd);
-				
-				pfxd = protocolFormXmlDataDao.saveOrUpdate(pfxd);
-			}
+			logger.debug("final: " + results.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -28,16 +28,16 @@
 		<form type="Continuing Review" fee="150" />
 	</category>
 	<category name="Non-federal grants, awards, gifts" value="non-federal-grant">
-		<form type="New Submission" fee="300" />
-		<form type="Continuing Review" fee="150" />
+		<form type="New Submission" fee="0" />
+		<form type="Continuing Review" fee="0" />
 	</category>
 	<category name="No funding or Departmental Funds" value="internal-support">
-		<form type="New Submission" fee="75" />
-		<form type="Continuing Review" fee="50" />
+		<form type="New Submission" fee="0" />
+		<form type="Continuing Review" fee="0" />
 	</category>
 	<category name="No Funding or Departmental Funds" value="no-designated-support">
-		<form type="New Submission" fee="75" />
-		<form type="Continuing Review" fee="50" />
+		<form type="New Submission" fee="0" />
+		<form type="Continuing Review" fee="0" />
 	</category>
 	<category name="Federal grant directly to UAMS/ACHRI" value="federal-grant-directly-to-uams-achri">
 		<form type="New Submission" fee="0" />

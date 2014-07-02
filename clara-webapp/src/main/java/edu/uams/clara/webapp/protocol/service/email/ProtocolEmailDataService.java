@@ -429,7 +429,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		finalTemplateValues.put("adultDetermination", (involveAdult)?"The IRB determined the risk for adults who enter this study to be minimal.":"");
 		finalTemplateValues.put("signature", signature);
 		finalTemplateValues.put("involveChemotheray", getFormService().getSafeStringValueByKey(values, "/protocol/epic/involve-chemotherapy", ""));
-		finalTemplateValues.put("emailComment", emailComment);
+		finalTemplateValues.put("emailComment", org.apache.commons.lang.StringEscapeUtils.escapeHtml(emailComment));
 		finalTemplateValues.put("currentDate", DateFormatUtil.formateDateToMDY(currentDate));
 		finalTemplateValues.put("threeYearsFromCurrentDate", threeYearsFromCurrentDate);
 		finalTemplateValues.put("inLetterComments", protocolFormCommitteeCommentList);
@@ -728,7 +728,8 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 						}
 					}
 					
-					if (er.getAddress().contains("NextCommittee") && nextCommittee != null && !nextCommittee.isAssignable()){
+					//if (er.getAddress().contains("NextCommittee") && nextCommittee != null && !nextCommittee.isAssignable()){
+					if (er.getAddress().contains("NextCommittee") && nextCommittee != null){
 						List<String> nextCommitteeLst = getNextCommitteeMailToList(protocolForm, nextCommittee);
 						if (nextCommitteeLst != null && !nextCommitteeLst.isEmpty()){
 							for (String s : nextCommitteeLst){

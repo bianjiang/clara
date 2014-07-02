@@ -108,10 +108,16 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 			},
 			success: function(response){
 				me.loadingMask.hide();
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'QUEUE', 'Complete assignment']);
+				}
 				if (callbackFn) callbackFn();
 			},
 			failure: function(error) {
 				cwarn('removeAssignedReviewer: Ext.Ajax failure',error);
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'ERROR', 'QUEUE: Complete assignment failure']);
+				}
 				me.loadingMask.hide();
 			}
 		});
@@ -150,10 +156,16 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 			success: function(response){
 				me.loadingMask.hide();
 				if (callbackFn) callbackFn();
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'QUEUE', 'Removed reviewer']);
+				}
 			},
 			failure: function(error) {
 				cwarn('removeAssignedReviewer: Ext.Ajax failure',error);
 				me.loadingMask.hide();
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'ERROR', 'QUEUE: Removed reviewer failure']);
+				}
 			}
 		});
 	},
@@ -189,10 +201,16 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 			},
 			success: function(response){
 				me.loadingMask.hide();
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'QUEUE', 'Assigned reviewer']);
+				}
 				if (callbackFn) callbackFn();
 			},
 			failure: function(error) {
 				cwarn('addAssignedReviewer: Ext.Ajax failure',error);
+				if (piwik_enabled()){
+					_paq.push(['trackEvent', 'ERROR', 'QUEUE: Assign reviewer failure']);
+				}
 				me.loadingMask.hide();
 			}
 		});
@@ -262,7 +280,9 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 	Reassign: function(qitem,q, callbackFn, triggerWorkflow){
 		triggerWorkflow = (typeof triggerWorkflow == "undefined")?true:triggerWorkflow;
 		clog("QueueAssign Controller: Reassign",qitem,q,callbackFn,triggerWorkflow);
-				
+		if (piwik_enabled()){
+			_paq.push(['trackEvent', 'QUEUE', 'Reassign: Window open.']);
+		}
 		Ext.create('Clara.Queue.view.QueueItemReviewerWindow',{ 
 			formQueueItem:qitem, 
 			triggerWorkflow:triggerWorkflow, 
@@ -321,7 +341,7 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 		},
 		{
 			actor:"ROLE_IRB_ASSIGNER",
-			forms:['emergency-use','human-subject-research-determination','study-closure', 'study-resumption'],
+			forms:['emergency-use','human-subject-research-determination','study-closure', 'study-resumption','office-action'],
 			canAssignTo:[["IRB Office","ROLE_IRB_OFFICE"]]
 		},
 		{

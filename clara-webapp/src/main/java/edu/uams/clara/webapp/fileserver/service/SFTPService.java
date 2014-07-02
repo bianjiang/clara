@@ -8,6 +8,8 @@ import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
 public interface SFTPService {
 
 	void uploadLocalUploadedFileToRemote(AbstractDomainEntity object, UploadedFile uploadedFile) throws JSchException;
+	
+	void uploadLocalUploadedFileToRemote(String fileName) throws JSchException;
 
 	void uploadLocalFileToRemote(String fileName) throws JSchException;
 	

@@ -379,43 +379,73 @@ public class ProtocolFormXmlDataAjaxController {
 	private void processXmlData(ProtocolFormXmlData protocolFormXmlData, String xmlData) {
 		String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
 		
-		String value = "";
-		
-		if (xmlData.contains("<responsible-department")){
-			if (xmlData.contains("REP Regional Programs")){
-				value = "n";
-			} else {
-				value = "y";
+		if (protocolFormXmlData.getProtocolFormXmlDataType().equals(ProtocolFormXmlDataType.PROTOCOL) || protocolFormXmlData.getProtocolFormXmlDataType().equals(ProtocolFormXmlDataType.MODIFICATION)){
+			String value = "";
+			
+			if (xmlData.contains("<responsible-department")){
+				if (xmlData.contains("REP Regional Programs")){
+					value = "n";
+				} else {
+					value = "y";
+				}
+				
+				try{
+					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget-by-department", protocolFormXmlDataString, value);
+					
+				} catch (Exception e){
+					e.printStackTrace();
+				}
 			}
 			
-			try{
-				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget-by-department", protocolFormXmlDataString, value);
+			try {
+				Map<String, Boolean> budgetRelatedDeterminationMap = protocolFormService.budgetRelatedDetermination(protocolFormXmlData);
 				
-			} catch (Exception e){
+				boolean budgetSectionEnabled = budgetRelatedDeterminationMap.get("budgetSectionEnabled");
+				
+				if (budgetSectionEnabled) {
+					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget-question-required", protocolFormXmlDataString, "y");
+				} else {
+					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget-question-required", protocolFormXmlDataString, "n");
+				}
+				
+				boolean budgetRequired = budgetRelatedDeterminationMap.get("budgetRequired");
+				
+				if (budgetSectionEnabled && budgetRequired) {
+					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget", protocolFormXmlDataString, "y");
+				} else {
+					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget", protocolFormXmlDataString, "n");
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
-		try {
-			Map<String, Boolean> budgetRelatedDeterminationMap = protocolFormService.budgetRelatedDetermination(protocolFormXmlData);
+		if (protocolFormXmlData.getProtocolFormXmlDataType().equals(ProtocolFormXmlDataType.CONTINUING_REVIEW)) {
 			
-			boolean budgetSectionEnabled = budgetRelatedDeterminationMap.get("budgetSectionEnabled");
-			
-			if (budgetSectionEnabled) {
-				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget-question-required", protocolFormXmlDataString, "y");
-			} else {
-				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/budget-question-required", protocolFormXmlDataString, "n");
+			try {
+				List<String> sponsorTypes = xmlProcessor.getAttributeValuesByPathAndAttributeName("/continuing-review/funding/funding-source", protocolFormXmlDataString, "type");
+				
+				if (sponsorTypes.size() > 0 && sponsorTypes.contains("External")) {
+					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/continuing-review/has-external-sponsor", protocolFormXmlDataString, "y");
+				} else {
+					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/continuing-review/has-external-sponsor", protocolFormXmlDataString, "n");
+				}
+			} catch (Exception e) {
+				//e.printStackTrace();
+				
+				try {
+					protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/continuing-review/has-external-sponsor", protocolFormXmlDataString, "n");
+				} catch (XPathExpressionException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SAXException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
-			
-			boolean budgetRequired = budgetRelatedDeterminationMap.get("budgetRequired");
-			
-			if (budgetSectionEnabled && budgetRequired) {
-				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget", protocolFormXmlDataString, "y");
-			} else {
-				protocolFormXmlDataString = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/need-budget", protocolFormXmlDataString, "n");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		
 		protocolFormXmlData.setXmlData(protocolFormXmlDataString);
@@ -503,9 +533,7 @@ public class ProtocolFormXmlDataAjaxController {
 				updateBudgetExpenses(protocolForm, protocolFormXmlData.getXmlData());
 			}
 			
-			if (protocolForm.getProtocolFormType().equals(ProtocolFormType.NEW_SUBMISSION) || protocolForm.getProtocolFormType().equals(ProtocolFormType.MODIFICATION)) {
-				processXmlData(protocolFormXmlData, xmldata);
-			}
+			processXmlData(protocolFormXmlData, xmldata);
 			
 			logger.debug("elementXml: " + xmldata);
 			if(xmldata.contains("</staffs>")){

@@ -11,6 +11,9 @@ public interface FileGenerateAndSaveService {
 	UploadedFile processFileGenerateAndSave(AbstractDomainEntity object,
 			String filename, InputStream fileIn, String ext, String contentType)
 			throws IOException;
+	
+	void processFileGenerateAndSave(String filename, InputStream fileIn)
+			throws IOException;
 
 	UploadedFile processFileGenerateAndSaveLocal(String filename,
 			InputStream fileIn, String ext, String contentType)

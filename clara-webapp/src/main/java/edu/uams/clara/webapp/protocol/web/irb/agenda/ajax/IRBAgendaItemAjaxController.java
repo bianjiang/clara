@@ -317,7 +317,7 @@ public class IRBAgendaItemAjaxController {
 					return new JsonResponse(true, "Agenda Item already exists in "+ DateFormatUtil.formateDateToMDY(existingAgendaItem.getAgenda().getDate()) +" agenda!", "", false, null);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			
 			User user = userDao.findById(userId);
@@ -329,7 +329,8 @@ public class IRBAgendaItemAjaxController {
 					Committee.IRB_OFFICE,
 					user,
 					"ASSIGNED_TO_AGENDA",
-					null, null);
+					agendaItemCategory.toString(), null, null,
+					null);
 			
 			agendaItem.setAgenda(agenda);
 			agendaItem.setProtocolForm(protocolForm);

@@ -65,7 +65,9 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
 				},
                 fields:[{name:'name',mapping:'@name'},{name:'desc',mapping:'@desc'}]
              });
-    	
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DDB_FORM', 'Upload document as role: window opened.']);
+		}
     	Ext.create("Ext.Window",{
     		modal:true,
     		title:'Who do you want to upload document as?',
@@ -166,6 +168,9 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     	    			note:note
     	    		},
     	    		success: function(msg){
+    	    			if (piwik_enabled()){
+    	    				_paq.push(['trackEvent', 'DDB_FORM', 'Execute form (bypass review process): '+url]);
+    	    			}
     	    			location.reload(true);
     	    		}
     	    	});	
@@ -183,7 +188,9 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     	
     	clog("FORWARD!!", me.selectedForm);
     	var id = Ext.id();
-    	
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DDB_FORM', 'Forward selected contract: window opened.']);
+		}
     	new Ext.Window({
     		id:id,
     		title:'Forward Contract',
@@ -209,6 +216,9 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     			    		messageXmlAdditionalRootTag:"committee-review",
     			    		requireSignature:false,
     			    		onSuccess: function(){
+    			    			if (piwik_enabled()){
+    			    				_paq.push(['trackEvent', 'DDB_LETTER', 'Forward selected contract: Letter sent.']);
+    			    			}
     			    			Ext.getCmp(id).close();
     			    		}
     			    	}).show();
@@ -263,7 +273,7 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     			emptyText:'Please tell us why you are closing this study.'
     		}],
     		buttons:[{text:'Close study',handler:function(){
-    			
+    			var reason = Ext.getCmp('fldCloseStudyReason').getValue();
     			Ext.Msg.confirm('Close this study?', msg, function(btn){
     			    if (btn == 'yes'){
     			        // process text value and close...
@@ -273,9 +283,12 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     			    		async: false,
     			    		data: { 
     			    			userId:claraInstance.user.id,
-    			    			reason:Ext.getCmp('fldCloseStudyReason').getValue()
+    			    			reason:reason
     			    		},
     			    		success: function(msg){
+    			    			if (piwik_enabled()){
+    			    				_paq.push(['trackEvent', 'DDB_FORM', 'Closed study. Reason: '+reason]);
+    			    			}
     			    			clog(msg);
     			    			callback();
     			    		}
@@ -302,6 +315,9 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     	    		},
     	    		success: function(msg){
     	    			clog(msg);
+    	    			if (piwik_enabled()){
+		    				_paq.push(['trackEvent', 'DDB_FORM', 'Contract executed. Note: '+note]);
+		    			}
     	    			if (msg.indexOf("<result><error>true</error>") == -1){
     	    				callback = function(){ location.reload(true); };
     	    			}	// UGLY UGLY UGLY
@@ -404,6 +420,9 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     			    			xml:xml
     			    		},
     			    		success: function(msg){
+    			    			if (piwik_enabled()){
+    			    				_paq.push(['trackEvent', 'DDB_FORM', 'Cancel form. Reason: '+Ext.getCmp('fldCancelReasonText').getValue()]);
+    			    			}
     			    			clog(msg);
     			    			callback();
     			    		}
@@ -418,7 +437,9 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     	var me = this;
     	var st = Ext.data.StoreManager.lookup('Clara.DetailDashboard.store.FormReviewCommittees');
     	st.loadFormReviewCommittees(me.selectedForm);
-    	
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DDB_FORM', 'Choose review role: Window opened.']);
+		}
     	new Ext.Window({
     		model:true,
     		title:'Who do you want to review this form as?',
@@ -468,6 +489,9 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     	    		async: false,
     	    		data: {},
     	    		success: function(msg){
+    	    			if (piwik_enabled()){
+    	    				_paq.push(['trackEvent', 'DDB_FORM', 'Budget removed.']);
+    	    			}
     	    			clog(msg);
     	    			callback();
     	    		}
@@ -499,6 +523,9 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     	    		data: {},
     	    		success: function(res){
     	    			clog(res);
+    	    			if (piwik_enabled()){
+    	    				_paq.push(['trackEvent', 'DDB_FORM', 'Form removed.']);
+    	    			}
     	    			callback();
     	    		}
     	    	});	
@@ -538,6 +565,10 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
 				detailHtml += '<button class="form-action-button button '+style+'" onClick="' + code + '">' + rec.get("name")  + '</button>';
 			}
 		});
+    	
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DDB_FORM', 'Form selected: '+record.get("formType")+" ("+record.get("formId")+")"]);
+		}
     	
     	clog(detailHtml);
     	me.getActionContainer().update(detailHtml+"</div>");

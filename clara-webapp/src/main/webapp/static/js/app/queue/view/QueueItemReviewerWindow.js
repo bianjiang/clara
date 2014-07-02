@@ -21,7 +21,9 @@ Ext.define('Clara.Queue.view.QueueItemReviewerWindow', {
 		var controller = Clara.Application.getController("QueueAssign");
 		var assignedReviewersStore = Ext.data.StoreManager.lookup("Clara.Queue.store.AssignedReviewers");
 		var reviewersStore = Ext.data.StoreManager.lookup("Clara.Queue.store.Reviewers");
-		
+		if (piwik_enabled()){
+			_paq.push(['trackEvent', 'QUEUE', 'Assign item: Window open for '+controller.queueItem.get("url")]);
+		}
 		clog("Initing window",me,"formQueueItem",me.formQueueItem," queueAssign:queueItem",controller.queueItem);
 		
 		me.buttons = [{

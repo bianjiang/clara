@@ -310,7 +310,7 @@ Clara.BudgetBuilder.BudgetVersionsPanel = Ext.extend(Ext.Panel, {
 		},
 		record:"budget",
 		root:"list",
-		fields:[{name:'id', mapping:'@id'},{name:'created', mapping:'@created', type: 'date', dateFormat: 'Y-m-d G:i:s.u'},{name:'formType', mapping:'@type'}]
+		fields:[{name:'id', mapping:'@id'},{name:'created', mapping:'@created', type: 'date', dateFormat: 'Y-m-d G:i:s.u'},{name:'formType', mapping:'@type'},{name:'status', mapping:'@status'}]
 	}),
 	reloadVersions: function(){
 		this.versionStore.removeAll();
@@ -362,6 +362,11 @@ Clara.BudgetBuilder.BudgetVersionsPanel = Ext.extend(Ext.Panel, {
 								    xtype: 'gridcolumn',
 								    dataIndex: 'formType',
 								    header: 'Attached to form',
+								    sortable: false
+								},{
+								    xtype: 'gridcolumn',
+								    dataIndex: 'status',
+								    header: 'Status',
 								    sortable: false
 								}
 					     ]

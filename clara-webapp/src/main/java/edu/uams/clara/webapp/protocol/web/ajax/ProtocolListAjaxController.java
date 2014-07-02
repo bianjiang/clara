@@ -11,7 +11,6 @@ import javax.xml.xpath.XPathExpressionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +27,6 @@ import com.google.common.collect.Lists;
 
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
-import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
 import edu.uams.clara.webapp.common.objectwrapper.PagedList;
 import edu.uams.clara.webapp.common.util.response.JsonResponse;
 import edu.uams.clara.webapp.contract.domain.Contract;
@@ -85,9 +83,9 @@ public class ProtocolListAjaxController {
 		User u = (User) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
 		
-		for (GrantedAuthority p:u.getAuthorities()){
-			logger.debug("p: " + (Permission)p);
-		}
+		//for (GrantedAuthority p:u.getAuthorities()){
+			//logger.debug("p: " + (Permission)p);
+		//}
 
 		PagedList<Protocol> pagedProtocolMetaDatas = null;
 
@@ -122,7 +120,7 @@ public class ProtocolListAjaxController {
 		if (pagedProtocolMetaDatas.getList() != null
 				&& !pagedProtocolMetaDatas.getList().isEmpty()) {
 			for (Protocol p : pagedProtocolMetaDatas.getList()) {
-				logger.debug("" + p.getId());
+				//logger.debug("" + p.getId());
 				finalResultXml += (p.getMetaDataXml() != null ? p
 						.getMetaDataXml() : "");
 			}

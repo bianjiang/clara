@@ -7,7 +7,7 @@ Ext.define('Clara.Super.model.MessagePost', {
 	},{name:'created', mapping: 'created', type: 'date', dateFormat: 'timestamp', convert:function(v){
 		return new Date(v);
 	}},
-	{name:'expireDate', mapping: 'expireDate', type: 'date', dateFormat: 'timestamp', convert:function(v){
+	{name:'expireDate', mapping: 'expireDate', type: 'date', dateFormat: 'timestamp', dateWriteFormat:'c',convert:function(v){
 		return new Date(v);
 	}},{
 		name:'message'
@@ -16,6 +16,10 @@ Ext.define('Clara.Super.model.MessagePost', {
 	},],
 
 	sorters : [ {
+		property : 'messageLevel',
+		direction : 'DESC'
+	} ,
+	 {
 		property : 'id',
 		direction : 'DESC'
 	} ],

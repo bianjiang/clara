@@ -5,16 +5,13 @@ Ext.define('Clara.Common.model.MessagePost', {
 	},{
 		name:'title'
 	},{name:'created', mapping: 'date', type:'date', dateFormat:'Y-m-d'},
-	{name:'expireDate', mapping: 'date', type:'date', dateFormat:'Y-m-d'},{
+	{name:'expireDate', mapping: 'expireDate', type:'string'},{
 		name:'message'
 	},{
 		name:'messageLevel'
 	}],
 
-	sorters : [ {
-		property : 'id',
-		direction : 'DESC'
-	} ],
+
 	
 
 	proxy : {

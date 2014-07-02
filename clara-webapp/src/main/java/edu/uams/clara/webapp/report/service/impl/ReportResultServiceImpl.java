@@ -122,27 +122,47 @@ public class ReportResultServiceImpl extends CustomReportService {
 								}
 							}
 							realXpath += ")";
-						}else{
-							if(!this.getLowercaseIdentifiers().contains(fieldIdentifier)){
+						} else {
+							
+							if (!this.getLowercaseIdentifiers().contains(
+									fieldIdentifier)) {
 								value = value.toUpperCase();
 							}
-						if (reportCriteriaField.getNodeXPath().contains(".exist") || reportCriteriaField.getNodeXPath().contains(".value")) {
-							if(value.equals("=1")||value.equals("=0")){
-								realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
-							}else{
-						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", "\""+ value +"\"");
+							 if (value.contains("'")) {
+								realXpath = reportCriteriaField.getNodeXPath()
+										.replace("{value}", value);
+							} else if (value.toUpperCase().equals("IN")
+									|| value.toUpperCase().equals("NOT IN")) {
+
+								realXpath = reportCriteriaField.getNodeXPath()
+										.replace("{value}", value);
+							} else if (value.equals("<") || value.equals(">")) {
+								realXpath = reportCriteriaField.getNodeXPath()
+										.replace("{value}", value);
+							} else if (reportCriteriaField.getNodeXPath().contains(
+									".exist")
+									|| reportCriteriaField.getNodeXPath()
+											.contains(".value")) {
+								if (value.equals("=1") || value.equals("=0")) {
+									realXpath = reportCriteriaField
+											.getNodeXPath().replace("{value}",
+													value);
+								} else {
+									realXpath = reportCriteriaField
+											.getNodeXPath().replace("{value}",
+													"\"" + value + "\"");
+								}
+							} 
+							
+							else {
+								realXpath = reportCriteriaField.getNodeXPath()
+										.replace("{value}", "'" + value + "'");
+								logger.debug("testtest2"+value);
 							}
-					} else if(value.contains("'")){
-						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
-					}else if(value.toUpperCase().equals("IN")||value.toUpperCase().equals("NOT IN")){
-						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
-					}
-					else if(value.equals("<")||value.equals(">")){
-						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", value);
-					}
-					else{
-						realXpath = reportCriteriaField.getNodeXPath().replace("{value}", "'"+ value +"'");
-					}}
+							 
+							 
+						
+						}
 						
 						
 					}

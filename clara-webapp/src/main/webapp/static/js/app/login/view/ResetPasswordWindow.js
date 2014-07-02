@@ -52,6 +52,9 @@ Ext.define('Clara.Login.view.ResetPasswordWindow', {
 							url: appContext+"/ajax/users/resetpassword",
 							params: {username:fld.getValue()},
 							success: function(response){
+								if (piwik_enabled()){
+									_paq.push(['trackEvent', 'LOGIN', 'Reset Password request: '+fld.getValue()]);
+								}
 								clog('reset password: Ext.Ajax success',response);
 								loadingMask.hide();
 								alert("An email has been sent. Check your email and sign in with the provided password.");

@@ -42,9 +42,15 @@ Ext.define('Clara.User.view.UserPasswordWindow', {
 		  					newPassword:Ext.getCmp("fldNewPassword1").getValue(),
 		  				  },
 		  				  success: function(){
+		  					if (piwik_enabled()){
+		  						_paq.push(['trackEvent', 'USER', 'Password change for user '+Ext.getCmp("fldUsername").getValue()]);
+		  					}
 		  					win.close();  
 		  				  },
 		  				  error: function(x,t,e){
+		  					if (piwik_enabled()){
+		  						_paq.push(['trackEvent', 'ERROR', 'Failed Password change for user '+Ext.getCmp("fldUsername").getValue()]);
+		  					}
 		  					 alert("Error changing password");
 		  					  clog("ERROR",x,t,e);
 		  				  }

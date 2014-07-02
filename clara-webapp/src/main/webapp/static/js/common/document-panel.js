@@ -196,6 +196,9 @@ Clara.Documents.RenameWindow = Ext.extend(Ext.Window, {
 											   url: url,
 											   method:'POST',
 											   success: function(response,opts){
+												   if (piwik_enabled()){
+														_paq.push(['trackEvent', 'DOCUMENTS', 'Renamed Document: '+Ext.getCmp("fldFilename").getValue()+' ('+t.doc.id+')']);
+													}
 												   Clara.Documents.MessageBus.fireEvent('filerenamed');
 												   t.close();
 											   },
@@ -262,7 +265,7 @@ Clara.Documents.StatusWindow = Ext.extend(Ext.Window, {
 				    	      	store: new Ext.data.SimpleStore({
 				                       fields:['statustext','id'],
 				                       data: [['Draft','DRAFT'],/*['ACKNOWLEDGED','Acknowledged'],['DECLINED','Declined'],['DETERMINED','Determined'],*/
-				                              ['RSC Approved','RSC_APPROVED'],['IRB Approved','APPROVED'],['Retired','RETIRED'], ['HC Approved','HC_APPROVED'], ['Packet Document', 'PACKET_DOCUMENT'], ['Final Legal Approved', 'FINAL_LEGAL_APPROVED']]
+				                              ['RSC Approved','RSC_APPROVED'],['IRB Approved','APPROVED'],['IRB Acknowledged','ACKNOWLEDGED'],['Retired','RETIRED'], ['HC Approved','HC_APPROVED'], ['Packet Document', 'PACKET_DOCUMENT'], ['Final Legal Approved', 'FINAL_LEGAL_APPROVED']]
 				                    }),
 					    		value:(typeof t.doc.id != 'undefined')?(t.doc.status):"",
 					    	   	forceSelection:true,
@@ -292,6 +295,9 @@ Clara.Documents.StatusWindow = Ext.extend(Ext.Window, {
 											   url: url,
 											   method:'POST',
 											   success: function(response,opts){
+												   if (piwik_enabled()){
+														_paq.push(['trackEvent', 'DOCUMENTS', 'Status Change for Document: '+Ext.getCmp("fldDocumentStatus").getValue()+' ('+t.doc.id+')']);
+													}
 												   Clara.Documents.MessageBus.fireEvent('filerenamed');
 												   t.close();
 											   },
@@ -398,6 +404,9 @@ Clara.Documents.TypeWindow = Ext.extend(Ext.Window, {
 											   url: url,
 											   method:'POST',
 											   success: function(response,opts){
+												   if (piwik_enabled()){
+														_paq.push(['trackEvent', 'DOCUMENTS', 'Type Change for Document: '+Ext.getCmp("clara-documents-changetypewindow-details-type").getValue()+' ('+t.doc.id+')']);
+													}
 												   Clara.Documents.MessageBus.fireEvent('filerenamed');
 												   t.close();
 											   },
@@ -558,6 +567,7 @@ Clara.Documents.UploadWindow = Ext.extend(Ext.Window, {
 					                				   Ext.Msg.alert('Error', 'There was a problem uploading the file. Please try again later.');
 					                				   cwarn('There was a problem uploading the file. Please try again later.',response);
 					                			   } else {
+					                				   
 					                				    var d = Ext.getCmp('clara-documents-uploadwindow').doc;
 					                				    d.id = fileObj.id;
 					                				    d.hashid = fileObj.identifier;
@@ -565,6 +575,9 @@ Clara.Documents.UploadWindow = Ext.extend(Ext.Window, {
 					                				    // d.category = jQuery("#clara-documents-uploadwindow-details-type").val(); // to get machine-readable type, use Ext.getCmp("clara-documents-uploadwindow-details-type").getValue();
 					                				    d.category = Ext.getCmp("clara-documents-uploadwindow-details-type").getValue();
 					                				    d.parentFormXmlDataDocumentId = jQuery("#clara-documents-uploadwindow-details-parentid").val();
+					                				    if (piwik_enabled()){
+															_paq.push(['trackEvent', 'DOCUMENTS', 'Uploaded Document: '+d.title+' ('+d.id+')']);
+														}
 					                				    clog("SENDING METATDATA FOR DOC:");
 					                				    clog(d);
 					                				    clog(Ext.getCmp('clara-documents-gridpanel').formXmlData);
@@ -728,6 +741,9 @@ Clara.Documents.VersionWindow = Ext.extend(Ext.Window, {
 			              	    	}
 				              		else if (r.get("status") == "APPROVED"){
 			              	    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>IRB</div></div>";
+			              	    	}
+				              		else if (r.get("status") == "ACKNOWLEDGED"){
+			              	    		return "<div style='float:left;'><div class='icn-ui-check-box-mix' style='color:#999;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>Acknowledged</div></div>";
 			              	    	}else if (r.get("status") == "RSC_APPROVED") {
 			              	    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>RSC</div></div>";
 			              	    	}else if (r.get("status") == "HC_APPROVED") {
@@ -899,9 +915,13 @@ clog("DOC OBJ",doc);
 			                            id:'btn-clara-document-download',
 			                            iconCls:'icn-drive-download',
 			                            handler: function(){
+			                            	
 		                        			var doc = Ext.getCmp("clara-documents-gridpanel").selectedDocument;
 		                        			var url = fileserverURL + doc.path +doc.hashid+"."+doc.extension+"?n="+encodeURIComponent(doc.filename).replace(/%20/g, "_");
 		                        			clog("Opening",url,doc);
+		                        			if (piwik_enabled()){
+												_paq.push(['trackEvent', 'DOCUMENTS', 'Download Document: '+doc.id+': '+doc.title+' ('+url+')']);
+											}
 		                        			window.open( url, '');
 		                        		}
 			                        },
@@ -1034,6 +1054,9 @@ Clara.Documents.RemoveDocument = function(did,dtitle){
 							"committee":claraInstance.user.committee
 						},
 						success: function(data){
+							if (piwik_enabled()){
+								_paq.push(['trackEvent', 'DOCUMENTS', 'Delete Document: ('+did+')']);
+							}
 							clog(data);
 							Clara.Documents.MessageBus.fireEvent('fileremoved', data);
 						}
@@ -1185,6 +1208,9 @@ Clara.Documents.FilterPanel = Ext.extend(Ext.tree.TreePanel, {
             leaf: true,
             listeners:{
         		click: function(){
+        			if (piwik_enabled()){
+						_paq.push(['trackEvent', 'DOCUMENTS', 'List (all)']);
+					}
         			Clara.Documents.MessageBus.fireEvent('filterselected');
         			var s = Ext.getCmp("clara-documents-gridpanel").getStore();
         			s.clearFilter();
@@ -1210,6 +1236,9 @@ Clara.Documents.FilterPanel = Ext.extend(Ext.tree.TreePanel, {
 					leaf: true,
 					listeners:{
 						click: function(){
+							if (piwik_enabled()){
+								_paq.push(['trackEvent', 'DOCUMENTS', 'List (this form only)']);
+							}
 							Clara.Documents.MessageBus.fireEvent('filterselected');
 							var s = Ext.getCmp("clara-documents-gridpanel").getStore();
 							s.clearFilter();
@@ -1225,6 +1254,9 @@ Clara.Documents.FilterPanel = Ext.extend(Ext.tree.TreePanel, {
 					leaf: true,
 					listeners:{
 						click: function(){
+							if (piwik_enabled()){
+								_paq.push(['trackEvent', 'DOCUMENTS', 'List (this revision only)']);
+							}
 							Clara.Documents.MessageBus.fireEvent('filterselected');
 							var s = Ext.getCmp("clara-documents-gridpanel").getStore();
 							s.clearFilter();
@@ -1501,7 +1533,11 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 			              	    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>IRB</div></div>";
 			              	    	} else if (r.get("status") == "RSC_APPROVED") {
 			              	    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>RSC</div></div>";
-			              	    	} else if (r.get("status") == "HC_APPROVED") {
+			              	    	}
+			              	    	else if (r.get("status") == "ACKNOWLEDGED"){
+			              	    		return "<div style='float:left;'><div class='icn-ui-check-box-mix' style='color:#999;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>Acknowledged</div></div>";
+			              	    	}
+			              	    	else if (r.get("status") == "HC_APPROVED") {
 			              	    		return "<div style='float:left;'><div class='icn-tick' style='color:green;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>HC</div></div>";
 			              	    	} else if (r.get("status") == "PACKET_DOCUMENT") {
 			              	    		return "<div style='float:left;'><div class='icn-box-small' style='color:orange;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>Packet</div></div>";

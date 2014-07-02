@@ -40,6 +40,28 @@ public class AgendaDao extends AbstractDomainDao<Agenda> {
 	}
 	
 	@Transactional(readOnly=true)
+	public List<Agenda> findAgendaByProtocolId(long protocolId){
+		String query = "SELECT a.* FROM agenda a"
+					+ " INNER JOIN agenda_item ai ON a.id = ai.agenda_id"
+					+ " INNER JOIN protocol_form pf ON ai.protocol_form_id = pf.id"
+					+ " INNER JOIN protocol p ON pf.protocol_id = p.id"
+					+ " WHERE a.retired = :retired"
+					+ " AND ai.retired = :retired"
+					+ " AND pf.retired = :retired"
+					+ " AND p.retired = :retired"
+					+ " AND p.id = :protocolId";
+		
+		TypedQuery<Agenda> q = (TypedQuery<Agenda>) getEntityManager()
+		.createNativeQuery(query, Agenda.class);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("protocolId", protocolId);
+		q.setHint("org.hibernate.cacheable", true);
+		
+		
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly=true)
 	public Agenda findByDate(Date agendaDate){
 		TypedQuery<Agenda> query = getEntityManager()
 		.createQuery(

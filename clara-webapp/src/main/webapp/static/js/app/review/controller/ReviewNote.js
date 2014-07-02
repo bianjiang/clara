@@ -46,6 +46,9 @@ Ext.define('Clara.Review.controller.ReviewNote', {
 		Ext.ux.grid.Printer.title = "Notes";
 		Ext.ux.grid.Printer.printAutomatically = false;
 		Ext.ux.grid.Printer.print(me.getReviewNotePanel());
+		if (piwik_enabled()){
+			_paq.push(['trackEvent', 'PRINT', 'Print window opened: Notes']);
+		}
 	},
     
 	onToggleOnlyIRBNotes: function(btn,pressed){

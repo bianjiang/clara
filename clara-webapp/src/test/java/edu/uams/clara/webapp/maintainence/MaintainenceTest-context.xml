@@ -8,7 +8,7 @@
 	<context:annotation-config />
 	
 	<context:property-placeholder
-		location="file:src/main/resources/META-INF/spring/*.properties,file:src/main/resources/META-INF/spring/clara/*.properties" />
+		location="file:src/main/resources/META-INF/spring/*.properties,file:src/main/resources/META-INF/spring/localdev/*.properties" />
 
 	<import
 		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
@@ -63,4 +63,10 @@
 	
 	<bean id="epicCdmByCptCodeDao"
 		class="edu.uams.clara.webapp.protocol.dao.budget.code.EpicCdmByCptCodeDao" />
+		
+	<bean id="userService" class="edu.uams.clara.webapp.common.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="personDao" ref="personDao" />
+		<property name="ldapPersonLookupService" ref="ldapPersonLookupService" />
+	</bean>
 </beans>

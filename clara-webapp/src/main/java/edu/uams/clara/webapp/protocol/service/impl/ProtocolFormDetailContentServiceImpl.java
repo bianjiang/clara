@@ -130,6 +130,9 @@ public class ProtocolFormDetailContentServiceImpl implements ProtocolFormDetailC
 				
 				if (submissionType.equals("Defer with major contingencies"))
 					detailXml += "<value name=\"Submission Type\">Response to Major Contingency</value>";
+				
+				if (submissionType.equals("Table"))
+					detailXml += "<value name=\"Submission Type\">Response to Tabled Contingency</value>";
 			}
 			
 		} catch (Exception e) {

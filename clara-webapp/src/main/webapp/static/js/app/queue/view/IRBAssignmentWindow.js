@@ -59,10 +59,10 @@ Ext.define('Clara.Queue.view.IRBAssignmentWindow', {
                 		clog(queueItemController.selectedQueueItem.get("formTypeId")+": filtering r",r);
                 		return (r.get("formTypes").indexOf(queueItemController.selectedQueueItem.get("formTypeId")) > -1);
                 	}],
-                	data: [['Full Board','FULL_BOARD','new-submission,reportable-new-information,humanitarian-use-device,humanitarian-use-device-renewal,emergency-use,continuing-review,modification,audit,staff,privacy-board'],
-                		    ['Expedited','EXPEDITED','new-submission,reportable-new-information,humanitarian-use-device,humanitarian-use-device-renewal,continuing-review,modification,study-closure,staff,privacy-board'],
+                	data: [['Full Board','FULL_BOARD','new-submission,reportable-new-information,humanitarian-use-device,humanitarian-use-device-renewal,emergency-use,continuing-review,modification,audit,staff,privacy-board,office-action'],
+                		    ['Expedited','EXPEDITED','new-submission,reportable-new-information,humanitarian-use-device,humanitarian-use-device-renewal,continuing-review,modification,study-closure,staff,privacy-board,office-action'],
                 		    ['Exempt','EXEMPT','new-submission,continuing-review'],
-                		    ['Reported','REPORTED','new-submission,reportable-new-information,humanitarian-use-device,humanitarian-use-device-renewal,emergency-use,continuing-review,modification,staff,safety-report,privacy-board']]
+                		    ['Reported','REPORTED','new-submission,reportable-new-information,humanitarian-use-device,humanitarian-use-device-renewal,emergency-use,continuing-review,modification,staff,safety-report,privacy-board,office-action']]
                 }),
                 allowBlank:false,
                 displayField:'type',

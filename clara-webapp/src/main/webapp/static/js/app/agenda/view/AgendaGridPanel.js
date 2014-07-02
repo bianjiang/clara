@@ -4,7 +4,7 @@ Ext.define('Clara.Agenda.view.AgendaGridPanel', {
 	autoScroll: true,
     border: true,
     stripeRows: true,
-    hideHeaders:false,
+    hideHeaders:true,
     store: 'Agendas',
 	initComponent: function() { 
         this.columns = [

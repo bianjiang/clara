@@ -117,6 +117,9 @@
 		{"comboId":"clarafield.combo.protocol.hasbudget","value":"not in","name":"No"},
 		{"comboId":"clarafield.combo.protocol.fromcrimson","value":"<","name":"Yes"},
 		{"comboId":"clarafield.combo.protocol.fromcrimson","value":">","name":"No"},
+		{"comboId":"clarafield.combo.protocol.hascrimsonbudget","value":"in","name":"Yes"},
+		{"comboId":"clarafield.combo.protocol.hascrimsonbudget","value":"not in","name":"No"},
+		{"comboId":"clarafield.combo.protocol.initialModNotFinished","value":"in","name":"Yes"},
 		
 		{"comboId":"clarafield.combo.protocol.clicnicaltrail","value":"=1","name":"Registered With ClinicalTrails.gov"},
 		{"comboId":"clarafield.combo.protocol.clicnicaltrail","value":"=0","name":"Not Registered With ClinicalTrails.gov"},

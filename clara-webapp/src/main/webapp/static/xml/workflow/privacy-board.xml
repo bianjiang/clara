@@ -186,8 +186,6 @@
 						<!-- no review page, assign reviewer only -->
 						<actions>							
 							<action type="ASSIGN_REVIEWER" condition="">
-								<status status="UNDER_IRB_PREREVIEW" />
-								<form-status status="UNDER_IRB_PREREVIEW" />
 								<change-status>
 									<form-committee-statuses>
 										<form-committee-status
@@ -448,6 +446,7 @@
 										<form-committee-status involved-committee="IRB_OFFICE" status="APPROVED" />
 										<form-committee-status involved-committee="IRB_REVIEWER" status="APPROVED" />
 									</form-committee-statuses>
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<notifications>
 									<notification notification-type="LETTER" letter-name="Privacy Board Full Board Approved Letter" doc-type="Privacy Board Full Board Approved Letter" email-template-identifier="PRIVACY_BOARD_FULL_BOARD_APPROVED_LETTER">
@@ -619,6 +618,7 @@
 						<actions>							
 							<action type="CANCEL_PROTOCOL_FORM" condition="">
 								<change-status>
+									<status status="CANCELLED" />
 									<form-status status="CANCELLED" />
 								</change-status>
 								<notifications>

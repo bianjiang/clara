@@ -67,7 +67,13 @@ Clara.IRBMeeting.MessageBus.on('aftermeetingload', function(){
 
 Clara.IRBMeeting.MessageBus.on('motionadded', function(){ Clara.IRBMeeting.MessageBus.fireEvent('meetingchanged'); }, this);
 Clara.IRBMeeting.MessageBus.on('motionsupdated', function(){ Clara.IRBMeeting.MessageBus.fireEvent('meetingchanged'); }, this);
-Clara.IRBMeeting.MessageBus.on('meetingchanged', function(){ clog("Meeting change event. Saving to XML.."); meeting.save(); }, this);
+Clara.IRBMeeting.MessageBus.on('meetingchanged', function(){ clog("Meeting change event. Saving to XML.."); meeting.save(); 
+	if (Clara.IRBMeeting.allLettersSent()) {
+		Ext.getCmp("btn-meeting-chair-send-transcriber").setDisabled(false);
+	} else {
+		Ext.getCmp("btn-meeting-chair-send-transcriber").setDisabled(true);
+	}
+}, this);
 
 Clara.IRBMeeting.MessageBus.on('agendaitemlettersent', function(agendaItemRec){ 
 	clog("agendaitemlettersent event.",agendaItemRec);
@@ -235,6 +241,26 @@ Clara.IRBMeeting.MessageBus.on('completemeeting', function(updateUIOnly){
 	
 }, this);
 
+Clara.IRBMeeting.allLettersSent = function(){
+	// Check actionable items.. if all of them have letters sent, then endable the "send to IRB" button
+	var lettercount = 0,
+	actionableitemcount = 0;
+	
+	for (var i=0, l=meeting.activity.length;i<l;i++){
+		var item = meeting.activity[i];
+		
+		
+		if (item.agendaitemid > 0 && item.type !=="MINUTES"){
+			actionableitemcount++;
+			if (item.lettersent == true) lettercount++;
+		}
+	}
+	
+	clog("actionableitemcount: "+actionableitemcount+" lettercount: "+lettercount)
+	var allLettersSent = (lettercount !== 0 && lettercount == actionableitemcount);
+	return allLettersSent;
+	
+}
 
 Clara.IRBMeeting.OpenCurrentItemLetterWindow= function(committee){
 	committee = committee || "IRB_OFFICE"; // "ROLE_IRB_CHAIR";
@@ -599,6 +625,7 @@ Clara.IRBMeeting.PagePanel = Ext.extend(Ext.Panel, {
         items: ['->',{xtype:'tbtext',id:'irbmeeting-clock',text:'<span id="irbmeetingclock"><span id="meeting-time" class="meeting-not-started"><strong id="meeting-status">Not started yet</strong></span></span>'}]
     }),
 	tbar: new Ext.Toolbar({
+		style:'background-image:none;background-color:#ecf0f1; border:0px !important;',
 		items:[{
 				xtype:'panel',
 				html:'<div id="meeting-irb-logo">IRB Meeting</div>',
@@ -606,51 +633,42 @@ Clara.IRBMeeting.PagePanel = Ext.extend(Ext.Panel, {
 				unstyled:true,
 				bodyStyle:'font-size:24px;background:transparent;',
 				border:false
-			   },'->',{
+			   },'->',{ 
 					xtype:'button',
-					text:'Attendance',
-					id:'btn-attendance',
+					text:'Notify chair..',
 					iconAlign:'top',
-					disabled:!canEditMeeting,
-					iconCls:'icn-users',
-					handler:function(){
-				   		new Clara.IRBMeeting.AttendanceWindow({agenda:{id:Clara.IRBMeeting.AgendaId}}).show();
-			   		}},
-			   		{ 
-						xtype:'button',
-						text:'Notify chair..',
-						iconAlign:'top',
-						id:'btn-meeting-send-chair',
-						hidden:true,
-						iconCls:'icn-thumb-up',
-						handler:function(){
-							if (isIrbOffice){
-								Ext.Msg.show({
-									title:'Notify chair that agenda is complete?',
-									msg:'You will not be able to make any additional changes to the meeting. Are you sure you want to do this?',
-									buttons:Ext.Msg.YESNO,
-									fn:function(btn){
-										if (btn == 'yes'){
-											meeting.status = "SENT_TO_CHAIR";
-											Clara.IRBMeeting.MessageBus.fireEvent('senttochair');
-										}
-									},
-								    icon: Ext.MessageBox.QUESTION
-								});
-							} else {
-								alert("Only the IRB office can do this.");
-							}
-					   	}
-					
-				},{ 
-					xtype:'button',
-					text:'Send to IRB office',
-					iconAlign:'top',
-					id:'btn-meeting-chair-send-transcriber',
-					disabled:!isChair,
+					id:'btn-meeting-send-chair',
 					hidden:true,
-					iconCls:'icn-application-share',
+					iconCls:'icn-thumb-up',
 					handler:function(){
+						if (isIrbOffice){
+							Ext.Msg.show({
+								title:'Notify chair that agenda is complete?',
+								msg:'You will not be able to make any additional changes to the meeting. Are you sure you want to do this?',
+								buttons:Ext.Msg.YESNO,
+								fn:function(btn){
+									if (btn == 'yes'){
+										meeting.status = "SENT_TO_CHAIR";
+										Clara.IRBMeeting.MessageBus.fireEvent('senttochair');
+									}
+								},
+							    icon: Ext.MessageBox.QUESTION
+							});
+						} else {
+							alert("Only the IRB office can do this.");
+						}
+				   	}
+				
+			},{ 
+				xtype:'button',
+				text:'Send to IRB office',
+				iconAlign:'top',
+				id:'btn-meeting-chair-send-transcriber',
+				disabled:!isChair,
+				hidden:true,
+				iconCls:'icn-application-share',
+				handler:function(){
+					if (Clara.IRBMeeting.allLettersSent()){
 						Ext.Msg.show({
 							title:'Send to IRB Office?',
 							msg:'You will not be able to make any additional changes to the meeting. Are you sure you want to do this?',
@@ -662,56 +680,70 @@ Clara.IRBMeeting.PagePanel = Ext.extend(Ext.Panel, {
 							},
 						    icon: Ext.MessageBox.QUESTION
 						});
-				   	}
-				
-			},{ 
-				xtype:'button',
-				text:'Complete Meeting',
-				iconAlign:'top',
-				id:'btn-meeting-complete',
-				disabled:!canEditMeeting,
-				hidden:true,
-				iconCls:'icn-door',
-				handler:function(){
-					Ext.Msg.show({
-						title:'Complete meeting?',
-						msg:'You will not be able to make any additional changes to the meeting. Are you sure you want to do this?',
-						buttons:Ext.Msg.YESNO,
-						fn:function(btn){
-							if (btn == 'yes'){
-								Clara.IRBMeeting.MessageBus.fireEvent('completemeeting');
-							}
-						},
-					    icon: Ext.MessageBox.QUESTION
-					});
+					} else {
+						alert("You cannot send this meeting to the IRB office until ALL letters have been created.");
+					}
 			   	}
 			
-		},{
-			text:'Announcements',
-			iconCls:'icn-newspaper--exclamation',
+		},{ 
+			xtype:'button',
+			text:'Complete Meeting',
 			iconAlign:'top',
+			id:'btn-meeting-complete',
+			disabled:!canEditMeeting,
+			hidden:true,
+			iconCls:'icn-door',
 			handler:function(){
 				Ext.Msg.show({
-					   title:'Meeting announcements',
-					   msg: 'These notes and announcements will appear in the minutes for the whole meeting.',
-					   buttons: Ext.Msg.OK,
-					   multiline:true,
-					   modal:true,
-					   value:meeting.notes,
-					   fn: function(btn,v){
-						   var readOnlyStatuses = ["SENT_TO_CHAIR","COMPLETE","SENT_TO_TRANSCRIBER"];
-						   if(!readOnlyStatuses.hasValue(meeting.status) && claraInstance.HasAnyPermissions(['ROLE_IRB_MEETING_OPERATOR','ROLE_IRB_CHAIR','ROLE_SYSTEM_ADMIN'])){
-							   meeting.notes = v;
-							   meeting.save(meeting.toXML());
-						   } else {
-							   alert("You cannot save announcements at this time.");
-						   }
-					   },
-					   animEl: 'elId',
-					   icon: Ext.MessageBox.QUESTION
-					});
-			}
-		},{
+					title:'Complete meeting?',
+					msg:'You will not be able to make any additional changes to the meeting. Are you sure you want to do this?',
+					buttons:Ext.Msg.YESNO,
+					fn:function(btn){
+						if (btn == 'yes'){
+							Clara.IRBMeeting.MessageBus.fireEvent('completemeeting');
+						}
+					},
+				    icon: Ext.MessageBox.QUESTION
+				});
+		   	}
+		
+	},{xtype: 'tbspacer', width: 30},{
+					xtype:'button',
+					text:'Attendance',
+					id:'btn-attendance',
+					iconAlign:'top',
+					disabled:!canEditMeeting,
+					iconCls:'icn-users',
+					handler:function(){
+				   		new Clara.IRBMeeting.AttendanceWindow({agenda:{id:Clara.IRBMeeting.AgendaId}}).show();
+			   		}},{
+						text:'Announcements',
+						iconCls:'icn-newspaper--exclamation',
+						iconAlign:'top',
+						id:'btn-meeting-announcements',
+						handler:function(){
+							Ext.Msg.show({
+								   title:'Meeting announcements',
+								   msg: 'These notes and announcements will appear in the minutes for the whole meeting.',
+								   buttons: Ext.Msg.OK,
+								   multiline:true,
+								   modal:true,
+								   value:meeting.notes,
+								   fn: function(btn,v){
+									   var readOnlyStatuses = ["SENT_TO_CHAIR","COMPLETE","SENT_TO_TRANSCRIBER"];
+									   if(!readOnlyStatuses.hasValue(meeting.status) && claraInstance.HasAnyPermissions(['ROLE_IRB_MEETING_OPERATOR','ROLE_IRB_CHAIR','ROLE_SYSTEM_ADMIN'])){
+										   meeting.notes = v;
+										   meeting.save(meeting.toXML());
+									   } else {
+										   alert("You cannot save announcements at this time.");
+									   }
+								   },
+								   animEl: 'elId',
+								   icon: Ext.MessageBox.QUESTION
+								});
+						}
+					},
+			   		{xtype: 'tbspacer', width: 30},{
 			xtype:'button',
 			text:'Start Meeting',
 			id:'btn-meeting-start',
@@ -731,7 +763,7 @@ Clara.IRBMeeting.PagePanel = Ext.extend(Ext.Panel, {
 			handler:function(){
 				Clara.IRBMeeting.MessageBus.fireEvent('stopmeeting');
 		   	}
-		},'-',{
+		},{
 			text:'Back to Clara',
 			iconCls:'icn-arrow-curve-180-left',
 			iconAlign:'top',

@@ -1,0 +1,32 @@
+<html>
+<body>
+<div class="email-template revision-requested-template">
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>	
+	<br/><br/>The response to tabled $protocolFormType form has been submitted, and it is pending your signature since you are listed as the PI. Please click the link below to access the study in CLARA.<br/><br/>
+	
+	#if ($hudOrNot == 'hud-use')
+		<br/><br/><strong>TP Name:</strong>  $treatingPhysicianUser.person.getFullname()<br/>
+		<br/><strong>TP Department:</strong> $treatingPhysicianUser.person.department
+	#else
+		<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()<br/>
+		<br/><strong>PI Department:</strong> $piUser.person.department
+	#end
+	
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	
+	<br/><br/><a href=$protocolLink>Click here to the study.</a>
+	
+	<br/><br/><strong>Comments:</strong>
+	<br/>
+	#if ($inLetterComments.size() > 0)
+		<ul>
+		#foreach($comment in ${inLetterComments}) 
+		<li>$comment.text <strong>made by</strong> $comment.committee.description</li>#end
+		</ul>
+	#end
+	$emailComment
+	{0}
+</div>
+</body>
+</html>

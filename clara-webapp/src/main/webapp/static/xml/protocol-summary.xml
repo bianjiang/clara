@@ -24,6 +24,14 @@
 				<question-label>Date First Subject Enrolled</question-label>
 				<question-value editable="false" instance-path="/protocol/summary/irb-determination/first-subject-enrolled-date" value-type="date" />
 			</question>
+			
+			<question id="question-sites-conducing-this-study" parent-id="" parent-value="" header="Site(s)" value-outerclass="span12">
+				<question-value editable="false" instance-path="/protocol/study-sites/site" value-type="sites" />
+			</question>
+			
+			<question id="question-funding-sources" parent-id="" parent-value="" header="">
+				<question-value editable="false" instance-path="/protocol/funding/funding-source" value-type="funding-source" />
+			</question>
 		</section>
 	</page>
 	<page name="Drugs and Devices" id="drugs-and-devices" edit-permission="EDIT_DRUGS_AND_DEVICES">

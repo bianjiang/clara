@@ -492,7 +492,52 @@ Clara.IRBMeeting.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				tbar:new Ext.Toolbar({
 		    		scope:this,
 	    	    	id:'comment-statusbar',
-	    	    	items:[{xtype:'tbtext',text:'Filter:'},{
+	    	    	items:[{
+	    	        	xtype:'button',
+	    	        	text:'Add..',
+	    	        	id:'btnAddComment',
+	    	        	iconCls:'icn-plus-button',
+	    	        	disabled:true,
+	    	        	handler:function(){
+	    	    			new Clara.IRBMeeting.EditorWindow({editing:false}).show();
+	    	    		}
+	    	        },{
+	    	        	xtype:'button',
+	    	        	text:'Remove..',
+	    	        	id:'btnRemoveComment',
+	    	        	iconCls:'icn-minus-button',
+	    	        	disabled:true,
+	    	        	handler:function(){
+	    	        		var url = appContext+"/ajax/protocols/"+Clara.IRBMeeting.CurrentAgendaItemRecord.data.protocolId+"/protocol-forms/"+Clara.IRBMeeting.CurrentAgendaItemRecord.data.protocolFormId+"/review/committee-comments/"+Clara.IRBMeeting.CurrentCommentRecord.data.id+"/remove";
+		    	        	Ext.Msg.show({
+		    	    			title:'Remove',
+		    	    			width:350,
+		    	    			msg:'<h1>Are you sure you want to remove the selected item?</h1>',
+		    	    			buttons:Ext.Msg.YESNOCANCEL,
+		    	    			fn:function(btn,reason){
+		    	    				if (btn == 'yes'){
+		    	    					jQuery.ajax({
+		    	    						  type: 'GET',
+		    	    						  async:false,
+		    	    						  url: url,
+		    	    						  data: {
+		    	    							  userId: claraInstance.user.id,
+		    	    							  version:(meeting.status == "IN_PROGRESS" || meeting.status == "NEW")?false:true,
+		    	    							  agendaItemId:Clara.IRBMeeting.CurrentAgendaItemRecord.get("id")
+		    	    						  },
+		    	    						  success: function(){
+		    	    							  Clara.IRBMeeting.MessageBus.fireEvent('contingenciesupdated', this);  
+		    	    						  },
+		    	    						  error: function(){
+		    	    							  Clara.IRBMeeting.MessageBus.fireEvent('error', this); 
+		    	    						  }
+		    	    					});
+		    	    				}
+		    	    			},
+		    	    		    icon: Ext.MessageBox.QUESTION
+		    	    		});
+	    	    		}
+	    	        },'->',{xtype:'tbtext',text:'Filter:'},{
                         xtype:'textfield',
                         labelWidth:40,
                         width:140,
@@ -558,52 +603,7 @@ Clara.IRBMeeting.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
    		           		 handler:function(){
    		           			 new Clara.IRBMeeting.AgendaItemLog({}).show();
    		           		 }
-   		           	 },'->',{
-	    	        	xtype:'button',
-	    	        	text:'Add..',
-	    	        	id:'btnAddComment',
-	    	        	iconCls:'icn-plus-button',
-	    	        	disabled:true,
-	    	        	handler:function(){
-	    	    			new Clara.IRBMeeting.EditorWindow({editing:false}).show();
-	    	    		}
-	    	        },{
-	    	        	xtype:'button',
-	    	        	text:'Remove..',
-	    	        	id:'btnRemoveComment',
-	    	        	iconCls:'icn-minus-button',
-	    	        	disabled:true,
-	    	        	handler:function(){
-	    	        		var url = appContext+"/ajax/protocols/"+Clara.IRBMeeting.CurrentAgendaItemRecord.data.protocolId+"/protocol-forms/"+Clara.IRBMeeting.CurrentAgendaItemRecord.data.protocolFormId+"/review/committee-comments/"+Clara.IRBMeeting.CurrentCommentRecord.data.id+"/remove";
-		    	        	Ext.Msg.show({
-		    	    			title:'Remove',
-		    	    			width:350,
-		    	    			msg:'<h1>Are you sure you want to remove the selected item?</h1>',
-		    	    			buttons:Ext.Msg.YESNOCANCEL,
-		    	    			fn:function(btn,reason){
-		    	    				if (btn == 'yes'){
-		    	    					jQuery.ajax({
-		    	    						  type: 'GET',
-		    	    						  async:false,
-		    	    						  url: url,
-		    	    						  data: {
-		    	    							  userId: claraInstance.user.id,
-		    	    							  version:(meeting.status == "IN_PROGRESS" || meeting.status == "NEW")?false:true,
-		    	    							  agendaItemId:Clara.IRBMeeting.CurrentAgendaItemRecord.get("id")
-		    	    						  },
-		    	    						  success: function(){
-		    	    							  Clara.IRBMeeting.MessageBus.fireEvent('contingenciesupdated', this);  
-		    	    						  },
-		    	    						  error: function(){
-		    	    							  Clara.IRBMeeting.MessageBus.fireEvent('error', this); 
-		    	    						  }
-		    	    					});
-		    	    				}
-		    	    			},
-		    	    		    icon: Ext.MessageBox.QUESTION
-		    	    		});
-	    	    		}
-	    	        }]
+   		           	 }]
 	    	    }),
 				
 				columns: [new Ext.grid.RowNumberer({width:42}),{

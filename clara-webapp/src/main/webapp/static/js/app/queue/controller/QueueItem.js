@@ -59,6 +59,7 @@ Ext.define('Clara.Queue.controller.QueueItem', {
 		queueAssignController.queueItem = me.selectedQueueItem;
 		queueAssignController.queue = queueController.selectedQueue;
 		clog("QueueItem:onAssignItem",queueAssignController.queueItem);
+		
 		Ext.create('Clara.Queue.view.QueueItemReviewerWindow').show();
 	},
 	
@@ -78,6 +79,10 @@ Ext.define('Clara.Queue.controller.QueueItem', {
 		me.getViewStudyButton().setDisabled(false);
 		me.getAssignItemButton().setDisabled(true);
 		me.getAssignAgendaButton().setVisible(false);
+		
+		if (piwik_enabled()){
+			_paq.push(['trackEvent', 'QUEUE', 'Assign item: Window open for '+rec.get("url")]);
+		}
 		
 		var reviewAction = null;
 		

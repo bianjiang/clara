@@ -819,6 +819,21 @@ public class IRBAgendaAjaxController {
 		}
 		return JsonResponseHelper.newSuccessResponseStube("Successful");
 	}
+	
+	@RequestMapping(value="/ajax/agendas/search", method = RequestMethod.GET, produces="application/json")
+	public @ResponseBody
+	JsonResponse listAgendasBySearchCriteria(
+			@RequestParam("protocolId") long protocolId){
+		
+		try {
+			List<Agenda> agendas = agendaDao.findAgendaByProtocolId(protocolId);
+			
+			return JsonResponseHelper.newDataResponseStub(agendas);
+		} catch (Exception e) {
+			return JsonResponseHelper.newErrorResponseStub("No agenda is related to this study!");
+		}
+		
+	}
 
 	@Autowired(required = true)
 	public void setAgendaDao(AgendaDao agendaDao) {

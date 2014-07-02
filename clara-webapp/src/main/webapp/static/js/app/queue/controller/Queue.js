@@ -87,10 +87,24 @@ Ext.define('Clara.Queue.controller.Queue', {
 	printQueueItems: function(){
 		var me = this,
 		activeCard = me.getCards().getLayout().getActiveItem();
-clog("activecard",activeCard);
+		clog("activecard",activeCard);
 		Ext.ux.grid.Printer.title = "Queue: "+me.selectedQueue.get("name");
+		Ext.ux.grid.Printer.subtitle = "Filters: "+me.getFilterDescription();
 		Ext.ux.grid.Printer.printAutomatically = false;
     	Ext.ux.grid.Printer.print(activeCard);
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'PRINT', 'Print window opened: Queue: '+me.selectedQueue.get("name")]);
+		}
+	},
+	
+	getFilterDescription: function(){
+		var s = "", me=this;
+		for (var i=0,l=me.activeFilters.length;i<l;i++){
+			if (me.activeFilters[i].property !== null){
+				s += "<li><strong>"+me.activeFilters[i].property+"</strong>: "+me.activeFilters[i].value+"</li>";
+			}
+		}
+		return (s == "")?"None":("<ul>"+s+"</ul>");
 	},
 	
 	toggleHistoryForSelectedQueue: function(btn, pressed){
@@ -199,6 +213,7 @@ clog("activecard",activeCard);
 		st.load({
 			callback: function() {
 				me.onQueueItemsLoaded(st);
+				
 				clog("QueueItems loaded for "+rec.get("identifier"));
 			}
 		});
@@ -215,6 +230,9 @@ clog("activecard",activeCard);
 		me.getPrintButton().setDisabled(false);
 		
 		this.selectedQueue = rec;
+		if (piwik_enabled()){
+			_paq.push(['trackEvent', 'QUEUE', 'Selected: '+rec.get("identifier")]);
+		}
 		this.loadQueue(rec);
 	}
 	

@@ -107,6 +107,12 @@
 						<property name="workflowXmlFilePath" value="${workflow.xml.studyresumption.uri}" />
 					</bean>						
 				</entry>
+				<entry key="OFFICE_ACTION">
+					<bean
+						class="edu.uams.clara.webapp.protocol.businesslogic.impl.OfficeActionBusinessObjectStatusHelperImpl">
+						<property name="workflowXmlFilePath" value="${workflow.xml.officeaction.uri}" />
+					</bean>						
+				</entry>
 			</map>
 		</property>
 	</bean>

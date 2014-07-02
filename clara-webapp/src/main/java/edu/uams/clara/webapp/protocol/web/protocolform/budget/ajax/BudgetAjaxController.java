@@ -38,9 +38,12 @@ import edu.uams.clara.webapp.common.util.XMLResponseHelper;
 import edu.uams.clara.webapp.common.util.response.JsonResponse;
 import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
 import edu.uams.clara.webapp.fileserver.service.FileGenerateAndSaveService;
+import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDocumentDao;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlDataDocument;
@@ -61,6 +64,8 @@ public class BudgetAjaxController {
 	private ProtocolFormDao protocolFormDao;
 
 	private ProtocolFormXmlDataDao protocolFormXmlDataDao;
+	
+	private ProtocolFormCommitteeStatusDao protocolFormCommitteeStatusDao;
 	
 	private UserDao userDao;
 
@@ -236,22 +241,39 @@ public class BudgetAjaxController {
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/budgets/list-versions", method = RequestMethod.GET, produces="application/xml")
 	public @ResponseBody
 	Source listBudgetVersions(
-			@PathVariable("protocolId") long protocolId) {
+			@PathVariable("protocolId") long protocolId,@PathVariable("protocolFormId") long protocolFormId) {
 		try{
 			String finalXml = "<list>";
 
 			List<ProtocolFormXmlData> budgetXmlDataLst = protocolFormXmlDataDao
 					.listProtocolformXmlDatasByProtocolIdAndType(protocolId,
 							ProtocolFormXmlDataType.BUDGET);
-
+			
+			
 			for (ProtocolFormXmlData pfxd : budgetXmlDataLst) {
+				String coverageStatus = "";
+				try{
+					List<ProtocolFormCommitteeStatus> committeeStatuses = protocolFormCommitteeStatusDao.listAllByCommitteeAndProtocolFormIdandStatus(Committee.COVERAGE_REVIEW, pfxd.getProtocolForm().getId(),ProtocolFormCommitteeStatusEnum.APPROVED);
+					if(committeeStatuses.size()>0&&committeeStatuses.get(0).getProtocolFormId() == pfxd.getProtocolForm().getId()){
+						coverageStatus = "Coverage Approved";
+					}
+					
+				}
+				catch(Exception e){
+					e.printStackTrace();
+					//do nothing, keep status as empty
+				}
+				
 				finalXml += "<budget id='"
 						+ pfxd.getId()
 						+ "' created='"
 						+ pfxd.getCreated()
 						+ "' type='"
 						+ pfxd.getProtocolForm().getProtocolFormType()
-								.getDescription() + "'/>";
+								.getDescription() + 
+						"' status='"
+						+ coverageStatus+		
+								"'/>";
 			}
 			
 			return DomUtils.toSource(XMLResponseHelper.xmlResult(finalXml + "</list>"));
@@ -561,5 +583,15 @@ public class BudgetAjaxController {
 	@Autowired(required = true)
 	public void setMutexLockService(MutexLockService mutexLockService) {
 		this.mutexLockService = mutexLockService;
+	}
+
+	public ProtocolFormCommitteeStatusDao getProtocolFormCommitteeStatusDao() {
+		return protocolFormCommitteeStatusDao;
+	}
+
+	@Autowired(required = true)
+	public void setProtocolFormCommitteeStatusDao(
+			ProtocolFormCommitteeStatusDao protocolFormCommitteeStatusDao) {
+		this.protocolFormCommitteeStatusDao = protocolFormCommitteeStatusDao;
 	}
 }

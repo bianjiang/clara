@@ -111,6 +111,9 @@
 				<form type="STUDY_RESUMPTION" status="UNDER_IRB_PREREVIEW">
 					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
 				</form>
+				<form type="OFFICE_ACTION" status="UNDER_IRB_PREREVIEW">
+					<form-committee-status>PENDING_REVIEWER_ASSIGNMENT</form-committee-status>
+				</form>
 			</role>
 		</roles>
 	</queue>
@@ -211,10 +214,16 @@
 				<form type="PRIVACY_BOARD" status="PENDING_IRB_REVIEW_ASSIGNMENT">
 					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
 				</form>
+				<form type="OFFICE_ACTION" status="PENDING_IRB_REVIEW_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_ASSIGNMENT</form-committee-status>
+				</form>
 				<form type="HUMANITARIAN_USE_DEVICE_RENEWAL" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
 					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
 				</form>
 				<form type="PRIVACY_BOARD" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
+					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
+				</form>
+				<form type="OFFICE_ACTION" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT">
 					<form-committee-status>PENDING_IRB_REVIEW_RE_ASSIGNMENT</form-committee-status>
 				</form>
 				<form type="CONTINUING_REVIEW" status="PENDING_IRB_REVIEW_ASSIGNMENT">

@@ -127,6 +127,43 @@ public class FileGenerateAndSaveServiceImpl implements FileGenerateAndSaveServic
 		
 	}
 	
+	@Override
+	public void processFileGenerateAndSave(String filename,
+			InputStream fileIn) throws IOException {
+		if (fileIn != null) {
+			
+			byte[] bytes = IOUtils.toByteArray(fileIn);
+
+			String[] folders = filename.split("/");
+			
+			String fullpath = uploadDirResourcePath + "/" + folders[folders.length - 1];
+			
+			logger.debug("fullpath: " + fullpath);
+			
+			InputStream inputStream = new ByteArrayInputStream(bytes);
+
+			OutputStream outputStream = new FileOutputStream(fullpath);
+
+			int readBytes = 0;
+			byte[] buffer = new byte[10000];
+			while ((readBytes = inputStream.read(buffer, 0, 10000)) != -1) {
+
+				outputStream.write(buffer, 0, readBytes);
+			}
+			logger.debug("file saved ...");
+			outputStream.close();
+			inputStream.close();
+			
+			try{
+				sFTPService.uploadLocalUploadedFileToRemote(filename);
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+
+			}
+		}
+	}
+	
 	/**
 	 * This function is used to process uploaded files
 	 * We currently have this part separated from the ajax controller that creates a link between protocol/contract forms to a specific file.

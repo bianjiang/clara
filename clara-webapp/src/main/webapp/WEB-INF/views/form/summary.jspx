@@ -201,6 +201,7 @@
 						<x:set var="qPath"
 							select="string($question/question-value/@instance-path)" />
 						<x:set var="qId" select="string($question/@id)" />
+						<x:set var="qClass" select="string($question/@class)" />
 						<x:set var="qLabel"
 							select="string($question/question-label/text())" />
 						<x:set var="qValueOuterClass"
@@ -230,7 +231,7 @@
 							<c:set var="canEditQuestion" value="true" />
 						</c:if>
 						<c:if test="${not empty qPath or qPath ne ''}">
-							<uams:summary-row path="${qPath}" id="${qId}" type="${qValueType}"
+							<uams:summary-row path="${qPath}" id="${qId}" questionclass="${qClass}" type="${qValueType}"
 							value="${qValue}" label="${qLabel}" lookuppath="${qLookupPath}"
 							relatedsection="${qHeader}" valuestyle="text-align:left;"  valueouterclass="${qValueOuterClass}" 
 							editable="${canEditQuestion}" shownovalue="true" editPossibleValues="${editPossibleValues}"/>

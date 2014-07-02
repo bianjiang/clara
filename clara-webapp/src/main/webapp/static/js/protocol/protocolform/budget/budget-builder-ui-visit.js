@@ -43,6 +43,9 @@ Clara.BudgetBuilder.VisitGridPanel = Ext.extend(Ext.grid.EditorGridPanel,{
 					    	}else if (!isSimple && e.record.get("cycleindex") < 1){
 								alert("You cannot start visits on a negative or zero day on complex phases.");
 								e.record.reject();
+							}else if (e.record.get("subjectcount") < 1){
+								alert("You cannot have visits with zero subjects.");
+								e.record.reject();
 							} else {
 								e.record.commit();
 								var d = e.record.data;
@@ -300,7 +303,7 @@ Clara.BudgetBuilder.MultipleVisitWindow = Ext.extend(Ext.Window,{
 	nextavailableday:1,
 	startday:1,
 	repetitions:1,
-	subjectcount:0,
+	subjectcount:1,
 	simplevisit:false,
 	getStatusText:function(){
 		var t = this;
@@ -479,15 +482,17 @@ Clara.BudgetBuilder.MultipleVisitWindow = Ext.extend(Ext.Window,{
 				}
 			}
 		},{
-			fieldLabel:'How many subjects for each visit?',
+			fieldLabel:'How many subjects for each visit? (You <strong>must</strong> have at least 1)',
 			xtype:'numberfield',
 			id:'fldNumSubjects',
 			allowDecimals:false,
-			value:0,
+			value:1,
 			anchor: '100%',
 			listeners: {
 				change:function(){
-					t.subjectcount = parseInt(jQuery("#fldNumSubjects").val());
+					var subCount = parseInt(jQuery("#fldNumSubjects").val());
+					t.subjectcount = (subCount > 0)?subCount:1;
+					jQuery("#fldNumSubjects").val((subCount > 0)?subCount:1);
 				}
 			}
 		},{

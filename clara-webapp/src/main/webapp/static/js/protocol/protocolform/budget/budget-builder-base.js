@@ -908,7 +908,7 @@ Clara.BudgetBuilder.Budget = function(o){
 			var me = this;
 			
 			//cdebug("budget.toXML start");
-			var xml = "<budget stamp='"+(me.stamp)+"' type='"+me.budgetType+"' fa='"+me.FA+"' locked='"+me.locked+"' faInitial='"+me.initialExpenseFA+"' faInvoicable='"+me.initialInvoicableFA+"'>";
+			var xml = "<budget idGenerator='"+(me.idGenerator)+"'  stamp='"+(me.stamp)+"' type='"+me.budgetType+"' fa='"+me.FA+"' locked='"+me.locked+"' faInitial='"+me.initialExpenseFA+"' faInvoicable='"+me.initialInvoicableFA+"'>";
 			xml = xml + "<expenses>";
 			var i = me.expenses.length;
 			while(i--){
@@ -2925,7 +2925,7 @@ Clara.BudgetBuilder.Epoch = function(o){
 				var subproc = "";
 				var subprocIcon = "";
 
-				var procDiffClass = (proc.diff !='')?"vp-diff-"+proc.diff:"";
+				// var procDiffClass = (proc.diff !='')?"vp-diff-"+proc.diff:"";
 
 				
 				if(!plaintext && proc.subprocedures.length > 0){
@@ -3014,7 +3014,7 @@ Clara.BudgetBuilder.Epoch = function(o){
 								if (v[j].parentCycle && !v[j].parentCycle.repeatforever){
 									reps = reps * parseInt(v[j].parentCycle.repetitions);
 								}
-								if (proc.diff !=''){
+								if (proc.diff =='D' || proc.diff =='A'){
 									vpDiffClass = "vp-diff-"+proc.diff;
 								}
 								else if (v[j].diff !=''){

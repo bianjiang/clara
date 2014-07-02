@@ -112,6 +112,10 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 		copyLists.put(ProtocolFormType.STUDY_RESUMPTION, lists);
 		
 		lists = new HashSet<ProtocolFormXmlDataType>();
+		lists.add(ProtocolFormXmlDataType.OFFICE_ACTION);
+		copyLists.put(ProtocolFormType.OFFICE_ACTION, lists);
+		
+		lists = new HashSet<ProtocolFormXmlDataType>();
 		lists.add(ProtocolFormXmlDataType.HUMANITARIAN_USE_DEVICE_RENEWAL);
 		copyLists.put(ProtocolFormType.HUMANITARIAN_USE_DEVICE_RENEWAL, lists);
 
@@ -297,7 +301,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 	
 	private Map<ProtocolFormType, String> questionVersionMap = Maps.newHashMap();{
 		//questionVersionMap.put(ProtocolFormType.NEW_SUBMISSION, "<question-version-id>1.0</question-version-id>");
-		questionVersionMap.put(ProtocolFormType.CONTINUING_REVIEW, "1.0");
+		questionVersionMap.put(ProtocolFormType.CONTINUING_REVIEW, "1.2");
 		questionVersionMap.put(ProtocolFormType.MODIFICATION, "1.0");
 		questionVersionMap.put(ProtocolFormType.STUDY_CLOSURE, "1.0");
 		questionVersionMap.put(ProtocolFormType.REPORTABLE_NEW_INFORMATION, "1.0");
@@ -386,6 +390,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 			
 			newSubmissionPulledXml += formService.pullFromOtherForm("/protocol/original-study", p.getMetaDataXml());
 			newSubmissionPulledXml += formService.pullFromOtherForm("/protocol/most-recent-study", p.getMetaDataXml());
+			newSubmissionPulledXml += formService.pullFromOtherForm("/protocol/funding", p.getMetaDataXml());
 
 			protocolFormXmlString += newSubmissionPulledXml;
 			break;
@@ -443,6 +448,13 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 					p.getMetaDataXml());
 			
 			protocolFormXmlString += nsfToSRPulledXml;
+			break;
+		case OFFICE_ACTION:
+			String nsfToOAPulledXml = "";
+			nsfToOAPulledXml += formService.pullFromOtherForm("/protocol/staffs",
+					p.getMetaDataXml());
+			
+			protocolFormXmlString += nsfToOAPulledXml;
 			break;
 		case AUDIT:
 			String metaToAuditPulledXml = "";
@@ -771,6 +783,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				pathList.add("/protocol/site-responsible");
 				pathList.add("/protocol/migrated");
 				pathList.add("/protocol/modification/to-modify-section/complete-budget-migration");
+				pathList.add("/protocol/need-budget");
 				
 				try {
 					Map<String, List<String>> values = getXmlProcessor().listElementStringValuesByPaths(pathList, protocolFormXmlDataString);
@@ -792,21 +805,20 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 					String respSite = (values.get("/protocol/site-responsible") != null && !values.get("/protocol/site-responsible").isEmpty())?values.get("/protocol/site-responsible").get(0):"";
 					String migrated = (values.get("/protocol/migrated") != null && !values.get("/protocol/migrated").isEmpty())?values.get("/protocol/migrated").get(0):"";
 					String budgetConvert = (values.get("/protocol/modification/to-modify-section/complete-budget-migration") != null && !values.get("/protocol/modification/to-modify-section/complete-budget-migration").isEmpty())?values.get("/protocol/modification/to-modify-section/complete-budget-migration").get(0):"";
+					String needBudget = (values.get("/protocol/need-budget") != null && !values.get("/protocol/need-budget").isEmpty())?values.get("/protocol/need-budget").get(0):"";
 					
-					if (respSite.equals("ach-achri")) {
+					if (isAudit.equals("y")) {
 						workflow = "IRB";
-					} else {
-						if (isAudit.equals("y")) {
-							workflow = "IRB";
-						} else if (migrated.equals("y")) {
-							if (budgetConvert.equals("y")) {
-								workflow = "COMPLIANCE";
-							} else {
-								workflow = "IRB";
-							}
+					} else if (migrated.equals("y")) {
+						if (budgetConvert.equals("y")) {
+							workflow = "COMPLIANCE";
 						} else {
-							//if (budgetModified.equals("y") || contractModified.equals("y") || piModified.equals("y") || procedureDeleted.equals("y") || pharmacyDeleted.equals("y") || subjectDeleted.equals("y") || amendToInjury.equals("y") || submitToMedicare.equals("y")) {
-							if (budgetModified.equals("y") || procedureDeleted.equals("y") || pharmacyDeleted.equals("y")) {
+							workflow = "IRB";
+						}
+					} else {
+						//if (budgetModified.equals("y") || contractModified.equals("y") || piModified.equals("y") || procedureDeleted.equals("y") || pharmacyDeleted.equals("y") || subjectDeleted.equals("y") || amendToInjury.equals("y") || submitToMedicare.equals("y")) {
+						if (budgetModified.equals("y") || procedureDeleted.equals("y") || pharmacyDeleted.equals("y")) {
+							if (respSite.equals("uams")) {
 								if (studyType.equals("investigator-initiated")) {
 									if (conductUnderUams.equals("y")) {
 										workflow = "GATEKEEPER";
@@ -817,8 +829,14 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 									workflow = "BUDGET_ONLY";
 								}
 							} else {
-								workflow = "IRB";
+								if (needBudget.equals("y")) {
+									workflow = "BUDGET_ONLY";
+								} else {
+									workflow = "IRB";
+								}
 							}
+						} else {
+							workflow = "IRB";
 						}
 					}
 					
@@ -1245,7 +1263,8 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 					protocolForm, user, "Treating Physician") ? "IS_TP"
 					: "IS_NOT_TP";
 		} else if (protocolForm.getProtocolFormType().equals(
-				ProtocolFormType.PRIVACY_BOARD)) {
+				ProtocolFormType.PRIVACY_BOARD) || protocolForm.getProtocolFormType().equals(
+						ProtocolFormType.OFFICE_ACTION)) {
 			isSpecficRole = "IS_PI";
 		} else {
 			if (workflow.equals("HUD")) {

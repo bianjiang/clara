@@ -17,7 +17,8 @@ Ext.define('Clara.Super.view.PostDetailWindow', {
 
 		            		  var msg = Ext.getCmp("fldMessage").getValue();
 		            		  var title = Ext.getCmp("fldTitle").getValue();
-		            		  
+		            		  var expDate = Ext.getCmp("fldExpireDate").getValue().getFullYear()+"-"+(Ext.getCmp("fldExpireDate").getValue().getMonth()+1) + "-" + Ext.getCmp("fldExpireDate").getValue().getDate();
+		            		  clog("Expire: "+expDate, new Date(expDate));
 		            		  if (msg.length <= 18000){
 		            			  
 		            			  var rec = Ext.create('Clara.Super.model.MessagePost', {
@@ -25,7 +26,7 @@ Ext.define('Clara.Super.view.PostDetailWindow', {
 		          	    		      message:msg,
 		          	    		      messageLevel:Ext.getCmp("fldMessageLevel").getValue(),
 		          	    		      created:new Date(),
-		          	    		      expireDate:Ext.getCmp("fldExpireDate").getValue()
+		          	    		      expireDate:expDate
 		            			  });
 
 		            			  rec.save({ 
@@ -83,7 +84,10 @@ Ext.define('Clara.Super.view.PostDetailWindow', {
 			defaultValue:'<!-- Empty Message -->',
 			flex:1,
 			height:240,
-			allowBlank:false
+			allowBlank:false,
+			enableColors:false,
+			enableFont:false,
+			enableFontSize:false
 		}];
 
 		me.callParent();

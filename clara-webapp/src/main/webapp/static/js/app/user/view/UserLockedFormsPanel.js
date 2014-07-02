@@ -31,6 +31,9 @@ Ext.define('Clara.User.view.UserLockedFormsPanel', {
                         		async: false,
                     			dataType:'xml',
                         		success: function(data){
+                        			if (piwik_enabled()){
+        		  						_paq.push(['trackEvent', 'USER', 'Unlocked form ('+rec.get("formid")+') for user '+profile.id]);
+        		  					}
                         			clog("Unlocked form. Reloading store.");
                         			grid.getStore().load();
                         		}

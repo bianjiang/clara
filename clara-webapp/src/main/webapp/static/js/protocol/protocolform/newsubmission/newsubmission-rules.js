@@ -365,7 +365,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	id : Ext.id(),
-	questionIds : [ 'question-study-subtype'],
+	questionIds : [ 'question-study-subtype', 'question-support-type-describe'],
 	dependantQuestionPaths : [ "/protocol/study-nature",
 	                           "/protocol/study-type",
 	                           "/protocol/study-type/investigator-initiated/investigator-description",

@@ -244,6 +244,8 @@ public class IRBAgendaController {
 		List<AgendaItem> newSubAndFullBoardList = Lists.newArrayList();
 		List<AgendaItem> contiRevAndFullBoardList = Lists.newArrayList();
 		List<AgendaItem> modiAndFullBoardList = Lists.newArrayList();
+		List<AgendaItem> pbList = Lists.newArrayList();
+		List<AgendaItem> oaList = Lists.newArrayList();
 		List<AgendaItem> respMajorList = Lists.newArrayList();
 		//List<AgendaItem> newSubAndExpedList = new ArrayList<AgendaItem>();
 		//List<AgendaItem> contiRevAndExpedList = new ArrayList<AgendaItem>();
@@ -333,6 +335,14 @@ public class IRBAgendaController {
 						.compareTo(ProtocolFormType.REPORTABLE_NEW_INFORMATION) == 0) {
 					rniList.add(agendaItems.get(i));
 				}
+				else if (agendaItems.get(i).getProtocolForm().getProtocolFormType()
+						.compareTo(ProtocolFormType.PRIVACY_BOARD) == 0) {
+					pbList.add(agendaItems.get(i));
+				}
+				else if (agendaItems.get(i).getProtocolForm().getProtocolFormType()
+						.compareTo(ProtocolFormType.OFFICE_ACTION) == 0) {
+					oaList.add(agendaItems.get(i));
+				}
 			}
 
 			else if (agendaItems.get(i).getAgendaItemCategory()
@@ -370,6 +380,8 @@ public class IRBAgendaController {
 		headList.add("Humanitarian User Device");
 		headList.add("Continuing Reviews");
 		headList.add("Modifications");
+		headList.add("Privacy Board");
+		headList.add("Office Action");
 		headList.add("Responses to Major Contingencies");
 		headList.add("Minutes");
 		headList.add("Reported Items");
@@ -384,6 +396,8 @@ public class IRBAgendaController {
 		allList.add(hudList);
 		allList.add(contiRevAndFullBoardList);
 		allList.add(modiAndFullBoardList);
+		allList.add(pbList);
+		allList.add(oaList);
 		allList.add(respMajorList);
 		allList.add(minutsList);
 		allList.add(reportedItemList);

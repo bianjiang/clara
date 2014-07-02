@@ -78,6 +78,9 @@ Clara.NewSubmission.ProtocolStaffPanel = Ext.extend(Ext.grid.GridPanel, {
     		});
     		
     	}
+    	if (piwik_enabled()){
+				_paq.push(['trackEvent', 'USER', 'Form: StaffPanel: Removed ('+staffID+'): '+ajaxBaseUrl]);
+			}
     	this.loadStaff();
 	},
 	
@@ -227,6 +230,9 @@ Clara.NewSubmission.ProtocolStaffPanel = Ext.extend(Ext.grid.GridPanel, {
 						    					data: data,
 						    					success: function(d){
 						    						clog(d);
+						    						if (piwik_enabled()){
+						    							_paq.push(['trackEvent', 'USER', 'Form: Staff Group Template Loaded']);
+						    						}
 						    						clog("RELOADING AFTER TEMPLATE LOAD..");
 						    						Ext.getCmp("protocol-staff-panel").loadStaff();
 						    					}

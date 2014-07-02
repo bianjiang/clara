@@ -76,12 +76,18 @@ Ext.define('Clara.Reports.controller.UserReport', {
                 displayFieldIds : displayFieldIds
             },
             success : function(response) {
+            	if (piwik_enabled()){
+    				_paq.push(['trackEvent', 'REPORTS', 'EDIT: Reorder fields on report '+me.selectedUserReport.get("id")]);
+    			}
                 clog('reorderDisplayFields: Ext.Ajax success',
                     response);
                 me.loadingMask.hide();
                 me.fireEvent("displayFieldsUpdated");
             },
             failure : function(error) {
+            	if (piwik_enabled()){
+    				_paq.push(['trackEvent', 'ERROR', 'EDIT: Reorder fields FAILED on report '+me.selectedUserReport.get("id")]);
+    			}
                 cwarn('reorderDisplayFields: Ext.Ajax failure',
                     error);
                 me.loadingMask.hide();

@@ -16,5 +16,8 @@ Ext.application({
     	Clara.Dashboard.app = this;
         // This is fired as soon as the page is ready
     	clog("Ext.app launch.");
+    	if (piwik_enabled()){
+			_paq.push(['trackEvent', 'DB', 'Launch']);
+		}
     }
 });
