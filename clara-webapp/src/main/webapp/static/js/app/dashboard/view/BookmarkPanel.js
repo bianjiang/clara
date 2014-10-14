@@ -33,9 +33,15 @@ Ext.define('Clara.Dashboard.view.BookmarkPanel', {
 			dock:'bottom',
 			items:[{
 				xtype:'button',
-				text:'<strong>New bookmark</strong>',
+				text:'<strong>New</strong>',
 				iconCls:'icn-gear',
 				id:'btnAddBookmark'
+			},{
+				xtype:'button',
+				text:'Edit',
+				iconCls:'icn-gear--pencil',
+				disabled:true,
+				id:'btnEditBookmark'
 			},{
 				xtype:'button',
 				text:'Remove',

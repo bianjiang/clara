@@ -44,7 +44,7 @@ public abstract class ProtocolFormReviewLogicService {
 		isInvolvedByTypeRules.put("PRMC", "boolean(count(/protocol/misc/is-cancer-study[text()='y'])>0)");
 		//isInvolvedByTypeRules.put("Drug", "boolean(count(/protocol/drugs/drug[@type[.=\"investigational\"]])>0)");
 		isInvolvedByTypeRules.put("Drug", "boolean(count(/protocol/drugs/drug)>0)");
-		isInvolvedByTypeRules.put("Device", "boolean(count(/protocol/devices/device)>0)");
+		isInvolvedByTypeRules.put("Device", "boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/devices/device)>0)");
 		isInvolvedByTypeRules.put("ClinicalTrials", "boolean(count(/protocol/misc/is-registered-at-clinical-trials[text()='y'])>0 and count(/protocol/study-type[text()='industry-sponsored'])=0)");
 		
 		isInvolvedByTypeRules.put("BudgetModification", "boolean(count(/protocol/modification/require-budget-review[text()='y'])>0 and count(/protocol/crimson/has-budget[text()='yes'])=0)");

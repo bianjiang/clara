@@ -35,6 +35,7 @@ import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.AgendaStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
+import edu.uams.clara.webapp.protocol.dao.irb.AgendaItemDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.AgendaStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
@@ -64,6 +65,7 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 	private ProtocolFormCommitteeStatusDao protocolFormCommitteeStatusDao;
 	private ReportFieldDao reportFieldDao;
 	private AgendaStatusDao agendaStatusDao;
+	private AgendaItemDao agendaItemDao;
 	private CommitteeActions committeeactions = new CommitteeActions();
 
 	private List<String[]> getDetailTimeInPIByProtocolFormId(long protocolFormId) {
@@ -272,17 +274,16 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 						if (committee.equals(Committee.IRB_REVIEWER)) {
 							try {
 								AgendaStatus agendaStatus = null;
-								try{
-									agendaStatus = agendaStatusDao
-											.getAgendaStatusByAgendaStatusAndProtocolFormId(
-													AgendaStatusEnum.AGENDA_APPROVED,
-													pfcs.getProtocolFormId());
-								}catch(Exception ex){
+								if(agendaItemDao.listbyProtocolFormId(pfcs.getProtocolFormId()).size()>1){
 									agendaStatus = agendaStatusDao
 											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
 													AgendaStatusEnum.AGENDA_APPROVED,
 													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);
-
+								}else{
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormId(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId());
 								}
 								startTime = agendaStatus.getModified()
 										.getTime();
@@ -300,17 +301,16 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 										.equals(ProtocolFormCommitteeStatusEnum.IRB_AGENDA_ASSIGNED)) {
 							try {
 								AgendaStatus agendaStatus = null;
-								try{
-									agendaStatus = agendaStatusDao
-											.getAgendaStatusByAgendaStatusAndProtocolFormId(
-													AgendaStatusEnum.AGENDA_APPROVED,
-													pfcs.getProtocolFormId());
-								}catch(Exception ex){
+								if(agendaItemDao.listbyProtocolFormId(pfcs.getProtocolFormId()).size()>1){
 									agendaStatus = agendaStatusDao
 											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
 													AgendaStatusEnum.AGENDA_APPROVED,
 													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);
-
+								}else{
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormId(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId());
 								}
 								endTime = agendaStatus.getModified().getTime();
 							} catch (Exception e) {
@@ -435,17 +435,16 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 					if (committee.equals(Committee.IRB_REVIEWER)) {
 						try {
 							AgendaStatus agendaStatus = null;
-							try{
-								agendaStatus = agendaStatusDao
-										.getAgendaStatusByAgendaStatusAndProtocolFormId(
-												AgendaStatusEnum.AGENDA_APPROVED,
-												pfcs.getProtocolFormId());
-							}catch(Exception ex){
+							if(agendaItemDao.listbyProtocolFormId(pfcs.getProtocolFormId()).size()>1){
 								agendaStatus = agendaStatusDao
 										.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
 												AgendaStatusEnum.AGENDA_APPROVED,
 												pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);
-
+							}else{
+								agendaStatus = agendaStatusDao
+										.getAgendaStatusByAgendaStatusAndProtocolFormId(
+												AgendaStatusEnum.AGENDA_APPROVED,
+												pfcs.getProtocolFormId());
 							}
 							startTime = agendaStatus.getModified().getTime();
 							tempStartPfcs = pfcs;
@@ -670,6 +669,9 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 		finalResultXml += "</report-items>";
 		finalResultXml += "</report-result>";
 		finalResultXml += "</report-results>";
+		if(finalResultXml.contains("&")){
+			finalResultXml=finalResultXml.replaceAll("&", "&amp;");
+		}
 		return finalResultXml;
 
 	}
@@ -1123,6 +1125,15 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 	@Autowired(required = true)
 	public void setAgendaStatusDao(AgendaStatusDao agendaStatusDao) {
 		this.agendaStatusDao = agendaStatusDao;
+	}
+
+	public AgendaItemDao getAgendaItemDao() {
+		return agendaItemDao;
+	}
+
+	@Autowired(required = true)
+	public void setAgendaItemDao(AgendaItemDao agendaItemDao) {
+		this.agendaItemDao = agendaItemDao;
 	}
 
 }

@@ -225,7 +225,7 @@ Clara.ProtocolForm.Rules
 .addRule(new Clara.ProtocolForm.Rule(
 		{
 			id : Ext.id(),
-			questionIds : [ 'question-deviations-occur-in-pattern','question-deviations-negatively-impact' ],
+			questionIds : [ 'question-deviations-how-many', 'question-deviations-occur-in-pattern','question-deviations-negatively-impact' ],
 			dependantQuestionPaths : [ "/continuing-review/study-report/any-deviations" ],
 			execute : function(answers) {
 				var hide = true;

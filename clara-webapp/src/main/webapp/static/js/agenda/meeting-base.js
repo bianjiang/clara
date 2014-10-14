@@ -320,24 +320,46 @@ Clara.IRBMeeting.Meeting = function(o){
 		});
 	};
 
+	this.validateXML= function(value){
+		var isXml;
+		
+        try{
+            isXml = jQuery.parseXML(value);
+        }catch(e){
+            isXml = false;
+        }
+	
+	    return isXml !== false;
+	};
+	
 	this.save= function(xmlstring){
 		clog("SAVING!!!");
-		Clara.IRBMeeting.MessageBus.fireEvent('beforemeetingsave', this);
-		var url = appContext+"/ajax/agendas/"+Clara.IRBMeeting.AgendaId+"/save-meeting-xml-data";
-		var data = (xmlstring)?xmlstring:this.toXML();
-		jQuery.ajax({
-			  type: 'POST',
-			  async:true,
-			  url: url,
-			  data: {xmlData: data},
-			  success: function(){
-				  Clara.IRBMeeting.MessageBus.fireEvent('aftermeetingsave', this);  
-			  },
-			  error: function(){
-				  Clara.IRBMeeting.MessageBus.fireEvent('error', this);  
-			  },
-			  dataType: 'xml'
-		});
+		var xmlDataToSave = "";
+		if (typeof xmlstring == "undefined" || xmlstring == null || xmlstring == ""){
+			xmlDataToSave = this.toXML();
+		} else {
+			xmlDataToSave = xmlstring;
+		}
+		if (this.validateXML(xmlDataToSave)){
+		
+			Clara.IRBMeeting.MessageBus.fireEvent('beforemeetingsave', this);
+			var url = appContext+"/ajax/agendas/"+Clara.IRBMeeting.AgendaId+"/save-meeting-xml-data";
+			jQuery.ajax({
+				  type: 'POST',
+				  async:false,
+				  url: url,
+				  data: {xmlData: xmlDataToSave},
+				  success: function(){
+					  Clara.IRBMeeting.MessageBus.fireEvent('aftermeetingsave', this);  
+				  },
+				  error: function(){
+					  Clara.IRBMeeting.MessageBus.fireEvent('error', this);  
+				  },
+				  dataType: 'xml'
+			});
+		} else {
+			alert("There was a problem saving the meeting. Please refresh the page and try again. If you continue to see this message, please contact IT.");
+		}
 	};
 	
 

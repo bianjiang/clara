@@ -5,42 +5,42 @@
     <definition extends="protocol/protocolform/studyclosure" name="protocol/protocolform/studyclosure/first-page">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
     
     <definition extends="protocol/protocolform/studyclosure" name="protocol/protocolform/studyclosure/general-study-information">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/general-study-information.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
     
     <definition extends="protocol/protocolform/studyclosure" name="protocol/protocolform/studyclosure/accrual-of-subjects">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/accrual-of-subjects.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
     
     <definition extends="protocol/protocolform/studyclosure" name="protocol/protocolform/studyclosure/study-report">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/study-report.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
     
     <definition extends="protocol/protocolform/studyclosure" name="protocol/protocolform/studyclosure/conflict-of-interest">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/conflict-of-interest.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
     
     <definition extends="protocol/protocolform/studyclosure" name="protocol/protocolform/studyclosure/documents">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/documents.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-         <add-attribute value="/static/js/common/wizard.js" />
+         
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
     		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
@@ -76,7 +76,7 @@
     <definition extends="protocol/protocolform/studyclosure-noheader" name="protocol/protocolform/studyclosure/first-page-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -86,7 +86,7 @@
     <definition extends="protocol/protocolform/studyclosure-noheader" name="protocol/protocolform/studyclosure/general-study-information-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/general-study-information.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -96,7 +96,7 @@
     <definition extends="protocol/protocolform/studyclosure-noheader" name="protocol/protocolform/studyclosure/accrual-of-subjects-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/accrual-of-subjects.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -106,7 +106,7 @@
     <definition extends="protocol/protocolform/studyclosure-noheader" name="protocol/protocolform/studyclosure/study-report-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/study-report.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -116,7 +116,7 @@
     <definition extends="protocol/protocolform/studyclosure-noheader" name="protocol/protocolform/studyclosure/conflict-of-interest-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/conflict-of-interest.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -126,7 +126,7 @@
     <definition extends="protocol/protocolform/studyclosure-noheader" name="protocol/protocolform/studyclosure/documents-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/studyclosure/documents.jspx" />
         <put-list-attribute name="javascripts" inherit="true">
-         <add-attribute value="/static/js/common/wizard.js" />
+         
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
     		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />

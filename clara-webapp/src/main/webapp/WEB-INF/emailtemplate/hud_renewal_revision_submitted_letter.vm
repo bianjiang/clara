@@ -1,0 +1,25 @@
+<html>
+<head>
+	<link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div class="email-template">
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>	
+	
+	<br/><br/>$currentDate
+	
+	<br/><br/>The following HUD Renewal form has been submitted.
+	
+	<br/><br/><strong>Treating Physician Name:</strong>  $treatingPhysicianUser.person.getFullname()
+	<br/><strong>Treating Physician Department:</strong> $treatingPhysicianUser.person.department
+	
+	<br/><br/><strong>HUD Number:</strong> $protocolId
+	<br/><strong>HUD Title:</strong> $protocolTitle
+	
+	<br/><br/>
+	<a href=$protocolLink>Click here to access study.</a>
+
+</div>
+</body>
+</html>

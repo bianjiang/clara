@@ -38,6 +38,7 @@ import com.google.common.collect.Sets;
 
 
 
+
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationResponse;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationRuleContainer;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationRuleHandler;
@@ -55,6 +56,7 @@ import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolF
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.service.protocolform.ProtocolFormReviewLogicServiceContainer;
+import edu.uams.clara.webapp.protocol.service.protocolform.ProtocolFormValidationService;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
 @Controller
@@ -81,163 +83,7 @@ public class ModificationValidationAjaxController {
 	
 	private FormService formService;
 	
-	private List<String> xmlDataXPathList = Lists.newArrayList();{
-		xmlDataXPathList.add("/protocol/site-responsible");
-		xmlDataXPathList.add("/protocol/study-type/investigator-initiated/investigator-description");
-		xmlDataXPathList.add("/protocol/budget-created");
-		xmlDataXPathList.add("/protocol/budget/potentially-billed");
-		xmlDataXPathList.add("/protocol/responsible-department");
-		xmlDataXPathList.add("/protocol/study-nature");
-		xmlDataXPathList.add("/protocol/study-nature/hud-use/where");
-	}
-	
-	private ValidationResponse pharmacyReviewValidation(long protocolFormId){
-		Constraint pharmacyValidationConstraint = new Constraint();
-		Map<String, Object> pharmacyValidationAdditionalData = new HashMap<String, Object>();
-		
-		ValidationResponse pharmacyValidationVP = null;
-		
-		try{
-			ProtocolForm protocolForm = protocolFormDao.findById(protocolFormId);
-			ProtocolFormCommitteeStatus pfcs = protocolFormCommitteeStatusDao.getLatestByCommitteeAndProtocolFormId(Committee.PHARMACY_REVIEW, protocolForm.getId());
-			
-			if (pfcs != null){
-				if (pfcs.getProtocolFormCommitteeStatus().equals(ProtocolFormCommitteeStatusEnum.IN_REVIEW_REQUESTED) || pfcs.getProtocolFormCommitteeStatus().equals(ProtocolFormCommitteeStatusEnum.IN_WAIVER_REQUESTED)){
-					pharmacyValidationConstraint.setConstraintLevel(ConstraintLevel.ERROR);
-					pharmacyValidationConstraint.setErrorMessage("Need to wait for Pharmacy to complete Review!");
-					
-					pharmacyValidationAdditionalData.put("pagename", "Review");
-					pharmacyValidationAdditionalData.put("pageref", "review");
-				}
-			}
-	
-			logger.debug("add: " + pharmacyValidationAdditionalData);
-			if (pharmacyValidationConstraint != null && (pharmacyValidationAdditionalData != null && !pharmacyValidationAdditionalData.isEmpty())){
-				pharmacyValidationVP = new ValidationResponse(pharmacyValidationConstraint, pharmacyValidationAdditionalData);
-			}
-			
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-
-		return pharmacyValidationVP;
-	}
-	
-	private ValidationResponse fundingSourceValidation(String xmlDataString, Map<String, List<String>> values){
-		Constraint fsValidationConstraint = new Constraint();
-		Map<String, Object> fsValidationAdditionalData = new HashMap<String, Object>();
-		
-		ValidationResponse fsValidationVP = null;
-		
-		try{
-			String siteResponsible = formService.getSafeStringValueByKey(values, "/protocol/site-responsible", "");
-			
-			String instestigatorDesc = formService.getSafeStringValueByKey(values, "/protocol/study-type/investigator-initiated/investigator-description", "");
-			
-			String budgetCreated = formService.getSafeStringValueByKey(values, "/protocol/budget-created", "");
-			
-			String haveBudget = formService.getSafeStringValueByKey(values, "/protocol/budget/potentially-billed", "");
-			
-			String studyNature = formService.getSafeStringValueByKey(values, "/protocol/study-nature", "");
-			
-			String hudStudyLocation = formService.getSafeStringValueByKey(values, "/protocol/study-nature/hud-use/where", "");
-
-			if (!siteResponsible.equals("ach-achri")){
-				if (studyNature.equals("hud-use") && hudStudyLocation.equals("ach/achri")) {
-					return fsValidationVP;
-				}
-				
-				Document pfxdDoc = xmlProcessor.loadXmlStringToDOM(xmlDataString);
-				
-				XPath xpath = xmlProcessor.getXPathInstance();
-				
-				NodeList fundingLst = (NodeList) xpath.evaluate( "/protocol/funding/funding-source", pfxdDoc, XPathConstants.NODESET);
-				
-				if (fundingLst == null || fundingLst.getLength() < 1){
-					fsValidationConstraint.setConstraintLevel(ConstraintLevel.ERROR);
-					fsValidationConstraint.setErrorMessage("Funding Source is required!");
-					
-					fsValidationAdditionalData.put("pagename", "Funding Sources");
-					fsValidationAdditionalData.put("pageref", "funding-sources");
-				} else {
-					NodeList partialFundingLst = (NodeList) xpath.evaluate( "/protocol/funding/funding-source[@amount=\"Partial\"]", pfxdDoc, XPathConstants.NODESET);
-					
-					Node fullFundingNd = (Node) xpath.evaluate( "/protocol/funding/funding-source[@amount=\"Full\"]", pfxdDoc, XPathConstants.NODE);
-					
-					Node noFundingNd = (Node) xpath.evaluate( "/protocol/funding/funding-source[@type=\"None\"]", pfxdDoc, XPathConstants.NODE);
-					
-					if (fullFundingNd == null && noFundingNd == null){
-						if (partialFundingLst != null && partialFundingLst.getLength() < 2){
-							fsValidationConstraint.setConstraintLevel(ConstraintLevel.ERROR);
-							fsValidationConstraint.setErrorMessage("At least 2 partial funding sources are required!");
-							
-							fsValidationAdditionalData.put("pagename", "Funding Sources");
-							fsValidationAdditionalData.put("pageref", "funding-sources");
-						}
-					} else if (noFundingNd != null){
-						Element noFundingEl = (Element) noFundingNd; 
-						
-						if (instestigatorDesc.equals("student-fellow-resident-post-doc") && budgetCreated.equals("y") && haveBudget.equals("y") && (noFundingEl.getAttribute("entityname").isEmpty() || noFundingEl.getAttribute("department").isEmpty() || noFundingEl.getAttribute("name").isEmpty())){
-							fsValidationConstraint.setConstraintLevel(ConstraintLevel.ERROR);
-							fsValidationConstraint.setErrorMessage("Since this study has budget, funding source is required!");
-							
-							fsValidationAdditionalData.put("pagename", "Funding Sources");
-							fsValidationAdditionalData.put("pageref", "funding-sources");
-						}
-					}
-				}
-			}
-			
-			if (fsValidationConstraint != null && (fsValidationAdditionalData != null && !fsValidationAdditionalData.isEmpty())){
-				fsValidationVP = new ValidationResponse(fsValidationConstraint, fsValidationAdditionalData);
-			}
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-		
-		return fsValidationVP;
-	}
-	
-	private ValidationResponse departmentValidation(String xmlDataString){
-		Constraint departmentValidationConstraint = new Constraint();
-		Map<String, Object> departmentValidationAdditionalData = new HashMap<String, Object>();
-		
-		ValidationResponse departmentValidationVP = null;
-		
-		try{
-			String collegeDesc = xmlProcessor.getAttributeValueByPathAndAttributeName("/protocol/responsible-department", xmlDataString, "collegedesc");
-			
-			if (collegeDesc != null && !collegeDesc.isEmpty()){
-				String deptDesc = xmlProcessor.getAttributeValueByPathAndAttributeName("/protocol/responsible-department", xmlDataString, "deptdesc");
-				
-				if (!collegeDesc.equals("Not applicable")) {
-					if (deptDesc == null || deptDesc.isEmpty()){
-						departmentValidationConstraint.setConstraintLevel(ConstraintLevel.ERROR);
-						departmentValidationConstraint.setErrorMessage("Department is required if you select college!");
-						
-						departmentValidationAdditionalData.put("pagename", "First Page");
-						departmentValidationAdditionalData.put("pageref", "first-page");
-					}
-				}
-				
-			} else {
-				departmentValidationConstraint.setConstraintLevel(ConstraintLevel.ERROR);
-				departmentValidationConstraint.setErrorMessage("College/Department informtion is required!");
-				
-				departmentValidationAdditionalData.put("pagename", "First Page");
-				departmentValidationAdditionalData.put("pageref", "first-page");
-			}
-			
-			if (departmentValidationConstraint != null && (departmentValidationAdditionalData != null && !departmentValidationAdditionalData.isEmpty())){
-				departmentValidationVP = new ValidationResponse(departmentValidationConstraint, departmentValidationAdditionalData);
-			}
-			
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-		
-		return departmentValidationVP;
-	}
+	private ProtocolFormValidationService protocolFormValidationService;
 	
 	private Set<String> ignoreValidationQuestionSet = Sets.newHashSet();{
 		ignoreValidationQuestionSet.add("/protocol/budget/involves/uams-inpatient-units");
@@ -315,43 +161,8 @@ public class ModificationValidationAjaxController {
 
 			}
 			
-			String xmlDataString = protocolXmlData.getXmlData();
+			validationResponses = protocolFormValidationService.getExtraValidationResponses(protocolXmlData, validationResponses);
 			
-			Map<String, List<String>> xmlDataValues = formService.getValuesFromXmlString(xmlDataString, xmlDataXPathList);
-			
-			ValidationResponse pharmacyValidationVP = pharmacyReviewValidation(protocolFormId);
-			if (pharmacyValidationVP != null){
-				validationResponses.add(pharmacyValidationVP);
-			}
-			
-			ValidationResponse fundingSourceValidationVp = fundingSourceValidation(xmlDataString, xmlDataValues);
-			if (fundingSourceValidationVp != null){
-				validationResponses.add(fundingSourceValidationVp);
-			}
-			
-			ValidationResponse departmentValidationVp = departmentValidation(xmlDataString);
-			if (departmentValidationVp != null){
-				validationResponses.add(departmentValidationVp);
-			}
-			
-			List<String> noClaraUserList = formService.getNoClaraUsers(xmldata);
-			
-			if (noClaraUserList != null && !noClaraUserList.isEmpty()) {
-				for (String noClaraUser : noClaraUserList) {
-					Constraint noClaraUserConstraint = new Constraint();
-					Map<String, Object> noClaraUserAdditionalData = new HashMap<String, Object>();
-					
-					noClaraUserConstraint.setConstraintLevel(ConstraintLevel.ERROR);
-					noClaraUserConstraint.setErrorMessage("Staff "+ noClaraUser + " does not have CLARA account, please remove this staff and create account!");
-					
-					noClaraUserAdditionalData.put("pagename", "Staff");
-					noClaraUserAdditionalData.put("pageref", "staff");
-					
-					ValidationResponse noClaraUserVP = new ValidationResponse(noClaraUserConstraint, noClaraUserAdditionalData);
-					
-					validationResponses.add(noClaraUserVP);
-				}
-			}
 		}
 		
 		return validationResponses;
@@ -438,5 +249,15 @@ public class ModificationValidationAjaxController {
 	@Autowired(required=true)
 	public void setFormService(FormService formService) {
 		this.formService = formService;
+	}
+
+	public ProtocolFormValidationService getProtocolFormValidationService() {
+		return protocolFormValidationService;
+	}
+	
+	@Autowired(required=true)
+	public void setProtocolFormValidationService(
+			ProtocolFormValidationService protocolFormValidationService) {
+		this.protocolFormValidationService = protocolFormValidationService;
 	}
 }

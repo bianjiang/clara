@@ -154,7 +154,8 @@ public class ProtocolFormXmlDataDao extends
 	public ProtocolFormXmlData getLastProtocolFormXmlDataByProtocolIdAndType(
 			long protocodId, ProtocolFormXmlDataType protocolFormXmlDataType) {
 		String query = "SELECT pfxd FROM ProtocolFormXmlData pfxd "
-				+ " WHERE pfxd.protocolForm.protocol.id = :protocolId AND pfxd.retired = :retired AND pfxd.protocolForm.retired = :retired AND pfxd.protocolForm.protocol.retired = :retired AND pfxd.protocolFormXmlDataType = :protocolFormXmlDataType"
+				+ " WHERE pfxd.protocolForm.protocol.id = :protocolId AND pfxd.retired = :retired AND pfxd.protocolForm.retired = :retired AND pfxd.protocolForm.protocol.retired = :retired AND pfxd.protocolFormXmlDataType = :protocolFormXmlDataType "
+				+ " AND pfxd.protocolForm.parent.id NOT IN (SELECT distinct protocolForm.parent.id FROM ProtocolFormStatus WHERE retired = :retired AND protocolFormStatus = 'CANCELLED')"
 				+ " ORDER BY pfxd.created DESC ";
 
 		TypedQuery<ProtocolFormXmlData> q = getEntityManager().createQuery(

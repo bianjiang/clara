@@ -3,6 +3,7 @@ Ext.ns('Clara.Documents');
 Clara.Documents.Document = function(o){
 	this.id=											(o.id || '');	
 	this.hashid=										(o.hashid || '');
+	this.uploadedFileId=								(o.uploadedFileId || '');
 	this.title=											(o.title || '');
 	this.category=										(o.category || '');
 	this.categoryDescription=							(o.categoryDescription || '');
@@ -15,7 +16,7 @@ Clara.Documents.Document = function(o){
 };
 
 Clara.Documents.MessageBus = new Ext.util.Observable();
-Clara.Documents.MessageBus.addEvents('documenttypesloaded','documentsloaded','filterselected','fileselected','fileremoved','fileuploaded','filemetadatasaved','filerenamed');
+Clara.Documents.MessageBus.addEvents('documenttypesloaded','documentsloaded','filterselected','fileselected','multiplefilesselected', 'fileremoved','fileuploaded','filemetadatasaved','filerenamed');
 
 Clara.Documents.disableFileActions = function(){
 	Ext.getCmp("btn-clara-document-detail-version").setDisabled(true);
@@ -264,8 +265,14 @@ Clara.Documents.StatusWindow = Ext.extend(Ext.Window, {
 				    	      	typeAhead:false,
 				    	      	store: new Ext.data.SimpleStore({
 				                       fields:['statustext','id'],
-				                       data: [['Draft','DRAFT'],/*['ACKNOWLEDGED','Acknowledged'],['DECLINED','Declined'],['DETERMINED','Determined'],*/
-				                              ['RSC Approved','RSC_APPROVED'],['IRB Approved','APPROVED'],['IRB Acknowledged','ACKNOWLEDGED'],['Retired','RETIRED'], ['HC Approved','HC_APPROVED'], ['Packet Document', 'PACKET_DOCUMENT'], ['Final Legal Approved', 'FINAL_LEGAL_APPROVED']]
+				                       data: [['Draft','DRAFT'],
+				                              ['RSC Approved','RSC_APPROVED'],
+				                              ['IRB Approved','APPROVED'],
+				                              ['IRB Acknowledged','ACKNOWLEDGED'],
+				                              ['Retired','RETIRED'], 
+				                              ['HC Approved','HC_APPROVED'], 
+				                              ['Packet Document', 'PACKET_DOCUMENT'], 
+				                              ['Final Legal Approved', 'FINAL_LEGAL_APPROVED']]
 				                    }),
 					    		value:(typeof t.doc.id != 'undefined')?(t.doc.status):"",
 					    	   	forceSelection:true,
@@ -347,7 +354,7 @@ Clara.Documents.TypeWindow = Ext.extend(Ext.Window, {
 				listeners:{
 					show: function(w){
 						clog("SHOW: doctypes",Clara.Documents.DocumentTypes);
-						Ext.getCmp("fldDocumentChangeToType").getStore().loadData(Clara.Documents.DocumentTypes);
+						// Ext.getCmp("fldDocumentChangeToType").getStore().loadData(Clara.Documents.DocumentTypes);
 					}
 				},
 				items:[{
@@ -469,7 +476,10 @@ Clara.Documents.UploadWindow = Ext.extend(Ext.Window, {
 					frame: false,
 			    	autoHeight:true,
 			    	bodyStyle: 'padding: 10px;',
-			    	items:[
+			    	items:[{
+						xtype:'label',
+						html:'<div style="font-weight:100;color:red;padding-left:104px;margin-bottom:8px;"><h1 style="font-size:12px;color:#666;">The Document Name must include the title, version number, and date (listed on the document).</h1>This is the information that will be included in IRB letters when referencing this document.</div>'
+					},
 							{
 					            xtype: 'fileuploadfield',
 					            id: 'clara-documents-uploadwindow-file',
@@ -510,11 +520,26 @@ Clara.Documents.UploadWindow = Ext.extend(Ext.Window, {
 					    	   	allowBlank:false,
 					    	   	id:'clara-documents-uploadwindow-details-type',
 					    	   	listeners:{
-					    	   		'select':function(c, record, index){
+					    	   		'select':function(c, rec, index){
 					    	   				if (index<0) {
 					    	   					Ext.getCmp('btn-clara-documents-uploadwindow-save').setDisabled(true);
 					    	   				} else {
-					    	   					Ext.getCmp('btn-clara-documents-uploadwindow-save').setDisabled(false);
+					    	   					// Check value, see if the form already has one of that type, and if they do, show a warning about versions
+					    	   					clog(rec);
+					    	   					var gp = Ext.getCmp('clara-documents-gridpanel');
+					    	   					
+					    	   					Ext.getCmp("clara-documents-uploadwindow-details-confirmduplicateexistingtype").setValue(false);
+					    	   					
+					    	   					if (Clara.Documents.DocumentTypeExists(gp, rec.get("doctype")) === true){
+					    	   						Ext.getCmp('btn-clara-documents-uploadwindow-save').setDisabled(true);
+					    	   						Ext.getCmp("clara-documents-uploadwindow-details-confirmduplicateexistingtype").setVisible(true);
+					    	   						Ext.getCmp("clara-documents-uploadwindow-details-confirmduplicateexistingtype-label").setVisible(true);
+					    	   					} else {
+					    	   						Ext.getCmp('btn-clara-documents-uploadwindow-save').setDisabled(false);
+					    	   						Ext.getCmp("clara-documents-uploadwindow-details-confirmduplicateexistingtype").setVisible(false);
+					    	   						Ext.getCmp("clara-documents-uploadwindow-details-confirmduplicateexistingtype-label").setVisible(false);
+					    	   					}
+					    	   					
 					    	   				}
 					    	   			
 					       			}
@@ -526,15 +551,31 @@ Clara.Documents.UploadWindow = Ext.extend(Ext.Window, {
 							    value:"", // REMOVED BY REQUEST OF KATE HENNING (5/15/14) TO REQUIRE USERS TO ENTER NEW NAME FOR NEW VERSIONS. OLD CODE: (typeof t.doc.id != 'undefined')?(t.doc.title):"",
 							    width:655
 							},
+							
 							{
 								xtype:'label',
-								html:'<div style="font-weight:100;color:red;padding-left:104px;"><h1 style="font-size:12px;color:#666;">The Document Name must include the title, version number, and date (listed on the document).</h1>This is the information that will be included in IRB letters when referencing this document.</div>'
+								hidden:true,
+								id:'clara-documents-uploadwindow-details-confirmduplicateexistingtype-label',
+								html:'<div style="font-weight:100;color:black;padding-left:104px;"><h1 style="font-size:16px;color:red;">A document of this type already exists.</h1>If you are uploading a new version: Close this window, select the document you wish to update and click "Upload Revised Version." <strong>If this is NOT a new version,</strong> check the box below and continue.</div>'
+							},
+							{
+								xtype:'checkbox',
+								id:'clara-documents-uploadwindow-details-confirmduplicateexistingtype',
+								hidden:true,
+								boxLabel:'<strong>This document is NOT a new version of an existing document.</strong>',
+								value:false,
+								listeners:{
+									'check':function(cb,checked){
+										Ext.getCmp('btn-clara-documents-uploadwindow-save').setDisabled(!checked);
+									}
+								}
 							},
 							{	xtype:'hidden',
 							    id: 'clara-documents-uploadwindow-details-parentid',
 							    value:(typeof t.doc.parentFormXmlDataDocumentId != 'undefined')?(t.doc.parentFormXmlDataDocumentId):0,
 							    height:0
 							}
+							
 			    	       
 			    	]    
 				}],
@@ -683,6 +724,7 @@ Clara.Documents.VersionWindow = Ext.extend(Ext.Window, {
 			    		fields: [
 			    		         {name:'id', mapping:'id'},
 			    		         {name:'hashid', mapping:'uploadedFile.identifier'},
+			    		         {name:'uploadedFileId', mapping:'uploadedFile.id'},
 			    		         {name:'extension'},
 			    		         {name:'path',mapping:'uploadedFile.path'},
 			    		         {name:'documentname', mapping:'uploadedFile.filename'},
@@ -713,6 +755,7 @@ Clara.Documents.VersionWindow = Ext.extend(Ext.Window, {
 							var doc = new Clara.Documents.Document({
 								id:docdata.id,
 								hashid:docdata.hashid,
+								uploadedFileId: docdata.uploadedFileId,
 								path:docdata.path,
 								title:docdata.title,
 								status:docdata.status,
@@ -825,6 +868,22 @@ Clara.Documents.VersionWindow = Ext.extend(Ext.Window, {
 });
 Ext.reg('claradocumentversionwindow', Clara.Documents.VersionWindow);
 
+Clara.Documents.DocumentTypeExists = function(gridpanel, doctype){
+	clog("Checking doc type exists.. ", doctype,gridpanel);
+	if (typeof gridpanel === "undefined") return false;
+	else {
+		var st = gridpanel.getStore();
+		clog("Store count: "+st.getCount());
+		if (st.getCount() == 0) return false;
+		else {
+			var idx = st.findBy(function(rec){
+				if (rec.get("category") === doctype) return true;
+			});
+			return (idx > -1)?true:false;
+		}
+	}
+};
+
 Clara.Documents.HasPermission = function(category, permission){
 	clog("Clara.Documents.HasPermission: ",category,permission);
 	permission = permission || "canWrite";
@@ -849,6 +908,26 @@ Clara.Documents.DetailBar = Ext.extend(Ext.Toolbar, {
 	},
 	initComponent: function(){
 		var t = this;
+		Clara.Documents.MessageBus.addListener('multiplefilesselected', function(docs){
+			var canReadAllDocs = true;
+			
+			clog("Docs selected",docs);
+			Ext.getCmp("clara-documents-gridpanel").selectedDocuments = docs;
+			
+			for (var i=0, l=docs.length;i<l; i++){
+				if (Clara.Documents.HasPermission(docs[i].get("category"), "canRead") == false) {
+					canReadAllDocs = false;
+				}
+			}
+			
+			Clara.Documents.disableFileActions();
+			Ext.getCmp("btn-clara-document-changestatus").setVisible(false);
+			Ext.getCmp("btn-clara-document-changetype").setVisible(false);
+			Ext.getCmp("btn-clara-document-download").setDisabled(!canReadAllDocs);
+			
+		});
+		
+		
 		Clara.Documents.MessageBus.addListener('fileselected', function(doc){
 clog("DOC OBJ",doc);
 			if (Clara.Documents.HasPermission(doc.category, "canRead")) {
@@ -885,7 +964,7 @@ clog("DOC OBJ",doc);
 			}
 			
 			
-			Ext.getCmp("btn-clara-document-changestatus").setVisible(Ext.getCmp("clara-documents-gridpanel").readOnly == false && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']));
+			Ext.getCmp("btn-clara-document-changestatus").setVisible(Ext.getCmp("clara-documents-gridpanel").readOnly == false && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_BUDGET_REVIEWER']));
 			
 			Ext.getCmp("btn-clara-document-changetype").setVisible(Ext.getCmp("clara-documents-gridpanel").readOnly == false && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_IRB_PREREVIEW','ROLE_SYSTEM_ADMIN']));
 			
@@ -902,12 +981,22 @@ clog("DOC OBJ",doc);
 				items:[{
 			    	text: '<span style="font-weight:800;font-size:12px;">Upload New Document</span>',
 			    	disabled:t.readOnly,
-			    	iconCls:'icn-navigation-090-button',iconAlign:'right',
+			    	iconCls:'icn-navigation-090-button',iconAlign:'left',
 			    	handler: function(){
 			    		cdebug("new doc");
 						new Clara.Documents.UploadWindow({doc:{}}).show();
 			    	}
-		    	},'->',	
+		    	},'-',{
+                    xtype: 'button',
+                    text: '<span style="font-weight:800;font-size:12px;">Upload Revised Version</span>',
+                    disabled:true,
+                    id:'btn-clara-document-revise',
+                    iconCls:'icn-document-tree',
+                    handler: function(){
+            			var doc = Ext.getCmp("clara-documents-gridpanel").selectedDocument;
+            			new Clara.Documents.UploadWindow({doc:doc, title:"Updating '"+doc.title+"'..."}).show();
+            		}
+                },'->',	
 			                        {
 			                            xtype: 'button',
 			                            text: 'Open / Download',
@@ -915,14 +1004,49 @@ clog("DOC OBJ",doc);
 			                            id:'btn-clara-document-download',
 			                            iconCls:'icn-drive-download',
 			                            handler: function(){
+			                            	var docs = Ext.getCmp("clara-documents-gridpanel").selectedDocuments,
+			                            	    doc  = Ext.getCmp("clara-documents-gridpanel").selectedDocument;
 			                            	
-		                        			var doc = Ext.getCmp("clara-documents-gridpanel").selectedDocument;
-		                        			var url = fileserverURL + doc.path +doc.hashid+"."+doc.extension+"?n="+encodeURIComponent(doc.filename).replace(/%20/g, "_");
-		                        			clog("Opening",url,doc);
-		                        			if (piwik_enabled()){
-												_paq.push(['trackEvent', 'DOCUMENTS', 'Download Document: '+doc.id+': '+doc.title+' ('+url+')']);
-											}
-		                        			window.open( url, '');
+			                            	var downloadMask = new Ext.LoadMask(Ext.getBody(),{
+			                        		    msg    : 'Please wait...'
+			                        		});
+			                            	
+			                            	if (docs.length == 0) {
+			                        			var url = fileserverURL + doc.path +doc.hashid+"."+doc.extension+"?n="+encodeURIComponent(doc.filename).replace(/%20/g, "_");
+			                        			clog("Opening",url,doc);
+			                        			if (piwik_enabled()){
+													_paq.push(['trackEvent', 'DOCUMENTS', 'Download Document: '+doc.id+': '+doc.title+' ('+url+')']);
+												}
+			                        			window.open( url, '');
+			                            	} else {
+			                            		clog("Download Multiple", docs);
+			                            		var docIds = [];
+			                            		for (var i=0,l=docs.length;i<l;i++){
+			                            			docIds.push(docs[i].get("uploadedFileId"));
+			                            		}
+			                            		downloadMask.show();
+			                        			var url = appContext + "/ajax/documents/download";
+			                        			Ext.Ajax.request({
+			                        				method:"POST",
+			                        				url:url,
+			                        				params:{
+			                        					docId: docIds
+			                        				},
+			                        				success: function(response,opts){
+			                        					
+			                        					var zipFile = Ext.decode(response.responseText);
+			                        					clog("SUCCESS resp",response,zipFile);
+			                        					location.href=zipFile.url;
+			                        					
+			                        					Ext.getBody().unmask();
+			                        				},
+			                        				failure: function(response,opts){
+			                        					alert("There was a problem downloading these files. Please try again later.");
+			                        					clog("FAIL resp",response);
+			                        					  Ext.getBody().unmask();
+			                        				}
+			                        			});
+			                            	}
 		                        		}
 			                        },
 			                        {
@@ -958,17 +1082,7 @@ clog("DOC OBJ",doc);
 		                        			new Clara.Documents.VersionWindow({parentdoc:doc}).show();
 		                        		}
 			                        },
-			                        {
-			                            xtype: 'button',
-			                            text: 'Revise',
-			                            disabled:true,
-			                            id:'btn-clara-document-revise',
-			                            iconCls:'icn-document-import',
-			                            handler: function(){
-		                        			var doc = Ext.getCmp("clara-documents-gridpanel").selectedDocument;
-		                        			new Clara.Documents.UploadWindow({doc:doc, title:"Updating '"+doc.title+"'..."}).show();
-		                        		}
-			                        },
+			                        
 			                        
 			                        {
 			                            xtype: 'button',
@@ -979,7 +1093,6 @@ clog("DOC OBJ",doc);
 			                            handler: function(){
 			                            	var buttn = this;
 		                        			var doc = Ext.getCmp("clara-documents-gridpanel").selectedDocument;
-		                        			var theDocID = doc.id;
 		                        			new Clara.Documents.RenameWindow({doc:doc, title:"Renaming '"+doc.title+"'..."}).show();
 		                        		}
 			                        },{
@@ -1211,6 +1324,7 @@ Clara.Documents.FilterPanel = Ext.extend(Ext.tree.TreePanel, {
         			if (piwik_enabled()){
 						_paq.push(['trackEvent', 'DOCUMENTS', 'List (all)']);
 					}
+        	
         			Clara.Documents.MessageBus.fireEvent('filterselected');
         			var s = Ext.getCmp("clara-documents-gridpanel").getStore();
         			s.clearFilter();
@@ -1387,6 +1501,7 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 	border:false,
 	region:'center',
 	selectedDocument:{},
+	selectedDocuments:[],	// for multiple download
 	parentFormIds:[],
 	constructor:function(config){		
 		Clara.Documents.GridPanel.superclass.constructor.call(this, config);
@@ -1414,6 +1529,7 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 		clog("All docs? "+this.allDocs);
 		Clara.Documents.MessageBus.addListener('fileselected', function(doc){
 			t.selectedDocument = doc;
+			while (t.selectedDocuments.length) { t.selectedDocuments.pop(); }
 		});
 		
 		Clara.Documents.MessageBus.addListener('documenttypesloaded', function(data){
@@ -1451,6 +1567,7 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 						fields: [
 						         {name:'id', mapping:'id'},
 						         {name:'hashid', mapping:'uploadedFile.identifier'},
+						         {name:'uploadedFileId', mapping:'uploadedFile.id'},
 						         {name:'documentname', mapping:'uploadedFile.filename'},
 						         {name:'category'},
 						         {name:'title'},
@@ -1509,7 +1626,36 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 
 		    	}),
 				tbar: {xtype:'claradocumentdetailbar', readOnly:this.readOnly},
-				sm: new Ext.grid.RowSelectionModel({singleSelect: true}),
+				sm: new Ext.grid.RowSelectionModel({singleSelect: false, listeners:{
+					selectionchange: function(sm){
+						var recs = sm.getSelections();
+						if (recs.length == 0) return;
+						
+						clog("selectionchange: recs",recs);
+						
+						if (recs.length == 1){
+							var docdata = recs[0].data;
+							clog(docdata);
+							var doc = new Clara.Documents.Document({
+								id:docdata.id,
+								hashid:docdata.hashid,
+								uploadedFileId:docdata.uploadedFileId,
+								title:docdata.title,
+								category:docdata.category,
+								categoryDescription:Clara.Documents.DocumentTypes[docdata.category.toLowerCase()],
+								status:docdata.status,
+								filename:docdata.documentname,
+								createdDate:docdata.createdDate,
+								extension:docdata.extension,
+								path:docdata.path,
+								parentFormXmlDataDocumentId:docdata.parentid
+							});
+							Clara.Documents.MessageBus.fireEvent('fileselected', doc);
+						} else {
+							Clara.Documents.MessageBus.fireEvent('multiplefilesselected', recs);
+						}
+					}
+				}}),
 		        loadMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
 
 		        columns: [{
@@ -1598,31 +1744,7 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 			                  	sortable:true,
 			                  	width:70
 			                }
-		        ],
-			    listeners:{
-					
-				    rowclick: function(grid, rowI, event)   {
-						var docdata = grid.getStore().getAt(rowI).data;
-						clog(docdata);
-						var doc = new Clara.Documents.Document({
-							id:docdata.id,
-							hashid:docdata.hashid,
-							title:docdata.title,
-							category:docdata.category,
-							categoryDescription:Clara.Documents.DocumentTypes[docdata.category.toLowerCase()],
-							status:docdata.status,
-							filename:docdata.documentname,
-							createdDate:docdata.createdDate,
-							extension:docdata.extension,
-							path:docdata.path,
-							parentFormXmlDataDocumentId:docdata.parentid
-						});
-						
-						Clara.Documents.MessageBus.fireEvent('fileselected', doc);
-						
-						
-				    }
-			    }
+		        ]
 		};
 		
 		Ext.apply(this, Ext.apply(this.initialConfig, config));

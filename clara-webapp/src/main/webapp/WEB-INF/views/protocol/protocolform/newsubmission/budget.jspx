@@ -77,10 +77,10 @@
 				</div>
 				
 				<div class="questionValue">
-					<x:set var="bq2"
+					<x:set var="uamsClinics"
 						select="string($protocolInstance/protocol/budget/involves/uams-clinics/text())" />
 					<uams:yesno id="involves-uams-clinics"
-						instancepath="/protocol/budget/involves/uams-clinics" value="${bq2}"
+						instancepath="/protocol/budget/involves/uams-clinics" value="${uamsClinics}"
 						validation="required" />
 				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Clinics</strong>?</span></div>
 				<div class="clearQuestionRow">
@@ -88,10 +88,10 @@
 				</div>
 				
 				<div class="questionValue">
-					<x:set var="bq2"
+					<x:set var="uamsInpatientUnits"
 						select="string($protocolInstance/protocol/budget/involves/uams-inpatient-units/text())" />
 					<uams:yesno id="involves-uams-inpatient-units"
-						instancepath="/protocol/budget/involves/uams-inpatient-units" value="${bq2}"
+						instancepath="/protocol/budget/involves/uams-inpatient-units" value="${uamsInpatientUnits}"
 						validation="required" />
 				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Inpatient Units</strong>?</span></div>
 				<div class="clearQuestionRow">
@@ -99,10 +99,10 @@
 				</div>
 				
 				<div class="questionValue">
-					<x:set var="bq2"
+					<x:set var="uamsSsOu"
 						select="string($protocolInstance/protocol/budget/involves/uams-ss-ou/text())" />
 					<uams:yesno id="involves-uams-ss-ou"
-						instancepath="/protocol/budget/involves/uams-ss-ou" value="${bq2}"
+						instancepath="/protocol/budget/involves/uams-ss-ou" value="${uamsSsOu}"
 						validation="required" />
 				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Short Stay or Infusion Center</strong>?</span></div>
 				<div class="clearQuestionRow">
@@ -122,10 +122,10 @@
 				<!-- </div> -->
 				
 				<div class="questionValue">
-					<x:set var="bq2"
+					<x:set var="uamsClinicallab"
 						select="string($protocolInstance/protocol/budget/involves/uams-clinicallab/text())" />
 					<uams:yesno id="involves-uams-clinicallab"
-						instancepath="/protocol/budget/involves/uams-clinicallab" value="${bq2}"
+						instancepath="/protocol/budget/involves/uams-clinicallab" value="${uamsClinicallab}"
 						validation="required" />
 				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Clinical Laboratory Services</strong>?</span></div>
 				<div class="clearQuestionRow">
@@ -133,10 +133,10 @@
 				</div>
 				
 				<div class="questionValue">
-					<x:set var="bq2"
+					<x:set var="uamsRadiology"
 						select="string($protocolInstance/protocol/budget/involves/uams-radiology/text())" />
 					<uams:yesno id="involves-uams-radiology"
-						instancepath="/protocol/budget/involves/uams-radiology" value="${bq2}"
+						instancepath="/protocol/budget/involves/uams-radiology" value="${uamsRadiology}"
 						validation="required" />
 				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Radiology Procedures and Services</strong>?</span></div>
 				<div class="clearQuestionRow">
@@ -144,10 +144,10 @@
 				</div>
 				
 				<div class="questionValue">
-					<x:set var="bq2"
+					<x:set var="uamsPharmacy"
 						select="string($protocolInstance/protocol/budget/involves/uams-pharmacy/text())" />
 					<uams:yesno id="involves-uams-pharmacy"
-						instancepath="/protocol/budget/involves/uams-pharmacy" value="${bq2}"
+						instancepath="/protocol/budget/involves/uams-pharmacy" value="${uamsPharmacy}"
 						validation="required" />
 				</div><div class="questionLabel"><span class="question-label-text"><strong>UAMS Pharmacy (Research, Inpatient, or Outpatient) Services</strong>?</span></div>
 				<div class="clearQuestionRow">
@@ -155,10 +155,10 @@
 				</div>
 				
 				<div class="questionValue">
-					<x:set var="bq2"
+					<x:set var="uamsOther"
 						select="string($protocolInstance/protocol/budget/involves/uams-other/text())" />
 					<uams:yesno id="involves-uams-other"
-						instancepath="/protocol/budget/involves/uams-other" value="${bq2}"
+						instancepath="/protocol/budget/involves/uams-other" value="${uamsOther}"
 						validation="required" />
 				</div><div class="questionLabel"><span class="question-label-text"><strong>Other UAMS Clinical, Diagnostic, or Therapeutic Services (ECG, Pulmonary Functions, ECHO, etc.)</strong>?</span></div>
 				<div class="clearQuestionRow">
@@ -166,10 +166,10 @@
 				</div>
 				
 				<div class="questionValue">
-					<x:set var="bq2"
+					<x:set var="uamsSupplies"
 						select="string($protocolInstance/protocol/budget/involves/uams-supplies/text())" />
 					<uams:yesno id="involves-uams-supplies"
-						instancepath="/protocol/budget/involves/uams-supplies" value="${bq2}"
+						instancepath="/protocol/budget/involves/uams-supplies" value="${uamsSupplies}"
 						validation="required" />
 				</div><div class="questionLabel"><span class="question-label-text"><strong>Any supplies from UAMS Central Supply</strong>?</span></div>
 				<div class="clearQuestionRow">
@@ -177,10 +177,10 @@
 				</div>
 				
 				<div class="questionValue">
-					<x:set var="bq2"
+					<x:set var="fgpFees"
 						select="string($protocolInstance/protocol/budget/involves/fgp-fees/text())" />
 					<uams:yesno id="involves-fgp-fees"
-						instancepath="/protocol/budget/involves/fgp-fees" value="${bq2}"
+						instancepath="/protocol/budget/involves/fgp-fees" value="${fgpFees}"
 						validation="required" />
 				</div><div class="questionLabel"><span class="question-label-text"><strong>Professional fees billed through the Faculty Group Practice</strong>?</span></div>
 				<div class="clearQuestionRow">
@@ -188,10 +188,10 @@
 				</div>
 				
 				<div class="questionValue">
-					<x:set var="bq2"
+					<x:set var="industrySupport"
 						select="string($protocolInstance/protocol/budget/involves/industry-support/text())" />
 					<uams:yesno id="involves-industry-support"
-						instancepath="/protocol/budget/involves/industry-support" value="${bq2}"
+						instancepath="/protocol/budget/involves/industry-support" value="${industrySupport}"
 						validation="required" />
 				</div><div class="questionLabel"><span class="question-label-text"><strong>Funds, drugs, devices, or other support from industry</strong>?</span></div>
 				<div class="clearQuestionRow">

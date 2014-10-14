@@ -11,19 +11,23 @@
 	xmlns:p="http://devsphere.com/xml/taglib/process"
 	xmlns:uams="urn:jsptagdir:/WEB-INF/tags" version="2.0">
 	<jsp:output omit-xml-declaration="yes" />
-
+ 
 
 	<x:parse doc="${checkListXml}" var="cl" scope="application" />
-		<h4>Choose a checklist below.</h4>
+
+	<x:parse var="answers" xml="${checkListAnswerXml}" />
+
+		<h4>Checklists</h4>
 	
 		<x:forEach var="checklistGroup" select="$cl/checklists/checklist-group" varStatus="i">
-			
-			<button type="button" class="btn btn-block btn-checklistgroup" data-toggle="collapse" data-target="#clg-${i.index}"><x:out select="string($checklistGroup/@title)"/></button>
+			<x:set var="gId" select="string($checklistGroup/@id)"/>
+			<button type="button" class="btn btn-block btn-primary btn-checklistgroup" data-toggle="collapse" data-target="#clg-${i.index}"><h4><x:out select="string($checklistGroup/@title)"/></h4></button>
 		
 			<div class="checklistgroup collapse in" id="clg-${i.index}">
 				
 				<div class="clDesc"><x:out select="string($checklistGroup/description/text())"/></div>
 				<x:forEach var="subcl" select="$checklistGroup/checklist" varStatus="j">
+					<x:set var="clId" select="string($subcl/@id)"/>
 					<c:set var="subId" value="${i.index}"/>
 			  		<div class="accordian checklist-section" id="page${subId}${j.index}">
 			  			<div class="accordian-group">
@@ -33,9 +37,10 @@
 				  			<div id="collapse${i.index}${j.index}" class="accordion-body collapse in">
 	      						<div class="accordion-inner">
 	      							<div class="clDesc"><x:out select="string($subcl/description/text())"/></div>
-								  	<table class="table table-condensed table-striped table-hover">
+								  	<table class="table table-condensed table-striped table-hover checklist-table">
 								  		<thead>
 								  			<tr>
+								  				<th>Answer</th>
 								  				<th><!-- // --></th>
 								  				<th>Checklist</th>
 								  			</tr>
@@ -43,7 +48,63 @@
 								  		<tbody>
 								  			<x:forEach var="q" select="$subcl/question">
 								  				<x:set var="qId" select="string($q/@id)"/>
-									  			<tr><td><strong>${qId}</strong></td><td><x:out escapeXml="false" select="string($q/text)"/></td></tr>
+								  				<c:set var="questionElId" value="answer_${gId}_${clId}_${qId}"/>
+								  				<c:set var="answerValue" value=""/>
+								  				<c:set var="answerRowClass" value=""/>
+								  				<c:set var="answerYesClass" value=""/>
+					  							<c:set var="answerNoClass" value=""/>
+					  							<c:set var="answerNAClass" value=""/>
+					  							
+					  							<x:set var="answergId" select="*[name()=$pageScope:gId]" />
+					  							<x:set var="answerclId" select="*[name()=$pageScope:clId]" />
+					  							<x:set var="answerqId" select="*[name()=$pageScope:qId]" />
+					  							
+					  							<uamsx:set var="answerValue" select="string($answers/answers/ans[(@q='${qId}') and (@gr='${gId}') and (@cl='${clId}')]/@val)"/>
+					  		
+				
+								  					<c:if test="${answerValue ne ''}">
+	
+								  						<c:if test="${answerValue eq 'y'}">
+								  							<c:set var="answerRowClass" value="success"/>
+								  						</c:if>
+								  						<c:if test="${answerValue eq 'n'}">
+								  							<c:set var="answerRowClass" value="error"/>
+								  						</c:if>
+								  						<c:if test="${answerValue eq 'na'}">
+								  							<c:set var="answerRowClass" value="warning"/>
+								  						</c:if>
+								  					</c:if>
+								  			
+								  				
+									  			<tr id="${questionElId}" class="${answerRowClass}">
+									  				<td>
+										  				<div class="btn-group answer-button-group" data-toggle="buttons-radio">
+																
+										  						<c:if test="${answerValue eq 'y'}">
+										  							<c:set var="answerYesClass" value="active bold"/>
+										  							<c:set var="answerNoClass" value="muted"/>
+										  							<c:set var="answerNAClass" value="muted"/>
+										  						</c:if>
+										  						<c:if test="${answerValue eq 'n'}">
+										  							<c:set var="answerYesClass" value="muted"/>
+										  							<c:set var="answerNoClass" value="active bold"/>
+										  							<c:set var="answerNAClass" value="muted"/>
+										  						</c:if>
+										  						<c:if test="${answerValue eq 'na'}">
+										  							<c:set var="answerYesClass" value="muted"/>
+										  							<c:set var="answerNoClass" value="muted"/>
+										  							<c:set var="answerNAClass" value="active bold"/>
+										  						</c:if>
+
+														  <button type="button" class="btn btn-default answer-button yes-button ${answerYesClass }">Yes</button>
+														  <button type="button" class="btn btn-default answer-button no-button ${answerNoClass }">No</button>
+														  <button type="button" class="btn btn-default answer-button na-button ${answerNAClass }">N/A</button>
+														</div>
+									  				</td>
+									  				<td><strong>${qId}</strong></td>
+									  				<td><x:out escapeXml="false" select="string($q/text)"/>
+									  				</td>
+									  			</tr>
 									  		</x:forEach>
 									  	</tbody>
 									</table>
@@ -56,7 +117,105 @@
 		</x:forEach>
 
 	<script>
-	jQuery('.accordion-body').collapse("hide");
+
+	committee = '${committee}';
+	formId = '${protocolFormId}';
+	
+	claraInstance.setUser({
+		id: ${!empty user?user.id:0},
+		username: "${!empty user?user.username:''}"
+	});
+	
+	<![CDATA[
+	         
+	         
+	         
+	function saveAnswerXML(xml){
+		var answerXml = "";
+		if (!xml || xml.length == 0){
+		
+			answerXml = "<answers>";
+			jQuery(".checklist-table tbody tr").each(function(idx,el){
+				var answerId = jQuery(el).attr("id").split("_");
+				var groupId = answerId[1];
+				var checklistId = answerId[2];
+				var questionId = answerId[3];
+				var activeButton = jQuery(el).find(".answer-button.active");
+				var answerValue = (activeButton.hasClass( "yes-button" ))?"y":(activeButton.hasClass("no-button")?"n":(activeButton.hasClass("na-button")?"na":null));
+				
+				if (answerValue !== null) answerXml += "<ans gr='"+groupId+"' cl='"+checklistId+"' q='"+questionId+"' val='"+answerValue+"'/>";
+				
+			});
+			answerXml += "</answers>";
+			clog(answerXml);
+			
+		} else {
+			answerXml = xml;
+		}
+		
+		var url = appContext+"/ajax/protocols/000/protocol-forms/"+formId+"/review/checklists/answer/save";
+		
+		jQuery.ajax({
+			  type: 'POST',
+			  url: url,
+			  data: {committee: committee, xmlData:answerXml},
+			  success: function(){
+				  clog("Saved.");
+			  },
+			  error: function(){
+				  cerr("Error saving.");
+			  }
+		});
+		
+	}
+	
+	function updateQuestionAppearance(el, clear){
+		clear = clear || false;
+		var activeButton = jQuery(el);
+		activeButton.addClass('bold').siblings().removeClass('bold');
+		
+		var answerClass = "";
+		if (!clear) { 
+			answerClass = (activeButton.hasClass( "yes-button" ))?"success":(activeButton.hasClass("no-button")?"error":(activeButton.hasClass("na-button")?"warning":null));
+		}
+		clog("will add "+answerClass+" to tr");
+		jQuery(activeButton).closest("tr").removeClass("success").removeClass("error").remove("warning").addClass(answerClass);
+	}
+	
+	jQuery( document ).ready(function() {
+		var urlVars = getUrlVars();
+		
+		var readOnly = (urlVars["readOnly"] == "true");
+		
+		if (!readOnly){
+	    	jQuery(".answer-button").click(function(e){
+	    		e.preventDefault();
+	    		var answerID = jQuery(e.target).closest("tr").attr("id");			// like "answer_1_2_3", group 1, checklist 2, question 3
+	    		clog("Clicked answer "+answerID);
+	    		
+	    		if (jQuery(this).hasClass("active")){
+	    			clog("Already active.", jQuery(this), e.target);
+					//jQuery(answerId+" .btn-group").button('reset');
+	    			jQuery(this).removeClass("active").siblings().removeClass('active');
+	    			jQuery(this).removeClass("bold").siblings().removeClass('bold');
+	    			updateQuestionAppearance(e.target,true);
+	        		saveAnswerXML();
+	    			return false;
+	    		} else {
+	    			jQuery(this).addClass('active').siblings().removeClass('active');	// prevent "Active" race condition in bootstrap
+	    			updateQuestionAppearance(e.target,false);
+	        		saveAnswerXML();
+	    		}
+	    		
+	    		
+	    	});
+		} else {
+			jQuery('.answer-button').attr('disabled','disabled');
+		}
+		
+		jQuery('.answer-button').show();
+	});
+	]]>
 	</script>
 </div>
 

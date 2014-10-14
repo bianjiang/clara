@@ -9,7 +9,7 @@ Clara.Pharmacy.MessageBus.addListener('afterpharmacysave', function(p){
 	clog("saved. reloading.");
 	Ext.getCmp("feepanel").getStore().loadData(pharmacy.getArray());
 	var waiveClass = (pharmacy.waived)?"waived-total":"";
-	jQuery("#pharmacy-total-value").text(Ext.util.Format.usMoney(pharmacy.total)).removeClass("waived-total").addClass(waiveClass);
+	jQuery("#pharmacy-total").html("Total (initiation costs only): "+pharmacy.getDisplayTotal());
 	Ext.getCmp("btnRemoveExpense").setDisabled(true);
 });
 

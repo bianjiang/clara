@@ -1,7 +1,7 @@
 package edu.uams.clara.webapp.protocol.domain.irb.enums;
 
 public enum IRBRoster {
-	WEEK_1("Week 1"), WEEK_2("Week 2"), WEEK_3("Week 3"), WEEK_4("Week 4");
+	WEEK_1("Week 1"), WEEK_2("Week 2"), WEEK_3("Week 3"), WEEK_4("Week 4"), WEEK_5("Week 5");
 	
 	private String description;
 	private IRBRoster(String description){

@@ -5,6 +5,10 @@
 				<question-label>Please describe the item that is being submitted to the UAMS Institutional Review Board for review:</question-label>
 				<question-value instance-path="/office-action/describe-oa-item" value-type="textarea" />
 			</question>
+			<question id="question-action-type" parent-id="" parent-value="" header="">
+				<question-label>Action type:</question-label>
+				<question-value instance-path="/office-action/action-type" lookup-path="action-type" value-type="select" />
+			</question>
 		</section>
 	</page>
 </form>

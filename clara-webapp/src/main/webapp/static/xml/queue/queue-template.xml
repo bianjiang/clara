@@ -317,6 +317,9 @@
 				<form type="PRIVACY_BOARD" status="PENDING_EXPEDITED_IRB_REVIEW">
 					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
 				</form>
+				<form type="OFFICE_ACTION" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<form-committee-status>PENDING_EXPEDITED_IRB_REVIEW</form-committee-status>
+				</form>
 			</role>			
 		</roles>
 	</queue>

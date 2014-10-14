@@ -167,7 +167,7 @@ public class ImportHospitalChargeDataService {
 		}
 	}
 	
-	public void addHospitalCptToCPTTable(){
+	private void addHospitalCptToCPTTable(){
 		List<HospitalChargeProcedure> hcps =hospitalChargeProcedureDao.findAll();
 		for(HospitalChargeProcedure hcp : hcps){
 			CPTCode cptCode = null;

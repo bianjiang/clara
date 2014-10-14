@@ -8,10 +8,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +27,7 @@ import javax.persistence.Query;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -43,6 +48,12 @@ import com.google.common.collect.Sets;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
+import edu.uams.clara.integration.incoming.billingcodes.domain.HospitalChargeUpdate;
+import edu.uams.clara.webapp.common.dao.audit.AuditDao;
+import edu.uams.clara.webapp.common.dao.department.CollegeDao;
+import edu.uams.clara.webapp.common.dao.department.DepartmentDao;
+import edu.uams.clara.webapp.common.domain.department.College;
+import edu.uams.clara.webapp.common.domain.department.Department;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.contract.dao.businesslogicobject.ContractFormCommitteeStatusDao;
@@ -55,21 +66,26 @@ import edu.uams.clara.webapp.protocol.dao.irb.AgendaDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
+import edu.uams.clara.webapp.protocol.domain.budget.code.HospitalChargeProcedure;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.AgendaStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.AgendaStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem.AgendaItemStatus;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
+import edu.uams.clara.webapp.protocol.dao.budget.code.HospitalChargeProcedureDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.AgendaStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
+import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolStatusDao;
 import edu.uams.clara.webapp.report.domain.CommitteeActions;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -85,12 +101,16 @@ public class ReportGenerationTest {
 	private ContractFormDao contractFormDao;
 	private ContractFormCommitteeStatusDao contractFormCommitteeStatusDao;
 	private AgendaDao agendaDao;
+	private ProtocolStatusDao protocolStatusDao;
+	private AuditDao auditDao;
+	private HospitalChargeProcedureDao hospitalChargeProcedureDao;
 
 	private XmlProcessor xmlProcessor;
 	private XmlHandler xmlHandler;
 	private EntityManager em;
-	
+	private DepartmentDao departmentDao;
 	private AgendaStatusDao agendaStatusDao;
+	private CollegeDao collegeDao;
 	private CommitteeActions committeeactions = new CommitteeActions();
 
 	private List<ProtocolFormStatusEnum> draftFormStatus = Lists.newArrayList();
@@ -1236,11 +1256,11 @@ public class ReportGenerationTest {
 		writer.close();
 	}
 
-	@Test
+	//@Test
 	public void generateWeeklyBillingProtocolInMeeting()
 			throws XPathExpressionException, SAXException, IOException {
-		String beginTime = "'2014-06-20'";
-		String endTime = "'2014-06-26'";
+		String beginTime = "'2014-07-11'";
+		String endTime = "'2014-07-17'";
 		CSVWriter writer = new CSVWriter(new FileWriter("C:\\Data\\"
 				+ beginTime + "-To-" + endTime + "-IRB-Billing-Report.csv"));
 		String[] Titleentry = { "IRB Number","PI Name","Title","Agenda Date", "Form Type", "Review Type",
@@ -1302,6 +1322,13 @@ public class ReportGenerationTest {
 			String department = xmlHandler.getSingleStringValueByXPath(
 					protocolxmlData,
 					"/protocol/responsible-department/@subdeptdesc");
+			
+			if(!(responsibleInstitution.contains("uams")||responsibleInstitution.contains("ach-achri"))){
+				continue;
+			}
+			
+			
+			
 			if (!college.isEmpty() && !department.isEmpty()) {
 				department = college + "-" + department;
 			} else {
@@ -1312,9 +1339,14 @@ public class ReportGenerationTest {
 			try {
 				whoInitiated = xmlProcessor.listElementStringValuesByPath(
 						"/protocol/study-type", protocolxmlData).get(0);
+				if(!whoInitiated.contains("industry-sponsored")){
+					continue;
+				}
 			} catch (Exception e) {
 
 			}
+			
+			
 
 			String investigatorDesc = xmlHandler
 					.getSingleStringValueByXPath(protocolxmlData,
@@ -2479,7 +2511,7 @@ public class ReportGenerationTest {
 	
 	//@Test
 	public void claraData() throws IOException, ParserConfigurationException{
-		String queryStr = "select id from protocol as p where p.retired = 0 and p.id in (select distinct protocol_id from protocol_form where id in (select distinct protocol_form_id from protocol_form_xml_data where retired = 0 and protocol_form_xml_data_type = 'budget')) and p.meta_data_xml.exist('/protocol/extra/prmc-related-or-not/text()[fn:contains(fn:upper-case(.),\"Y\")]')=1 and p.id >200000";
+		String queryStr = "select id from protocol as p where p.retired = 0 and p.id in (select distinct protocol_id from protocol_form where id in (select distinct protocol_form_id from protocol_form_xml_data where retired = 0 and protocol_form_xml_data_type = 'budget')) and p.meta_data_xml.exist('/protocol/extra/prmc-related-or-not/text()[fn:contains(fn:upper-case(.),\"N\")]')=1 and p.id >200000";
 		Query query = em.createNativeQuery(queryStr);
 		List<BigInteger> pids = query.getResultList();
 		
@@ -2569,6 +2601,344 @@ public class ReportGenerationTest {
 		writer.flush();
 		writer.close();
 	
+	}
+	
+	//@Test
+	public void countStudiesByDepartment(){
+		List<Department> depts = departmentDao.findDeptsByCollegeId(5);
+		List<College> colleges = collegeDao.findAll();
+		Map<String,String> collegeResults = Maps.newHashMap();
+		Map<String,String> deptResults = Maps.newHashMap();
+		for(Department dept: depts){
+			String queryStr = "select count(id) from protocol where retired = 0 and id not in (select distinct protocol_id from protocol_form where retired =0 and protocol_form_type = 'HUMAN_SUBJECT_RESEARCH_DETERMINATION') and id in (select distinct protocol_id from protocol_status where retired = 0 and protocol_status ='open' and id in (select max(id) from protocol_status where retired = 0 group by protocol_id)) and id  not in (select protocol_id from test_studies) and meta_data_xml.exist('/protocol/extra/prmc-related-or-not/text()[fn:contains(fn:upper-case(.),\"Y\")]')=0 and meta_data_xml.exist('/protocol/responsible-department[@collegeid = \"5\" and @deptid = \""+dept.getId()+"\"]')=1";
+
+			
+			logger.debug(queryStr);
+			Query query = em.createNativeQuery(queryStr);
+			deptResults.put(dept.getName(), ""+query.getSingleResult());
+		}
+		
+		/*for(College college: colleges){
+			String queryStr = "select count(id) from protocol where retired = 0 and id not in (select distinct protocol_id from protocol_form where retired =0 and protocol_form_type = 'HUMAN_SUBJECT_RESEARCH_DETERMINATION') and id in (select distinct protocol_id from protocol_status where retired = 0 and protocol_status ='open' and id in (select max(id) from protocol_status where retired = 0 group by protocol_id)) and id  not in (select protocol_id from test_studies) and meta_data_xml.exist('/protocol/extra/prmc-related-or-not/text()[fn:contains(fn:upper-case(.),\"Y\")]')=0 and meta_data_xml.exist('/protocol/responsible-department[@collegeid = \""+college.getId()+"\"]')=1";
+			logger.debug(queryStr);
+			Query query = em.createNativeQuery(queryStr);
+			collegeResults.put(college.getName(), ""+query.getSingleResult());
+		}*/
+			
+		for(String key : deptResults.keySet()){
+			System.out.println(key);
+		}
+		
+		for(String key : deptResults.keySet()){
+			System.out.println(deptResults.get(key));
+		}
+		
+	}
+	
+	//@Test
+	public void addExpiredDatePathToProtocolMetaData() throws ParserConfigurationException, XPathExpressionException, SAXException, IOException{
+		List<Protocol> protocols = protocolDao.listProtocolswithLatestStatus(ProtocolStatusEnum.EXPIRED);
+		XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+		
+		for(Protocol protocol : protocols){
+			logger.debug(protocol.getId()+"");
+			ProtocolStatus ps = protocolStatusDao.findProtocolStatusByProtocolId(protocol.getId());
+			
+			String updatedXml = xmlHandler.replaceOrAddNodeValueByPath("/protocol/original-study/expired-date", protocol.getMetaDataXml(),DateFormatUtil.formateDateToMDY(ps.getModified()));
+			protocol.setMetaDataXml(updatedXml);
+			protocolDao.saveOrUpdate(protocol);
+		}
+		
+		
+	}
+	
+	//@Test
+	public void listIndividualsonActiveStudy() throws ParserConfigurationException{
+		Map<String, Set<String>> result = Maps.newHashMap();
+		Set<String> userId = Sets.newHashSet();
+		//get active studies
+		String queryStr = "SELECT distinct id FROM protocol WHERE retired = 0 AND id IN (SELECT protocol_id FROM protocol_status WHERE retired = 0 AND protocol_status = 'OPEN' and id in (SELECT MAX(id) FROM protocol_status where retired =0 group by protocol_id )) AND id  not in (select protocol_id from test_studies)";
+		
+		logger.debug(queryStr);
+		XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+		Query query = em.createNativeQuery(queryStr);
+		List<BigInteger> pIdBigs  = query.getResultList();
+		
+		for(BigInteger pIdBig :pIdBigs){
+			long pId = pIdBig.longValue();
+			Protocol p = protocolDao.findById(pId);
+			String xml = p.getMetaDataXml();
+			
+			List<Element> users = xmlHandler.listElementsByXPath(xml, "/protocol/staffs/staff/user");
+			for(Element user:users){
+				String uid = user.getAttribute("id");
+				List<Element> roles = xmlHandler.listElementsByXPath(xml, "/protocol/staffs/staff/user[@id="+uid+"]/roles/role");
+				
+				boolean checkResponsible = true;
+				for(Element role:roles){
+					if(role.getTextContent().equals("Principal Investigator")){
+						if(result.get("Principal Investigator")==null){
+							result.put("Principal Investigator",new HashSet<String>());
+							
+						}
+						result.get("Principal Investigator").add(uid);
+						//user.getElementsByTagName("firstname").item(0).getTextContent()+user.getElementsByTagName("lastname").item(0).getTextContent()
+						
+						checkResponsible = false;
+						break;
+					}else if(role.getTextContent().equals("Study Coordinator")){
+						if(result.get("Study Coordinator")==null){
+							result.put("Study Coordinator",new HashSet<String>());
+						}
+
+						result.get("Study Coordinator").add(uid);
+						checkResponsible = false;
+						break;
+					}else if(role.getTextContent().equals("Treating Physician")){
+						if(result.get("Treating Physician")==null){
+							result.put("Treating Physician",new HashSet<String>());
+						}
+
+						result.get("Treating Physician").add(uid);
+						checkResponsible = false;
+						break;
+					}
+				}
+				
+				if(checkResponsible){
+					List<Element> responsibilities = xmlHandler.listElementsByXPath(xml, "/protocol/staffs/staff/user[@id="+uid+"]/reponsibilities/responsibility");
+					
+					for(Element responsibility:responsibilities){
+						if(responsibility.getTextContent().equals("Managing CLARA submission")){
+							if(result.get(roles.get(0).getTextContent())==null){
+								result.put(roles.get(0).getTextContent(),new HashSet<String>());
+							}
+								result.get(roles.get(0).getTextContent()).add(uid);
+							
+							
+							break;
+						}
+					}
+				}
+			}
+			
+		}
+		
+		for(String key :  result.keySet()){
+			logger.debug(key+"   "+result.get(key).size());
+		}
+
+	}
+	
+	//@Test
+	public void fximissingSubPro() {
+		try{
+		XmlHandler xmlhandler = XmlHandlerFactory.newXmlHandler();
+		Set<Long> results = Sets.newHashSet();
+		List<ProtocolFormXmlData> pfxds = protocolFormXmlDataDao.listProtocolformXmlDatasByType(ProtocolFormXmlDataType.BUDGET);
+		for(ProtocolFormXmlData pfxd:pfxds){
+			try{
+				String  xml = pfxd.getXmlData();
+				List<Element> subPros = xmlHandler.listElementsByXPath(xml, "//subprocedures/procedure");
+				
+				for(Element subPro:subPros){
+					String id = subPro.getAttribute("id");
+					List<Element> vts =  xmlHandler.listElementsByXPath(xml, "//visits/visit/visitprocedures/vp[@pid=\""+id+"\"]");
+					
+					if(vts.size()==0){
+						logger.debug(pfxd.getId()+"  @@@@@@@@@ "+pfxd.getProtocolForm().getProtocol().getId()+"          "+id);
+						//results.add(pfxd.getId());
+					}
+				}
+				
+			}catch(Exception e){
+				
+			}
+		}
+		for(long data:results){
+			System.out.println(data);
+		}
+		}catch(Exception e){
+			
+		}
+		
+		
+		
+	}
+	
+	//@Test
+	public void gateKeepertoIRBReport() throws ParserConfigurationException{
+		
+		
+		//List<ProtocolFormCommitteeStatus> approvedByGate = protocolFormCommitteeStatusDao.listByCommitteeAndStatus(Committee.GATEKEEPER, ProtocolFormCommitteeStatusEnum.APPROVED);
+		String queryStr = "select distinct parent_id from protocol_form where protocol_form_type ='NEW_SUBMISSION' and retired = 0 and id in(select protocol_form_id from protocol_form_committee_status where retired = 0 and committee = 'GATEKEEPER' and protocol_form_committee_status = 'APPROVED'  and DATEDIFF(DAY,modified,'2013-09-20')<0)";		
+		
+		XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+		Query query = em.createNativeQuery(queryStr);
+		List<BigInteger> pfParentIds  = query.getResultList();
+		List<Long> toIRB = Lists.newArrayList();
+		List<Long> toOther = Lists.newArrayList();
+		List<Long> toNothing = Lists.newArrayList();
+		
+		for(BigInteger pfIdBig:pfParentIds){
+			long pfid = pfIdBig.longValue();
+			List<ProtocolFormCommitteeStatus> pfcss = protocolFormCommitteeStatusDao.listAllByProtocolFormId(pfid);
+			
+			if(pfcss.get(pfcss.size()-1).getCommittee().equals(Committee.GATEKEEPER)&&pfcss.get(pfcss.size()-1).getProtocolFormCommitteeStatus().equals(ProtocolFormCommitteeStatusEnum.APPROVED)){
+				toNothing.add(pfcss.get(pfcss.size()-1).getProtocolForm().getProtocol().getId());
+				continue;
+			}
+			
+			for(int i = 0;i<pfcss.size()-1;i++){
+				ProtocolFormCommitteeStatus pfcs = pfcss.get(i);
+				logger.debug(pfcs.getCommitteeDescription());
+				if(pfcs.getCommittee().equals(Committee.GATEKEEPER)&&pfcs.getProtocolFormCommitteeStatus().equals(ProtocolFormCommitteeStatusEnum.APPROVED)){
+					Committee committeeAfterApproved = pfcss.get(i+1).getCommittee();
+					if(committeeAfterApproved.getDescription().contains("IRB")){
+						toIRB.add(pfcss.get(i+1).getProtocolForm().getProtocol().getId());
+					}else{
+						//may have multiple committee happened at the same time
+						if(i+2<pfcss.size()){
+							ProtocolFormCommitteeStatus pfcsj1 = pfcss.get(i+1);
+							for(int j = i+2;j<pfcss.size()-1;j++){
+								ProtocolFormCommitteeStatus pfcsj2 = pfcss.get(j);
+								if(pfcsj1.getModified().getTime()-pfcsj2.getModified().getTime()==0){
+									if(pfcsj2.getCommittee().getDescription().contains("IRB")){
+										toIRB.add(pfcsj2.getProtocolForm().getProtocol().getId());
+										break;
+									}
+								}else if(pfcsj1.getModified().getTime()-pfcsj2.getModified().getTime()<0){
+									toOther.add(pfcss.get(i+1).getProtocolForm().getProtocol().getId());
+									logger.debug(pfcsj2.getCommitteeDescription()+"**"+pfcss.get(i+1).getProtocolForm().getProtocol().getId());
+									break;
+								}
+								
+								
+							}
+						}else{
+							toOther.add(pfcss.get(i+1).getProtocolForm().getProtocol().getId());
+							logger.debug("***"+pfcss.get(i+1).getProtocolForm().getProtocol().getId());
+						}
+						
+						
+						
+					}
+					break;
+					
+				}
+			}
+			
+		}
+		
+		logger.debug(toIRB.size()+"");
+		logger.debug(toOther.size()+"");
+		logger.debug(toNothing.size()+"");
+	}
+	
+	//@Test
+	public void getProtocolListByCollege() throws ParserConfigurationException, IOException{
+		List<College> cs = collegeDao.findAll();
+		CSVWriter writer = new CSVWriter(new FileWriter(
+				"C:\\Data\\Protocols By College.csv"));
+		String[] title = { "IRB", "College"};
+		writer.writeNext(title);
+		for(College c :cs){
+			String queryStr = "select id from protocol where retired = 0 and id in (select id from protocol where retired =0 and meta_data_xml.exist('/protocol/responsible-department["
+					+ "@collegeid = \"" + c.getId() + "\"" + "]') = 1) and id in (select distinct protocol_id from protocol_status where id in (select min(id) from protocol_status where retired =0 and protocol_status not in ( 'CANCELLED','DRAFT','PENDING_PL_ENDORSEMENT','PENDING_PI_ENDORSEMENT','PENDING_TP_ENDORSEMENT') group by protocol_id))";
+		
+			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+			Query query = em.createNativeQuery(queryStr);
+			List<BigInteger> pids  = query.getResultList();
+			
+			for(BigInteger pid:pids){
+				String[] entry = {pid+"",c.getName()};
+				writer.writeNext(entry);
+			}
+			
+			String[] empty = {" "," "};
+			writer.writeNext(empty);
+		}
+		
+		writer.flush();
+		writer.close();
+	}
+	
+	private final static String[] mappings = new String[] { "cptCode", "cost" };
+	
+	@Test
+	public void findHospitalChargeDifference() throws IOException{
+		Map<String,BigDecimal> newChargeMap = Maps.newHashMap();
+		CSVWriter writer = new CSVWriter(new FileWriter(
+				"C:\\Data\\hospital Charger Difference.csv"));
+		try {
+			CSVReader csvReader = new CSVReader(new FileReader(
+					"C:\\Data\\new hospital cost.csv"));
+
+			int numberOfColumns = mappings.length;
+			csvReader.readNext(); // skip header
+			String[] nextLine;
+			Map<String,String> importedCptMap = Maps.newHashMap();
+
+			while ((nextLine = csvReader.readNext()) != null) {
+				HospitalChargeUpdate hospitalChargeUpdate = new HospitalChargeUpdate();
+				Map<String, Object> properties;
+					
+					if(importedCptMap.containsKey(nextLine[0].trim())&&!importedCptMap.get(nextLine[0].trim()).isEmpty()){
+						continue;
+					}
+					for (int i = 0; i < numberOfColumns; i++) {
+						if (i == 1) {
+							String cost = nextLine[i].trim();
+							importedCptMap.put(nextLine[0].trim(), cost);
+							if (cost.isEmpty()) {
+								cost = "0";
+							}
+							Number number = NumberFormat.getInstance().parse(
+									cost);
+							Float price = (float) (number.floatValue() * 1.05);
+							BigDecimal bdPrice = new BigDecimal((double) price);
+							bdPrice = bdPrice.setScale(2, 4);
+							newChargeMap.put(nextLine[0], bdPrice);
+
+						} else {
+							newChargeMap.put(nextLine[0], BigDecimal.ZERO);
+						}
+					}
+			}
+			csvReader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		List<HospitalChargeProcedure> hsps = hospitalChargeProcedureDao.findAll();
+		System.out.print("************");
+		logger.debug(hsps.size()+"  "+newChargeMap.size());
+		/*for(HospitalChargeProcedure hsp :hsps){
+			if(newChargeMap.containsKey(hsp.getCptCode())){
+				if(newChargeMap.get(hsp.getCptCode()).subtract(hsp.getCost()).intValue()!=0){
+					String[] entry = {hsp.getCptCode(),newChargeMap.get(hsp.getCptCode())+"",hsp.getCost()+"",newChargeMap.get(hsp.getCptCode()).subtract(hsp.getCost())+""};
+					writer.writeNext(entry);
+				}
+			}else{
+				System.out.print(hsp.getCptCode()+"\n");
+			}
+		}*/
+		
+		for(String key :newChargeMap.keySet()){
+			try{
+				if(hospitalChargeProcedureDao.findByCptCodeOnly(key) == null){
+					String[] entry ={key};
+					writer.writeNext(entry);
+				}
+			}catch(Exception e){
+				String[] entry ={key};
+				writer.writeNext(entry);
+			}
+		}
+		
+		writer.flush();
+		writer.close();
+		
 	}
 	
 	private long roundUp(long a,long b) {
@@ -2682,8 +3052,54 @@ public class ReportGenerationTest {
 		return agendaStatusDao;
 	}
 
+	@Autowired(required = true)
 	public void setAgendaStatusDao(AgendaStatusDao agendaStatusDao) {
 		this.agendaStatusDao = agendaStatusDao;
+	}
+
+	public DepartmentDao getDepartmentDao() {
+		return departmentDao;
+	}
+
+	@Autowired(required = true)
+	public void setDepartmentDao(DepartmentDao departmentDao) {
+		this.departmentDao = departmentDao;
+	}
+
+	public ProtocolStatusDao getProtocolStatusDao() {
+		return protocolStatusDao;
+	}
+
+	@Autowired(required = true)
+	public void setProtocolStatusDao(ProtocolStatusDao protocolStatusDao) {
+		this.protocolStatusDao = protocolStatusDao;
+	}
+
+	public CollegeDao getCollegeDao() {
+		return collegeDao;
+	}
+
+	@Autowired(required = true)
+	public void setCollegeDao(CollegeDao collegeDao) {
+		this.collegeDao = collegeDao;
+	}
+
+	public AuditDao getAuditDao() {
+		return auditDao;
+	}
+
+	@Autowired(required = true)
+	public void setAuditDao(AuditDao auditDao) {
+		this.auditDao = auditDao;
+	}
+
+	public HospitalChargeProcedureDao getHospitalChargeProcedureDao() {
+		return hospitalChargeProcedureDao;
+	}
+
+	@Autowired(required = true)
+	public void setHospitalChargeProcedureDao(HospitalChargeProcedureDao hospitalChargeProcedureDao) {
+		this.hospitalChargeProcedureDao = hospitalChargeProcedureDao;
 	}
 
 }

@@ -7,28 +7,21 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.report.dao.ReportFieldDao;
-import edu.uams.clara.webapp.report.domain.CommitteeActions;
 import edu.uams.clara.webapp.report.domain.ReportCriteria;
 import edu.uams.clara.webapp.report.domain.ReportField;
 import edu.uams.clara.webapp.report.domain.ReportFieldTemplate;
@@ -157,7 +150,6 @@ public class ReportResultServiceImpl extends CustomReportService {
 							else {
 								realXpath = reportCriteriaField.getNodeXPath()
 										.replace("{value}", "'" + value + "'");
-								logger.debug("testtest2"+value);
 							}
 							 
 							 
@@ -313,8 +305,10 @@ public class ReportResultServiceImpl extends CustomReportService {
 		
 		finalResultXml += "</report-results>";
 		
+		finalResultXml = finalResultXml.replaceAll("&", "&amp;");
 		finalResultXml =finalResultXml.replace("<![CDATA[null]]>", "");
 		finalResultXml =finalResultXml.replace("null&lt;br&gt;", "");
+		
 		
 		
 		return finalResultXml;

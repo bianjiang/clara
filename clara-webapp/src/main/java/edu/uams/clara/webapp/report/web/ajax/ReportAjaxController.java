@@ -109,6 +109,7 @@ public class ReportAjaxController {
 	@RequestMapping(value = "/ajax/reports/create", method = RequestMethod.POST, produces="application/json")
 	public @ResponseBody JsonResponse addReportTemplate(
 			@RequestParam("reportType") String reportType,
+			@RequestParam("reportTypeId") int reportTypeId,
 			@RequestParam("description") String description,
 			@RequestParam("globalOperator") GlobalOperator globalOperator,
 			@RequestParam(value="scheduleType", required=false) ScheduleType scheduleType){
@@ -121,6 +122,7 @@ public class ReportAjaxController {
 		try{
 			reportTemplate.setCreated(new Date());
 			reportTemplate.setDescription(description);
+			reportTemplate.setTypeId(reportTypeId);
 			reportTemplate.setParameters(null);
 			reportTemplate.setRetired(false);
 			reportTemplate.setStatus(Status.NOT_READY);

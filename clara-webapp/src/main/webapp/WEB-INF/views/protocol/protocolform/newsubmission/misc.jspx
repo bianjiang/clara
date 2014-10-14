@@ -95,7 +95,7 @@
 				</div>
 			</div>	
 
-			<div class="question" id="question-is-registered-at-trialsearch">
+			<!-- <div class="question" id="question-is-registered-at-trialsearch">
 				<div class="questionIdentifier">Misc-3</div>
 				<div class="questionLabel">
 					<span class="question-label-text">Will this study be
@@ -108,15 +108,12 @@
 						instancepath="/protocol/misc/is-registered-at-trialsearch"
 						value="${isRegisteredAtTrialsearch}" validation="required" />
 				</div>
-				<div style="clear: both;">
-					<!-- // -->
-				</div>
 				<div class="questionHelp">
 					<uams:helpinfo lookupid="trialsearch" />
 				</div>
-			</div>
+			</div> -->
 			
-			<div class="question clearfix"
+			<!-- <div class="question clearfix"
 				id="question-inclusion-exclusion-criteria-for-this-study">
 				<div class="questionIdentifier">Misc-3.1</div>
 				<div class="questionLabel">
@@ -141,7 +138,7 @@
 				<div class="questionHelp">
 					<uams:helpinfo lookupid="inclusion-exclustion-criteria" />
 				</div>
-			</div>	
+			</div>	 -->
 			<!-- 
 			<div class="question clearfix" id="question-condition-ontology">
 				<div class="questionIdentifier">Misc-3.2</div>

@@ -244,6 +244,10 @@ Ext.define('Clara.Agenda.controller.AgendaRoster', {
 		var me = this;
 		me.getRemoveReviewerButton().setDisabled(true);
 		me.getAssignAlternateButton().setDisabled(true);
+		Ext.data.StoreManager.lookup('IrbReviewers').clearFilter();
+		Ext.data.StoreManager.lookup('IrbReviewers').filter([
+		                             						{filterFn: function(r){return r.get("irbRoster") !== "WEEK_5"}}
+		                             						]);
 		Ext.data.StoreManager.lookup('IrbReviewers').load();
 	},
 	

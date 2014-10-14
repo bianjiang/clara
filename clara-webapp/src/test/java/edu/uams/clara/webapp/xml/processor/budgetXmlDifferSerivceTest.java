@@ -26,14 +26,14 @@ public class budgetXmlDifferSerivceTest {
 	public void testBudgetDiffer() {
 
 				
-		ProtocolFormXmlData oldBudgetXmlData = getProtocolFormXmlDataDao().findById(11866);
-		ProtocolFormXmlData newBudgetXmlData = getProtocolFormXmlDataDao().findById(11868);
+		ProtocolFormXmlData oldBudgetXmlData = getProtocolFormXmlDataDao().findById(20172);
+		ProtocolFormXmlData newBudgetXmlData = getProtocolFormXmlDataDao().findById(26179);
 		
 		String oldBudgetXml = oldBudgetXmlData.getXmlData();
 		String newBudgetXml = newBudgetXmlData.getXmlData();
 		oldBudgetXml=budgetXmlDifferServiceImpl.differBudgetXml(oldBudgetXml,newBudgetXml);
-	    logger.debug(oldBudgetXml);
-		logger.debug(newBudgetXml);
+	    //logger.debug(oldBudgetXml);
+		//logger.debug(newBudgetXml);
 
 	}
 

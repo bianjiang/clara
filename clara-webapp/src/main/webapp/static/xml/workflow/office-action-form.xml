@@ -478,7 +478,7 @@
 									</span></log>
 								</logs>
 							</action>
-							<action type="APPROVE" email-template-identifier="OFFICE_ACTION_FULL_BOARD_APPROVED_LETTER">
+							<action type="APPROVE" email-template-identifier="OFFICE_ACTION_FULL_BOARD_APPROVED_LETTER" update-meta-data="true">
 								<change-status>
 									<form-status status="IRB_APPROVED" />
 									<form-committee-statuses>
@@ -628,6 +628,7 @@
 								<value>APPROVE</value>
 								<desc>Approve</desc>
 								<email-template-identifiers>
+									<email-template-identifier form-xpath-condition="boolean(count(/office-action/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)">OFFICE_ACTION_EXPEDITED_APPROVED_LETTER</email-template-identifier>
 									<email-template-identifier form-xpath-condition="boolean(count(/office-action/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])>0)">OFFICE_ACTION_FULL_BOARD_APPROVED_MINOR_MET_LETTER</email-template-identifier>
 								</email-template-identifiers>
 							</decision>
@@ -644,7 +645,7 @@
 							</decision>
 						</decisions>						
 						<actions>
-							<action type="APPROVE" condition="">
+							<action type="APPROVE" condition="" update-meta-data="true">
 								<change-status>
 									<form-status status="EXPEDITED_APPROVED" />
 									<form-committee-statuses>
@@ -663,6 +664,11 @@
 											<log log-type="LETTER" email-template-identifier="OFFICE_ACTION_FULL_BOARD_APPROVED_MINOR_MET_LETTER" event-type="PRIVACY_BOARD_FULL_BOARD_APPROVED_MINOR_MET" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The office action form has been approved by IRB Expedited Review of Minor met.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  A New Submission Minor Contingency Met Letter ({LETTER_LINK}) has been sent to the PI.  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>	
+									<notification form-xpath-condition="boolean(count(/office-action/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)" notification-type="LETTER" letter-name="Office Action Expedited Letter" doc-type="Office Action Expedited Letter" email-template-identifier="OFFICE_ACTION_EXPEDITED_APPROVED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="OFFICE_ACTION_EXPEDITED_APPROVED_LETTER" event-type="PRIVACY_BOARD_EXPEDITED_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The office action form has been approved by IRB Expedited Review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  A New Submission Minor Contingency Met Letter ({LETTER_LINK}) has been sent to the PI.  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
 								</notifications>
 							</action>
 							<action type="REVISION_REQUESTED" condition="">

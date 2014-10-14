@@ -307,7 +307,7 @@
     background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2P8z8BgDAAEOQE064B0NwAAAABJRU5ErkJggg==) repeat;
 }
 
-.proc-notes-clinical{
+.proc-notes-clinical,.proc-notes-coverage{
 	margin-top:16px;
 }
 

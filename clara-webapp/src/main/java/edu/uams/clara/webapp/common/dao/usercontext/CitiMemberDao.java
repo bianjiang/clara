@@ -93,7 +93,7 @@ public class CitiMemberDao extends AbstractDomainDao<CitiMember> {
 				+ ((user.getPerson() != null && user.getPerson().getEmail() != null && !user.getPerson().getEmail().isEmpty())?" cm.emailAddress = :emailAddress OR":"");
 		queryString = queryString.substring(0, queryString.length() - 2) + ")";
 		
-		logger.debug("query:" + queryString);
+		//logger.debug("query:" + queryString);
 				
 		TypedQuery<CitiMember> query = getEntityManager()
 				.createQuery(

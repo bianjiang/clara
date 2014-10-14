@@ -460,6 +460,7 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 			NodeList budgetList = metaData.getElementsByTagName("title");
 			Node priceNode = budgetList.item(0);
 			title = priceNode.getTextContent();
+			title = title.replaceAll("\n", " ");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1253,11 +1254,19 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 				
 				String billingNotes = "";
 				String clinicalNotes = "";
+				String coverageNotes = "";
 				try{
 				Element procedureClinicalNoteEle = (Element) procedure.getElementsByTagName("clinical-notes").item(0);
 				clinicalNotes= procedureClinicalNoteEle.getTextContent();
 				}catch(Exception e){
 					//no clinical notes
+				}
+				
+				try{
+					Element procedureClinicalNoteEle = (Element) procedure.getElementsByTagName("coverage-notes").item(0);
+					coverageNotes= procedureClinicalNoteEle.getTextContent();
+					}catch(Exception e){
+						//no coverage notes
 				}
 				
 				try{
@@ -1268,10 +1277,13 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 				}
 				String procedureNotes = "";
 				if(!billingNotes.isEmpty()){
-					procedureNotes +=  "Billing Notes: "+billingNotes+"\n";
+					procedureNotes +=  "Billing Notes: "+billingNotes+"\n\n";
 				}
 				if(!clinicalNotes.isEmpty()){
-					procedureNotes +=  "Clinical Notes: "+clinicalNotes;
+					procedureNotes +=  "Clinical Notes: "+clinicalNotes+"\n\n";
+				}
+				if(!coverageNotes.isEmpty()){
+					procedureNotes +=  "Coverage Notes: "+coverageNotes;
 				}
 				
 				if (proCabudgetDocumentTypeory.equals(procedureTypeList

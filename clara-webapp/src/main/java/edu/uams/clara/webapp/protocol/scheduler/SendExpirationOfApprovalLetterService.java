@@ -15,6 +15,8 @@ import org.w3c.dom.Element;
 
 import com.google.common.collect.Lists;
 
+import edu.uams.clara.core.util.xml.XmlHandler;
+import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.dao.history.TrackDao;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.email.EmailTemplate;
@@ -28,6 +30,7 @@ import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolStatusDao;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolStatusEnum;
 import edu.uams.clara.webapp.protocol.service.ProtocolService;
 import edu.uams.clara.webapp.protocol.service.email.ProtocolEmailService;
@@ -70,7 +73,7 @@ public class SendExpirationOfApprovalLetterService {
 		
 		List<Protocol> expiredProtocolLst = protocolDao.listExpiredProtocol();
 		
-		String achCCList = "BrackeenMargieI@uams.edu,StormentJanetS@uams.edu,HollowayAmanda@uams.edu,JContorno@uams.edu,GrayhamKS@archildrens.org";
+		String achCCList = "BrackeenMargieI@uams.edu,StormentJanetS@uams.edu,HollowayAmanda@uams.edu,GrayhamKS@archildrens.org";
 		
 		String achWithDrugCCList = "FurgersonBillyC@uams.edu";
 
@@ -85,6 +88,21 @@ public class SendExpirationOfApprovalLetterService {
 				boolean isInvestigatorStudy = protocolService.checkStudyCharacteristic(protocolMetaData).get("isInvestigatorStudy");
 				
 				protocolService.setProtocolStatus(p, ProtocolStatusEnum.EXPIRED, null, null, "Updated to Expired by System");
+				
+				//add exipred-date path to protocol metadata
+				try{
+					XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+					
+					ProtocolStatus ps = protocolStatusDao.findProtocolStatusByProtocolId(p.getId());
+					
+					String updatedXml = xmlHandler.replaceOrAddNodeValueByPath("/protocol/original-study/expired-date", p.getMetaDataXml(),DateFormatUtil.formateDateToMDY(ps.getModified()));
+					
+					p.setMetaDataXml(updatedXml);
+					
+					protocolDao.saveOrUpdate(p);
+				}catch(Exception e){
+					
+				}
 				
 				try {
 					List<String> ccList = Lists.newArrayList();

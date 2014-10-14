@@ -1,0 +1,58 @@
+<html>
+<head>
+	<link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div class="email-template revision-requested-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	The following Clinical Research study has been forwarded to your queue in CLARA for your completion or review. Please go to your queue to Review and/or complete the Pharmacy form. Then navigate to Complete Review to finish.
+	
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	
+	#if ($protocolType == "investigator-initiated")
+		#set($protocolType = "Investigator Initiated")
+	#elseif ($protocolType == "cooperative-group")
+		#set($protocolType = "Cooperative Group")
+	#elseif ($protocolType == "industry-sponsored")
+		#set($protocolType = "Industry Sponsored")
+	#else
+		#set($protocolType = "N/A")
+	#end
+
+	<br/><strong>Study Type</strong>: $protocolType
+	
+	#if ($hudOrNot == 'hud-use')
+		<br/><strong>TP Name:</strong>  $treatingPhysicianUser.person.getFullname() e-mail:<a href="mailto:$treatingPhysicianUser.person.getEmail()">$treatingPhysicianUser.person.getEmail()</a> phone:$treatingPhysicianUser.person.getWorkphone()
+	#else
+		<br/><strong>PI Name:</strong>  $piUser.person.getFullname() e-mail:<a href="mailto:$piUser.person.getEmail()">$piUser.person.getEmail()</a> phone:$piUser.person.getWorkphone()
+	#end
+	
+	<br/><br/><strong>Study Contact:</strong> 
+	<br/>
+	#if ($studyCoordinatorLst.size() == 0)
+		N/A. 
+	#end
+	
+	<ul>
+	#foreach($studyCoordinator in ${studyCoordinatorLst})
+	<li>$studyCoordinator.person.getFullname() </li> #end
+	</ul> 
+	
+	<br/><br/><a href=$queueLink>Click here to the queue.</a>
+	
+	<br/><br/>
+	<strong>Committee Notes/Comments:</strong>
+	<br/>
+	#if ($inLetterComments.size() > 0)
+		<ul>
+		#foreach($comment in ${inLetterComments}) 
+		<li>$comment.text <strong>made by</strong> $comment.committee.description</li>#end
+		</ul>
+	#end
+	$emailComment
+	{0}
+</div>
+</body>
+</html>

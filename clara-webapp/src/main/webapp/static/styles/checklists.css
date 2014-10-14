@@ -5,3 +5,15 @@ body{
 .btn-checklistgroup{
 	margin-top:16px;
 }
+.btn[disabled], .btn.disabled{
+	color:#e6e6e6;
+}
+.bold ,.bold[disabled], .bold.disabled{
+	font-weight:800;
+	text-decoration:underline;
+	color:black;
+}
+
+.answer-button{
+	display:none;
+}

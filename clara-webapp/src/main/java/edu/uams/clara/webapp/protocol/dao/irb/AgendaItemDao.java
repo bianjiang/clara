@@ -8,7 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.ejb.HibernateEntityManager;
+import org.hibernate.jpa.HibernateEntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -141,6 +141,22 @@ public class AgendaItemDao extends AbstractDomainDao<AgendaItem> {
 
 		return query.getSingleResult();
 	}
+	
+	@Transactional(readOnly = true)
+	public List<AgendaItem> listbyProtocolFormId(long protocolFormId) {
+		TypedQuery<AgendaItem> query = getEntityManager()
+				.createQuery(
+						"SELECT ai FROM AgendaItem ai"
+								+ " WHERE ai.retired = :retired AND ai.protocolFormId = :protocolFormId ORDER BY ai.id DESC",
+						AgendaItem.class)
+				.setParameter("retired", Boolean.FALSE)
+				.setParameter("protocolFormId", protocolFormId);
+		query.setHint("org.hibernate.cacheable", true);
+		
+
+		return query.getResultList();
+	}
+	
 	
 	@Transactional(readOnly = true)
 	public Date getAgendaDateByProtocolFormId(long protocolFormId) {

@@ -6,7 +6,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
-            <add-attribute value="/static/js/common/wizard.js" />
+            
     		<add-attribute value="/static/js/protocol/protocolform/department-panel.js" />
   		</put-list-attribute>
     </definition>
@@ -18,7 +18,7 @@
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
         	<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
        		
-    		<add-attribute value="/static/js/common/wizard.js" />	
+    			
   		</put-list-attribute>
     </definition>
     
@@ -29,7 +29,7 @@
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
         	<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
        		
-    		<add-attribute value="/static/js/common/wizard.js" />	
+    			
   		</put-list-attribute>
     </definition>
 
@@ -41,7 +41,7 @@
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
         	<add-attribute value="/static/js/protocol/protocolform/sites-stores.js" />
     		<add-attribute value="/static/js/protocol/protocolform/sites.js" />
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<add-attribute value="/static/js/ext/ux/ext.ux.roweditor.js" />
   		</put-list-attribute>
   		<put-list-attribute name="styles" inherit="true">
@@ -70,7 +70,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/subjects.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<!--<add-attribute value="/static/js/encoder.js" />-->
     		<add-attribute value="/static/js/protocol/protocolform/newsubmission/recruiting.js" />
     		<add-attribute value="/static/js/protocol/protocolform/newsubmission/subject-populations.js" />
@@ -84,7 +84,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/hipaa.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
     </definition>
 
@@ -93,7 +93,7 @@
             value="/WEB-INF/views/protocol/protocolform/newsubmission/consent.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
     </definition>
     
@@ -102,7 +102,7 @@
             value="/WEB-INF/views/protocol/protocolform/newsubmission/risks.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
   		</put-list-attribute>
@@ -113,7 +113,7 @@
             value="/WEB-INF/views/protocol/protocolform/newsubmission/monitoring.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
     </definition>
 
@@ -123,7 +123,7 @@
         <put-list-attribute name="javascripts" inherit="true">
         	<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
         	<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" />
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<!--<add-attribute value="/static/js/encoder.js" />--> 
     		<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
     		<add-attribute value="/static/js/protocol/protocolform/disease-panel.js" />
@@ -160,7 +160,7 @@
         <put-list-attribute name="javascripts" inherit="true">
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
         	<add-attribute value="/static/js/security.js" />
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<add-attribute value="/static/js/protocol/protocolform/newsubmission/budget.js" />
   		</put-list-attribute>
     </definition>  
@@ -169,7 +169,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/contract.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">	
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
     </definition>
 
@@ -215,7 +215,7 @@
         <put-list-attribute name="javascripts" inherit="true">
     		<!--<add-attribute value="/static/js/encoder.js" />-->  
         	<add-attribute value="/static/js/protocol/protocolform/newsubmission/funding-sources.js" />
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
     </definition>
     
@@ -226,7 +226,7 @@
         <put-list-attribute name="javascripts" inherit="true">
             <!--<add-attribute value="/static/js/encoder.js" />-->  
     		<add-attribute value="/static/js/protocol/protocolform/newsubmission/funding-sources.js" />
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -238,7 +238,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<add-attribute value="/static/js/protocol/protocolform/department-panel.js" />
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
@@ -252,7 +252,7 @@
         <put-list-attribute name="javascripts" inherit="true">
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
        		
-    		<add-attribute value="/static/js/common/wizard.js" />	
+    			
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -265,7 +265,7 @@
         <put-list-attribute name="javascripts" inherit="true">
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
        		
-    		<add-attribute value="/static/js/common/wizard.js" />	
+    			
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -279,7 +279,7 @@
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
         	<add-attribute value="/static/js/protocol/protocolform/sites-stores.js" />
     		<add-attribute value="/static/js/protocol/protocolform/sites.js" />
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<add-attribute value="/static/js/ext/ux/ext.ux.roweditor.js" />
   		</put-list-attribute>
   		<put-list-attribute name="styles" inherit="true">
@@ -309,7 +309,7 @@
     <definition extends="protocol/protocolform/newsubmission-noheader" name="protocol/protocolform/newsubmission/subjects-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/subjects.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<!--<add-attribute value="/static/js/encoder.js" />-->
     		<add-attribute value="/static/js/protocol/protocolform/newsubmission/recruiting.js" />
     		<add-attribute value="/static/js/protocol/protocolform/newsubmission/subject-populations.js" />
@@ -323,7 +323,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/hipaa.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
        		 <!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -335,7 +335,7 @@
             value="/WEB-INF/views/protocol/protocolform/newsubmission/consent.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         <!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -347,7 +347,7 @@
             value="/WEB-INF/views/protocol/protocolform/newsubmission/risks.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         <!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
   		</put-list-attribute>
@@ -361,7 +361,7 @@
             value="/WEB-INF/views/protocol/protocolform/newsubmission/monitoring.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         <!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -374,7 +374,7 @@
         <put-list-attribute name="javascripts" inherit="true">
         	<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
         	<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" />
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<!--<add-attribute value="/static/js/encoder.js" />--> 
     		<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
     		<add-attribute value="/static/js/protocol/protocolform/disease-panel.js" />
@@ -410,7 +410,7 @@
         <put-list-attribute name="javascripts" inherit="true">
         <!--<add-attribute value="/static/js/encoder.js" />-->  
         <add-attribute value="/static/js/security.js" />
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<add-attribute value="/static/js/protocol/protocolform/newsubmission/budget.js" />
   		</put-list-attribute>
   		<put-list-attribute name="styles" inherit="true">
@@ -422,7 +422,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/newsubmission/contract.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         <!--<add-attribute value="/static/js/encoder.js" />-->  
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />

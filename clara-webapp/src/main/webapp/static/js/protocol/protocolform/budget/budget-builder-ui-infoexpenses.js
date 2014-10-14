@@ -327,6 +327,7 @@ Clara.BudgetBuilder.InvoicableWindow = Ext.extend(Ext.Window, {
                 y: 40,
                 width: 40,
                 allowBlank: false,
+                readOnly: ((this.editing &&  this.expense.subtype == "IRB Fee" && !claraInstance.HasAnyPermissions(["ROLE_BUDGET_REVIEWER"])))?true:false,
                 id: 'fldCount',
                 value:(this.editing)?this.expense.count:1
             },
@@ -884,7 +885,7 @@ Clara.BudgetBuilder.InvoicablePanel = Ext.extend(Ext.Panel, {
 					      tbar:{
 
 					            xtype: 'toolbar',
-					            disabled:!Clara.BudgetBuilder.canEdit(),
+					            
 					            id: 'tbInv',
 					            items: [
 								{
@@ -912,6 +913,7 @@ Clara.BudgetBuilder.InvoicablePanel = Ext.extend(Ext.Panel, {
 					                xtype: 'button',
 					                text: 'Save',
 					                iconCls:'icn-calculator--pencil',
+					                disabled:!Clara.BudgetBuilder.canEdit(),
 					                id: 'btnSetFAInvoicable',
 					                handler:function(){
 					            		if (Ext.getCmp("fldFAInvoicables").validate()){

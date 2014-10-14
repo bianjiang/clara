@@ -196,7 +196,7 @@
 									<dl class="dl-horizontal">
 									  <c:if test="${itemType != 'MINUTES' }">
 									  	<dt>Reviewers</dt>
-									  	<dd>${aireviewers}</dd>
+									  	<dd>${aireviewers}<span style="text-indent:-10000px;color:white;display:inline-block;">.<!-- // Empty span for no-reviewer tags --></span></dd>
 									  </c:if>
 									  <dt>Motion</dt>
 									  <dd><x:out escapeXml="false" select="string($motion/@value)" /></dd>

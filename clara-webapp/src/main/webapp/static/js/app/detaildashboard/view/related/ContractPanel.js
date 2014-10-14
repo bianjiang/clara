@@ -34,7 +34,7 @@ Ext.define('Clara.DetailDashboard.view.related.ContractPanel', {
 		
 		me.listeners = {
 				activate:function(p){
-					Ext.getCmp("btnRemoveRelatedContract").setDisabled();
+					Ext.getCmp("btnRemoveRelatedContract").setDisabled(true);
 					p.getStore().loadRelatedContracts();
 				}
 			};

@@ -623,8 +623,8 @@ public class ProtocolDashboardAjaxController {
 						
 						if (u.getAuthorities().contains(Permission.PUSH_TO_PSC)) {
 							boolean pushed= protocolService.isPushedToPSC(protocolXml);
-							
-							if (!pushed) {
+							boolean cancelledForm = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(protocolFormId).getProtocolFormStatus().equals(ProtocolFormStatusEnum.CANCELLED);
+							if (!pushed&&!cancelledForm) {
 								xmlResult += "<action cls='rose'><name>Push to PSC</name><url response='json' type='ajax'>/ajax/protocols/"
 										+ protocolId
 										+ "/transform-budget-xml-to-psc</url></action>";
@@ -1068,7 +1068,8 @@ public class ProtocolDashboardAjaxController {
 			@PathVariable("protocolId") long protocolId,
 			@RequestParam("path") String path,
 			@RequestParam("value") String value,
-			@RequestParam("userId") long userId) {
+			@RequestParam("userId") long userId,
+			@RequestParam("label") String questionLable) {
 		Protocol protocol = protocolDao.findById(protocolId);
 		String protocolMetaXml = protocol.getMetaDataXml();
 
@@ -1103,8 +1104,7 @@ public class ProtocolDashboardAjaxController {
 			logEl.setAttribute("log-type", "ACTION");
 			logEl.setAttribute("timestamp", String.valueOf(now.getTime()));
 
-			String message = "Protocol Summary has been updated by "
-					+ currentUser.getPerson().getFullname() + "";
+			String message = currentUser.getPerson().getFullname() + " has changed the answer of \""+ questionLable +"\" to "+ value +".";
 
 			logEl.setTextContent(message);
 

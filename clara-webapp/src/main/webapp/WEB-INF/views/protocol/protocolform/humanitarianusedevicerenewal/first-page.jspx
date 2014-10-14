@@ -59,11 +59,11 @@
 						 <b>${deviceDesc}</b>.
 					</li>
 					
-					<x:set var="qPath" select="$protocolInstance/protocol/staffs/staff"/>
+					<!-- <x:set var="qPath" select="$protocolInstance/protocol/staffs/staff"/>
 					<li class="bulletitem">
 						<b>Staffs:</b> <br/>
 						<uams:staff value="${qPath}" />
-					</li>
+					</li> -->
 				
 				</ul>
 				

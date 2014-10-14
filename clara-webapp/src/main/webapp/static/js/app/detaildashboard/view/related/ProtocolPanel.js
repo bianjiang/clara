@@ -34,7 +34,7 @@ Ext.define('Clara.DetailDashboard.view.related.ProtocolPanel', {
 		
 		me.listeners = {
 				activate:function(p){
-					Ext.getCmp("btnRemoveRelatedProtocol").setDisabled();
+					Ext.getCmp("btnRemoveRelatedProtocol").setDisabled(true);
 					p.getStore().loadRelatedProtocols();
 				}
 			};

@@ -1,11 +1,5 @@
 package edu.uams.clara.integration.outgoing.ctms;
 
-import java.io.IOException;
-
-import javax.xml.xpath.XPathExpressionException;
-
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -14,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.xml.sax.SAXException;
 
 import edu.uams.clara.integration.outgoing.ctms.dao.ClaraFundingDao;
 import edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolDao;

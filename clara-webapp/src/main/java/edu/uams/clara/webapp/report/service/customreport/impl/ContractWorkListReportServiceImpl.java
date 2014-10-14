@@ -293,6 +293,9 @@ public class ContractWorkListReportServiceImpl extends CustomReportService {
 		finalResultXml += "</report-items>";
 		finalResultXml += "</report-result>";
 		
+		if(finalResultXml.contains("&")){
+			finalResultXml=finalResultXml.replaceAll("&", "&amp;");
+		}
 		return finalResultXml;
 	}
 

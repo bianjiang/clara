@@ -8,6 +8,7 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
            {ref: 'bookmarkWindow', selector: 'bookmarkwindow'},
            {ref: 'dashboardGridPanel', selector: '#dashboardgridpanel'},
            {ref: 'removeBookmarkButton', selector: '#btnRemoveBookmark'},
+           {ref: 'editBookmarkButton', selector: '#btnEditBookmark'},
            {ref: 'addBookmarkCriteriaButton', selector: '#btnAddBookmarkCriteria'},
            {ref: 'availableSearchFieldCombo', selector: '#fldAvailableSearchFieldCombo'}
     ],
@@ -26,6 +27,9 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
         	},
         	'#btnAddBookmark':{
         		click:me.onAddBookmark
+        	},
+        	'#btnEditBookmark':{
+        		click:me.onEditBookmark
         	},
         	'#fldAvailableSearchFieldCombo':{
         		select:me.onBookmarkSearchFieldSelect
@@ -47,9 +51,15 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
         	},
         	'#btnRunBookmarkWithoutSaving':{
         		click:me.onRunBookmark
+        	},
+        	'#btnExportExcelWithoutSaving':{
+        		click:me.onExportBookmark
         	}
-        	
         });
+    },
+    
+    onExportBookmark: function(){
+    	this.exportBookmark();
     },
     
     onCreateSubmission: function(){
@@ -95,8 +105,9 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
 		}
     	var me = this;
     	
-    	// Disable deleting for first 3 bookmarks (protocols) or first 1 (contracts)
+    	// Disable editing for first 3 bookmarks (protocols) or first 1 (contracts)
     	me.getRemoveBookmarkButton().setDisabled(gp.getStore().indexOf(rec) < ((claraInstance.type == "protocol")?3:1));
+    	me.getEditBookmarkButton().setDisabled(gp.getStore().indexOf(rec) < ((claraInstance.type == "protocol")?3:1));
     	
     	var st = me.getDashboardGridPanel().getStore();
     	Ext.apply(st.proxy.extraParams, {
@@ -180,6 +191,14 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
 		Ext.getCmp("btnAddBookmarkCriteria").setDisabled(false);
 	},
 	
+	onEditBookmark: function(){
+		var me = this;
+		var bookmarkPanel = me.getBookmarkPanel();
+		var rec = bookmarkPanel.getSelectionModel().getSelection()[0];
+		
+		Ext.create("Clara.Dashboard.view.BookmarkWindow",{title: "Edit Bookmark: "+rec.get("name"), modal:true, bookmarkRecord:rec}).show();
+	},
+	
 	onBookmarkRemove: function(){
 		var me = this;
 		var bookmarkPanel = me.getBookmarkPanel();
@@ -212,6 +231,60 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
 		);
 	},
 	
+	exportBookmark: function(){
+		var me = this;
+		var criteriaStore = me.getBookmarkWindow().down("grid").getStore();
+		if (criteriaStore.getCount() < 1) {
+			alert("Enter at least one search criteria.");
+		} else {
+			var criteria = [];
+			for (var i = 0; i < criteriaStore.getCount(); i++)
+			{
+				criteriaRecord = criteriaStore.getAt(i);
+				clog("criteriaRecord",criteriaRecord);
+				criteria.push({
+					"searchField":criteriaRecord.get("searchFieldValue"), 
+					"searchFieldDescription":criteriaRecord.get("searchFieldDescription"), 
+					"searchOperator":criteriaRecord.get("searchOperatorValue"), 
+					"searchOperatorDescription":criteriaRecord.get("searchOperatorDescription"), 
+					"keyword":criteriaRecord.get("searchKeyword"),
+					"searchKeywordDescription":criteriaRecord.get("searchKeywordDescription")
+				});
+			}
+			clog(Ext.JSON.encode(criteria));
+			var url = appContext+"/ajax/"+claraInstance.type+"s/search-bookmarks/export";
+			var data = {userId: claraInstance.user.id, searchCriterias:Ext.JSON.encode(criteria)};
+
+			var exportMask = new Ext.LoadMask(me.getBookmarkWindow(), {msg:"<h1 style='font-size:16px;font-weight:800;'>Exporting, please wait.</h1><P>A download link should appear shortly.</P>"});
+			exportMask.show();
+			
+			Ext.Ajax.request({
+			    url: url,
+			    method: 'POST',
+			    params: data,
+			    timeout:CLARA_AJAX_TIMEOUT_LONG,
+			    success: function(response){
+			        var exportedFileURL = response.responseText;
+			        clog("success export",exportedFileURL,response);
+			        exportMask.hide();
+			        window.location.assign(exportedFileURL);
+			        
+			        if (piwik_enabled()){
+						_paq.push(['trackEvent', 'DB_BOOKMARK', 'Exported bookmark as Excel']);
+					}
+			    },
+			    failure: function(){
+			    	cwarn("Error exporting");
+			    	exportMask.hide();
+			    	Ext.Msg.alert('Error', 'There was a problem exporting to Excel. Please try again later.');
+			    	if (piwik_enabled()){
+						_paq.push(['trackEvent', 'DB_BOOKMARK', 'FAILED Export bookmark as Excel']);
+					}
+			    }
+			});
+		}
+	},
+	
 	saveBookmark: function(runOnly){
 		runOnly = runOnly || false;
 		var me = this;
@@ -226,10 +299,19 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
 				var criteria = [];
 				for (var i = 0; i < criteriaStore.getCount(); i++)
 				{
-					criteria.push({"searchField":criteriaStore.getAt(i).data.searchFieldValue, "searchOperator":criteriaStore.getAt(i).data.searchOperatorValue, "keyword":criteriaStore.getAt(i).data.searchKeyword });
+					criteriaRecord = criteriaStore.getAt(i);
+					clog("criteriaRecord",criteriaRecord);
+					criteria.push({
+						"searchField":criteriaRecord.get("searchFieldValue"), 
+						"searchFieldDescription":criteriaRecord.get("searchFieldDescription"), 
+						"searchOperator":criteriaRecord.get("searchOperatorValue"), 
+						"searchOperatorDescription":criteriaRecord.get("searchOperatorDescription"), 
+						"keyword":criteriaRecord.get("searchKeyword"),
+						"searchKeywordDescription":criteriaRecord.get("searchKeywordDescription")
+					});
 				}
 				clog(Ext.JSON.encode(criteria));
-				var url = appContext+"/ajax/"+claraInstance.type+"s/search-bookmarks/save";
+				var url = appContext+"/ajax/"+claraInstance.type+"s/search-bookmarks/"+((me.getBookmarkWindow().bookmarkRecord)?(me.getBookmarkWindow().bookmarkRecord.get("id")+"/update"):"save");
 				var data = {userId: claraInstance.user.id || 0, name:name, searchCriterias:Ext.JSON.encode(criteria)};
 				
 				if (runOnly){
@@ -253,7 +335,7 @@ Ext.define('Clara.Dashboard.controller.Dashboard', {
 					    params: data,
 					    success: function(response){
 					        var text = response.responseText;
-					        clog("seccess save",text,response);
+					        clog("success save",text,response);
 					        if (piwik_enabled()){
 								_paq.push(['trackEvent', 'DB_BOOKMARK', 'Saved: '+name]);
 							}

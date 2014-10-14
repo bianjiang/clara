@@ -97,20 +97,12 @@ function renderFormReviewViewport() {
             xtype: 'reviewer-contingencygrid-panel',
             onReviewPage:true,
             autoLoadComments:false,
-            committeeIncludeFilter: [claraInstance.user.committee]
+            title:(claraInstance.user.committee === "PI")?"PI Notes":"My Committee",
+            committeeIncludeFilter: [claraInstance.user.committee],
+            readOnly: (claraInstance.user.committee === "PI")
         }
     ];
 
-    if (claraInstance.user.committee == "PI") { // Hide "my committee
-        reviewTabItems = [{
-                id: 'reviewer-othercontingencygrid-panel',
-                xtype: 'reviewer-contingencygrid-panel',
-                autoLoadComments:true,
-                committeeExcludeFilter: [claraInstance.user.committee],
-                title: 'Review Committee Notes'
-            }
-        ];
-    }
 
 
 
@@ -281,7 +273,7 @@ function renderFormReviewViewport() {
                                 text: 'Show Checklist',
                                 iconCls: 'icn-ui-check-boxes',
                                 handler: function () {
-                                    var url = appContext + "/" + claraInstance.type + "s/" + claraInstance.id + "/" + claraInstance.type + "-forms/" + claraInstance.form.id + "/review/checklists/committee-checklist.xml?committee=" + claraInstance.user.committee + "&formType=" + claraInstance.form.type;
+                                    var url = appContext + "/" + claraInstance.type + "s/" + claraInstance.id + "/" + claraInstance.type + "-forms/" + claraInstance.form.id + "/review/checklists/committee-checklist.xml?userId="+claraInstance.user.id+"&committee=" + claraInstance.user.committee + "&formType=" + claraInstance.form.type;
                                     window.open(url);
                                 }
                             }

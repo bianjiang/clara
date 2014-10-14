@@ -41,7 +41,8 @@
 		claraInstance.setId("${!empty contractId?contractId:0}");
 		claraInstance.setUser({
 			id: ${!empty user?user.id:0},
-			committee:'${!empty committee?committee:'PI'}'
+			committee:'${!empty committee?committee:'PI'}',
+			username: "${!empty user?user.username:''}"
 		});
 
 	</script>

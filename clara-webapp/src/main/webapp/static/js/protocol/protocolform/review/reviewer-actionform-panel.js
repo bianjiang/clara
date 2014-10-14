@@ -53,7 +53,7 @@ Clara.Reviewer.AddNoteWindow = Ext.extend(Ext.Window, {
         t.editing = (t.record !== null);
         t.setTitle(t.editing?"Edit Note":"Add Note");
 
-        t.reviewAsCommittee = getURLParameter("committee") || null;
+        t.reviewAsCommittee = t.reviewAsCommittee || getURLParameter("committee");
         
         if (t.editing){
             var html = t.record.get("text");
@@ -67,7 +67,9 @@ Clara.Reviewer.AddNoteWindow = Ext.extend(Ext.Window, {
     	var severityLabelHigh =  (commentCategory == "CONTINGENCY")?'<span style="font-weight:800;">Major Contingency</span>':'<span style="font-weight:800;">Required Change</span>';
     	var severityLabelLow  =  (commentCategory == "CONTINGENCY")?'<span style="font-weight:800;">Minor Contingency</span>':'<span style="font-weight:800;">Note</span>';
 
-        var isEditingAsPI = (t.editing && claraInstance.user.committee == 'PI');
+    	var isEditingAsPI = (t.editing && claraInstance.user.committee == 'PI');
+    	
+    	clog("reviewAsCommittee",t.reviewAsCommittee);
         var canEdit = {
             commentType: (t.isActingAsIRB && t.isMyList),
             status: !t.editing ||
@@ -108,7 +110,7 @@ Clara.Reviewer.AddNoteWindow = Ext.extend(Ext.Window, {
 	    			{
 	    				text:'Save '+((commentCategory == "CONTINGENCY")?'Contingency':'Note'),
 	    				id:'btn-save-note',
-	    				disabled:isEditingAsPI,
+	    				disabled:isEditingAsPI && t.reviewAsCommittee !== "PI",
 	    				handler: function(){
 	    					var commentSeverity = Ext.getCmp("fldNoteSeverity").getValue().getGroupValue();
 	    					var noteType = (commentCategory == "CONTINGENCY")?"CONTINGENCY":"NOTE";
@@ -150,14 +152,15 @@ Clara.Reviewer.AddNoteWindow = Ext.extend(Ext.Window, {
 			    xtype: 'radiogroup',
 			    id:'fldNoteSeverity',
 			    columns:1,
-                disabled: t.editing && !canEdit.commentType,
+			    hidden: t.reviewAsCommittee === "PI" || t.isEditingAsPI,
+                disabled: (t.editing && !canEdit.commentType) || t.reviewAsCommittee === "PI",
 			    fieldLabel: 'What type of '+((commentCategory == "CONTINGENCY")?'contingency':'note')+' is this?',
 			    items: [
 
-			        {boxLabel: severityLabelHigh, name: 'note-sev', inputValue:'MAJOR', checked: (t.editing && t.record.data && t.record.data.commentType.indexOf("_MAJOR") != -1)},
+			        {boxLabel: severityLabelHigh, name: 'note-sev', inputValue:'MAJOR', hidden:(t.reviewAsCommittee==='PI'), checked: (t.editing && t.record.data && t.record.data.commentType.indexOf("_MAJOR") != -1)},
 					{boxLabel: severityLabelLow, name: 'note-sev', inputValue:'MINOR', checked: ((!t.editing && commentCategory != "CONTINGENCY" && commentCategory != "STUDYWIDE") || (t.editing && t.record.data && t.record.data.commentType.indexOf("_MINOR") != -1))},
 					{boxLabel: 'IRB Studywide Note', name:'note-sev',inputValue:'STUDYWIDE',checked:(t.editing && t.record.data && t.record.data.commentType.indexOf("STUDYWIDE") != -1),
-						hidden: (!claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER','ROLE_IRB_EXPEDITED_REVIEWER','ROLE_IRB_OFFICE','ROLE_IRB_PREREVIEW']) || (commentCategory == "CONTINGENCY"))
+						hidden: (!claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER','ROLE_IRB_EXPEDITED_REVIEWER','ROLE_IRB_OFFICE','ROLE_IRB_PREREVIEW']) || (commentCategory == "CONTINGENCY") || (t.reviewAsCommittee==='PI'))
 					}
 
 			        ]
@@ -169,7 +172,7 @@ Clara.Reviewer.AddNoteWindow = Ext.extend(Ext.Window, {
                 itemId: 'fldNote',
                 name: 'fldNote',
                 id: 'fldNote',
-                disabled: isEditingAsPI,
+                disabled: isEditingAsPI && (t.reviewAsCommittee !== "PI"),
                 style: 'width:96%;font-size:15px;',
                 value: noteText
             },
@@ -177,7 +180,7 @@ Clara.Reviewer.AddNoteWindow = Ext.extend(Ext.Window, {
                 xtype: 'checkbox',
                 boxLabel: '<b>Make this note private</b> (visible to your committee only)</b>',
                 x: 250,
-                hidden:(t.reviewAsCommittee && t.reviewAsCommittee.indexOf("IRB_") > -1) && claraInstance.HasAnyPermissions(['VIEW_IRB_COMMENTS']),
+                hidden:isEditingAsPI || t.reviewAsCommittee === "PI" || ((t.reviewAsCommittee && t.reviewAsCommittee.indexOf("IRB_") > -1) && claraInstance.HasAnyPermissions(['VIEW_IRB_COMMENTS'])),
                 y: 10,
                 itemId: 'fldPrivateNote',
                 name: 'fldPrivateNote',
@@ -192,7 +195,7 @@ Clara.Reviewer.AddNoteWindow = Ext.extend(Ext.Window, {
                 itemId: 'fldInLetter',
                 name: 'fldInLetter',
                 id: 'fldInLetter',
-                hidden: isEditingAsPI,
+                hidden: isEditingAsPI || t.reviewAsCommittee === "PI",
                 checked: (t.editing && t.record.data && t.record.data.inLetter)
             },
             {
@@ -201,7 +204,7 @@ Clara.Reviewer.AddNoteWindow = Ext.extend(Ext.Window, {
                 style:'border-top:1px solid black;',
                 columns:3,
                 disabled: !canEdit.status,
-                hidden: !t.editing || isEditingAsPI,
+                hidden: !t.editing || isEditingAsPI || t.reviewAsCommittee === "PI",
                 items: [
                     {boxLabel: "Mark as <span style='font-weight:800;color:green;'>Met</span>", name: 'note-status', inputValue:'MET', checked: (t.editing && t.record.data && t.record.get("commentStatus") && t.record.get("commentStatus").indexOf("MET") == 0)},
                     {boxLabel: "Mark as <span style='font-weight:800;color:red;'>Not Met</span>", name: 'note-status', inputValue:'NOT_MET', checked: (t.editing && t.record.data && t.record.get("commentStatus") && t.record.get("commentStatus").indexOf("NOT_MET") == 0)},

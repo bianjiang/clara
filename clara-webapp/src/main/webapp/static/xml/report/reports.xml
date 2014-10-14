@@ -10,6 +10,7 @@
 			<field identifier="protocolstatus" />
 			<field identifier="reviewtype" />
 			<field identifier="originalapprovaldate" />
+			<field identifier="originalapprovalstatus" />
 			<field identifier="recentapprovaldate" />
 			<field identifier="drug" />
 			<field identifier="primaryresponsible" />
@@ -32,6 +33,8 @@
 			<field identifier="hasbudget" />
 			<field identifier="hascrimsonbudget" />
 			<field identifier="initialmodnotfinished" />
+			<field identifier="laysummary" />
+			<field identifier="multisinglesites" />
 			<!-- <field identifier="clinicaltrailgov" /> -->
 			<!-- <field identifier="protocolformstatus" /> -->
 		</fields>
@@ -80,6 +83,8 @@
 				queryCrossCondition="OUTER APPLY meta_data_xml.nodes('//protocol/study-sites/site') as T1(Loc) " />
 			<field order="0" defaultDisplay="false" identifier="originalapprovaldate"
 				alias="originalApprovaldate" desc="Original Approval Date" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="originalapprovalstatus"
+				alias="originalApprovalStatus" desc="Original Approval Status" hidden="false" />
 			<field order="0" defaultDisplay="false" identifier="insuranceplancode"
 				alias="insurancePlanCode" desc="Insurance Plan Code" hidden="false" />
 			<field order="0" defaultDisplay="false" identifier="corporateguarantorcode"
@@ -92,6 +97,10 @@
 				alias="enrollmentInformation" desc="Enrollment Information" hidden="false" />
 			<field order="0" defaultDisplay="false" identifier="pushedtoepic"
 				alias="pushedToEpic" desc="Pushed to Epic" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="expireddate"
+				alias="expiredDate" desc="Expired Date" hidden="false" />
+			<field order="0" defaultDisplay="false" identifier="multisinglesites"
+				alias="multisinglesites" desc="Single site or Multi site" hidden="false" />
 
 			<!-- <field order ="0" defaultDisplay ="false" identifier="approvalstatus" 
 				alias="approvalStatus" desc="Approval Status" hidden="false" /> <field order 
@@ -156,6 +165,9 @@
 				<condition involve="{fromcrimson.search-xpath}">{fromcrimson.search-xpath}</condition>
 				<condition involve="{hascrimsonbudget.search-xpath}">{hascrimsonbudget.search-xpath}</condition>
 				<condition involve="{initialmodnotfinished.search-xpath}">{initialmodnotfinished.search-xpath}</condition>
+				<condition involve="{laysummary.search-xpath}">{laysummary.search-xpath}</condition>
+				<condition involve="{multisinglesites.search-xpath}">{multisinglesites.search-xpath}</condition>
+				
 			</conditions>
 		</queries>
 	</report>
@@ -621,6 +633,85 @@
 		<fields>
 		<field identifier="approveddaterange" />
 		<field identifier="approvedinlastxdays" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+			</query>
+			<conditions>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="User Information Report">
+		<fields>
+		<field identifier="coiexpired" />
+		<field identifier="citiexpired" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+			</query>
+			<conditions>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="College/Department Workload Report">
+		<fields>
+		<field identifier="college" />
+		<field identifier="approveddaterange" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+			</query>
+			<conditions>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Contract Time Tracking Report">
+		<fields>
+			<field identifier="contractid" />
+			<field identifier="contractrelatedprotocolid" />
+			<field identifier="contractpiname" />
+			<field identifier="contractstatus" />
+			<field identifier="contractadminreviewer" />
+			<field identifier="legalreviewer" />
+		</fields>
+		<results>
+			 <field order="0" defaultDisplay="true" identifier="contractid"
+				alias="contractlId" desc="Contract Number" hidden="false"
+				value="&lt;a target=&quot;_blank&quot; href=&quot;{application.host}/clara-webapp/contracts/{contractlId}/dashboard&quot;&gt;{contractlId}&lt;/a&gt;" />
+			<field order="0" defaultDisplay="true" identifier="reviewentity"
+				alias="reviewEntity" desc="Review Entity" hidden="false" />
+			<field order="0" defaultDisplay="true" identifier="timespent"
+				alias="timeSpent" desc="Time Spent (in Days)" hidden="false" />
+		</results>
+		<queries>
+			<query type="main">
+				SELECT distinct id as contractId FROM contract WHERE retired = 0 AND {conditions}
+			</query>
+			<conditions>
+				<condition involve="{contractrelatedprotocolid.search-xpath}">{contractrelatedprotocolid.search-xpath}</condition>
+				<condition involve="{contractid.search-xpath}">{contractid.search-xpath}</condition>
+				<condition involve="{contractpiname.search-xpath}">{contractpiname.search-xpath}</condition>
+				<condition involve="{contractstatus.search-xpath}">{contractstatus.search-xpath}</condition>
+				<condition involve="{contractadminreviewer.search-xpath}">{contractadminreviewer.search-xpath}</condition>
+				<condition involve="{legalreviewer.search-xpath}">{legalreviewer.search-xpath}</condition>
+			</conditions>
+		</queries>
+	</report>
+	
+		<report type="Enrollment Report">
+		<fields>
+		<field identifier="crapproveddaterange" />
+		<field identifier="crapprovedinlastxdays" />
+		<field identifier="crapprovedinlastxmonths" />
 		</fields>
 		<results>
 		</results>

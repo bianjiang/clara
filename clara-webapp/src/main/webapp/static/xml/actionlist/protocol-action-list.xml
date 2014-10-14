@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<action-list type="PROTOCOL">
+	<action name="Edit {FORM_TYPE_DESC}" cls="green">
+		<url>/protocols/{PROTOCOL_ID}/protocol-forms/{PROTOCOL_FORM_ID}/{PROTOCOL_FORM_TYPE}/protocol-form-xml-datas/{LAST_PROTOCOL_FORM_XML_DATA_ID}/</url>
+		<conditions>
+			<permissions>
+				<permission>CAN_EDIT_FORM</permission>
+				<permission>ROLE_SYSTEM_ADMIN</permission>
+				<permission>ROLE_BUDGET_REVIEWER</permission>
+			</permissions>
+			<form-types>
+				<form-type>ALL</form-type>
+			</form-types>
+			<form-statuses>
+				<form-status>DRAFT</form-status>
+				<form-status>PENDING_PI_ENDORSEMENT</form-status>
+				<form-status>PENDING_TP_ENDORSEMENT</form-status>
+			</form-statuses>
+		</conditions>
+	</action>
+	<action name="Sign Off" cls="green">
+		<url>/protocols/{PROTOCOL_ID}/protocol-forms/{PROTOCOL_FORM_ID}/review?committee=PI</url>
+		<conditions>
+			<permissions>
+				<permission>CAN_EDIT_FORM</permission>
+				<permission>ROLE_SYSTEM_ADMIN</permission>
+				<permission>ROLE_BUDGET_REVIEWER</permission>
+			</permissions>
+			<form-types>
+				<form-type>ALL</form-type>
+			</form-types>
+			<form-statuses>
+				<form-status>DRAFT</form-status>
+				<form-status>PENDING_PI_ENDORSEMENT</form-status>
+				<form-status>PENDING_TP_ENDORSEMENT</form-status>
+			</form-statuses>
+		</conditions>
+	</action>
+</action-list>

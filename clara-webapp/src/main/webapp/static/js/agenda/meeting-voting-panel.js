@@ -136,6 +136,19 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 		    	        	 var adultRisk = r.get("adultrisk");
 		    	        	 var pedRisk = r.get("pediatricrisk");
 		    	        	 
+		    	        	 var ncDeterminationDesc = "Not specified";
+		    	        	 if (r.get("ncdetermination") == "no"){
+		    	        		 ncDeterminationDesc = "No Evidence of Non-Compliance";
+		    	        	 } else if (r.get("ncdetermination")== "yes"){
+		    	        		 ncDeterminationDesc = "Minor Non-Compliance";
+		    	        	 } else if (r.get("ncdetermination") == "yes_continuing"){
+		    	        		 ncDeterminationDesc = "Continuing Non-Compliance";
+		    	        	 } else if (r.get("ncdetermination") == "yes_serious"){
+		    	        		 ncDeterminationDesc = "Serious Non-Compliance";
+		    	        	 } else if (r.get("ncdetermination") == "yes_serious_continuing"){
+		    	        		 ncDeterminationDesc = "Serious and Continuing Non-Compliance";
+		    	        	 }
+		    	        	 
 		    	        	 if (Clara.IRBMeeting.CurrentAgendaItemRecord.get("category") !="MINUTES") {
 		    	        		 html +="<div class='motion-values'><dl>"   	
 			    	        	 + "<dt>Adult Risk</dt><dd>"+((adultRisk == "RISK_ADULT_1")?"Minimal":((adultRisk == "RISK_ADULT_2")?"Greater than Minimal":((adultRisk == "RISK_ADULT_DEFERRED")?"Deferred":"N/A")))+"</dd>"
@@ -146,7 +159,7 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 			    	        	 + "<dt>Consent Doc. Waived</dt><dd>"+r.get("consentdocumentationwaived")+"</dd>"
 			    	        	 + "<dt>HIPAA Applicable</dt><dd>"+r.get("hipaa")+"</dd>"
 			    	        	 + "<dt>HIPAA Waived</dt><dd>"+r.get("hipaawaived")+"</dd>"
-			    	        	 + "<dt>Noncompliance Determination</dt><dd>"+(r.get("ncdetermination")|| "Not specified")+"</dd>"
+			    	        	 + "<dt>Noncompliance Determination</dt><dd>"+ncDeterminationDesc+"</dd>"
 			    	        	 + "<dt>Reportable to OHRP/etc</dt><dd>"+(r.get("ncreportable")|| "Not specified")+"</dd>"
 			    	        	 + "<dt>UPIRTSO?</dt><dd>"+(r.get("UPIRTSO")|| "Not specified")+"</dd></dl></div>"
 		    	        	 }
@@ -588,7 +601,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 		                            triggerAction: 'all',
 		                            store: new Ext.data.SimpleStore({
 		                               fields:['type','id'],
-		                               data: [['Full Board','FULL_BOARD'],['Expedited','EXPEDITED'],['Exempt','EXEMPT']]
+		                               data: [['Full Board','FULL_BOARD'],['Expedited','EXPEDITED'],['Exempt','EXEMPT'],['N/A','NA']]
 		                            }),
 		                            lazyRender: true,
 		                            displayField:'type',
@@ -607,7 +620,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 		                            triggerAction: 'all',
 		                            store: new Ext.data.SimpleStore({
 		                               fields:['period'],
-		                               data: [[3],[6],[9],[12]]
+		                               data: [[0],[3],[6],[9],[12]]
 		                            }),
 		                            lazyRender: true,
 		                            displayField:'period',
@@ -686,7 +699,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 		                            triggerAction: 'all',
 		                            store: new Ext.data.SimpleStore({
 		                               fields:['d','id'],
-		                               data: [['Yes','yes'],['No','no']]
+		                               data: [['Yes','yes'],['No','no'], ['Partial Waiver (recruitment purposes only)','partial']]
 		                            }),
 		                            lazyRender: true,
 		                            displayField:'d',

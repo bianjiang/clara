@@ -16,8 +16,6 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import edu.uams.clara.core.util.xml.DomUtils;
-import edu.uams.clara.core.util.xml.XmlHandler;
-import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.dao.history.TrackDao;
 import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.usercontext.User;

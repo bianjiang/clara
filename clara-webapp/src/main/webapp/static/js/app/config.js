@@ -55,10 +55,11 @@ Ext.Ajax.on("requestcomplete",function(conn,r,opt){
 		}
 	} catch (e){
 		if (typeof claraInstance != "undefined") claraInstance.session.reset();
-		cdebug("AJAX requestcomplete (non-JSON)");
+		clog("AJAX requestcomplete (non-JSON)");
 	}
 });
 
 Ext.Ajax.on("requestexception",function(conn,r,opt){
 	cwarn("AJAX requestexception: "+r.statusText,conn,r,opt);
+	Ext.getBody().unmask();
 });

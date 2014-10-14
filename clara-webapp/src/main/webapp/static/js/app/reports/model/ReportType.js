@@ -1,6 +1,6 @@
 Ext.define('Clara.Reports.model.ReportType', {
     extend: 'Ext.data.Model',
-    fields: ['id', 'type', 'category','environments', 'formid','icnCls','description', 'url','forceQueue'],
+    fields: ['id', 'type', 'category','environments', 'formid','icnCls','description', 'url','forceQueue','hasUserSelectableCriteria','hasUserSelectableResultFields'],
     proxy: {
         type: 'ajax',
         url: appContext+'/static/js/app/reports/data/report-types.json',

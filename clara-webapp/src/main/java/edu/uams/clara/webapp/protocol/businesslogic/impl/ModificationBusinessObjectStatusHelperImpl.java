@@ -2,6 +2,7 @@ package edu.uams.clara.webapp.protocol.businesslogic.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,6 +26,7 @@ import edu.uams.clara.webapp.common.domain.form.Form;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.service.form.FormService;
+import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.protocol.businesslogic.ProtocolBusinessObjectStatusHelper;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
@@ -425,7 +427,7 @@ public class ModificationBusinessObjectStatusHelperImpl extends
 			}
 			
 			break;
-		case UNDER_BUDGET_MANAGER_REVIEW: 
+		case PENDING_REVIEWER_ASSIGNMENT: 
 			
 			if(Committee.BUDGET_MANAGER.equals(committee)){
 				try {
@@ -496,6 +498,84 @@ public class ModificationBusinessObjectStatusHelperImpl extends
 		
 	}
 	*/
+	
+	/*
+	 * If PI Sign off step is skipped in the budget mod approval process, this function update the action xml, adding generate fee schedule event and notifications to beacon so it will be processed correctly later.
+	 * */
+	@Override
+	public Node processActionXmlNode(Form form, Node actionXmlNode) {
+		ProtocolForm protocolForm = (ProtocolForm) form;
+		
+		String protocolFormMetaData = protocolForm.getMetaDataXml();
+		
+		try {
+			protocolFormMetaData = getXmlProcessor().replaceOrAddNodeValueByPath("/protocol/summary/budget-determination/latest-mod-approval-date", protocolFormMetaData, DateFormatUtil.formateDateToMDY(new Date()));
+			
+			protocolForm.setMetaDataXml(protocolFormMetaData);
+			
+			protocolForm = getProtocolFormDao().saveOrUpdate(protocolForm);
+			
+			Document actionXmlDoc = getXmlProcessor().parse(DomUtils.elementToString(actionXmlNode));
+			/*
+			Element rootActionEl = actionXmlDoc.getDocumentElement();
+			
+			XPath xPath = getXmlProcessor().getXPathInstance();
+			
+			Element eventsEl = (Element) (xPath.evaluate(
+					"//events", actionXmlDoc,
+					XPathConstants.NODE));
+			
+			if (eventsEl == null) {
+				eventsEl = actionXmlDoc.createElement("events");
+				
+				rootActionEl.appendChild(eventsEl);
+			}
+			
+			Element eventEl = actionXmlDoc.createElement("event");
+			eventEl.setTextContent("GENERATE_EPIC_CDM");
+			
+			eventsEl.appendChild(eventEl);
+			*/
+			
+			actionXmlDoc = getProtocolTrackService().addNewEvent(actionXmlDoc, "GENERATE_EPIC_CDM");
+			
+			actionXmlDoc = getProtocolTrackService().addNewNotification(actionXmlDoc, "NOTIFICATION", "GENERIC_APPROVE_TO_BEACON", null, "boolean(count(/protocol/epic/involve-chemotherapy[text()='y'])>0)", "NOTIFICATION", "GENERIC_APPROVE_TO_BEACON", "Budget modification has been approved and Beacon team is notified. <div class=\"history-log-email\">{EMAIL_NOTIFICATION_LOG}</div>");
+			
+			actionXmlDoc = getProtocolTrackService().addNewNotification(actionXmlDoc, "NOTIFICATION", "BUDGET_APPROVED_NOTIFICATION_FOR_HB", null, null, "NOTIFICATION", "BUDGET_APPROVED_NOTIFICATION_FOR_HB", "Budget modification has been approved and HB team is notified. <div class=\"history-log-email\">{EMAIL_NOTIFICATION_LOG}</div>");
+			/*
+			Element notificationsEl = (Element) (xPath.evaluate(
+					"//notifications", actionXmlDoc,
+					XPathConstants.NODE));
+			
+			if (notificationsEl == null) {
+				notificationsEl = actionXmlDoc.createElement("notifications");
+				
+				rootActionEl.appendChild(notificationsEl);
+			}
+			
+			Element notificationEl = actionXmlDoc.createElement("notification");
+			notificationEl.setAttribute("xpath-condition", "boolean(count(/protocol/epic/involve-chemotherapy[text()='y'])>0)");
+			notificationEl.setAttribute("notification-type", "NOTIFICATION");
+			notificationEl.setAttribute("email-template-identifier", "GENERIC_APPROVE_TO_BEACON");
+			
+			notificationsEl.appendChild(notificationEl);
+			
+			Element notificationLogsEl = actionXmlDoc.createElement("logs");
+			notificationEl.appendChild(notificationLogsEl);
+			
+			Element notificationLogEl = actionXmlDoc.createElement("log");
+			notificationLogEl.setAttribute("log-type", "NOTIFICATION");
+			notificationLogEl.setAttribute("event-type", "GENERIC_APPROVE_TO_BEACON");
+			notificationLogEl.setAttribute("event-type", "GENERIC_APPROVE_TO_BEACON");
+			*/
+			actionXmlNode = (Node) actionXmlDoc.getDocumentElement();
+			logger.debug("action xml after processing: " + DomUtils.elementToString(actionXmlNode));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return actionXmlNode;
+	}
 
 	public ProtocolFormService getProtocolFormService() {
 		return protocolFormService;

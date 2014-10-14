@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.xml.sax.SAXException;
 
+import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
+import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao;
+import edu.uams.clara.webapp.protocol.dao.protocolform.review.ProtocolFormChecklistAnswerDao;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
+import edu.uams.clara.webapp.protocol.domain.protocolform.review.ProtocolFormChecklistAnswer;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
 @Controller
@@ -35,6 +40,10 @@ public class ProtocolFormCommitteeChecklistController {
 	private ResourceLoader resourceLoader;
 
 	private ProtocolFormCommitteeStatusDao protocolFormCommitteeStatusDao;
+	
+	private ProtocolFormChecklistAnswerDao protocolFormChecklistAnswerDao;
+	
+	private UserDao userDao;
 
 	@Value("${checklistXmlTemplate.url}")
 	private String checklistXmlTemplatePath;
@@ -44,8 +53,12 @@ public class ProtocolFormCommitteeChecklistController {
 			@PathVariable("protocolFormId") long protocolFormId,
 			@RequestParam("committee") Committee committee,
 			@RequestParam("formType") ProtocolFormType protocolFormType,
+			@RequestParam("userId") long userId,
+			@RequestParam(value = "readOnly", required = false) String readOnly,
 			ModelMap modelMap) throws FileNotFoundException, IOException,
 			XPathExpressionException, SAXException {
+		User user = userDao.findById(userId);
+		
 		String checkListXmlString = "";
 
 		try {
@@ -84,8 +97,24 @@ public class ProtocolFormCommitteeChecklistController {
 
 			checkListXmlString = "<checklist-group></checklist-group>";
 		}
-
+		
+		String checklistAnswerXmlString = "";
+		
+		try {
+			ProtocolFormChecklistAnswer pfca = protocolFormChecklistAnswerDao.getLatestAnswerByUserAndCommitteeAndProtocolFormId(user.getId(), committee, protocolFormId);
+			
+			checklistAnswerXmlString = pfca.getXmlData();
+		} catch (Exception e) {
+			//e.printStackTrace();
+			
+			checklistAnswerXmlString = "<answers />";
+		}
+		
+		modelMap.put("committee", committee.toString());
+		modelMap.put("protocolFormId", protocolFormId);
 		modelMap.put("checkListXml", checkListXmlString);
+		modelMap.put("checkListAnswerXml", checklistAnswerXmlString);
+		modelMap.put("readOnly", readOnly);
 		//logger.error(checkListXmlString);
 
 		return "protocol/review/checklist";
@@ -126,5 +155,24 @@ public class ProtocolFormCommitteeChecklistController {
 	public void setProtocolFormCommitteeStatusDao(
 			ProtocolFormCommitteeStatusDao protocolFormCommitteeStatusDao) {
 		this.protocolFormCommitteeStatusDao = protocolFormCommitteeStatusDao;
+	}
+
+	public ProtocolFormChecklistAnswerDao getProtocolFormChecklistAnswerDao() {
+		return protocolFormChecklistAnswerDao;
+	}
+	
+	@Autowired(required = true)
+	public void setProtocolFormChecklistAnswerDao(
+			ProtocolFormChecklistAnswerDao protocolFormChecklistAnswerDao) {
+		this.protocolFormChecklistAnswerDao = protocolFormChecklistAnswerDao;
+	}
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+	
+	@Autowired(required = true)
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
 	}
 }

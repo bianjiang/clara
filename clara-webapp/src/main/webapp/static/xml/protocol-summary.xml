@@ -17,7 +17,7 @@
 			
 			<question id="question-accrual-since-last-approval" parent-id="" parent-value="" header="">
 				<question-label>Most Recent IRB Approved Accrual Goal (Local)</question-label>
-				<question-value editable="false" instance-path="/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval" value-type="string" />
+				<question-value editable="false" instance-path="/protocol/accural-goal-local" value-type="string" />
 			</question>
 			
 			<question id="question-date-first-subject-enrolled" parent-id="" parent-value="" header="">

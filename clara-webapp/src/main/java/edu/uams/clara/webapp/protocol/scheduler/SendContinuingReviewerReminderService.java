@@ -71,7 +71,7 @@ public class SendContinuingReviewerReminderService {
 		
 		List<Protocol> toBeExpiredInThreeMonthProtocols = new ArrayList<Protocol>();
 		
-		String achCCList = "BrackeenMargieI@uams.edu,StormentJanetS@uams.edu,HollowayAmanda@uams.edu,JContorno@uams.edu";
+		String achCCList = "BrackeenMargieI@uams.edu,StormentJanetS@uams.edu,HollowayAmanda@uams.edu";
 		
 		String achWithDrugCCList = "FurgersonBillyC@uams.edu";
 		

@@ -34,6 +34,7 @@ Ext.define('Clara.Reports.view.ReportTypesWindow', {
 					  data: {
 	        				description: reportGlobals.selectedReportType.get("category")+": "+reportGlobals.selectedReportType.get("type"),
 	        				reportType: reportGlobals.selectedReportType.get("type"),
+	        				reportTypeId: reportGlobals.selectedReportType.get("id"),
 	        				globalOperator: "AND",
 	        				cron:null
 	        			},
@@ -51,7 +52,7 @@ Ext.define('Clara.Reports.view.ReportTypesWindow', {
                                     status: data.data.status
                                 });
                                 t.close();
-	                			var rwin = Ext.create('Clara.Reports.view.UserReportWindow', {report:data.data,title: reportGlobals.selectedReportType.get("category")+": "+reportGlobals.selectedReportType.get("type"),reportTypeRecord:reportGlobals.selectedReportType});
+	                			var rwin = Ext.create('Clara.Reports.view.UserReportWindow', {reportType:reportGlobals.selectedReportType, report:data.data,title: reportGlobals.selectedReportType.get("category")+": "+reportGlobals.selectedReportType.get("type"),reportTypeRecord:reportGlobals.selectedReportType});
 	                			rwin.show();
 	                			Clara.Reports.app.getController("Report").refreshReportPanel();
 	                			

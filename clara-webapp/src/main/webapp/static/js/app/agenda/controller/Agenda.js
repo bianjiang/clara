@@ -56,6 +56,8 @@ Ext
 						ref : 'removeAgendaItemButton',
 						selector : '#btnRemoveItem'
 					}, {
+						ref: 'showCommentHistoryButton', selector:'#btnShowCommentHistory'},
+					{
 						ref : 'approveAgendaButton',
 						selector : '#btnApproveAgenda'
 					}, {
@@ -177,6 +179,12 @@ Ext
 							'#btnRemoveItem' : {
 								click : function() {
 									me.removeAgendaItem();
+								}
+							},
+							'#btnShowCommentHistory' : {
+								click : function() {
+									var win = Ext.create("Clara.Agenda.view.CommentHistoryWindow");
+									win.show();
 								}
 							},
 							'#btnPrintAgenda' : {
@@ -586,6 +594,10 @@ Ext
 					},
 
 					manageAgendaRoster : function() {
+						Ext.data.StoreManager.lookup('IrbReviewers').clearFilter();
+						Ext.data.StoreManager.lookup('IrbReviewers').filter([
+						                             						{filterFn: function(r){return r.get("irbRoster") !== "WEEK_5"}}
+						                             						]);
 						Ext.create('Clara.Agenda.view.AgendaRosterWindow', {})
 								.show();
 					},
@@ -595,13 +607,14 @@ Ext
 						var reason = (r.get("reason") != '') ? r.get("reason")
 								: 'No reason given';
 
-						if (r.get("status") == "NORMAL" || !r.get("status"))
+						if (r.get("status") == "NORMAL" || !r.get("status")){
 							row += "<h2>" + r.get("user").person.firstname
 									+ " " + r.get("user").person.lastname
 									+ "</h2><span>" + r.get("degree") + " - "
 									+ r.get("type") + " - "
 									+ r.get("user").person.workphone
 									+ "</span>";
+						}
 						else if (r.get("status") == "REPLACED") {
 							row += "<h2><span style='text-decoration: line-through;color:red;'>"
 									+ r.get("user").person.firstname
@@ -726,7 +739,7 @@ Ext
 						me.getShowSummaryButton().show();
 						me.getShowMinutesButton().show();
 						me.getAgendaItemMenu().setDisabled(true);
-
+						me.getShowCommentHistoryButton().setVisible(false);
 						me.getPrintAgendaButton().show();
 						me.getPrintAgendaButton().setDisabled(false);
 
@@ -797,6 +810,9 @@ Ext
 						} else {
 							me.getAssignReviewersButton().setDisabled(true);
 						}
+
+						me.getShowCommentHistoryButton().setVisible((me.selectedAgendaItem.get("category") == 'FULL_BOARD') && Clara.HasAnyPermissions(['ROLE_SYSTEM_ADMIN' ]));
+
 					},
 
 					onLaunch : function() {

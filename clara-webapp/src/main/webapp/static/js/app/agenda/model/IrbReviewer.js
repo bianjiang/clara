@@ -80,6 +80,7 @@ Ext.define('Clara.Agenda.model.IrbReviewer', {
 					data : v.data,
 					enabled : v.enabled,
 					id : v.id,
+					irbreviewerid: obj.id,
 					password : v.password,
 					person : {
 						annualSalary : v.person.annualSalary,

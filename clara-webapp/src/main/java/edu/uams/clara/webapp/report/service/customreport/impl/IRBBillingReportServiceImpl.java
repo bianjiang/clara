@@ -89,11 +89,11 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 				+ "'"+beginTime+ "'"
 				+ " and modified <"
 				+ "'"+ endTime+ "'"
-				+ " and protocol_form_id in (select id from protocol_form where protocol_form_type in ('CONTINUING_REVIEW','NEW_SUBMISSION') and retired =0)";
+				+ " and protocol_form_id in (select id from protocol_form where protocol_form_type in ('CONTINUING_REVIEW','NEW_SUBMISSION')  and  retired =0)";
 		Query query = em.createNativeQuery(qry);
 		List<BigInteger> pfIDs = (List<BigInteger>) query.getResultList();
 		for (BigInteger pfIDBig : pfIDs) {
-			finalResultXml += "<report-item>";
+			
 			try{
 				
 			long pfID = pfIDBig.longValue();
@@ -143,10 +143,17 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 			} else {
 				department = college + department;
 			}
+			
+			if(!(responsibleInstitution.contains("uams")||responsibleInstitution.contains("ach-achri"))){
+				continue;
+			}
 
 			String whoInitiated = "";
 			try {
 				whoInitiated = xmlHandler.getSingleStringValueByXPath(protocolxmlData, "/protocol/study-type/text()");
+				if(!whoInitiated.contains("industry-sponsored")){
+					continue;
+				}
 			} catch (Exception e) {
 				
 			}
@@ -224,6 +231,7 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 				title=title.replaceAll(">", "&gt;");
 				}
 			
+			finalResultXml += "<report-item>";
 			finalResultXml += "<field id=\"protocolid\">";
 			finalResultXml += protocolID;
 			finalResultXml += "</field>";
@@ -262,27 +270,20 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 			
 			
 			
-			String tempFundingName ="<field id=\"fundingname\">";
-			String tempFundingAmount ="<field id=\"fundingamount\">";
-			String tempFundingType ="<field id=\"fundingtype\">";
-			String tempFundingEntity ="<field id=\"fundingentity\">";
-			String tempSubtypes ="<field id=\"supporttype\">";
+			String tempFundingName ="<field id=\"fundingname\"><list>";
+			String tempFundingAmount ="<field id=\"fundingamount\"><list>";
+			String tempFundingType ="<field id=\"fundingtype\"><list>";
+			String tempFundingEntity ="<field id=\"fundingentity\"><list>";
+			String tempSubtypes ="<field id=\"supporttype\"><list>";
 			
-			boolean firstLine = true;
 			while (subtypeIndex < subtypesSzie) {
-				if(!firstLine){
-					tempSubtypes+="&lt;br&gt;";
-				}else{
-					firstLine = false;
-				}
-				tempSubtypes +=subtypes.get(subtypeIndex).getTextContent();
+				tempSubtypes +="<item>"+ subtypes.get(subtypeIndex).getTextContent() +  "</item>";
 				subtypeIndex++;
 			}
-			tempSubtypes += "</field>";
+			tempSubtypes += "</list></field>";
 			finalResultXml +=tempSubtypes;
 			List<Element> fundings = xmlHandler.listElementsByXPath(protocolxmlData, "/protocol/funding/funding-source");
 
-			firstLine = true;
 			for (Element funding : fundings) {
 				String fundingName = funding.getAttribute("name");
 				String fundingAmount = funding.getAttribute("amount");
@@ -299,38 +300,21 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 					fundingName ="";
 				}
 				
-					if(!firstLine){
-						tempFundingName+="&lt;br&gt;";
-					}
-					
-					tempFundingName +=fundingName;
-					
-					if(!firstLine){
-						tempFundingAmount+="&lt;br&gt;";
-					}
-					tempFundingAmount +=fundingAmount;
-					
-					if(!firstLine){
-						tempFundingType+="&lt;br&gt;";
-					}
-					tempFundingType +=type;
-					
-					if(!firstLine){
-						tempFundingEntity+="&lt;br&gt;";
-					}
-					
-					tempFundingEntity +=fundingEntityName;
-					
-					if(firstLine){
-						firstLine = false;
-					}
+					tempFundingName +="<item>"+ fundingName +  "</item>";
+					tempFundingAmount +="<item>"+ fundingAmount +  "</item>";
+					tempFundingType +="<item>"+ type +  "</item>";
+					tempFundingEntity +="<item>"+ fundingEntityName +  "</item>";
 				
+								
 			}
-			tempFundingName += "</field>";
-			tempFundingAmount += "</field>";
-			tempFundingType += "</field>";
-			tempFundingEntity += "</field>";
+			tempFundingName += "</list></field>";
+			tempFundingAmount += "</list></field>";
+			tempFundingType += "</list></field>";
+			tempFundingEntity += "</list></field>";
 			finalResultXml+=tempFundingName+tempFundingAmount+tempFundingType+tempFundingEntity;
+			if(finalResultXml.contains("<list></list>")){
+				finalResultXml = finalResultXml.replaceAll("<list></list>", "");
+			}
 			finalResultXml += "</report-item>";
 			}catch(Exception e){
 				e.printStackTrace();
@@ -344,8 +328,8 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 		finalResultXml += "</report-results>";
 		finalResultXml =finalResultXml.replace("<![CDATA[null]]>", "");
 		finalResultXml =finalResultXml.replace("null&lt;br&gt;", "");
-		if(finalResultXml.contains("& ")){
-			finalResultXml=finalResultXml.replaceAll("& ", "&amp; ");
+		if(finalResultXml.contains("&")){
+			finalResultXml=finalResultXml.replaceAll("&", "&amp;");
 			}
 		return finalResultXml;
 		

@@ -20,7 +20,6 @@ import com.google.common.collect.Lists;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
-import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
 import edu.uams.clara.webapp.common.security.ObjectAclService;
 import edu.uams.clara.webapp.common.service.audit.AuditService;
 import edu.uams.clara.webapp.common.util.JsonResponseHelper;
@@ -33,9 +32,6 @@ import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolStatusDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDocumentDao;
-import edu.uams.clara.webapp.protocol.domain.Protocol;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlDataDocument;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlDataDocument.Status;
@@ -270,10 +266,10 @@ public class ProtocolFormXmlDataDocumentAjaxController {
 			@RequestParam("userId") long userId,
 			@RequestParam("committee") Committee committee){
 		ProtocolFormXmlDataDocument pfdd = protocolFormXmlDataDocumentDao.findById(protocolFormXmlDataDocumentId);
-		ProtocolFormStatus protocolFormStatus = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(protocolFormId);
+		//ProtocolFormStatus protocolFormStatus = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(protocolFormId);
 		
 		User currentUser = userDao.findById(userId);
-		
+		/*
 		boolean deletable = false;
 		
 		if (protocolFormStatus.getProtocolFormStatus().equals(ProtocolFormStatusEnum.DRAFT)||protocolFormStatus.getProtocolFormStatus().equals(ProtocolFormStatusEnum.UNDER_REVISION)){
@@ -300,6 +296,21 @@ public class ProtocolFormXmlDataDocumentAjaxController {
 			} else {
 				return new JsonResponse(true, "You do not have right to delete this document!", "", false, null);
 			}
+		} catch (Exception e){
+			e.printStackTrace();
+			return new JsonResponse(true, "Failed to delete this document!", "", false, null);
+		}
+		*/
+		try{
+			pfdd.setRetired(true);
+			pfdd.setCreated(new Date());
+			pfdd.setUser(currentUser);
+			pfdd.setCommittee(committee);
+			
+			pfdd = protocolFormXmlDataDocumentDao.saveOrUpdate(pfdd);
+			
+			auditService.auditEvent("DOCUMENT_DELETE",
+					"User: " + userId + " has deleted document: "+ pfdd.getId());
 		} catch (Exception e){
 			e.printStackTrace();
 			return new JsonResponse(true, "Failed to delete this document!", "", false, null);

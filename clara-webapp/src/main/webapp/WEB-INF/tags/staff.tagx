@@ -14,6 +14,9 @@
 	<table class="summary-table table table-striped table-bordered table-condensed">
 		<thead>
 		<tr>
+			<td colspan="8" style="text-align:right;"><input type="text" class="input-medium search-query summary-search" placeholder="Search Staff" /></td>
+		</tr>
+		<tr>
 			<th id="name"><b>Name</b></th>
 			<th id="email"><b>Email</b></th>
 			<th id="role"><b>Roles</b></th>
@@ -24,6 +27,7 @@
 			<th id="notes"><b>Notes</b></th>
 		</tr>
 		</thead>
+		<tbody>
 		<x:forEach var="staff" select="$value">
 			<x:set var="diff" select="string($staff/@diff)" />
 			<c:if test="${!empty diff}">
@@ -145,6 +149,7 @@
 			</sec:authorize>
 			
 		</x:forEach>
+		</tbody>
 	</table>
 
 </jsp:root>

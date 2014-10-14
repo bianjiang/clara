@@ -125,6 +125,7 @@
 								<events>
 									<event>SET_SUBMIT_DATE</event>
 									<event>SET_FORM_SUBMIT_DATE</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_SUBMITTED_TO_ACH_GATEKEEPER">
@@ -162,6 +163,7 @@
 									<event>SET_SUBMIT_DATE</event>
 									<event>SET_FORM_SUBMIT_DATE</event>
 									<event submission-type="original">GENERATE_BUDGET_DOCUMENT</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_SUBMITTED_TO_GATEKEEPER">
@@ -217,6 +219,7 @@
 								<events>
 									<event>SET_SUBMIT_DATE</event>
 									<event>SET_FORM_SUBMIT_DATE</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<logs>
 									<log log-type="ACTION" event-type="NEW_PROTOCOL_SUBMITTED_TO_IRB" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has submitted the study to IRB for pre-review.</span></log>
@@ -346,6 +349,7 @@
 								<events>
 									<event>SET_SUBMIT_DATE</event>
 									<event>SET_FORM_SUBMIT_DATE</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_SUBMITTED_TO_ACH_GATEKEEPER">
@@ -382,6 +386,7 @@
 								<events>
 									<event>SET_SUBMIT_DATE</event>
 									<event>SET_FORM_SUBMIT_DATE</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_SUBMITTED_TO_GATEKEEPER">
@@ -436,6 +441,7 @@
 								<events>
 									<event>SET_SUBMIT_DATE</event>
 									<event>SET_FORM_SUBMIT_DATE</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<logs>
 									<log log-type="ACTION" event-type="NEW_PROTOCOL_SUBMITTED_TO_IRB" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has submitted the study to IRB for pre-review.</span></log>
@@ -869,15 +875,15 @@
 									</notification>										
 								</notifications>
 							</action>
-							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="NEW_SUBMISSION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
 								<change-status>
 									<status status="REVISION_PENDING_PI_ENDORSEMENT" />
 									<form-status status="REVISION_PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
-											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has re-submitted the study to the PI for endorsement. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" event-type="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has re-submitted the study to the PI for endorsement. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -973,13 +979,13 @@
 									</notification>										
 								</notifications>
 							</action>
-							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="NEW_SUBMISSION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
 								<change-status>
 									<status status="REVISION_PENDING_PI_ENDORSEMENT" />
 									<form-status status="REVISION_PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has re-submitted the study to the PI for endorsement. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -2445,7 +2451,11 @@
 									<form-status status="PENDING_REVIEWER_ASSIGNMENT" />
 									<form-committee-statuses>
 										<form-committee-status
-											involved-committee="SELECTED_COMMITTEES" status="IN_REVIEW" />
+											involved-committee="SELECTED_COMMITTEES" status="IN_REVIEW">
+											<selected-committees>
+												<selected-committee committee="REGULATORY_MANAGER" belong-to-committee="MONITORING_REGULATORY_QA" status="PENDING_REVIEWER_ASSIGNMENT" />
+											</selected-committees>
+										</form-committee-status>
 										<form-committee-status
 											involved-committee="BUDGET_MANAGER" status="PENDING_REVIEWER_ASSIGNMENT" />
 									</form-committee-statuses>
@@ -2711,6 +2721,10 @@
 								<desc>Approve</desc>
 							</decision>
 							<decision>
+								<value>BUDGET_NOT_REVIEWED</value>
+								<desc>Budget Review Not Needed (Route to IRB)</desc>
+							</decision>
+							<decision>
 								<value>REVISION_REQUESTED</value>
 								<desc>Revision requested</desc>
 							</decision>
@@ -2735,6 +2749,21 @@
 									</notification>	
 									<!-- <notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_BUDGET_REVIEW_APPROVE_TO_PI" /> -->									
 								</notifications>
+							</action>
+							<action type="BUDGET_NOT_REVIEWED" condition="" update-meta-data="true">
+								<change-status>
+									<status status="UNDER_IRB_PREREVIEW" />
+									<form-status status="UNDER_IRB_PREREVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="BUDGET_REVIEW" status="BUDGET_NOT_REVIEWED" />
+										<form-committee-status
+											involved-committee="IRB_ASSIGNER" status="PENDING_REVIEWER_ASSIGNMENT" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="BUDGET_REVIEW_NOT_NEEDED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Budget Review is not needed and the form has been routed to IRB Assigner for reviewer assignment by Budget Reviewer ({USER_WITH_EMAIL_LINK}).</span></log>
+								</logs>
 							</action>
 							<action type="REVISION_REQUESTED" condition="" store-meta-data="True">
 								<change-status>
@@ -3500,16 +3529,21 @@
 										</logs>
 									</notification> -->	
 									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_PI_SIGN_OFF_TO_RSC" />
-									<!-- <notification xpath-condition="boolean(count(/protocol/epic/involve-chemotherapy[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+									<notification xpath-condition="boolean(count(/protocol/epic/involve-chemotherapy[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget and beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
-									</notification> -->
-									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+									</notification>
+									<notification notification-type="NOTIFICATION" email-template-identifier="BUDGET_APPROVED_NOTIFICATION_FOR_HB">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="BUDGET_APPROVED_NOTIFICATION_FOR_HB" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget and HB team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
+									<!-- <notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
-									</notification>
+									</notification> -->
 									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='uams'])>0 and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_WILLOW">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_WILLOW" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget and Willow team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
@@ -4111,7 +4145,7 @@
 				</committee>
 			</form-status>
 			-->
-			<form-status value="ANY" form-committee-status="APPROVE_WITH_CONTINGENCIES">
+			<form-status value="ANY" form-committee-status="IN_REVIEW">
 				<committee name="RADIATION_SAFETY">
 					<review-page page-name="committee-review">
 						<decisions>

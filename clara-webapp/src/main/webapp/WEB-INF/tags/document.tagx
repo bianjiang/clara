@@ -52,7 +52,9 @@
 				<x:set var="filename" select="string(@filename)" />
 				<x:set var="identifier" select="string(@identifier)" />
 				<x:set var="extension" select="string(@extension)" />
-				<td headers="title" valign="top" class="span6"><a href="${pathHead}${docurl}${identifier}.${extension}?n=${filename}" target="_blank"><x:out select="@title" /></a></td>
+				<c:set var="docUrl"><c:url value="${pathHead}${docurl}${identifier}.${extension}?n=${filename}"/></c:set>
+				<c:set var="docUrl" value="${fn:replace(docUrl, ',', '')}"/>
+				<td headers="title" valign="top" class="span6"><a href="${docUrl}" target="_blank"><x:out select="@title" /></a></td>
 				<td headers="status" valign="top" class="span2">
 			    	<x:set var="verStatus" select="string(@status)"/><c:if test="${!empty verStatus}"><x:out select="@status" /></c:if>
 			    </td>
@@ -67,7 +69,9 @@
 						<x:set var="filename" select="string(@filename)" />
 						<x:set var="identifier" select="string(@identifier)" />
 						<x:set var="extension" select="string(@extension)" />
-						<td headers="title" valign="top" class="span6 muted"><a href="${pathHead}${docurl}${identifier}.${extension}?n=${filename}" target="_blank"><x:out select="@title" /></a></td>
+						<c:set var="docUrl"><c:url value="${pathHead}${docurl}${identifier}.${extension}?n=${filename}"/></c:set>
+						<c:set var="docUrl" value="${fn:replace(docUrl, ',', '')}"/>
+						<td headers="title" valign="top" class="span6 muted"><a href="${docUrl}" target="_blank"><x:out select="@title" /></a></td>
 						<td headers="status" valign="top" class="span2 muted">
 					    	<x:set var="verStatus" select="string(@status)"/><c:if test="${!empty verStatus}"><x:out select="@status" /></c:if>
 					    </td>

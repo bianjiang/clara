@@ -40,7 +40,7 @@
 		<spring:url value="/static/js/protocol/protocolform/rules.js" var="form_rules_js" />
 		<script type="text/javascript" src="${form_rules_js}?ts=${claraBuildNumber}"><!-- // --></script>  
 		
-		<c:if test="${formUrlName eq 'modification'}"> <!-- Modificaiton should have extended new submission form... -->
+		<c:if test="${formUrlName eq 'modification'}"> <!-- modification should have extended new submission form... -->
 			<spring:url value="/static/js/protocol/protocolform/newsubmission/newsubmission-rules.js" var="newsubmission_rule_js" />
 		
 			<script type="text/javascript" src="${newsubmission_rule_js}?ts=${claraBuildNumber}"><!-- // --></script>  
@@ -49,6 +49,7 @@
 		<spring:url value="/static/js/protocol/protocolform/${fn:replace(formUrlName, '-', '')}/${fn:replace(formUrlName, '-', '')}-rules.js" var="rule_js" />
 		</c:if>
 	</c:if>
+	<spring:url value="/static/images/icn/ui-tab.png" var="newtab_url"/>
 	<c:if test="${objectType eq 'contract'}">
 		<x:set var="objectId" select="string($metaData/contract/@id)"/>
 		<x:set var="objectIdentifier" select="string($metaData/contract/@identifier)"/>
@@ -59,6 +60,7 @@
 		<script type="text/javascript" src="${form_rules_js}?ts=${claraBuildNumber}"><!-- // --></script> 
 		
 		<spring:url value="/static/js/contract/contractform/newcontract/newcontract-rules.js" var="rule_js" />
+		
 		
 	</c:if>
 	
@@ -79,7 +81,8 @@
 		});
 		claraInstance.setUser({
 			committee : "${committee}",
-			id : ${!empty user?user.id:0}
+			id : ${!empty user?user.id:0},
+			username: "${!empty user?user.username:''}"
 		});
 		
 		var editUrlContext = appContext + "/${objectType}s/"+claraInstance.id+"/${objectType}-forms/"+claraInstance.form.id + "/"+claraInstance.form.urlName+"/${objectType}-form-xml-datas/";
@@ -95,7 +98,18 @@
 
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
-			<a class="brand summary-navbar-title" href="#"><x:out
+		<c:if test="${param['review'] ne 'false'}">
+					<a class="brand summary-navbar-title" href="${requestScope['javax.servlet.forward.request_uri']}?review=false" target="_blank"><x:out
+					escapeXml="false" select="string($sTemplate/form/@name)" /><small>
+					for 
+					<c:if test="${objectType eq 'protocol'}">
+						IRB #
+					</c:if>
+					${objectIdentifier}
+					</small><img src="${newtab_url}"/></a>
+		</c:if>
+		<c:if test="${param['review'] ne 'true'}">
+					<a class="brand summary-navbar-title" href="#"><x:out
 					escapeXml="false" select="string($sTemplate/form/@name)" /><small>
 					for 
 					<c:if test="${objectType eq 'protocol'}">
@@ -103,10 +117,12 @@
 					</c:if>
 					${objectIdentifier}
 					</small></a>
+		</c:if>
+			
 
 			<ul class="nav">
 					<li><a href="javascript:window.print();"><i class="icon-print"><!-- // --></i> Print</a></li>
-					<li id="nav-compare" class="noprint"><a href="#versionModal" data-toggle="modal"><i class="icon-random"><!-- // --></i> Compare versions..</a></li>
+					<li id="nav-compare" class="noprint"><a href="#versionModal" data-toggle="modal"><i class="icon-random"><!-- // --></i> Compare versions</a></li>
 				</ul>
 			<form class="navbar-search pull-right">
 				<input type="text" id="search" class="input-medium search-query"
@@ -174,13 +190,13 @@
 				</c:if>
 			</c:forEach>
 			<div class="summary-page" id="summary-page-${pageId}">
-				<div class="row-fluid summary-row">
+				<div class="row-fluid summary-row summary-page-header">
 					<div class="span8">
 						<h4>
 							<x:out escapeXml="false" select="string($page/@name)" />
 						</h4>
 					</div>
-					<div class="span4 pull-right" style="text-align: right;">
+					<div class="span4 pull-right" style="text-align: right;padding-top:6px;">
 						<div class="tools-edit-page">
 							<c:if test="${pageId ne '' and denyEditPage eq false}">
 								<a href="javascript:;"
@@ -290,13 +306,13 @@
     	<x:parse doc="${documentsXml}" var="documents" />
     	
     	<div class="summary-page" id="summary-page-${pageId}">
-				<div class="row-fluid summary-row">
+				<div class="row-fluid summary-row summary-page-header">
 					<div class="span8">
 						<h4>
 							Documents (this form only)
 						</h4>
 					</div>
-					<div class="span4 pull-right" style="text-align: right;">
+					<div class="span4 pull-right" style="text-align: right;padding-top:6px;">
 						<div class="tools-edit-page">
 							<c:if test="${pageId ne ''}">
 								<a href="javascript:;"

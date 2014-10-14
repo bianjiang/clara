@@ -48,7 +48,7 @@ Ext.define('Clara.Queue.controller.QueueIRBAssign', {
 			},
 			success: function(response){
 				if (piwik_enabled()){
-					_paq.push(['trackEvent', 'QUEUE_IRB', 'Processed agenda item ('+queueItem.get("formId")+')']);
+					_paq.push(['trackEvent', 'QUEUE_IRB', 'Processed agenda item ('+agendaItem.get("formId")+')']);
 				}
 				me.loadingMask.hide();
 				me.getIrbAssignmentWindow().close();
@@ -57,7 +57,7 @@ Ext.define('Clara.Queue.controller.QueueIRBAssign', {
 			failure: function(error) {
 				cwarn('processAgendaItem: Ext.Ajax failure',error);
 				if (piwik_enabled()){
-					_paq.push(['trackEvent', 'ERROR', 'QUEUE_IRB: Failure processing agenda item ('+queueItem.get("formId")+')']);
+					_paq.push(['trackEvent', 'ERROR', 'QUEUE_IRB: Failure processing agenda item ('+agendaItem.get("formId")+')']);
 				}
 				me.loadingMask.hide();
 			}

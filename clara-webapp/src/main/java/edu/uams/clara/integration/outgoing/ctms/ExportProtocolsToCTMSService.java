@@ -1,6 +1,7 @@
 package edu.uams.clara.integration.outgoing.ctms;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +10,14 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -34,6 +37,7 @@ import edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolDiseaseDao;
 import edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolDrugDao;
 import edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolUserDao;
 import edu.uams.clara.integration.outgoing.ctms.dao.ClaraUserDao;
+import edu.uams.clara.integration.outgoing.ctms.domain.ClaraBudget;
 import edu.uams.clara.integration.outgoing.ctms.domain.ClaraFunding;
 import edu.uams.clara.integration.outgoing.ctms.domain.ClaraProtocol;
 import edu.uams.clara.integration.outgoing.ctms.domain.ClaraProtocolDisease;
@@ -53,7 +57,9 @@ import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
+import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
+import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
 @Service
@@ -85,6 +91,8 @@ public class ExportProtocolsToCTMSService {
 	private ClaraFundingDao claraFundingDao;
 
 	private ClaraProtocolDiseaseDao claraProtocolDiseaseDao;
+	
+	private DataSource dataSource;
 
 	private static Set<String> protocolDataXPaths = Sets.newHashSet();
 	{
@@ -104,6 +112,13 @@ public class ExportProtocolsToCTMSService {
 				.add("/protocol/summary/budget-determination/approval-date");
 		protocolDataXPaths
 				.add("/protocol/extra/prmc-related-or-not");
+	}
+	
+	private static Set<ProtocolFormStatusEnum> approvedFormStatuses = Sets.newHashSet();
+	{
+		approvedFormStatuses.add(ProtocolFormStatusEnum.IRB_APPROVED);
+		approvedFormStatuses.add(ProtocolFormStatusEnum.EXEMPT_APPROVED);
+		approvedFormStatuses.add(ProtocolFormStatusEnum.EXPEDITED_APPROVED);
 	}
 
 	// not just the one in ClaraProtocol, all associated data in
@@ -768,6 +783,7 @@ public class ExportProtocolsToCTMSService {
 				updateClaraDrugsOnProtocol(p, claraProtocol);
 				updateClaraDiseasesOnProtocol(p, claraProtocol);
 				updateCTMSFundingInfo(p);
+				updateCMTSClaraBudgetInfo(p,claraProtocol);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -778,6 +794,93 @@ public class ExportProtocolsToCTMSService {
 
 		logger.error("users missing both pi_serial and id: \r\n"
 				+ joiner.join(corruptedUserList));
+	}
+	
+	private void insertBudget(ClaraBudget claraBudget) {
+		
+		try {
+			 NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			 Map<String,String> namedParameters = Maps.newHashMap();
+			 namedParameters.put("claraProtocolId", claraBudget.getClaraProtocolId()+"");
+			 namedParameters.put("createdDate", claraBudget.getBudgetCreatedDate());
+			 namedParameters.put("approvedDate", claraBudget.getBudgetApprovalDate());
+			 namedParameters.put("xml", claraBudget.getXmlData());
+			 
+			 String sql = "INSERT INTO [ctms_integration].[dbo].[clara_budget] ([clara_protocol_id],[budget_created_date],[budget_approval_date],[xml_data]) VALUES (:claraProtocolId ,:createdDate,:approvedDate,:xml)";
+			 jdbcTemplate.update(sql, namedParameters);	 
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void updateCMTSClaraBudgetInfo(Protocol p,ClaraProtocol claraProtocol){
+		List<ProtocolFormXmlData> pfxds = protocolFormXmlDataDao.listProtocolformXmlDatasByProtocolIdAndType(p.getId(), ProtocolFormXmlDataType.BUDGET);
+		
+		if(pfxds.size()>0){
+			for(ProtocolFormXmlData pfxd:pfxds){
+				try{
+					ProtocolFormStatus pfs = null;
+					for(ProtocolFormStatusEnum pfse :approvedFormStatuses){
+						try{
+						pfs = protocolFormStatusDao.getProtocolFormStatusByFormIdAndProtocolFormStatus(pfxd.getProtocolForm().getFormId(), pfse);
+						}catch(Exception e){
+							
+						}
+						if(pfs!=null){
+							break;
+						}
+					}
+					
+					//budget is approved
+					if(pfs!=null){
+						String xml = pfs.getProtocolForm().getMetaDataXml();
+						if(xml ==null ||xml.isEmpty()){
+							continue;
+						}
+						String approvedDate ="";
+						String createdDate = DateFormatUtil.formateDateToMDY(pfxd.getCreated());
+						XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+						approvedDate=xmlHandler.getSingleStringValueByXPath(xml, "/protocol/summary/budget-determination/approval-date");
+						if(p.getId()>200000&&approvedDate.isEmpty()){
+							//for non-migrated study, we only dump pi-sign-off studies
+							continue;
+						}
+						ClaraBudget claraBudget = null;
+						try {
+							 NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+							 Map<String,String> namedParameters = Maps.newHashMap();
+							 namedParameters.put("claraProtocolId", p.getId()+"");
+							 namedParameters.put("createdDate", createdDate);
+							 namedParameters.put("approvedDate", approvedDate);
+							 
+							 String sql = "SELECT * FROM [ctms_integration].[dbo].[clara_budget] WHERE clara_protocol_id = :claraProtocolId AND budget_approval_date = :approvedDate AND budget_created_date =:createdDate";
+							 List<Map<String, Object>> results = jdbcTemplate.queryForList(sql, namedParameters);
+							 
+							 //data exist
+							 if(results.size()>0){
+								 continue;
+							 }else{
+								 claraBudget = new ClaraBudget();
+							 }
+							 
+						} catch (Exception e) {
+							e.printStackTrace();
+							claraBudget = new ClaraBudget();
+						}
+						claraBudget.setClaraProtocolId(claraProtocol.getId());
+						claraBudget.setXmlData(pfxd.getXmlData().replaceAll("'s", "&#39;s"));
+						claraBudget.setBudgetCreatedDate(createdDate);
+						claraBudget.setBudgetApprovalDate(approvedDate);
+						insertBudget(claraBudget);
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				
+									
+				}
+			}
 	}
 
 	private void updateCTMSFundingInfo(Protocol p)
@@ -945,6 +1048,15 @@ public class ExportProtocolsToCTMSService {
 	public void setProtocolFormXmlDataDao(
 			ProtocolFormXmlDataDao protocolFormXmlDataDao) {
 		this.protocolFormXmlDataDao = protocolFormXmlDataDao;
+	}
+
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	@Autowired(required = true)
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 }

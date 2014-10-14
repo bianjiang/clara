@@ -4,9 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import edu.uams.clara.core.util.xml.DomUtils;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
@@ -540,7 +534,9 @@ public class ProtocolFormReviewLogicAjaxController {
 				
 				String responsibleSite = (values!=null && !values.isEmpty())?values.get(0):"";
 				
-				if (responsibleSite.equals("ach-achri")){
+				List<String> sitesId = xmlProcessor.getAttributeValuesByPathAndAttributeName("/protocol/study-sites/site", protocolForm.getMetaDataXml(), "site-id");
+
+				if (responsibleSite.equals("ach-achri") && !sitesId.contains("7")){
 					return XMLResponseHelper.xmlResult("NO_PHARMACY_REVIEW");
 				}
 			}

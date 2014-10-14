@@ -45,7 +45,14 @@ Ext.define('Clara.Reports.controller.Report', {
         if (piwik_enabled()){
 			_paq.push(['trackEvent', 'REPORTS', 'Edit report: Window open for '+rec.get("description")]);
 		}
-    	Ext.create('Clara.Reports.view.UserReportWindow', {report:rec.data,title: "Editing '"+rec.get("description")+"'"}).show();
+        var reportType = null;
+        var reportTypeID = rec.get("typeId");
+        if (reportTypeID !== ""){
+        	var reportTypeStore = this.getReportTypesStore();
+        	reportType = reportTypeStore.getById(reportTypeID);
+        }
+        
+    	Ext.create('Clara.Reports.view.UserReportWindow', {reportType:reportType, report:rec.data,title: "Editing '"+rec.get("description")+"'"}).show();
     },
     
     deleteReport: function(id){

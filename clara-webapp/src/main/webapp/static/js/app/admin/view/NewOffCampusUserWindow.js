@@ -38,13 +38,13 @@ Ext.define('Clara.Admin.view.NewOffCampusUserWindow', {
 		            				  async:false,
 		            				  url: url,
 		            				  data: {
-		            					  username:Ext.getCmp("fldOCUsername").getValue(),
-		            					  firstname:Ext.getCmp("fldOCFirstName").getValue(),
-		            					  middlename:Ext.getCmp("fldOCMiddleName").getValue(),
-		            					  lastname:Ext.getCmp("fldOCLastName").getValue(),
-		            					  phone:Ext.getCmp("fldOCPhone").getValue(),
-		            					  email:Ext.getCmp("fldOCEmail").getValue(),
-		            					  department:Ext.getCmp("fldOCDepartment").getValue()
+		            					  username:Ext.String.trim(Ext.getCmp("fldOCUsername").getValue()),
+		            					  firstname:Ext.String.trim(Ext.getCmp("fldOCFirstName").getValue()),
+		            					  middlename:Ext.String.trim(Ext.getCmp("fldOCMiddleName").getValue()),
+		            					  lastname:Ext.String.trim(Ext.getCmp("fldOCLastName").getValue()),
+		            					  phone:Ext.String.trim(Ext.getCmp("fldOCPhone").getValue()),
+		            					  email:Ext.String.trim(Ext.getCmp("fldOCEmail").getValue()),
+		            					  department:Ext.String.trim(Ext.getCmp("fldOCDepartment").getValue())
 		            				  },
 		            				  success: function(){
 		            					  me.close();  

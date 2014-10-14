@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.uams.clara.webapp.protocol.domain.Protocol;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
@@ -176,6 +177,74 @@ public class MaintainenceDao {
 		q.setParameter("retired", Boolean.FALSE);
 		q.setParameter("protocolFormParentId", protocolFormParentId);
 		q.setParameter("protocolFormXmlDataType", protocolFormXmlDataType.toString());
+		
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<ProtocolFormCommitteeStatus> listPharmacyApprovedCommitteeStatus(){
+		String qry = "SELECT * FROM protocol_form_committee_status WHERE committee = 'PHARMACY_REVIEW' AND protocol_form_committee_status = 'APPROVED' AND retired = :retired ORDER BY modified";
+		TypedQuery<ProtocolFormCommitteeStatus> q = (TypedQuery<ProtocolFormCommitteeStatus>) em
+				.createNativeQuery(qry, ProtocolFormCommitteeStatus.class);
+		
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Protocol> listProtocolMissingDepartmentList(){
+		String qry = "SELECT * FROM protocol WHERE retired = :retired AND id IN (SELECT distinct protocol_id FROM protocol_status WHERE retired = :retired AND protocol_status ='open' AND id IN (SELECT max(id) FROM protocol_status WHERE retired = :retired GROUP BY protocol_id)"
+					+ ")"
+					+ " AND id NOT IN (SELECT protocol_id FROM test_studies)"
+					+ " AND meta_data_xml.exist('/protocol/responsible-department')=0";
+		TypedQuery<Protocol> q = (TypedQuery<Protocol>) em
+				.createNativeQuery(qry, Protocol.class);
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<ProtocolFormXmlData> listPharmacyXmlData(){
+		String qry = "SELECT * FROM protocol_form_xml_data WHERE protocol_form_xml_data_type = 'PHARMACY' AND retired = :retired"
+				+ " AND xml_data.exist('/pharmacy/@waived')=1";
+				//+ " AND xml_data.exist('/pharmacy/expenses/expense/@waived')=0";
+		TypedQuery<ProtocolFormXmlData> q = (TypedQuery<ProtocolFormXmlData>) em
+				.createNativeQuery(qry, ProtocolFormXmlData.class);
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<ProtocolForm> listPendingPIActionForms(){
+		String qry = "SELECT pform.* FROM protocol_form pform WHERE pform.id in (SELECT MAX(pf.id) FROM protocol_form pf where retired = :retired group by pf.parent_id)"
+				+ " and pform.id in (SELECT pfstatus.protocol_form_id FROM protocol_form_status pfstatus WHERE pfstatus.id  IN (SELECT MAX(pfs.id) FROM protocol_form pf, protocol_form_status pfs"
+				+ " WHERE pf.retired = :retired AND pfs.retired = :retired AND pf.id = pfs.protocol_form_id GROUP BY pfs.protocol_form_id)"
+				+ " AND pfstatus.protocol_form_status IN ('PENDING_PI_ENDORSEMENT','REVISION_PENDING_PI_ENDORSEMENT','PENDING_PI_SIGN_OFF','IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES','IRB_DEFERRED_WITH_MINOR_CONTINGENCIES',"
+				+ " 'REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT','REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT','PENDING_TP_ENDORSEMENT','RESPONSE_TO_TABLED_PENDING_PI_ENDORSEMENT'))";
+		TypedQuery<ProtocolForm> q = (TypedQuery<ProtocolForm>) em
+				.createNativeQuery(qry, ProtocolForm.class);
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<ProtocolFormXmlData> listBudgetXmlDataByCptCode(String cptCode) {
+		String query = "select * from protocol_form_xml_data where protocol_form_xml_data_type = 'BUDGET' and retired = :retired "
+				+ " and xml_data.exist('//procedure[@cptcode = \""+ cptCode +"\"]')=1";
+		
+		TypedQuery<ProtocolFormXmlData> q = (TypedQuery<ProtocolFormXmlData>) em
+				.createNativeQuery(query, ProtocolFormXmlData.class);
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		//q.setParameter("cptCode", cptCode);
 		
 		return q.getResultList();
 	}

@@ -1,4 +1,4 @@
-	<!-- // primary-forms -- for first page wizard (TODO) -->
+	<!-- // primary-forms for first page wizard (TODO) -->
 <forms>
 	<form type="protocol" id="new-submission" title="New Study">
 		<description>

@@ -25,6 +25,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -160,6 +161,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 		}
 	}
 	
+	/*
 	private void sendBudgetApproveHBNotification(ProtocolForm protocolForm) {
 		//Protocol protocol = protocolForm.getProtocol();
 		try {
@@ -171,94 +173,114 @@ public class ProtocolBusinessObjectStatusHelper extends
 			e.printStackTrace();
 		}
 	}
+	*/
 	
 	protected void generateEpicCDM(ProtocolForm protocolForm) {
-			try{
+		logger.debug("Start generate epic fee schedule...");
+		try{
 			Protocol protocol = protocolForm.getProtocol();
+			
 			XmlProcessor xmlProcessor = getXmlProcessor();
+			
 			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+			
 			String protocolMetaXml = protocol.getMetaDataXml();
+			
 			String budgetApproveDate = "";
-			budgetApproveDate=xmlHandler.getSingleStringValueByXPath(protocolMetaXml, "/protocol/summary/budget-determination/approval-date");
-			if(!budgetApproveDate.isEmpty()){
-				ProtocolFormXmlData pfxd = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(protocolForm.getId(), ProtocolFormXmlDataType.BUDGET);
-				String budgetXmlData = pfxd.getXmlData();
-				
-				long protocolId = pfxd.getProtocolForm().getProtocol().getId();
-				logger.debug("protooclId: " + protocolId);
-				
-				CSVWriter writer = new CSVWriter(new FileWriter(""+ protocolId +" HB "+ budgetApproveDate.replace("/", "-") +".csv"));
-				
-				try {
-					List<String> cpdCodeLst = xmlProcessor.getAttributeValuesByPathAndAttributeName("/budget/epochs/epoch/procedures/procedure[@type=\"normal\"]", budgetXmlData, "cptcode");
-					
-					if (cpdCodeLst.size() > 0){
-						Set<String> cpdCodeSet = new HashSet<String>(cpdCodeLst);
-						
-						for (String cptCode : cpdCodeSet){
-							
-							try {
-								
-								//String epicCdmCode = epicCdmByCptCodeDao.getEpicCdmByCptCode(cptCode);
-								//logger.debug("cptCode: " + cptCode + " cdm code: " + epicCdmCode);
-								String cost = xmlProcessor.getAttributeValueByPathAndAttributeName("/budget/epochs/epoch/procedures/procedure[@type=\"normal\" and @cptcode=\""+ cptCode +"\"]/hosp", budgetXmlData, "cost");
-								logger.debug("cost: " + cost);
-								//logger.debug("protooclId: " + protocolId + "cpt code: " + cptCode + " epic cdm code: " + epicCdmCode + " cost: " + cost);
-
-								String[] entry = {String.valueOf(protocolId), cptCode, cost};
-								
-								writer.writeNext(entry);
-								
-							} catch (Exception e) {
-								
-							}
-						}
-						
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				writer.close();
-				
-				//process log info
-				Track track = protocolTrackService.getOrCreateTrack("PROTOCOL",
-	                    protocol.getId());
-
-				Document logsDoc = protocolTrackService.getLogsDocument(track);
-
-				Element logEl = logsDoc.createElement("log");
-	      
-				String logId = UUID.randomUUID().toString();
-	      
+			
+			String fileName = "";
+			
+			budgetApproveDate = xmlHandler.getSingleStringValueByXPath(protocolMetaXml, "/protocol/summary/budget-determination/approval-date");
+			
+			ProtocolFormXmlData pfxd = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(protocolForm.getId(), ProtocolFormXmlDataType.BUDGET);
+			
+			String budgetXmlData = pfxd.getXmlData();
+			
+			long protocolId = pfxd.getProtocolForm().getProtocol().getId();
+			//logger.debug("protooclId: " + protocolId);
+			
+			fileName = ""+ protocolId +" HB "+ budgetApproveDate.replace("/", "-") +".csv";
+			
+			if (protocolForm.getProtocolFormType().equals(ProtocolFormType.MODIFICATION)) {
 				Date now = new Date();
-	            logEl.setAttribute("id", logId);
-	            logEl.setAttribute("parent-id", logId);
-	            logEl.setAttribute("action-user-id", "0");
-	            logEl.setAttribute("actor", "System");
-	            logEl.setAttribute("date-time", DateFormatUtil.formateDate(now));
-	            logEl.setAttribute("event-type", "GENERATE_EPIC_CDM");
-	            logEl.setAttribute("form-id", "0");
-	            logEl.setAttribute("parent-form-id", "0");
-	            logEl.setAttribute("form-type", "PROTOCOL");
-	            logEl.setAttribute("log-type", "ACTION");
-	            logEl.setAttribute("timestamp", String.valueOf(now.getTime()));
-	            
-	            String message = "Epic fee schedule has been generated.";
-	            logEl.setTextContent(message);
+				
+				budgetApproveDate = DateFormatUtil.formateDateToMDY(now);
+						
+				fileName = ""+ protocolId +" Modification HB "+ budgetApproveDate.replace("/", "-") +".csv";
+			}
+			
+			CSVWriter writer = new CSVWriter(new FileWriter(fileName));
+			
+			try {
+				List<String> cpdCodeLst = xmlProcessor.getAttributeValuesByPathAndAttributeName("/budget/epochs/epoch/procedures/procedure[@type=\"normal\"]", budgetXmlData, "cptcode");
+				
+				if (cpdCodeLst.size() > 0){
+					Set<String> cpdCodeSet = new HashSet<String>(cpdCodeLst);
+					
+					for (String cptCode : cpdCodeSet){
+						
+						try {
+							
+							//String epicCdmCode = epicCdmByCptCodeDao.getEpicCdmByCptCode(cptCode);
+							//logger.debug("cptCode: " + cptCode + " cdm code: " + epicCdmCode);
+							String cost = xmlProcessor.getAttributeValueByPathAndAttributeName("/budget/epochs/epoch/procedures/procedure[@type=\"normal\" and @cptcode=\""+ cptCode +"\"]/hosp", budgetXmlData, "cost");
+							logger.debug("cost: " + cost);
+							//logger.debug("protooclId: " + protocolId + "cpt code: " + cptCode + " epic cdm code: " + epicCdmCode + " cost: " + cost);
 
-	            logsDoc.getDocumentElement().appendChild(logEl);
-
-	            track = protocolTrackService.updateTrack(track, logsDoc);
-	            
-	            //add audit operation
-	            auditService.auditEvent("GENERATE_EPIC_CDM",
-						"Epic fee schedule has been generated for Protocol: "+protocol.getId()+".");
-	            
-	            this.sendBudgetApproveHBNotification(protocolForm);
-			}}catch(Exception e){
+							String[] entry = {String.valueOf(protocolId), cptCode, cost};
+							
+							writer.writeNext(entry);
+							
+						} catch (Exception e) {
+							
+						}
+					}
+					
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			writer.close();
+			
+			//process log info
+			Track track = protocolTrackService.getOrCreateTrack("PROTOCOL",
+                    protocol.getId());
+
+			Document logsDoc = protocolTrackService.getLogsDocument(track);
+
+			Element logEl = logsDoc.createElement("log");
+      
+			String logId = UUID.randomUUID().toString();
+      
+			Date now = new Date();
+            logEl.setAttribute("id", logId);
+            logEl.setAttribute("parent-id", logId);
+            logEl.setAttribute("action-user-id", "0");
+            logEl.setAttribute("actor", "System");
+            logEl.setAttribute("date-time", DateFormatUtil.formateDate(now));
+            logEl.setAttribute("event-type", "GENERATE_EPIC_CDM");
+            logEl.setAttribute("form-id", String.valueOf(protocolForm.getId()));
+            logEl.setAttribute("parent-form-id", String.valueOf(protocolForm.getParentFormId()));
+            logEl.setAttribute("form-type", protocolForm.getProtocolFormType().toString());
+            logEl.setAttribute("log-type", "ACTION");
+            logEl.setAttribute("timestamp", String.valueOf(now.getTime()));
+            
+            String message = "Epic fee schedule has been generated.";
+            logEl.setTextContent(message);
+
+            logsDoc.getDocumentElement().appendChild(logEl);
+
+            track = protocolTrackService.updateTrack(track, logsDoc);
+            
+            //add audit operation
+            auditService.auditEvent("GENERATE_EPIC_CDM",
+					"Epic fee schedule has been generated for Protocol: "+protocol.getId()+".");
+            
+            //this.sendBudgetApproveHBNotification(protocolForm);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 			
 	}
 	
@@ -1098,102 +1120,137 @@ public class ProtocolBusinessObjectStatusHelper extends
 		return null;
 	}
 	
-	private void updateBudget(Committee committee, Form form) {		
-		try{
+	private void updateBudget(Committee committee, Form form) {	
+		ProtocolForm protocolForm = (ProtocolForm) form;
+		
+		try{ 
 			ProtocolFormXmlData pharmacyXmlData = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(form.getFormId(), ProtocolFormXmlDataType.PHARMACY);
-			
-			ProtocolFormXmlData budgetXmlData = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(form.getFormId(), ProtocolFormXmlDataType.BUDGET);
-			
-			if (pharmacyXmlData != null && budgetXmlData != null && budgetXmlData.getXmlData() != null && !budgetXmlData.getXmlData().isEmpty()){
+
+			if (pharmacyXmlData != null && !pharmacyXmlData.getXmlData().isEmpty()) {
 				XPath xPath = getXmlProcessor().getXPathInstance();
 				
 				Document currentPharmacyXmlDataDom = getXmlProcessor().loadXmlStringToDOM(pharmacyXmlData.getXmlData());
 				
-				Document currentBudgetXmlDataDom = getXmlProcessor().loadXmlStringToDOM(budgetXmlData.getXmlData());
-				
-				Element budgetRootEl = currentBudgetXmlDataDom.getDocumentElement();
-				
-				long maxId = Long.valueOf((budgetRootEl.getAttribute("idGenerator") != null && !budgetRootEl.getAttribute("idGenerator").isEmpty())?budgetRootEl.getAttribute("idGenerator"):"10000");
-				
 				Element pharmacyEl = (Element) (xPath.evaluate("/pharmacy",
 						currentPharmacyXmlDataDom, XPathConstants.NODE));
 				
-				String waivedOrNot = (pharmacyEl.getAttribute("waived").equals("true"))?"(WAIVED)":"";
-				
-				Element expensesEl = (Element) (xPath.evaluate("/budget/expenses", currentBudgetXmlDataDom, XPathConstants.NODE));
-				
-				Element initialExpenseEl = (Element) (xPath.evaluate("/budget/expenses/expense[@type=\"Initial Cost\" and @subtype=\"Pharmacy Fee\"]",
-						currentBudgetXmlDataDom, XPathConstants.NODE));
-				
-				if (initialExpenseEl != null){
-					initialExpenseEl.setAttribute("cost", pharmacyEl.getAttribute("total"));
-					initialExpenseEl.setAttribute("description", "Pharmacy Fee " + waivedOrNot);
-				} else {
-					maxId++;
+				try {
+					XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
 					
-					Element newInitialExpenseNode = currentBudgetXmlDataDom.createElement("expense");
-					newInitialExpenseNode.setAttribute("type", "Initial Cost");
-					newInitialExpenseNode.setAttribute("subtype", "Pharmacy Fee");
-					newInitialExpenseNode.setAttribute("cost", pharmacyEl.getAttribute("total"));
-					newInitialExpenseNode.setAttribute("fa", "0");
-					newInitialExpenseNode.setAttribute("faenabled", "false");
-					newInitialExpenseNode.setAttribute("external", "true");
-					newInitialExpenseNode.setAttribute("count", "1");
-					newInitialExpenseNode.setAttribute("description", "Pharmacy Fee " + waivedOrNot);
-					newInitialExpenseNode.setAttribute("notes", "");
-					newInitialExpenseNode.setAttribute("id", String.valueOf(maxId));
+					String protocolFormMetaData = protocolForm.getMetaDataXml();
 					
-					expensesEl.appendChild(newInitialExpenseNode);
+					protocolFormMetaData = xmlHandler.replaceOrAddNodeValueByPath("/protocol/summary/pharmacy-determination/pharmacy-fee-waived", protocolFormMetaData, (pharmacyEl.getAttribute("initial-waived").equals("true"))?"y":"n");
+					
+					protocolForm.setMetaDataXml(protocolFormMetaData);
+					
+					protocolForm = protocolFormDao.saveOrUpdate(protocolForm);
+					
+					Protocol protocol = protocolForm.getProtocol();
+					
+					String protocolMetaData = protocol.getMetaDataXml();
+					
+					protocolMetaData = xmlHandler.replaceOrAddNodeValueByPath("/protocol/summary/pharmacy-determination/pharmacy-fee-waived", protocolMetaData, (pharmacyEl.getAttribute("initial-waived").equals("true"))?"y":"n");
+					
+					protocol.setMetaDataXml(protocolMetaData);
+					
+					protocol = protocolDao.saveOrUpdate(protocol);
+				} catch (Exception e) {
+					//don't care
 				}
 				
-				String otherPharmacyExpensesXPath = "/pharmacy/expenses/expense[@type!='simc' and @type!='drug']";
-				
-				xPath.reset();
-				
-				NodeList pharmacyExpensesLst = (NodeList) (xPath.evaluate(otherPharmacyExpensesXPath,
-						currentPharmacyXmlDataDom, XPathConstants.NODESET));
-								
-				if (pharmacyExpensesLst.getLength() > 0){
-					for (int i=0; i<pharmacyExpensesLst.getLength(); i++){
-						Element otherPharmacyFeeEl = (Element) pharmacyExpensesLst.item(i);
+				try {
+					ProtocolFormXmlData budgetXmlData = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(form.getFormId(), ProtocolFormXmlDataType.BUDGET);
+					
+					if (budgetXmlData != null && budgetXmlData.getXmlData() != null && !budgetXmlData.getXmlData().isEmpty()) {
+						Document currentBudgetXmlDataDom = getXmlProcessor().loadXmlStringToDOM(budgetXmlData.getXmlData());
 						
-						//String otherFeeWaivedOrNot = (otherPharmacyFeeEl.getAttribute("waived").equals("true"))?"(WAIVED)":"";
+						Element budgetRootEl = currentBudgetXmlDataDom.getDocumentElement();
 						
-						long cost = Long.valueOf(otherPharmacyFeeEl.getAttribute("cost")) * Long.valueOf(otherPharmacyFeeEl.getAttribute("count"));
+						long maxId = Long.valueOf((budgetRootEl.getAttribute("idGenerator") != null && !budgetRootEl.getAttribute("idGenerator").isEmpty())?budgetRootEl.getAttribute("idGenerator"):"10000");
 						
-						if (waivedOrNot.equals("(WAIVED)")){
-							cost = 0;
-						}
+						Element expensesEl = (Element) (xPath.evaluate("/budget/expenses", currentBudgetXmlDataDom, XPathConstants.NODE));
 						
-						Element invoicableExpenseEl = (Element) (xPath.evaluate("/budget/expenses/expense[@type=\"Invoicable\" and @subtype=\"Pharmacy Fee\" and @description[contains(.,\""+ otherPharmacyFeeEl.getAttribute("description") +"\")]]",
+						Element initialExpenseEl = (Element) (xPath.evaluate("/budget/expenses/expense[@type=\"Initial Cost\" and @subtype=\"Pharmacy Fee\"]",
 								currentBudgetXmlDataDom, XPathConstants.NODE));
-
-						if (invoicableExpenseEl != null){
-							invoicableExpenseEl.setAttribute("cost", String.valueOf(cost));
-							invoicableExpenseEl.setAttribute("description", "" + otherPharmacyFeeEl.getAttribute("description") + waivedOrNot);
-							invoicableExpenseEl.setAttribute("notes", "");
+						
+						String initialWaivedOrNot = (pharmacyEl.getAttribute("initial-waived").equals("true"))?"(WAIVED)":"";
+						
+						if (initialExpenseEl != null){
+							initialExpenseEl.setAttribute("cost", pharmacyEl.getAttribute("total"));
+							initialExpenseEl.setAttribute("description", "Pharmacy Fee " + initialWaivedOrNot);
 						} else {
 							maxId++;
 							
-							Element newInvoicableExpenseNode = currentBudgetXmlDataDom.createElement("expense");
-							newInvoicableExpenseNode.setAttribute("type", "Invoicable");
-							newInvoicableExpenseNode.setAttribute("subtype", "Pharmacy Fee");
-							newInvoicableExpenseNode.setAttribute("cost", String.valueOf(cost));
-							newInvoicableExpenseNode.setAttribute("fa", "0");
-							newInvoicableExpenseNode.setAttribute("faenabled", "false");
-							newInvoicableExpenseNode.setAttribute("external", "true");
-							newInvoicableExpenseNode.setAttribute("count", "1");
-							newInvoicableExpenseNode.setAttribute("description", "" + otherPharmacyFeeEl.getAttribute("description") + waivedOrNot);
-							newInvoicableExpenseNode.setAttribute("notes", "");
-							newInvoicableExpenseNode.setAttribute("id", String.valueOf(maxId));
+							Element newInitialExpenseNode = currentBudgetXmlDataDom.createElement("expense");
+							newInitialExpenseNode.setAttribute("type", "Initial Cost");
+							newInitialExpenseNode.setAttribute("subtype", "Pharmacy Fee");
+							newInitialExpenseNode.setAttribute("cost", pharmacyEl.getAttribute("total"));
+							newInitialExpenseNode.setAttribute("fa", "0");
+							newInitialExpenseNode.setAttribute("faenabled", "false");
+							newInitialExpenseNode.setAttribute("external", "true");
+							newInitialExpenseNode.setAttribute("count", "1");
+							newInitialExpenseNode.setAttribute("description", "Pharmacy Fee " + initialWaivedOrNot);
+							newInitialExpenseNode.setAttribute("notes", "");
+							newInitialExpenseNode.setAttribute("id", String.valueOf(maxId));
 							
-							expensesEl.appendChild(newInvoicableExpenseNode);
+							expensesEl.appendChild(newInitialExpenseNode);
 						}
+						
+						String otherPharmacyExpensesXPath = "/pharmacy/expenses/expense[@type!='simc' and @type!='drug']";
+						
+						xPath.reset();
+						
+						NodeList pharmacyExpensesLst = (NodeList) (xPath.evaluate(otherPharmacyExpensesXPath,
+								currentPharmacyXmlDataDom, XPathConstants.NODESET));
+										
+						if (pharmacyExpensesLst.getLength() > 0){
+							for (int i=0; i<pharmacyExpensesLst.getLength(); i++){
+								Element otherPharmacyFeeEl = (Element) pharmacyExpensesLst.item(i);
+								
+								//String otherFeeWaivedOrNot = (otherPharmacyFeeEl.getAttribute("waived").equals("true"))?"(WAIVED)":"";
+								
+								long cost = Long.valueOf(otherPharmacyFeeEl.getAttribute("cost")) * Long.valueOf(otherPharmacyFeeEl.getAttribute("count"));
+								
+								String otherWaivedOrNot = (otherPharmacyFeeEl.getAttribute("waived").equals("true"))?"(WAIVED)":""; 
+								
+								if (otherWaivedOrNot.equals("(WAIVED)")){
+									cost = 0;
+								}
+								
+								Element invoicableExpenseEl = (Element) (xPath.evaluate("/budget/expenses/expense[@type=\"Invoicable\" and @subtype=\"Pharmacy Fee\" and @description[contains(.,\""+ otherPharmacyFeeEl.getAttribute("description") +"\")]]",
+										currentBudgetXmlDataDom, XPathConstants.NODE));
+
+								if (invoicableExpenseEl != null){
+									invoicableExpenseEl.setAttribute("cost", String.valueOf(cost));
+									invoicableExpenseEl.setAttribute("description", "" + otherPharmacyFeeEl.getAttribute("description") + otherWaivedOrNot);
+									invoicableExpenseEl.setAttribute("notes", "");
+								} else {
+									maxId++;
+									
+									Element newInvoicableExpenseNode = currentBudgetXmlDataDom.createElement("expense");
+									newInvoicableExpenseNode.setAttribute("type", "Invoicable");
+									newInvoicableExpenseNode.setAttribute("subtype", "Pharmacy Fee");
+									newInvoicableExpenseNode.setAttribute("cost", String.valueOf(cost));
+									newInvoicableExpenseNode.setAttribute("fa", "0");
+									newInvoicableExpenseNode.setAttribute("faenabled", "false");
+									newInvoicableExpenseNode.setAttribute("external", "true");
+									newInvoicableExpenseNode.setAttribute("count", "1");
+									newInvoicableExpenseNode.setAttribute("description", "" + otherPharmacyFeeEl.getAttribute("description") + otherWaivedOrNot);
+									newInvoicableExpenseNode.setAttribute("notes", "");
+									newInvoicableExpenseNode.setAttribute("id", String.valueOf(maxId));
+									
+									expensesEl.appendChild(newInvoicableExpenseNode);
+								}
+							}
+						}
+						
+						budgetXmlData.setXmlData(DomUtils.elementToString(currentBudgetXmlDataDom));
+						protocolFormXmlDataDao.saveOrUpdate(budgetXmlData);
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 				
-				budgetXmlData.setXmlData(DomUtils.elementToString(currentBudgetXmlDataDom));
-				protocolFormXmlDataDao.saveOrUpdate(budgetXmlData);
 			}
 		} catch (Exception e){
 			e.printStackTrace();
@@ -1304,10 +1361,18 @@ public class ProtocolBusinessObjectStatusHelper extends
 	*/
 	
 	private void generateBudgetDocuement(ProtocolForm protocolForm, Map<String, Object> attributeRawValues,String submissionType){
+		//check if budget is needed, if not needed, delete it first
+		this.deleteUnusedBudget(protocolForm);
 		
-		ProtocolFormXmlData budgetXmlData = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(protocolForm.getFormId(),ProtocolFormXmlDataType.BUDGET);
-		//if has budget continue
-		if(budgetXmlData!=null){
+		ProtocolFormXmlData budgetXmlData = null;
+		
+		try {
+			budgetXmlData = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(protocolForm.getFormId(),ProtocolFormXmlDataType.BUDGET);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(budgetXmlData!=null && !budgetXmlData.getXmlData().isEmpty()){
 			//if it is original submission, do not need to consider committee
 			boolean generateDoc = false;
 			if(submissionType.equals("original")){
@@ -1402,8 +1467,29 @@ public class ProtocolBusinessObjectStatusHelper extends
 			}
 				}
 		}
-
+	}
+	
+	private void deleteUnusedBudget(ProtocolForm protocolForm) {
+		Map<ProtocolFormXmlDataType, ProtocolFormXmlData> typedProtocolFormXmlDatas = protocolForm.getTypedProtocolFormXmlDatas();
 		
+		try {
+			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+			
+			String needBudget = xmlHandler.getSingleStringValueByXPath(typedProtocolFormXmlDatas.get(protocolForm.getProtocolFormType().getDefaultProtocolFormXmlDataType()).getXmlData(), "/protocol/need-budget");
+			
+			if (!needBudget.equals("y")) {
+				ProtocolFormXmlData budgetXmlData = typedProtocolFormXmlDatas.get(ProtocolFormXmlDataType.BUDGET);
+				
+				if (budgetXmlData != null) {
+					budgetXmlData.setRetired(true);
+					
+					budgetXmlData = protocolFormXmlDataDao.saveOrUpdate(budgetXmlData);
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -1456,12 +1542,17 @@ public class ProtocolBusinessObjectStatusHelper extends
 			case "GENERATE_BUDGET_DOCUMENT":
 				this.generateBudgetDocuement(protocolForm,attributeRawValues, currentEventEl.getAttribute("submission-type"));
 				break;
-				
+			case "DELETE_UNUSED_BUDGET":
+				this.deleteUnusedBudget(protocolForm);
+				break;
 			//case "CLEAN_RECENT_MOTION":
 				//this.cleanRecentMotion(protocolForm);
 				//break;
 			case "SET_MINOR_CONTINGENCY_FLAG":
 				this.setMinorContingencyFlag(protocolForm);
+				break;
+			default:
+				break;
 			}
 		}
 		
@@ -1646,5 +1737,12 @@ public class ProtocolBusinessObjectStatusHelper extends
 	@Autowired(required = true)
 	public void setFileGenerateAndSaveService(FileGenerateAndSaveService fileGenerateAndSaveService) {
 		this.fileGenerateAndSaveService = fileGenerateAndSaveService;
+	}
+
+
+	@Override
+	public Node processActionXmlNode(Form form, Node actionXmlNode) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

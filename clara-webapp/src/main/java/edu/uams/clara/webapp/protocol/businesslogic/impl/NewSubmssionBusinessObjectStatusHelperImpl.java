@@ -479,7 +479,7 @@ public class NewSubmssionBusinessObjectStatusHelperImpl extends
 			}
 			
 			break;
-		case UNDER_BUDGET_MANAGER_REVIEW: 
+		case PENDING_REVIEWER_ASSIGNMENT: 
 			
 			if(Committee.BUDGET_MANAGER.equals(committee)){
 				/*

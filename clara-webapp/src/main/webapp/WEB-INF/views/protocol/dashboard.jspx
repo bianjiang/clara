@@ -42,7 +42,8 @@
 			claraInstance.status = "${!empty pStatus?pStatus:''}";
 			claraInstance.pageSubType = "${!empty protocolType?protocolType:''}";
 			claraInstance.setUser({
-				id: ${!empty user?user.id:0}
+				id: ${!empty user?user.id:0},
+				username: "${!empty user?user.username:''}"
 			});
 			document.title = ((claraInstance.type == "protocol")?"IRB":"Contract")+" "+claraInstance.id+": CLARA";
 		});

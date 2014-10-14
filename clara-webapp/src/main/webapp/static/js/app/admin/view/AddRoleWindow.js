@@ -13,6 +13,7 @@ Ext.define('Clara.Admin.view.AddRoleWindow', {
 	selectedDept:{},
 	selectedSubDept:{},
 	isDelegate:false,
+	isBusinessAdmin:false,
 	
 	initComponent: function() {
 		var t = this;
@@ -55,6 +56,7 @@ Ext.define('Clara.Admin.view.AddRoleWindow', {
 										rdata.dId = deptId;
 									}
 									rdata.isDelegate = t.isDelegate;
+									rdata.isBusinessAdmin = t.isBusinessAdmin;
 									clog("rdata",rdata);
 									
 									jQuery.ajax({
@@ -103,6 +105,8 @@ Ext.define('Clara.Admin.view.AddRoleWindow', {
 
 
 					Ext.getCmp('fldIsDelegate').setVisible(false);
+					Ext.getCmp('fldIsBusinessAdmin').setVisible(false);
+					
 					if (t.selectedRole.get("departmentLevel") != null){
 
 						Ext.getCmp('fldCollege').show();
@@ -112,6 +116,7 @@ Ext.define('Clara.Admin.view.AddRoleWindow', {
 						collegeStore.load();
 						Ext.getCmp('fldCollege').enable();
 						Ext.getCmp('fldIsDelegate').setVisible(true);
+						Ext.getCmp('fldIsBusinessAdmin').setVisible(true);
 					}
 				}
 			}
@@ -224,6 +229,22 @@ Ext.define('Clara.Admin.view.AddRoleWindow', {
             	change: function(cb,v,ov){
             		clog("check",v);
             		t.isDelegate = v;
+            	}
+            }
+        },
+		{
+            xtype: 'checkbox',
+            flex:1,
+            label:'Business Admin',
+            boxLabel: 'Business Admin',
+            hidden:true,
+            name: 'fldIsBusinessAdmin',
+            itemId: 'fldIsBusinessAdmin',
+            id: 'fldIsBusinessAdmin',
+            listeners:{
+            	change: function(cb,v,ov){
+            		clog("check",v);
+            		t.isBusinessAdmin = v;
             	}
             }
         }];

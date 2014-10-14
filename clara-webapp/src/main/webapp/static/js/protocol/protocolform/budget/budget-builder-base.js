@@ -40,6 +40,7 @@ Clara.BudgetBuilder.validatePhaseName = function(v){
 	return !invalidFound;
 };
 
+
 Clara.BudgetBuilder.Budget = function(o){
 		this.idGenerator=			(o.idGenerator || 1);										// Auto-generated ID's, used universally for all elements
 		this.stamp=					(o.stamp || 0);												// ID / GUID assigned to budget when saved
@@ -493,6 +494,31 @@ Clara.BudgetBuilder.Budget = function(o){
 		
 		// VISIT FUNCTIONS
 
+		this.getVisitProceduresByEpochAndProcedure=function(epoch,procedure){
+			var vps = [];
+			cwarn("--- getVisitProceduresByEpochAndProcedure:",epoch, procedure);
+			if(epoch && procedure && procedure.id) {
+				var j = 0,k=0,l=0,m=0;
+					var i = epoch.arms.length;
+					while(i--){
+						j = epoch.arms[i].cycles.length;
+						while(j--){
+							k = epoch.arms[i].cycles[j].visits.length;
+							while(k--){
+							var v= epoch.arms[i].cycles[j].visits[k];
+							l = v.visitprocedures.length;
+							while(l--){
+								if (typeof v.visitprocedures[l] !== "undefined" && v.visitprocedures[l].procedureid == procedure.id){
+									vps.push(v.visitprocedures[l]);
+								}
+								
+							}
+						}
+					}
+				}
+			}
+			return vps;
+		};
 		 
 		this.getVisitProcedure= function(vid,procid){
 			var i = this.epochs.length;
@@ -561,9 +587,7 @@ Clara.BudgetBuilder.Budget = function(o){
 		};
 		
 		this.removeVisitProceduresByEpochAndProcedure= function(epoch, procedure) {
-			////cdebug("clean vps in budget before save...");
-			////cdebug(epoch);
-			////cdebug(procedure);
+			cwarn("--- removeVisitProceduresByEpochAndProcedure:",epoch, procedure)
 			if(epoch && procedure && procedure.id) {
 				var j = 0,k=0,l=0,m=0;
 					var i = epoch.arms.length;
@@ -575,11 +599,19 @@ Clara.BudgetBuilder.Budget = function(o){
 							var v= epoch.arms[i].cycles[j].visits[k];
 							l = v.visitprocedures.length;
 							while(l--){
-								if (v.visitprocedures[l].procedureid == procedure.id){
-									clog("removing vp with procid "+procedure.id,v.visitprocedures[l]);
+								// First check the procedure's subprocedures, dont leave orphans
+								for (var x=0, len=procedure.subprocedures.length;x<len;x++){
+									if (typeof v.visitprocedures[l] !== "undefined" && v.visitprocedures[l].procedureid == procedure.subprocedures[x].id){
+										cwarn("--- removing vp with SUBprocid "+procedure.subprocedures[x].id,v.visitprocedures[l]);
+										v.visitprocedures.splice(l,1);
+									}
+								}
+								if (typeof v.visitprocedures[l] !== "undefined" && v.visitprocedures[l].procedureid == procedure.id){
+									cwarn("--- removing vp with procid "+procedure.id,v.visitprocedures[l]);
 									v.visitprocedures.splice(l,1);
 									l = v.visitprocedures.length;	// to reset length var after deleted element
 								}
+								
 							}
 						}
 					}
@@ -1012,6 +1044,7 @@ Clara.BudgetBuilder.Budget = function(o){
 						},
 						notes:				Encoder.htmlDecode(jQuery(this).find('notes:first').text()),
 						clinicalNotes:		Encoder.htmlDecode(jQuery(this).find('clinical-notes:first').text()),
+						coverageNotes:		Encoder.htmlDecode(jQuery(this).find('coverage-notes:first').text()),
 						cost:				{
 							misc:			(""+jQuery(this).find('cost:first').find('misc').text()).toString(),
 							sponsor:		(""+jQuery(this).find('cost:first').find('sponsor').text()).toString(),
@@ -1070,6 +1103,7 @@ Clara.BudgetBuilder.Budget = function(o){
 							},
 							notes:				Encoder.htmlDecode(jQuery(this).find('notes:first').text()),
 							clinicalNotes:		Encoder.htmlDecode(jQuery(this).find('clinical-notes:first').text()),
+							coverageNotes:		Encoder.htmlDecode(jQuery(this).find('coverage-notes:first').text()),
 							cost:				{
 								misc:			(""+jQuery(this).find('cost').find('misc').text()).toString(),
 								sponsor:		(""+jQuery(this).find('cost').find('sponsor').text()).toString(),
@@ -1340,6 +1374,7 @@ Clara.BudgetBuilder.Procedure = function(o){
 		this.expensecategory=	(o.expensecategory || '');
 		this.notes=				(o.notes || '');
 		this.clinicalNotes=		(o.clinicalNotes || '');
+		this.coverageNotes=		(o.coverageNotes || '');
 		this.conditional=		(o.conditional || false);
 		this.alternative=		(o.alternative || false);
 		this.cptCode=			(o.cptCode || 0);
@@ -1380,6 +1415,35 @@ Clara.BudgetBuilder.Procedure = function(o){
 		};
 		
 		// Functions
+		
+		this.initWithDefaults= function(){
+			var me = this;
+			if (!me.type || me.cptCode == 0) {
+				cwarn("Procedure: Cannot init with defaults if cptCode=0 or no proc type.");
+				return;
+			}
+			url = appContext + "/static/xml/budget-procedure-defaults.json";
+			jQuery.ajax({
+				  type: 'GET',
+				  async:false,
+				  url: url,
+				  success: function(defaults){
+					  for (var i=0, l=defaults.length; i<l; i++){
+						  if (defaults[i].type == me.type && defaults[i].cptCode+"" == me.cptCode+""){
+							  if (typeof defaults[i].defaults.billingNotes != "undefined") me.notes = defaults[i].defaults.billingNotes;
+							  if (typeof defaults[i].defaults.clinicalNotes != "undefined") me.clinicalNotes = defaults[i].defaults.clinicalNotes;
+							  if (typeof defaults[i].defaults.coverageNotes != "undefined") me.coverageNotes = defaults[i].defaults.coverageNotes;
+						  }
+					  }
+					  
+				  },
+				  error: function(){
+					  cwarn("Cannot find budget-procedure-defaults.json");
+				  },
+				  dataType: 'json'
+			});
+			
+		}
 		
 		this.getAmount= function(amountType){
 			var proc = this;
@@ -1446,6 +1510,7 @@ Clara.BudgetBuilder.Procedure = function(o){
 				cdmCode:b.cdmCode,
 				notes:b.notes,
 				clinicalNotes:b.clinicalNotes,
+				coverageNotes:b.coverageNotes,
 				conditional:b.conditional,
 				alternative:b.alternative,
 				category:b.category,
@@ -1524,7 +1589,11 @@ Clara.BudgetBuilder.Procedure = function(o){
 		this.removeSubprocedure= function(id){
 			var i = this.subprocedures.length;
 			while(i--){
-				if (this.subprocedures[i].id == id) highestproc = this.subprocedures.splice(i,1);
+				if (this.subprocedures[i].id == id) {
+					// First remove the visitprocedures for this subprocedure
+					budget.removeVisitProceduresByEpochAndProcedure(Clara.BudgetBuilder.GetActiveEpoch(),this.subprocedures[i]);
+					highestproc = this.subprocedures.splice(i,1);
+				}
 			}
 		};
 		
@@ -1578,6 +1647,7 @@ Clara.BudgetBuilder.Procedure = function(o){
 			proc2.cdmCode = proc1.cdmCode;
 			proc2.notes = proc1.notes;
 			proc2.clinicalNotes = proc1.clinicalNotes;
+			proc2.coverageNotes = proc1.coverageNotes;
 			proc2.conditional = proc1.conditional;
 			proc2.alternative = proc1.alternative;
 
@@ -1611,6 +1681,7 @@ Clara.BudgetBuilder.Procedure = function(o){
 			proc1.alternative = proc2.alternative;
 			proc1.notes = proc2.notes;
 			proc1.clinicalNotes = proc2.clinicalNotes;
+			proc1.coverageNotes = proc2.coverageNotes;
 			proc1.category = tproc.category;
 			proc1.codes = tproc.copyCodes();
 			proc1.hosp.only = tproc.hosp.only;
@@ -1694,6 +1765,7 @@ Clara.BudgetBuilder.Procedure = function(o){
 			xml=xml+"<phys id='"+this.phys.id+"' cost='"+this.phys.cost+"' only='"+this.phys.only+"' locationcode='"+this.phys.locationCode+"' locationdesc='"+Encoder.htmlEncode(this.phys.locationDesc)+"'/>";
 			xml=xml+"<notes>"+Encoder.htmlEncode(this.notes)+"</notes>";
 			xml += "<clinical-notes>"+Encoder.htmlEncode(this.clinicalNotes)+"</clinical-notes>";
+			xml += "<coverage-notes>"+Encoder.htmlEncode(this.coverageNotes)+"</coverage-notes>";
 			xml=xml+"<cost><misc>"+this.cost.misc+"</misc><sponsor>"+this.cost.sponsor+"</sponsor><price>"+this.cost.price+"</price><residual>"+this.cost.getResidual()+"</residual></cost>";
 			if (this.codes.length > 0){
 				xml = xml + "<codes>";
@@ -2919,7 +2991,7 @@ Clara.BudgetBuilder.Epoch = function(o){
 					residual:(proc.type == 'outside')?0:(proc.cost.getResidual())
 				};
 				
-				var notes = (plaintext || (jQuery.trim(proc.notes) == "" && jQuery.trim(proc.clinicalNotes) == "") )?"":"<a id='procnotelink-"+proc.id+"' href='javascript:;' onclick='Clara.BudgetBuilder.ShowProcedureNotes("+proc.id+");'><img style='float:left;margin-right:8px;' src='"+appContext+"/static/images/icn/sticky-note.png' border='0'/></a>";
+				var notes = (plaintext || (jQuery.trim(proc.notes) == "" && jQuery.trim(proc.clinicalNotes) == "" && jQuery.trim(proc.coverageNotes) == "") )?"":"<a id='procnotelink-"+proc.id+"' href='javascript:;' onclick='Clara.BudgetBuilder.ShowProcedureNotes("+proc.id+");'><img style='float:left;margin-right:8px;' src='"+appContext+"/static/images/icn/sticky-note.png' border='0'/></a>";
 				var descClass = (proc.subprocedures.length > 0 )?"row-has-subprocedures":"";
 				
 				var subproc = "";

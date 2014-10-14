@@ -3,6 +3,7 @@ Ext.define('Clara.Documents.model.Document', {
 	fields: [
 	         {name:'id'},
 	         {name:'id', mapping:'id'},
+	         {name:'uploadedFileId', mapping:'uploadedFile.id'},
 	         {name:'hashid', mapping:'uploadedFile.identifier'},
 	         {name:'documentname', mapping:'uploadedFile.filename'},
 	         {name:'category'},

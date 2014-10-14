@@ -1,13 +1,13 @@
 var submissionWindowHtml = [];
 
-submissionWindowHtml.push("<div class='wizardrow dashboard-wizard-newstudy'><h1><a href='"+appContext+"/protocols/protocol-forms/new-submission/create'>New Study</a></h1><h3>Use this form to submit a new research protocols and HUD requests.</h3>"
+submissionWindowHtml.push("<div class='wizardrow dashboard-wizard-newstudy'><h1><a onclick='clickAndDisable(this);' href='"+appContext+"/protocols/protocol-forms/new-submission/create'>New Study</a></h1><h3>Use this form to submit a new research protocols and HUD requests.</h3>"
 		+ "<ul><li>This includes expanded access studies (compassionate use, single use).</li></ul></div>"
-		+ "<div class='wizardrow dashboard-wizard-hsrd'><h1><a href='"+appContext+"/protocols/protocol-forms/human-subject-research-determination/create'>Human Subject Research Determination Request</a></h1>Uncertain whether your research involves the <strong>use of human subjects</strong>? Begin by filling out this form.</div>"
-		+ "<div class='wizardrow dashboard-wizard-emer'><h1><a href='"+appContext+"/protocols/protocol-forms/emergency-use/create'>Emergency Use Notification/Follow-up Report</a></h1>This includes notifications and follow-up reports.</div>"
-		+ "<div class='wizardrow dashboard-wizard-hsrd'><h1><a href='"+appContext+"/protocols/protocol-forms/privacy-board/create'>Privacy Board Form</a></h1>Use this form to submit an item to the UAMS Privacy Board.</div>");
+		+ "<div class='wizardrow dashboard-wizard-hsrd'><h1><a onclick='clickAndDisable(this);' href='"+appContext+"/protocols/protocol-forms/human-subject-research-determination/create'>Human Subject Research Determination Request</a></h1>Uncertain whether your research involves the <strong>use of human subjects</strong>? Begin by filling out this form.</div>"
+		+ "<div class='wizardrow dashboard-wizard-emer'><h1><a onclick='clickAndDisable(this);' href='"+appContext+"/protocols/protocol-forms/emergency-use/create'>Emergency Use Notification/Follow-up Report</a></h1>This includes notifications and follow-up reports.</div>"
+		+ "<div class='wizardrow dashboard-wizard-hsrd'><h1><a onclick='clickAndDisable(this);' href='"+appContext+"/protocols/protocol-forms/privacy-board/create'>Privacy Board Form</a></h1>Use this form to submit an item to the UAMS Privacy Board.</div>");
 
 if (claraInstance.HasAnyPermissions(['CAN_CREATE_CONTRACT'])){ 
-	submissionWindowHtml.push('<div class="wizardrow dashboard-wizard-cont"><h1><a href="'+appContext+'/contracts/contract-forms/new-contract/create">New Contract</a></h1><h2>A contract is required if one of the following conditions exists:</h2><ul>'
+	submissionWindowHtml.push('<div class="wizardrow dashboard-wizard-cont"><h1><a onclick="clickAndDisable(this);" href="'+appContext+'/contracts/contract-forms/new-contract/create">New Contract</a></h1><h2>A contract is required if one of the following conditions exists:</h2><ul>'
 	        + '<li>You are receiving funding  from an individual or an entity outside of UAMS.</li>'
 	       	+ '<li>You are receiving a drug from an individual or an entity outside of UAMS.</li>'  
 	       	+ '<li>You are receiving a device from an individual or an entity outside of UAMS.</li>' 
@@ -95,4 +95,3 @@ Ext.define('Clara.Dashboard.view.CreateSubmissionWindow', {
 		me.callParent();
 	}
 });
-

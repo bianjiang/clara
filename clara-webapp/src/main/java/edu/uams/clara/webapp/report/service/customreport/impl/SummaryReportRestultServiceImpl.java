@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.AgendaStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
+import edu.uams.clara.webapp.protocol.dao.irb.AgendaItemDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.AgendaStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
@@ -48,6 +50,7 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 	private ProtocolFormStatusDao protocolFormStatusDao;
 	private ProtocolFormCommitteeStatusDao protocolFormCommitteeStatusDao;
 	private AgendaStatusDao agendaStatusDao;
+	private AgendaItemDao agendaItemDao;
 	private CommitteeActions committeeActions = new CommitteeActions();
 	
 	private long roundUp(long a,long b) {
@@ -100,17 +103,19 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 						if(committee.equals(Committee.IRB_REVIEWER)){
 							try{
 								AgendaStatus agendaStatus = null;
-								try{
+								if(agendaItemDao.listbyProtocolFormId(pfcs.getProtocolFormId()).size()>1){
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);
+								}else{
 									agendaStatus = agendaStatusDao
 											.getAgendaStatusByAgendaStatusAndProtocolFormId(
 													AgendaStatusEnum.AGENDA_APPROVED,
 													pfcs.getProtocolFormId());
-								}catch(Exception ex){
-									agendaStatus = agendaStatusDao
-											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
-													AgendaStatusEnum.AGENDA_APPROVED,
-													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);}
+								}
 								startTime = agendaStatus.getModified().getTime();
+
 							}catch(Exception e){
 								startTime=0;
 							}
@@ -124,16 +129,17 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 						if(committee.equals(Committee.IRB_OFFICE)&&pfcs.getProtocolFormCommitteeStatus().equals(ProtocolFormCommitteeStatusEnum.IRB_AGENDA_ASSIGNED)){
 							try{
 								AgendaStatus agendaStatus = null;
-								try{
+								if(agendaItemDao.listbyProtocolFormId(pfcs.getProtocolFormId()).size()>1){
+									agendaStatus = agendaStatusDao
+											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
+													AgendaStatusEnum.AGENDA_APPROVED,
+													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);
+								}else{
 									agendaStatus = agendaStatusDao
 											.getAgendaStatusByAgendaStatusAndProtocolFormId(
 													AgendaStatusEnum.AGENDA_APPROVED,
 													pfcs.getProtocolFormId());
-								}catch(Exception ex){
-									agendaStatus = agendaStatusDao
-											.getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(
-													AgendaStatusEnum.AGENDA_APPROVED,
-													pfcs.getProtocolFormId(),AgendaItemStatus.REMOVED);}
+								}
 								endTime = agendaStatus.getModified().getTime();
 							}catch(Exception e){
 								e.printStackTrace();
@@ -645,6 +651,9 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 		
 		
 		finalResultXml += "</report-results>";
+		if(finalResultXml.contains("&")){
+			finalResultXml=finalResultXml.replaceAll("&", "&amp;");
+		}
 		return finalResultXml;
 	}
 	
@@ -806,6 +815,15 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 	@Autowired(required=true)
 	public void setAgendaStatusDao(AgendaStatusDao agendaStatusDao) {
 		this.agendaStatusDao = agendaStatusDao;
+	}
+
+	public AgendaItemDao getAgendaItemDao() {
+		return agendaItemDao;
+	}
+
+	@Autowired(required=true)
+	public void setAgendaItemDao(AgendaItemDao agendaItemDao) {
+		this.agendaItemDao = agendaItemDao;
 	}
 
 }

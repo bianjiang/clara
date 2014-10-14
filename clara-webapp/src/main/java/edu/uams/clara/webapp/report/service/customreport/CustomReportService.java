@@ -30,9 +30,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
+import edu.uams.clara.webapp.common.dao.department.CollegeDao;
 import edu.uams.clara.webapp.common.dao.email.EmailTemplateDao;
+import edu.uams.clara.webapp.common.domain.department.College;
 import edu.uams.clara.webapp.common.domain.email.EmailTemplate;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.service.EmailService;
@@ -62,6 +65,8 @@ public abstract class CustomReportService {
 	private VelocityEngine velocityEngine;
 	
 	private EntityManager em; 
+	
+	private CollegeDao collegeDao;
 	
 	
 	@Value("${application.host}")
@@ -156,6 +161,45 @@ public abstract class CustomReportService {
 			}else if(fieldValue.contains("meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[fn:contains(fn:upper-case(.),\"EXPEDITED\")]')=1")){
 				fieldValue="(id not in (select distinct p1.protocol_id from protocol_form p1,protocol_form p2 where p1.parent_id =p2.parent_id and p1.id in (select protocol_form_id from protocol_form_status  where protocol_form_status ='EXPEDITED_APPROVED'  and retired= 0) and p2.id in (select protocol_form_id from protocol_form_status  where protocol_form_status ='IRB_DEFERRED_WITH_MINOR_CONTINGENCIES'  and retired= 0) and p1.protocol_form_type ='NEW_SUBMISSION' and p2.protocol_form_type ='NEW_SUBMISSION')) and "+fieldValue;
 			}
+			
+			if(fieldXpah.getKey().contains("iscancerstudy.search-xpath")){
+				fieldValue = fieldValue.replace("\"1\"", "1");
+				fieldValue = fieldValue.replace("\"0\"", "0");
+			}
+			
+			if(fieldXpah.getKey().contains("college.search-xpath")){
+				
+				String searchValue = fieldValue.replace("meta_data_xml.exist('/protocol/responsible-department[@collegeid = \"", "");
+				searchValue = searchValue.replace("\"]')=1", "");
+				
+				if(searchValue.contains(",")){
+					List<String> combList = Arrays.asList(searchValue.split(","));
+					String realCondition = "@collegeid = \"" + combList.get(0)
+							+ "\" and @deptid = \"" + combList.get(1)
+							+ "\"";
+					
+					if (combList.size() == 3) {
+						realCondition = realCondition
+								+ " and @subdeptid = \"" + combList.get(2)
+								+ "\"";
+					}
+					fieldValue=fieldValue.replace(fieldValue.substring(fieldXpah.getValue().indexOf("[") + 1, fieldXpah.getValue().indexOf("]")),realCondition);
+				}else if(searchValue.contains("*")){
+					//if selected as all college
+						String realCondition = "";
+						List<College> colleges = collegeDao.findAll();
+						for(College c : colleges){
+							if(realCondition.isEmpty()){
+								realCondition +="@collegeid = \"" + c.getId() + "\"";
+							}else{
+								realCondition += " or "+"@collegeid = \"" + c.getId() + "\"";
+							}
+						}
+						fieldValue=fieldValue.replace(fieldValue.substring(fieldXpah.getValue().indexOf("[") + 1, fieldXpah.getValue().indexOf("]")),realCondition);
+
+				}
+			}
+			
 			message = message.replaceAll(fieldXpah.getKey().replace("{", "\\{").replace("}", "\\}"), fieldValue);
 		}
 		return message;		
@@ -194,8 +238,10 @@ public abstract class CustomReportService {
 		if(emails.size()>0){
 		mailTo.addAll(emails);
 		}
+
 		if(!mailTo.contains(currentUser.getPerson().getEmail())){
 			mailTo.add(currentUser.getPerson().getEmail());
+			mailTo.add(currentUser.getAlternateEmail());
 		}
 		
 		emailService.sendEmail(emailTemplate.getTemplateContent(), mailTo, ccLst, emailTemplate.getSubject(), null);
@@ -541,6 +587,15 @@ public abstract class CustomReportService {
 	@PersistenceContext(unitName = "defaultPersistenceUnit")
 	public void setEm(EntityManager em) {
 		this.em = em;
+	}
+
+	public CollegeDao getCollegeDao() {
+		return collegeDao;
+	}
+
+	@Autowired(required=true)
+	public void setCollegeDao(CollegeDao collegeDao) {
+		this.collegeDao = collegeDao;
 	}
 
 }

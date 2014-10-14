@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -459,6 +460,12 @@ BusinessObjectStatusHelper {
 	@Override
 	protected String getCommitteeReviewFormCommitteeStatus(
 			Committee nextCommittee) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Node processActionXmlNode(Form form, Node actionXmlNode) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -387,6 +387,23 @@ public abstract class BusinessObjectStatusHelper {
 			
 			String xPathCondition = decisionsEl.getAttribute("xpath-condition");
 			
+			String formXpathCondition = decisionsEl
+					.getAttribute("form-xpath-condition");
+			
+			if (xPathCondition != null && !xPathCondition.isEmpty()){
+				if (!xpathConditionCheck(form.getObjectMetaData(), xPathCondition)){
+					continue;
+				}
+			} 
+			
+			if (formXpathCondition != null && !formXpathCondition.isEmpty()) {
+				if (!xpathConditionCheck(form.getMetaXml(), formXpathCondition)){
+					continue;
+				}
+			} 
+			
+			return DomUtils.elementToString(decisionsNodeList.item(i));
+			/*
 			if (xPathCondition != null && !xPathCondition.isEmpty()) {
 				if (xpathConditionCheck(form.getMetaXml(), xPathCondition)) {
 					return DomUtils.elementToString(decisionsNodeList.item(i));
@@ -394,6 +411,7 @@ public abstract class BusinessObjectStatusHelper {
 			} else {
 				return DomUtils.elementToString(decisionsNodeList.item(i));
 			}
+			*/
 		}
 		
 		return DomUtils.elementToString(decisionsNodeList.item(0));
@@ -1302,6 +1320,10 @@ public abstract class BusinessObjectStatusHelper {
 									.put("NEXT_COMMITTEE",
 											nextCommitteeTrackEl
 													.getAttribute("next-committee"));
+									
+									if (nextCommitteeTrackEl.getAttribute("next-committee").equals("IRB_ASSIGNER")) {
+										actionXmlNode = processActionXmlNode(form, actionXmlNode);
+									}
 								}
 								
 							}else {
@@ -1368,6 +1390,7 @@ public abstract class BusinessObjectStatusHelper {
 				logger.debug("notifications...");
 				Element notificationsEl = (Element) xPath.evaluate(
 						"notifications", actionXmlNode, XPathConstants.NODE);
+				
 				if (notificationsEl != null) {
 
 					logger.debug("need to send notifications...");
@@ -1502,6 +1525,8 @@ public abstract class BusinessObjectStatusHelper {
 	public abstract void triggerEvents(Form form, User user, Committee committee, String eventsTemplate, String action, String condition, Map<String, Object> attributeRawValues) throws IOException, SAXException;
 	
 	public abstract void updateAssignedCommittees(Form form, List<Committee> selectedCommittees);
+	
+	public abstract Node processActionXmlNode(Form form, Node actionXmlNode);
 
 	public String getWorkflowXmlFilePath() {
 		return workflowXmlFilePath;

@@ -5,7 +5,7 @@
     <definition extends="contract/contractform/amendment" name="contract/contractform/amendment/first-page">
         <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
     		<!-- <add-attribute value="/static/js/contract/contractform/department-panel.js" /> -->
   		</put-list-attribute>
     </definition>
@@ -18,7 +18,7 @@
 					<add-attribute value="/static/js/queues/queues-assign.js" />
         			<add-attribute value="/static/js/protocol/protocolform/newsubmission/funding-sources.js" />
         			<add-attribute value="/static/js/contract/contractform/newcontract/study-info.js" />
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
     		<!-- <add-attribute value="/static/js/contract/contractform/department-panel.js" /> -->
   		</put-list-attribute>
     </definition>
@@ -28,7 +28,7 @@
         <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/sponsor-contacts.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         			<add-attribute value="/static/js/encoder.js" />
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
     		        <add-attribute value="/static/js/contract/contractform/sponsor-panel.js" /> 
   		</put-list-attribute>
     </definition>
@@ -53,7 +53,7 @@
     <definition extends="contract/contractform/amendment" name="contract/contractform/amendment/documents">
         <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/documents.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
     				<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
     		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
@@ -90,7 +90,7 @@
     <definition extends="contract/contractform/amendment-noheader" name="contract/contractform/amendment/first-page-noheader">
         <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
     		<!-- <add-attribute value="/static/js/contract/contractform/department-panel.js" /> -->
   		</put-list-attribute>
     </definition>
@@ -103,7 +103,7 @@
 					<add-attribute value="/static/js/queues/queues-assign.js" />
         			<add-attribute value="/static/js/protocol/protocolform/newsubmission/funding-sources.js" />
         			<add-attribute value="/static/js/contract/contractform/newcontract/study-info.js" />
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
     
@@ -111,7 +111,7 @@
         <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/sponsor-contacts.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         <add-attribute value="/static/js/encoder.js" />
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
     		        <add-attribute value="/static/js/contract/contractform/sponsor-panel.js" /> 
   		</put-list-attribute>
     </definition>
@@ -137,7 +137,7 @@
     <definition extends="contract/contractform/amendment-noheader" name="contract/contractform/amendment/documents-noheader">
         <put-attribute name="body" value="/WEB-INF/views/contract/contractform/newcontract/documents.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
     		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
     		<add-attribute value="/static/js/common/document-panel.js" />

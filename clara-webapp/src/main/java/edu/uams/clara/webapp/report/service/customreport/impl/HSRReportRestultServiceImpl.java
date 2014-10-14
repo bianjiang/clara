@@ -2465,6 +2465,9 @@ private  Map<String,List<Integer>> getSummaryTimeFromSubmissionToIRBApprove(Set<
 		finalResultXml += "</report-results>";
 		//finalResultXml += subType8Report(queryCriterias,"2finalResultXml+=subType1Report(queryCriterias);alResultXml += "</report-results>";
 		logger.debug(finalResultXml);
+		if(finalResultXml.contains("&")){
+			finalResultXml=finalResultXml.replaceAll("&", "&amp;");
+		}
 		return finalResultXml;
 	}
 

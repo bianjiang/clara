@@ -50,7 +50,6 @@ import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
-import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
 import edu.uams.clara.webapp.protocol.service.ProtocolFormService;
 import edu.uams.clara.webapp.protocol.service.ProtocolMetaDataXmlService;

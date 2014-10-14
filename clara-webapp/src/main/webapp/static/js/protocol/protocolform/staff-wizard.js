@@ -651,13 +651,13 @@ Clara.NewSubmission.ProtocolStaffWindow = Ext.extend(Ext.Window, {
                         if (t.editing) {
                         	t.staff.update();
                         	 if (piwik_enabled()){
-         						_paq.push(['trackEvent', 'USER', 'Form: New Staff: Updated ('+t.user.id+')']);
+         						_paq.push(['trackEvent', 'USER', 'Form: New Staff: Updated ('+t.staff.userid+')']);
          					}
                         }
                         else {
                         	t.staff.save();
                         	if (piwik_enabled()){
-         						_paq.push(['trackEvent', 'USER', 'Form: New Staff: Saved ('+t.user.id+')']);
+         						_paq.push(['trackEvent', 'USER', 'Form: New Staff: Saved ('+t.staff.userid+')']);
          					}
                         }
                         

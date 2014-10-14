@@ -3,6 +3,7 @@ package edu.uams.clara.webapp.protocol.web.irb.agenda;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
@@ -15,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.google.common.collect.Lists;
 
 import edu.uams.clara.core.util.xml.XmlHandler;
@@ -39,6 +41,7 @@ import edu.uams.clara.webapp.protocol.domain.irb.AgendaItem.AgendaItemCategory;
 import edu.uams.clara.webapp.protocol.domain.irb.AgendaItemWrapper;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
+import edu.uams.clara.webapp.protocol.service.protocolform.impl.ProtocolFormReviewService;
 
 @Controller
 public class IRBAgendaController {
@@ -54,6 +57,8 @@ public class IRBAgendaController {
 	private ProtocolFormCommitteeCommentDao protocolFormCommitteeCommentDao;
 	
 	private MutexLockService mutexLockService;
+	
+	private ProtocolFormReviewService protocolFormReviewService;
 	
 	private static final int timeOutPeriod = 45;
 
@@ -429,13 +434,13 @@ public class IRBAgendaController {
 		
 		Agenda agenda = agendaDao.findById(agendaId);
 		
+		AgendaStatus latestAgendaStatus = agendaStatusDao.getAgendaStatusByAgendaId(agendaId);
+		
 		boolean readOnly = false;
 		
 		if (currentUser.getAuthorities().contains(Permission.VIEW_AGENDA_ONLY)){
 			readOnly = true;
 		} else {
-			AgendaStatus latestAgendaStatus = agendaStatusDao.getAgendaStatusByAgendaId(agendaId);
-			
 			if (beforeMeetingStartStatusLst.contains(latestAgendaStatus.getAgendaStatus())){
 				readOnly = false;
 			} else {
@@ -445,13 +450,35 @@ public class IRBAgendaController {
 
 		AgendaItem agendaItem = agendaItemDao.findById(agendaItemId);
 		
-		Boolean ifOnIRBRoster = irbReviewerDao.checkIfOnIRBRosterByIRBRosterAndUserId(agenda.getIrbRoster(), currentUser.getId());
+		Set<Permission> objectPermissions = protocolFormReviewService.getObjectPermissions(agendaItem.getProtocolForm(), currentUser, Committee.IRB_REVIEWER);
+		
+		if (!currentUser.getAuthorities().contains(Permission.ROLE_IRB_CHAIR)) {
+			if (latestAgendaStatus.getAgendaStatus().isAgendaApproved()) {
+				Boolean isThisWeekIRBRoster = irbReviewerDao.checkIfOnIRBRosterByIRBRosterAndUserId(agenda.getIrbRoster(), currentUser.getId());
+
+				if (!isThisWeekIRBRoster) {
+					objectPermissions.remove(Permission.COMMENT_CAN_ADD);
+					objectPermissions.remove(Permission.CONTINGENCY_CAN_ADD);
+				} else {
+					Boolean isAssignedReviewer = irbReviewerDao.checkIfIRBRosterIsAssignedToAgendaItem(agendaItemId, currentUser.getId());
+
+					if (isAssignedReviewer) {
+						objectPermissions.remove(Permission.COMMENT_CAN_ADD);
+						objectPermissions.remove(Permission.CONTINGENCY_CAN_ADD);
+					} else {
+						objectPermissions.remove(Permission.CONTINGENCY_CAN_ADD);
+					}
+				}
+			} else {
+				objectPermissions.remove(Permission.COMMENT_CAN_ADD);
+				objectPermissions.remove(Permission.CONTINGENCY_CAN_ADD);
+			}
+		}
 
 		modelMap.put("user", currentUser);
 		modelMap.put("agendaItem", agendaItem);
 		modelMap.put("readOnly", readOnly);
-		modelMap.put("canAddComments", ifOnIRBRoster);
-		modelMap.put("canAddContingencies", ifOnIRBRoster);
+		modelMap.put("objectPermissions", objectPermissions);
 
 		return "agendas/agenda-item";
 	}
@@ -518,6 +545,16 @@ public class IRBAgendaController {
 	@Autowired(required = true)
 	public void setAgendaStatusDao(AgendaStatusDao agendaStatusDao) {
 		this.agendaStatusDao = agendaStatusDao;
+	}
+
+
+	public ProtocolFormReviewService getProtocolFormReviewService() {
+		return protocolFormReviewService;
+	}
+
+	@Autowired(required = true)
+	public void setProtocolFormReviewService(ProtocolFormReviewService protocolFormReviewService) {
+		this.protocolFormReviewService = protocolFormReviewService;
 	}
 
 }

@@ -10,6 +10,7 @@
 	<div class="clara-form-tabs">
 			<div class="clara-form-tab" id="tab-first-page"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'first-page');">Basic Details</a></div><div style="clear:both;"><!-- // --></div></div>
 			<div class="clara-form-tab" id="tab-renewal-application"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'renewal-application');">Renewal Application</a></div><div style="clear:both;"><!-- // --></div></div>
+			<div class="clara-form-tab" id="tab-staff"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'staff');">Staff</a></div><div style="clear:both;"><!-- // --></div></div>
 			<div class="clara-form-tab" id="tab-documents"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'documents');">Documents</a></div><div style="clear:both;"><!-- // --></div></div>
 			<div class="clara-form-tab" id="tab-review"><div class="tab-name"><a href="javascript:;" onclick="submitXMLToNextPage( 'review');">Review and Submit</a></div><div style="clear:both;"><!-- // --></div></div>
 	</div>

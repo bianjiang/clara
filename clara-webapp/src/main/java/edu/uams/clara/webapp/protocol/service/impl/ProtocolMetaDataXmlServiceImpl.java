@@ -147,12 +147,14 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/can-notify-regulatory");
 		newSubmissionXPathPairs.put("/protocol/subjects/age-ranges/age-range",
 				"/protocol/subjects/age-ranges/age-range");
-		newSubmissionXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion",
-				"/protocol/inclusion-criteria");
-		newSubmissionXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion",
-				"/protocol/exclusion-criteria");
+		//newSubmissionXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion",
+				//"/protocol/inclusion-criteria");
+		//newSubmissionXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion",
+				//"/protocol/exclusion-criteria");
 		newSubmissionXPathPairs.put("/protocol/summary/clinical-trials-determinations/nct-number",
 				"/protocol/summary/clinical-trials-determinations/nct-number");
+		newSubmissionXPathPairs.put("/protocol/summary/pharmacy-determination",
+				"/protocol/summary/pharmacy-determination");
 		
 		xPathPairMap.put(ProtocolFormXmlDataType.PROTOCOL,
 				newSubmissionXPathPairs);
@@ -216,6 +218,7 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		continuingReviewXPathPairs.put("/continuing-review/staffs", "/protocol/staffs");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/first-subject-enrolled-date", "/protocol/summary/irb-determination/first-subject-enrolled-date");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-approval", "/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval");
+		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-activation", "/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-activation");
 
 		
 		//continuingReviewXPathPairs.put("/continuing-review/most-recent-study/approval-end-date",
@@ -335,8 +338,8 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/summary/budget-determination/approval-date");
 		modificationXPathPairs.put("/protocol/accural-goal-local",
 				"/protocol/accural-goal-local");
-		modificationXPathPairs.put("/protocol/accrual-goal",
-				"/protocol/accrual-goal");
+		//modificationXPathPairs.put("/protocol/accrual-goal",
+				//"/protocol/accrual-goal");
 		modificationXPathPairs.put("/protocol/epic",
 				"/protocol/epic");
 		modificationXPathPairs.put("/protocol/diseases",
@@ -349,12 +352,14 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/can-notify-regulatory");
 		modificationXPathPairs.put("/protocol/subjects/age-ranges/age-range",
 				"/protocol/subjects/age-ranges/age-range");
-		modificationXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion",
-				"/protocol/inclusion-criteria");
-		modificationXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion",
-				"/protocol/exclusion-criteria");
+		//modificationXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion",
+				//"/protocol/inclusion-criteria");
+		//modificationXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion",
+				//"/protocol/exclusion-criteria");
 		modificationXPathPairs.put("/protocol/summary/clinical-trials-determinations/nct-number",
 				"/protocol/summary/clinical-trials-determinations/nct-number");
+		modificationXPathPairs.put("/protocol/summary/pharmacy-determination",
+				"/protocol/summary/pharmacy-determination");
 		
 		xPathPairMap.put(ProtocolFormXmlDataType.MODIFICATION,
 				modificationXPathPairs);
@@ -495,7 +500,7 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		newSubmissionXPathPairs.put("/protocol/devices", "/protocol/devices");
 		newSubmissionXPathPairs.put("/protocol/phases", "/protocol/phases");
 		newSubmissionXPathPairs.put("/protocol/funding", "/protocol/funding");
-		newSubmissionXPathPairs.put("/protocol/budget/potentially-billed",
+		newSubmissionXPathPairs.put("/protocol/need-budget",
 				"/protocol/extra/has-budget-or-not");
 		newSubmissionXPathPairs.put("/protocol/contract/have-new-contract",
 				"/protocol/extra/has-contract-or-not");
@@ -526,10 +531,10 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/can-notify-regulatory");
 		newSubmissionXPathPairs.put("/protocol/subjects/age-ranges/age-range",
 				"/protocol/subjects/age-ranges/age-range");
-		newSubmissionXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion",
-				"/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion");
-		newSubmissionXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion",
-				"/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion");
+		//newSubmissionXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion",
+				//"/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion");
+		//newSubmissionXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion",
+				//"/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion");
 		newSubmissionXPathPairs.put("/protocol/contract/require-contract-before-irb",
 				"/protocol/contract/require-contract-before-irb");
 		newSubmissionXPathPairs.put("/protocol/misc/is-registered-at-clinical-trials/nct-number",
@@ -553,6 +558,7 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		continuingReviewXPathPairs.put("/continuing-review/staffs", "/continuing-review/staffs");
 		continuingReviewXPathPairs.put("/continuing-review/subject-accrual/first-subject-enrolled-date", "/continuing-review/summary/irb-determination/first-subject-enrolled-date");
 		continuingReviewXPathPairs.put("/continuing-review/subject-accrual/enrollment/local/since-approval", "/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-approval");
+		continuingReviewXPathPairs.put("/continuing-review/subject-accrual/enrollment/local/since-activation", "/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-activation");
 		protocolFormXPathPairMap.put(ProtocolFormXmlDataType.CONTINUING_REVIEW,
 				continuingReviewXPathPairs);
 
@@ -582,7 +588,7 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		modificationXPathPairs.put("/protocol/funding", "/protocol/funding");
 		modificationXPathPairs.put("/protocol/responsible-department",
 				"/protocol/responsible-department");
-		modificationXPathPairs.put("/protocol/budget/potentially-billed",
+		modificationXPathPairs.put("/protocol/need-budget",
 				"/protocol/extra/has-budget-or-not");
 		modificationXPathPairs.put("/protocol/contract/have-new-contract",
 				"/protocol/extra/has-contract-or-not");
@@ -607,8 +613,8 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/migrated");
 		modificationXPathPairs.put("/protocol/subjects/total-number",
 				"/protocol/accural-goal-local");
-		modificationXPathPairs.put("/protocol/subjects/multiple-sites/y/total-accrual-goal-for-all-sites",
-				"/protocol/accrual-goal");
+		//modificationXPathPairs.put("/protocol/subjects/multiple-sites/y/total-accrual-goal-for-all-sites",
+				//"/protocol/accrual-goal");
 		modificationXPathPairs.put("/protocol/epic",
 				"/protocol/epic");
 		modificationXPathPairs.put("/protocol/diseases",
@@ -621,10 +627,10 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/can-notify-regulatory");
 		modificationXPathPairs.put("/protocol/subjects/age-ranges/age-range",
 				"/protocol/subjects/age-ranges/age-range");
-		modificationXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion",
-				"/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion");
-		modificationXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion",
-				"/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion");
+		//modificationXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion",
+				//"/protocol/misc/inclusion-exclusion-criteria-for-this-study/inclusion");
+		//modificationXPathPairs.put("/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion",
+				//"/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion");
 		modificationXPathPairs.put("/protocol/contract/require-contract-before-irb",
 				"/protocol/contract/require-contract-before-irb");
 		modificationXPathPairs.put("/protocol/initial-mod", "/protocol/initial-mod");
@@ -754,6 +760,22 @@ public class ProtocolMetaDataXmlServiceImpl implements
 			
 			pf.setMetaDataXml(protocolFormMetaDataXml);
 			pf = procotolFormDao.saveOrUpdate(pf);
+			
+			Protocol p = pf.getProtocol();
+			String protocolMetaData = p.getMetaDataXml();
+			
+			String pendingPIAction = "";
+			
+			if (protocolFormStatus.getProtocolFormStatus().isPendingPIAction()) {
+				pendingPIAction = "y";
+			} else {
+				pendingPIAction = "n";
+			}
+			
+			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/form-pending-pi-action", protocolMetaData, pendingPIAction);
+			
+			p.setMetaDataXml(protocolMetaData);
+			p = protocolDao.saveOrUpdate(p);
 			
 			if (extraDataXml == null || extraDataXml.isEmpty()) {
 				logger.debug("before mergeByXPaths -> protocolForm.metadataxml: "

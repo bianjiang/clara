@@ -5,21 +5,21 @@
     <definition extends="protocol/protocolform/emergencyuse" name="protocol/protocolform/emergencyuse/first-page">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/static/js/common/wizard.js" />
+            
   		</put-list-attribute>
     </definition>
     
     <definition extends="protocol/protocolform/emergencyuse" name="protocol/protocolform/emergencyuse/notification">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/notification.jspx" />
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />	
+    			
   		</put-list-attribute>
     </definition>
 
     <definition extends="protocol/protocolform/emergencyuse" name="protocol/protocolform/emergencyuse/follow-up-report">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/follow-up-report.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />	
+    			
   		</put-list-attribute>
     </definition>
     
@@ -80,7 +80,7 @@
     <definition extends="protocol/protocolform/emergencyuse-noheader" name="protocol/protocolform/emergencyuse/first-page-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/first-page.jspx"/>
   		<put-list-attribute name="styles" inherit="true">
-  			<add-attribute value="/static/js/common/wizard.js" />
+  			
         	<add-attribute value="/static/styles/review-summary.css" />
   		</put-list-attribute>
     </definition>
@@ -89,7 +89,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/notification.jspx"
         />
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -99,7 +99,7 @@
     <definition extends="protocol/protocolform/emergencyuse-noheader" name="protocol/protocolform/emergencyuse/follow-up-report-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/emergencyuse/follow-up-report.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />

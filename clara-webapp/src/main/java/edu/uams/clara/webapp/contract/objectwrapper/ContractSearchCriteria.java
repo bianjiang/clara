@@ -14,9 +14,15 @@ public class ContractSearchCriteria extends AbstractSearchCriteria {
 	
 	private ContractSearchField searchField;
 	
+	private String searchFieldDescription;
+	
 	private ProtooclSearchOperator searchOperator;
 	
+	private String searchOperatorDescription;
+	
 	private String keyword;
+	
+	private String searchKeywordDescription;
 
 	public ContractSearchField getSearchField() {
 		return searchField;
@@ -40,5 +46,29 @@ public class ContractSearchCriteria extends AbstractSearchCriteria {
 
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+
+	public String getSearchFieldDescription() {
+		return searchFieldDescription;
+	}
+
+	public void setSearchFieldDescription(String searchFieldDescription) {
+		this.searchFieldDescription = searchFieldDescription;
+	}
+
+	public String getSearchOperatorDescription() {
+		return searchOperatorDescription;
+	}
+
+	public void setSearchOperatorDescription(String searchOperatorDescription) {
+		this.searchOperatorDescription = searchOperatorDescription;
+	}
+
+	public String getSearchKeywordDescription() {
+		return searchKeywordDescription;
+	}
+
+	public void setSearchKeywordDescription(String searchKeywordDescription) {
+		this.searchKeywordDescription = searchKeywordDescription;
 	}
 }

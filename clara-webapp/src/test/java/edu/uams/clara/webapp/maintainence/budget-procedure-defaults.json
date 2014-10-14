@@ -1,0 +1,58 @@
+[
+{
+  "type": "normal",
+  "cptCode": "80047",
+  "defaults": {
+    "billingNotes": "Basic metabolic panel (Calcium, ionized)\nThis panel must include the following:\nCalcium, ionized (82330)\nCarbon dioxide (bicarbonate) (82374)\nChloride (82435)\nCreatinine (82565)\nGlucose (82947)\nPotassium (84132)\nSodium (84295)\nUrea Nitrogen (BUN) (84520)"
+  }
+},
+{
+  "type": "normal",
+  "cptCode": "80048",
+  "defaults": {
+    "billingNotes": "Basic metabolic panel (Calcium, total)\nThis panel must include the following:\nCalcium, total (82310)\nCarbon dioxide (bicarbonate) (82374)\nChloride (8243S)\nCreatinine (82565)\nGlucose (82947)\nPotassium (84132)\nSodium (84295)\nUrea nitrogen (BUN) (84520)"
+  }
+},
+{
+  "type": "normal",
+  "cptCode": "80051",
+  "defaults": {
+    "billingNotes": "Electrolyte panel\nThis panel must include the following:\nCarbon dioxide (bicarbonate) (82374)\nChloride (82435)\nPotassium (84132)\nSodium (84295)"
+  }
+},
+{
+  "type": "normal",
+  "cptCode": "80053",
+  "defaults": {
+    "billingNotes": "Comprehensive metabolic panel\nThis panel must include the following:\nAlbumin (82040)\nBilirubin, total (82247)\nCalcium, total(82310)\nCarbon dioxide (bicarbonate) (82374)\nChloride (82435)\nCreatinine (82565)\nGlucose (82947)\nPhosphatase, alkaline (84075)\nPotassium (84132)\nProtein, total (84155)\nSodium (84295)\nTransferase, alanine amino (ALT) (SGPT) (84460)\nTransferase, aspartate amino (AST) (SGOT) (84450)\nUrea nitrogen (BUN) (84520)"
+  }
+},
+{
+  "type": "normal",
+  "cptCode": "80061",
+  "defaults": {
+    "billingNotes": "Lipid panel\nThis panel must include the following:\nCholesterol, serum, total (82465)\nLipoprotein, direct measurement, high density cholesterol\n(HDL cholesterol) (83718)\nTriglycerides (84478)"
+  }
+},
+{
+  "type": "normal",
+  "cptCode": "80069",
+  "defaults": {
+    "billingNotes": "Renal function panel\nThis panel must include the following:\nAlbumin (82040)\nCalcium, total (82310)\nCarbon dioxide (bicarbonate) (82374)\nChloride (82435)\nCreatinine (82565)\nGlucose (82947)\nPhosphorus inorganic (phosphate) (84100)\nPotassium (84132)\nSodium (84295)\nUrea nitrogen (BUN) (84520)"
+  }
+},
+{
+  "type": "normal",
+  "cptCode": "80074",
+  "defaults": {
+    "billingNotes": "Acute hepatitis panel\nThis panel must include the following:\nHepatitis A antibody (HAAb), IgM antibody (86709)\nHepatitis B core antibody (HBcAb), IgM antibody (86705)\nHepatitis B surface antigen (HBsAg) (87340)\nHepatitis C antibody (86803)"
+  }
+},
+{
+  "type": "normal",
+  "cptCode": "80076",
+  "defaults": {
+    "billingNotes": "Hepatic function panel\nThis panel must include the following:\nAlbumin (82040)\nBilirubin, total (82247)\nBilirubin, direct (82248)\nPhosphatase, alkaline (84075)\nProtein, total (84155)\nTransferase, alanine amino (ALT) (SGPT) (84460)\nTransferase, aspartate amino (AST) (SGOT) (84450)"
+  }
+}
+]

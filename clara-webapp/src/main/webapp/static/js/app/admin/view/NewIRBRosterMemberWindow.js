@@ -21,7 +21,7 @@ Ext.define('Clara.Admin.view.NewIRBRosterMemberWindow', {
 		            			  verify = verify && item.validate();
 		            		  });
 
-		            		  if (verify == true){
+		            		  if (verify == true && Ext.getCmp("fldUser").getValue() !== null){
 		            			  
 		            			  // "roster" Java object is too complicated to use Store's save function. Switching to guns..
 		            			  
@@ -34,6 +34,14 @@ Ext.define('Clara.Admin.view.NewIRBRosterMemberWindow', {
 		            					  expedited:  Ext.getCmp("fldExpedited").getValue(),
 		            					  chair:  Ext.getCmp("fldChair").getValue(),
 		            					  affiliated:  Ext.getCmp("fldAffiliated").getValue(),
+		            					  alternateMember:  Ext.getCmp("fldAlternate").getValue(),
+		            					  materialIssued:  Ext.getCmp("fldMaterialIssued").getValue(),
+		            					  ohrpApproved:  Ext.getCmp("fldOhrpApproved").getValue(),
+		            					  codeOfConductOnFile:  Ext.getCmp("fldConductOnFile").getValue(),
+		            					  mentor:  Ext.getCmp("fldMentor").getValue(),
+		            					  availability:  Ext.getCmp("fldAvailability").getValue(),
+		            					  observationDate1:  Ext.getCmp("fldObservationDate1").getValue(),
+		            					  observationDate2:  Ext.getCmp("fldObservationDate2").getValue(),
 		            					  comment:  Ext.getCmp("fldComment").getValue()
 		            					
 		            			  };
@@ -68,7 +76,7 @@ Ext.define('Clara.Admin.view.NewIRBRosterMemberWindow', {
 				value:'WEEK_1',
 			    store: new Ext.data.ArrayStore({
 			    	fields:['id'],
-			    	data:[['WEEK_1'],['WEEK_2'],['WEEK_3'],['WEEK_4']]
+			    	data:[['WEEK_1'],['WEEK_2'],['WEEK_3'],['WEEK_4'],['WEEK_5']]
 			    }),
 			    queryMode: 'local',
 			    displayField: 'id',
@@ -86,16 +94,21 @@ Ext.define('Clara.Admin.view.NewIRBRosterMemberWindow', {
 			    displayField: 'id',
 			    valueField: 'id'
 			},{
-            	xtype: 'textarea',
+            	xtype: 'textfield',
             	id:'fldDegree',
             	fieldLabel: 'Degree',
             	allowBlank:false,
             	anchor: '100%'
             },{
-            	xtype: 'textarea',
+            	xtype: 'textfield',
             	id:'fldSpecialty',
             	fieldLabel: 'Specialty',
             	allowBlank:false,
+            	anchor: '100%'
+            },{
+            	xtype: 'checkbox',
+            	id:'fldAlternate',
+            	fieldLabel: 'Alternate',
             	anchor: '100%'
             },{
             	xtype: 'checkbox',
@@ -112,11 +125,55 @@ Ext.define('Clara.Admin.view.NewIRBRosterMemberWindow', {
             	id:'fldChair',
             	fieldLabel: 'Chair',
             	anchor: '100%'
-            },{
+            },
+           
+            {
+            	xtype: 'checkbox',
+            	id:'fldMaterialIssued',
+            	fieldLabel: 'Material issued',
+            	anchor: '100%'
+            },
+            {
+            	xtype: 'checkbox',
+            	id:'fldOhrpApproved',
+            	fieldLabel: 'OHRP Approved',
+            	anchor: '100%'
+            },
+            {
+            	xtype: 'checkbox',
+            	id:'fldConductOnFile',
+            	fieldLabel: 'Code of conduct on file',
+            	anchor: '100%'
+            },
+            {
+				fieldLabel: 'CLARA Mentor',
+				xtype:'clarafield.combo.user',
+				hideLabel:false,
+				id:'fldMentor',
+				validate:function(){return true;}	// bypass validation
+			},
+			{
+            	xtype: 'textarea',
+            	id:'fldAvailability',
+            	fieldLabel: 'Availability',
+            	anchor: '100%'
+            },
+            {
+            	xtype: 'datefield',
+            	id:'fldObservationDate1',
+            	fieldLabel: 'Obs. Date 1',
+            	anchor: '100%'
+            },
+            {
+            	xtype: 'datefield',
+            	id:'fldObservationDate2',
+            	fieldLabel: 'Obs. Date 2',
+            	anchor: '100%'
+            },
+            {
             	xtype: 'textarea',
             	id:'fldComment',
             	fieldLabel: 'Comment',
-            	allowBlank:false,
             	anchor: '100%'
             }
 		            ];

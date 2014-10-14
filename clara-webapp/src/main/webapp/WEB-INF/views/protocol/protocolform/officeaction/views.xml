@@ -6,7 +6,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/officeaction/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
-            <add-attribute value="/static/js/common/wizard.js" />
+            
             <add-attribute value="/static/js/common/summary.js" />
   		</put-list-attribute>
     </definition>
@@ -51,7 +51,7 @@
     <definition extends="protocol/protocolform/officeaction-noheader" name="protocol/protocolform/officeaction/first-page-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/officeaction/first-page.jspx"/>
          <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
     		<add-attribute value="/static/js/protocol/protocolform/department-panel.js" />
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">

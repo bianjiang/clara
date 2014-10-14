@@ -116,12 +116,6 @@ public class ProtocolQueueServiceImpl extends QueueService {
 		
 		return warnings;
 	}
-	
-	private List<AgendaStatusEnum> unapprovedAgendaStatuses = Lists.newArrayList();{
-		unapprovedAgendaStatuses.add(AgendaStatusEnum.CANCELLED);
-		unapprovedAgendaStatuses.add(AgendaStatusEnum.AGENDA_INCOMPLETE);
-		unapprovedAgendaStatuses.add(AgendaStatusEnum.AGENDA_PENDING_CHAIR_APPROVAL);
-	}
 
 	@Override
 	public String getFormsInQueueByUser(String queueIdentifier, User user, boolean showHistory) {
@@ -369,7 +363,7 @@ public class ProtocolQueueServiceImpl extends QueueService {
 						try {
 							agenda = agendaDao.getAgendaByProtocolFormIdAndAgendaItemStatus(protocolForm.getId(), AgendaItemStatus.NEW);
 							
-							if (unapprovedAgendaStatuses.contains(agendaStatusDao.getAgendaStatusByAgendaId(agenda.getId()).getAgendaStatus())) {
+							if (!agendaStatusDao.getAgendaStatusByAgendaId(agenda.getId()).getAgendaStatus().isAgendaApproved()) {
 								continue outerloop;
 							}
 						} catch (Exception e) {

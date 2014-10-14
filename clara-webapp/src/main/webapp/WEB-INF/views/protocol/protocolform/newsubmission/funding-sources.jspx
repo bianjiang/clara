@@ -12,8 +12,7 @@
 	<x:parse doc="${helpxml}" var="help" scope="application" />
 	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
 	
-	<x:set var="studyType" select="string($protocolInstance/protocol/study-type/investigator-initiated/investigator-description)" />
-	
+	<x:set var="studyType" select="string($protocolInstance/protocol/study-type/investigator-initiated/investigator-description/text())" />
 	
 			<div style="display:none;" id="claraFormTitle"><c:out value="${fn:escapeXml(fn:trim(fn:replace(protocolTitle, '\\n',' ')))}"/></div><div id="clara-form-pagelist">
 			    <uams:newsubmissiontab name="funding-sources" protocolInstance="${protocolInstance}" />

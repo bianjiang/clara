@@ -15,6 +15,9 @@ Ext.define('Clara.Documents.view.UploadWindow', {
 		var me = this;
 
 		me.items =[{
+			xtype:'label',
+			html:'<div style="font-weight:100;color:red;padding-left:104px;margin-bottom:8px;"><h1 style="font-size:12px;color:#666;">The Document Name must include the title, version number, and date (listed on the document).</h1>This is the information that will be included in IRB letters when referencing this document.</div>'
+		},{
 			xtype:'form',
 			id:'uploadDocumentForm',
 			bodyPadding:10,
@@ -63,11 +66,33 @@ Ext.define('Clara.Documents.view.UploadWindow', {
 	    	   	allowBlank:false,
 	    	   	id:'fldSelectedDocumentType',
 	    	   	listeners:{
-	    	   		'select':function(c, record, index){
+	    	   		'select':function(c, rec, index){
 	    	   				if (index<0) {
 	    	   					Ext.getCmp('btnUploadSelectedDocument').setDisabled(true);
 	    	   				} else {
 	    	   					Ext.getCmp('btnUploadSelectedDocument').setDisabled(false);
+	    	   				}
+	    	   				
+	    	   				
+	    	   				if (index<0) {
+	    	   					Ext.getCmp('btnUploadSelectedDocument').setDisabled(true);
+	    	   				} else {
+	    	   					// Check value, see if the form already has one of that type, and if they do, show a warning about versions
+	    	   					clog(rec);
+	    	   					var gp = Ext.getCmp('clara-documents-gridpanel');
+	    	   					
+	    	   					Ext.getCmp("clara-documents-uploadwindow-details-confirmduplicateexistingtype").setValue(false);
+	    	   					
+	    	   					if (Clara.Application.DocumentController.documentTypeExists(rec.get("doctype")) === true){
+	    	   						Ext.getCmp('btnUploadSelectedDocument').setDisabled(true);
+	    	   						Ext.getCmp("clara-documents-uploadwindow-details-confirmduplicateexistingtype").setVisible(true);
+	    	   						Ext.getCmp("clara-documents-uploadwindow-details-confirmduplicateexistingtype-label").setVisible(true);
+	    	   					} else {
+	    	   						Ext.getCmp('btnUploadSelectedDocument').setDisabled(false);
+	    	   						Ext.getCmp("clara-documents-uploadwindow-details-confirmduplicateexistingtype").setVisible(false);
+	    	   						Ext.getCmp("clara-documents-uploadwindow-details-confirmduplicateexistingtype-label").setVisible(false);
+	    	   					}
+	    	   					
 	    	   				}
 	    	   			
 	       			}
@@ -83,7 +108,21 @@ Ext.define('Clara.Documents.view.UploadWindow', {
 			},
 			{
 				xtype:'label',
-				html:'<div style="font-weight:100;color:red;padding-left:104px;"><h1 style="font-size:12px;color:#666;">The Document Name must include the title, version number, and date (listed on the document).</h1>This is the information that will be included in IRB letters when referencing this document.</div>'
+				hidden:true,
+				id:'clara-documents-uploadwindow-details-confirmduplicateexistingtype-label',
+				html:'<div style="font-weight:100;color:black;padding-left:104px;"><h1 style="font-size:16px;color:red;">A document of this type already exists.</h1>If you are uploading a new version: Close this window, select the document you wish to update and click "Upload Revised Version." <strong>If this is NOT a new version,</strong> check the box below and continue.</div>'
+			},
+			{
+				xtype:'checkbox',
+				id:'clara-documents-uploadwindow-details-confirmduplicateexistingtype',
+				hidden:true,
+				boxLabel:'<strong>This document is NOT a new version of an existing document.</strong>',
+				value:false,
+				listeners:{
+					'check':function(cb,checked){
+						Ext.getCmp('btnUploadSelectedDocument').setDisabled(!checked);
+					}
+				}
 			},
 			{	xtype:'hidden',
 			    id: 'fldSelectedDocumentParentId',

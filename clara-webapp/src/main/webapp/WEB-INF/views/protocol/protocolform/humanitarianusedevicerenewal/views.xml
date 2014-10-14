@@ -5,21 +5,21 @@
     <definition extends="protocol/protocolform/humanitarianusedevicerenewal" name="protocol/protocolform/humanitarianusedevicerenewal/first-page">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevicerenewal/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            <add-attribute value="/static/js/common/wizard.js" />
+            
   		</put-list-attribute>
     </definition>
     
         <definition extends="protocol/protocolform/humanitarianusedevicerenewal" name="protocol/protocolform/humanitarianusedevicerenewal/renewal-application">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevicerenewal/renewal-application.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />	
+    			
   		</put-list-attribute>
     </definition>
     
     <definition extends="protocol/protocolform/humanitarianusedevicerenewal" name="protocol/protocolform/humanitarianusedevicerenewal/staff">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevicerenewal/staff.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-        	<!--<add-attribute value="/static/js/encoder.js" />-->  
+    		<!--<add-attribute value="/static/js/encoder.js" />-->  
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
     		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
@@ -30,6 +30,7 @@
   		</put-list-attribute>
   		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
+        	<add-attribute value="/static/styles/review-summary.css" />
   		</put-list-attribute>
     </definition>
 
@@ -92,7 +93,7 @@
     <definition extends="protocol/protocolform/humanitarianusedevicerenewal-noheader" name="protocol/protocolform/humanitarianusedevicerenewal/first-page-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevicerenewal/first-page.jspx"/>
   		<put-list-attribute name="styles" inherit="true">
-  			<add-attribute value="/static/js/common/wizard.js" />
+  			
         	<add-attribute value="/static/styles/review-summary.css" />
   		</put-list-attribute>
     </definition>
@@ -100,7 +101,7 @@
     <definition extends="protocol/protocolform/humanitarianusedevicerenewal-noheader" name="protocol/protocolform/humanitarianusedevicerenewal/renewal-application-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevicerenewal/renewal-application.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -110,12 +111,14 @@
     <definition extends="protocol/protocolform/humanitarianusedevicerenewal-noheader" name="protocol/protocolform/humanitarianusedevicerenewal/staff-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevicerenewal/staff.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
+    		<!--<add-attribute value="/static/js/encoder.js" />-->  
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
     		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
-    		<add-attribute value="/static/js/protocol/protocolform/Application.StaffRolePanel.js" />
-    		<add-attribute value="/static/js/protocol/protocolform/staff-stores.js" />
-    		<add-attribute value="/static/js/protocol/protocolform/staff.js" />
+			<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-base.js" />
+			<add-attribute value="/static/js/protocol/protocolform/staff-wizard.js" />
+    		<add-attribute value="/static/js/protocol/protocolform/staff-panel.js" />
   		</put-list-attribute>
   		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />
@@ -123,16 +126,14 @@
   		</put-list-attribute>
     </definition>
 
-    <definition extends="protocol/protocolform/humanitarianusedevicerenewal-noheader" name="protocol/protoc
-    olform/humanitarianusedevicerenewalrenewal/documents-noheader">
+    <definition extends="protocol/protocolform/humanitarianusedevicerenewal-noheader" name="protocol/protocolform/humanitarianusedevicerenewal/documents-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humanitarianusedevicerenewal/documents.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
+        <!--<add-attribute value="/static/js/encoder.js" />-->  
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
-    		<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowActions.js" />
-    		<add-attribute value="/static/js/protocol/protocolform/document-stores.js" />
-    		<add-attribute value="/static/js/protocol/protocolform/documents.js" />    		
     		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
+    		<add-attribute value="/static/js/common/document-panel.js" />
   		</put-list-attribute>
   		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/ext/ux/Ext.ux.grid.RowActions.css" />

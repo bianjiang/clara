@@ -21,6 +21,7 @@ Ext.define('Clara.DetailDashboard.view.HistoryPanel', {
 	dockedItems: [{
 		dock: 'top',
 		border:false,
+		hidden: (claraInstance.type !== 'contract' && claraInstance.type !== 'protocol'),
 		xtype: 'toolbar',
 		items: [{
 			enableToggle: true,
@@ -60,8 +61,7 @@ Ext.define('Clara.DetailDashboard.view.HistoryPanel', {
 	    	menuDisabled:true
 	    },
 	    {
-            header: 'Date', width: 135,fixed:true, dataIndex: 'datetime',
-            xtype: 'datecolumn', format: 'm/d/Y h:ia'
+            header: 'Date', width: 135,fixed:true, dataIndex: 'timestampDate', xtype: 'datecolumn', format: 'm/d/Y h:ia'
         },
         {
         	header: 'Note', dataIndex: 'desc',flex:1,renderer:function(v,p,r){
@@ -82,7 +82,7 @@ Ext.define('Clara.DetailDashboard.view.HistoryPanel', {
         }},{
 	    	header:'Form',
 	    	dataIndex: 'formType',
-	    	hidden: false,
+	    	hidden: (claraInstance.type !== 'contract' && claraInstance.type !== 'protocol'),
 	    	width:150,
 	    	fixed:true,
 	    	menuDisabled:true,

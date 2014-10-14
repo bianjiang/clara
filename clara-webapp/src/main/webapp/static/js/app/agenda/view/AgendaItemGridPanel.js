@@ -72,11 +72,13 @@ Ext.define('Clara.Agenda.view.AgendaItemGridPanel', {
 				header:'',
 				dataIndex:'id',
 				renderer: function(v,p,r){
+					var html = "";
 					if (claraInstance.HasAnyPermissions(['VIEW_AGENDA_ONLY','ROLE_SYSTEM_ADMIN','ROLE_IRB_COMMITTEE_CHAIR','VIEW_AGENDA_ITEM'])){
 						url = appContext+"/agendas/"+Clara.Agenda.app.getController("Agenda").selectedAgenda.get("id")+"/agenda-items/"+v+"/view";
 						if (r.get("xmlUrl") && r.get("xmlUrl") != "") url = appContext+r.get("xmlUrl");
-						return "<div class='icn-arrow' style='background-repeat:no-repeat;padding-left:20px;font-size:12px;'><a href='"+url+"' target='_blank'>View</a></div>";
+						html = "<div class='icn-arrow' style='background-repeat:no-repeat;padding-left:20px;font-size:12px;'><a href='"+url+"' target='_blank'>View</a></div>";
 					}
+					return html;
 				}
 			}
 		];

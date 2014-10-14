@@ -6,7 +6,7 @@
 				<question-value instance-path="/protocol/modification/to-modify-section/complete-migration" value-type="yesNo" />
 			</question>
 			<question id="question-is-audit" parent-id="" parent-value="" header="">
-				<question-label>Is this modification request in response to an audit?</question-label>
+				<question-label>Is this modification request in response to an audit by the UAMS Office of Research Compliance or ACH/ACHRI Corporate Compliance?</question-label>
 				<question-value instance-path="/protocol/modification/to-modify-section/is-audit" value-type="yesNo" />
 			</question>
 			<question id="question-complete-budget-migration" parent-id="" parent-value="" header="">
@@ -1193,7 +1193,7 @@
 				<question-label>Please enter the NCT number.</question-label>
 				<question-value instance-path="/protocol/misc/is-registered-at-clinical-trials/nct-number" value-type="textarea" />
 			</question>
-			<question id="question-is-registered-at-trialsearch" parent-id="" parent-value="" header="">
+			<!-- <question id="question-is-registered-at-trialsearch" parent-id="" parent-value="" header="">
 				<question-label>Will this study be
 						registered at TrialSearch?</question-label>
 				<question-value instance-path="/protocol/misc/is-registered-at-trialsearch" value-type="yesNo" />
@@ -1211,7 +1211,7 @@
 						<question-value instance-path="/protocol/misc/inclusion-exclusion-criteria-for-this-study/exclusion" value-type="textarea" />
 					</question>
 				</sub-questions>
-			</question>
+			</question> -->
 			<question id="question-disease-ontology" parent-id="" parent-value="" header="" value-outerclass="span12">
 				<question-value instance-path="/protocol/diseases/disease" value-type="diseases" />
 			</question>

@@ -23,8 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 
 import edu.uams.clara.webapp.common.businesslogic.BusinessObjectStatusHelperContainer;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
@@ -104,6 +103,15 @@ public class IRBAgendaAjaxController {
 		availableAgendaStatuses.add(AgendaStatusEnum.AGENDA_PENDING_CHAIR_APPROVAL);
 		availableAgendaStatuses.add(AgendaStatusEnum.AGENDA_APPROVED);
 	}
+	
+	private List<AgendaStatusEnum> approvedAgendaStatuses = Lists.newArrayList();{
+		approvedAgendaStatuses.add(AgendaStatusEnum.AGENDA_APPROVED);
+		approvedAgendaStatuses.add(AgendaStatusEnum.MEETING_ADJOURNED);
+		approvedAgendaStatuses.add(AgendaStatusEnum.MEETING_ADJOURNED_PENDING_CHAIR_APPROVAL);
+		approvedAgendaStatuses.add(AgendaStatusEnum.MEETING_ADJOURNED_PENDING_IRB_OFFICE_PROCESS);
+		approvedAgendaStatuses.add(AgendaStatusEnum.MEETING_CLOSED);
+		approvedAgendaStatuses.add(AgendaStatusEnum.MEETING_IN_PROGRESS);
+	}
 
 	private AgendaStatusHelper agendaStatusHelper;
 	
@@ -123,30 +131,30 @@ public class IRBAgendaAjaxController {
 
 	}
 	
-	private final static ObjectMapper objectMapper = new ObjectMapper();
-	
-
 	@RequestMapping(value = "/ajax/agendas/list", method = RequestMethod.GET)
 	public @ResponseBody
 	JsonResponse listAgendas() {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		
-		if (user.getAuthorities().contains(Permission.EDIT_AGENDA) || user.getAuthorities().contains(Permission.VIEW_AGENDA_ONLY)){
-			List<Agenda> agendas = agendaDao.listAllAgendas();
-			
-			try {
-				logger.debug(objectMapper.writeValueAsString(agendas));
-			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			if (user.getAuthorities().contains(Permission.EDIT_AGENDA) || user.getAuthorities().contains(Permission.VIEW_AGENDA_ONLY)){
+				List<Agenda> agendas = Lists.newArrayList();
+				
+				if (user.getAuthorities().contains(Permission.ROLE_IRB_REVIEWER) && !user.getAuthorities().contains(Permission.ROLE_IRB_CHAIR)) {
+					agendas = agendaDao.listAgendasByStatuses(approvedAgendaStatuses);
+				} else {
+					agendas = agendaDao.listAllAgendas();
+				}
+				
+				return new JsonResponse(false, agendas);
+			} else {
+				return new JsonResponse(true, "You don't have the right to edit agenda!", "", false, null);
 			}
-			logger.debug("here: " + agendas.size());
-			return new JsonResponse(false, agendas);
-		} else {
-			return new JsonResponse(true, "You don't have the right to edit agenda!", "", false, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new JsonResponse(true, "Failed to load agenda list!", "", false, null);
 		}
-
 	}
 
 	@RequestMapping(value = "/ajax/agendas/list-available", method = RequestMethod.GET)

@@ -281,7 +281,7 @@ public class UserAjaxController {
 				String password = RandomStringUtils.random(8, true, true);
 
 				user.setPassword(md5PasswordEncoder.encodePassword(password,
-						username));
+						user.getUsername()));
 
 				user = userDao.saveOrUpdate(user);
 
@@ -629,7 +629,8 @@ public class UserAjaxController {
 			@PathVariable("userId") long userId,
 			@RequestParam("roleId") long roleId,
 			@RequestParam(value = "dId", required = false) Long dId,
-			@RequestParam(value = "isDelegate", required = false) Boolean isDelegate) {
+			@RequestParam(value = "isDelegate", required = false) Boolean isDelegate,
+			@RequestParam(value = "isBusinessAdmin", required = false) Boolean isBusinessAdmin) {
 
 		UserRole userRole = null;
 		try {
@@ -667,6 +668,12 @@ public class UserAjaxController {
 			userRole.setDelegate(isDelegate);
 		} else {
 			userRole.setDelegate(Boolean.FALSE);
+		}
+		
+		if (isBusinessAdmin != null) {
+			userRole.setBusinessAdmin(isBusinessAdmin);
+		} else {
+			userRole.setBusinessAdmin(Boolean.FALSE);
 		}
 
 		DepartmentLevel departmentLevel = role.getDepartmentLevel();

@@ -88,7 +88,7 @@ public enum ProtocolStatusEnum {
 	TERMINATED("Terminated", "INFO"),
 	DETERMINED("Determined", "INFO"),
 	CLOSED("Closed", "WARN"),
-	EXPIRED("Expired", "WRN"),
+	EXPIRED("Expired", "WARN"),
 	TABLED("Tabled", "INFO"),
 	ACKNOWLEDGED("Acknowledged", "INFO"),
 	UNDER_REVISION_RESPONSE_TO_TABLED("Under Revision Response to Tabled", "INFO"),

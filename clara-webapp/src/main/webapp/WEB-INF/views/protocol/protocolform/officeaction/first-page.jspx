@@ -43,6 +43,20 @@
 						id="describe-oa-item" value="${describeOaItem}" hasNA="false"/>
 				</div>
 			</div>
+			
+			<div class="question clearfix" id="question-action-type">
+				<div class="questionLabel">
+					<span class="question-label-text">Action type:</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="actionType"
+						select="string($oaInstance/office-action/action-type/text())" />
+					<uams:radio id="action-type" value="${actionType}"
+						lookuppath="action-type"
+						instancepath="/office-action/action-type"
+						validation="required" />
+				</div>
+			</div>
 
 			<input id="pagefragment" name="pagefragment" type="hidden" value="" />
 

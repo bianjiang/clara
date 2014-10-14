@@ -25,6 +25,7 @@
 				<td headers="name" valign="top" class="${diffclass}">
 					<div class="drugrow-name"><h5><x:out select="@name" /></h5></div>
 					<div class="drugrow-type"><strong>Type: </strong><em><x:out select="@type" /></em></div>
+					<div class="drugrow-type"><strong>Status: </strong><em><x:out select="@status" /></em></div>
 					<div class="drugrow-admin"><strong>Administered: </strong> <x:out select="@admin" /></div>
 					<div class="drugrow-ind"><strong>IND: </strong> <x:out select="@ind" /></div>
 					<div class="drugrow-nsc"><strong>NSC: </strong> <x:out select="@nsc" /></div>

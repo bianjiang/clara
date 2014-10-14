@@ -1,0 +1,33 @@
+<html>
+<head>
+	<link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div class="email-template">
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	<br/><br/>The following Clinical Research Study has been submitted for review in CLARA. 
+	
+	<br/><br/><strong>Research Study Number IRB#:</strong> $protocolId
+	<br/><strong>Title:</strong> $protocolTitle
+	
+	#if ($hudOrNot == 'hud-use')
+		<br/><br/><strong>TP Name:</strong>  $treatingPhysicianUser.person.getFullname()<br/>
+	#else
+		<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()<br/>
+	#end
+	<br/><br/><strong>Study Contact:</strong> 
+	<br/>
+	#if ($studyCoordinatorLst.size() == 0)
+		N/A. 
+	#end
+	
+	<ul>
+	#foreach($studyCoordinator in ${studyCoordinatorLst})
+	<li>$studyCoordinator.person.getFullname() </li> #end
+	</ul> 
+	
+	<br/><br/><a href=$protocolLink>Click here to access the study.</a>
+</div>
+</body>
+</html>

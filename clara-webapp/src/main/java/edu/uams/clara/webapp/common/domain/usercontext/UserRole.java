@@ -49,6 +49,9 @@ public class UserRole extends AbstractDomainEntity implements Serializable {
 	@Column(name="is_delegate", nullable=false)
     private boolean isDelegate;
 	
+	@Column(name="is_business_admin", nullable=false)
+    private boolean isBusinessAdmin;
+	
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -95,6 +98,14 @@ public class UserRole extends AbstractDomainEntity implements Serializable {
 
 	public void setDelegate(boolean isDelegate) {
 		this.isDelegate = isDelegate;
+	}
+
+	public boolean isBusinessAdmin() {
+		return isBusinessAdmin;
+	}
+
+	public void setBusinessAdmin(boolean isBusinessAdmin) {
+		this.isBusinessAdmin = isBusinessAdmin;
 	}
 
 }

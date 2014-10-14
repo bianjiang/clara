@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
@@ -185,7 +186,8 @@ public class ProtocolFormController {
 			@PathVariable("formXmlDataId") long formXmlDataId,
 			@PathVariable("page") String page,
 			@PathVariable("protocolFormUrlName") String protocolFormUrlName,
-			ModelMap modelMap) {
+			ModelMap modelMap,
+			RedirectAttributes redirectAttributes) {
 
 		ProtocolFormXmlData protocolXmlData = protocolFormXmlDataDao
 				.findById(formXmlDataId);
@@ -638,7 +640,7 @@ public class ProtocolFormController {
 					.triggerPIAction("REVISE", nv, currentUser, null);
 
 		} else {
-			nv = protocolFormDao.getLatestProtocolFormByProtocolIdAndProtocolFormType(protocolId, protocolForm.getProtocolFormType());
+			nv = protocolFormDao.getLatestProtocolFormByProtocolFormId(protocolFormId);
 		}
 		// modelMap.put("protocolForm", nv);
 		modelMap.put("committee", committee);

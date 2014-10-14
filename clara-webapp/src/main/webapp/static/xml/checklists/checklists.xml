@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checklists>
-	<checklist-group title="Informed Consent Process Checklist">
+	<checklist-group id="1" title="Informed Consent Process Checklist">
 		<description></description>
 		<conditions>
 			<condition protocol-form-type="NEW_SUBMISSION"
@@ -63,7 +63,7 @@
 			</question>
 		</checklist>
 	</checklist-group>
-	<checklist-group title="Informed Consent Form Checklist">
+	<checklist-group id="2" title="Informed Consent Form Checklist">
 		<description></description>
 		<conditions>
 			<condition protocol-form-type="NEW_SUBMISSION"
@@ -471,7 +471,7 @@
 			</question>
 		</checklist>	
 	</checklist-group>
-		<checklist-group title="HIPAA Authorization Checklist">
+	<checklist-group id="3" title="HIPAA Authorization Checklist">
 		<description></description>
 		<conditions>
 			<condition protocol-form-type="NEW_SUBMISSION"
@@ -572,7 +572,7 @@
 		</checklist>
 	</checklist-group>
 	
-	<checklist-group title="Review of Previously Approved Research Checklist">
+	<checklist-group id="4" title="Review of Previously Approved Research Checklist">
 		<description></description>
 		<conditions>
 			<condition protocol-form-type="CONTINUING_REVIEW"
@@ -610,7 +610,7 @@
 		</checklist>
 	</checklist-group>
 	
-	<checklist-group title="Research Involving Additional Considerations Checklist">
+	<checklist-group id="5" title="Research Involving Additional Considerations Checklist">
 		<description></description>
 		<conditions>
 			<condition protocol-form-type="NEW_SUBMISSION"
@@ -977,7 +977,7 @@ Each device used in the research must have a valid IDE, as verified in the proto
 		</question>
 		</checklist>
 	</checklist-group>
-	<checklist-group title="Research Involving Vulnerable Populations Checklist">
+	<checklist-group id="6" title="Research Involving Vulnerable Populations Checklist">
 		<description></description>
 		<conditions>
 			<condition protocol-form-type="NEW_SUBMISSION"
@@ -1407,7 +1407,7 @@ Each device used in the research must have a valid IDE, as verified in the proto
 			</question>
 		</checklist>	
 	</checklist-group>
-	<checklist-group title="Review Requirements for Discussion and Documentation Checklist">
+	<checklist-group id="7" title="Review Requirements for Discussion and Documentation Checklist">
 		<description></description>
 		<conditions>
 			<condition protocol-form-type="NEW_SUBMISSION"
@@ -1645,7 +1645,7 @@ Each device used in the research must have a valid IDE, as verified in the proto
 		</checklist>	
 	</checklist-group>
 	
-	<checklist-group title="Exemption Categories Checklist">
+	<checklist-group id="8" title="Exemption Categories Checklist">
 		<description></description>
 		<conditions>
 			<condition protocol-form-type="NEW_SUBMISSION"
@@ -1718,7 +1718,7 @@ Each device used in the research must have a valid IDE, as verified in the proto
 			</question>
 		</checklist>	
 	</checklist-group>
-	<checklist-group title="Expedited Review Categories Checklist">
+	<checklist-group id="9" title="Expedited Review Categories Checklist">
 		<description></description>
 		<conditions>
 			<condition protocol-form-type="NEW_SUBMISSION"
@@ -1813,7 +1813,7 @@ Each device used in the research must have a valid IDE, as verified in the proto
 			</question>
 		</checklist>	
 	</checklist-group>
-	<checklist-group title="Waiver Eligibility Checklist">
+	<checklist-group id="10" title="Waiver Eligibility Checklist">
 		<description></description>
 		<conditions>
 			<condition protocol-form-type="NEW_SUBMISSION"

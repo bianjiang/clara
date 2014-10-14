@@ -146,7 +146,7 @@ public class ProtocolServiceImpl implements ProtocolService {
 		List<User> piUserLst = formService.getUsersByKeywordAndSearchField("Principal Investigator", xmlData, UserSearchField.ROLE);
 		List<User> emrStudyContactUserLst = formService.getUsersByKeywordAndSearchField("EMR Study Contact", xmlData, UserSearchField.RESPONSIBILITY);
 		
-		String epicDescription = "";
+		String epicDescription = String.format("For study protocol and drug information, please go to trialsearch.uams.edu%n");
 		
 		if (piUserLst.size() > 0){
 			epicDescription += String.format("Principal Investigator: ");
@@ -254,7 +254,7 @@ public class ProtocolServiceImpl implements ProtocolService {
 		
 		String isIndustryOrCoorpStudyPath = "boolean(count(/protocol/study-type[text()='cooperative-group'])>0 or count(/protocol/study-type[text()='industry-sponsored'])>0)";
 		
-		String isUamsStudyPath = "boolean(count(/protocol/site-responsible[text()='uams'])>0)";
+		String isUamsStudyPath = "boolean(count(/protocol/site-responsible[text()='uams'])>0 or count(/protocol/site-responsible/enroll-subject-in-uams[text()='y'])>0)";
 		
 		try {
 			boolean isAchStudy = false;

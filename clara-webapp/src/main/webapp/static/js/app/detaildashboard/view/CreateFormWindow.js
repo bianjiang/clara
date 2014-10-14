@@ -82,7 +82,8 @@ Ext.define('Clara.DetailDashboard.view.CreateFormWindow', {
 		    	width:150,
 		    	align:'right',
 		    	renderer: function(v,p,r){
-		    		return "<div class='row-newform'><a class='button green' href='" + appContext + "/" + r.get("type") + "s/"+ claraInstance.id + "/" + r.get("type") + "-forms/" + r.get("id") + "/create'>Create</a></div>";
+		    		return "<div class='row-newform'>"+
+		    		"<a class='new-form-button button green' href='"+appContext + "/" + r.get("type") + "s/"+ claraInstance.id + "/" + r.get("type") + "-forms/" + r.get("id") + "/create' onClick='clickAndDisable(this);'>Create</a></div>";
 		    	}
 		    }
 		    

@@ -9,6 +9,7 @@ body .modal {
     /* must be half of the width, minus scrollbar on the left (30px) */
     margin-left: -375px;
 }
+
 .modal-body {
     max-height: 800px;
 }
@@ -59,8 +60,18 @@ padding-left:28px !important;
 }
 
 .summary-row{
-	border-top:1px dotted #ddd;
+	border-bottom:1px solid #ecf0f1;
 }
+
+.summary-page-header{
+	border:0px;
+	border-top:2px solid #3498db;
+}
+.summary-page-header h4{
+	color:#000;
+	font-weight:800;
+}
+
 .summary-row-value ul{
 	margin-left:0px;
 }

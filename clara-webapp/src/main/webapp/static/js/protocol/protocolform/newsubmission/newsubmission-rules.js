@@ -2472,6 +2472,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	}
 }));
 */
+/*
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	questionIds : [ 'question-inclusion-exclusion-criteria-for-this-study','question-inclusion-exclusion-criteria-for-this-study-in','question-inclusion-exclusion-criteria-for-this-study-ex' ],
 	dependantQuestionPaths : [ "/protocol/site-responsible", "/protocol/study-nature", "/protocol/misc/is-registered-at-trialsearch" ],
@@ -2486,9 +2487,9 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 		this.hide(hide);
 	}
 })); 
+*/
 
-
-
+/*
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	questionIds : [ 'question-is-registered-at-trialsearch'],
 	dependantQuestionPaths : [ "/protocol/site-responsible" ],
@@ -2503,6 +2504,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 		this.hide(hide);
 	}
 }));
+*/
 
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	questionIds : [ 'question-cancer-study' ],
@@ -2627,6 +2629,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	}
 }));
 
+/*
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	questionIds : [
 	               // RISKS
@@ -2646,12 +2649,14 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 
 		if (answers['/protocol/study-nature'] == 'chart-review') {
 			hide = true;
+			this.hide(hide);
 		}
 
-		this.hide(hide);
+		
 
 	}
 }));
+*/
 
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	questionIds : [

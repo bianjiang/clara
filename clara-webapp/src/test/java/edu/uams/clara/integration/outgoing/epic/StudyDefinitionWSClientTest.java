@@ -61,7 +61,7 @@ public class StudyDefinitionWSClientTest {
 	
 	@Test
 	public void testRetrieveProtocolDefResponse() throws Exception{
-		long protocolId = 203136l;
+		long protocolId = 202363l;
 
 		Protocol protocol = protocolDao.findById(protocolId);
 		

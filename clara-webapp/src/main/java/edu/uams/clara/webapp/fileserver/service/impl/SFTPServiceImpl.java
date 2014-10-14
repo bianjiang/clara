@@ -1,7 +1,14 @@
 package edu.uams.clara.webapp.fileserver.service.impl;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +33,8 @@ public class SFTPServiceImpl implements SFTPService {
 	private String localDirectory;
 
 	private String remoteDirectory;
+	
+	private String fileServerUrl;
 
 	private String knownHostsFilename;
 
@@ -193,6 +202,100 @@ public class SFTPServiceImpl implements SFTPService {
 		uploadLocalFileToRemote(fileName);
 		
 	}
+	
+	@Override
+	public String downloadMultipleFiles(Map<String, String> fileNamesMap) throws JSchException {
+		Date now = new Date();
+		
+		String timeStamp = String.valueOf(now.getTime());
+		
+		String zipFolderName = "zip";
+		
+		String zipFileName = timeStamp + ".zip";
+		
+		String zipFile = localDirectory + "/" + zipFileName;
+		
+		ChannelSftp sftpChannel = null;
+		
+		try {
+			FileOutputStream fos = new FileOutputStream(zipFile);
+			
+			ZipOutputStream zos = new ZipOutputStream(fos);
+			
+			for (Entry<String, String> entry : fileNamesMap.entrySet()) {
+				String destPath = remoteDirectory + entry.getKey();
+
+				sftpChannel = openSFTPChannel();
+				
+				String[] folders = destPath.split("/");
+				for ( int i = 0; i < folders.length - 1; i++) {
+					String folder = folders[i];
+					
+					if(!folder.trim().isEmpty()) {
+						try {
+							sftpChannel.cd(folder);
+						} catch (Exception e) {
+							logger.error("Folder: " + folder + " does not exist!");
+						}
+					}
+				}
+				
+				byte[] buffer = new byte[1024];
+
+				BufferedInputStream bis = new BufferedInputStream(sftpChannel.get(folders[folders.length-1]));
+				
+				//File newFile = new File(localDirectory + "/" + entry.getValue());
+				
+				//OutputStream os = new FileOutputStream(newFile);
+				
+				//BufferedOutputStream bos = new BufferedOutputStream(os);
+				
+				//int readCount;
+				
+				//while( (readCount = bis.read(buffer)) > 0) {
+				//	bos.write(buffer, 0, readCount);
+				//}
+				
+				//bis.close();
+				//bos.close();
+				
+				//FileInputStream fis = new FileInputStream(newFile);
+				
+				zos.putNextEntry(new ZipEntry(entry.getValue()));
+				
+				int length;
+				
+				while ((length = bis.read(buffer)) > 0) {
+					zos.write(buffer, 0, length);
+				}
+				
+				bis.close();
+				
+				zos.closeEntry();
+				
+				//fis.close();
+
+				//newFile.delete();
+			}
+			
+			zos.close();
+			
+			this.uploadLocalFileToRemote(zipFolderName + "/" + zipFileName);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (sftpChannel != null) {
+				sftpChannel.disconnect();
+				if (sftpChannel.getSession() != null) {
+					sftpChannel.getSession().disconnect();
+				}
+				//logger.debug("disconnecting the sftpChannel...");
+			}
+		}
+		
+		return this.fileServerUrl + "/" + zipFolderName + "/" + zipFileName;
+	}
 
 	public String getLocalDirectory() {
 		return localDirectory;
@@ -257,6 +360,14 @@ public class SFTPServiceImpl implements SFTPService {
 	@Autowired(required=true)
 	public void setUploadedFileDao(UploadedFileDao uploadedFileDao) {
 		this.uploadedFileDao = uploadedFileDao;
+	}
+
+	public String getFileServerUrl() {
+		return fileServerUrl;
+	}
+
+	public void setFileServerUrl(String fileServerUrl) {
+		this.fileServerUrl = fileServerUrl;
 	}
 
 }

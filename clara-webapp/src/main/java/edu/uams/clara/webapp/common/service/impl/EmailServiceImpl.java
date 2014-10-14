@@ -143,6 +143,7 @@ public class EmailServiceImpl implements EmailService {
 			emailRecipients = objectMapper.readValue(
 					jsonEncodedTo, listOfEmailRecipient);
 		} catch (Exception e){
+			e.printStackTrace();
 			logger.warn("Cannot parse email recipient json: " + jsonEncodedTo);
 		}
 

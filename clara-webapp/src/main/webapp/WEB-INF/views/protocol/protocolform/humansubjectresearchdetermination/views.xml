@@ -5,7 +5,7 @@
 	<definition extends="protocol/protocolform/human-subject-research-determination" name="protocol/protocolform/humansubjectresearchdetermination/first-page">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humansubjectresearchdetermination/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
     </definition>
     
@@ -29,14 +29,14 @@
     <definition extends="protocol/protocolform/human-subject-research-determination" name="protocol/protocolform/humansubjectresearchdetermination/basic-details">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humansubjectresearchdetermination/basic-details.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
     </definition>
     
     <definition extends="protocol/protocolform/human-subject-research-determination" name="protocol/protocolform/humansubjectresearchdetermination/subject-data-collection">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humansubjectresearchdetermination/subject-data-collection.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
     </definition>
 
@@ -79,7 +79,7 @@
     <definition extends="protocol/protocolform/human-subject-research-determination-noheader" name="protocol/protocolform/humansubjectresearchdetermination/first-page-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humansubjectresearchdetermination/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -106,7 +106,7 @@
     <definition extends="protocol/protocolform/human-subject-research-determination-noheader" name="protocol/protocolform/humansubjectresearchdetermination/basic-details-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humansubjectresearchdetermination/basic-details.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -116,7 +116,7 @@
     <definition extends="protocol/protocolform/human-subject-research-determination-noheader" name="protocol/protocolform/humansubjectresearchdetermination/subject-data-collection-noheader">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/humansubjectresearchdetermination/subject-data-collection.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />

@@ -59,8 +59,7 @@ Ext.define('Clara.DetailDashboard.view.LetterPanel', {
 	    },
 
 	    {
-            header: 'Date', width: 135,fixed:true, dataIndex: 'datetime',
-            xtype: 'datecolumn', format: 'm/d/Y h:ia'
+            header: 'Date', width: 135,fixed:true, dataIndex: 'timestampDate', xtype: 'datecolumn', format: 'm/d/Y h:ia'
         },
         {
 	    	header:'Sender',

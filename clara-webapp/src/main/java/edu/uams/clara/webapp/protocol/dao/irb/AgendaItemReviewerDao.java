@@ -7,7 +7,7 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.ejb.HibernateEntityManager;
+import org.hibernate.jpa.HibernateEntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -102,7 +102,8 @@ public class AgendaItemReviewerDao extends AbstractDomainDao<AgendaItemReviewer>
 					+ " INNER JOIN user_account ON user_account.person_id = person.id "
 					+ " INNER JOIN irb_reviewer ON irb_reviewer.user_id = user_account.id "
 					+ " INNER JOIN agenda_item_reviewer ON agenda_item_reviewer.irb_reviewer_id = irb_reviewer.id "
-					+ " WHERE person.retired = :retired AND user_account.retired = :retired AND irb_reviewer.retired = :retired AND agenda_item_reviewer.retired = :retired "
+					//+ " WHERE person.retired = :retired AND user_account.retired = :retired AND irb_reviewer.retired = :retired AND agenda_item_reviewer.retired = :retired "
+					+ " WHERE agenda_item_reviewer.retired = :retired "					
 					+ " AND agenda_item_reviewer.agenda_item_id = :agendaItemId";
 		
 		org.hibernate.Query q = session.createSQLQuery(query);
@@ -111,6 +112,7 @@ public class AgendaItemReviewerDao extends AbstractDomainDao<AgendaItemReviewer>
 		q.setParameter("retired", Boolean.FALSE);
 		
 		return q.list();
+		
 	}
 	
 	@Transactional(readOnly=true)

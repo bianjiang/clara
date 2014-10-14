@@ -60,12 +60,16 @@ public class ReportTemplate extends AbstractDomainEntity {
 	}
 	
 	public enum GlobalOperator{
-		AND, OR;
+		//AND, OR;
+		AND;
 	}
 	
 	public enum ScheduleType{
 		NONE, DAILY, WEEKLY, MONTHLY;
 	}
+	
+	@Column(name="report_type_id")
+	private int typeId;
 	
 	@Column(name="type_description")
 	private String typeDescription;
@@ -200,6 +204,16 @@ public class ReportTemplate extends AbstractDomainEntity {
 
 	public void setScheduleType(ScheduleType scheduleType) {
 		this.scheduleType = scheduleType;
+	}
+
+
+	public int getTypeId() {
+		return typeId;
+	}
+
+
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
 }

@@ -255,7 +255,7 @@ public class BudgetAjaxController {
 				try{
 					List<ProtocolFormCommitteeStatus> committeeStatuses = protocolFormCommitteeStatusDao.listAllByCommitteeAndProtocolFormIdandStatus(Committee.COVERAGE_REVIEW, pfxd.getProtocolForm().getId(),ProtocolFormCommitteeStatusEnum.APPROVED);
 					if(committeeStatuses.size()>0&&committeeStatuses.get(0).getProtocolFormId() == pfxd.getProtocolForm().getId()){
-						coverageStatus = "Coverage Approved";
+						coverageStatus = "Coverage Approved at "+committeeStatuses.get(0).getModifiedDateTime();
 					}
 					
 				}
@@ -398,6 +398,7 @@ public class BudgetAjaxController {
 			budgetDocument.setUploadedFile(uploadedFile);
 			budgetDocument.setTitle(uploadedFile.getFilename());
 			budgetDocument.setCategory(budgetDocumentType.getCategory());
+			budgetDocument.setCategoryDesc(budgetDocumentType.getCategoryDes());
 			budgetDocument.setCommittee(committee); // @TODO to be updated, need to
 													// find out which committee will
 													// do this...

@@ -171,7 +171,13 @@ Ext.define('Clara.Agenda.view.Viewport',{
 													text:'Remove item from agenda..',
 													disabled:true
 												}
+												
 												]
+										},{
+											id:'btnShowCommentHistory',
+											iconCls:'icn-sticky-notes',
+											hidden:true,
+											text:'Agenda item comment history'
 										},{
 											xtype:'button',
 											id:'btnApproveAgenda',

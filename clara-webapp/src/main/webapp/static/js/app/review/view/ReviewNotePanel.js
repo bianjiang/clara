@@ -80,7 +80,10 @@ Ext.define('Clara.Review.view.ReviewNotePanel', {
 			    
 				// redmine #2831: show name of commenter if PI, coverage, budget manager or budget reviewer
 				
-				if ( me.commentActor == "MEETING_OPERATOR" || ['PI','COVERAGE_REVIEW','BUDGET_REVIEW','BUDGET_MANAGER'].indexOf(r.get("committee")) > -1){
+				if ( me.commentActor == "MEETING_OPERATOR" 
+					|| ['PI','COVERAGE_REVIEW','BUDGET_REVIEW','BUDGET_MANAGER'].indexOf(r.get("committee")) > -1
+					|| claraInstance.HasAnyPermissions(["ROLE_IRB_OFFICE","ROLE_RESEARCH_COMPLIANCE"],"Show full name of commenter.")
+				){
 					displayedCommenterName = (r.get("userFullname")+" ("+r.get("committeeDescription")+")");
 				} else {
 					displayedCommenterName = r.get("committeeDescription");
@@ -178,13 +181,20 @@ Ext.define('Clara.Review.view.ReviewNotePanel', {
 			    
 			    
 				var replies = r.replies();
-			    
+		
 			    if (replies.count() > 0) {
 			        html = html + "<div class='review-comment-replies'>";
 			        
 			        replies.each(function(rec, idx){
 			        	var idxCls = (idx === 0)?" first":"",
-			        		displayedCommenterName = (['PI','COVERAGE_REVIEW','BUDGET_REVIEW'].indexOf(rec.get("committee")) > -1)?(rec.get("userFullname")+" ("+rec.get("committeeDescription")+")"):rec.get("committeeDescription");
+			        		displayedCommenterName = rec.get("committeeDescription");
+			        	
+			        		if (['PI','COVERAGE_REVIEW','BUDGET_REVIEW'].indexOf(rec.get("committee")) > -1
+			        				|| claraInstance.HasAnyPermissions(["ROLE_IRB_MEETING_OPERATOR","ROLE_IRB_OFFICE","ROLE_RESEARCH_COMPLIANCE"],"Show full name of replier.")
+			        		){
+			        			displayedCommenterName = rec.get("userFullname")+" ("+displayedCommenterName+")";
+			        		}
+			        			
 
 			        	html += "<div class='review-comment-reply"+idxCls+"'><span class='review-comment-reply-fullname'>"+displayedCommenterName+"</span><span class='review-comment-reply-text'>"+rec.get("text")+"</span>";
 				        html += "<div class='review-comment-reply-timeago'>";

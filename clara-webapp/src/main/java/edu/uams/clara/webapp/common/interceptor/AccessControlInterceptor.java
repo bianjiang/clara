@@ -72,6 +72,8 @@ public class AccessControlInterceptor extends HandlerInterceptorAdapter {
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT);
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION_MAJOR_CONTINGENCIES);
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION_MINOR_CONTINGENCIES);
+		protocolFormStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION_RESPONSE_TO_TABLED);
+		protocolFormStatusLst.add(ProtocolFormStatusEnum.RESPONSE_TO_TABLED_PENDING_PI_ENDORSEMENT);
 	}
 	
 	private List<ContractFormStatusEnum> contractFormStatusLst = new ArrayList<ContractFormStatusEnum>();{
@@ -159,6 +161,29 @@ public class AccessControlInterceptor extends HandlerInterceptorAdapter {
 
 					if (Minutes.minutesBetween(lastModifiedDateTime,
 							currentDateTime).getMinutes() > timeOutPeriod && !readOnly) {
+						if (objectAclService.hasEditObjectAccess(objectClass, objectId, currentUser) && !currentUser.getAuthorities().contains(Permission.ROLE_REVIEWER)){
+							
+							if ("protocols".equals(object)){
+								ProtocolFormStatus latestProtocolFormStatus = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(formId);
+
+								if (!protocolFormStatusLst.contains(latestProtocolFormStatus.getProtocolFormStatus())){		
+									response.sendRedirect("/clara-webapp/protocols/" + objectId + "/dashboard");
+									
+									return false;
+								}
+							}
+							
+							if ("contracts".equals(object)){
+								ContractFormStatus latestContractFormStatus = contractFormStatusDao.getLatestContractFormStatusByFormId(formId);
+								
+								if (!contractFormStatusLst.contains(latestContractFormStatus.getContractFormStatus())){			
+									response.sendRedirect("/clara-webapp/contracts/" + objectId + "/dashboard");
+									
+									return false;
+								}
+							}
+						}
+						
 						mutexLockService.unlockMutexLock(mutexLock);
 						mutexLockService.lockObjectByClassAndIdAndUser(objectFormClass,
 								formId, currentUser);
@@ -196,7 +221,9 @@ public class AccessControlInterceptor extends HandlerInterceptorAdapter {
 									ProtocolFormStatus latestProtocolFormStatus = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(formId);
 
 									if (!protocolFormStatusLst.contains(latestProtocolFormStatus.getProtocolFormStatus())){		
-										response.sendRedirect("/clara-webapp");
+										response.sendRedirect("/clara-webapp/protocols/" + objectId + "/dashboard");
+										
+										return false;
 									}
 								}
 								
@@ -204,7 +231,9 @@ public class AccessControlInterceptor extends HandlerInterceptorAdapter {
 									ContractFormStatus latestContractFormStatus = contractFormStatusDao.getLatestContractFormStatusByFormId(formId);
 									
 									if (!contractFormStatusLst.contains(latestContractFormStatus.getContractFormStatus())){			
-										response.sendRedirect("/clara-webapp");
+										response.sendRedirect("/clara-webapp/contracts/" + objectId + "/dashboard");
+										
+										return false;
 									}
 								}
 							}

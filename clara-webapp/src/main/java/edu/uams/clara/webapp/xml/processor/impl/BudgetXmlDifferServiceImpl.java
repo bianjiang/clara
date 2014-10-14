@@ -154,7 +154,7 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 		}
 		//get epochlists and sort them by index
 		List<String> indexes = Lists.newArrayList();
-		indexes.add("index");
+		indexes.add("id");
 		Map<String,Element> compEpochs = getIndexElementMap(compDoc.getElementsByTagName("epoch"),indexes);
 		Map<String,Element> currEpochs = getIndexElementMap(currDoc.getElementsByTagName("epoch"),indexes);
 		//comapre epochs
@@ -259,7 +259,7 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 	
 	private void comapreArms(Element compEpochEle, Element currEpochEle, Document compDoc){
 		List<String> indexes = Lists.newArrayList();
-		indexes.add("index");
+		indexes.add("id");
 		Map<String,Element> compArms = getIndexElementMap(compEpochEle.getElementsByTagName("arm"),indexes);
 		Map<String,Element> currArms = getIndexElementMap(currEpochEle.getElementsByTagName("arm"),indexes);
 	
@@ -333,7 +333,7 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 	
 	private void comapreCycles(Element compArmEle, Element currArmEle, Document compDoc,Map<String,String> compProceduresMap,Map<String,String> currProceduresMap){
 		List<String> indexes = Lists.newArrayList();
-		indexes.add("index");
+		indexes.add("id");
 		Map<String,Element> compCycles = getIndexElementMap(compArmEle.getElementsByTagName("cycle"),indexes);
 		Map<String,Element> currCycles = getIndexElementMap(currArmEle.getElementsByTagName("cycle"),indexes);
 	
@@ -499,7 +499,7 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 		
 		//delete vp 
 		for(String vpIndex : compVpIndexes){
-				if(!currProceduresMap.values().contains(compProceduresMap.get(vpIndex))){
+				if(!currVpsMapbyCpt.keySet().contains(compProceduresMap.get(vpIndex))){
 					//delete vp
 					Element deletedVpEle = compVps.get(vpIndex);
 					deletedVpEle.setAttribute("diff", "D");
@@ -507,6 +507,65 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 		}
 	}
 	
+	private void compareSubProcedures(Element compParentPro,
+			Element currParentPro, Document compDoc) {
+		List<String> indexes = Lists.newArrayList();
+		indexes.add("cptcode");
+		indexes.add("description");
+		Map<String, Element> compSubPros = getIndexElementMap(
+				compParentPro.getElementsByTagName("procedure"), indexes);
+		Map<String, Element> currSubPros = getIndexElementMap(
+				currParentPro.getElementsByTagName("procedure"), indexes);
+		Element subproceduresEle = null;
+		if (compParentPro.getElementsByTagName("subprocedures").getLength() > 0) {
+			subproceduresEle = (Element) compParentPro.getElementsByTagName(
+					"subprocedures").item(0);
+		} else {
+			subproceduresEle = compDoc.createElement("subprocedures");
+			compParentPro.appendChild(subproceduresEle);
+		}
+		Set<String> compSubProIndexes = compSubPros.keySet();
+		Set<String> currSubProIndexes = currSubPros.keySet();
+		// check added procedures
+		for (String procedureIndex : currSubProIndexes) {
+			try {
+				Element currProceudreEle = currSubPros.get(procedureIndex);
+				// check if this one is subprocedure
+				if (!compSubProIndexes.contains(procedureIndex)) {
+
+					// adding the new procedure element
+					Element addingProceudreEle = compDoc
+							.createElement("procedure");
+					Element addingNotesEle = compDoc.createElement("notes");
+					addingNotesEle.setTextContent(currSubPros
+							.get(procedureIndex).getElementsByTagName("notes")
+							.item(0).getTextContent());
+
+					addingProceudreEle = copyElement(addingProceudreEle,
+							currSubPros.get(procedureIndex), false);
+					addingProceudreEle.appendChild(addingNotesEle);
+					addingProceudreEle.setAttribute("diff", "A");
+
+					subproceduresEle.appendChild(addingProceudreEle);
+
+				} else {
+					// check modified procedures
+					Element compProceudreEle = compSubPros.get(procedureIndex);
+
+					compareElements(compProceudreEle, currProceudreEle,
+							procecureAttributes);
+					compProceudreEle.setAttribute("id",
+							currProceudreEle.getAttribute("id"));
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.debug("Error: Adding SubProcedures Failed!!!");
+			}
+		}
+
+	}
+
 	private void compareProcedures(Element compEpoch, Element currEpoch, Document compDoc){
 		List<String> indexes = Lists.newArrayList();
 		indexes.add("cptcode");
@@ -514,6 +573,9 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 		Map<String,Element> compPros = getIndexElementMap(compEpoch.getElementsByTagName("procedure"),indexes);
 		Map<String,Element> currPros = getIndexElementMap(currEpoch.getElementsByTagName("procedure"),indexes);
 		
+		
+		Set<String> compProIndexes = compPros.keySet();
+		Set<String> currProIndexes = currPros.keySet();
 		
 		Element proceduresEle = null;
 		if(compEpoch.getElementsByTagName("procedures").getLength()>0){
@@ -523,14 +585,20 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 			compEpoch.appendChild(proceduresEle);
 		}
 		
-		Set<String> compProIndexes = compPros.keySet();
-		Set<String> currProIndexes = currPros.keySet();
+		
+	
 		// check added procedures
 		for (String procedureIndex : currProIndexes) {
 			try {
 				Element currProceudreEle = currPros.get(procedureIndex);
-
+				//check if this one is subprocedure
+				if(currProceudreEle.getParentNode().getNodeName().equals("subprocedures")){
+					//this is subprocedure, does not process here
+					continue;
+				}
 				if (!compProIndexes.contains(procedureIndex)) {
+					
+					
 					// adding the new procedure element
 					Element addingProceudreEle = compDoc.createElement("procedure");
 					Element addingNotesEle = compDoc.createElement("notes");
@@ -544,13 +612,25 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 					addingProceudreEle.setAttribute("diff", "A");
 
 					proceduresEle.appendChild(addingProceudreEle);
+					
+					//check if this procedure has subprocedures
+					if(currProceudreEle.getElementsByTagName("subprocedures").getLength()>0){
+						compareSubProcedures(addingProceudreEle, currProceudreEle,compDoc);
+					}
 				} else {
 					// check modified procedures
 					Element compProceudreEle = compPros.get(procedureIndex);
 					
 					compareElements(compProceudreEle, currProceudreEle, procecureAttributes);
 					compProceudreEle.setAttribute("id", currProceudreEle.getAttribute("id"));
+					
+					//check if this procedure has subprocedures
+					if(currProceudreEle.getElementsByTagName("subprocedures").getLength()>0){
+						compareSubProcedures(compProceudreEle, currProceudreEle,compDoc);
+					}
+					
 				}
+				
 			} catch(Exception e){
 				e.printStackTrace();
 				logger.debug("Error: Adding Procedures Failed!!!");

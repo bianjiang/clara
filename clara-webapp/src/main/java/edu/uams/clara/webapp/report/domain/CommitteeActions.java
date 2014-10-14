@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
+import edu.uams.clara.webapp.contract.domain.businesslogicobject.enums.ContractFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
 
@@ -532,38 +533,102 @@ public class CommitteeActions {
 	}
 	
 	
+	private Map<Committee, List<ContractFormCommitteeStatusEnum>> startContractCommitteeStatusMap = Maps.newHashMap();{
+		List<ContractFormCommitteeStatusEnum> contractManagerList = Lists.newArrayList();
+		contractManagerList.add(ContractFormCommitteeStatusEnum.IN_REVIEW);
+		startContractCommitteeStatusMap.put(Committee.CONTRACT_MANAGER, contractManagerList);
+		
+		List<ContractFormCommitteeStatusEnum> contractAdminList = Lists.newArrayList();
+		contractAdminList.add(ContractFormCommitteeStatusEnum.IN_REVIEW);
+		startContractCommitteeStatusMap.put(Committee.CONTRACT_ADMIN, contractAdminList);
+		
+		List<ContractFormCommitteeStatusEnum> contractLegalList = Lists.newArrayList();
+		contractLegalList.add(ContractFormCommitteeStatusEnum.IN_REVIEW);
+		startContractCommitteeStatusMap.put(Committee.CONTRACT_LEGAL_REVIEW, contractLegalList);
+	}
+	
+	private Map<Committee, List<ContractFormCommitteeStatusEnum>> endContractCommitteeStatusMap = Maps.newHashMap();{
+		List<ContractFormCommitteeStatusEnum> contractManagerList = Lists.newArrayList();
+		contractManagerList.add(ContractFormCommitteeStatusEnum.REVIEWER_ASSIGNED);
+		contractManagerList.add(ContractFormCommitteeStatusEnum.REVISION_REQUESTED);
+		endContractCommitteeStatusMap.put(Committee.CONTRACT_MANAGER, contractManagerList);
+		
+		List<ContractFormCommitteeStatusEnum> contractAdminList = Lists.newArrayList();
+		contractAdminList.add(ContractFormCommitteeStatusEnum.APPROVED);
+		contractAdminList.add(ContractFormCommitteeStatusEnum.REVISION_REQUESTED);
+		contractAdminList.add(ContractFormCommitteeStatusEnum.PENDING_SPONSOR_RESPONSE);
+		contractAdminList.add(ContractFormCommitteeStatusEnum.PENDING_PI);
+		contractAdminList.add(ContractFormCommitteeStatusEnum.PENDING_BUDGET);
+		contractAdminList.add(ContractFormCommitteeStatusEnum.PENDING_COVERAGE);
+		contractAdminList.add(ContractFormCommitteeStatusEnum.PENDING_IRB);
+		contractAdminList.add(ContractFormCommitteeStatusEnum.OUTSIDE_IRB);
+		endContractCommitteeStatusMap.put(Committee.CONTRACT_ADMIN, contractAdminList);
+		
+		List<ContractFormCommitteeStatusEnum> contractLegalList = Lists.newArrayList();
+		contractLegalList.add(ContractFormCommitteeStatusEnum.COMPLETED);
+		contractLegalList.add(ContractFormCommitteeStatusEnum.PENDING_SPONSOR_RESPONSE);
+		contractLegalList.add(ContractFormCommitteeStatusEnum.PENDING_PI);
+		contractLegalList.add(ContractFormCommitteeStatusEnum.PENDING_BUDGET);
+		contractLegalList.add(ContractFormCommitteeStatusEnum.PENDING_COVERAGE);
+		contractLegalList.add(ContractFormCommitteeStatusEnum.PENDING_IRB);
+		contractLegalList.add(ContractFormCommitteeStatusEnum.OUTSIDE_IRB);
+		contractLegalList.add(ContractFormCommitteeStatusEnum.APPROVED);
+		endContractCommitteeStatusMap.put(Committee.CONTRACT_LEGAL_REVIEW, contractLegalList);
+		
+		
+		
+	}
+	
 	public Map<Committee, List<ProtocolFormCommitteeStatusEnum>> getStartCommitteeStatusMap() {
 		return startCommitteeStatusMap;
 	}
+
 	public Map<Committee, List<ProtocolFormCommitteeStatusEnum>> getEndCommitteeStatusMap() {
 		return endCommitteeStatusMap;
 	}
+
 	public List<ProtocolFormStatusEnum> getDraftFormStatus() {
 		return draftFormStatus;
 	}
+
 	public List<ProtocolFormStatusEnum> getCompleteFormStatus() {
 		return completeFormStatus;
 	}
-	public  List<ProtocolFormStatusEnum> getPiStartActions() {
+
+	public List<ProtocolFormStatusEnum> getPiStartActions() {
 		return piStartActions;
 	}
+
 	public List<ProtocolFormStatusEnum> getIrbApprovalNSFFormStatus() {
 		return irbApprovalNSFFormStatus;
 	}
+
 	public Map<Committee, List<ProtocolFormCommitteeStatusEnum>> getStartCommitteeStatusMapForHSR() {
 		return startCommitteeStatusMapForHSR;
 	}
+
 	public Map<Committee, List<ProtocolFormCommitteeStatusEnum>> getEndCommitteeStatusMapForHSR() {
 		return endCommitteeStatusMapForHSR;
 	}
+
 	public List<ProtocolFormStatusEnum> getRevisionRequestedStatus() {
 		return revisionRequestedStatus;
 	}
+
 	public List<ProtocolFormStatusEnum> getIrbSubmissionStatus() {
 		return irbSubmissionStatus;
 	}
+
 	public List<ProtocolFormStatusEnum> getReviewTypeBeforeIRB() {
 		return reviewTypeBeforeIRB;
+	}
+
+	public Map<Committee, List<ContractFormCommitteeStatusEnum>> getEndContractCommitteeStatusMap() {
+		return endContractCommitteeStatusMap;
+	}
+
+	public Map<Committee, List<ContractFormCommitteeStatusEnum>> getStartContractCommitteeStatusMap() {
+		return startContractCommitteeStatusMap;
 	}
 
 }

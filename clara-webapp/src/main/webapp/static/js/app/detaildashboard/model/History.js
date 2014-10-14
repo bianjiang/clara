@@ -13,7 +13,12 @@ Ext.define('Clara.DetailDashboard.model.History', {
 				{name:'parentFormId', mapping:'@parent-form-id'},
 				{name:'eventType', mapping:'@event-type'},
 				{name:'letterType',mapping: '@email-template-identifier'},
-				{name:'timestamp', mapping:'@timestamp'},
+				{name:'timestamp', mapping:'@timestamp', sortDir:"DESC", type:"int"},
+				{name:'timestampDate', mapping:'@timestamp', type: 'date', convert:function(v){
+					clog(v, new Date(parseInt(v)));
+					return new Date(parseInt(v));
+					
+				}},
 				{name:'datetime', mapping:'@date-time'}
 			],
 	

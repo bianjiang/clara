@@ -55,7 +55,7 @@ public class AgendaStatusDao extends AbstractDomainDao<AgendaStatus> {
 	@Transactional(readOnly = true)
 	public AgendaStatus getAgendaStatusByAgendaStatusAndProtocolFormIdAndAgendaItemStatus(AgendaStatusEnum agendaStatus,long protocolFormId, AgendaItemStatus agendaItemStatus){
 		String query = "SELECT agendastatus FROM AgendaStatus agendastatus "
-			+ " WHERE agendastatus.agenda.id in (SELECT a.id FROM Agenda a  WHERE a.retired = a.retired AND a.id = (SELECT ad.agenda.id FROM AgendaItem ad WHERE ad.agendaItemStatus = :agendaItemStatus AND ad.protocolFormId = :protocolFormId))"
+			+ " WHERE agendastatus.agenda.id in (SELECT a.id FROM Agenda a  WHERE a.retired = a.retired AND a.id = (SELECT ad.agenda.id FROM AgendaItem ad WHERE ad.agendaItemStatus = :agendaItemStatus AND ad.protocolFormId = :protocolFormId AND ad.retired = :retired))"
 			+ " AND agendastatus.retired = :retired "
 			+ " AND agendastatus.agendaStatus=:agendaStatus"
 			+ " ORDER BY agendastatus.id DESC";

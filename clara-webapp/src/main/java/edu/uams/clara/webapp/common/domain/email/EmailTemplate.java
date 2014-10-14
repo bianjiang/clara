@@ -63,6 +63,9 @@ public class EmailTemplate extends AbstractDomainEntity implements Serializable 
 	@Transient
 	private String realCCRecipient;
 	
+	@Transient
+	private String logRecipient;
+	
 	@Column(name="attachments", length=8000)
 	private String attachments;
 
@@ -169,6 +172,12 @@ public class EmailTemplate extends AbstractDomainEntity implements Serializable 
 	public void setRealCCRecipient(String realCCRecipient) {
 		this.realCCRecipient = realCCRecipient;
 	}
-	
-	
+
+	public String getLogRecipient() {
+		return logRecipient;
+	}
+
+	public void setLogRecipient(String logRecipient) {
+		this.logRecipient = logRecipient;
+	}
 }

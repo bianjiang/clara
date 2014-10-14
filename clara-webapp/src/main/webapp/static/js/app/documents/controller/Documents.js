@@ -2,6 +2,7 @@ Ext.define('Clara.Documents.controller.Documents', {
 	extend: 'Ext.app.Controller',
 
 	selectedDocument: null,
+	selectedDocuments:[],	// for downloading multiple docs.
 	parentFormIds: [],
 	documentTypes: [],
 	
@@ -72,7 +73,14 @@ Ext.define('Clara.Documents.controller.Documents', {
 
 		me.control({
 				'documentpanel':{
-					itemclick:function(g,rec){ me.onDocumentSelected(rec); },
+					//itemclick:function(g,rec){ me.onDocumentSelected(rec); },
+					selectionchange: function(g,recs){
+						if (recs.length == 1){
+							me.onDocumentSelected(recs[0]);
+						} else {
+							me.onDocumentsSelected(recs);
+						}
+					},
 					afterrender:function(p){
 						me.initDocumentPanel(p);
 					}
@@ -116,8 +124,8 @@ Ext.define('Clara.Documents.controller.Documents', {
 				},
 				'#btnDocumentDownload':{
 					click: function(){
-						var doc = me.selectedDocument;
-	        			me.downloadDocument(doc);
+						//var doc = me.selectedDocument;
+	        			me.downloadDocument();
 					}
 				},
 				'#btnDocumentViewVersions':{
@@ -229,10 +237,60 @@ Ext.define('Clara.Documents.controller.Documents', {
 	},
 	
 	
-	downloadDocument: function(doc){
-		var url = fileserverURL + doc.get("path") +doc.get("hashid")+"."+doc.get("extension")+"?n="+encodeURIComponent(doc.get("documentname")).replace(/%20/g, "_");
-		clog("Opening",url,doc);
-		window.open( url, '');
+	downloadDocument: function(rec){
+		var me = this;
+		var downloadMask = new Ext.LoadMask({
+		    msg    : 'Please wait...',
+		    target : Ext.getBody()
+		});
+
+		
+		if (me.selectedDocuments.length > 0){
+			var docIds = [];
+			for (var i=0,l=me.selectedDocuments.length;i<l;i++){
+				docIds.push(me.selectedDocuments[i].get("uploadedFileId"));
+			}
+			clog("DOWNLOAD MULTIPLE");
+			downloadMask.show();
+			var url = appContext + "/ajax/documents/download";
+			Ext.Ajax.request({
+				method:"POST",
+				url:url,
+				params:{
+					docId: docIds
+				},
+				success: function(response,opts){
+					
+					var zipFile = Ext.decode(response.responseText);
+					clog("SUCCESS resp",response,zipFile);
+					location.href=zipFile.url;
+					
+					Ext.getBody().unmask();
+				},
+				failure: function(response,opts){
+					alert("There was a problem downloading these files. Please try again later.");
+					clog("FAIL resp",response);
+					  Ext.getBody().unmask();
+				},
+				listeners:{
+					requestcomplete: function(c,r,o,e){
+						clog("RESPONSE: ",r);
+						downloadMask.hide();
+					},
+					requestexception: function(c,r,o,e){
+						clog("EXCEPTION: ",r);
+						downloadMask.hide();
+					}
+				}
+			});
+		} else {
+			var doc = (typeof rec == "undefined" || rec == null)?me.selectedDocument:rec;
+			var url = fileserverURL + doc.get("path") +doc.get("hashid")+"."+doc.get("extension")+"?n="+encodeURIComponent(doc.get("documentname")).replace(/%20/g, "_");
+			clog("Opening",url,doc);
+			window.open( url, '');
+		}
+		
+		
 	},
 	
 	initDocumentPanel: function(p){
@@ -240,6 +298,22 @@ Ext.define('Clara.Documents.controller.Documents', {
 		clog("initDocumentPanel");
 		me.loadingMask.show();
 		Ext.StoreMgr.lookup("Clara.Documents.store.DocumentTypes").loadDocumentTypes();
+	},
+	
+	
+	documentTypeExists: function(doctype){
+		clog("Checking doc type exists.. ", doctype);
+
+		var st = Ext.StoreMgr.lookup("Clara.Documents.store.Documents")
+		clog("Store count: "+st.getCount());
+		if (st.getCount() == 0) return false;
+		else {
+			var idx = st.findBy(function(rec){
+				if (rec.get("category") === doctype) return true;
+			});
+			return (idx > -1)?true:false;
+		}
+
 	},
 	
 	hasDocumentPermission: function(category, permission){
@@ -265,13 +339,35 @@ Ext.define('Clara.Documents.controller.Documents', {
 		}
 	},
 	
+	onDocumentsSelected: function(docs){
+		// When multiple docs selected, only enable "download" button
+		var me = this,
+			canReadAllDocs = true;
+		
+		clog("Docs selected",docs);
+		me.selectedDocuments = docs;
+		
+		for (var i=0, l=docs.length;i<l; i++){
+			if (me.hasDocumentPermission(docs[i].get("category"), "canRead") == false) {
+				canReadAllDocs = false;
+			}
+		}
+		
+		me.getDownloadDocumentButton().setDisabled(!canReadAllDocs);
+		me.getViewVersionsButton().setDisabled(true);
+		if (me.getDeleteButton()) me.getDeleteButton().setDisabled(true);
+		if (me.getReviseButton()) me.getReviseButton().setDisabled(true);
+		if (me.getRenameButton()) me.getRenameButton().setDisabled(true);
+		if (me.getChangeStatusButton()) me.getChangeStatusButton().setDisabled(true);
+	},
+	
 	onDocumentSelected: function(doc){
 		var me = this;
 		me.selectedDocument = doc;
+		while (me.selectedDocuments.length) { me.selectedDocuments.pop(); }
+		
 		clog("Document selected:",doc);
-		if (piwik_enabled()){
-			_paq.push(['trackEvent', 'DOCUMENTS', 'Selected Document: '+doc.get("title")+' ('+doc.get("id")+')']);
-		}
+		
 		// Enable appropriate buttons
 		
 		if (me.hasDocumentPermission(doc.get("category"), "canRead")) {

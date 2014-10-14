@@ -37,7 +37,7 @@ Clara.Pharmacy.Form = function(o){
 	this.idGenerator=			(o.idGenerator || 1000);									// Auto-generated ID's, used universally for all elements TODO: Change back to 0 when done testing.
 	this.id=					(o.id || '');												// ID / GUID assigned when saved
 	this.expenses=				(o.expenses || []);
-	this.waived=				(o.waived || false);
+	this.initialWaived=			(o.initialWaived || false);
 	this.total=					(o.total || 0);
 	this.displaytotal=			(o.displaytotal || 0);										// Transient
 		
@@ -45,26 +45,65 @@ Clara.Pharmacy.Form = function(o){
 		return this.idGenerator++;
 	};
 	
+	this.setInitialWaived = function(waived){
+		this.initialWaived = waived;
+		for (var i=0; i<this.expenses.length;i++){
+			if (this.expenses[i].type === "simc") {
+				this.expenses[i].waived = waived;
+			}
+		}
+		Clara.Pharmacy.MessageBus.fireEvent("waivechanged", waived);
+	}
+	
 	this.setWaived = function(waived){
-		this.waived = waived;
+		// this.waived = waived;
+		
 		for (var i=0; i<this.expenses.length;i++){
 			this.expenses[i].waived = waived;
 		}
-		Clara.Pharmacy.MessageBus.fireEvent("waivechanged", this.waived);
+		
+		Clara.Pharmacy.MessageBus.fireEvent("waivechanged", waived);
+	};
+	
+	this.setExpenseWaived = function(id, waived){
+
+		for (var i=0; i<this.expenses.length;i++){
+			if (this.expenses[i].id == id){
+				clog(("Found expense, setting waived to "+waived), this.expenses[i]);
+				this.expenses[i].waived = waived;
+			}
+		}
+		
+		Clara.Pharmacy.MessageBus.fireEvent("waivechanged", waived);
 	};
 	
 	this.getDisplayTotal = function(){
 		this.updateTotal();
-		return this.displaytotal;
+		
+		var anySimcWaived = (this.displaytotal !== this.total)?true:false;
+		
+		var s = "<span class='"+(anySimcWaived?"waived-total":"")+"' id='pharmacy-total-value'>"+Ext.util.Format.usMoney(this.displaytotal);
+		
+		if (anySimcWaived) s += "</span> <span id='pharmacy-total-value'>"+Ext.util.Format.usMoney(this.total);
+		
+		s += "</span>";
+		
+		return s;
 	};
 	
 	this.updateTotal= function(){
-			var t = 0;
+			var t = 0, waivedT = 0;
+			var anySimcWaived = false;
 			for (var i=0;i<this.expenses.length;i++){
-				if (this.expenses[i].type == 'simc') t += this.expenses[i].cost;
+				anySimcWaived = anySimcWaived || this.expenses[i].waived;
+				if (this.expenses[i].type == 'simc'){
+					t += parseFloat(this.expenses[i].cost);
+					if (this.expenses[i].waived === false) waivedT += parseFloat(this.expenses[i].cost);
+				}
 			}
-			this.total = (this.waived)?0:t;
+			this.total = waivedT;
 			this.displaytotal = t;
+			clog("updateTotal: total="+waivedT+" displayTotal="+t);
 	};
 	
 	this.addExpense= function(e){
@@ -73,6 +112,19 @@ Clara.Pharmacy.Form = function(o){
 		}
 		this.expenses.push(e);
 		Clara.Pharmacy.MessageBus.fireEvent('expenseadded', e);
+	};
+	
+	this.updateExpenseCost= function(id, cost){
+		clog("updateExpenseCost("+id+","+cost+")");
+		for (var i=0; i<this.expenses.length;i++){
+			if (this.expenses[i].id === id){
+				clog("Expense found",this.expenses[i]);
+				this.expenses[i].cost = cost;
+				Clara.Pharmacy.MessageBus.fireEvent('expenseupdated', this.expenses[i]);
+				return true;
+			}
+		}
+		return false;
 	};
 	
 	this.updateExpense= function(a){
@@ -163,6 +215,8 @@ Clara.Pharmacy.Form = function(o){
 		Clara.Pharmacy.MessageBus.fireEvent('beforepharmacysave', this);
 		var url = appContext+"/ajax/protocols/"+claraInstance.id+"/protocol-forms/"+claraInstance.form.id+"/pharmacy/save";
 		var data = (xmlstring)?xmlstring:this.toXML();
+	
+		
 		jQuery.ajax({
 			  type: 'POST',
 			  async:false,
@@ -181,7 +235,7 @@ Clara.Pharmacy.Form = function(o){
 	
 	this.toXML= function(){
 		this.updateTotal();
-		var xml = "<pharmacy id='"+this.id+"' waived='"+this.waived+"' total='"+this.total+"'>";
+		var xml = "<pharmacy id='"+this.id+"' initial-waived='"+this.initialWaived+"' total='"+this.total+"'>";
 		xml = xml + "<expenses>";
 		for (var i=0; i<this.expenses.length;i++){
 			xml = xml + this.expenses[i].toXML();
@@ -193,12 +247,12 @@ Clara.Pharmacy.Form = function(o){
 	
 	this.fromXML = function(xml){
 		var t = this;
-		clog("from: "+xml);
+		clog("from: ",xml);
 		var maxid = 0;
 		jQuery(xml).find("pharmacy").each(function(){
 			t.id = parseFloat(jQuery(this).attr('id'));
 			t.total = parseFloat(jQuery(this).attr('total'));
-			t.waived = (jQuery(this).attr('waived') == 'true')?true:false;
+			t.initialWaived = (jQuery(this).attr('initial-waived') === 'true')?true:false;
 		});
 		var exps = [];		// expenses
 		jQuery(xml).find("expenses").find("expense").each(function(){
@@ -209,7 +263,7 @@ Clara.Pharmacy.Form = function(o){
 				id:			parseFloat(jQuery(this).attr('id')),
 				count:		parseFloat(jQuery(this).attr('count')),
 				cost:		parseFloat(jQuery(this).attr('cost')),
-				waived:		(jQuery(this).attr('waived') == 'true')?true:false,
+				waived:	(jQuery(this).attr('waived') == 'true')?true:false,
 				name:		Encoder.htmlDecode(jQuery(this).attr('name')),
 				type:		Encoder.htmlDecode(jQuery(this).attr('type')),
 				description:Encoder.htmlDecode(jQuery(this).attr('description')),

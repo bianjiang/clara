@@ -42,7 +42,7 @@ public class ReportTaskExecutor implements Runnable {
 						reportTemplate.getTypeDescription())
 						.uploadResultToFileServer(reportTemplate);
 				reportTemplate.setStatus(Status.READY);
-				reportTemplateDao.saveOrUpdate(reportTemplate);
+				reportTemplate = reportTemplateDao.saveOrUpdate(reportTemplate);
 				//sendEmail();
 			}
 			

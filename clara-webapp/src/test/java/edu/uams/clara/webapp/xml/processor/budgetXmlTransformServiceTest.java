@@ -37,10 +37,21 @@ public class budgetXmlTransformServiceTest {
 		logger.debug(result);
 	}
 	
-	@Test
+	//@Test
 	public void pushtoPsc(){
 		try {
 			protocolDashboardAjaxController.transformBudgetXmlToPSCFormatByProtocolId(202044);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void generatePscTemplate(){
+		try {
+			String result =budgetXmlTransformService.outputCLARABudgetToPSCTemplate(protocolFormXmlDataDao.findById(23009).getXmlData(), "131573");
+			logger.debug(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

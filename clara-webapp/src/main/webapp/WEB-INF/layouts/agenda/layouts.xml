@@ -12,4 +12,19 @@
 		</put-list-attribute>
 	</definition>
 
+<definition name="agenda/item-template" template="/WEB-INF/layouts/agenda/agenda-item-template.jspx">
+		<put-list-attribute name="styles">
+			
+			<add-attribute value="/static/styles/application.css" type="string" />
+			<add-attribute value="/static/styles/icons.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="ie_styles">
+			<add-attribute value="/static/styles/application_ie.css" type="string" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/static/js/encoder.js" />  
+			<add-attribute value="/static/js/moment.js" />  
+		</put-list-attribute>
+	</definition>
+
 </tiles-definitions>

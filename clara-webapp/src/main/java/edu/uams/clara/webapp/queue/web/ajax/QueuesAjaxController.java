@@ -72,7 +72,7 @@ public class QueuesAjaxController {
 		Set<String> lookupPaths = new HashSet<String>();
 
 		for (UserRole ur : user.getUserRoles()) {
-			if (!ur.isRetired() && ur.getRole().getCommitee() != null) {
+			if (!ur.isRetired() && ur.getRole().getCommitee() != null && !ur.isBusinessAdmin()) {
 				//logger.debug("ur: " + ur.getRole().getName());
 				
 				//eliminate duplicate roles sent back to client

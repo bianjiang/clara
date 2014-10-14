@@ -1,5 +1,7 @@
 package edu.uams.clara.webapp.fileserver.service;
 
+import java.util.Map;
+
 import com.jcraft.jsch.JSchException;
 
 import edu.uams.clara.core.domain.AbstractDomainEntity;
@@ -14,5 +16,6 @@ public interface SFTPService {
 	void uploadLocalFileToRemote(String fileName) throws JSchException;
 	
 	String downloadFileFromRemoteAndConvertToXml(String fileName) throws JSchException;
-
+	
+	String downloadMultipleFiles(Map<String, String> fileNamesMap) throws JSchException;
 }

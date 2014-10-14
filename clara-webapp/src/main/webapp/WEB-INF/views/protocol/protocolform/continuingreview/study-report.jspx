@@ -74,7 +74,7 @@
 				</div>
 			</div>
 			
-			<div class="question"
+			<!-- <div class="question"
 				id="question-unanticipated-problems-involving-risks">
 				<div class="questionLabel">
 					Have there been any unanticipated problems involving risks to subjects or others since your last report?
@@ -95,7 +95,7 @@
 						textAreaTitle="Please explain:"
 						valueToShowTextArea="y" />
 				</div>
-			</div>
+			</div> -->
 			
 			<div class="question"
 				id="question-subjects-withdrawn-from-research">
@@ -418,6 +418,22 @@
 				<!-- <div class="questionHelp">
 					<uams:helpinfo lookupid="any-adverse-events" />
 				</div> -->
+			</div>
+			
+			<div class="question"
+				id="question-deviations-how-many">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since some protocol deviations or violations have occurred in this study, please answer the
+						following question:</h1>
+					<span class="question-label-text">How many?</span>      
+				</div>
+				<div class="questionValue">
+					<x:set var="deviationsHowMany"
+							select="string($crInstance/continuing-review/study-report/any-deviations/y/deviations-how-many/text())" />
+					<uams:textbox id="total-number"
+							instancepath="/continuing-review/study-report/any-deviations/y/deviations-how-many"
+							validation="number required" value="${deviationsHowMany}" />
+				</div>
 			</div>
 			
 			<div class="question"

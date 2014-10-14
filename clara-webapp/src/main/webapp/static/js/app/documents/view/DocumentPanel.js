@@ -19,6 +19,10 @@ Ext.define('Clara.Documents.view.DocumentPanel', {
 	}],
 	cls:'documentpanel',
 	
+	selModel: {
+		mode:'MULTI'
+	},
+	
 	// is this a form view, or dashboard? only formview can upload new files.
 	formView: false,
 	

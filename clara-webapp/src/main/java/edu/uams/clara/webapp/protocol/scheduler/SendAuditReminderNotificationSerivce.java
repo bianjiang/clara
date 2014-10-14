@@ -62,7 +62,7 @@ public class SendAuditReminderNotificationSerivce {
 		
 		List<Track> tracks = trackDao.findAllByEmailTypeAndDate("RECEIPT_OF_AUDIT_REPORT_LETTER", oneWeekBeforeCurrentDate);
 		
-		String achCCList = "BrackeenMargieI@uams.edu,StormentJanetS@uams.edu,HollowayAmanda@uams.edu,JContorno@uams.edu";
+		String achCCList = "BrackeenMargieI@uams.edu,StormentJanetS@uams.edu,HollowayAmanda@uams.edu";
 		
 		String achWithDrugCCList = "FurgersonBillyC@uams.edu";
 		

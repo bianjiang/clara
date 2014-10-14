@@ -62,12 +62,12 @@ Ext.define('Clara.Admin.view.IrbRosterPanel', {
 		              })
 		              ];
 		me.features= [{ftype:'grouping'}];
-		me.columns = [{header: 'Roster', width: 80, sortable: true, dataIndex: 'irbRoster', visible:false,
+		me.columns = [{header: 'Roster', width: 70, sortable: true, dataIndex: 'irbRoster', visible:false,
 			editor:{
 				xtype:'combo',
 				store: new Ext.data.ArrayStore({
 					fields:['id'],
-					data:[['WEEK_1'],['WEEK_2'],['WEEK_3'],['WEEK_4']]
+					data:[['WEEK_1'],['WEEK_2'],['WEEK_3'],['WEEK_4'],['WEEK_5']]
 				}),
 				queryMode: 'local',
 				displayField: 'id',
@@ -92,22 +92,68 @@ Ext.define('Clara.Admin.view.IrbRosterPanel', {
 					allowBlank: true
 				}
 			},
-			{header: 'Affiliated', width: 50, sortable: true, dataIndex: 'affiliated',
+			{header: 'Affil.', width: 40, sortable: true, dataIndex: 'affiliated',
 				editor: {
 					xtype: 'checkbox',
 					cls: 'x-grid-checkheader-editor'
 				}
 			},
-			{header: 'Expedited', width: 50, sortable: true, dataIndex: 'expedited',
+			{header: 'Exped.', width: 40, sortable: true, dataIndex: 'expedited',
 				editor: {
 					xtype: 'checkbox',
 					cls: 'x-grid-checkheader-editor'
 				}
 			},
-			{header: 'Chair', width: 50, sortable: true, dataIndex: 'chair',
+			{header: 'Chair', width: 40, sortable: true, dataIndex: 'chair',
 				editor: {
 					xtype: 'checkbox',
 					cls: 'x-grid-checkheader-editor'
+				}
+			},
+			
+			{header: 'Materials?', width: 60, sortable: true, dataIndex: 'materialIssued',
+				editor: {
+					xtype: 'checkbox',
+					cls: 'x-grid-checkheader-editor'
+				}
+			},
+			
+			{header: 'C.Conduct?', width: 60, sortable: true, dataIndex: 'codeOfConductOnFile',
+				editor: {
+					xtype: 'checkbox',
+					cls: 'x-grid-checkheader-editor'
+				}
+			},
+			{header: 'Mentor', width: 110, sortable: true, dataIndex: 'mentor',
+				editor: {
+					xtype: 'clarafield.combo.user'
+				}
+			},
+			{header: 'Obv. #1', width: 70, sortable: true, dataIndex: 'observationDate1',    xtype: 'datecolumn',   format:'Y-m-d',
+				editor: {
+					xtype: 'datefield'
+				}
+			},
+			{header: 'Obv. #2', width: 70, sortable: true, dataIndex: 'observationDate2',  xtype: 'datecolumn',   format:'Y-m-d',
+				editor: {
+					xtype: 'datefield'
+				}
+			},
+			{header: 'OHRP?', width: 60, sortable: true, dataIndex: 'ohrpApproved',
+				editor: {
+					xtype: 'checkbox',
+					cls: 'x-grid-checkheader-editor'
+				}
+			},{header: 'Alt?', width: 60, sortable: true, dataIndex: 'alternativeMember',
+				editor: {
+					xtype: 'checkbox',
+					cls: 'x-grid-checkheader-editor'
+				}
+			},
+			{header: 'Availability', width:90, sortable: true, dataIndex: 'availability',
+				editor: {
+					xtype: 'textfield',
+					allowBlank: true
 				}
 			},
 			{header: 'Comment', flex:1, sortable: true, dataIndex: 'comment',

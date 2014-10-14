@@ -59,7 +59,8 @@ public enum ProtocolFormCommitteeStatusEnum{
 	PENDING_IRB_DETERMINATION("Pending IRB Determination", "INFO", "END"),
 	REGULATORY_AFFAIRS_INVOLVEMENT_NOT_REQUIRED("Regulatory Affairs Involvement not required", "INFO", "END"),
 	CONTRACT_REQUIRED("Contract is Required", "INFO", "END"),
-	CONTRACT_NOT_REQUIRED("Contract is NOT Required", "INFO", "END");
+	CONTRACT_NOT_REQUIRED("Contract is NOT Required", "INFO", "END"),
+	BUDGET_NOT_REVIEWED("Budget Not Reviewed", "INFO", "END");
 	
 	private String description;
 	private String priorityLevel;

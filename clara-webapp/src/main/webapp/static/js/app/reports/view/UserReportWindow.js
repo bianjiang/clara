@@ -8,7 +8,7 @@ Ext.define('Clara.Reports.view.UserReportWindow', {
     modal:false,
     
     style : 'z-index: -1;', // IE8 fix (http://www.sencha.com/forum/archive/index.php/t-241500.html?s=15ad65f757fb7325aa20735e3226faab)
-    
+    reportType:null,
     report:{},
     iconCls:'icn-gear',
     layout: {
@@ -69,6 +69,7 @@ Ext.define('Clara.Reports.view.UserReportWindow', {
     		recipients = t.getEmailArray(Clara.Reports.app.getController("UserReport").selectedUserReport.recipients());
     
     	clog("INIT: with report",t.report,recipients);
+    	if (!t.reportType) cwarn("Couldn't find report type ID for this report. Showing all panels.",t.report,t.report.typeDescription,t.report.typeId);
     	t.items = [{
 			region:'north',
 			layout:'form',
@@ -86,13 +87,8 @@ Ext.define('Clara.Reports.view.UserReportWindow', {
 			},
 			{xtype:'combo',id:'fldSchedule',labelWidth:160,fieldLabel:'When will this report run?',labelSeparator:'',hideLabel:false,store:new Ext.data.ArrayStore({
 		    	  fields:['value','label'],
-<<<<<<< HEAD
-		    	  data: [["","Immediately (no schedule)"],["0 30 22 1/1 * ?","Daily"],["0 40 22 ? * SUN","Weekly"],["0 0 5 1 1/1 ?","Monthly (1st of every month)"]]
-		      }),displayField:'label',valueField:'value',queryMode: 'local',autoSelect:true,value:(typeof t.report.cron != undefined && t.report.cron)?t.report.cron:""},
-=======
 		    	  data: [["NONE","Immediately (no schedule)"],["DAILY","Daily"],["WEEKLY","Weekly"],["MONTHLY","Monthly (1st of every month)"]]
 		      }),displayField:'label',valueField:'value',queryMode: 'local',autoSelect:true,value:(typeof t.report.scheduleType != undefined && t.report.scheduleType)?t.report.scheduleType:"NONE"},
->>>>>>> claraoriginal/master
 		      {
 		    	  xtype:'recipientcombofield',
 		    	  store:'ReportRecipients',
@@ -104,12 +100,14 @@ Ext.define('Clara.Reports.view.UserReportWindow', {
 			]
 		},{
 			region:'center',
+			hidden:t.reportType && !t.reportType.get("hasUserSelectableCriteria"),
 			xtype:'reportcriteriagridpanel',
 			parentWindow:t,
 			tbar:[{xtype:'tbtext',text:'<strong>Match</strong>'},
 			      {xtype:'combo',id:'fldReportOperator',hideLabel:true,store:new Ext.data.ArrayStore({
 			    	  fields:['value','label'],
-			    	  data: [['OR','any'],['AND','all']]
+			    	  data: [['AND','all']]
+			    	  //data: [['OR','any'],['AND','all']]
 			      }),displayField:'label',valueField:'value',queryMode: 'local',autoSelect:true,value:(typeof t.report.globalOperator != undefined)?t.report.globalOperator:"OR"},
 			      {xtype:'tbtext',text:'<strong>of the criteria below:</strong>'},'->',{
 			    	  xtype:'button',
@@ -124,6 +122,7 @@ Ext.define('Clara.Reports.view.UserReportWindow', {
 			region:'south',
 			title:'Choose which fields to show on the report:',
 			xtype:'reportdisplayfieldgridpanel',
+			hidden:t.reportType && !t.reportType.get("hasUserSelectableResultFields"),
 			border:false,
 			parentWindow:t,
 			split:true,

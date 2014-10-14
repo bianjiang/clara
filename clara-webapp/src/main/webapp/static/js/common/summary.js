@@ -3,10 +3,7 @@ jQuery.expr[':'].icontains = function(obj, index, meta, stack) {
 	.toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
 };
 
-function clearSearch() {
-	jQuery("#summary-content div").show();
-	renderPermissions();
-}
+
 function renderPermissions(){
 	if (!claraInstance.HasAnyPermissions(["EDIT_STUDY"])) {
 		jQuery(".tools-edit-page").hide();
@@ -46,12 +43,30 @@ function renderPermissions(){
 	});
 }
 
-function performSearch(str) {
+function clearSearch(pageId) {
+	pageId = (pageId == null)?"":(pageId+" ");
+	//jQuery("#summary-content div").show();
+	if (pageId !=="") jQuery(pageId+"table tbody tr").show();
+	else jQuery(pageId+".summary-row").show();
+	renderPermissions();
+}
+
+function performSearch(str, pageId) {
+	pageId = (pageId == null)?"":(pageId+" ");
 	jQuery(".summary-section").hide().filter(
 			":icontains('" + str + "')").find('.summary-section')
 			.andSelf().show();
-	jQuery(".summary-row").hide().filter(":icontains('" + str + "')")
-	.find('.summary-row').andSelf().show();
+	clog(pageId+"table", jQuery(pageId+"table"));
+	if (pageId !== "" && jQuery(pageId+"table").length){
+		clog("Table detected");
+		jQuery(pageId+"table tbody tr").hide().filter(":icontains('" + str + "')")
+		.find(pageId+'table tbody tr').andSelf().show();
+	} else {
+		jQuery(pageId+".summary-row").hide().filter(":icontains('" + str + "')")
+		.find(pageId+'.summary-row').andSelf().show();
+	}
+	
+	
 }
 
 function switchToEditView(url){
@@ -70,8 +85,10 @@ function exitEditView(url){
 function saveSummaryEditableAnswer(path, windowId){
 	
 	var inputObject = jQuery(windowId+" input[name=editValueElement]");
+	var inputLabelObject = jQuery(windowId+" input[name=editValueLabel]");
 	saveToForm = (claraInstance.form && claraInstance.form.id && claraInstance.form.id > 0);
 	var fieldVal = inputObject?(inputObject.val()):null;
+	var label = inputLabelObject?(inputLabelObject.val()):"";
 	clog("fieldVal:",fieldVal);
 	var displayVal = fieldVal;
 
@@ -94,6 +111,7 @@ function saveSummaryEditableAnswer(path, windowId){
 
 	var opts = {
 			path:path,
+			label:label,
 			value:fieldVal,
 			userId:claraInstance.user.id
 	};
@@ -168,7 +186,10 @@ function prepareFormSummaryPage(){
 			.show()
 			.click(
 					function() {
-						window.open(budgeturl,'','toolbar=no,status=no,width=950,height=650,resizable=yes');
+						var w = window.open(budgeturl,'','toolbar=no,status=no,width=950,height=650,resizable=yes');
+						if (window.focus) {w.focus();}
+					    if (!w.closed) {w.focus();}
+					    return false;
 					});
 		}
 		if (hasPharmacy)
@@ -177,7 +198,10 @@ function prepareFormSummaryPage(){
 			.show()
 			.click(
 					function() {
-						window.open(pharmacyurl,'','toolbar=no,status=no,width=950,height=650,resizable=yes');
+						var w = window.open(pharmacyurl,'','toolbar=no,status=no,width=950,height=650,resizable=yes');
+						if (window.focus) {w.focus();}
+					    if (!w.closed) {w.focus();}
+					    return false;
 					});
 		}
 
@@ -195,6 +219,18 @@ function prepareFormSummaryPage(){
 				clearSearch();
 			} else {
 				performSearch(jQuery("#search").val());
+			}
+		});
+		
+		jQuery(".summary-search").val("");
+		jQuery(".summary-search").keyup(function() {
+			var val = jQuery(this).val();
+			var parentId = "#"+jQuery(this).closest(".summary-page").attr("id");
+			clog(val + " calling on parent "+parentId);
+			if (jQuery.trim(val) == "") {
+				clearSearch(parentId);
+			} else {
+				performSearch(val,parentId);
 			}
 		});
 

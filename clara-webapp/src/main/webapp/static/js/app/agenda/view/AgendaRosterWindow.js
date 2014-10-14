@@ -62,6 +62,7 @@ Ext.define('Clara.Agenda.view.AgendaRosterWindow', {
 				items: [{
 					id:'btnAddMember',
 					disabled:true,
+					hidden:true,	// Redmine #3067
 					iconCls:'icn-user--plus',
 					text:'Add to Agenda Roster..',
 		    	}]

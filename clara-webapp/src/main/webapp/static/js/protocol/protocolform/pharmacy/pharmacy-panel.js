@@ -1,5 +1,6 @@
 Ext.ns('Clara.Pharmacy');
 
+
 Clara.Pharmacy.ConfirmRemoveExpense = function(eid){
 	Ext.Msg.show({
 		title:"WARNING: About to delete expense",
@@ -35,10 +36,11 @@ Clara.Pharmacy.FeeGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				    	   var url = appContext+"/protocols/"+claraInstance.id+"/protocol-forms/"+claraInstance.form.id+"/pharmacy/pharmacybuilder?coversheet";
 				    		window.open(url,'','width=800,height=600,location=0,menubar=0,scrollbars=1,status=0,toolbar=0,resizable=1');
 				       }},
-				       {xtype:'cycle', disabled:!Clara.Pharmacy.canEdit(), showText:true, prependText:'Fees are ', id:'btnToggleFee', items: [{id:'btnFeeNotWaived',text:'not waived',iconCls:'icn-money'}, {id:'btnFeeWaived',text:'<span style="font-weight:800;color:red;">WAIVED</span>',iconCls:'icn-money--minus'}],
+				       {xtype:'cycle', disabled:!Clara.Pharmacy.canEdit(), showText:true, prependText:'<span style="font-weight:800;">INITIAL Fees</span> are ', id:'btnToggleFee', items: [{id:'btnFeeNotWaived',text:'not waived',iconCls:'icn-money'}, {id:'btnFeeWaived',text:'<span style="font-weight:800;color:red;">WAIVED</span>',iconCls:'icn-money--minus'}],
 				    	   changeHandler:function(btn,item){
-				    	   		pharmacy.setWaived(item.text != "not waived");
+				    	   		pharmacy.setInitialWaived(item.text !== "not waived");
 				       		}},
+				
 						      
 						       {xtype:'button', text:'Close', iconCls:'icn-disk', handler:function(){
 						    	   closeCurrentForm(function(){window.close();}, false);
@@ -47,7 +49,7 @@ Clara.Pharmacy.FeeGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			},
 			bbar: {
 				xtype:'toolbar',
-				items:['->',{xtype:'panel', padding:8, border:false, plain:true,unstyled:true, html:'<div id="pharmacy-total">Total (initiation costs only): <span class="'+(pharmacy.waived?"waived-total":"")+'" id="pharmacy-total-value">'+Ext.util.Format.usMoney(pharmacy.getDisplayTotal())+'</span></div>'}]
+				items:['->',{xtype:'panel', padding:8, border:false, plain:true,unstyled:true, html:'<div id="pharmacy-total">Total (initiation costs only): '+pharmacy.getDisplayTotal()+'</div>'}]
 			},
 			store: pharmacy.getStore(),
 			colModel: new Ext.grid.ColumnModel({
@@ -87,7 +89,15 @@ Clara.Pharmacy.FeeGridPanel = Ext.extend(Ext.grid.GridPanel, {
 							}
 							return html+"</div>";
 						}},
-						{id:'cost',header:'Cost',dataIndex:'cost',width:60, renderer:Ext.util.Format.usMoney}
+						{id:'cost',header:'Cost',dataIndex:'cost',width:30, renderer:Ext.util.Format.usMoney},
+						{header:'Waived?',dataIndex:'id', width:50, renderer: function(v,p,r){
+							if (r.get("type") == "Study Initiation, Management and Closeout"){
+								return (r.get("waived") === false)?"No":"<span style='font-weight:800;color:red'>Yes</span>";
+							} else {
+								if (r.get("waived") === false) return "No <a href='javascript:pharmacy.setExpenseWaived("+v+", true);'>Waive</a>";
+								else return "<span style='font-weight:800;color:red'>Yes</span> <a href='javascript:pharmacy.setExpenseWaived("+v+", false);'>Add back</a>";
+							}
+						}}
 				         ]
 			}),
 			listeners: {
@@ -97,6 +107,29 @@ Clara.Pharmacy.FeeGridPanel = Ext.extend(Ext.grid.GridPanel, {
 					clog("NAME: ");clog(rec.data);
 					if (rec.get("description") != "Base Fee") Ext.getCmp("btnRemoveExpense").setDisabled(!Clara.Pharmacy.canEdit());
 					else Ext.getCmp("btnRemoveExpense").setDisabled(true);
+				},
+				rowdblclick: function(t,i){
+					var rec = t.getStore().getAt(i);
+					if (rec.get("description") == "Base Fee" && Clara.Pharmacy.canEdit()){
+						Ext.Msg.prompt('Editing Base Fee', 'Enter a new base fee:', function(btn, text){
+						    if (btn == 'ok'){
+						    	var newValue = -1;
+						        if (Ext.num(text, -1) > -1 ){
+						        	newValue = text;
+						        } else if (text == ''){
+						        	newValue = 0;
+						        } else {
+						        	Ext.Msg.alert('Invalid value', 'Please enter a valid amount.');
+						        }
+						        clog("NewValue is "+newValue);
+						        if (newValue > -1){
+						        	// SAVE
+						        	pharmacy.updateExpenseCost(rec.get("id"),newValue);
+						        	pharmacy.save();
+						        }
+						    }
+						},this,false,rec.get("cost"));
+					}
 				}
 			},
 			view: new Ext.grid.GroupingView({
@@ -135,9 +168,10 @@ Clara.Pharmacy.FeeGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	},
 	
 	onRender:function(){
-		
-		if (pharmacy.waived){
-			Ext.getCmp("btnToggleFee").setActiveItem(Ext.getCmp("btnFeeWaived"),true);
+		clog("Render: Pharmacy",pharmacy);
+		if (pharmacy.initialWaived){
+			clog("ITS INITAL WAIVED!");
+			 Ext.getCmp("btnToggleFee").setActiveItem(Ext.getCmp("btnFeeWaived"),true);
 		}
 		
 		Clara.Pharmacy.FeeGridPanel.superclass.onRender.apply(this, arguments);

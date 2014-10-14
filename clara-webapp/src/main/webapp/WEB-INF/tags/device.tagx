@@ -14,14 +14,29 @@
 		<tr>
 			<th id="name"><b>Device Name</b></th>
 			<th id="manufacturer"><b>Manufacturer</b></th>
-			<th id="approved"><b>Approved?</b></th>
+			<th id="model"><b>Model #</b></th>
+			<th id="devtype"><b>Type</b></th>
+			<th id="ide"><b>IDE</b></th>
+			<th id="risks"><b>Risks</b></th>
 		</tr>
 		<x:forEach var="device" select="$value">
 			<tr>
 				<td headers="name" valign="top"><x:out select="@name" /></td>
 				<td headers="manufacturer" valign="top"><x:out select="@manufacturer" />
 				</td>
-				<td headers="approved" valign="top"><x:out select="@approved" />
+				<td headers="model" valign="top"><x:out select="@modelnumber" />
+				</td>
+				<td headers="devtype" valign="top"><x:out select="@status" />
+				</td>
+				<td headers="ide" valign="top"><x:out select="@ide" />
+				</td>
+				<td headers="risks" valign="top">
+					<ul>
+					<li><strong>Implant: </strong> <x:out select="@riskimplant" /></li>
+					<li><strong>Sustaining life: </strong> <x:out select="@risksustainlife" /></li>
+					<li><strong>Substantial importance to life: </strong> <x:out select="@riskhealthimpact" /></li>
+					<li><strong>Otherwise potential risk: </strong> <x:out select="@riskpotential" /></li>
+					</ul>
 				</td>
 			</tr>
 		</x:forEach>

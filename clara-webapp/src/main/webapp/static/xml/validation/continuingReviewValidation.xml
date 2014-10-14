@@ -152,7 +152,7 @@
 			</rule>
 		</prerequisites>
 	</rule>
-	<rule path="/continuing-review/study-report/unanticipated-problems-involving-risks" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+	<!-- <rule path="/continuing-review/study-report/unanticipated-problems-involving-risks" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if there have been any unanticipated problems involving risks to subjects or others since your last report is required!" level="ERROR"/>
 		<prerequisites>
 			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
@@ -188,7 +188,7 @@
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule> -->
 	<rule path="/continuing-review/study-report/subjects-withdrawn-from-research" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if any subjects have withdrawn from the research since your last report is required!" level="ERROR"/>
 		<prerequisites>
@@ -633,7 +633,7 @@
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/continuing-review/has-external-sponsor" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
-				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -656,7 +656,7 @@
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 			<rule path="/continuing-review/has-external-sponsor" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
-				<constraint type="EQUAL" data="n" error-msg="Since you choose, ..." level="ERROR"/>		
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
 	</rule>
@@ -679,6 +679,26 @@
 	</rule>
 	<rule path="/continuing-review/study-report/any-deviations/y/explain" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
 		<constraint type="REQUIRED" data="" error-msg="To explain why there have been any protocol deviations or violations occurred in this study since the last report is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/most-recent-study/approval-status" value-type="java.lang.String" pagename="" pageref="">
+				<constraint type="NOTEQUAL" data="Exempt" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="study-no-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/general-study-info/study-status/statuses/status" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
+				<constraint type="NOTEQUAL" data="no-subjects-enrolled" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/continuing-review/study-report/any-deviations" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>
+	<rule path="/continuing-review/study-report/any-deviations/y/deviations-how-many" value-type="java.lang.String" pagename="Study Report" pageref="study-report">
+		<constraint type="REQUIRED" data="" error-msg="To indicate how many deviations/violations occured in a pattern that indicates a need to revise study processes is required!" level="ERROR"/>
 		<prerequisites>
 			<rule path="/continuing-review/general-study-info/keep-study-open" value-type="java.lang.String" pagename="General Study Information" pageref="general-study-information">
 				<constraint type="EQUAL" data="y" error-msg="Since you choose, ..." level="ERROR"/>		

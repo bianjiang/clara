@@ -76,12 +76,12 @@ Clara.BudgetBuilder.DispensingDrugPanel = Ext.extend(Ext.Panel, {
 		parentWindow.pharmStore.filter([{
 			property     : 'type',
 			value        : 'drug'
-		},{
+		}/*,{
 			property     : 'waived',
 			value        : 'false'
-		}]);
+		}*/]);
 		if (parentWindow.pharmStore.getCount() == 0){
-			alert("No dispensing fees defined by the pharmacy, or fees were waived.");
+			alert("No dispensing fees defined by the pharmacy.");
 			parentWindow.close();
 		}
 		
@@ -211,12 +211,15 @@ Clara.BudgetBuilder.PharmacyFeeStore = new Ext.data.XmlStore({
 	record: 'expense', 
 	fields: [
 	 		{name:'id', mapping:'@id'},
-	 		{name:'cost',mapping:'@cost'},
-	 		{name:'type', mapping:'@type'},
-	 		{name:'waived', mapping:'@waived',convert: function(v){
-	 			if (v && v == "true") return true;
-	 			else return false;
+	 		{name:'cost',mapping:'@cost', convert: function(v,node){
+	 			if (node.attributes["waived"].value == "true"){
+	 				return 0;
+	 			} else {
+	 				return v;
+	 			}
 	 		}},
+	 		{name:'type', mapping:'@type'},
+	 		{name:'waived', mapping:'@waived'},
 	 		{name:'description',mapping:'@description'},
 	 		{name:'notes',mapping:'@notes'},
 	 		{name:'drugs',mapping:'drugs', convert:function(v,node){ 

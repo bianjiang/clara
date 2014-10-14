@@ -198,7 +198,8 @@
 						</c:otherwise>
 
 					</c:choose>
-			    
+			    	
+			    	<input type="hidden" value="${label}" name="editValueLabel"/>
 			    
 			   
 			  </div>

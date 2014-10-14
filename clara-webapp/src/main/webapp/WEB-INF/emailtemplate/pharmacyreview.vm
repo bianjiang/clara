@@ -1,0 +1,35 @@
+<html>
+<head>
+	<link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div class="email-template pharmacy-review-template">
+	This is a test email. </br></br>
+	
+	To whom it may concern:</br></br>
+	
+	The following Clinical Research Study has been forwarded to your queue in CLARA.  Click the link below to access the study for review.</br></br>  
+	
+	<a href="http://localhost:8080/clara-webapp">Click Here!!!</a></br></br>         
+	
+	Research Study Number IRB#: $protocolId</br></br>
+
+	Title: $title</br></br>
+	
+	#if ($studyType == "investigator-initiated")
+		#set($studyType = "Investigator Initiated")
+	#elseif ($studyType == "cooperative-group")
+		#set($studyType = "Cooperative Group")
+	#elseif ($studyType == "industry-sponsored")
+		#set($studyType = "Industry Sponsored")
+	#end
+
+	Study Category: $studyType</br></br>
+
+	P.I.:  $piUser.person.getFullname()</br></br>
+	
+	{0}
+</div>
+</body>
+</html>

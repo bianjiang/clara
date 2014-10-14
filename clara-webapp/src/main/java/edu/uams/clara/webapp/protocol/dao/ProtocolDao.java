@@ -1,5 +1,8 @@
 package edu.uams.clara.webapp.protocol.dao;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,20 +11,34 @@ import java.util.Set;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.w3c.dom.Element;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import edu.uams.clara.core.dao.AbstractDomainDao;
+import edu.uams.clara.core.util.xml.XmlHandler;
+import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.UserRole;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
 import edu.uams.clara.webapp.common.objectwrapper.PagedList;
 import edu.uams.clara.webapp.contract.domain.Contract;
+import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
+import edu.uams.clara.webapp.fileserver.service.FileGenerateAndSaveService;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
@@ -41,7 +58,13 @@ public class ProtocolDao extends AbstractDomainDao<Protocol> {
 
 	private final static Logger logger = LoggerFactory
 			.getLogger(ProtocolDao.class);
+	
+	private MessageDigest messageDigest = null;
+	
+	@Value("${fileserver.url}")
+	private String fileServer;
 
+	private FileGenerateAndSaveService fileGenerateAndSaveService;
 	/**
 	 * TODO: index the xml...
 	 * 
@@ -49,6 +72,96 @@ public class ProtocolDao extends AbstractDomainDao<Protocol> {
 	 * @param query
 	 * @return
 	 */
+	private List<String> subStudyTypeList = Lists.newArrayList();{
+		subStudyTypeList.add("local-faculty");
+		subStudyTypeList.add("non-local-faculty");
+		subStudyTypeList.add("student-fellow-resident-post-doc");
+		subStudyTypeList.add("other");
+	}
+	
+	public String exportBookmarkSearchResultFile(String xmlData,User user){
+		String fileUrl = "";
+		try {
+			HSSFWorkbook wb = new HSSFWorkbook();
+			CreationHelper createHelper = wb.getCreationHelper();
+			Sheet sheet = wb.createSheet("bookmark-search-result");
+			Row titleRow = sheet.createRow(0);
+			String[] titles = {"IRB#","Title","PI","Status","Study Nature","College","Department"};
+			for(int i=0;i<titles.length;i++){
+				Cell infoCell = titleRow.createCell(i);
+				infoCell.setCellValue(createHelper.createRichTextString(titles[i]));
+			}
+			
+			
+			XmlHandler xmlHandler =  XmlHandlerFactory.newXmlHandler();
+			List<Element> protocolEles = xmlHandler.listElementsByXPath(xmlData, "/list/protocol");
+			
+			
+			for(int j=0;j<protocolEles.size();j++){
+				Row dataRow = sheet.createRow(j+1);
+				Element protocolEle = protocolEles.get(j);
+				String irb = protocolEle.getAttribute("id");
+				Cell infoCell0 = dataRow.createCell(0);
+				infoCell0.setCellValue(createHelper.createRichTextString(irb));
+				
+				String title = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/protocol[@id="+irb+"]/title/text()");
+				Cell infoCell1 = dataRow.createCell(1);
+				infoCell1.setCellValue(createHelper.createRichTextString(title));
+				
+				String piName = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/protocol[@id="+irb+"]/staffs/staff/user[roles/role/text()=\"Principal Investigator\"]/lastname/text()")+","+
+						xmlHandler.getSingleStringValueByXPath(xmlData, "/list/protocol[@id="+irb+"]/staffs/staff/user[roles/role/text()=\"Principal Investigator\"]/firstname/text()");
+				Cell infoCell2 = dataRow.createCell(2);
+				if(piName.endsWith(",")){
+					piName="";
+				}
+				infoCell2.setCellValue(createHelper.createRichTextString(piName));
+				
+				
+				String status = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/protocol[@id="+irb+"]/status/text()");
+				Cell infoCell3 = dataRow.createCell(3);
+				infoCell3.setCellValue(createHelper.createRichTextString(status));
+				
+				
+				String studyNature = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/protocol[@id="+irb+"]/study-nature/text()");
+				Cell infoCell4 = dataRow.createCell(4);
+				infoCell4.setCellValue(createHelper.createRichTextString(studyNature));
+				
+				
+				String college = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/protocol[@id="+irb+"]/responsible-department/@collegedesc");
+				Cell infoCell5 = dataRow.createCell(5);
+				infoCell5.setCellValue(createHelper.createRichTextString(college));
+				
+				
+				String department = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/protocol[@id="+irb+"]/responsible-department/@deptdesc");
+				Cell infoCell6 = dataRow.createCell(6);
+				infoCell6.setCellValue(createHelper.createRichTextString(department));
+			}
+			
+			int tryUploadTime =5;
+			
+			ByteArrayOutputStream fileData = new ByteArrayOutputStream();;
+			wb.write(fileData);
+			UploadedFile uploadedFile = null;
+			while(uploadedFile == null&&tryUploadTime>0){
+				uploadedFile = fileGenerateAndSaveService
+						.processFileGenerateAndSave(user, "Bookmark Search Result", new ByteArrayInputStream(fileData.toByteArray()), "xls",
+								"bookmark search result");
+			tryUploadTime--;
+			}
+			messageDigest = MessageDigest.getInstance("SHA-256",
+					new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+			messageDigest.update(fileData.toByteArray());
+			String hashFileName = new String(Hex.encode(messageDigest.digest()))+".xls";
+			fileUrl = fileServer+"/user/"+user.getId()+"/"+hashFileName;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		logger.debug(fileUrl);
+		return fileUrl;
+		
+		
+	}
 
 	private List<String> protocolSearchCriteriaResolver(
 			List<ProtocolSearchCriteria> searchCriteria) {
@@ -110,6 +223,18 @@ public class ProtocolDao extends AbstractDomainDao<Protocol> {
 							.add("meta_data_xml.exist('/protocol/title/text()[fn:contains(fn:upper-case(.), \""
 									+ p.getKeyword().toUpperCase()
 									+ "\")]') = 0");
+				default:
+					break;
+				}
+			}
+				break;
+			case PROTOCOL_APPROVAL_STATUS: {
+				switch (p.getSearchOperator()) {
+				case EQUALS:
+					xPathCriteria
+							.add("meta_data_xml.exist('/protocol/most-recent-study/approval-status/text()[. = \""
+									+ p.getKeyword() + "\"]') = 1");
+					break;
 				default:
 					break;
 				}
@@ -328,6 +453,17 @@ public class ProtocolDao extends AbstractDomainDao<Protocol> {
 				}
 			}
 				break;
+			case PHARMACY_FEE_WAIVED: {
+				switch (p.getSearchOperator()) {
+				case EQUALS:
+					xPathCriteria
+							.add("meta_data_xml.exist('/protocol/summary/pharmacy-determination/pharmacy-fee-waived[text()=\""+ p.getKeyword() +"\"]') = 1");
+					break;
+				default:
+					break;
+				}
+			}
+				break;
 			case STUDY_TYPE: {
 				switch (p.getSearchOperator()) {
 				case CONTAINS:
@@ -336,11 +472,18 @@ public class ProtocolDao extends AbstractDomainDao<Protocol> {
 									+ p.getKeyword().toUpperCase()
 									+ "\")]') = 1");
 					break;
-				case EQUALS:
-					xPathCriteria
-							.add("meta_data_xml.exist('/protocol/study-type/text()[. = \""
-									+ p.getKeyword() + "\"]') = 1");
+				case EQUALS:{
+					if(subStudyTypeList.contains(p.getKeyword())){
+						xPathCriteria
+						.add("meta_data_xml.exist('/protocol/study-type[text() = \"investigator-initiated\"]/investigator-initiated/investigator-description/text()[. = \""+ p.getKeyword() + "\"]')=1");
+					}else{
+						xPathCriteria
+						.add("meta_data_xml.exist('/protocol/study-type/text()[. = \""
+								+ p.getKeyword() + "\"]') = 1");
+					}
+					
 					break;
+					}
 				case DOES_NOT_CONTAIN:
 					xPathCriteria
 							.add("meta_data_xml.exist('/protocol/study-type/text()[fn:contains(fn:upper-case(.), \""
@@ -459,12 +602,16 @@ public class ProtocolDao extends AbstractDomainDao<Protocol> {
 			case PENDING_PI_ACTION: {
 				switch (p.getSearchOperator()) {
 				case IS:
+					/*
 					xPathCriteria
 							.add("p.id IN (SELECT DISTINCT pform.protocol_id FROM protocol_form pform WHERE pform.id in (SELECT MAX(pf.id) FROM protocol_form pf where retired =0 group by pf.parent_id)"
 									+ " and pform.id in (SELECT pfstatus.protocol_form_id FROM protocol_form_status pfstatus WHERE pfstatus.id  IN (SELECT MAX(pfs.id) FROM protocol_form pf, protocol_form_status pfs"
 									+ " WHERE pf.retired = :retired AND pfs.retired = :retired AND pf.id = pfs.protocol_form_id GROUP BY pfs.protocol_form_id)"
 									+ " AND pfstatus.protocol_form_status IN ('PENDING_PI_ENDORSEMENT','REVISION_PENDING_PI_ENDORSEMENT','PENDING_PI_SIGN_OFF','IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES','IRB_DEFERRED_WITH_MINOR_CONTINGENCIES',"
 									+ "'REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT','REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT','PENDING_TP_ENDORSEMENT')))");
+									*/
+					xPathCriteria
+					.add("meta_data_xml.exist('/protocol/form-pending-pi-action/text()[. = \"y\"]') = 1");
 					break;
 				default:
 					break;
@@ -786,6 +933,8 @@ public class ProtocolDao extends AbstractDomainDao<Protocol> {
 
 		return q.getResultList();
 	}
+	
+	
 
 	@Transactional(readOnly = true)
 	public PagedList<Protocol> listPagedProtocolMetaDatasByUserAndSearchCriteriaAndProtocolStatusFilter(
@@ -1128,6 +1277,23 @@ public class ProtocolDao extends AbstractDomainDao<Protocol> {
 		query.setHint("org.hibernate.cacheable", true);
 
 		return query.getResultList();
+	}
+
+	public FileGenerateAndSaveService getFileGenerateAndSaveService() {
+		return fileGenerateAndSaveService;
+	}
+
+	@Autowired(required=true)
+	public void setFileGenerateAndSaveService(FileGenerateAndSaveService fileGenerateAndSaveService) {
+		this.fileGenerateAndSaveService = fileGenerateAndSaveService;
+	}
+
+	public String getFileServer() {
+		return fileServer;
+	}
+
+	public void setFileServer(String fileServer) {
+		this.fileServer = fileServer;
 	}
 
 }

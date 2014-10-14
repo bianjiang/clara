@@ -349,7 +349,7 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 		String xpathWhereClause = "";
 		
 		if (quickSearchKeyword != null && !quickSearchKeyword.isEmpty()) {
-			xpathWhereClause = "CONTAINS(meta_data_xml, '"+ quickSearchKeyword +"')";
+			xpathWhereClause = "CONTAINS(meta_data_xml, '"+ quickSearchKeyword.replace(" ", "%") +"')";
 			
 			//@tickt #2869 
 			//if quick search by protocol id, should search by both meta data and related object table

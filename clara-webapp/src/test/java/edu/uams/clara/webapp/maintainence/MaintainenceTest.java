@@ -4,12 +4,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
+
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
@@ -20,14 +23,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
+import edu.uams.clara.core.util.xml.DomUtils;
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
@@ -46,12 +59,15 @@ import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDocumentDao;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
+import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
+import edu.uams.clara.webapp.protocol.objectwrapper.BudgetProcedureDefault;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -84,8 +100,13 @@ public class MaintainenceTest {
 	
 	private FormService formService;
 	
+	private ResourceLoader resourceLoader;
+	
 	@Value("${documentTypesXml.url}")
 	private String documentTypesXml;
+	
+	@Value("${budget.procedure.defaults.json.url}")
+	private String budgetProcedureDefaultsJson;
 	
 	//@Test
 	public void generateEpicCDM() throws Exception {
@@ -147,7 +168,10 @@ public class MaintainenceTest {
 	public void generateEpicCDMForIndividualStudy() throws Exception {
 		
 		try{
-			Protocol protocol = protocolDao.findById(201766l);
+			ProtocolForm protocolForm = protocolFormDao.findById(23525l);
+			//Protocol protocol = protocolDao.findById(201766l);
+			
+			Protocol protocol = protocolForm.getProtocol();
 
 			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
 			
@@ -155,51 +179,63 @@ public class MaintainenceTest {
 			
 			String budgetApproveDate = "";
 			
+			String fileName = "";
+			
 			budgetApproveDate = xmlHandler.getSingleStringValueByXPath(protocolMetaXml, "/protocol/summary/budget-determination/approval-date");
 			
-			if(!budgetApproveDate.isEmpty()){
-				ProtocolFormXmlData pfxd = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(19175, ProtocolFormXmlDataType.BUDGET);
-				String budgetXmlData = pfxd.getXmlData();
+			ProtocolFormXmlData pfxd = protocolFormXmlDataDao.getLastProtocolFormXmlDataByProtocolFormIdAndType(protocolForm.getId(), ProtocolFormXmlDataType.BUDGET);
+			
+			String budgetXmlData = pfxd.getXmlData();
+			
+			long protocolId = pfxd.getProtocolForm().getProtocol().getId();
+			//logger.debug("protooclId: " + protocolId);
+			
+			fileName = ""+ protocolId +" HB "+ budgetApproveDate.replace("/", "-") +".csv";
+			
+			if (protocolForm.getProtocolFormType().equals(ProtocolFormType.MODIFICATION)) {
+				Date now = new Date();
 				
-				long protocolId = pfxd.getProtocolForm().getProtocol().getId();
-				logger.debug("protooclId: " + protocolId);
+				budgetApproveDate = DateFormatUtil.formateDateToMDY(now);
+						
+				fileName = ""+ protocolId +" Modification HB "+ budgetApproveDate.replace("/", "-") +".csv";
+			}
+			
+			CSVWriter writer = new CSVWriter(new FileWriter("C:\\Data\\epic\\" + fileName));
+			
+			try {
+				List<String> cpdCodeLst = xmlProcessor.getAttributeValuesByPathAndAttributeName("/budget/epochs/epoch/procedures/procedure[@type=\"normal\"]", budgetXmlData, "cptcode");
 				
-				CSVWriter writer = new CSVWriter(new FileWriter("C:\\Data\\epic\\"+ protocolId +" HB "+ budgetApproveDate.replace("/", "-") +".csv"));
-				
-				try {
-					List<String> cpdCodeLst = xmlProcessor.getAttributeValuesByPathAndAttributeName("/budget/epochs/epoch/procedures/procedure[@type=\"normal\"]", budgetXmlData, "cptcode");
+				if (cpdCodeLst.size() > 0){
+					Set<String> cpdCodeSet = new HashSet<String>(cpdCodeLst);
 					
-					if (cpdCodeLst.size() > 0){
-						Set<String> cpdCodeSet = new HashSet<String>(cpdCodeLst);
+					for (String cptCode : cpdCodeSet){
 						
-						for (String cptCode : cpdCodeSet){
+						try {
 							
-							try {
-								
-								String epicCdmCode = epicCdmByCptCodeDao.getEpicCdmByCptCode(cptCode);
-								logger.debug("cptCode: " + cptCode + " cdm code: " + epicCdmCode);
-								String cost = xmlProcessor.getAttributeValueByPathAndAttributeName("/budget/epochs/epoch/procedures/procedure[@type=\"normal\" and @cptcode=\""+ cptCode +"\"]/hosp", budgetXmlData, "cost");
-								logger.debug("cost: " + cost);
-								//logger.debug("protooclId: " + protocolId + "cpt code: " + cptCode + " epic cdm code: " + epicCdmCode + " cost: " + cost);
+							//String epicCdmCode = epicCdmByCptCodeDao.getEpicCdmByCptCode(cptCode);
+							//logger.debug("cptCode: " + cptCode + " cdm code: " + epicCdmCode);
+							String cost = xmlProcessor.getAttributeValueByPathAndAttributeName("/budget/epochs/epoch/procedures/procedure[@type=\"normal\" and @cptcode=\""+ cptCode +"\"]/hosp", budgetXmlData, "cost");
+							logger.debug("cost: " + cost);
+							//logger.debug("protooclId: " + protocolId + "cpt code: " + cptCode + " epic cdm code: " + epicCdmCode + " cost: " + cost);
 
-								String[] entry = {String.valueOf(protocolId), epicCdmCode, cost};
-								
-								writer.writeNext(entry);
-								
-							} catch (Exception e) {
-								
-							}
+							String[] entry = {String.valueOf(protocolId), cptCode, cost};
+							
+							writer.writeNext(entry);
+							
+						} catch (Exception e) {
+							
 						}
-						
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+					
 				}
-				
-				writer.close();
-
-			}}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
+			}
+			
+			writer.close();
+
+			} catch (Exception ex){
+				ex.printStackTrace();
 			}
 		
 	}
@@ -515,7 +551,7 @@ public class MaintainenceTest {
 		paths.add("/protocol/funding/funding-source/@type");
 	}
 	
-	@Test
+	//@Test
 	public void testFunction() {
 		Map<String, List<String>> results = null;
 		
@@ -526,6 +562,222 @@ public class MaintainenceTest {
 					pf.getMetaDataXml());
 			
 			logger.debug("final: " + results.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void updatePharmacyIndividualWaiveAttribute() {
+		List<ProtocolFormXmlData> list = this.maintainenceDao.listPharmacyXmlData(); 
+		logger.debug("@@@@@@@@@@ size: " + list.size());
+		for (ProtocolFormXmlData pfxd : list) {
+			String xmlData = pfxd.getXmlData();
+			try {
+				//String waivedOrNot = xmlProcessor.getAttributeValueByPathAndAttributeName("/pharmacy", xmlData, "waived");
+				
+				//xmlData = xmlProcessor.replaceAttributeValueByPathAndAttributeName("/pharmacy/expenses/expense", "waived", xmlData, waivedOrNot);
+				
+				//pfxd.setXmlData(xmlData);
+				
+				//pfxd = protocolFormXmlDataDao.saveOrUpdate(pfxd);
+				//Map<String, String> attributes = Maps.newHashMap();
+				
+				//String waivedOrNot = xmlProcessor.getAttributeValueByPathAndAttributeName("/pharmacy", xmlData, "waived");
+				
+				//attributes.put("initial-waived", waivedOrNot);
+				
+				xmlData = xmlProcessor.deleteAttributeByPathAndAttributeName("/pharmacy", "waived", xmlData);
+				
+				pfxd.setXmlData(xmlData);
+				
+				pfxd = protocolFormXmlDataDao.saveOrUpdate(pfxd);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
+	//@Test
+	public void updatePendingPIActionTagInMetaData() {
+		List<ProtocolForm> pfList = maintainenceDao.listPendingPIActionForms();
+		
+		logger.debug("@@@@@@@@@@ size: " + pfList.size());
+		
+		for (ProtocolForm pf : pfList) {
+			Protocol p = pf.getProtocol();
+			
+			String protocolMetaData = p.getMetaDataXml();
+			
+			try {
+				protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/form-pending-pi-action", protocolMetaData, "y");
+				
+				p.setMetaDataXml(protocolMetaData);
+				
+				p = protocolDao.saveOrUpdate(p);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	//@Test
+	public void updatePharmacyFeeWaivedField() {
+		try {
+			List<ProtocolFormCommitteeStatus> list = this.maintainenceDao.listPharmacyApprovedCommitteeStatus();
+			
+			for (ProtocolFormCommitteeStatus pfcs : list) {
+				ProtocolForm pf = pfcs.getProtocolForm();
+				
+				ProtocolFormXmlData pharmacyPfxd = pf.getTypedProtocolFormXmlDatas().get(ProtocolFormXmlDataType.PHARMACY);
+				
+				String waivedOrNot = "";
+				
+				try {
+					waivedOrNot = xmlProcessor.getAttributeValueByPathAndAttributeName("/pharmacy", pharmacyPfxd.getXmlData(), "initial-waived").equals("true")?"y":"n";
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				String protocolFormMeta = pf.getMetaDataXml();
+				
+				try {
+					protocolFormMeta = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/pharmacy-determination/pharmacy-fee-waived", protocolFormMeta, waivedOrNot);
+					
+					pf.setMetaDataXml(protocolFormMeta);
+					
+					pf = protocolFormDao.saveOrUpdate(pf);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				Protocol p = pf.getProtocol();
+				
+				String protocolMeta = p.getMetaDataXml();
+				
+				try {
+					protocolMeta = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/pharmacy-determination/pharmacy-fee-waived", protocolMeta, waivedOrNot);
+					
+					p.setMetaDataXml(protocolMeta);
+					
+					p = protocolDao.saveOrUpdate(p);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private List<ProtocolFormStatusEnum> protocolStatusList = Lists.newArrayList();{
+		protocolStatusList.add(ProtocolFormStatusEnum.IRB_ACKNOWLEDGED);
+		protocolStatusList.add(ProtocolFormStatusEnum.IRB_APPROVED);
+		protocolStatusList.add(ProtocolFormStatusEnum.EXPEDITED_APPROVED);
+		protocolStatusList.add(ProtocolFormStatusEnum.EXEMPT_APPROVED);
+	}
+	
+	private Map<String, String> xPathPairs = new HashMap<String, String>();{
+		xPathPairs
+		.put("/protocol/responsible-department",
+				"/protocol/responsible-department");
+	}
+	
+	//@Test
+	public void updateProtocolMetaData(){
+		List<Protocol> protocolList = maintainenceDao.listProtocolMissingDepartmentList();
+		
+		logger.debug("size: " + protocolList.size());
+		
+		for (Protocol p : protocolList) {
+			logger.debug("@@@@@@@@@@@ id: " + p.getId());
+			if (p.getId() == 976) continue;
+			
+			logger.debug("@@@@@@@@@@@ start processing id: " + p.getId());
+			try {
+				ProtocolForm pf = protocolFormDao.getLatestProtocolFormByProtocolIdAndProtocolFormTypeAndProtocolFormStatues(p.getId(), ProtocolFormType.MODIFICATION, protocolStatusList);
+				
+				if (pf != null) {
+					String protocolFormMetaDataXml = pf.getMetaDataXml();
+					
+					String protocolMetaData = p.getMetaDataXml();
+					
+					ProtocolFormXmlData pfxd = pf.getTypedProtocolFormXmlDatas().get(pf.getProtocolFormType().getDefaultProtocolFormXmlDataType());
+					
+					protocolFormMetaDataXml = xmlProcessor.mergeByXPaths(
+							protocolFormMetaDataXml, pfxd.getXmlData(),
+							XmlProcessor.Operation.UPDATE_IF_EXIST,
+							xPathPairs);
+					
+					pf.setMetaDataXml(protocolFormMetaDataXml);
+					
+					pf = protocolFormDao.saveOrUpdate(pf);
+					
+					protocolMetaData = xmlProcessor.mergeByXPaths(
+							protocolMetaData, pf.getMetaDataXml(),
+							XmlProcessor.Operation.UPDATE_IF_EXIST,
+							xPathPairs);
+					
+					p.setMetaDataXml(protocolMetaData);
+					
+					p = protocolDao.saveOrUpdate(p);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	//@Test
+	public void updateExistingBudgetAddingPanelCodeToBillingNotes() {
+		String testPath = "file:src/test/java/edu/uams/clara/webapp/maintainence/budget-procedure-defaults.json";
+				
+		Resource  budgetProcedureDefaultsJsonFileResource = resourceLoader.getResource(testPath);
+		
+		try {
+			String content = new Scanner(budgetProcedureDefaultsJsonFileResource.getFile()).useDelimiter("\\Z").next();
+			
+			JavaType listOfBudgetProcedureDefaults = TypeFactory.defaultInstance().constructCollectionType(ArrayList.class, BudgetProcedureDefault.class);
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			
+			XPath xPath = xmlProcessor.getXPathInstance();
+			
+			List<BudgetProcedureDefault> bpdfList = objectMapper.readValue(content, listOfBudgetProcedureDefaults);
+			
+			for (BudgetProcedureDefault bpdf : bpdfList) {
+				List<ProtocolFormXmlData> budgetWithCptCodeList = this.maintainenceDao.listBudgetXmlDataByCptCode(bpdf.getCptCode());
+				
+				for (ProtocolFormXmlData pfxd : budgetWithCptCodeList) {
+					String xmlData = pfxd.getXmlData();
+					
+					Document doc = xmlProcessor.loadXmlStringToDOM(xmlData);
+					
+					String xpathStr = "//procedure[@cptcode='"+ bpdf.getCptCode() +"']/notes";
+							
+					NodeList procedureNodeList = (NodeList) xPath.evaluate(
+							xpathStr, doc,
+							XPathConstants.NODESET);
+					
+					for (int i = 0; i < procedureNodeList.getLength(); i++) {
+						Element currentEl = (Element) procedureNodeList.item(i);
+						
+						String billingNote = currentEl.getTextContent();
+						logger.debug("before billing note: " + billingNote);
+						billingNote = bpdf.getDefaults().getBillingNotes() + "\n" + billingNote;
+						logger.debug("after billing note: " + billingNote);
+						currentEl.setTextContent(billingNote);
+					}
+					
+					xmlData = DomUtils.elementToString(doc);
+					
+					pfxd.setXmlData(xmlData);
+					pfxd = protocolFormXmlDataDao.saveOrUpdate(pfxd);
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -647,5 +899,23 @@ public class MaintainenceTest {
 	@Autowired(required = true)
 	public void setEpicCdmByCptCodeDao(EpicCdmByCptCodeDao epicCdmByCptCodeDao) {
 		this.epicCdmByCptCodeDao = epicCdmByCptCodeDao;
+	}
+
+	public ResourceLoader getResourceLoader() {
+		return resourceLoader;
+	}
+	
+	@Autowired(required = true)
+	public void setResourceLoader(ResourceLoader resourceLoader) {
+		this.resourceLoader = resourceLoader;
+	}
+
+	public String getBudgetProcedureDefaultsJson() {
+		return budgetProcedureDefaultsJson;
+	}
+
+	public void setBudgetProcedureDefaultsJson(
+			String budgetProcedureDefaultsJson) {
+		this.budgetProcedureDefaultsJson = budgetProcedureDefaultsJson;
 	}
 }

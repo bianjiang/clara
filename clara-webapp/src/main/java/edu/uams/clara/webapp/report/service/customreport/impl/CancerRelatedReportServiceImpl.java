@@ -277,7 +277,9 @@ private  List<String> reviewTypes = Lists.newArrayList();
 		
 		finalResultXml =finalResultXml.replace("<![CDATA[null]]>", "");
 		finalResultXml =finalResultXml.replace("null&lt;br&gt;", "");
-		
+		if(finalResultXml.contains("&")){
+			finalResultXml=finalResultXml.replaceAll("&", "&amp;");
+		}
 		
 		return finalResultXml;
 	}

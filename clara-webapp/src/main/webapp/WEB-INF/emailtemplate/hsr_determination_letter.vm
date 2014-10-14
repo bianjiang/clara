@@ -1,0 +1,53 @@
+<html>
+<head>
+	<link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div class="email-template">	
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
+	<strong>Institutional Review Board</strong><br/>
+	4301 West Markham, #636<br/>
+	Little Rock, AR 72205-7199<br/>
+	501-686-5667<br/>
+	501-686-7265 (fax)<br/>
+	<a href="http://http://irb.uams.edu/" target = "_blank">http://irb.uams.edu/</a>
+	
+	<br/><br/>FWA00001119
+	
+	<br/><br/>$currentDate
+	
+	<br/><br/><strong>PI Name:</strong>  $piUser.person.getFullname()
+	<br/><strong>PI Department:</strong> $piUser.person.department
+	
+	<br/><strong>Project Title:</strong> $protocolTitle
+	
+	<br/><br/>HUMAN SUBJECT RESEARCH DETERMINATION
+
+	<br/><br/>The Institutional Review Board reviewed your materials and determined that this project is human subject research as defined in 45 CFR 46.102. Therefore, this study falls under the jurisdiction of the IRB review process.  
+	
+	<br/><br/>
+	<strong>Committee Notes/Comments:</strong>
+	<br/>
+	#if ($inLetterComments.size() > 0)
+		<ul>
+		#foreach($comment in ${inLetterComments}) 
+		<li>$comment.text</li>#end
+		</ul>
+	#end
+	$emailComment
+	{0}
+
+	<br/></br>Please submit the protocol for IRB review using the New Submission Form. 
+	
+	<br/></br>If you have any questions, please contact an IRB administrator at 501-686-5667.<br/>
+	
+	<br/>
+	<a href=$protocolLink>Click here to access study.</a>
+	
+	<br/><br/>
+	$signature
+	
+</div>
+</body>
+</html>

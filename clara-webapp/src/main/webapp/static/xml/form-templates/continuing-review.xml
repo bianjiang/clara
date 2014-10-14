@@ -67,7 +67,7 @@
 					</question>
 				</sub-questions>
 			</question>
-			<question id="question-unanticipated-problems-involving-risks" parent-id="" parent-value="" header="">
+			<!-- <question id="question-unanticipated-problems-involving-risks" parent-id="" parent-value="" header="">
 				<question-label>Have there been any unanticipated problems involving risks to subjects or others since your last report?</question-label>
 				<question-value instance-path="/continuing-review/study-report/unanticipated-problems-involving-risks" value-type="yesNo" />
 				<sub-questions>
@@ -76,7 +76,7 @@
 						<question-value instance-path="/continuing-review/study-report/unanticipated-problems-involving-risks/y/explain" value-type="textarea" />
 					</question>
 				</sub-questions>
-			</question>
+			</question> -->
 			<question id="question-subjects-withdrawn-from-research" parent-id="" parent-value="" header="">
 				<question-label>Have any subjects withdrawn from the research since your last report?</question-label>
 				<question-value instance-path="/continuing-review/study-report/subjects-withdrawn-from-research" value-type="yesNo" />
@@ -206,6 +206,10 @@
 						<question-value instance-path="/continuing-review/study-report/any-deviations/y/explain" value-type="textarea" />
 					</question>
 				</sub-questions>
+			</question>
+			<question id="question-deviations-how-many" parent-id="question-any-deviations" parent-value="y" header="Yes">
+				<question-label>How many?</question-label>
+				<question-value instance-path="/continuing-review/study-report/any-deviations/y/deviations-how-many" value-type="textarea" />
 			</question>
 			<question id="question-deviations-occur-in-pattern" parent-id="question-any-deviations" parent-value="y" header="Yes">
 				<question-label>Did the protocol deviations/violations occur in a pattern that indicates a need to revise study processes?</question-label>

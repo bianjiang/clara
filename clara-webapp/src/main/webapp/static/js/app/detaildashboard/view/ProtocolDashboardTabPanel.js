@@ -2,7 +2,7 @@ Ext.define('Clara.DetailDashboard.view.ProtocolDashboardTabPanel',{
 	extend: 'Ext.tab.Panel',
 	alias: 'widget.protocoldashboardtabpanel',
 	border:false,
-	requires:['Clara.DetailDashboard.view.HistoryPanel','Clara.DetailDashboard.view.LetterPanel','Clara.DetailDashboard.view.FormDetailPanel','Clara.Documents.view.DocumentPanel'],
+	requires:['Clara.DetailDashboard.view.related.ProjectPanel','Clara.DetailDashboard.view.HistoryPanel','Clara.DetailDashboard.view.LetterPanel','Clara.DetailDashboard.view.FormDetailPanel','Clara.Documents.view.DocumentPanel'],
 	initComponent: function(){
 		this.activeTab = 2;
 		this.items=[{
@@ -34,6 +34,10 @@ Ext.define('Clara.DetailDashboard.view.ProtocolDashboardTabPanel',{
 		},{
 			xtype:'relatedcontractpanel',
 			title:'Related Contracts',
+			iconCls:'icn-document-tree'
+		},{
+			xtype:'relatedprojectpanel',
+			title:'Related Projects',
 			iconCls:'icn-document-tree'
 		}];
 		this.callParent();

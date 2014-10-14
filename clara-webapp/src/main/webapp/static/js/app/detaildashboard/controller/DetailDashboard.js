@@ -1,11 +1,12 @@
 Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
     extend: 'Ext.app.Controller',
-    models: ['Clara.Common.model.Protocol','Clara.Common.model.Contract','Clara.DetailDashboard.model.History'],
-    stores: ['Clara.Common.store.Protocols','Clara.Common.store.Contracts','Clara.DetailDashboard.store.History'],
+    models: ['Clara.Common.model.Protocol','Clara.Common.model.Project','Clara.Common.model.Contract','Clara.DetailDashboard.model.History'],
+    stores: ['Clara.Common.store.Protocols','Clara.DetailDashboard.store.RelatedProjects','Clara.Common.store.Contracts','Clara.DetailDashboard.store.History'],
     
     refs: [{ ref: 'historyPanel', selector: 'historypanel'},
            { ref:'addRelatedContractWindow', selector:'addrelatedcontractwindow'},
            { ref:'addRelatedProtocolWindow', selector:'addrelatedprotocolwindow'},
+           { ref:'addRelatedProjectWindow', selector:'addrelatedprojectwindow'},
            { ref:'letterPanel', selector: 'letterpanel'}],
    
     loadingMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
@@ -25,6 +26,9 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
     		'relatedprotocolpanel':{
     			itemclick : me.onRelatedProtocolSelect
     		},
+    		'relatedprojectpanel':{
+    			itemclick : me.onRelatedProjectSelect
+    		},
     		'addrelatedcontractwindow commoncontractgridpanel':{
     			itemclick : me.onAddContractSelect
     		},
@@ -42,9 +46,20 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
     		'#btnRemoveRelatedContract':{
     			click: function() { me.removeRelatedObject("contract"); }
     		},
+    		'#btnRemoveRelatedProject':{
+    			click: function() { me.removeRelatedObject("project"); }
+    		},
     		'#btnAddRelatedContract':{
     			click: function(){
     				Ext.create('Clara.DetailDashboard.view.related.AddContractWindow',{}).show();
+    			}
+    		},
+    		'#fldAddRelatedProjectPRN':{
+    			change: me.onAddProjectSelect
+    		},
+    		'#btnAddRelatedProject':{
+    			click: function(){
+    				Ext.create('Clara.DetailDashboard.view.related.AddProjectWindow',{}).show();
     			}
     		},
     		'#btnAddSelectedProtocol':{
@@ -52,6 +67,47 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
     		},
     		'#btnAddSelectedContract':{
     			click: me.addSelectedObject
+    		},
+    		'#btnAddSelectedProject':{
+    			click: function(){
+    				// Projects are tricky, because there is no record yet.
+ 
+    		    	var nv = Ext.getCmp("fldAddRelatedProjectPRN").getValue();
+    		    	url = appContext + "/ajax/protocols/protocol-forms/grant/" + nv;
+    				var rec = null;
+    				
+    				jQuery.ajax({
+    					async: false,
+    					url: url,
+    					type: "get",
+    					dataType: 'xml',
+    					error: function(data){
+    						clog("PRN AJAX DATA:",data);
+    						
+    						var r = jQuery.parseJSON(data.responseText);
+    						if (r.error == false){
+    							if (r.data && r.data.id && r.data.id > 0){
+    							
+    								rec = Ext.create('Clara.Common.model.Project',{
+    									id:r.data.id,
+    									identifier:r.data.prn,
+    									prn:r.data.prn,
+    									piName:r.data.piName,
+    									title:r.data.grantTitle
+    								});
+
+    						    	clog("Project selected",rec);
+    						    	me.selectedRelatedObject = rec;
+    						    	me.selectedRelatedObject.relatedObjectType = "project";
+    						    	me.addSelectedObject();
+    							}
+    						} else {
+    							alert(r.message);
+    							return false;
+    						}
+    				    }
+    				});
+    			}
     		},
     		'#btnToggleGroupHistory':{
         		toggle:me.onToggleGroupHistory
@@ -120,15 +176,27 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
 			.request({
 				url : appContext+"/ajax/add-related-object",
 				method : 'POST',
+				failure: function(r,o){
+					cwarn("addSelectedObject: AJAX Error",r,o);
+				},
 				success : function() {
 					if (piwik_enabled()){
 						_paq.push(['trackEvent', 'DDB_RELATED', 'Added related object']);
 					}
-				  if (me.selectedRelatedObject.relatedObjectType == "protocol") me.getAddRelatedProtocolWindow().close();
-			      else me.getAddRelatedContractWindow().close();
-				  var store = Ext.data.StoreManager.lookup((me.selectedRelatedObject.relatedObjectType == "protocol")?'Clara.DetailDashboard.store.RelatedProtocols':'Clara.DetailDashboard.store.RelatedContracts');
- 				  if (me.selectedRelatedObject.relatedObjectType == "protocol") store.loadRelatedProtocols();
- 				  else store.loadRelatedContracts();
+				  if (me.selectedRelatedObject.relatedObjectType == "protocol") {
+					  me.getAddRelatedProtocolWindow().close();
+					  var store = Ext.data.StoreManager.lookup('Clara.DetailDashboard.store.RelatedProtocols');
+					  store.loadRelatedProtocols();
+				  } else if (me.selectedRelatedObject.relatedObjectType == "contract") {
+					  me.getAddRelatedContractWindow().close();
+					  var store = Ext.data.StoreManager.lookup('Clara.DetailDashboard.store.RelatedContracts');
+					  store.loadRelatedContracts();
+				  } else {		// Projects
+					  me.getAddRelatedProjectWindow().close();
+					  var store = Ext.data.StoreManager.lookup('Clara.DetailDashboard.store.RelatedProjects');
+					  store.loadRelatedProjects();
+				  }
+			     
  				  me.selectedRelatedObject = {};
 				},
 				params : {
@@ -157,10 +225,16 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
     	Ext.getCmp("btnAddSelectedProtocol").setDisabled(false);
     },
 
+    onAddProjectSelect: function(fld,nv,ov){
+    
+    	Ext.getCmp("btnAddSelectedProject").setDisabled(nv === "");	
+    	
+    },
+    
     removeRelatedObject: function(){
     	var me = this,
     		objectType = me.selectedRelatedObject.relatedObjectType,
-    		objectTypeCap = (objectType == "protocol")?"Protocol":"Contract";
+    		objectTypeCap = Ext.util.Format.capitalize(objectType); 
     	clog("About to remove related object. Rec:",me.selectedRelatedObject);
     	Ext.Msg.show({
  		   title:'Remove related '+objectType+'?',
@@ -180,7 +254,8 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
 		    				  me.selectedRelatedObject = {};
 		    				  var store = Ext.data.StoreManager.lookup('Clara.DetailDashboard.store.Related'+objectTypeCap+'s');
  		    				  if (objectType == "protocol") store.loadRelatedProtocols();
- 		    				  else store.loadRelatedContracts();
+ 		    				  else if (objectType == "contract") store.loadRelatedContracts();
+ 		    				  else store.loadRelatedProjects();
  						},
  						params : {
  							objectId: claraInstance.id,
@@ -203,6 +278,14 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
     	me.selectedRelatedObject = rec;
     	me.selectedRelatedObject.relatedObjectType = "protocol";
     	Ext.getCmp("btnRemoveRelatedProtocol").setDisabled(false);
+    },
+    
+    onRelatedProjectSelect: function(gp, rec, item){
+    	var me = this;
+    	clog("RelatedProject selected",rec);
+    	me.selectedRelatedObject = rec;
+    	me.selectedRelatedObject.relatedObjectType = "project";
+    	Ext.getCmp("btnRemoveRelatedProject").setDisabled(false);
     },
     
     onRelatedContractSelect: function(gp, rec, item){

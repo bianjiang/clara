@@ -112,6 +112,7 @@ Ext.define('Clara.Documents.view.VersionsWindow', {
                   	  	},
 		      	    	handler: function(g,r,c){
 		      	    		var rec = g.getStore().getAt(r);
+		      	    		clog(rec);
 		      	    		Clara.Application.DocumentController.downloadDocument(rec);
 		      	    	}
 		      	    },{

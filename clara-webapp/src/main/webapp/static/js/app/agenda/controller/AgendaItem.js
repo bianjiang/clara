@@ -62,11 +62,14 @@ Ext.define('Clara.Agenda.controller.AgendaItem', {
 		var me = this;
 		var agendaController = Clara.Agenda.app.getController("Agenda");
 		
+		// Choose alternate IRB review, if assigned.
+		var reviewerId = (me.selectedIrbReviewer.get("altuser"))?me.selectedIrbReviewer.get("altuser").irbreviewerid:me.selectedIrbReviewer.get("irbreviewerid")
+		
 		me.loadingMask.show();
 		Ext.Ajax.request({
 			method:'GET',
 			url: appContext + "/ajax/agendas/"+agendaController.selectedAgenda.get("id")+"/agenda-items/"+agendaController.selectedAgendaItem.get("id")+"/agenda-reviewers/assign",
-			params: {userId: claraInstance.user.id, irbReviewerId:me.selectedIrbReviewer.get("irbreviewerid")},
+			params: {userId: claraInstance.user.id, irbReviewerId:reviewerId},
 			success: function(response){
 				clog('removeReviewer: Ext.Ajax success',response);
 				me.loadingMask.hide();

@@ -16,7 +16,7 @@
 <html lang="en">	
 		<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-			<meta http-equiv="X-UA-Compatible" content="IE=8" />		
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />		
 	
 			<tiles:useAttribute id="styles" name="styles" ignore="true" classname="java.util.List" />
 			
@@ -63,7 +63,12 @@
 			<spring:url value="/static/js/ext/ux/ext.ux.printer-all.js" var="js_ext_print"/>
 			<spring:url value="/static/js/ext/ext-all-debug.js" var="js_ext"/><spring:url value="/static/js/ext/ext-uams.js" var="js_ext_uams"/>
 			<spring:url value="/static/js/json2.js" var="js_json2" />
-
+			<spring:url value="/static/js/common/wizard.js" var="js_wizard" />
+			<spring:url value="/static/js/security.js" var="js_security" />
+  		<spring:url value="/static/js/protocol/protocolform/review/reviewer-messagebus.js" var="js_reviewbus" />
+  		<spring:url value="/static/js/protocol/protocolform/review/reviewer-actionform-panel.js"  var="js_reviewactionpanel" />
+  		<spring:url value="/static/js/protocol/protocolform/review/reviewer-contingency-panel.js" var="js_reviewcontingencypanel" />
+  		<spring:url value="/static/js/protocol/protocolform/review/review.js" var="js_review" />
   		
   		
 			
@@ -79,6 +84,13 @@
 			<script type="text/javascript" src="${js_app_config}?ts=${claraBuildNumber}"><!-- // --></script>  
 	
 			<script type="text/javascript" src="${js_ext_print}?ts=${claraBuildNumber}"><!-- // --></script>  
+				<script type="text/javascript" src="${js_wizard}?ts=${claraBuildNumber}"><!-- // --></script>  
+				<script type="text/javascript" src="${js_security}?ts=${claraBuildNumber}"><!-- // --></script>  
+				<script type="text/javascript" src="${js_reviewbus}?ts=${claraBuildNumber}"><!-- // --></script>  
+				<script type="text/javascript" src="${js_reviewactionpanel}?ts=${claraBuildNumber}"><!-- // --></script>  
+				<script type="text/javascript" src="${js_reviewcontingencypanel}?ts=${claraBuildNumber}"><!-- // --></script>  
+				<script type="text/javascript" src="${js_review}?ts=${claraBuildNumber}"><!-- // --></script>  
+			
 			
 			<tiles:useAttribute id="javascripts" name="javascripts" ignore="true" classname="java.util.List" />
 		
@@ -107,7 +119,8 @@
 				});
 				claraInstance.setUser({
 					committee:'${!empty committee?committee:'PI'}',
-					id: ${!empty user?user.id:0}
+					id: ${!empty user?user.id:0},
+					username: "${!empty user?user.username:''}"
 				});
 				
 				
@@ -166,7 +179,7 @@
 		<script type="text/javascript">
 		  var _paq = _paq || [];
 		  _paq.push(['trackPageView']);
-		  _paq.push(['enableLinkTracking']);
+		  _paq.push(['enableLinkTracking']);_paq.push(['setCustomVariable','1','username',((typeof claraInstance === "undefined" || typeof claraInstance.user.username === "undefined")?"unknown":claraInstance.user.username)]);
 		  (function() {
 		    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://clarafs.uams.edu/piwik/";
 		    _paq.push(['setTrackerUrl', u+'piwik.php']);

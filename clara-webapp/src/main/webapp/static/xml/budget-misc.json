@@ -1,5 +1,6 @@
 [{"description":"Adverse Events (Staff Time) ","cost":0, "code":"100"},
 {"description":"Archive Tissue Specimen(s)","cost":0, "code":"101"},
+{"description":"Communication Order","cost":0, "code":"123"},
 {"description":"Concomitant Medications (Staff Time)","cost":0, "code":"102"},
 {"description":"CRF Completion (Staff Time)","cost":0, "code":"103"},
 {"description":"Drug Administration","cost":0, "code":"104"},

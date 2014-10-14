@@ -301,7 +301,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 	
 	private Map<ProtocolFormType, String> questionVersionMap = Maps.newHashMap();{
 		//questionVersionMap.put(ProtocolFormType.NEW_SUBMISSION, "<question-version-id>1.0</question-version-id>");
-		questionVersionMap.put(ProtocolFormType.CONTINUING_REVIEW, "1.2");
+		questionVersionMap.put(ProtocolFormType.CONTINUING_REVIEW, "1.3");
 		questionVersionMap.put(ProtocolFormType.MODIFICATION, "1.0");
 		questionVersionMap.put(ProtocolFormType.STUDY_CLOSURE, "1.0");
 		questionVersionMap.put(ProtocolFormType.REPORTABLE_NEW_INFORMATION, "1.0");
@@ -310,6 +310,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 		questionVersionMap.put(ProtocolFormType.HUMANITARIAN_USE_DEVICE_RENEWAL, "1.0");
 		questionVersionMap.put(ProtocolFormType.STAFF, "1.0");
 		questionVersionMap.put(ProtocolFormType.STUDY_RESUMPTION, "1.0");
+		questionVersionMap.put(ProtocolFormType.OFFICE_ACTION, "1.1");
 	}
 
 	@Override
@@ -399,8 +400,10 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 			//protocolFormXmlString += formService.pullFromOtherForm("/protocol/staffs", p.getMetaDataXml());
 			break;
 		case STUDY_CLOSURE:
-			ProtocolForm crProtocolForm = null;
 			String newSubmissionXml = "";
+			/*
+			ProtocolForm crProtocolForm = null;
+			
 			String crPulledXmlData = "";
 			
 			try {
@@ -424,14 +427,14 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				crPulledXmlData += formService.pullFromOtherForm(
 						"/continuing-review/funding-source", pfxd.getXmlData());
 			}
-			
+			*/
 			
 			newSubmissionXml += formService.pullFromOtherForm("/protocol/staffs",
 					p.getMetaDataXml());
 			newSubmissionXml += formService.pullFromOtherForm("/protocol/original-study", p.getMetaDataXml());
 			newSubmissionXml += formService.pullFromOtherForm("/protocol/most-recent-study", p.getMetaDataXml());
 			
-			protocolFormXmlString += crPulledXmlData + newSubmissionXml;
+			protocolFormXmlString += newSubmissionXml;
 			break;
 		case REPORTABLE_NEW_INFORMATION:
 			protocolFormXmlString = "<is-reportable>n</is-reportable>";
@@ -693,29 +696,47 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 		return fxd;
 	}
 	
+	private Set<String> pathList = Sets.newHashSet();{
+		pathList.add("/protocol/crimson/has-budget");
+		pathList.add("/protocol/budget/potentially-billed");
+		pathList.add("/protocol/budget/need-budget-in-clara");
+		pathList.add("/protocol/modification/to-modify-section/is-audit");
+		pathList.add("/protocol/modification/to-modify-section/involve-change-in/budget-modified");
+		pathList.add("/protocol/modification/to-modify-section/involve-change-in/contract-modified");
+		pathList.add("/protocol/modification/to-modify-section/involve-change-in/pi-modified");
+		pathList.add("/protocol/modification/to-modify-section/involve-addition-deletion-of/procedure");
+		pathList.add("/protocol/modification/to-modify-section/involve-addition-deletion-of/pharmacy");
+		pathList.add("/protocol/modification/to-modify-section/involve-addition-deletion-of/subjects");
+		pathList.add("/protocol/modification/to-modify-section/amendment-to-injury");
+		pathList.add("/protocol/modification/to-modify-section/submit-to-medicare");
+		pathList.add("/protocol/modification/to-modify-section/conduct-under-uams");
+		pathList.add("/protocol/study-nature");
+		pathList.add("/protocol/study-nature/hud-use/where");
+		pathList.add("/protocol/study-type");
+		pathList.add("/protocol/site-responsible");
+		pathList.add("/protocol/migrated");
+		pathList.add("/protocol/modification/to-modify-section/complete-budget-migration");
+		pathList.add("/protocol/need-budget");
+		pathList.add("/emergency-use/basic-details/ieu-or-eu");
+	}
+	
 	@Override
 	public String workFlowDetermination(ProtocolFormXmlData protocolFormXmlData) {
 		String workflow = "";
 		
 		String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
-
+		
 		try{
-			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+			Map<String, List<String>> values = getXmlProcessor().listElementStringValuesByPaths(pathList, protocolFormXmlDataString);
 			
 			switch(protocolFormXmlData.getProtocolFormXmlDataType()){
 			case PROTOCOL:
-				String studyNaturePath = "/protocol/study-nature";
-				
-				List<String> studyNatureValues = xmlProcessor.listElementStringValuesByPath(studyNaturePath, protocolFormXmlDataString);
-				
-				String studyNatureValue = (studyNatureValues!=null && !studyNatureValues.isEmpty())?studyNatureValues.get(0):"";
-				
-				//String siteId = xmlProcessor.getAttributeValueByPathAndAttributeName("/protocol/study-sites/site", protocolFormXmlDataString, "site-id");
+				String studyNatureValue = (values.get("/protocol/study-nature") != null && !values.get("/protocol/study-nature").isEmpty())?values.get("/protocol/study-nature").get(0):"";
 				
 				List<String> siteIds = xmlProcessor.getAttributeValuesByPathAndAttributeName("/protocol/study-sites/site", protocolFormXmlDataString, "site-id");
 
 				if (studyNatureValue.equals("hud-use")){
-					String hudSite = xmlHandler.getSingleStringValueByXPath(protocolFormXmlDataString, "/protocol/study-nature/hud-use/where");
+					String hudSite = (values.get("/protocol/study-nature/hud-use/where") != null && !values.get("/protocol/study-nature/hud-use/where").isEmpty())?values.get("/protocol/study-nature/hud-use/where").get(0):"";
 					
 					if (hudSite.equals("uams")) {
 						workflow = "HUD";
@@ -724,18 +745,12 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 					}
 					
 				} else {
-					List<String> primaryResValues = xmlProcessor.listElementStringValuesByPath("/protocol/site-responsible", protocolFormXmlData.getXmlData());
-					
-					String primaryResValue = (primaryResValues!=null && !primaryResValues.isEmpty())?primaryResValues.get(0):""; 
+					String primaryResValue = (values.get("/protocol/site-responsible") != null && !values.get("/protocol/site-responsible").isEmpty())?values.get("/protocol/site-responsible").get(0):"";
 					
 					if (primaryResValue.equals("ach-achri") || (siteIds != null && !siteIds.isEmpty() && (siteIds.contains("2") || siteIds.contains("1")))){
 						workflow = "ACH";
 					} else if (primaryResValue.equals("uams")){
-						List<String> studyTypeValues = xmlProcessor.listElementStringValuesByPath("/protocol/study-type", protocolFormXmlData.getXmlData());
-						
-						String studyTypeValue = (studyTypeValues!=null && !studyTypeValues.isEmpty())?studyTypeValues.get(0):""; 
-						
-						//String studyTypeValue = xmlHandler.getSingleStringValueByXPath(protocolFormXmlDataString, "/protocol/study-type");
+						String studyTypeValue = (values.get("/protocol/study-type") != null && !values.get("/protocol/study-type").isEmpty())?values.get("/protocol/study-type").get(0):"";
 						
 						if (studyTypeValue.equals("investigator-initiated")){
 							workflow = "INVESTIGATOR";
@@ -743,20 +758,18 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 							workflow = "NOT_INVESTIGATOR";
 						}
 					} else if (primaryResValue.equals("other")){
-						String enrollSubjects = xmlHandler.getSingleStringValueByXPath(protocolFormXmlData.getXmlData(), "/protocol/budget/potentially-billed");
+						String needBudget = (values.get("/protocol/need-budget") != null && !values.get("/protocol/need-budget").isEmpty())?values.get("/protocol/need-budget").get(0):"";
 						
-						if (enrollSubjects.equals("y")) {
+						if (needBudget.equals("y")) {
 							workflow = "NOT_INVESTIGATOR";
 						} else {
-							workflow = "OTHER";
+							workflow = "INVESTIGATOR";
 						}
 					}
 				}
 				break;
 			case EMERGENCY_USE:
-				List<String> euValues = xmlProcessor.listElementStringValuesByPath("//ieu-or-eu", protocolFormXmlData.getXmlData());
-				
-				String euValue = (euValues!=null && !euValues.isEmpty())?euValues.get(0):""; 
+				String euValue = (values.get("/emergency-use/basic-details/ieu-or-eu") != null && !values.get("/emergency-use/basic-details/ieu-or-eu").isEmpty())?values.get("/emergency-use/basic-details/ieu-or-eu").get(0):"";
 				
 				if (euValue.equals("intended-emergency-use")){
 					workflow = "INTENDED";
@@ -765,29 +778,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				}
 				break;
 			case MODIFICATION:
-				Set<String> pathList = Sets.newHashSet();
-				pathList.add("/protocol/crimson/has-budget");
-				pathList.add("/protocol/budget/potentially-billed");
-				pathList.add("/protocol/budget/need-budget-in-clara");
-				pathList.add("/protocol/modification/to-modify-section/is-audit");
-				pathList.add("/protocol/modification/to-modify-section/involve-change-in/budget-modified");
-				pathList.add("/protocol/modification/to-modify-section/involve-change-in/contract-modified");
-				pathList.add("/protocol/modification/to-modify-section/involve-change-in/pi-modified");
-				pathList.add("/protocol/modification/to-modify-section/involve-addition-deletion-of/procedure");
-				pathList.add("/protocol/modification/to-modify-section/involve-addition-deletion-of/pharmacy");
-				pathList.add("/protocol/modification/to-modify-section/involve-addition-deletion-of/subjects");
-				pathList.add("/protocol/modification/to-modify-section/amendment-to-injury");
-				pathList.add("/protocol/modification/to-modify-section/submit-to-medicare");
-				pathList.add("/protocol/modification/to-modify-section/conduct-under-uams");
-				pathList.add("/protocol/study-type");
-				pathList.add("/protocol/site-responsible");
-				pathList.add("/protocol/migrated");
-				pathList.add("/protocol/modification/to-modify-section/complete-budget-migration");
-				pathList.add("/protocol/need-budget");
-				
 				try {
-					Map<String, List<String>> values = getXmlProcessor().listElementStringValuesByPaths(pathList, protocolFormXmlDataString);
-					
 					//String hasCrimsonBudget = (values.get("/protocol/crimson/has-budget") != null && !values.get("/protocol/crimson/has-budget").isEmpty())?values.get("/protocol/crimson/has-budget").get(0):"";
 					//String potentiallyBilled = (values.get("/protocol/budget/potentially-billed") != null && !values.get("/protocol/budget/potentially-billed").isEmpty())?values.get("/protocol/budget/potentially-billed").get(0):"";
 					//String needBudgetInClara = (values.get("/protocol/budget/need-budget-in-clara") != null && !values.get("/protocol/budget/need-budget-in-clara").isEmpty())?values.get("/protocol/budget/need-budget-in-clara").get(0):"";
@@ -843,20 +834,6 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				} catch (Exception e) {
 					
 				}
-				
-				/*
-				Map<String, String> workFlowPair = new HashMap<String, String>();
-				workFlowPair.put("budget", "BUDGET_ONLY");
-				workFlowPair.put("irb", "IRB");
-				workFlowPair.put("gatekeeper", "GATEKEEPER");
-				workFlowPair.put("irb-mig", "CRIMSON");
-				
-				List<String> toModificationValues = xmlProcessor.listElementStringValuesByPath("//modification/require-review", protocolFormXmlData.getXmlData());
-				
-				String toModificationValue = (toModificationValues!=null && !toModificationValues.isEmpty())?toModificationValues.get(0):""; 
-				
-				workflow = workFlowPair.get(toModificationValue);
-				*/
 				break;
 			default:
 				break;
@@ -1194,9 +1171,9 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 			Element pharmacyEl = (Element) (xPath.evaluate(pharmacyXPath,
 					currentProtocolFormXmlDataDom, XPathConstants.NODE));
 			
-			String waivedOrNot = (pharmacyEl.getAttribute("waived").equals("true"))?"(WAIVED)":"";
+			String initialWaivedOrNot = (pharmacyEl.getAttribute("initial-waived").equals("true"))?"(WAIVED)":"";
 			
-			expenseXml += "<expense fa=\"0\" faenabled=\"false\" external=\"true\" count=\"1\" cost=\""+ pharmacyEl.getAttribute("total") +"\" type=\"Initial Cost\" subtype=\"Pharmacy Fee\" description=\"Pharmacy Fee "+ waivedOrNot +"\" notes=\"\"></expense>";
+			expenseXml += "<expense fa=\"0\" faenabled=\"false\" external=\"true\" count=\"1\" cost=\""+ pharmacyEl.getAttribute("total") +"\" type=\"Initial Cost\" subtype=\"Pharmacy Fee\" description=\"Pharmacy Fee "+ initialWaivedOrNot +"\" notes=\"\"></expense>";
 			
 			String otherPharmacyExpensesXPath = "/pharmacy/expenses/expense[@type!='simc' and @type!='drug']";
 			
@@ -1297,7 +1274,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				needToCheckRevisionRequestCommitteeStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION);
 				needToCheckRevisionRequestCommitteeStatusLst.add(ProtocolFormStatusEnum.REVISION_PENDING_PI_ENDORSEMENT);
 				
-				if (needToCheckRevisionRequestCommitteeStatusLst.contains(latestFormStatus.getProtocolFormStatus()) && (requestedCommittee.equals("BUDGET_REVIEW") || requestedCommittee.equals("GATEKEEPER"))) {
+				if (needToCheckRevisionRequestCommitteeStatusLst.contains(latestFormStatus.getProtocolFormStatus()) && (requestedCommittee.equals("BUDGET_REVIEW") || requestedCommittee.equals("BUDGET_MANAGER") || requestedCommittee.equals("GATEKEEPER"))) {
 					isSpecficRole = "IS_PI";
 				} else {
 					isSpecficRole = formService

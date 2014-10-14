@@ -33,7 +33,7 @@
 			
 			<div class="question" id="question-is-audit">
 				<div class="questionIdentifier">Modification-1</div>
-				<div class="questionLabel"><span class="question-label-text">Is this modification request in response to an audit? </span></div>
+				<div class="questionLabel"><span class="question-label-text">Is this modification request in response to an audit by the UAMS Office of Research Compliance or ACH/ACHRI Corporate Compliance?</span></div>
 				<div class="questionValue">
 					<x:set var="isAudit"
 						select="string($protocolInstance/protocol/modification/to-modify-section/is-audit/text())" />

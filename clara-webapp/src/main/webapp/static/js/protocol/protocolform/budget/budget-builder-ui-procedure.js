@@ -120,6 +120,18 @@ Clara.BudgetBuilder.EditVisitProcedurePopup = Ext.extend(Ext.Window, {
 		var visit = epoch.getVisitById(this.vid);
 		var th = this;
 		
+		clog(proc);
+		
+		var allowableTypes = [];
+        if (proc.type == 'outside'){
+        	allowableTypes.push(["O"]);
+        } else if (proc.type == 'misc' && proc.cptCode+"" == "123") {
+        	allowableTypes.push(["COR"]);
+        } else {
+        	allowableTypes = [['R'],['C'],['I'],['O'],['RNS'],['CNMS'],['CL']];
+        }
+
+		
 		var config = {
 				
 				items: [
@@ -133,7 +145,7 @@ Clara.BudgetBuilder.EditVisitProcedurePopup = Ext.extend(Ext.Window, {
                             triggerAction: 'all',
                             store: new Ext.data.SimpleStore({
                                fields:['type'],
-                               data: (this.editType == "vp" && proc.type == 'outside')?[['O']]:[['R'],['C'],['I'],['O'],['RNS'],['CNMS'],['CL']]
+                               data: allowableTypes
                             }),
                             lazyRender: true,
                             displayField:'type',
@@ -1055,6 +1067,18 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     visitList:[],
     drugStore:	Clara.BudgetBuilder.DrugStore,
     pharmStore: Clara.BudgetBuilder.PharmacyFeeStore,
+    getAllowableBillingCategories: function(){
+    	var a = [];
+    	var t = this;
+        if (t.proceduretype == 'outside'){
+        	a.push(["O"]);
+        } else if (t.proceduretype == 'misc' && t.procedure && t.procedure.cptCode+"" == "123") {
+        	a.push(["COR"]);
+        } else {
+        	a = [['R'],['C'],['I'],['O'],['RNS'],['CNMS'],['CL']];
+        }
+        return a;
+    },
     openToTab: function(index){
 		this.show();
 		Ext.getCmp(this.id+"_tpProcedure").setActiveTab(index);
@@ -1101,20 +1125,25 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
 		Ext.getCmp(t.id+"_fldHospCost").setValue(this.procedure.hosp.cost);
 		Ext.getCmp(t.id+"_fldPhysCost").setValue(this.procedure.phys.cost);
 		
-    	//jQuery("#"+t.id+"_fldHospCost").text(Ext.util.Format.usMoney(this.procedure.hosp.cost));
-    	//jQuery("#"+t.id+"_fldPhysCost").text(Ext.util.Format.usMoney(this.procedure.phys.cost));
+
     	jQuery("#"+t.id+"_fldSponsor").val(this.procedure.cost.sponsor);
     	jQuery("#"+t.id+"_fldPrice").val(this.procedure.cost.price);
     	jQuery("#"+t.id+"_fldTotal").text(Ext.util.Format.usMoney(this.procedure.cost.getTotal()));
     	t.refreshResidual();
     	jQuery("#"+t.id+"_fldNotes").val(this.procedure.notes);
+    	jQuery("#"+t.id+"_fldCoverageNotes").val(this.procedure.coverageNotes);
     	jQuery("#"+t.id+"_fldClinicalNotes").val(this.procedure.clinicalNotes);
     	
     	var prodcedureToUse = (this.isSubprocedure)?this.parentProcedure:this.procedure;
     	Ext.getCmp(t.id+"_fldExpenseCategory").setValue(prodcedureToUse.expensecategory);
+    	
+    	if (prodcedureToUse.expensecategory == "Communication Order") {
+    		Ext.getCmp(t.id+"_fldExpenseCategory").setDisabled(true);
+    		if(Ext.getCmp(t.id+"_tSubprocedures")) Ext.getCmp(t.id+"_tSubprocedures").setDisabled(true);
+    		Ext.getCmp(t.id+"_fldSetAllType").getStore().loadData(t.getAllowableBillingCategories());
+    	}
 
     	if (typeof Ext.getCmp(t.id+"_tSubprocedures")!= 'undefined') Ext.getCmp(t.id+"_tSubprocedures").refreshSubprocedures();
-    	
     	if (!t.isSubprocedure || t.proceduretype == "officevisit") {
     		Ext.getCmp(t.id+"_gpProcedureVisits").getStore().loadData(this.visitList);
     		t.refreshVisitProcedures(Ext.getCmp(t.id+"_gpProcedureVisits").getStore().data.items);
@@ -1157,6 +1186,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     		},
     		notes:null,
     		clinicalNotes:null,
+    		coverageNotes:null,
     		cost:{
     			misc:null,
     			sponsor:null,
@@ -1164,6 +1194,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     		}
     		
     	});
+    	t.procedure.initWithDefaults();
 
 		Ext.getCmp(t.id+"_fldOtherMiscProcDesc").setVisible(false);
 		Ext.getCmp(t.id+"_lblOtherMiscProcDesc").setVisible(false);
@@ -1221,6 +1252,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     		},
     		notes:null,
     		clinicalNotes:null,
+    		coverageNotes:null,
     		cost:{
     			misc:null,
     			sponsor:null,
@@ -1228,6 +1260,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     		}
     		
     	});
+    	t.procedure.initWithDefaults();
 
 		Ext.getCmp(t.id+"_fldOtherMiscProcDesc").setVisible(false);
 		Ext.getCmp(t.id+"_lblOtherMiscProcDesc").setVisible(false);
@@ -1273,13 +1306,14 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     		},
     		notes:null,
     		clinicalNotes:null,
+    		coverageNotes:null,
     		cost:{
     			misc:cost,
     			sponsor:null,
     			price:cost
     		}
     	});
-    	
+    	t.procedure.initWithDefaults();
        	
         
     	
@@ -1299,16 +1333,11 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     	var p = rec.data;
     	var t = this;
     	clog("MISC: Chose record",rec);
-    	if (p.code == 107) {
-    		//	OTHER: allow description editing
-    		t.isOtherMiscProcedure = true;
-    		Ext.getCmp(t.id+"_fldOtherMiscProcDesc").setVisible(true);
-    		Ext.getCmp(t.id+"_lblOtherMiscProcDesc").setVisible(true);
-    	} else {
-    		Ext.getCmp(t.id+"_fldOtherMiscProcDesc").setVisible(false);
-    		Ext.getCmp(t.id+"_lblOtherMiscProcDesc").setVisible(false);
-    	}
-    	this.procedure = new Clara.BudgetBuilder.Procedure({
+    	
+    	Ext.getCmp(t.id+"_fldOtherMiscProcDesc").setVisible(false);
+		Ext.getCmp(t.id+"_lblOtherMiscProcDesc").setVisible(false);
+		
+		this.procedure = new Clara.BudgetBuilder.Procedure({
     		id:budget.newId(),
     		type:'misc',
     		description: p.description,
@@ -1328,12 +1357,27 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     		},
     		notes:null,
     		clinicalNotes:null,
+    		coverageNotes:null,
     		cost:{
     			misc:p.cost,
     			sponsor:null,
     			price:null
     		}
     	});
+		t.procedure.initWithDefaults();
+		
+    	if (p.code == 107) {
+    		//	OTHER: allow description editing
+    		t.isOtherMiscProcedure = true;
+    		Ext.getCmp(t.id+"_fldOtherMiscProcDesc").setVisible(true);
+    		Ext.getCmp(t.id+"_lblOtherMiscProcDesc").setVisible(true);
+    	} else if (p.code == 123) {
+    		// COR: Communication order. Set Expense category to "communication order" and only allow "COR" billing category
+    		// Ext.getCmp(t.id+"_fldExpenseCategory").setValue("Communication Order");
+    		t.procedure.expensecategory = "Communication Order";
+    		Ext.getCmp(t.id+"_fldExpenseCategory").setDisabled(true); 
+    	}
+    	
     	if (Ext.getCmp(t.id+"_tCodes")) Ext.getCmp(t.id+"_tCodes").setDisabled(false);
     	Ext.getCmp(t.id+"_tCosts").setDisabled(false);
     	Ext.getCmp(t.id+"_btnCloseProcedureWindow").setDisabled(false);
@@ -1368,11 +1412,13 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     		},
     		notes:null,
     		clinicalNotes:null,
+    		coverageNotes:null,
     		cost:{
     			sponsor:null,
     			price:null
     		}
     	});
+    	t.procedure.initWithDefaults();
 
 		Ext.getCmp(t.id+"_fldOtherMiscProcDesc").setVisible((this.procedure.cptCode == 'ov-23'));
 		Ext.getCmp(t.id+"_lblOtherMiscProcDesc").setVisible((this.procedure.cptCode == 'ov-23'));
@@ -1406,11 +1452,13 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     		},
     		notes:null,
     		clinicalNotes:null,
+    		coverageNotes:null,
     		cost:{
     			sponsor:null,
     			price:null
     		}
     	});
+    	t.procedure.initWithDefaults();
 
 		Ext.getCmp(t.id+"_fldOtherMiscProcDesc").setVisible(false);
 		Ext.getCmp(t.id+"_lblOtherMiscProcDesc").setVisible(false);
@@ -1517,12 +1565,35 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
 					Ext.getCmp(t.id+'_gpProcedureVisits').fireEvent("afteredit",{grid:Ext.getCmp(t.id+'_gpProcedureVisits')});	            	
 					
 											
-					var vps = t.visitProcedures;
-					////cdebug(vps);
-					budget.removeVisitProceduresByEpochAndProcedure(e, t.procedure);
+					var newVps = t.visitProcedures;
+					var oldVps = budget.getVisitProceduresByEpochAndProcedure(e,t.procedure);
 					
-					for (var i=0;i<vps.length;i++){
-						budget.addOrUpdateVisitProcedure(vps[i]);	// MUST include visitid in object or it will not work.
+					// Do difference to find deleted VPS.
+					
+					/*
+					var onlyInNew = newVps.filter(function(current){
+					    return oldVps.filter(function(current_old){
+					        return current_old.procedureid == current.procedureid && current_old.visitid == current.visitid
+					    }).length == 0
+					});
+					*/
+					
+					var onlyInOld = oldVps.filter(function(current_old){
+					    return newVps.filter(function(current){
+					        return current.procedureid == current_old.procedureid && current.visitid == current_old.visitid
+					    }).length == 0
+					});
+					
+					clog("DIFF:",oldVps, newVps,onlyInOld);
+
+					// Delete vps that were removed in this window
+					for (var i=0;i<onlyInOld.length;i++){
+						clog("Removing old VP ",onlyInOld[i].visitid, onlyInOld[i].procedureid);
+						budget.removeVisitProcedure(onlyInOld[i].visitid, onlyInOld[i].procedureid);
+					}
+					
+					for (var i=0;i<newVps.length;i++){
+						budget.addOrUpdateVisitProcedure(newVps[i]);	// MUST include visitid in object or it will not work.
 					}
 				}
 				
@@ -1934,45 +2005,61 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
                                     	        }
                                     	    ]
                                     },{
-                                    	xtype:'panel',
+                                    	xtype:'tabpanel',
                                     	region:'center',
-                                    	layout:'hbox',
                                     	height:170,
-                                    	defaults: {flex: 1, layout: 'form', border: false,labelAlign:'top'},
-                                    	
+                                    	defaults: {flex: 1, border: false},
+                                    	activeTab:0,
                                     	
                                     	
                                     	items:[{
-                                    	       items:[{
-                                           		xtype: 'textarea',
-    										    id:t.id+'_fldNotes',
-    										    disabled:t.readOnly,
-    										    fieldLabel:'Billing Notes',
-    										    labelStyle: 'font-weight:bold;',
-    										    labelSeparator:'',
-    										    height:150,
-    										    anchor:'100% 100%',
-                                	            tabIndex:220,
-    										    value:(t.procedure && t.procedure.notes)?t.procedure.notes:'',
-    	                			            listeners: {
-    	                			        		'change': function(fld,newv,oldv){
-    	                			        			t.procedure.notes = jQuery("#"+t.id+"_fldNotes").val();
-    	                			        		},
-    	                			        		'keyup':function(fld,e){
-    	                			        			t.procedure.notes = jQuery("#"+t.id+"_fldNotes").val();
-    	                			        		}
-    	                        	        	}
-    										}]},{
-                                    	       items:[{
+                                	      	title:'Billing Notes',
+                                       		xtype: 'textarea',
+										    id:t.id+'_fldNotes',
+										    readOnly:t.readOnly,
+										    emptyText:'Enter billing notes here...',
+										    labelStyle: 'font-weight:bold;',
+										    labelSeparator:'',
+										    height:140,
+                            	            tabIndex:220,
+										    value:(t.procedure && t.procedure.notes)?t.procedure.notes:'',
+	                			            listeners: {
+	                			        		'change': function(fld,newv,oldv){
+	                			        			t.procedure.notes = jQuery("#"+t.id+"_fldNotes").val();
+	                			        		},
+	                			        		'keyup':function(fld,e){
+	                			        			t.procedure.notes = jQuery("#"+t.id+"_fldNotes").val();
+	                			        		}
+	                        	        	}
+										},{
+                                	      	title:'Budget / Coverage Notes',
+                                       		xtype: 'textarea',
+										    id:t.id+'_fldCoverageNotes',
+										    readOnly:t.readOnly || !(claraInstance.HasAnyPermissions(['ROLE_BUDGET_REVIEWER','ROLE_COVERAGE_REVIEWER'])),
+										    emptyText:'Enter budget / coverage notes here...',
+										    labelStyle: 'font-weight:bold;',
+										    labelSeparator:'',
+										    height:140,
+                            	            tabIndex:220,
+										    value:(t.procedure && t.procedure.coverageNotes)?t.procedure.coverageNotes:'',
+	                			            listeners: {
+	                			        		'change': function(fld,newv,oldv){
+	                			        			t.procedure.coverageNotes = jQuery("#"+t.id+"_fldCoverageNotes").val();
+	                			        		},
+	                			        		'keyup':function(fld,e){
+	                			        			t.procedure.coverageNotes = jQuery("#"+t.id+"_fldCoverageNotes").val();
+	                			        		}
+	                        	        	}
+										},{
+                                    	       title:'Clinical Notes',
                                            		xtype: 'textarea',
     										    id:t.id+'_fldClinicalNotes',
-    										    disabled:t.readOnly,
+    										    readOnly:t.readOnly,
                                 	            tabIndex:225,
-                                	            fieldLabel:'Clinical Notes',
+                                	            emptyText:'Enter clinical notes here...',
                                 	            labelStyle: 'font-weight:bold;',
                                 	            labelSeparator:'',
-    										    height:150,
-                                	            anchor:'100% 100%',
+    										    height:140,
     										    value:(t.procedure && t.procedure.clinicalNotes)?t.procedure.clinicalNotes:'',
     	                			            listeners: {
     	                			        		'change': function(fld,newv,oldv){
@@ -1982,7 +2069,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
     	                			        			t.procedure.clinicalNotes = jQuery("#"+t.id+"_fldClinicalNotes").val();
     	                			        		}
     	                        	        	}
-    										}]
+    									
     										}],
 										padding: 10,
                                     	border:false
@@ -2015,6 +2102,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
 
             Clara.BudgetBuilder.ProcedureWindow.superclass.initComponent.call(this);
             
+   
             
             if(!t.isSubprocedure || (t.isSubprocedure && t.proceduretype == "officevisit") || (t.editing && t.procedure.type == "officevisit" )){
             	Ext.getCmp(t.id+'_tpProcedure').add({
@@ -2044,7 +2132,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
                         triggerAction: 'all',
                         store: new Ext.data.SimpleStore({
                            fields:['type'],
-                           data:  (t.proceduretype == 'outside')?[['O']]:[['R'],['C'],['I'],['O'],['RNS'],['CNMS'],['CL']]
+                           data:  t.getAllowableBillingCategories()
                         }),
                         lazyRender: true,
                         displayField:'type',
@@ -2126,7 +2214,7 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
                                         triggerAction: 'all',
                                         store: new Ext.data.SimpleStore({
                                         	fields:['type'],
-                                        	data: (t.proceduretype == 'outside')?[['O']]:[['R'],['C'],['I'],['O'],['RNS'],['CNMS'],['CL']]
+                                        	data: t.getAllowableBillingCategories()
                                         }),
                                         lazyRender: true,
                                         editable:false,
@@ -2135,6 +2223,11 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
                                         mode:'local',
                                         selectOnFocus:true,
                                         listeners:{
+                                        	beforeshow: function(combo){
+                                        		// force check on getAllowableBillingCategories for new procedures, so determine which billing categories can be used here.
+                                        		clog("Beforeshow: combostore",combo.getStore().count, combo.getStore());
+                                        		combo.getStore().loadData(t.getAllowableBillingCategories());
+                                        	},
                                         	select:function(combo,rec,idx){
                                         		
                                         		if (Ext.isIE){
@@ -2215,8 +2308,13 @@ Clara.BudgetBuilder.ProcedureWindow = Ext.extend(Ext.Window, {
             	t.refreshProcedure();
             	if (!t.isSubprocedure){
             		var subProcedurePanel = Ext.getCmp(t.id+"_tSubprocedures");
-            		if (subProcedurePanel) subProcedurePanel.setDisabled(false);
-            		if (subProcedurePanel) subProcedurePanel.refreshSubprocedures();
+            		if (subProcedurePanel) {
+            			if ((t.proceduretype == "misc" && t.procedure.expensecategory == "Communication Order")) subProcedurePanel.setDisabled(true);
+            			else {
+            				subProcedurePanel.setDisabled(false);
+            				subProcedurePanel.refreshSubprocedures();
+            			}
+            		}
             	}
             }
         }

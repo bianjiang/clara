@@ -23,11 +23,17 @@ Ext.define('Clara.Documents.view.DocumentActionToolbar',{
 				text: '<span style="font-weight:800;font-size:12px;">Upload New Document</span>',
 				disabled:!me.formView,
 				iconCls:'icn-navigation-090-button',
-				iconAlign:'right',
+				iconAlign:'left',
 				handler: function(){
 					// new Clara.Documents.UploadWindow({doc:{}}).show();
 				}
-			},'->',
+			},'-',{
+                xtype: 'button',
+                text: '<span style="font-weight:800;font-size:12px;">Upload Revised Version</span>',
+                disabled:true,
+                id:'btnDocumentRevise',
+                iconCls:'icn-document-tree'
+            },'->',
 			{
                 xtype: 'button',
                 text: 'Open / Download',
@@ -56,13 +62,7 @@ Ext.define('Clara.Documents.view.DocumentActionToolbar',{
                 iconCls:'icn-folder-clock',
                 id:'btnDocumentViewVersions'
             },
-            {
-                xtype: 'button',
-                text: 'Revise',
-                disabled:true,
-                id:'btnDocumentRevise',
-                iconCls:'icn-document-import'
-            },
+            
             
             {
                 xtype: 'button',

@@ -1,0 +1,55 @@
+<html>
+<head>
+	<link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div class="email-template">
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>	
+	<br/>
+	<strong>Committee Notes/Comments:</strong>
+	<br/>
+	$emailComment
+	{0}
+	<br/><br/>
+	
+	The contract manager has approved the contract and routed it to contract adminstrator for review.<br/>
+	
+	If you have any questions concerning this review, contact:<br/>
+	<br/><strong>Assigned Legal Reviewer:</strong><br/>
+	#if ($assignedLegal.size() == 0)
+		No legal reviewer is assigned to this study.
+	#end
+	<ul>
+		#foreach($legalReviewer in ${assignedLegal}) 
+		<li>$legalReviewer.person.getFullname()</li>#end
+	</ul><br/>
+	
+	Contract Number#: $contractId<br/>
+	Description: $contractDescritpion<br/>
+	Contract Type: $contractType<br/>
+	IRB Number: $protocolId<br/>
+	
+	<br/><strong>Study Staff List:</strong><br/>
+	#if ($studyStaffList.size() == 0)
+		No staff is working on this study.
+	#end
+	<ul>
+		#foreach($user in ${studyStaffList}) 
+		<li>$user.person.getFullname()</li>#end
+	</ul><br/>
+	
+	<br/><strong>Contract Contact List:</strong><br/>
+	#if ($contractContactList.size() == 0)
+		No contact is related to this study.
+	#end
+	<ul>
+		#foreach($contact in ${contractContactList}) 
+		<li>$contact</li>#end
+	</ul><br/>
+	
+	<a href=$queueLink>Click here to the queue.</a>
+	
+</div>
+</body>
+</html>

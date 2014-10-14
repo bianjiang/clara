@@ -2,7 +2,6 @@ package edu.uams.clara.webapp.protocol.web.protocolform.staff.ajax;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,14 +23,13 @@ import org.xml.sax.SAXException;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationResponse;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationRuleContainer;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationRuleHandler;
-import edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.Constraint;
-import edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.enums.ConstraintLevel;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.rule.Rule;
 import edu.uams.clara.webapp.common.service.form.FormService;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDocumentDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
+import edu.uams.clara.webapp.protocol.service.protocolform.ProtocolFormValidationService;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
 @Controller
@@ -53,6 +51,8 @@ public class StaffValidationAjaxController {
 	private ValidationRuleContainer validationRuleContainer;
 	
 	private FormService formService;
+	
+	private ProtocolFormValidationService protocolFormValidationService;
 
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/staff/protocol-form-xml-datas/{protocolFormXmlDataId}/validate", method = RequestMethod.GET)
 	public @ResponseBody
@@ -97,24 +97,7 @@ public class StaffValidationAjaxController {
 
 			validationResponses = validationRuleHandler.validate(auditValidationRules, values);
 			
-			List<String> noClaraUserList = formService.getNoClaraUsers(xmldata);
-			
-			if (noClaraUserList != null && !noClaraUserList.isEmpty()) {
-				for (String noClaraUser : noClaraUserList) {
-					Constraint noClaraUserConstraint = new Constraint();
-					Map<String, Object> noClaraUserAdditionalData = new HashMap<String, Object>();
-					
-					noClaraUserConstraint.setConstraintLevel(ConstraintLevel.ERROR);
-					noClaraUserConstraint.setErrorMessage("Staff "+ noClaraUser + " does not have CLARA account, please remove this staff and create account!");
-					
-					noClaraUserAdditionalData.put("pagename", "Staff");
-					noClaraUserAdditionalData.put("pageref", "staff");
-					
-					ValidationResponse noClaraUserVP = new ValidationResponse(noClaraUserConstraint, noClaraUserAdditionalData);
-					
-					validationResponses.add(noClaraUserVP);
-				}
-			}
+			validationResponses = protocolFormValidationService.getExtraValidationResponses(protocolXmlData, validationResponses);
 
 		}
 		return validationResponses;
@@ -181,5 +164,15 @@ public class StaffValidationAjaxController {
 	@Autowired(required=true)
 	public void setFormService(FormService formService) {
 		this.formService = formService;
+	}
+
+	public ProtocolFormValidationService getProtocolFormValidationService() {
+		return protocolFormValidationService;
+	}
+	
+	@Autowired(required=true)
+	public void setProtocolFormValidationService(
+			ProtocolFormValidationService protocolFormValidationService) {
+		this.protocolFormValidationService = protocolFormValidationService;
 	}
 }

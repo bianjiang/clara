@@ -733,7 +733,7 @@ Clara.IRBMeeting.PagePanel = Ext.extend(Ext.Panel, {
 									   var readOnlyStatuses = ["SENT_TO_CHAIR","COMPLETE","SENT_TO_TRANSCRIBER"];
 									   if(!readOnlyStatuses.hasValue(meeting.status) && claraInstance.HasAnyPermissions(['ROLE_IRB_MEETING_OPERATOR','ROLE_IRB_CHAIR','ROLE_SYSTEM_ADMIN'])){
 										   meeting.notes = v;
-										   meeting.save(meeting.toXML());
+										   Clara.IRBMeeting.MessageBus.fireEvent('meetingchanged',this);  
 									   } else {
 										   alert("You cannot save announcements at this time.");
 									   }

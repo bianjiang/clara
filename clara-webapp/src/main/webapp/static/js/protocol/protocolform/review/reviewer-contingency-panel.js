@@ -4,21 +4,43 @@ Clara.Reviewer.SelectedComment = {};
 
 Clara.Reviewer.showReplyBoxForCommentId = function(id) {
 	// jQuery("#review-reply-for-comment-"+id).toggle();
-	Ext.Msg.prompt('Comment', 'Please enter your comment:', function(btn, text){
-	    if (btn == 'ok'){
-			var comment = text;
-			var url = appContext + "/ajax/"+claraInstance.type+"s/" + claraInstance.id + "/"+claraInstance.type+"-forms/"+claraInstance.form.id+"/review/committee-comments/"+id+"/remove";
-
-			Clara.Reviewer.submitComment({
-				commentType:'REPLY',
-				inLetter:false,
-				isPrivate:false,
-				contingencySeverity:false,
-				text:comment,
-				replyToId:id
-			});
-		}
-	},this,true);
+	
+	win = new Ext.Window({
+	    title: 'Please enter your comment:',
+	    height: 500,
+	    width: 600,
+	    modal:true,
+	    layout: 'fit',
+	    items: {  // Let's put an empty grid in just to illustrate fit layout
+	        xtype: 'textarea',
+	        name: 'fldReplyCommentTextArea',
+	        id: 'fldReplyCommentTextArea'
+	    },
+	    buttons:[{
+	    	text:'Cancel',
+	    	handler:function(){
+	    		win.close();
+	    	}
+	    },{
+	    	text:'Save',
+	    	handler:function(){
+	    		var comment = Ext.getCmp("fldReplyCommentTextArea").getValue();
+	    		
+				Clara.Reviewer.submitComment({
+					commentType:'REPLY',
+					inLetter:false,
+					isPrivate:false,
+					contingencySeverity:false,
+					text:comment,
+					replyToId:id
+				});
+				win.close();
+	    	}
+	    }]
+	});
+	
+	win.show();
+	
 	
 };
 
@@ -26,7 +48,7 @@ Clara.Reviewer.editComment = function(id, gridPanelId){
     var gp = Ext.getCmp(gridPanelId);
     var rec = gp.getStore().getById(id);
     clog("opening window with rec",rec);
-    if (!gp.readOnly) new Clara.Reviewer.AddNoteWindow({commentType:rec.get("commentType"),editing:true, record:rec, isActingAsIRB: gp.isActingAsIRB(), isMyList: gp.isMyList()}).show();
+    if (!gp.readOnly) new Clara.Reviewer.AddNoteWindow({commentType:rec.get("commentType"),editing:true, record:rec, isActingAsIRB: gp.isActingAsIRB(), isMyList: gp.isMyList(), reviewAsCommittee:(gp.reviewAsPI?"PI":null)}).show();
 };
 
 Clara.Reviewer.removeComment = function(id){
@@ -172,8 +194,20 @@ Clara.Reviewer.CommentRenderer = function(v,p,r,options){
     var title = "";
 
     // redmine #2831: show name of commenter if PI, coverage, budget manager or budget reviewer OR IF YOU ARE AN IRB COMMITTEE
-    var displayedCommenterName = ( options.meetingView || claraInstance.HasAnyPermissionsLike('ROLE_IRB') === true || ['PI','COVERAGE_REVIEW','BUDGET_REVIEW','BUDGET_MANAGER'].indexOf(r.get("committee")) > -1)?(r.get("userFullname")+" ("+r.get("committeeDescription")+")"):r.get("committeeDescription");
-
+  
+    var displayedCommenterName = r.get("committeeDescription");
+	
+	if (['PI','COVERAGE_REVIEW','BUDGET_REVIEW','BUDGET_MANAGER'].indexOf(r.get("committee")) > -1
+			|| options.meetingView 
+			|| claraInstance.HasAnyPermissionsLike('ROLE_IRB') === true
+			|| claraInstance.HasAnyPermissions(["ROLE_RESEARCH_COMPLIANCE"],"Show full name of replier.") === true
+	){
+		displayedCommenterName = r.get("userFullname")+" ("+displayedCommenterName+")";
+	}
+    
+    
+    
+    
     title = displayedCommenterName+"<span class='review-comment-light'> added a </span>";
 
 
@@ -217,9 +251,7 @@ Clara.Reviewer.CommentRenderer = function(v,p,r,options){
             }
         }
       
-//        if (typeof(t) != "undefined" && !readOnly && typeof(t.isActingAsIRB) != "undefined" && t.isMyList()){
-//            html += " - <a href='javascript:;' onClick='Clara.Reviewer.editComment("+r.data.id+", \""+gpid+"\");'>Edit</a>";
-//        }
+
 
         if (!options.meetingView && typeof(t) != "undefined" && typeof(t.isActingAsIRB) != "undefined" && (Clara.IsUser(r.data.userId) && t.isMyList())
             || claraInstance.HasAnyPermissions("CAN_DELETE_COMMENT","Delete note "+r.data.id)
@@ -284,8 +316,17 @@ Clara.Reviewer.CommentRenderer = function(v,p,r,options){
         for (var i=0; i<r.data.replies.length; i++) {
             var idxCls = (i == 0)?" first":"";
 
-            var displayedCommenterName = (['PI','COVERAGE_REVIEW','BUDGET_REVIEW'].indexOf(r.data.replies[i].get("committee")) > -1)?(r.data.replies[i].get("userFullname")+" ("+r.data.replies[i].get("committeeDescription")+")"):r.data.replies[i].get("committeeDescription");
-
+            
+            var displayedCommenterName = r.data.replies[i].get("committeeDescription");
+        	
+    		if (['PI','COVERAGE_REVIEW','BUDGET_REVIEW','BUDGET_MANAGER'].indexOf(r.data.replies[i].get("committee")) > -1
+    				|| claraInstance.HasAnyPermissionsLike('ROLE_IRB') === true
+    				|| claraInstance.HasAnyPermissions(["ROLE_RESEARCH_COMPLIANCE"],"Show full name of replier.")
+    		){
+    			displayedCommenterName = r.data.replies[i].get("userFullname")+" ("+displayedCommenterName+")";
+    		}
+            
+           
 
             html += "<div class='review-comment-reply"+idxCls+"'><span class='review-comment-reply-fullname'>"+displayedCommenterName+"</span><span class='review-comment-reply-text'>"+r.data.replies[i].data.text+"</span>";
             html += "<div class='review-comment-reply-timeago'>";
@@ -338,6 +379,7 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
     border: false,
     agendaItemView:false,
     onReviewPage:false,
+    reviewAsPI: false,
     readOnly:false,
     viewConfig:{
     	selectedRowClass:''
@@ -358,9 +400,12 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		if (typeof claraInstance.user.committee == "undefined" || claraInstance.user.committee == null) return false;
 		else return (jQuery.inArray(claraInstance.user.committee, this.committeeIncludeFilter) > -1);
 	},
+	isActingAsPI: function(){
+		return (claraInstance.user.committee === "PI");
+	},
 	isActingAsIRB: function(){
-		return (
-				(!this.onReviewPage &&
+		return !this.isActingAsPI() && (
+				(!this.onReviewPage && 
 				claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER','ROLE_IRB_EXPEDITED_REVIEWER','ROLE_IRB_OFFICE','ROLE_IRB_PREREVIEW'],"c.r.ContingencyGridPanel.isActingAsIRB()"))
 				||
 				(this.onReviewPage &&
@@ -385,12 +430,16 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			t.readOnly = (t.agendaItemView == false)?false:t.readOnly;
 		}
 		
-		var canAddContingency = ( !t.readOnly && t.isMyList() && claraInstance.HasAnyPermissions(['CONTINGENCY_CAN_ADD'])  ),
+		var canAddContingency = ( !t.isActingAsPI() && !t.readOnly && t.isMyList() && claraInstance.HasAnyPermissions(['CONTINGENCY_CAN_ADD']) 
+				|| ( t.agendaItemView == true && !t.readOnly && t.isMyList() && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_IRB_CHAIR','ROLE_IRB_MEETING_OPERATOR']))
+		),
 		    canAddNote = false;
 		
 		if (!t.readOnly && t.isMyList() && claraInstance.HasAnyPermissions("COMMENT_CAN_ADD", "canAddNote for t.isMyList() on review")){
 			canAddNote = true;
 		} else if (!t.readOnly && t.agendaItemView  && claraInstance.HasAnyPermissions("COMMENT_CAN_ADD", "canAddNote for agendaItemView")){
+			canAddNote = true;
+		} else if (!t.readOnly && t.isMyList() && t.isActingAsPI()){
 			canAddNote = true;
 		}
 		
@@ -505,7 +554,13 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	    	    		text : t.isActingAsIRB()?'New Note / IRB Studywide':'New Note', 
 	    	    		hidden:!canAddNote,
 	    	    		handler : function() {
-	    	    			var winNote = new Clara.Reviewer.AddNoteWindow();
+	    	    			
+	    	    			var options = {};
+	    	    			if (t.reviewAsPI) options.reviewAsCommittee = "PI";
+	    	    			var winNote = new Clara.Reviewer.AddNoteWindow(options);
+	    	    			
+	    	    			
+	    	    			
 	    	    			winNote.show();
 	    	    		}
 	    	    	},

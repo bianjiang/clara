@@ -46,6 +46,11 @@ renderCoversheet = function() {
 					moreInfo +="</ul>";
 				}
 
+				var money = Ext.util.Format.usMoney(e[4]);
+				if (e[7] == true){	// if WAIVED
+					money = "<span class='waived-expense' style='color:red;text-decoration: line-through;'>"+money+"</span>&nbsp;<span style='font-weight:800;color:red;'>WAIVED</span>";
+				}
+				
 				note = (e[6] && e[6].length > 0)?("<div class='coversheet-note'><p class='small'><strong>Note: </strong><em class='muted'>"+e[6]+"</em></p></div>"):"";
 				jQuery("#expenses-"+e[8]+" table tbody").append(
 						"<tr><td>"
@@ -53,7 +58,7 @@ renderCoversheet = function() {
 								+ moreInfo
 								+ note
 								+ "</td><td>"
-								+ Ext.util.Format.usMoney(e[4])
+								+ money
 								+ "</td></tr>");
 				
 				moreInfo = "";
@@ -61,7 +66,7 @@ renderCoversheet = function() {
 
 	jQuery("#total table tbody").append(
 			"<tr><td colspan='5'><strong>Total</strong> - initiation costs only"+(pharmacy.waived?" (WAIVED)":"")+"</td><td class='totalcost"+(pharmacy.waived?" waived-total":"")+"'><strong>"
-					+ Ext.util.Format.usMoney(pharmacy.getDisplayTotal()) + "</strong></td></tr>");
+					+ (pharmacy.getDisplayTotal()) + "</strong></td></tr>");
 		if (pharmacy.waived){
 			jQuery("#waived").show();
 		}			

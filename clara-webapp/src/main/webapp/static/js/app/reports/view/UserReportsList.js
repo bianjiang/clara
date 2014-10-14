@@ -48,24 +48,7 @@ Ext.define('Clara.Reports.view.UserReportsList', {
         },{
         	dataIndex: 'id',
         	header:'Actions',
-        	/*
-        	xtype:'actioncolumn',
-        	items:[{
-        		icon:'../../../images/icn/document-search-result.png',
-        		tooltip:'Show Results',
-        		handler: function(grid, rowIndex, colIndex) {
-                    var r = grid.getStore().getAt(rowIndex);
-                    Clara.Reports.app.getController("UserReport").showResultsWindowForReport(r.get("id"));
-                }
-        	},{
-        		icon:'../../../images/icn/minus-circle.png',
-        		tooltip:'Remove',
-        		handler: function(grid, rowIndex, colIndex) {
-                    var r = grid.getStore().getAt(rowIndex);
-                    Clara.Reports.app.getController("UserReport").deleteReport(r.get("id"));
-                }
-        	}],
-        	*/
+        	
         	renderer:function(v,m,r){
         		// var html = ((r.get("status") != "NOT_READY")?"<a href='"+appContext+"/reports/"+r.get("id")+"/view' target='_blank'><span style='font-weight:800;'>Open</span></a> | ":"");
         		var html = (r.get("status") != "NOT_READY")?("<a id='openaction-"+r.get("id")

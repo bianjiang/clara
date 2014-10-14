@@ -48,7 +48,7 @@
 			}});
 
 			
-			var staffpanel = new Clara.NewSubmission.ProtocolStaffPanel({border:false});
+			var staffpanel = new Clara.NewSubmission.ProtocolStaffPanel({region:'center',border:false});
 			var p = new Ext.Panel({id:'question-staff-panelwrapper',items:[{xtype:'panel',region:'north',padding:6,border:false,html:'<h1>Please list the staff for your protocol below.</h1><span>All individuals engaged in the research as UAMS, ACH or other institution subject to the oversight of the UAMS IRB must be listed as personnel with a description of their role and qualifications.</span><br/><span>For Human Subject Research Determination, please list the Project Leader.</span><br/><span>Double click on a staff member\'s name to edit their study-specific information.</span>'}
             ,staffpanel],layout:'border',border:false,
 				tbar: new Ext.Toolbar({

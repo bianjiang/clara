@@ -17,7 +17,7 @@
 <html>	
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=8" />		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />		
 
 		
   		<spring:url value="/static/styles/login.css" var="css_app" />
@@ -233,7 +233,7 @@
 		<script type="text/javascript">
 		  var _paq = _paq || [];
 		  _paq.push(['trackPageView']);
-		  _paq.push(['enableLinkTracking']);
+		  _paq.push(['enableLinkTracking']);_paq.push(['setCustomVariable','1','username',((typeof claraInstance === "undefined" || typeof claraInstance.user.username === "undefined")?"unknown":claraInstance.user.username)]);
 		  (function() {
 		    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://clarafs.uams.edu/piwik/";
 		    _paq.push(['setTrackerUrl', u+'piwik.php']);

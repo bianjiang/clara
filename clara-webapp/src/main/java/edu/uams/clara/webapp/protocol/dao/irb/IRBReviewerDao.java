@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.uams.clara.core.dao.AbstractDomainDao;
 import edu.uams.clara.webapp.protocol.domain.irb.AgendaIRBReviewer;
+import edu.uams.clara.webapp.protocol.domain.irb.AgendaItemReviewer;
 import edu.uams.clara.webapp.protocol.domain.irb.IRBReviewer;
 import edu.uams.clara.webapp.protocol.domain.irb.enums.IRBRoster;
 
@@ -117,6 +118,35 @@ public class IRBReviewerDao extends AbstractDomainDao<IRBReviewer> {
 			return false;
 		}
 	}
+	
+	@Transactional(readOnly = true)
+	public Boolean checkIfIRBRosterIsAssignedToAgendaItem(long agendaItemId, long userId) {
+		TypedQuery<AgendaItemReviewer> query = (TypedQuery<AgendaItemReviewer>) getEntityManager()
+				.createNativeQuery(
+						"SELECT air.* FROM agenda_item_reviewer air"
+						+ " INNER JOIN irb_reviewer ie ON air.irb_reviewer_id = ie.id"
+						+ " AND air.retired = :retired"
+						+ " AND ie.retired = :retired"
+						+ " AND air.agenda_item_id = :agendaItemId"
+						+ " AND ie.user_id = :userId",
+						AgendaItemReviewer.class)
+				.setParameter("retired", Boolean.FALSE)
+				.setParameter("agendaItemId", agendaItemId)
+				.setParameter("userId", userId);
+		query.setHint("org.hibernate.cacheable", true);
+		// query.setFirstResult(0);
+		// query.setMaxResults(1);
+		
+		try {
+			if (query.getResultList().size() > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	@Transactional(readOnly = true)
 	public List<IRBReviewer> listExpeditedIRBReviewers() {
@@ -152,7 +182,7 @@ public class IRBReviewerDao extends AbstractDomainDao<IRBReviewer> {
 
 		TypedQuery<IRBReviewer> query = getEntityManager()
 				.createQuery(
-						"SELECT i FROM IRBReviewer i, AgendaItemReviewer a WHERE i.retired = :retired AND a.retired = :retired AND a.irbReviewer.id = i.id AND a.agendaItem.id =:agendaItemId",
+						"SELECT i FROM IRBReviewer i, AgendaItemReviewer a WHERE a.retired = :retired AND a.irbReviewer.id = i.id AND a.agendaItem.id =:agendaItemId",
 						IRBReviewer.class);
 		query.setParameter("retired", Boolean.FALSE);
 		query.setParameter("agendaItemId", agendaItemId);

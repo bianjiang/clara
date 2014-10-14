@@ -147,6 +147,26 @@ function renderFormViewport(pageName, formItem){
 								bodyStyle:'font-size:15px;font-weight:100;background:transparent;',
 								border:false
 							   },'->',
+							   {xtype:'button',text:"Reviewer notes",hidden:((claraInstance && claraInstance.form.editing == true) || (claraInstance && claraInstance.user.committee !== "PI") || (claraInstance && claraInstance.type === "contract")),iconCls:'icn-sticky-notes-text',handler:function(){
+								   var win = new Ext.Window({
+									   title:'',
+									   width:500,
+									   height:500,
+									   modal:true,
+									   layout:'fit',
+									   items:[{
+							                id: 'reviewer-contingencygrid-panel',
+							                xtype: 'reviewer-contingencygrid-panel',
+							                autoLoadComments:true,
+							                title:'Notes',
+							                onReviewPage: false,
+							                reviewAsPI: (claraInstance.user.committee === "PI"),
+							                committeeIncludeFilter: [claraInstance.user.committee]
+							            }]
+								   });
+								   win.show();
+								   
+							   }},{xtype: 'tbspacer', width: 30},
 							   {xtype:'button',text:"<span style='font-size:16px;font-weight:800;color:blue;text-decoration:underline;'>I'm done editing this form.</span>",hidden:(claraInstance && claraInstance.form.editing == true),iconCls:'icn-door',handler:function(){
 								   location.href = appContext+"/"+claraInstance.type+"s/"+claraInstance.id+"/"+claraInstance.type+"-forms/"+claraInstance.form.id+"/close";
 							   }}

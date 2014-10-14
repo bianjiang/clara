@@ -80,7 +80,7 @@
   		</put-list-attribute>
     </definition>
     
-    <definition extends="default" name="agendas/agenda-item">
+    <definition extends="agenda/item-template" name="agendas/agenda-item">
         <put-attribute name="body" value="/WEB-INF/views/agendas/agenda-item.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />

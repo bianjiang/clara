@@ -23,7 +23,7 @@ public class Audit extends AbstractDomainEntity {
 	@Column(name="message", length=8000)
 	private String message;
 	
-	@Column(name="extra_data", length=8000)
+	@Column(name="extra_data", columnDefinition = "varchar(max)")
 	private String extraData;
 	
 	@Column(name="datetime")

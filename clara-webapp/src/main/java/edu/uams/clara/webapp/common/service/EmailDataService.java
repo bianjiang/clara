@@ -1,13 +1,16 @@
 package edu.uams.clara.webapp.common.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,11 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import edu.uams.clara.webapp.common.dao.email.EmailTemplateDao;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.email.EmailTemplate;
@@ -25,7 +33,9 @@ import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.UserRole;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
+import edu.uams.clara.webapp.common.objectwrapper.email.EmailRecipient;
 import edu.uams.clara.webapp.common.service.form.FormService;
+import edu.uams.clara.webapp.common.service.form.impl.FormServiceImpl.UserSearchField;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.irb.Agenda;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
@@ -80,6 +90,294 @@ public abstract class EmailDataService<T> {
 		return values.get(key) != null && values.get(key).size() > 0?values.get(key).get(0):"N/A";
 	}
 	*/
+	
+	//@TODO: Move the group to committee, and do postconstruct on this bean
+	protected static Map<String, Committee> committeeMatchMap = new HashMap<String, Committee>();{
+		committeeMatchMap.put("realComplianceReviewer", Committee.COMPLIANCE_REVIEW);
+		committeeMatchMap.put("realHospitalServiceReviewer", Committee.HOSPITAL_SERVICES);
+		committeeMatchMap.put("realProtocolLegalReviewer", Committee.PROTOCOL_LEGAL_REVIEW);
+		committeeMatchMap.put("realDepartmentReviewer", Committee.DEPARTMENT_CHAIR);
+		committeeMatchMap.put("realCollegeReviewer", Committee.COLLEGE_DEAN);
+		committeeMatchMap.put("realIRBAssigner", Committee.IRB_ASSIGNER);
+		committeeMatchMap.put("realPharmacyReviewer", Committee.PHARMACY_REVIEW);
+		committeeMatchMap.put("realContractManager", Committee.CONTRACT_MANAGER);
+		committeeMatchMap.put("realGatekeeper", Committee.GATEKEEPER);
+		committeeMatchMap.put("realACHGatekeeper", Committee.ACHRI);
+		committeeMatchMap.put("realBudgetManager", Committee.BUDGET_MANAGER);
+		committeeMatchMap.put("realPTL", Committee.PTL);
+		committeeMatchMap.put("realProtocolLegalReviewer", Committee.PROTOCOL_LEGAL_REVIEW);
+		committeeMatchMap.put("realACHPharmacyReviewer", Committee.ACH_PHARMACY_REVIEWER);
+		committeeMatchMap.put("realIRBOffice", Committee.IRB_OFFICE);
+		committeeMatchMap.put("realMonitioring", Committee.MONITORING_REGULATORY_QA);
+		committeeMatchMap.put("realBeaconTeam", Committee.BEACON_TEAM);
+		committeeMatchMap.put("realWillowTeam", Committee.WILLOW_TEAM);
+		committeeMatchMap.put("realLegalReviewer", Committee.CONTRACT_LEGAL_REVIEW);
+		committeeMatchMap.put("realContractReviewer", Committee.CONTRACT_ADMIN);
+	}
+	
+	protected static Map<String, String> realRecipientMatchMap = new HashMap<String, String>();{
+		realRecipientMatchMap.put("AssignedReviewer", "assignedReviewer");
+		realRecipientMatchMap.put("RevisionRequestedAssignedReviewer", "requestedReviewer");
+		realRecipientMatchMap.put("studyPI", "studyPI");
+		realRecipientMatchMap.put("onlyPI", "onlyPI");
+		realRecipientMatchMap.put("studyBudgetManager", "studyBudgetManager");
+		realRecipientMatchMap.put("budgetAdmin", "budgetAdmin");
+	}
+	
+	protected static Map<String, Permission> assignedReviewerMatchMap = new HashMap<String, Permission>();{
+		assignedReviewerMatchMap.put("AssignedCoverageReviewer", Permission.ROLE_COVERAGE_REVIEWER);
+		assignedReviewerMatchMap.put("AssignedBudgetReviewer", Permission.ROLE_BUDGET_REVIEWER);
+		assignedReviewerMatchMap.put("AssignedRegulatoryReviewer", Permission.ROLE_MONITORING_REGULATORY_QA_REVIEWER);
+		assignedReviewerMatchMap.put("AssignedIRBOfficeReviewer", Permission.ROLE_IRB_OFFICE);
+		assignedReviewerMatchMap.put("AssignedContractReviewer", Permission.ROLE_CONTRACT_ADMIN);
+		assignedReviewerMatchMap.put("AssignedLegalReviewer", Permission.ROLE_CONTRACT_LEGAL_REVIEW);
+	}
+	
+	protected static List<Committee> noResubmissionNotificationCommitteeList = Lists.newArrayList();{
+		noResubmissionNotificationCommitteeList.add(Committee.IRB_PREREVIEW);
+		noResubmissionNotificationCommitteeList.add(Committee.IRB_OFFICE);
+		noResubmissionNotificationCommitteeList.add(Committee.IRB_EXPEDITED_REVIEWER);
+		noResubmissionNotificationCommitteeList.add(Committee.IRB_EXEMPT_REVIEWER);
+	}
+	
+	protected String getLogReceipientLst(String logReceipient, EmailRecipient er, List<String> real, List<String> realCc) {
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			List<String> newList = new ArrayList<String>(real);
+			newList.addAll(realCc);
+			
+			newList = new ArrayList<String>(new HashSet<String>(newList));
+
+			List<EmailRecipient> emailRecipients = getEmailService()
+					.getEmailRecipients(newList.toString());
+			
+			for (EmailRecipient erp: emailRecipients) {
+				if(sb.length() > 0){
+			        sb.append(';');
+			    }
+			    sb.append(erp.getDesc());
+			}
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String desc = er.getType().equals(EmailRecipient.RecipientType.INDIVIDUAL)?"INDIVIDUAL":er.getDesc();
+		
+		logReceipient = logReceipient + "<strong>" + desc + "</strong>" + " (" + sb.toString() + ") ";
+		//logger.debug("!!!!!!!!!!!!!!!! " + logReceipient);
+		
+		return logReceipient;
+	}
+	
+	public EmailTemplate resolveEmailTemplate(Form form,
+			EmailTemplate emailTemplate, Committee committee, Map<String, Object> attributeRawValues) {
+		Committee revisionRequestedCommittee = null;
+		
+		Committee nextCommittee = null;
+		
+		List<Committee>  optionalCommittees = null;
+		
+		try{
+			revisionRequestedCommittee = Committee.valueOf(attributeRawValues.get(
+					"REVISION_REQUEST_COMMITTEE").toString());
+		} catch (Exception e){
+			//don't care... down stream handles null
+		}
+		
+		try{
+			nextCommittee = Committee.valueOf(attributeRawValues.get(
+					"NEXT_COMMITTEE").toString());
+		} catch (Exception e){
+			//don't care... down stream handles null
+		}
+		
+		try{ 
+			optionalCommittees = (List<Committee>) attributeRawValues.get(
+						"SELECTED_COMMITTEES");
+		}catch(Exception e){
+			//don't care... down stream handles null
+		}
+		
+		List<String> real = new ArrayList<String>();
+		List<String> realCc = Lists.newArrayList();
+		
+		//List<EmailRecipient> emailRecipients = Lists.newArrayList();
+		List<EmailRecipient> toEmailRecipients = Lists.newArrayList();
+		List<EmailRecipient> ccEmailRecipients = Lists.newArrayList();
+		
+		Map<String, List<EmailRecipient>> receipientsMap = Maps.newHashMap();
+		
+		try{
+			toEmailRecipients = getEmailService().getEmailRecipients(emailTemplate.getTo());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		receipientsMap.put("to", toEmailRecipients);
+		
+		try{
+			ccEmailRecipients = getEmailService().getEmailRecipients(emailTemplate.getCc());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		receipientsMap.put("cc", ccEmailRecipients);
+		
+		String logReceipient = "";
+		
+		for (Entry<String, List<EmailRecipient>> mapEntry : receipientsMap.entrySet()){
+			for (EmailRecipient er : mapEntry.getValue()){
+				List<String> logReceipientTolist = Lists.newArrayList();
+				List<String> logReceipientCclist = Lists.newArrayList();
+				
+				if (er.getType().equals(EmailRecipient.RecipientType.INDIVIDUAL)){
+					if (mapEntry.getKey().equals("to")){
+						real.add(er.getJsonString());
+						logReceipientTolist.add(er.getJsonString());
+					} else {
+						realCc.add(er.getJsonString());
+						logReceipientCclist.add(er.getJsonString());
+					}					
+				} else {
+					for (Entry<String, String> realRecipientEntry : realRecipientMatchMap.entrySet()){
+						if (er.getAddress().contains(realRecipientEntry.getKey())){
+							List<String> realRecipientLst = getReviewersOrPIMailToList(committee, form.getMetaXml(), realRecipientEntry.getValue());
+							if (realRecipientLst != null && !realRecipientLst.isEmpty()){
+								for (String s : realRecipientLst){
+									if (mapEntry.getKey().equals("to")){
+										real.add(s);
+										logReceipientTolist.add(s);
+									} else {
+										realCc.add(s);
+										logReceipientCclist.add(s);
+									}
+								}
+							}
+						}
+					}
+					
+					for (Entry<String, Committee> entry : committeeMatchMap.entrySet()){
+						if (er.getAddress().contains(entry.getKey())){
+							List<String> committeeMatchLst = getNextCommitteeMailToList(form, entry.getValue());
+							if (committeeMatchLst != null && !committeeMatchLst.isEmpty()){
+								for (String s : committeeMatchLst){
+									if (mapEntry.getKey().equals("to")){
+										real.add(s);
+										logReceipientTolist.add(s);
+									} else {
+										realCc.add(s);
+										logReceipientCclist.add(s);
+									}
+									
+								}
+							}
+						}
+					}
+					
+					for (Entry<String, Permission> assignedReviewerEntry : assignedReviewerMatchMap.entrySet()){
+						
+						if (er.getAddress().contains(assignedReviewerEntry.getKey())){
+							List<String> assignedReviewerLst = getSpecificReviewerList(form, assignedReviewerEntry.getValue());
+							if (assignedReviewerLst != null && !assignedReviewerLst.isEmpty()){
+								for (String s : assignedReviewerLst){
+									if (mapEntry.getKey().equals("to")){
+										real.add(s);
+										logReceipientTolist.add(s);
+									} else {
+										realCc.add(s);
+										logReceipientCclist.add(s);
+									}
+								}
+							}
+						}
+					}
+					/*
+					if (er.getAddress().contains("realRecipient")){
+						List<String> realLst = getRealMailToList(form);
+						if (realLst != null && !realLst.isEmpty()){
+							for (String s : realLst){
+								if (mapEntry.getKey().equals("to")){
+									real.add(s);
+								} else {
+									realCc.add(s);
+								}
+							}
+						}
+					}
+					*/
+
+					if (er.getAddress().contains("SelectedCommittees") && optionalCommittees != null && !optionalCommittees.isEmpty()){
+						List<String> selectCommitteesLst = getSelectedCommitteeMailToList(optionalCommittees);
+						if (selectCommitteesLst != null && !selectCommitteesLst.isEmpty()){
+							for (String s : selectCommitteesLst){
+								if (mapEntry.getKey().equals("to")){
+									real.add(s);
+									logReceipientTolist.add(s);
+								} else {
+									realCc.add(s);
+									logReceipientCclist.add(s);
+								}
+							}
+						}
+					}
+					
+					//if (er.getAddress().contains("NextCommittee") && nextCommittee != null && !nextCommittee.isAssignable()){
+					if (er.getAddress().contains("NextCommittee") && nextCommittee != null){
+						List<String> nextCommitteeLst = getNextCommitteeMailToList(form, nextCommittee);
+						if (nextCommitteeLst != null && !nextCommitteeLst.isEmpty()){
+							for (String s : nextCommitteeLst){
+								if (mapEntry.getKey().equals("to")){
+									real.add(s);
+									logReceipientTolist.add(s);
+								} else {
+									realCc.add(s);
+									logReceipientCclist.add(s);
+								}
+							}
+						}
+					}
+					
+					if (er.getAddress().contains("RevisionRequestedCommittee") && revisionRequestedCommittee != null && !noResubmissionNotificationCommitteeList.contains(revisionRequestedCommittee)){
+						List<String> revisionReqCommitteeLst = getNextCommitteeMailToList(form, revisionRequestedCommittee);
+						if (revisionReqCommitteeLst != null && !revisionReqCommitteeLst.isEmpty()){
+							for (String s : revisionReqCommitteeLst){
+								if (mapEntry.getKey().equals("to")){
+									real.add(s);
+									logReceipientTolist.add(s);
+								} else {
+									realCc.add(s);
+									logReceipientCclist.add(s);
+								}
+							}
+						}
+					}
+				}
+				
+				logReceipient = getLogReceipientLst(logReceipient, er, logReceipientTolist, logReceipientCclist);
+			}
+		}
+		
+		if (real != null && !real.isEmpty()){
+			emailTemplate.setRealRecipient(real.toString());
+		} else {
+			emailTemplate.setRealRecipient(emailTemplate.getTo());
+		}
+		
+		if (realCc != null && !realCc.isEmpty()){
+			emailTemplate.setRealCCRecipient(realCc.toString());
+		} else {
+			emailTemplate.setRealCCRecipient(emailTemplate.getCc());
+		}
+		
+		emailTemplate.setLogRecipient(logReceipient);
+		
+		return emailTemplate;
+	}
 	
 	public User getSpecifiRoleUser(String formXmlData, String roleName){
 		User piUser = null;
@@ -180,16 +478,16 @@ public abstract class EmailDataService<T> {
 			lookupPath = "//committee-review/committee/assigned-reviewers/assigned-reviewer[@user-role-committee=\""+ committee.toString() +"\"]";
 			idAttribute = "user-id";
 		} else if (type.equals("studyPI")){
-			lookupPath = "//staffs/staff[notify='true' or (user/roles/role='Principal Investigator' or user/roles/role='principal investigator' or user/roles/role='Treating Physician' or user/roles/role='treating physician')]/user";
+			lookupPath = "//staffs/staff[notify='true' or (user/roles/role='Principal Investigator' or user/roles/role='principal investigator' or user/roles/role='Mentor/Faculty Advisor' or user/roles/role='Treating Physician' or user/roles/role='treating physician')]/user";
 			idAttribute = "id";
 		} else if (type.equals("onlyPI")){
-			lookupPath = "//staffs/staff/user[roles/role='Principal Investigator' or roles/role='principal investigator' or roles/role='Treating Physician' or roles/role='treating physician']";
+			lookupPath = "//staffs/staff/user[roles/role='Principal Investigator' or roles/role='principal investigator' or user/roles/role='Mentor/Faculty Advisor' or roles/role='Treating Physician' or roles/role='treating physician']";
 			idAttribute = "id";
 		}else if (type.equals("studyBudgetManager")){
-			lookupPath = "//staffs/staff/user[roles/role='Budget Manager' or roles/role='budget manager']";
+			lookupPath = "//staffs/staff/user[roles/role='Budget Manager' or roles/role='budget manager' or reponsibilities/responsibility='Budget Manager']";
 			idAttribute = "id";
 		} else if (type.equals("budgetAdmin")){
-			lookupPath = "//staffs/staff/user[reponsibilities/responsibility='Budget Manager' or reponsibilities/responsibility='Budget Administrator']";
+			lookupPath = "//staffs/staff/user[roles/role='Budget Administrator' or reponsibilities/responsibility='Budget Administrator']";
 			idAttribute = "id";
 		}
 		
@@ -274,7 +572,7 @@ public abstract class EmailDataService<T> {
 			for (User user : users){
 				if (committee.equals(Committee.DEPARTMENT_CHAIR)){
 					for (UserRole ur : user.getUserRoles()){
-						if (ur.getDepartment() != null){
+						if (ur.getDepartment() != null && !ur.isBusinessAdmin()){
 							if (ur.getDepartment().getId() == departmentId){
 								String finalDepartS = "{\"address\":\"INDIVIDUAL_" + user.getPerson().getEmail() +"\",\"type\":\"INDIVIDUAL\",\"desc\":\""+ user.getPerson().getFullname() +"\"}";
 								
@@ -308,6 +606,10 @@ public abstract class EmailDataService<T> {
 				}
 			}
 		} else {
+			if (committee.equals(Committee.PI)) {
+				users = getFormService().getUsersByKeywordAndSearchField("Principal Investigator", form.getMetaXml(), UserSearchField.ROLE);
+			}
+			
 			for (User u : users){
 				String finalS = "{\"address\":\"INDIVIDUAL_" + u.getPerson().getEmail() +"\",\"type\":\"INDIVIDUAL\",\"desc\":\""+ u.getPerson().getFullname() +"\"}";
 				logger.debug("finalS: " + finalS);

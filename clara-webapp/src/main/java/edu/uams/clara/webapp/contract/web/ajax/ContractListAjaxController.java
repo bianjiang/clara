@@ -275,6 +275,32 @@ public class ContractListAjaxController {
 
 	}
 	
+	@RequestMapping(value = "/ajax/contracts/search-bookmarks/{searchBookmarkId}/update", method = RequestMethod.POST)
+	public @ResponseBody
+	JsonResponse updateProtocolSearchBookmarks(
+			@PathVariable(value = "searchBookmarkId") long searchBookmarkId,
+			@RequestParam(value = "userId") long userId,
+			@RequestParam(value = "name") String name,
+			@RequestParam(value = "searchCriterias") String searchCriterias) {
+
+		try {
+			ContractSearchBookmark contractSearchBookmark = contractSearchBookmarkDao.findById(searchBookmarkId);
+
+			contractSearchBookmark.setName(name);
+			contractSearchBookmark.setSearchCriterias(searchCriterias);
+			
+			contractSearchBookmark = contractSearchBookmarkDao
+					.saveOrUpdate(contractSearchBookmark);
+
+			return new JsonResponse(false);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			logger.info("bookmark", ex);
+			return new JsonResponse(true, "Failed to update bookmark!", "", false, null);
+		}
+
+	}
+	
 	@RequestMapping(value = "/ajax/contracts/search-bookmarks/{id}/remove", method = RequestMethod.POST)
 	public @ResponseBody
 	JsonResponse removeContractSearchBookmarks(

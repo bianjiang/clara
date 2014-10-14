@@ -24,7 +24,6 @@ import edu.uams.clara.webapp.common.domain.form.Form;
 import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
-import edu.uams.clara.webapp.common.objectwrapper.email.EmailRecipient;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
@@ -261,30 +260,9 @@ public abstract class BusinessObjectTrackService<T> extends
 
 		for (EmailTemplate emailTemplate : emailTemplates) {
 			if (emailTemplate.getIdentifier().equals(emailTemplateIdentifier)) {
-				List<EmailRecipient> emailRecipients = getEmailService()
-						.getEmailRecipients(
-								(emailTemplate.getRealRecipient() != null) ? emailTemplate
-										.getRealRecipient() : emailTemplate
-										.getTo());
 				
-				List<EmailRecipient> emailCCRecipients = getEmailService()
-						.getEmailRecipients(
-								(emailTemplate.getRealCCRecipient() != null) ? emailTemplate
-										.getRealCCRecipient() : emailTemplate
-										.getCc());
-
 				String recipents = "";
-				for (EmailRecipient emailRecipient : emailRecipients) {
-					// emailRecipient.getType().equals(EmailRecipient.RecipientType.)
-					recipents += "<b>" + emailRecipient.getDesc() + "</b>; ";
-				}
-				
-				if (emailCCRecipients != null && !emailCCRecipients.isEmpty()) {
-					for (EmailRecipient emailCCRecipient : emailCCRecipients) {
-						recipents += "<b>" + emailCCRecipient.getDesc() + "</b>; ";
-					}
-					
-				}
+				recipents += "<b>" + emailTemplate.getLogRecipient() + "</b>; ";
 
 				attributeValues.put("{EMAIL_NOTIFICATION_LOG}",
 						notificationLogTemplate + recipents);
@@ -329,6 +307,87 @@ public abstract class BusinessObjectTrackService<T> extends
 		}
 		
 		return logXml;
+	}
+	
+	public Document addNewNotification(Document actionXmlDoc, String notificationType, String emailTemplateIdentifier, String xPathCondition, String formXPathCondition, String logType, String eventType, String logText){
+		try {
+			Element rootActionEl = actionXmlDoc.getDocumentElement();
+			
+			XPath xPath = getXmlProcessor().getXPathInstance();
+			
+			Element notificationsEl = (Element) (xPath.evaluate(
+					"//notifications", actionXmlDoc,
+					XPathConstants.NODE));
+			
+			if (notificationsEl == null) {
+				notificationsEl = actionXmlDoc.createElement("notifications");
+				
+				rootActionEl.appendChild(notificationsEl);
+			}
+			
+			Element notificationEl = actionXmlDoc.createElement("notification");
+			if (xPathCondition != null) {
+				notificationEl.setAttribute("xpath-condition", xPathCondition);
+			} 
+			
+			if (formXPathCondition != null) {
+				notificationEl.setAttribute("form-xpath-condition", formXPathCondition);
+			}
+			
+			notificationEl.setAttribute("notification-type", notificationType);
+			notificationEl.setAttribute("email-template-identifier", emailTemplateIdentifier);
+			
+			notificationsEl.appendChild(notificationEl);
+			
+			Element notificationLogsEl = actionXmlDoc.createElement("logs");
+			notificationEl.appendChild(notificationLogsEl);
+			
+			Element notificationLogEl = actionXmlDoc.createElement("log");
+			notificationLogEl.setAttribute("log-type", logType);
+			notificationLogEl.setAttribute("event-type", eventType);
+			notificationLogEl.setAttribute("form-type", "{FORM_TYPE}");
+			notificationLogEl.setAttribute("form-id", "{FORM_ID}");
+			notificationLogEl.setAttribute("parent-form-id", "{PARENT_FORM_ID}");
+			notificationLogEl.setAttribute("action-user-id", "{USER_ID}");
+			notificationLogEl.setAttribute("actor", "{COMMITTEE_DESC}");
+			notificationLogEl.setAttribute("timestamp", "{NOW_TIMESTAMP}");
+			notificationLogEl.setAttribute("date-time", "{NOW_DATETIME}");
+			notificationLogEl.setTextContent("<span class=\"history-log-message\">" + logText + "</span>");
+			
+			notificationLogsEl.appendChild(notificationLogEl);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return actionXmlDoc;
+	}
+	
+	public Document addNewEvent(Document actionXmlDoc, String eventName){
+		try {
+			Element rootActionEl = actionXmlDoc.getDocumentElement();
+			
+			XPath xPath = getXmlProcessor().getXPathInstance();
+			
+			Element eventsEl = (Element) (xPath.evaluate(
+					"//events", actionXmlDoc,
+					XPathConstants.NODE));
+			
+			if (eventsEl == null) {
+				eventsEl = actionXmlDoc.createElement("events");
+				
+				rootActionEl.appendChild(eventsEl);
+			}
+			
+			Element eventEl = actionXmlDoc.createElement("event");
+			eventEl.setTextContent(eventName);
+			
+			eventsEl.appendChild(eventEl);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return actionXmlDoc;
 	}
 	
 	/*

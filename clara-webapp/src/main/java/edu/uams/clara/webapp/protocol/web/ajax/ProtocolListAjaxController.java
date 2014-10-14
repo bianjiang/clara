@@ -28,12 +28,15 @@ import com.google.common.collect.Lists;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.objectwrapper.PagedList;
+import edu.uams.clara.webapp.common.util.JsonResponseHelper;
 import edu.uams.clara.webapp.common.util.response.JsonResponse;
 import edu.uams.clara.webapp.contract.domain.Contract;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
 import edu.uams.clara.webapp.protocol.dao.search.ProtocolSearchBookmarkDao;
+import edu.uams.clara.webapp.protocol.dao.thing.GrantDao;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.search.ProtocolSearchBookmark;
+import edu.uams.clara.webapp.protocol.domain.thing.Grant;
 import edu.uams.clara.webapp.protocol.objectwrapper.ProtocolSearchCriteria;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
@@ -44,6 +47,8 @@ public class ProtocolListAjaxController {
 			.getLogger(ProtocolListAjaxController.class);
 
 	private ProtocolDao protocolDao;
+	
+	private GrantDao grantDao;
 
 	private ProtocolSearchBookmarkDao protocolSearchBookmarkDao;
 	
@@ -103,13 +108,20 @@ public class ProtocolListAjaxController {
 		if(searchCriteriasJsonString != null && searchCriteriasJsonString.length() > 0){
 			
 			logger.debug("searchCriteriasJsonString :" + searchCriteriasJsonString);
-			JavaType listOfProtocolSearchCriteria = TypeFactory.defaultInstance().constructCollectionType(ArrayList.class, ProtocolSearchCriteria.class);
+			
+			try {
+				JavaType listOfProtocolSearchCriteria = TypeFactory.defaultInstance().constructCollectionType(ArrayList.class, ProtocolSearchCriteria.class);
+				searchCriterias = objectMapper.readValue(searchCriteriasJsonString, listOfProtocolSearchCriteria);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			
 			//ProtocolSearchCriteria protocolSearchCriteria = objectMapper.readValue(searchCriteriasJsonString, ProtocolSearchCriteria.class);
 			//logger.debug("ProtocolSearchCriteria: " + protocolSearchCriteria.getSearchField());
-			searchCriterias = objectMapper.readValue(searchCriteriasJsonString, listOfProtocolSearchCriteria);
+			
 		}
-
+		
 		pagedProtocolMetaDatas = protocolDao
 				.listPagedProtocolMetaDatasByUserAndSearchCriteriaAndProtocolStatusFilter(
 						u, s, l, searchCriterias, quickSearch);
@@ -126,7 +138,6 @@ public class ProtocolListAjaxController {
 			}
 		}
 		finalResultXml += "</list>";
-		
 		/*
 		String convertedString = 
 			       Normalizer
@@ -137,6 +148,60 @@ public class ProtocolListAjaxController {
 		return finalResultXml;
 		
 	}
+	
+	@RequestMapping(value = "/ajax/protocols/search-bookmarks/export", method = RequestMethod.POST)
+	public @ResponseBody
+	String exportBookmakrSearch(
+			@RequestParam(value = "searchCriterias", required = false) String searchCriteriasJsonString
+			) //@RequestParam(value = "searchCriterias[]", required = false) List<ProtocolSearchCriteria> searchCriterias
+			throws XPathExpressionException, SAXException, IOException { 
+
+		User u = (User) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+
+		PagedList<Protocol> pagedProtocolMetaDatas = null;
+
+		List<ProtocolSearchCriteria> searchCriterias = null;
+		
+		boolean quickSearch = false;
+		
+		if(searchCriteriasJsonString != null && searchCriteriasJsonString.length() > 0){
+			
+			logger.debug("searchCriteriasJsonString :" + searchCriteriasJsonString);
+			
+			try {
+				JavaType listOfProtocolSearchCriteria = TypeFactory.defaultInstance().constructCollectionType(ArrayList.class, ProtocolSearchCriteria.class);
+				searchCriterias = objectMapper.readValue(searchCriteriasJsonString, listOfProtocolSearchCriteria);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			//ProtocolSearchCriteria protocolSearchCriteria = objectMapper.readValue(searchCriteriasJsonString, ProtocolSearchCriteria.class);
+			//logger.debug("ProtocolSearchCriteria: " + protocolSearchCriteria.getSearchField());
+			
+		}
+		
+		pagedProtocolMetaDatas = protocolDao
+				.listPagedProtocolMetaDatasByUserAndSearchCriteriaAndProtocolStatusFilter(
+						u, 0, protocolDao.listProtocolsByUser(u).size(), searchCriterias, quickSearch);
+
+		String finalResultXml = "<list>";
+
+		if (pagedProtocolMetaDatas.getList() != null
+				&& !pagedProtocolMetaDatas.getList().isEmpty()) {
+			for (Protocol p : pagedProtocolMetaDatas.getList()) {
+				//logger.debug("" + p.getId());
+				finalResultXml += (p.getMetaDataXml() != null ? p
+						.getMetaDataXml() : "");
+			}
+		}
+		finalResultXml += "</list>";
+		String fileUrl = protocolDao.exportBookmarkSearchResultFile(finalResultXml,u);
+		
+		return fileUrl;
+	}
+	
 
 	@RequestMapping(value = "/ajax/protocols/search-bookmarks/save", method = RequestMethod.POST)
 	public @ResponseBody
@@ -163,6 +228,32 @@ public class ProtocolListAjaxController {
 			ex.printStackTrace();
 			logger.info("bookmark", ex);
 			return new JsonResponse(true, "Saving search bookmarks is encounting an error!", "", false, null);
+		}
+
+	}
+	
+	@RequestMapping(value = "/ajax/protocols/search-bookmarks/{searchBookmarkId}/update", method = RequestMethod.POST)
+	public @ResponseBody
+	JsonResponse updateProtocolSearchBookmarks(
+			@PathVariable(value = "searchBookmarkId") long searchBookmarkId,
+			@RequestParam(value = "userId") long userId,
+			@RequestParam(value = "name") String name,
+			@RequestParam(value = "searchCriterias") String searchCriterias) {
+
+		try {
+			ProtocolSearchBookmark protocolSearchBookmark = protocolSearchBookmarkDao.findById(searchBookmarkId);
+
+			protocolSearchBookmark.setName(name);
+			protocolSearchBookmark.setSearchCriterias(searchCriterias);
+			
+			protocolSearchBookmark = protocolSearchBookmarkDao
+					.saveOrUpdate(protocolSearchBookmark);
+
+			return new JsonResponse(false);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			logger.info("bookmark", ex);
+			return new JsonResponse(true, "Failed to update bookmark!", "", false, null);
 		}
 
 	}
@@ -261,6 +352,21 @@ public class ProtocolListAjaxController {
 
 		return finalResultXml;
 	}
+	
+	@RequestMapping(value = "/ajax/protocols/related-grant/list", method = RequestMethod.GET, produces="application/json")
+	public @ResponseBody
+	JsonResponse listRelatedGrant(
+			@RequestParam(value = "protocolId", required = true) long protocolId) { 
+		
+		try {
+			List<Grant> pagedGrant = grantDao.listRelatedGrantByProtocolId(protocolId);
+			
+			return JsonResponseHelper.newDataResponseStub(pagedGrant);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return JsonResponseHelper.newDataResponseStub(Lists.newArrayList());
+		}
+	}
 
 	@Autowired(required = true)
 	public void setProtocolDao(ProtocolDao protocolDao) {
@@ -298,6 +404,15 @@ public class ProtocolListAjaxController {
 	@Autowired(required = true)
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
+	}
+
+	public GrantDao getGrantDao() {
+		return grantDao;
+	}
+
+	@Autowired(required = true)
+	public void setGrantDao(GrantDao grantDao) {
+		this.grantDao = grantDao;
 	}
 
 }

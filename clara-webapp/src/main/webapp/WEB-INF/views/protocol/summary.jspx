@@ -23,13 +23,7 @@
 	<x:set var="protocolId" select="string($n/protocol/@id)" />
 
 	<script type="text/javascript">
-		<![CDATA[
-			jQuery.noConflict();
-				claraInstance.setUser({
-					id: ${!empty user?user.id:0}
-				});
-					
-		]]>
+	
 		
 		<c:forEach var="permission" items="${user.authorities}">
 			<![CDATA[
@@ -44,7 +38,8 @@
 		claraInstance.setId("${!empty protocolId?protocolId:0}");
 		claraInstance.setUser({
 			id: ${!empty user?user.id:0},
-			committee:'${!empty committee?committee:'PI'}'
+			committee:'${!empty committee?committee:'PI'}',
+			username: "${!empty user?user.username:''}"
 		});
 
 	</script>
@@ -86,7 +81,7 @@
 			</c:forEach>
 
 			<div class="summary-page" id="summary-page-${pageId}">
-				<div class="row-fluid summary-row">
+				<div class="row-fluid summary-row summary-page-header">
 					<div class="span8">
 						<h4>
 							<x:out escapeXml="false" select="string($page/@name)" />

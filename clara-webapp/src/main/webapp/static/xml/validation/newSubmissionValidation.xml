@@ -2858,7 +2858,7 @@
 		</prerequisites>
 	</rule>
 	 -->
-	<rule path="/protocol/misc/is-registered-at-trialsearch" value-type="java.lang.String" pagename="MISC" pageref="misc">
+	<!-- <rule path="/protocol/misc/is-registered-at-trialsearch" value-type="java.lang.String" pagename="MISC" pageref="misc">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if this study will be
 						registered at TrialSearch is required!" level="ERROR"/>
 		<prerequisites>
@@ -2872,7 +2872,7 @@
 				<constraint type="EQUAL" data="uams" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule> -->
 	<rule path="/protocol/misc/is-cancer-study" value-type="java.lang.String" pagename="MISC" pageref="misc">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if the study is cancer
 						research or cancer-related research is required!" level="ERROR"/>

@@ -9,7 +9,9 @@
             "environments": "development,training,production",
             "formid":"Protocol:Audit",
             "description": "Find protocols based on fields (for audit)", 
-            "forceQueue": false
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":true
         },
         {
             "id": 2, 
@@ -19,7 +21,9 @@
             "environments": "development,training,production",
             "formid":"Protocol:TimeInReview",
             "description": "Find time in review (by individual study)", 
-            "forceQueue": false
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":true
         },
         {
             "id": 3, 
@@ -29,7 +33,9 @@
             "environments": "development,training,production",
             "formid":"Protocol:SummaryInformation",
             "description": "Find Summary Information for Studies", 
-            "forceQueue": false
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":true
         },
         {
             "id": 4, 
@@ -38,7 +44,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"CancerRelatedStudy",
-             "forceQueue": false
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":true
         },
         
         {
@@ -49,7 +57,9 @@
             "environments": "development,training,production",
             "formid":"Contract:OverdueNotice",
             "description": "Find overdue contracts", 
-            "forceQueue": false
+            "forceQueue": false,
+            "hasUserSelectableCriteria":false,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 6, 
@@ -58,7 +68,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:InitialSubmissions",
-            "forceQueue": false
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 7, 
@@ -67,7 +79,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:ProtocolsByFunding",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 8, 
@@ -76,7 +90,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:ProtocolsByPi",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 9, 
@@ -85,7 +101,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:openBetweenDays",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 10, 
@@ -94,7 +112,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:ContinuingReviewBySubDate",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 11, 
@@ -103,7 +123,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:EnrollmentByContinuingReviewSubDate",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 12, 
@@ -112,7 +134,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:PorotocolsClodesAndPatientNum",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 13, 
@@ -121,7 +145,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:ClosedStudyReason",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 14, 
@@ -130,7 +156,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:ClosedStudyNumOfPatient",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 15, 
@@ -139,7 +167,9 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"HumanSubjectResearch:ProcessMeasures",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 16, 
@@ -148,18 +178,65 @@
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"AgendaReport",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         },
         {
             "id": 17, 
             "type":"IRB Billing Report",
-            "category":"Agenda",
+            "category":"Protocol",
             "icnCls":"",
             "environments": "development,training,production",
             "formid":"IRBBillingReport",
-             "forceQueue": false
+             "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
+        },
+        {
+            "id": 18, 
+            "type":"User Information Report",
+            "category":"User",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"UserInfoReport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
+        },
+        {
+            "id": 19, 
+            "type":"College/Department Workload Report",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"WorkloadReport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
+        },
+        {
+            "id": 20, 
+            "type":"Contract Time Tracking Report",
+            "category":"Contract",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"contractTimeTrackingReport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
+        },
+        {
+            "id": 21, 
+            "type":"Enrollment Report",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"enrollmentReport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         }
-        
         
         ]
 }

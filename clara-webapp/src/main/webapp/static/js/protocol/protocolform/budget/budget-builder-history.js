@@ -234,7 +234,7 @@ Clara.BudgetBuilder.VersionsWindow = Ext.extend(Ext.Window, {
 	id: 'winBudgetVersions',
 	xtype: 'panel',
 	modal:true,
-	width:380,
+	width:880,
 	height:300,
     title: 'Compare to another version..',
     iconCls:'icn-edit-diff',

@@ -6,21 +6,21 @@
     <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/first-page">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/first-page.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
   
     <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/general-study-information">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/general-study-information.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
     
     <!-- <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/study-status">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/study-status.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition> -->
     
@@ -28,21 +28,21 @@
     <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/accrual-of-subjects">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/accrual-of-subjects.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
     
     <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/study-report">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/study-report.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
     
     <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/conflict-of-interest">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/conflict-of-interest.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-            		<add-attribute value="/static/js/common/wizard.js" />
+            		
   		</put-list-attribute>
     </definition>
     
@@ -66,7 +66,7 @@
     <definition extends="protocol/protocolform/continuingreview" name="protocol/protocolform/continuingreview/documents">
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/documents.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
-         <add-attribute value="/static/js/common/wizard.js" />
+         
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.bufferview.js" />
     		<add-attribute value="/static/js/ext/ux/Ext.ux.FileUploadField.js" />
@@ -104,7 +104,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/general-study-information.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
     		<add-attribute value="/static/js/protocol/protocolform/department-panel.js" />
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -115,7 +115,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/study-status.jspx"
         />
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -126,7 +126,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/first-page.jspx"
         />
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -137,7 +137,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/accrual-of-subjects.jspx"
         />
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -148,7 +148,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/study-report.jspx"
         />
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -159,7 +159,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/conflict-of-interest.jspx"
         />
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -187,7 +187,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/staff-readonly.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
     		<add-attribute value="/static/js/protocol/protocolform/department-panel.js" />
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />
@@ -199,7 +199,7 @@
         <put-attribute name="body" value="/WEB-INF/views/protocol/protocolform/continuingreview/documents.jspx"
         />
         <put-list-attribute name="javascripts" inherit="true">
-    		<add-attribute value="/static/js/common/wizard.js" />
+    		
   		</put-list-attribute>
   		  		<put-list-attribute name="styles" inherit="true">
         	<add-attribute value="/static/styles/review-summary.css" />

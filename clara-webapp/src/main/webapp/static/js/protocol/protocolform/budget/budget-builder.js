@@ -546,6 +546,9 @@ Clara.BudgetBuilder.ShowProcedureNotes = function(procid){
 	if (proc.notes !== ''){
 		notes +="<div class='proc-notes proc-notes-billing'><h1>Billing Notes</h1>"+proc.notes+"</div>";
 	}
+	if (proc.coverageNotes !== ''){
+		notes +="<div class='proc-notes proc-notes-coverage'><h1>Budget / Coverage Notes</h1>"+proc.coverageNotes+"</div>";
+	}
 	if (proc.clinicalNotes !== ''){
 		notes +="<div class='proc-notes proc-notes-clinical'><h1>Clinical Notes</h1>"+proc.clinicalNotes+"</div>";
 	}

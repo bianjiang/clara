@@ -2018,4 +2018,18 @@
 			<desc>Other</desc>
 		</option>
 	</project-primary-intent>
+	<action-type>
+		<option>
+			<value>rereview-correction</value>
+			<desc>Re-review/Correction by full board</desc>
+		</option>
+		<option>
+			<value>upirtso</value>
+			<desc>Review of UPIRTSO/Non-compliance determinations</desc>
+		</option>
+		<option>
+			<value>other</value>
+			<desc>Other </desc>
+		</option>
+	</action-type>
 </lookup>

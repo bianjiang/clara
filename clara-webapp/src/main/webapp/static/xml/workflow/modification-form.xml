@@ -87,6 +87,7 @@
 								</change-status>
 								<events>
 									<event>SET_FORM_SUBMIT_DATE</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<notifications>
 									<!-- <notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_SUBMITTED_TO_IRB_PREREVIEW">
@@ -99,26 +100,26 @@
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>	
-									<notification xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
+									<notification form-xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMIT_TO_REGULATORY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted to IRB Assigner for reviewer assignment by PI ({USER_WITH_EMAIL_LINK}) and Regulatory group is notified. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
+									<notification form-xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>		
-									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH">
+									<notification form-xpath-condition="boolean(count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted and ACH Gatekeeper is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>		
-									<notification xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+									<notification form-xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_TO_BEACON">
 										<logs>
-											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has submitted the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
-									</notification>						
+									</notification>				
 								</notifications>
 							</action>
 							<action type="SIGN_SUBMIT" condition="IS_PI" workflow="COMPLIANCE" email-template-identifier="">
@@ -146,11 +147,11 @@
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>	
-									<notification xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+									<!-- <notification xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
-									</notification>									
+									</notification> -->									
 								</notifications>
 							</action>
 							<action type="SIGN_SUBMIT" condition="IS_PI" workflow="BUDGET_ONLY" email-template-identifier="">
@@ -177,12 +178,12 @@
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
+									<notification form-xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMIT_TO_REGULATORY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted to Budget Review Manager for pre-review by PI ({USER_WITH_EMAIL_LINK}) and Regulatory group is notified. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
+									<notification form-xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -201,6 +202,7 @@
 								<events>
 									<event>SET_FORM_SUBMIT_DATE</event>
 									<event submission-type="original">GENERATE_BUDGET_DOCUMENT</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_SUBMITTED_GATEKEEPER">
@@ -213,12 +215,12 @@
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
+									<notification form-xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMIT_TO_REGULATORY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted to Gatekeeper for pre-review by PI ({USER_WITH_EMAIL_LINK}) and Regulatory group is notified. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
+									<notification form-xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -310,6 +312,7 @@
 								</change-status>
 								<events>
 									<event>SET_FORM_SUBMIT_DATE</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<notifications>
 									<!-- <notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_SUBMITTED_TO_IRB_PREREVIEW">
@@ -322,24 +325,24 @@
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>	
-									<notification xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
+									<notification form-xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMIT_TO_REGULATORY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted to IRB Assigner for reviewer assignment by PI ({USER_WITH_EMAIL_LINK}) and Regulatory group is notified. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
+									<notification form-xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>	
-									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH">
+									<notification form-xpath-condition="boolean(count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted and ACH Gatekeeper is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>	
-									<notification xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+									<notification form-xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_TO_BEACON">
 										<logs>
-											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has submitted the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -369,11 +372,11 @@
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+									<!-- <notification xpath-condition="boolean(count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/involve-change-in/budget-modified[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
-									</notification>										
+									</notification> -->										
 								</notifications>
 							</action>
 							<action type="SIGN_SUBMIT" condition="IS_PI" workflow="BUDGET_ONLY" email-template-identifier="">
@@ -399,12 +402,12 @@
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
+									<notification form-xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMIT_TO_REGULATORY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted to Budget Review Manager for pre-review by PI ({USER_WITH_EMAIL_LINK}) and Regulatory group is notified. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
+									<notification form-xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -422,6 +425,7 @@
 								</change-status>
 								<events>
 									<event>SET_FORM_SUBMIT_DATE</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_SUBMITTED_GATEKEEPER">
@@ -434,12 +438,12 @@
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/migrated[text()='y'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
+									<notification form-xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and count(/protocol/modification/to-modify-section/conduct-under-uams[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMIT_TO_REGULATORY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMIT_TO_REGULATORY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted to Gatekeeper for pre-review by PI ({USER_WITH_EMAIL_LINK}) and Regulatory group is notified. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
-									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
+									<notification form-xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_SUBMISSION_TO_ACH_PHARMACY">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="GENENRIC_SUBMISSION_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Modification has been submitted and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -580,13 +584,13 @@
 									</notification>										
 								</notifications>
 							</action>
-							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="MODIFICATION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
 								<change-status>
 									<!-- <status status="REVISION_PENDING_PI_ENDORSEMENT" /> -->
 									<form-status status="REVISION_PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="MODIFICATION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has re-submitted the modification to the PI for endorsement. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -661,6 +665,9 @@
 										</form-committee-status>
 									</form-committee-statuses>
 								</change-status>
+								<events>
+									<event submission-type="revision">GENERATE_BUDGET_DOCUMENT</event>
+								</events>
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_REVISION_SUBMITTED">
 										<logs>
@@ -674,20 +681,19 @@
 									</notification>										
 								</notifications>
 							</action>
-							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="MODIFICATION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
 								<change-status>
 									<!-- <status status="REVISION_PENDING_PI_ENDORSEMENT" /> -->
 									<form-status status="REVISION_PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="MODIFICATION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has re-submitted the modification to the PI for endorsement. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
 							</action>
-							
 						</actions>
 					</review-page>
 				</committee>
@@ -2545,13 +2551,21 @@
 												involved-committee="IRB_ASSIGNER" status="PENDING_REVIEWER_ASSIGNMENT" />
 									</form-committee-statuses>
 								</change-status>
+								<events>
+									<event>GENERATE_EPIC_CDM</event>
+								</events>
 								<logs>
 									<log log-type="ACTION" event-type="PI_SIGN_OFF" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and the study is currently under IRB pre-review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
 								</logs>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
+									<notification form-xpath-condition="boolean(count(/protocol/epic/involve-chemotherapy[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_BEACON">
 										<logs>
-											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and Beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_BEACON" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget modification and beacon team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
+									<notification notification-type="NOTIFICATION" email-template-identifier="BUDGET_APPROVED_NOTIFICATION_FOR_HB">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="BUDGET_APPROVED_NOTIFICATION_FOR_HB" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has signed off on the budget and HB team is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
 									<notification form-xpath-condition="boolean(count(/protocol/modification/to-modify-section/involve-addition-deletion-of/pharmacy[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_BUDGET_APPROVE_TO_PHARMACY">
@@ -2668,7 +2682,7 @@
 			<form-status value="UNDER_IRB_PREREVIEW" form-committee-status="IN_REVIEW">
 				<committee name="IRB_PREREVIEW">
 					<!-- <review-page page-name="committee-review" review-form-name="irb-prereview"> -->
-					<review-page page-name="committee-review" xpath-condition="boolean(count(/protocol/modification/to-modify-section/is-audit[text()='y'])=0)" review-form-name="irb-prereview">
+					<review-page page-name="committee-review" form-xpath-condition="boolean(count(/protocol/modification/to-modify-section/is-audit[text()='y'])=0)" review-form-name="irb-prereview">
 						<!-- <review-page-panel>
 							<panel-identifier xpath-condition="boolean(count(/protocol/modification/to-modify-section/is-audit[text()='y'])=0)">irb-prereview</panel-identifier>
 							<panel-identifier xpath-condition="boolean(count(/protocol/modification/to-modify-section/is-audit[text()='y'])>0)">irb-audit-prereview</panel-identifier>
@@ -2786,7 +2800,7 @@
 							</action>
 						</actions>
 					</review-page>
-					<review-page page-name="committee-review" xpath-condition="boolean(count(/protocol/modification/to-modify-section/is-audit[text()='y'])>0)" review-form-name="irb-audit-prereview">
+					<review-page page-name="committee-review" form-xpath-condition="boolean(count(/protocol/modification/to-modify-section/is-audit[text()='y'])>0)" review-form-name="irb-audit-prereview">
 						<decisions>
 							<decision>
 								<value>APPROVED</value>

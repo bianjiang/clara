@@ -7,9 +7,49 @@
 Ext.ns('Clara','Clara.Config');
 
 var CLARA_AJAX_TIMEOUT = 30000;
+var CLARA_AJAX_TIMEOUT_LONG = 90000;
 var CLARA_SESSION_TIMEOUT = 60*60*1000;	// 60 minutes
 
 function piwik_enabled() { return (typeof _paq !== "undefined"); }
+
+
+// Function for preventing double clicks on links
+function clickAndDisable(link) {
+
+    // add any additional logic here 
+	clog("disabling double. shouldnt see this log msg more than once!");
+    // disable subsequent clicks
+    link.onclick = function(e) {
+       e.preventDefault();
+    }
+  } 
+
+// JS Error tracking with PIWIK (cross-browser)
+/**
+ * Track JS error details in Universal Analytics
+ */
+ 
+function trackJavaScriptError(e,url,line) {
+  var errMsg = (typeof e.message === "undefined")?e:e.message;
+  var errSrc = (typeof url === "undefined")?(e.filename + ': ' + e.lineno):(url+': '+line);
+  if (piwik_enabled() === true){
+		clog("Error. Attempting to send to PIWIK",errMsg,errSrc);
+		_paq.push(['trackEvent', 'JavaScript Error', errMsg, errSrc]);
+  }
+}
+ 
+/**
+ * Cross-browser event listener
+ */
+ 
+if (window.addEventListener) {
+  window.addEventListener('error', trackJavaScriptError, false);
+} else if (window.attachEvent) {
+  window.attachEvent('onerror', trackJavaScriptError);
+} else {
+  window.onerror = trackJavaScriptError;
+}
+
 
 Array.prototype.hasValue = function(value) {
 	  var i;
@@ -220,6 +260,7 @@ var claraInstance = {
 	
 	user: {
 		id:null,
+		username:null,
 		committee:null,
 		permissions:[]
 	},
@@ -590,6 +631,41 @@ Array.prototype.unique = function() {
  for(i in o) r.push(o[i]);
  return r;
 };
+
+if (!Array.prototype.filter) {
+	  Array.prototype.filter = function(fun/*, thisArg*/) {
+	    'use strict';
+
+	    if (this === void 0 || this === null) {
+	      throw new TypeError();
+	    }
+
+	    var t = Object(this);
+	    var len = t.length >>> 0;
+	    if (typeof fun !== 'function') {
+	      throw new TypeError();
+	    }
+
+	    var res = [];
+	    var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+	    for (var i = 0; i < len; i++) {
+	      if (i in t) {
+	        var val = t[i];
+
+	        // NOTE: Technically this should Object.defineProperty at
+	        //       the next index, as push can be affected by
+	        //       properties on Object.prototype and Array.prototype.
+	        //       But that method's new, and collisions should be
+	        //       rare, so use the more-compatible alternative.
+	        if (fun.call(thisArg, val, i, t)) {
+	          res.push(val);
+	        }
+	      }
+	    }
+
+	    return res;
+	  };
+	}
 
 function htmlspecialchars (string, quote_style, charset, double_encode) {
  // Convert special characters to HTML entities  

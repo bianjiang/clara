@@ -32,10 +32,14 @@
 	
 	<script type="text/javascript">
 		var agendaReadOnly = ${readOnly};
-				
+		var canAddContingencies = ${!empty canAddContingencies?canAddContingencies:false};
+		var canAddComments = ${!empty canAddComments?canAddComments:false};
+			
 		jQuery(document).ready(function() {
 			
-			
+			if (canAddContingencies) {	claraInstance.user.permissions.push("canAddContingencies"); }
+			if (canAddComments) 	 {	claraInstance.user.permissions.push("canAddComments"); }
+
 			claraInstance.setType("protocol");
 			claraInstance.setId("${!empty agendaItem.protocolForm.protocol.id?agendaItem.protocolForm.protocol.id:0}");
 			claraInstance.setForm({
@@ -47,7 +51,8 @@
 			});
 			claraInstance.setUser({
 				id: ${!empty user?user.id:0},
-				committee: (claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER']) == true)?'IRB_REVIEWER':null
+				committee: (claraInstance.HasAnyPermissions(['ROLE_IRB_REVIEWER']) == true)?'IRB_REVIEWER':null,
+				username: "${!empty user?user.username:''}"
 			});
 
 			var currentAgenda = {
@@ -60,11 +65,7 @@
 					id:	${!empty agendaItem.id?agendaItem.id:0}
 				};
 
-		//	Clara.AgendaItem.AgendaStore.removeAll();
-		//	Clara.AgendaItem.AgendaStore.proxy.setUrl(appContext + "/ajax/agendas/"+currentAgenda.id+"/agenda-items/list");
-		//	Clara.AgendaItem.AgendaStore.load();
 			
-						
 			new Ext.Viewport({
 				layout:'border',
 				border:false,

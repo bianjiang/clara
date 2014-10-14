@@ -45,6 +45,8 @@
         <class>edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlDataDocument</class>
         <class>edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormUserElementTemplate</class>
         
+        <class>edu.uams.clara.webapp.protocol.domain.protocolform.review.ProtocolFormChecklistAnswer</class>
+        
         <class>edu.uams.clara.webapp.contract.domain.contractform.ContractForm</class>
         <class>edu.uams.clara.webapp.contract.domain.contractform.ContractFormXmlData</class>
         <class>edu.uams.clara.webapp.contract.domain.contractform.ContractFormXmlDataDocument</class>
@@ -137,7 +139,7 @@
 		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraProtocolDrug</class>
 		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraFunding</class>
 		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraProtocolDisease</class>
-		
+		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraBudget</class>
 		
 		<class>edu.uams.clara.integration.outgoing.webchart.domain.WebChartARIAUser</class>
 		<class>edu.uams.clara.integration.outgoing.webchart.domain.WebChartARIAProtocol</class>

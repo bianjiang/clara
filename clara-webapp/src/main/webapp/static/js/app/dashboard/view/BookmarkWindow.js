@@ -5,7 +5,7 @@ Ext.define('Clara.Dashboard.view.BookmarkWindow', {
     title: 'New Bookmark',
     width:800,
     height:450,
-    bookmark:{},
+    bookmarkRecord:null,
     iconCls:'icn-gear',
     layout: {
         type: 'border'
@@ -14,7 +14,33 @@ Ext.define('Clara.Dashboard.view.BookmarkWindow', {
     initComponent: function() {
     	var me = this;
     	me.listeners={
-        	show:function(w){}
+        	show:function(w){
+        		// populate if editing existing bookmark
+        		if (w.bookmarkRecord){
+        			var criteria = Ext.JSON.decode(w.bookmarkRecord.get("searchCriterias"));
+        			
+        			// For legacy bookmarks: add duplicate description values to array
+        			for (i=0,l=criteria.length;i<l;i++){
+        	
+							criteria[i] = {
+									"searchFieldValue": (!criteria[i].searchFieldValue || criteria[i].searchFieldValue == "")?criteria[i].searchField:criteria[i].searchFieldValue,
+									"searchFieldDescription": (!criteria[i].searchFieldDescription || criteria[i].searchFieldDescription == "")?criteria[i].searchField:criteria[i].searchFieldDescription,
+									"searchOperatorValue": (!criteria[i].searchOperatorValue || criteria[i].searchOperatorValue == "")?criteria[i].searchOperator:criteria[i].searchOperatorValue,
+									"searchOperatorDescription": (!criteria[i].searchOperatorDescription || criteria[i].searchOperatorDescription == "")?criteria[i].searchOperator:criteria[i].searchOperatorDescription,
+									"searchKeyword": (!criteria[i].searchKeyword || criteria[i].searchKeyword == "")?criteria[i].keyword:criteria[i].searchKeyword,
+									"searchKeywordDescription": (!criteria[i].searchKeywordDescription || criteria[i].searchKeywordDescription == "")?criteria[i].keyword:criteria[i].searchKeywordDescription	
+							};
+						
+        			}
+        			
+        			
+        			var criteriaStore = w.down("grid").getStore();
+        			clog("Editing bookmark record",w.bookmarkRecord,criteria);
+        			criteriaStore.loadData(criteria);
+        			Ext.getCmp("fldBookmarkName").setValue(w.bookmarkRecord.get("name"));
+        			
+        		}
+        	}
         };
     	
     	me.items = [{
@@ -144,7 +170,7 @@ Ext.define('Clara.Dashboard.view.BookmarkWindow', {
 			
 			]
 		}];
-    	me.buttons = [{text:'Run without saving', id:'btnRunBookmarkWithoutSaving'},{text:'Save', id:'btnSaveBookmark'}];
+    	me.buttons = [{text:'Run (without saving)', iconCls:'icn-control', id:'btnRunBookmarkWithoutSaving'},{text:'Export to Excel', iconCls:'icn-document-excel-table', id:'btnExportExcelWithoutSaving', style:'margin-right:50px;'},{text:'Save Bookmark', id:'btnSaveBookmark'}];
 
         me.callParent();
     }

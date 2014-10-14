@@ -1,5 +1,7 @@
 package edu.uams.clara.webapp.protocol.domain.irb;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -77,6 +81,29 @@ public class IRBReviewer extends AbstractDomainEntity implements CommitteeReview
 	
 	@Column(name="comment", nullable=true)
 	private String comment;
+	
+	@Column(name="availability")
+	private String availability;
+	
+	@Column(name="is_code_of_conduct_on_file")
+	private boolean codeOfConductOnFile;
+	
+	@Column(name="is_material_issued")
+	private boolean materialIssued;
+	
+	@Column(name="observation_date1")
+	@Temporal(TemporalType.DATE)
+	private Date observationDate1;	
+	
+	@Column(name="observation_date2")
+	@Temporal(TemporalType.DATE)
+	private Date observationDate2;	
+	
+	@Column(name="mentor")
+	private String mentor;
+	
+	@Column(name="is_ohrp_approved")
+	private boolean ohrpApproved;
 	
 //	@Transient
 //	@JsonProperty("user_id")
@@ -162,6 +189,62 @@ public class IRBReviewer extends AbstractDomainEntity implements CommitteeReview
 
 	public boolean isExpedited() {
 		return expedited;
+	}
+
+	public String getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(String availability) {
+		this.availability = availability;
+	}
+
+	public boolean isCodeOfConductOnFile() {
+		return codeOfConductOnFile;
+	}
+
+	public void setCodeOfConductOnFile(boolean codeOfConductOnFile) {
+		this.codeOfConductOnFile = codeOfConductOnFile;
+	}
+
+	public boolean isMaterialIssued() {
+		return materialIssued;
+	}
+
+	public void setMaterialIssued(boolean materialIssued) {
+		this.materialIssued = materialIssued;
+	}
+
+	public boolean isOhrpApproved() {
+		return ohrpApproved;
+	}
+
+	public void setOhrpApproved(boolean ohrpApproved) {
+		this.ohrpApproved = ohrpApproved;
+	}
+
+	public String getMentor() {
+		return mentor;
+	}
+
+	public void setMentor(String mentor) {
+		this.mentor = mentor;
+	}
+
+	public Date getObservationDate1() {
+		return observationDate1;
+	}
+
+	public void setObservationDate1(Date observationDate1) {
+		this.observationDate1 = observationDate1;
+	}
+
+	public Date getObservationDate2() {
+		return observationDate2;
+	}
+
+	public void setObservationDate2(Date observationDate2) {
+		this.observationDate2 = observationDate2;
 	}
 
 	

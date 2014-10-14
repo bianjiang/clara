@@ -109,6 +109,24 @@ public class ProtocolFormDao extends AbstractDomainDao<ProtocolForm> {
 	}
 	
 	@Transactional(readOnly = true)
+	public ProtocolForm getLatestProtocolFormByProtocolFormId(long protocolFormId){
+		String query = "SELECT pf FROM ProtocolForm pf WHERE pf.parent.id IN ("
+				+ " SELECT p.parent.id FROM ProtocolForm p WHERE p.retired = :retired"
+				+ " AND p.id = :protocolFormId) AND pf.retired = :retired"
+				+ " ORDER BY pf.id DESC";
+
+		TypedQuery<ProtocolForm> q = getEntityManager().createQuery(query,
+				ProtocolForm.class);
+		q.setFirstResult(0);
+		q.setMaxResults(1);
+		q.setHint("org.hibernate.cacheable", true);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("protocolFormId", protocolFormId);
+	
+		return q.getSingleResult();
+	}
+	
+	@Transactional(readOnly = true)
 	public List<ProtocolForm> listParentProtocolFormsByProtocolFormType(ProtocolFormType protocolFormType){
 		String query = "SELECT pf FROM ProtocolForm pf "
 				+ " WHERE pf.parent.id = pf.id AND pf.protocolFormType = :protocolFormType AND pf.retired = :retired";

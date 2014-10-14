@@ -1,0 +1,948 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notes-permission>
+	<form type="NEW_SUBMISSION">
+		<status form-status="DRAFT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PHARMACY_REVIEW" status="IN_REVIEW_REQUESTED">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PHARMACY_REVIEW" status="IN_WAIVER_REQUESTED">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_PI_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PHARMACY_REVIEW" status="IN_REVIEW_REQUESTED">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PHARMACY_REVIEW" status="IN_WAIVER_REQUESTED">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_TP_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_ACH_PREREVIEW">
+			<commmittees>
+				<committee name="ACHRI" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_PREREVIEW">
+			<commmittees>
+				<committee name="GATEKEEPER" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_PHARMACY_REVIEW">
+			<commmittees>
+				<committee name="PHARMACY_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_BUDGET_MANAGER_REVIEW">
+			<commmittees>
+				<committee name="BUDGET_MANAGER" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="ANY">
+			<commmittees>
+				<committee name="BUDGET_REVIEW" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="COVERAGE_REVIEW" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="COMPLIANCE_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PROTOCOL_LEGAL_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PROTOCOL_LEGAL_REVIEW" status="PENDING_IRB_DETERMINATION">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="MONITORING_REGULATORY_QA" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="BIOSAFETY" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="CLINICAL_TRIALS_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PRMC" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PRMC" status="APPROVE_WITH_CONTINGENCIES">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="RADIATION_SAFETY" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="COI" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<!-- <status form-status="UNDER_BUDGET_REVIEW">
+			<commmittees>
+				<committee name="BUDGET_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_COVERAGE_REVIEW">
+			<commmittees>
+				<committee name="COVERAGE_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="COVERAGE_REVIEW" status="PENDING_CONSENT_LEGAL_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status> -->
+		<status form-status="UNDER_HOSPITAL_SERVICES_REVIEW">
+			<commmittees>
+				<committee name="HOSPITAL_SERVICES" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_DEPARTMENT_REVIEW">
+			<commmittees>
+				<committee name="DEPARTMENT_CHAIR" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_COLLEGE_REVIEW">
+			<commmittees>
+				<committee name="COLLEGE_DEAN" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_IRB_PREREVIEW">
+			<commmittees>
+				<committee name="IRB_CONSENT_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="IRB_PREREVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="IRB_AGENDA_ASSIGNED">
+			<commmittees>
+				<committee name="IRB_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add condition="AGENDA_APPROVED" extra-condition="ON_THIS_WEEK">
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXEMPT_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXEMPT_REVIEWER" status="PENDING_EXEMPT_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXPEDITED_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXPEDITED_REVIEWER" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="MODIFICATION">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PHARMACY_REVIEW" status="IN_REVIEW_REQUESTED">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PHARMACY_REVIEW" status="IN_WAIVER_REQUESTED">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_PI_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PHARMACY_REVIEW" status="IN_REVIEW_REQUESTED">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PHARMACY_REVIEW" status="IN_WAIVER_REQUESTED">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_TP_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_PREREVIEW">
+			<commmittees>
+				<committee name="GATEKEEPER" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_PREREVIEW">
+			<commmittees>
+				<committee name="GATEKEEPER" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_PHARMACY_REVIEW">
+			<commmittees>
+				<committee name="PHARMACY_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_BUDGET_MANAGER_REVIEW">
+			<commmittees>
+				<committee name="BUDGET_MANAGER" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="ANY">
+			<commmittees>
+				<committee name="COMPLIANCE_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PROTOCOL_LEGAL_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PROTOCOL_LEGAL_REVIEW" status="PENDING_IRB_DETERMINATION">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="MONITORING_REGULATORY_QA" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="BIOSAFETY" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="CLINICAL_TRIALS_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PRMC" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="PRMC" status="APPROVE_WITH_CONTINGENCIES">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="RADIATION_SAFETY" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="COI" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_BUDGET_REVIEW">
+			<commmittees>
+				<committee name="BUDGET_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_COVERAGE_REVIEW">
+			<commmittees>
+				<committee name="COVERAGE_REVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="COVERAGE_REVIEW" status="PENDING_CONSENT_LEGAL_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_HOSPITAL_SERVICES_REVIEW">
+			<commmittees>
+				<committee name="HOSPITAL_SERVICES" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_DEPARTMENT_REVIEW">
+			<commmittees>
+				<committee name="DEPARTMENT_CHAIR" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_COLLEGE_REVIEW">
+			<commmittees>
+				<committee name="COLLEGE_DEAN" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_IRB_PREREVIEW">
+			<commmittees>
+				<committee name="IRB_CONSENT_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="IRB_PREREVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="IRB_AGENDA_ASSIGNED">
+			<commmittees>
+				<committee name="IRB_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add condition="AGENDA_APPROVED" extra-condition="ON_THIS_WEEK">
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXEMPT_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXEMPT_REVIEWER" status="PENDING_EXEMPT_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXPEDITED_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXPEDITED_REVIEWER" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="CONTINUING_REVIEW">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_PI_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_IRB_PREREVIEW">
+			<commmittees>
+				<committee name="IRB_CONSENT_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+				<committee name="IRB_PREREVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="IRB_AGENDA_ASSIGNED">
+			<commmittees>
+				<committee name="IRB_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add condition="AGENDA_APPROVED" extra-condition="ON_THIS_WEEK">
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXEMPT_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXEMPT_REVIEWER" status="PENDING_EXEMPT_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXPEDITED_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXPEDITED_REVIEWER" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="REPORTABLE_NEW_INFORMATION">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_PI_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_IRB_PREREVIEW">
+			<commmittees>
+				<committee name="IRB_PREREVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="IRB_AGENDA_ASSIGNED">
+			<commmittees>
+				<committee name="IRB_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add condition="AGENDA_APPROVED" extra-condition="ON_THIS_WEEK">
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXEMPT_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXEMPT_REVIEWER" status="PENDING_EXEMPT_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXPEDITED_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXPEDITED_REVIEWER" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="HUMANITARIAN_USE_DEVICE_RENEWAL">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_PI_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_IRB_PREREVIEW">
+			<commmittees>
+				<committee name="IRB_PREREVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="IRB_AGENDA_ASSIGNED">
+			<commmittees>
+				<committee name="IRB_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add condition="AGENDA_APPROVED" extra-condition="ON_THIS_WEEK">
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXEMPT_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXEMPT_REVIEWER" status="PENDING_EXEMPT_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXPEDITED_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXPEDITED_REVIEWER" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="STAFF">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_PI_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_IRB_PREREVIEW">
+			<commmittees>
+				<committee name="IRB_PREREVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="IRB_AGENDA_ASSIGNED">
+			<commmittees>
+				<committee name="IRB_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add condition="AGENDA_APPROVED" extra-condition="ON_THIS_WEEK">
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXEMPT_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXEMPT_REVIEWER" status="PENDING_EXEMPT_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXPEDITED_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXPEDITED_REVIEWER" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="STUDY_CLOSURE">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_PI_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_IRB_OFFICE_REVIEW">
+			<commmittees>
+				<committee name="IRB_OFFICE" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="STUDY_RESUMPTION">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_PI_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_IRB_OFFICE_REVIEW">
+			<commmittees>
+				<committee name="IRB_OFFICE" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="OFFICE_ACTION">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="IRB_AGENDA_ASSIGNED">
+			<commmittees>
+				<committee name="IRB_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add condition="AGENDA_APPROVED" extra-condition="ON_THIS_WEEK">
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXPEDITED_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXPEDITED_REVIEWER" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="HUMAN_SUBJECT_RESEARCH_DETERMINATION">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_PI_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_IRB_OFFICE_REVIEW">
+			<commmittees>
+				<committee name="IRB_OFFICE" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="EMERGENCY_USE">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_PI_ENDORSEMENT">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="EMERGENCY_USE_INTENDED_UNDER_IRB_OFFICE_REVIEW">
+			<commmittees>
+				<committee name="IRB_OFFICE" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="EMERGENCY_USE_FOLLOW_UP_UNDER_IRB_OFFICE_REVIEW">
+			<commmittees>
+				<committee name="IRB_OFFICE" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="POTENTIAL_NON_COMPLIANCE">
+			<commmittees>
+				<committee name="IRB_OFFICE" status="POTENTIAL_NON_COMPLIANCE_IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="IRB_AGENDA_ASSIGNED">
+			<commmittees>
+				<committee name="IRB_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add condition="AGENDA_APPROVED" extra-condition="ON_THIS_WEEK">
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+	<form type="PRIVACY_BOARD">
+		<status form-status="DRAFT" committee-status="">
+			<commmittees>
+				<committee name="PI" status="">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="UNDER_IRB_PREREVIEW">
+			<commmittees>
+				<committee name="IRB_PREREVIEW" status="IN_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="IRB_AGENDA_ASSIGNED">
+			<commmittees>
+				<committee name="IRB_REVIEWER" status="IN_REVIEW">
+					<permissions-to-add condition="AGENDA_APPROVED" extra-condition="ON_THIS_WEEK">
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+		<status form-status="PENDING_EXPEDITED_IRB_REVIEW">
+			<commmittees>
+				<committee name="IRB_EXPEDITED_REVIEWER" status="PENDING_EXPEDITED_IRB_REVIEW">
+					<permissions-to-add>
+						<permission>COMMENT_CAN_ADD</permission>
+						<permission>CONTINGENCY_CAN_ADD</permission>
+					</permissions-to-add>
+				</committee>
+			</commmittees>
+		</status>
+	</form>
+</notes-permission>

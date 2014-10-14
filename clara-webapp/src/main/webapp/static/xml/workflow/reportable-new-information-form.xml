@@ -234,7 +234,7 @@
 									<form-status status="REVISION_PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="REPORTABLE_NEW_INFORMATION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="REPORTABLE_NEW_INFORMATION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} revision has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -296,7 +296,7 @@
 									<form-status status="REVISION_PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="REPORTABLE_NEW_INFORMATION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="REPORTABLE_NEW_INFORMATION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} revision has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
@@ -972,8 +972,8 @@
 								<value>APPROVE</value>
 								<desc>Approve</desc>
 								<email-template-identifiers>
-									<email-template-identifier form-xpath-condition="boolean(count(/reportable-new-information/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)">REPORTABLE_NEW_INFORMATION_EXPEDITED_APPROVED_LETTER</email-template-identifier>
-									<email-template-identifier form-xpath-condition="boolean(count(/reportable-new-information/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])>0)">REPORTABLE_NEW_INFORMATION_FULL_BOARD_APPROVED_MINOR_MET_LETTER</email-template-identifier>
+									<email-template-identifier xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)">REPORTABLE_NEW_INFORMATION_EXPEDITED_APPROVED_LETTER</email-template-identifier>
+									<email-template-identifier xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])>0)">REPORTABLE_NEW_INFORMATION_FULL_BOARD_APPROVED_MINOR_MET_LETTER</email-template-identifier>
 								</email-template-identifiers>
 							</decision>
 							<decision>
@@ -1005,12 +1005,12 @@
 									<event>ASSIGN_TO_AGENDA</event>
 								</events>
 								<notifications>
-									<notification form-xpath-condition="boolean(count(/reportable-new-information/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)" notification-type="LETTER" letter-name="Reportable New Information Expedited Approved Letter" doc-type="Reportable New Information Expedited Approved Letter" email-template-identifier="REPORTABLE_NEW_INFORMATION_EXPEDITED_APPROVED_LETTER">
+									<notification xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)" notification-type="LETTER" letter-name="Reportable New Information Expedited Approved Letter" doc-type="Reportable New Information Expedited Approved Letter" email-template-identifier="REPORTABLE_NEW_INFORMATION_EXPEDITED_APPROVED_LETTER">
 										<logs>
 											<log log-type="LETTER" email-template-identifier="REPORTABLE_NEW_INFORMATION_EXPEDITED_APPROVED_LETTER" event-type="IRB_EXPEDITED_REVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Reportable New Information form of IRB# {PROTOCOL_IDENTIFIER} has been approved by the IRB Expedited Review. A Reportable New Information Expedited Approved Letter ({LETTER_LINK}) has been sent to the PI. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>
-									<notification form-xpath-condition="boolean(count(/reportable-new-information/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])>0)" notification-type="LETTER" letter-name="Reportable New Information Full Board Approved Minor Met Letter" doc-type="Reportable New Information Full Board Approved Minor Met Letter" email-template-identifier="REPORTABLE_NEW_INFORMATION_FULL_BOARD_APPROVED_MINOR_MET_LETTER">
+									<notification xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])>0)" notification-type="LETTER" letter-name="Reportable New Information Full Board Approved Minor Met Letter" doc-type="Reportable New Information Full Board Approved Minor Met Letter" email-template-identifier="REPORTABLE_NEW_INFORMATION_FULL_BOARD_APPROVED_MINOR_MET_LETTER">
 										<logs>
 											<log log-type="LETTER" email-template-identifier="REPORTABLE_NEW_INFORMATION_FULL_BOARD_APPROVED_MINOR_MET_LETTER" event-type="IRB_EXPEDITED_REVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Reportable New Information form of IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Expedited Review of Minor met. A Reportable New Information Full Board Approved Minor Met Letter ({LETTER_LINK}) has been sent to the PI. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>

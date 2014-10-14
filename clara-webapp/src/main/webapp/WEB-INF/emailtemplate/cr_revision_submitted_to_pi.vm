@@ -1,0 +1,19 @@
+<html>
+<head>
+	<link href="https://clara.uams.edu/clara-webapp/static/styles/letters.css" media="screen" type="text/css" rel="stylesheet"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div class="email-template revision-requested-template">
+<div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>	
+	The Continuing Review form of the following research study has been revised and submitted, and it is pending your signature since you are listed as the PI. Please click the link below to access the study in CLARA.<br/><br/>
+	
+	<br/><br/><strong>Protocol Number:</strong> $protocolId
+	<br/><strong>Protocol Title:</strong> $protocolTitle
+	
+	
+	<br/><br/><a href=$protocolLink>Click here to the study.</a>
+	
+</div>
+</body>
+</html>
