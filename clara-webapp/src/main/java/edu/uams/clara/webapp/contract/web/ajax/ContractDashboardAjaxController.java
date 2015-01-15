@@ -473,14 +473,15 @@ public class ContractDashboardAjaxController {
 	
 	@RequestMapping(value = "/ajax/contracts/{contractId}/new-form-types.xml", method = RequestMethod.GET)
 	public @ResponseBody String getNewFormList(@PathVariable("contractId") long contractId){
-		Contract contract = contractDao.findById(contractId);
+		//Contract contract = contractDao.findById(contractId);
 		
 		User u = (User) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
 		
 		String newFormList = "<forms>";
 		
-		if (objectAclService.hasEditObjectAccess(Contract.class, contractId, u) || u.getAuthorities().contains(Permission.ROLE_CONTRACT_ADMIN) || u.getAuthorities().contains(Permission.ROLE_CONTRACT_LEGAL_REVIEW) || u.getAuthorities().contains(Permission.ROLE_CONTRACT_MANAGER)){
+		//if (objectAclService.hasEditObjectAccess(Contract.class, contractId, u) || u.getAuthorities().contains(Permission.ROLE_CONTRACT_ADMIN) || u.getAuthorities().contains(Permission.ROLE_CONTRACT_LEGAL_REVIEW) || u.getAuthorities().contains(Permission.ROLE_CONTRACT_MANAGER)){
+		if (u.getAuthorities().contains(Permission.CAN_CREATE_CONTRACT)){
 			newFormList += "<form type=\"contract\" id=\"amendment\" title=\"Contract Amendment\"><description></description></form>";
 		}
 		

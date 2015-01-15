@@ -790,7 +790,7 @@ function renderBudgetBuilder(){
 							}
 						},{
 							text:'Save as template..',
-							disabled:!Clara.BudgetBuilder.canEdit(),
+							//disabled:!Clara.BudgetBuilder.canEdit(),
 							iconCls:'icn-script--plus',
 							handler: function(){
 								new Clara.TemplateSaveWindow({templateStore:Clara.BudgetBuilder.BudgetTemplateStore, xml:budget.toXML()}).show();

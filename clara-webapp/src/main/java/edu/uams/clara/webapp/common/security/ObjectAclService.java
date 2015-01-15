@@ -14,7 +14,7 @@ public interface ObjectAclService {
 	boolean isObjectAccessible(Class<?> objectClass, long objectId, User user);
 
 	void updateObjectAclByStaffXml(Class<?> objectClass, long objectId,
-			String staffXml);
+			String staffXml, Boolean ifConsiderEditPermission);
 
 	void deleteObjectAclByXPathAndElementIdAndXml(Class<?> objectClass,
 			long objectId, String xPath, String elementId, String xml);

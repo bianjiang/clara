@@ -45,6 +45,10 @@ Clara.IRBMeeting.IRBReviewerStore = new Ext.data.JsonStore({
 				{name:'degree'},
 				{name:'irbRoster'},
 				{name:'comment'},
+				{name:'fullname',mapping:'user.person.lastname', convert: function(v,rec){
+						return rec.user.person.firstname+" "+rec.user.person.lastname;
+					}
+				},
 				{name:'type'}
 			]
 });

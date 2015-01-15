@@ -18,6 +18,9 @@ public class Grant extends AbstractDomainEntity{
 	
 	@Column(name="prn", length=255)
 	private String prn;
+	
+	@Column(name="full_prn", length=255)
+	private String fullprn;
 
 	@Column(name="pi_id", length=255)
 	private String piId;
@@ -37,6 +40,14 @@ public class Grant extends AbstractDomainEntity{
 	@Column(name="created")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
+	
+	@Column(name="start_date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date startDate;
+	
+	@Column(name="end_date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date endDate;
 
 	public String getPrn() {
 		return prn;
@@ -93,5 +104,29 @@ public class Grant extends AbstractDomainEntity{
 
 	public void setPiId(String piId) {
 		this.piId = piId;
+	}
+
+	public String getFullprn() {
+		return fullprn;
+	}
+
+	public void setFullprn(String fullprn) {
+		this.fullprn = fullprn;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 }

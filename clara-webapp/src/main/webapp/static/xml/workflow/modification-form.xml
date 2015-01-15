@@ -390,6 +390,8 @@
 								</change-status>
 								<events>
 									<event>SET_FORM_SUBMIT_DATE</event>
+									<event submission-type="original">GENERATE_BUDGET_DOCUMENT</event>
+									<event>DELETE_UNUSED_BUDGET</event>
 								</events>
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="MODIFICATION_SUBMITTED_TO_BUDGET_MANAGER">
@@ -3753,6 +3755,10 @@
 								<desc>Not Applicable</desc>
 							</decision>
 							<decision>
+								<value>PENDING_OUTCOME</value>
+								<desc>Determination is pending the outcome of other committee reviews</desc>
+							</decision>
+							<decision>
 								<value>APPROVE</value>
 								<desc>Approve</desc>
 							</decision>
@@ -3792,6 +3798,21 @@
 									</notification>										
 								</notifications>
 							</action>
+							<action type="PENDING_OUTCOME" condition="">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="CLINICAL_TRIALS_REVIEW" status="PENDING_OUTCOME_OF_OTHER_COMMITTEE" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_PENDING_OUTCOME_OF_REVIEWS">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_PENDING_OUTCOME_OF_REVIEWS" event-type="CLINICAL_TRIALS_REVIEW_PENDING_OUTCOME" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">ClinicalTrials.gov has determined that it's pending outcome of other committee reviews.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
 							<action type="REJECT" condition="">
 								<change-status>
 									<form-committee-statuses>
@@ -3803,6 +3824,73 @@
 									<notification notification-type="NOTIFICATION" letter-name="ClinicalTrials.gov Rejection Letter" doc-type="ClinicalTrials.gov Rejection Letter" email-template-identifier="COMMITTEE_REJECTION">
 										<logs>
 											<log log-type="NOTIFICATION" email-template-identifier="COMMITTEE_REJECTION" event-type="CLINICAL_TRIALS_REVIEW_REJECTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The modification has been rejected by ClinicalTrials.gov.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="ANY" form-committee-status="PENDING_OUTCOME_OF_OTHER_COMMITTEE">
+				<committee name="CLINICAL_TRIALS_REVIEW">
+					<review-page page-name="committee-review" review-form-name="clinicaltrials-review">
+						<decisions>
+							<decision>
+								<value>NOT_APPLICABLE</value>
+								<desc>Not Applicable</desc>
+							</decision>
+							<decision>
+								<value>APPROVE</value>
+								<desc>Registration Required Under the Law</desc>
+							</decision>
+							<decision>
+								<value>REJECT</value>
+								<desc>Registration Not Required Under the Law (But recommended under the ICMJE requirements)</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="NOT_APPLICABLE" condition="">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="CLINICAL_TRIALS_REVIEW" status="COMMITTEE_REVIEW_NOT_APPLICABLE" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="COMMITTEE_REVIEW_NOT_APPLICABLE">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="COMMITTEE_REVIEW_NOT_APPLICABLE" event-type="CLINICAL_TRIALS_REVIEW_NOT_APPLICABLE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The modification has been determined as not applicable by the ClinicalTrials.gov.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="APPROVE" condition="">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="CLINICAL_TRIALS_REVIEW" status="APPROVED" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" letter-name="ClinicalTrials.gov Approval" doc-type="ClinicalTrials.gov Approval" email-template-identifier="COMMITTEE_APPROVAL">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="COMMITTEE_APPROVAL" event-type="CLINICAL_TRIALS_REVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">ClinicalTrials.gov has determined that Registration Is Required Under the Law.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="REJECT" condition="">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="CLINICAL_TRIALS_REVIEW" status="REJECTED" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" letter-name="ClinicalTrials.gov Rejection Letter" doc-type="ClinicalTrials.gov Rejection Letter" email-template-identifier="GENERIC_CLINICAL_TRIAL_REJECT">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_CLINICAL_TRIAL_REJECT" event-type="CLINICAL_TRIALS_REVIEW_REJECTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">ClinicalTrials.gov has determined that Registration Is Not Required Under the Law (But recommended under the ICMJE requirements).  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>

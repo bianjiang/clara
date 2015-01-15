@@ -41,10 +41,10 @@ import edu.uams.clara.webapp.protocol.dao.irb.IRBReviewerDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.AgendaStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolStatus;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.AgendaStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolStatusEnum;
@@ -363,7 +363,10 @@ public class ProtocolQueueServiceImpl extends QueueService {
 						try {
 							agenda = agendaDao.getAgendaByProtocolFormIdAndAgendaItemStatus(protocolForm.getId(), AgendaItemStatus.NEW);
 							
-							if (!agendaStatusDao.getAgendaStatusByAgendaId(agenda.getId()).getAgendaStatus().isAgendaApproved()) {
+							AgendaStatus agendaStatus = agendaStatusDao.getAgendaStatusByAgendaId(agenda.getId());
+							
+							//IRB reviewer should see items in his queue ONLY when the meeting is approved and the meeting is not completed
+							if (!agendaStatus.getAgendaStatus().isAgendaApproved() || agendaStatus.getAgendaStatus().isMeetingCompleted()) {
 								continue outerloop;
 							}
 						} catch (Exception e) {

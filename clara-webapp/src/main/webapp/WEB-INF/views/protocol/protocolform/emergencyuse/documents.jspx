@@ -46,7 +46,7 @@
 				    })
 				});
 				
-				renderFormViewport("<strong>Humanitarian Use Device</strong>: Documents",p);
+				renderFormViewport("<strong>Emergency Use</strong>: Documents",p);
 				
 			});
 	// ]]></script>	

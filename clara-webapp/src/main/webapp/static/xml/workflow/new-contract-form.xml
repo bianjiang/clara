@@ -733,7 +733,7 @@
 							</decision>
 							<decision>
 								<value>APPROVE</value>
-								<desc>Final Legal Approval</desc>
+								<desc>Legal Review Complete</desc>
 							</decision>
 						</decisions>
 						<actions>
@@ -848,19 +848,19 @@
 							</action>
 							<action type="APPROVE" condition="">
 								<change-status>
-									<status status="FINAL_LEGAL_APPROVAL" />
-									<form-status status="FINAL_LEGAL_APPROVAL" />
+									<status status="LEGAL_REVIEW_COMPLETE" />
+									<form-status status="LEGAL_REVIEW_COMPLETE" />
 									<form-committee-statuses>
 										<form-committee-status
 											involved-committee="CONTRACT_LEGAL_REVIEW" status="APPROVED" />	
 										<form-committee-status
-											involved-committee="CONTRACT_ADMIN" status="FINAL_LEGAL_APPROVAL" />									
+											involved-committee="CONTRACT_ADMIN" status="LEGAL_REVIEW_COMPLETE" />									
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
 									<notification form-xpath-condition="boolean(count(/contract/type/research-agreement/sub-type[text()='master-agreement'])=0)" notification-type="NOTIFICATION" email-template-identifier="NEW_CONTRACT_PENDING_FINAL_APPROVAL">
 										<logs>
-											<log log-type="NOTIFICATION" email-template-identifier="NEW_CONTRACT_PENDING_FINAL_APPROVAL" event-type="LEGAL_COMPLETED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Contract has Final Legal Approval and routed to Contract Admin for preparation of contract execution.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="NEW_CONTRACT_PENDING_FINAL_APPROVAL" event-type="LEGAL_COMPLETED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Contract review has been completed by Legal and routed to Contract Admin for preparation of contract execution.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -909,7 +909,7 @@
 					</review-page>
 				</committee>
 			</form-status> -->
-			<form-status value="FINAL_LEGAL_APPROVAL" form-committee-status="ANY">
+			<form-status value="LEGAL_REVIEW_COMPLETE" form-committee-status="ANY">
 				<committee name="CONTRACT_ADMIN">
 					<review-page page-name="committee-review">
 						<decisions>
@@ -947,7 +947,7 @@
 							</decision>
 							<decision>
 								<value>WITHDRAW_FINAL_LEGAL_APPROVAL</value>
-								<desc>Withdraw Final Legal Approval</desc>
+								<desc>Legal Review Incomplete</desc>
 							</decision>
 							<decision>
 								<value>PENDING_SIGNATURE</value>
@@ -1066,7 +1066,7 @@
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_CONTRACT_WITHDRAW_APPROVAL_BY_LEGAL">
 										<logs>
-											<log log-type="NOTIFICATION" email-template-identifier="NEW_CONTRACT_WITHDRAW_APPROVAL_BY_LEGAL" event-type="LEGAL_WITHDRAW_APPROVAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Final Legal Approval of the Contract has been withdrawn.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="NEW_CONTRACT_WITHDRAW_APPROVAL_BY_LEGAL" event-type="LEGAL_WITHDRAW_APPROVAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Completed Legal Review has been withdrawn.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -1106,7 +1106,7 @@
 							</decision>
 							<decision>
 								<value>WITHDRAW_FINAL_LEGAL_APPROVAL</value>
-								<desc>Withdraw Final Legal Approval</desc>
+								<desc>Legal Review Incomplete</desc>
 							</decision>
 							<decision>
 								<value>SAVE</value>
@@ -1162,7 +1162,7 @@
 								<notifications>
 									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_CONTRACT_WITHDRAW_APPROVAL_BY_LEGAL">
 										<logs>
-											<log log-type="NOTIFICATION" email-template-identifier="NEW_CONTRACT_WITHDRAW_APPROVAL_BY_LEGAL" event-type="LEGAL_WITHDRAW_APPROVAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Final Legal Approval of the Contract has been withdrawn by the Legal.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="NOTIFICATION" email-template-identifier="NEW_CONTRACT_WITHDRAW_APPROVAL_BY_LEGAL" event-type="LEGAL_WITHDRAW_APPROVAL" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}" form-committee-status-id="{FORM_COMMITTEE_STATUS_ID}"><span class="history-log-message">Completed Legal Review has been withdrawn by the Legal.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>

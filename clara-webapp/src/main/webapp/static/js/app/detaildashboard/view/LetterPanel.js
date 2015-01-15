@@ -32,7 +32,13 @@ Ext.define('Clara.DetailDashboard.view.LetterPanel', {
 			text:'Group by Letter Type',
 			id:'btnToggleGroupLetters',
 			pressed: false	
-		}]
+		},'-',{
+    		xtype:'button',
+    		id:'btnPrintLetters',
+    		tooltip:'Print list (opens new window)',
+    		tooltipType:'title',
+    		iconCls:'icn-printer'
+    	}]
 	}],
 	
 	initComponent: function() { 

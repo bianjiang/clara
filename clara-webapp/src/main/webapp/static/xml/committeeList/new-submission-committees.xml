@@ -9,11 +9,11 @@
 <!-- 	<committee name="COLLEGE_DEAN" desc="Dean of College" assigned-by="GATEKEEPER" /> -->
 <!-- 	<committee name="HOSPITAL_SERVICES" desc="Hospital Services" assigned-by="GATEKEEPER" /> -->
 	<committee name="PROTOCOL_LEGAL_REVIEW" desc="Protocol Legal Review" individual-assignment="true" assigned-by="GATEKEEPER" />
-	<committee name="BIOSAFETY" desc="UAMS Biosafety" individual-assignment="true" assigned-by="GATEKEEPER,IRB,ACHRI,BUDGET" />
-	<committee name="PRMC" desc="UAMS PRMC" individual-assignment="true" assigned-by="GATEKEEPER,IRB,ACHRI,BUDGET" />
-	<committee name="RADIATION_SAFETY" desc="UAMS Radiation Safety" individual-assignment="true" assigned-by="GATEKEEPER,IRB,ACHRI,BUDGET" />
+	<committee name="BIOSAFETY" desc="UAMS Biosafety" individual-assignment="true" assigned-by="GATEKEEPER,IRB,ACHRI,BUDGET,IRB_PREREVIEW" />
+	<committee name="PRMC" desc="UAMS PRMC" individual-assignment="true" assigned-by="GATEKEEPER,IRB,ACHRI,BUDGET,IRB_PREREVIEW" />
+	<committee name="RADIATION_SAFETY" desc="UAMS Radiation Safety" individual-assignment="true" assigned-by="GATEKEEPER,IRB,ACHRI,BUDGET,IRB_PREREVIEW" />
 	<committee name="COI" desc="UAMS COI" individual-assignment="true" assigned-by="GATEKEEPER,IRB,ACHRI,BUDGET" />
-	<committee name="MONITORING_REGULATORY_QA" desc="UAMS Monitoring/Regulatory/QA" individual-assignment="true" assigned-by="GATEKEEPER,IRB,ACHRI,BUDGET" />
+	<committee name="MONITORING_REGULATORY_QA" desc="UAMS Monitoring/Regulatory/QA" individual-assignment="true" assigned-by="GATEKEEPER,IRB,ACHRI,BUDGET,IRB_PREREVIEW" />
 	<committee name="ACHRI" desc="ACHRI" individual-assignment="true" assigned-by="GATEKEEPER,IRB" />
-	<committee name="CLINICAL_TRIALS_REVIEW" desc="ClinialTrials.gov" individual-assignment="true" assigned-by="GATEKEEPER,IRB,BUDGET,ACHRI" />
+	<committee name="CLINICAL_TRIALS_REVIEW" desc="ClinialTrials.gov" individual-assignment="true" assigned-by="GATEKEEPER,IRB,BUDGET,ACHRI,IRB_PREREVIEW" />
 </committees>

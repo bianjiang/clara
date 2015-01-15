@@ -61,7 +61,7 @@
 				<div class="questionLabel">
 					<h1 class="conditional-question-label">Since you are obtaining
 							PHI, please answer the following question:</h1>
-					<span class="question-label-text">Describe the PHI that will be obtained/recorded for the research.</span>
+					<span class="question-label-text">Describe the specific PHI data elements that will be used/recorded for the research.</span>
 				</div>
 				<div class="questionValue">
 					<x:set var="describePhi" select="string($protocolInstance/protocol/hipaa/is-phi-obtained/y/desc/text())" />
@@ -153,7 +153,7 @@
 				<div class="questionLabel">
 					<h1 class="conditional-question-label">Since you will access
 						existing PHI please answer the following:</h1>
-					<span class="question-label-text">Describe the PHI that will be accessed for the research.</span>
+					<span class="question-label-text">Describe the specific PHI data elements that will be used/recoreded for the research.</span>
 				</div>
 				<div class="questionValue">
 					<x:set var="describePhiAccessed" select="string($protocolInstance/protocol/hipaa/access-existing-phi/y/desc/text())" />
@@ -164,7 +164,7 @@
 					<!-- // -->
 				</div>
 				<div class="questionHelp">
-					<uams:helpinfo lookupid="describe-phi-accessed" />
+					<uams:helpinfo lookupid="describe-phi" />
 				</div>
 			</div>
 			
@@ -175,7 +175,7 @@
 						<span class="question-label-text">Since you will access
 						existing PHI please answer the following:</span>
 					</h1>
-					Select the identifiers that will be recorded for this study.  Check all that apply:
+					Select the identifiers that will be used/recorded for this study.  Check all that apply:
 				</div>
 				<div class="questionValue">
 					<x:set var="existingHipaaPhiDetails"
@@ -349,12 +349,9 @@
 					<h1 class="conditional-question-label">Since you are
 						requesting a HIPAA authorization waiver/alteration, please answer
 						the following question:</h1>
-					<h1 class="conditional-question-label">Provide information below
-						about the PHI involved in the research (e.g., medical record
-						number, health history, diagnosis, test results, etc.). Be as
-						specific as possible.</h1>
-					<span class="question-label-text">Explain why access to
-						and/or use of the PHI is essential to conduct the research.</span>
+					<h1 class="conditional-question-label">Provide information about the PHI that will be used/recorded in the research (e.g., medical record
+						number, health history, diagnosis, test results, etc.). While this information may already be addressed in your protocol document, it MUST also be listed here.</h1>
+					<span class="question-label-text">Explain why use/recording of the PHI is essential to conduct the research.</span>
 				</div>
 				<div class="questionValue">
 					<x:set var="reasonToAccessPhi" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-to-access-phi/text())" />
@@ -374,14 +371,20 @@
 						about the PHI involved in the research (e.g., medical record
 						number, health history, diagnosis, test results, etc.). Be as
 						specific as possible.</h1>
-					<span class="question-label-text">Explain how the PHI
-						described above represents the minimum necessary information to
+					<span class="question-label-text">Explain how the PHI is the minimum necessary information to
 						accomplish the objectives of the research.</span>
 				</div>
 				<div class="questionValue">
 					<x:set var="minNecessaryInformaitonRequired" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/min-necessary-informaiton-required/text())" />
 					<uams:textarea validation="required" instancepath="/protocol/hipaa/is-requesting-hipaa-waiver/y/min-necessary-informaiton-required"
 						id="min-necessary-informaiton-required" value="${minNecessaryInformaitonRequired}" hasNA="false"/>
+				</div>
+				<div style="clear: both;">
+				
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="min-necessary-informaiton-required" />
 				</div>
 			</div>
 
@@ -396,9 +399,8 @@
 						about the PHI involved in the research (e.g., medical record
 						number, health history, diagnosis, test results, etc.). Be as
 						specific as possible.</h1>
-					<span class="question-label-text">Explain how the access to,
-						use of, or disclosure of PHI presents no more than a minimal risk to
-						the privacy of the individual.</span>
+					<span class="question-label-text">Explain the privacy risks associated with the access to,
+						use of, or disclosure of the PHI.</span>
 
 				</div>
 				<div class="questionValue">
@@ -516,7 +518,7 @@
 						number, health history, diagnosis, test results, etc.). Be as
 						specific as possible.</h1>
 					<span class="question-label-text">Explain why the research
-						could not practicably be conducted without the waiver/alteration of HIPAA authorization.</span>
+						could not practicably if a written HIPAA waiver were required for the PHI.</span>
 				</div>
 				<div class="questionValue">
 					<x:set var="reasonForWaiver" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-for-waiver/text())" />

@@ -187,6 +187,10 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/summary/irb-determination/consent-waived");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/consent-document-waived",
 				"/protocol/summary/irb-determination/consent-document-waived");
+		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/assent-waived",
+				"/protocol/summary/irb-determination/assent-waived");
+		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/assent-document-waived",
+				"/protocol/summary/irb-determination/assent-document-waived");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/hipaa-applicable",
 				"/protocol/summary/irb-determination/hipaa-applicable");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/hipaa-waived",
@@ -290,6 +294,10 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/summary/irb-determination/consent-waived");
 		modificationXPathPairs.put("/protocol/summary/irb-determination/consent-document-waived",
 				"/protocol/summary/irb-determination/consent-document-waived");
+		modificationXPathPairs.put("/protocol/summary/irb-determination/assent-waived",
+				"/protocol/summary/irb-determination/assent-waived");
+		modificationXPathPairs.put("/protocol/summary/irb-determination/assent-document-waived",
+				"/protocol/summary/irb-determination/assent-document-waived");
 		modificationXPathPairs.put("/protocol/summary/irb-determination/hipaa-applicable",
 				"/protocol/summary/irb-determination/hipaa-applicable");
 		modificationXPathPairs.put("/protocol/summary/irb-determination/hipaa-waived",

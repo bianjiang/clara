@@ -43,7 +43,7 @@ public class ProtocolFormChecklistAnswerDao extends AbstractDomainDao<ProtocolFo
 	@Transactional(readOnly = true)
 	public List<ProtocolFormChecklistAnswer> listChecklistAnswersByCommitteeAndProtocolFormId(Committee committee, long protocolFormId){
 		String query = "SELECT pfca FROM ProtocolFormChecklistAnswer pfca "
-				+ " WHERE pfca.retired = :retired AND pfca.committee = :committee AND pfca.protocolForm.id = :protocolFormId "
+				+ " WHERE pfca.retired = :retired AND pfca.committee = :committee AND pfca.protocolForm.parent.id IN (SELECT pf.parent.id FROM ProtocolForm pf WHERE pf.id = :protocolFormId) "
 				+ " ORDER BY pfca.modified DESC";
 		
 		TypedQuery<ProtocolFormChecklistAnswer> q = getEntityManager()

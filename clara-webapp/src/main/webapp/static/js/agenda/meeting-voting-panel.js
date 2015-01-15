@@ -104,6 +104,8 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 					        {name: 'novotes', type: 'float'},
 					        {name: 'abstainvotes', type: 'float'},
 					        {name: 'notvotingvotes', type: 'float'},
+					        {name: 'assentwaived', type: 'string'},
+					        {name: 'assentdocumentationwaived', type: 'string'},
 					        {name: 'consentwaived', type: 'string'},
 					        {name: 'consentdocumentationwaived', type: 'string'},
 					        {name: 'hipaa', type: 'string'},
@@ -155,6 +157,8 @@ Clara.IRBMeeting.MotionPanel = Ext.extend(Ext.grid.GridPanel, {
 			    	        	 + "<dt>Pediatric Risk</dt><dd>"+(pedRisk?pedRisk:"Not specified")+"</dd>"
 			    	        	 + "<dt>Next Review Type</dt><dd>"+(r.get("reviewtype") || "Not specified")+"</dd>"
 			    	        	 + "<dt>Review Period</dt><dd>"+r.get("reviewperiod")+"</dd>"
+			    	        	 + "<dt>Assent Waived</dt><dd>"+r.get("assentwaived")+"</dd>"
+			    	        	 + "<dt>Assent Doc. Waived</dt><dd>"+r.get("assentdocumentationwaived")+"</dd>"
 			    	        	 + "<dt>Consent Waived</dt><dd>"+r.get("consentwaived")+"</dd>"
 			    	        	 + "<dt>Consent Doc. Waived</dt><dd>"+r.get("consentdocumentationwaived")+"</dd>"
 			    	        	 + "<dt>HIPAA Applicable</dt><dd>"+r.get("hipaa")+"</dd>"
@@ -421,8 +425,8 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 	id: 'clara-meeting-votewindow',
 	title:(this.editing)?"Edit Motion":"Make Motion",
 	layout:'border',
-    width: 500,
-    height: 600,
+    width: 800,
+    height: 650,
 	border:false,
 	plain:true,
 	editing:false,
@@ -458,14 +462,16 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 				  url: appContext+"/ajax/protocols/"+Clara.IRBMeeting.CurrentAgendaItemRecord.get("protocolId")+"/metadata",
 				  success: function(xml){
 					  var irb = jQuery(xml).find("protocol").find("summary:first").find("irb-determination:first");					  
-					  t.irbDeterminations.reviewPeriod = irb.find("review-period").text();
-					  t.irbDeterminations.adultRisk = irb.find("adult-risk").text();
-					  t.irbDeterminations.pediatricRisk = irb.find("ped-risk").text();
-					  t.irbDeterminations.consentWaived = irb.find("consent-waived").text();
-					  t.irbDeterminations.consentDocumentWaived = irb.find("consent-document-waived").text();
-					  t.irbDeterminations.hipaaWaived = irb.find("hipaa-waived").text();
-					  t.irbDeterminations.hipaaApplicable = irb.find("hipaa-applicable").text();
-					  t.irbDeterminations.nextReviewType = irb.find("suggested-next-review-type").text();
+					  t.irbDeterminations.reviewPeriod = jQuery.trim(irb.find("review-period").text());
+					  t.irbDeterminations.adultRisk = jQuery.trim(irb.find("adult-risk").text());
+					  t.irbDeterminations.pediatricRisk = jQuery.trim(irb.find("ped-risk").text());
+					  t.irbDeterminations.consentWaived = jQuery.trim(irb.find("consent-waived").text());
+					  t.irbDeterminations.consentDocumentWaived = jQuery.trim(irb.find("consent-document-waived").text());
+					  t.irbDeterminations.assentWaived = jQuery.trim(irb.find("assent-waived").text());
+					  t.irbDeterminations.assentDocumentWaived = jQuery.trim(irb.find("assent-document-waived").text());
+					  t.irbDeterminations.hipaaWaived = jQuery.trim(irb.find("hipaa-waived").text());
+					  t.irbDeterminations.hipaaApplicable = jQuery.trim(irb.find("hipaa-applicable").text());
+					  t.irbDeterminations.nextReviewType = jQuery.trim(irb.find("suggested-next-review-type").text());
 					  clog("AJAX, DETERMINATIONS ",t.irbDeterminations);
 				  },
 				  error: function(){
@@ -483,16 +489,16 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 			                region: 'west',
 			                layout: 'form',
 			                split:true,
-			                width: 330,
-			                title:'Motion details',
-			                padding: 6,
-			                labelWidth: 140,
+			                width:390,
+			                padding: 4,
+			                labelWidth: 200,
 			                items: [
 			                    {
 			                        xtype: 'combo',
 			                        id:'vote-form-motion',
 			                        fieldLabel: 'Motion',
 			                        typeAhead: true,
+			                        forceSelection:true,
 			                        allowBlank:false,
 		                            triggerAction: 'all',
 		                            value:(t.editing)?t.motionrec.get("motion"):null,
@@ -516,8 +522,9 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 			                        id:'vote-form-madeby',
 			                        anchor: '100%',
 					    	    	   	typeAhead:false,
+					    	    	   	forceSelection:true,
 							        	forceSelection:true,
-							        	displayField:'username', 
+							        	displayField:'fullname', 
 							        	valueField:'userid',
 							        	value:(t.editing)?t.motionrec.get("madebyid"):null,
 							        	mode:'local', 
@@ -537,8 +544,9 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 			                        anchor: '100%',
 					    	    	   	typeAhead:false,
 							        	forceSelection:true,
-							        	displayField:'username', 
+							        	displayField:'fullname', 
 							        	valueField:'userid',
+							        	forceSelection:true,
 							        	value:(t.editing)?t.motionrec.get("secondedbyid"):null,
 							        	mode:'local', 
 							        	triggerAction:'all',
@@ -559,6 +567,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 			                        value:(t.editing)?t.motionrec.get("adultrisk"):(typeof t.irbDeterminations.adultRisk != "undefined" && t.irbDeterminations.adultRisk != "")?t.irbDeterminations.adultRisk:null,
 			                        allowBlank:false,
 		                            triggerAction: 'all',
+		                            forceSelection:true,
 		                            store: new Ext.data.SimpleStore({
 		                               fields:['risk','id'],
 		                               data: [['Minimal','RISK_ADULT_1'],['Greater than minimal','RISK_ADULT_2'],['Deferred','RISK_ADULT_DEFERRED'],['N/A','RISK_ADULT_NA']]
@@ -579,6 +588,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 			                        typeAhead: true,
 			                        allowBlank:false,
 		                            triggerAction: 'all',
+		                            forceSelection:true,
 		                            store: new Ext.data.SimpleStore({
 		                               fields:['risk','id'],
 		                               data: [['1','RISK_PED_1'],['2','RISK_PED_2'],['3','RISK_PED_3'],['4','RISK_PED_4'],['Deferred','RISK_PED_DEFERRED'],['N/A','RISK_PED_NA']]
@@ -606,6 +616,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 		                            lazyRender: true,
 		                            displayField:'type',
 		                            valueField:'id',
+		                            forceSelection:true,
 		                            mode:'local',
 		                            selectOnFocus:true,
 			                        anchor: '100%'
@@ -650,6 +661,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 		                            lazyRender: true,
 		                            displayField:'d',
 		                            valueField:'id',
+		                            forceSelection:true,
 		                            mode:'local',
 		                            selectOnFocus:true,
 			                        anchor: '100%'
@@ -669,6 +681,45 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 		                            displayField:'d',
 		                            valueField:'id',
 		                            mode:'local',
+		                            forceSelection:true,
+		                            selectOnFocus:true,
+			                        anchor: '100%'
+			                    },{
+			                        xtype: 'combo',
+			                        fieldLabel: 'Assent Waived',
+			                        id:'vote-form-assentwaived',
+			                        value:(t.editing)?t.motionrec.get("assentwaived"):(typeof t.irbDeterminations.assentWaived != "undefined" && t.irbDeterminations.assentWaived != "")?t.irbDeterminations.assentWaived:null,
+			                        typeAhead: true,
+			                        allowBlank:false,
+		                            triggerAction: 'all',
+		                            store: new Ext.data.SimpleStore({
+		                               fields:['d','id'],
+		                               data: [['N/A','na'],['Yes','yes'],['No','no']]
+		                            }),
+		                            lazyRender: true,
+		                            displayField:'d',
+		                            valueField:'id',
+		                            mode:'local',
+		                            forceSelection:true,
+		                            selectOnFocus:true,
+			                        anchor: '100%'
+			                    },{
+			                        xtype: 'combo',
+			                        fieldLabel: 'Assent Documentation Waived',
+			                        id:'vote-form-assentdocumentationwaived',
+			                        value:(t.editing)?t.motionrec.get("assentdocumentationwaived"):(typeof t.irbDeterminations.assentDocumentWaived != "undefined" && t.irbDeterminations.assentDocumentWaived != "")?t.irbDeterminations.assentDocumentWaived:null,
+			                        typeAhead: true,
+			                        allowBlank:false,
+		                            triggerAction: 'all',
+		                            store: new Ext.data.SimpleStore({
+		                               fields:['d','id'],
+		                               data: [['N/A','na'],['Yes','yes'],['No','no']]
+		                            }),
+		                            lazyRender: true,
+		                            displayField:'d',
+		                            valueField:'id',
+		                            mode:'local',
+		                            forceSelection:true,
 		                            selectOnFocus:true,
 			                        anchor: '100%'
 			                    },{
@@ -686,6 +737,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 		                            lazyRender: true,
 		                            displayField:'d',
 		                            valueField:'id',
+		                            forceSelection:true,
 		                            mode:'local',
 		                            selectOnFocus:true,
 			                        anchor: '100%'
@@ -705,6 +757,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 		                            displayField:'d',
 		                            valueField:'id',
 		                            mode:'local',
+		                            forceSelection:true,
 		                            selectOnFocus:true,
 			                        anchor: '100%'
 			                    },
@@ -721,6 +774,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 					                        value:(t.editing)?t.motionrec.get("ncdetermination"):'NA',
 					                        typeAhead: true,
 					                        allowBlank:false,
+					                        forceSelection:true,
 				                            triggerAction: 'all',
 				                            store: new Ext.data.SimpleStore({
 				                               fields:['d','id'],
@@ -738,6 +792,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 					                        value:(t.editing)?t.motionrec.get("ncreportable"):'NA',
 					                        typeAhead: true,
 					                        allowBlank:false,
+					                        forceSelection:true,
 				                            triggerAction: 'all',
 				                            store: new Ext.data.SimpleStore({
 				                               fields:['d','id'],
@@ -756,6 +811,7 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 					                        value:(t.editing)?t.motionrec.get("UPIRTSO"):'NA',
 					                        typeAhead: true,
 					                        allowBlank:false,
+					                        forceSelection:true,
 				                            triggerAction: 'all',
 				                            store: new Ext.data.SimpleStore({
 				                               fields:['d','id'],
@@ -894,8 +950,6 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 			            }
 			        ],
 				modal:true,
-				width:720,
-				height:550,
 				buttons:[{xtype:'button',text:'Save',handler:function(){
 					// Sanity checks first..
 					if (canEditMeeting && Ext.getCmp("vote-form-motion").isValid() && Ext.getCmp("vote-form-adult-risk").isValid() && Ext.getCmp("vote-form-ped-risk").isValid() && Ext.getCmp("vote-form-madeby").isValid() && Ext.getCmp("vote-form-secondedby").isValid()  && (Ext.getCmp("vote-form-consentwaived").isValid() || Ext.getCmp("vote-form-consentdocumentationwaived").isValid()) && Ext.getCmp("vote-form-hipaawaived").isValid() && Ext.getCmp("vote-form-hipaa").isValid() ){
@@ -913,6 +967,9 @@ Clara.IRBMeeting.VoteWindow = Ext.extend(Ext.Window, {
 							t.motion.secondbyname = Ext.getCmp("vote-form-secondedby").getRawValue();
 							t.motion.adultrisk = Ext.getCmp("vote-form-adult-risk").getValue();
 							t.motion.pediatricrisk = Ext.getCmp("vote-form-ped-risk").getValue();
+							t.motion.assentwaived = Ext.getCmp("vote-form-assentwaived").getValue();
+							t.motion.assentdocumentationwaived = Ext.getCmp("vote-form-assentdocumentationwaived").getValue();
+
 							t.motion.consentwaived = Ext.getCmp("vote-form-consentwaived").getValue();
 							t.motion.consentdocumentationwaived = Ext.getCmp("vote-form-consentdocumentationwaived").getValue();
 							t.motion.hipaawaived = Ext.getCmp("vote-form-hipaawaived").getValue();

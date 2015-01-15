@@ -182,7 +182,7 @@
 									});
 
 							renderFormViewport(
-									"<strong>Humanitarian Use Device</strong>: Initial Application",
+									"<strong>Emergency Use</strong>: Initial Application",
 									wiz);
 
 							Clara.ProtocolForm.Rules.processPage();

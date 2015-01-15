@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import edu.uams.clara.core.util.xml.DomUtils;
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.businesslogic.BusinessObjectStatusHelperContainer;
@@ -1149,6 +1150,73 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 		}
 		
 		return expenseXml;
+	}
+	
+	@Override
+	public void updateIRBExpensesInBudget(ProtocolForm protocolForm,
+			String xmlData) {
+		logger.debug("Updating budget expenses ...");
+		try{
+			ProtocolFormXmlData budgetXmlData = protocolForm.getTypedProtocolFormXmlDatas().get(ProtocolFormXmlDataType.BUDGET);
+			
+			if (budgetXmlData != null && budgetXmlData.getXmlData() != null && !budgetXmlData.getXmlData().isEmpty()){
+				Document irbFeesDom = xmlProcessor.loadXmlStringToDOM(xmlData);
+				XPath xPath = xmlProcessor.getXPathInstance();
+				NodeList categoriesList = (NodeList) (xPath.evaluate("/protocol/irb-fees/category",
+						irbFeesDom, XPathConstants.NODESET));
+				
+				Document budgetXmlDom = xmlProcessor.loadXmlStringToDOM(budgetXmlData.getXmlData());
+				xPath.reset();
+				
+				for (int i=0; i<categoriesList.getLength(); i++){
+					Element currentCategoryElement = (Element) categoriesList
+							.item(i);
+					String nameValue = currentCategoryElement.getFirstChild().getTextContent();
+					String feeValue = currentCategoryElement.getLastChild().getTextContent();
+					
+					String externalOrNot = "true";
+					if (feeValue.isEmpty() || feeValue.equals("0")){
+						externalOrNot = "false";
+					}
+					
+					String expenseType = "Initial Cost";
+					if (!nameValue.contains("New Submission")){
+						expenseType = "Invoicable";
+					}
+
+					Element expensesEl = (Element) (xPath.evaluate("/budget/expenses", budgetXmlDom, XPathConstants.NODE));
+					
+					Element expenseEl = (Element) (xPath.evaluate("/budget/expenses/expense[@type=\""+ expenseType +"\" and @subtype=\"IRB Fee\"]",
+							budgetXmlDom, XPathConstants.NODE));
+
+					if (expenseEl != null){
+						expenseEl.setAttribute("cost", feeValue);
+						expenseEl.setAttribute("external", externalOrNot);
+						//expenseEl.setAttribute("notes", nameValue);
+					} else {
+						Element newExpenseNode = budgetXmlDom.createElement("expense");
+						newExpenseNode.setAttribute("type", expenseType);
+						newExpenseNode.setAttribute("subtype", "IRB Fee");
+						newExpenseNode.setAttribute("cost", feeValue);
+						newExpenseNode.setAttribute("fa", "0");
+						newExpenseNode.setAttribute("faenabled", "false");
+						newExpenseNode.setAttribute("external", externalOrNot);
+						newExpenseNode.setAttribute("count", "1");
+						newExpenseNode.setAttribute("description", "IRB Fee");
+						newExpenseNode.setAttribute("notes", nameValue);
+						
+						expensesEl.appendChild(newExpenseNode);
+					}
+				}
+				
+				budgetXmlData.setXmlData(DomUtils.elementToString(budgetXmlDom));
+				budgetXmlData = protocolFormXmlDataDao.saveOrUpdate(budgetXmlData);
+				
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private String generatePharmacyExternalExpenses(long protocolFormId) throws IOException, SAXException, XPathExpressionException {

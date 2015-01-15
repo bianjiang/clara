@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlData;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlDataDocument;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolFormXmlDataDocument.Status;
+import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
 import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormXmlDataType;
 import edu.uams.clara.webapp.protocol.service.ProtocolFormService;
 import edu.uams.clara.webapp.protocol.service.history.ProtocolTrackService;
@@ -251,14 +253,24 @@ public class BudgetAjaxController {
 			
 			
 			for (ProtocolFormXmlData pfxd : budgetXmlDataLst) {
-				String coverageStatus = "";
+				String approvalStatus = "";
 				try{
 					List<ProtocolFormCommitteeStatus> committeeStatuses = protocolFormCommitteeStatusDao.listAllByCommitteeAndProtocolFormIdandStatus(Committee.COVERAGE_REVIEW, pfxd.getProtocolForm().getId(),ProtocolFormCommitteeStatusEnum.APPROVED);
 					if(committeeStatuses.size()>0&&committeeStatuses.get(0).getProtocolFormId() == pfxd.getProtocolForm().getId()){
-						coverageStatus = "Coverage Approved at "+committeeStatuses.get(0).getModifiedDateTime();
+						approvalStatus = "Coverage Approved at "+committeeStatuses.get(0).getModifiedDateTime();
+					}
+					
+					List<ProtocolFormCommitteeStatus> committeeStatusesForBudget = protocolFormCommitteeStatusDao.listAllByCommitteeAndProtocolFormIdandStatus(Committee.BUDGET_REVIEW, pfxd.getProtocolForm().getId(),ProtocolFormCommitteeStatusEnum.APPROVED);
+					if(committeeStatusesForBudget.size()>0&&committeeStatuses.get(0).getProtocolFormId() == pfxd.getProtocolForm().getId()){
+						if(pfxd.getProtocolForm().getProtocolFormType().equals(ProtocolFormType.MODIFICATION)){
+							approvalStatus += "&lt;br&gt;";
+							approvalStatus += "Budget Approved at "+committeeStatusesForBudget.get(0).getModifiedDateTime();
+						}
+						
 					}
 					
 				}
+				
 				catch(Exception e){
 					e.printStackTrace();
 					//do nothing, keep status as empty
@@ -272,7 +284,7 @@ public class BudgetAjaxController {
 						+ pfxd.getProtocolForm().getProtocolFormType()
 								.getDescription() + 
 						"' status='"
-						+ coverageStatus+		
+						+ approvalStatus+		
 								"'/>";
 			}
 			
@@ -355,9 +367,16 @@ public class BudgetAjaxController {
 			outputStream = budgetExportService.generateBudgetExcelDocument(budgetXml, budgetDocumentType, protocolFormId);
 			
 			// modelMap.put("xmlData", xmlData);
-			UploadedFile uploadedFile = fileGenerateAndSaveService
-					.processFileGenerateAndSave(protocolForm.getProtocol(), budgetDocumentType.getFileName(), new ByteArrayInputStream(outputStream.toByteArray()), "xls",
-							"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+			
+			//In case sftp connection error
+			int tryUploadTime =5;
+			UploadedFile uploadedFile = null;
+			while(uploadedFile == null&&tryUploadTime>0){
+				uploadedFile = fileGenerateAndSaveService
+						.processFileGenerateAndSave(protocolForm.getProtocol(), budgetDocumentType.getFileName(), new ByteArrayInputStream(outputStream.toByteArray()), "xls",
+								"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+			tryUploadTime--;
+			}
 
 			ProtocolFormXmlDataDocument budgetDocument = new ProtocolFormXmlDataDocument();
 

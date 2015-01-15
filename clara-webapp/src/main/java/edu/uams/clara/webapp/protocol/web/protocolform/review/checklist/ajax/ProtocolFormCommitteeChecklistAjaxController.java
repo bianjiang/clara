@@ -170,7 +170,7 @@ public class ProtocolFormCommitteeChecklistAjaxController {
 				
 				checkListXml += "<checklist><reviewer-name>"+ user.getPerson().getFullname() +"</reviewer-name>"
 						+ "<modified>"+ pfca.getModified() +"</modified>"
-						+ "<url>/protocols/"+ protocolId +"/protocol-forms/"+ protocolFormId +"/review/checklists/committee-checklist.xml?committee="+ committee.toString() +"&amp;formType="+ protocolForm.getProtocolFormType().toString() +"&amp;readOnly=true&amp;userId="+ user.getId() +"</url></checklist>";
+						+ "<url>/protocols/"+ protocolId +"/protocol-forms/"+ pfca.getProtocolForm().getId() +"/review/checklists/committee-checklist.xml?committee="+ committee.toString() +"&amp;formType="+ protocolForm.getProtocolFormType().toString() +"&amp;readOnly=true&amp;userId="+ user.getId() +"</url></checklist>";
 			}
 		} catch (Exception e) {
 			

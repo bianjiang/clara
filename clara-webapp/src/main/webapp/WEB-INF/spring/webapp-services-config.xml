@@ -294,7 +294,32 @@
 					<bean
 						class="edu.uams.clara.webapp.report.service.customreport.impl.EnrollmentReportServiceImpl">
 					</bean>	
-				</entry>			
+				</entry>	
+				<entry key="Reviewer Workload Report">
+					<bean
+						class="edu.uams.clara.webapp.report.service.customreport.impl.ReviewerWorkloadReportImpl">
+					</bean>	
+				</entry>
+				<entry key="Gatekeeper Action Report">
+					<bean
+						class="edu.uams.clara.webapp.report.service.customreport.impl.GatekeeperActionReportImpl">
+					</bean>	
+				</entry>	
+				<entry key="Budget Approval Report">
+					<bean
+						class="edu.uams.clara.webapp.report.service.customreport.impl.BudgetApprovalReportImpl">
+					</bean>	
+				</entry>	
+				<entry key="Clinical Trail In Queue Report">
+					<bean
+						class="edu.uams.clara.webapp.report.service.customreport.impl.ClinicalTrialInQueueReportServiceImpl">
+					</bean>	
+				</entry>
+				<entry key="IRB Reviewer Workload Report">
+					<bean
+						class="edu.uams.clara.webapp.report.service.customreport.impl.IRBReviewWorklaodReportServiceImpl">
+					</bean>	
+				</entry>		
 			</map>
 		</property>
 	</bean>

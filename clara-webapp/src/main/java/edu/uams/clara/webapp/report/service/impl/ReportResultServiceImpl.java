@@ -282,7 +282,7 @@ public class ReportResultServiceImpl extends CustomReportService {
 							value="";
 						}
 						if(!value.equals(valueExist)&&!alias.equals("protocolId")){
-							existingXml=xmlHandler.replaceOrAddNodeValueByPath("//report-item/field[@id=\""+identifier+"\"]", existingXml, valueExist+"<br>"+value);
+							existingXml=xmlHandler.replaceOrAddNodeValueByPath("//report-item/field[@id=\""+identifier+"\"]", existingXml, valueExist+"\n"+value);
 						}
 					}
 					resultXmls.put(protocolId,existingXml);
@@ -307,8 +307,8 @@ public class ReportResultServiceImpl extends CustomReportService {
 		
 		finalResultXml = finalResultXml.replaceAll("&", "&amp;");
 		finalResultXml =finalResultXml.replace("<![CDATA[null]]>", "");
+		finalResultXml =finalResultXml.replace("&gt;null", "&gt;");
 		finalResultXml =finalResultXml.replace("null&lt;br&gt;", "");
-		
 		
 		
 		return finalResultXml;

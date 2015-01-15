@@ -1,5 +1,8 @@
 package edu.uams.clara.webapp.contract.dao.contractform;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -7,24 +10,38 @@ import java.util.Set;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.w3c.dom.Element;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import edu.uams.clara.core.dao.AbstractDomainDao;
+import edu.uams.clara.core.util.xml.XmlHandler;
+import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
 import edu.uams.clara.webapp.common.objectwrapper.PagedList;
+import edu.uams.clara.webapp.common.util.RawvalueLookupService;
 import edu.uams.clara.webapp.contract.domain.Contract;
 import edu.uams.clara.webapp.contract.domain.businesslogicobject.ContractFormStatus;
 import edu.uams.clara.webapp.contract.domain.businesslogicobject.enums.ContractFormStatusEnum;
 import edu.uams.clara.webapp.contract.domain.contractform.ContractForm;
 import edu.uams.clara.webapp.contract.domain.contractform.enums.ContractFormType;
 import edu.uams.clara.webapp.contract.objectwrapper.ContractSearchCriteria;
+import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
+import edu.uams.clara.webapp.fileserver.service.FileGenerateAndSaveService;
 
 @Repository
 public class ContractFormDao extends AbstractDomainDao<ContractForm> {
@@ -32,6 +49,15 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 			.getLogger(ContractFormDao.class);
 
 	private static final long serialVersionUID = 7492131024720753963L;
+	
+	private MessageDigest messageDigest = null;
+	
+	@Value("${fileserver.url}")
+	private String fileServer;
+
+	private FileGenerateAndSaveService fileGenerateAndSaveService;
+	
+	private RawvalueLookupService rawvalueLookupService;
 
 	@Transactional(readOnly = true)
 	public ContractFormStatus getLatestContractFormStatusByContractFormId(long contractFormId){
@@ -120,6 +146,150 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 	}
 	
 	@Transactional(readOnly = true)
+	public String exportBookmarkSearchResultFile(String xmlData,User user){
+		String fileUrl = "";
+		try {
+			HSSFWorkbook wb = new HSSFWorkbook();
+			CreationHelper createHelper = wb.getCreationHelper();
+			Sheet sheet = wb.createSheet("bookmark-search-result");
+			Row titleRow = sheet.createRow(0);
+			String[] titles = {"Contract Identifier","Contract Type","Contract Form Type","IRB","PI","Entity","Status","Created","Contract Legal Review","Contract Admin"};
+			for(int i=0;i<titles.length;i++){
+				Cell infoCell = titleRow.createCell(i);
+				infoCell.setCellValue(createHelper.createRichTextString(titles[i]));
+			}
+			
+			
+			XmlHandler xmlHandler =  XmlHandlerFactory.newXmlHandler();
+			List<Element> protocolEles = xmlHandler.listElementsByXPath(xmlData, "/list/contract");
+			for(int j=0;j<protocolEles.size();j++){
+				Row dataRow = sheet.createRow(j+1);
+				Element contractFormEle = protocolEles.get(j);
+				String cfid = contractFormEle.getAttribute("id");
+				String contractIdentifier = contractFormEle.getAttribute("identifier");
+				String contractFormType =  contractFormEle.getAttribute("type");
+				String contractFormIndex =  contractFormEle.getAttribute("index");
+				
+				Cell infoCell0 = dataRow.createCell(0);
+				infoCell0.setCellValue(createHelper.createRichTextString(contractIdentifier));
+				
+				String type = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/contract[@id=\""+cfid+"\"][@type=\""+contractFormType+"\"][@index = \""+contractFormIndex+"\"]/type/text()");
+				String subType = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/contract[@id=\""+cfid+"\"][@type=\""+contractFormType+"\"][@index = \""+contractFormIndex+"\"]/type/"+type+"/sub-type/text()");
+				
+				type = rawvalueLookupService.rawvalueLookUp(type);
+				
+				if(!subType.isEmpty()){
+					subType = rawvalueLookupService.rawvalueLookUp(subType);
+					type +=" ("+subType+")";
+				}
+				
+				Cell infoCell1 = dataRow.createCell(1);
+				infoCell1.setCellValue(createHelper.createRichTextString(type));
+				
+				
+				if(contractFormType.equals("Amendment")){
+					contractFormType +=" "+contractFormIndex;
+				}
+				
+				Cell infoCell2 = dataRow.createCell(2);
+				infoCell2.setCellValue(createHelper.createRichTextString(contractFormType));
+
+				String irb = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/contract[@id=\""+cfid+"\"][@type=\""+contractFormType+"\"][@index = \""+contractFormIndex+"\"]/protocol/text()");
+				
+				Cell infoCell3 = dataRow.createCell(3);
+				infoCell3.setCellValue(createHelper.createRichTextString(irb));
+				
+				
+				
+				String piName = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/contract[@id=\""+cfid+"\"][@type=\""+contractFormType+"\"][@index = \""+contractFormIndex+"\"]/staffs/staff/user[roles/role/text()=\"Principal Investigator\"]/lastname/text()")+","+
+						xmlHandler.getSingleStringValueByXPath(xmlData, "/list/contract[@id=\""+cfid+"\"][@type=\""+contractFormType+"\"][@index = \""+contractFormIndex+"\"]/staffs/staff/user[roles/role/text()=\"Principal Investigator\"]/firstname/text()");
+				Cell infoCell4 = dataRow.createCell(4);
+				if(piName.endsWith(",")){
+					piName="";
+				}
+				infoCell4.setCellValue(createHelper.createRichTextString(piName));
+				
+				List<Element> sponsors =  xmlHandler.listElementsByXPath(xmlData, "/list/contract[@id=\""+cfid+"\"][@type=\""+contractFormType+"\"][@index = \""+contractFormIndex+"\"]/sponsors/sponsor");
+				String entity = "";
+				for(int i = 0;i<sponsors.size();i++){
+					Element sponsor = sponsors.get(i);
+					String record = "";
+					try{
+						record = sponsor.getElementsByTagName("company").item(0).getTextContent();
+						record+= " : "+sponsor.getElementsByTagName("name").item(0).getTextContent();
+					}catch(Exception e){
+						record+= sponsor.getElementsByTagName("name").item(0).getTextContent();
+					}
+					
+					if(!record.isEmpty()){
+						entity+=(i+1)+" : " +record +"  ";
+					}
+				}
+				
+				Cell infoCell5 = dataRow.createCell(5);
+				infoCell5.setCellValue(createHelper.createRichTextString(entity));
+				
+				String status = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/contract[@id=\""+cfid+"\"][@type=\""+contractFormType+"\"][@index = \""+contractFormIndex+"\"]/status/text()");
+				Cell infoCell6 = dataRow.createCell(6);
+				infoCell6.setCellValue(createHelper.createRichTextString(status));
+				
+				
+				String created = xmlHandler.getSingleStringValueByXPath(xmlData, "/list/contract[@id=\""+cfid+"\"][@type=\""+contractFormType+"\"][@index = \""+contractFormIndex+"\"]/@created");
+				Cell infoCell7 = dataRow.createCell(7);
+				infoCell7.setCellValue(createHelper.createRichTextString(created));
+				
+				String legalreview = "";
+				List<Element> legalEles = xmlHandler.listElementsByXPath(xmlData, "/list/contract[@id=\""+cfid+"\"][@type=\""+contractFormType+"\"][@index = \""+contractFormIndex+"\"]/committee-review/committee[@type=\"CONTRACT_LEGAL_REVIEW\"]/assigned-reviewers/assigned-reviewer");
+				for(int i = 0;i<legalEles.size();i++){
+					Element legalEle = legalEles.get(i);
+					legalreview += (i+1)+": "+legalEle.getAttribute("user-fullname")+" ";
+					
+				}
+				
+				Cell infoCell8 = dataRow.createCell(8);
+				infoCell8.setCellValue(createHelper.createRichTextString(legalreview));
+				
+				
+				String contractadmin = "";
+				List<Element> adminEles = xmlHandler.listElementsByXPath(xmlData, "/list/contract[@id=\""+cfid+"\"][@type=\""+contractFormType+"\"][@index = \""+contractFormIndex+"\"]/committee-review/committee[@type=\"CONTRACT_ADMIN\"]/assigned-reviewers/assigned-reviewer");
+				for(int i = 0;i<adminEles.size();i++){
+					Element adminEle = adminEles.get(i);
+					contractadmin += (i+1)+": "+adminEle.getAttribute("user-fullname")+" ";
+					
+				}
+				
+				Cell infoCell9 = dataRow.createCell(9);
+				infoCell9.setCellValue(createHelper.createRichTextString(contractadmin));
+				
+			}
+			
+			int tryUploadTime =5;
+			
+			ByteArrayOutputStream fileData = new ByteArrayOutputStream();;
+			wb.write(fileData);
+			UploadedFile uploadedFile = null;
+			while(uploadedFile == null&&tryUploadTime>0){
+				uploadedFile = fileGenerateAndSaveService
+						.processFileGenerateAndSave(user, "Bookmark Search Result", new ByteArrayInputStream(fileData.toByteArray()), "xls",
+								"bookmark search result");
+			tryUploadTime--;
+			}
+			messageDigest = MessageDigest.getInstance("SHA-256",
+					new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+			messageDigest.update(fileData.toByteArray());
+			String hashFileName = new String(Hex.encode(messageDigest.digest()))+".xls";
+			fileUrl = fileServer+"/user/"+user.getId()+"/"+hashFileName;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fileUrl;
+		
+		
+	}
+	
+	
+	@Transactional(readOnly = true)
 	private List<String> contractSearchCriteriaResolver(List<ContractSearchCriteria> searchCriteria){
 		List<String> xPathCriteria = new ArrayList<String>();
 		
@@ -198,6 +368,50 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 				}
 			}
 			break;
+			case CONTRACT_ADMIN_USERID:{
+				switch (p.getSearchOperator()){
+				case CONTAINS:
+					xPathCriteria
+					.add("meta_data_xml.exist('/contract/committee-review/committee[@type=\"CONTRACT_ADMIN\"]/assigned-reviewers/assigned-reviewer[@user-id = \""
+							+ p.getKeyword() + "\"]') = 1");
+					break;				
+				case EQUALS:
+					xPathCriteria
+					.add("meta_data_xml.exist('/contract/committee-review/committee[@type=\"CONTRACT_ADMIN\"]/assigned-reviewers/assigned-reviewer[@user-id = \""
+							+ p.getKeyword() + "\"]') = 1");
+					logger.debug("meta_data_xml.exist('/contract/committee-review/committee[@type=\"CONTRACT_ADMIN\"]/assigned-reviewers/assigned-reviewer[@user-id = \""
+							+ p.getKeyword() + "\"]') = 1");
+					break;
+				case DOES_NOT_CONTAIN:
+					xPathCriteria
+					.add("meta_data_xml.exist('/contract/committee-review/committee[@type=\"CONTRACT_ADMIN\"]/assigned-reviewers/assigned-reviewer[@user-id = \""
+							+ p.getKeyword() + "\"]') = 0");
+				default:
+					break;
+				}
+			}
+			break;
+			case CONTRACT_LEGAL_REVIEW_USERID:{
+				switch (p.getSearchOperator()){
+				case CONTAINS:
+					xPathCriteria
+					.add("meta_data_xml.exist('/contract/committee-review/committee[@type=\"CONTRACT_LEGAL_REVIEW\"]/assigned-reviewers/assigned-reviewer[@user-id = \""
+							+ p.getKeyword() + "\"]') = 1");
+					break;				
+				case EQUALS:
+					xPathCriteria
+					.add("meta_data_xml.exist('/contract/committee-review/committee[@type=\"CONTRACT_LEGAL_REVIEW\"]/assigned-reviewers/assigned-reviewer[@user-id = \""
+							+ p.getKeyword() + "\"]') = 1");
+					break;
+				case DOES_NOT_CONTAIN:
+					xPathCriteria
+					.add("meta_data_xml.exist('/contract/committee-review/committee[@type=\"CONTRACT_LEGAL_REVIEW\"]/assigned-reviewers/assigned-reviewer[@user-id = \""
+							+ p.getKeyword() + "\"]') = 0");
+				default:
+					break;
+				}
+			}
+			break;
 			case PI_NAME:{
 				switch (p.getSearchOperator()){
 				case CONTAINS:
@@ -262,6 +476,21 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 				}
 			}
 			break;
+/*			case CONTRACT_FORM_TYPE:{
+				switch (p.getSearchOperator()){
+				case CONTAINS:
+					xPathCriteria.add("meta_data_xml.exist('/contract/[@type = \""+ p.getKeyword() +"\"]') = 1");
+					break;				
+				case EQUALS:
+					xPathCriteria.add("meta_data_xml.exist('/contract/[@type = \""+ p.getKeyword() +"\"]') = 1");
+					break;
+				case DOES_NOT_CONTAIN:
+					xPathCriteria.add("meta_data_xml.exist('/contract/[@type = \""+ p.getKeyword() +"\"]') = 0");
+				default:
+					break;
+				}
+			}
+			break;*/
 			case ENTITY_NAME:{
 				switch (p.getSearchOperator()){
 				case CONTAINS:
@@ -506,7 +735,6 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 							+ ") " : "") + ") AND cf.contract_form_type = 'NEW_CONTRACT' ORDER BY cf.id DESC";
 			*/
 		}
-
 		Query tq = getEntityManager().createNativeQuery(queryTotal);
 		//tq.setHint("org.hibernate.cacheable", true);
 		tq.setParameter("retired", Boolean.FALSE);
@@ -562,4 +790,30 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 		return pagedList;
 	}
 	
+	public FileGenerateAndSaveService getFileGenerateAndSaveService() {
+		return fileGenerateAndSaveService;
+	}
+
+	@Autowired(required=true)
+	public void setFileGenerateAndSaveService(FileGenerateAndSaveService fileGenerateAndSaveService) {
+		this.fileGenerateAndSaveService = fileGenerateAndSaveService;
+	}
+
+	public String getFileServer() {
+		return fileServer;
+	}
+
+	public void setFileServer(String fileServer) {
+		this.fileServer = fileServer;
+	}
+
+	public RawvalueLookupService getRawvalueLookupService() {
+		return rawvalueLookupService;
+	}
+
+	@Autowired(required=true)
+	public void setRawvalueLookupService(RawvalueLookupService rawvalueLookupService) {
+		this.rawvalueLookupService = rawvalueLookupService;
+	}
+
 }

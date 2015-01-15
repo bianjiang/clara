@@ -108,7 +108,7 @@ Ext.define('Clara.Agenda.view.Viewport',{
 									'->',{
 											xtype:'button',
 											id:'btnAgendaMenu',
-											hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN'])),
+											hidden:!(claraInstance.HasAnyPermissions(['EDIT_AGENDA','ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN'])),
 											iconCls:'icn-calendar-select',
 											disabled:true,
 											text:'Agenda',
@@ -118,13 +118,13 @@ Ext.define('Clara.Agenda.view.Viewport',{
 									id:'btnAddMinutesAgenda',
 									iconCls:'icn-report--plus',
 									text:'<strong>Add last meeting\'s minutes</strong>',
-									hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN'])),
+									hidden:!(claraInstance.HasAnyPermissions(['EDIT_AGENDA','ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN'])),
 									disabled:true
 									},{
 									id:'btnSendAgenda',
 									iconCls:'icn-mail-send',
 									text:'<strong>Send Agenda..</strong>',
-									hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_IRB_OFFICE_CHAIR'])),
+									hidden:!(claraInstance.HasAnyPermissions(['EDIT_AGENDA','ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_IRB_OFFICE_CHAIR'])),
 									disabled:true
 									},'-',
 											      
@@ -135,39 +135,39 @@ Ext.define('Clara.Agenda.view.Viewport',{
 												iconCls:'icn-users',
 												text:'Manage Roster..',
 												disabled:true,
-												hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']))
+												hidden:!(claraInstance.HasAnyPermissions(['EDIT_AGENDA','ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']))
 											},{
 									
 												id:'btnCancelAgenda',
 												iconCls:'icn-calendar--minus',
 												text:'Cancel..',
 												disabled:true,
-												hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']))
+												hidden:!(claraInstance.HasAnyPermissions(['EDIT_AGENDA','ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']))
 											},{
 									
 												id:'btnRemoveAgenda',
 												iconCls:'icn-minus-button',
 												text:'Remove..',
 												disabled:true,
-												hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']))
+												hidden:!(claraInstance.HasAnyPermissions(['EDIT_AGENDA','ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN']))
 											}]
 										},{
 											xtype:'button',
 											id:'btnAgendaItemMenu',
-											hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_IRB_OFFICE_CHAIR'])),
+											hidden:!(claraInstance.HasAnyPermissions(['EDIT_AGENDA','ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_IRB_OFFICE_CHAIR'])),
 											iconCls:'icn-calendar-task',
 											disabled:true,
 											text:'Agenda Item',
 											menu:[{
 													id:'btnAssignReviewers',
-													hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_IRB_OFFICE_CHAIR','ROLE_IRB_CHAIR'])),
+													hidden:!(claraInstance.HasAnyPermissions(['EDIT_AGENDA','ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_IRB_OFFICE_CHAIR','ROLE_IRB_CHAIR'])),
 													iconCls:'icn-user--plus',
 													text:'Assign reviewers',
 													disabled:true
 												},{
 													id:'btnRemoveItem',
 													iconCls:'icn-calendar--minus',
-													hidden:!(claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN'])),
+													hidden:!(claraInstance.HasAnyPermissions(['EDIT_AGENDA','ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN'])),
 													text:'Remove item from agenda..',
 													disabled:true
 												}

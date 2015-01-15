@@ -56,6 +56,6 @@
 		<constraint type="REQUIRED" data="" error-msg="To indicate what the project will involve is required!" level="ERROR"/>
 	</rule>
 	<rule path="/hsrd/staffs/staff/user/roles/role" value-type="java.util.List" pagename="Staff" pageref="staff">
-		<constraint type="CONTAINS" data="Principal Investigator" error-msg="Project Leader is required for the study!" level="ERROR"/>		
+		<constraint type="CONTAINS" data="Principal Investigator" error-msg="Principal Investigator is required for the study!" level="ERROR"/>		
 	</rule>
 </rules>

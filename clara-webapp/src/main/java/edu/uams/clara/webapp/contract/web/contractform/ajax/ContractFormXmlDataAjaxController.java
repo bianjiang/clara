@@ -428,7 +428,7 @@ public class ContractFormXmlDataAjaxController {
 
 		if(elementXml.contains("</staff>")){
 			logger.debug("update user acl based on staff xml");
-			objectAclService.updateObjectAclByStaffXml(Contract.class, contractForm.getContract().getId(), elementXml);
+			objectAclService.updateObjectAclByStaffXml(Contract.class, contractForm.getContract().getId(), elementXml, false);
 		}
 
 		return resultMap.get("elementXml").toString();

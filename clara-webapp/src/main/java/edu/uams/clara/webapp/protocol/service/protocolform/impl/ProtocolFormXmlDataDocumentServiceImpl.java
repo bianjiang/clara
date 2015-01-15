@@ -255,6 +255,10 @@ public class ProtocolFormXmlDataDocumentServiceImpl implements
 		canEditDocStatusLst.add(ProtocolFormStatusEnum.PENDING_PI_SIGN_OFF);
 		canEditDocStatusLst.add(ProtocolFormStatusEnum.PENDING_TP_ENDORSEMENT);
 		canEditDocStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION);
+		canEditDocStatusLst.add(ProtocolFormStatusEnum.REVISION_PENDING_PI_ENDORSEMENT);
+		canEditDocStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION_MINOR_CONTINGENCIES);
+		canEditDocStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION_MAJOR_CONTINGENCIES);
+		canEditDocStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION_RESPONSE_TO_TABLED);
 		// canEditDocStatusLst.add(ProtocolFormStatusEnum.PENDING_PL_ENDORSEMENT);
 	}
 

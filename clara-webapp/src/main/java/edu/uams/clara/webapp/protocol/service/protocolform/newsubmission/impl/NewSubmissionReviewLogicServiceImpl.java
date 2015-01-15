@@ -55,7 +55,8 @@ public class NewSubmissionReviewLogicServiceImpl extends
 		if (reviewFormIdentifier.equals("gatekeeper-review")
 				|| reviewFormIdentifier.equals("budget-review")
 				|| reviewFormIdentifier.equals("ach-gatekeeper-review")
-				|| reviewFormIdentifier.equals("irb-office-review")) {
+				|| reviewFormIdentifier.equals("irb-office-review")
+				|| reviewFormIdentifier.equals("irb-prereview")) {
 			resultXml = getCommitteesList(protocolFormId, reviewFormIdentifier);
 		} else {
 			resultXml = getFinalReviewExtralContentPanel(protocolFormId, reviewFormIdentifier);
@@ -82,17 +83,17 @@ public class NewSubmissionReviewLogicServiceImpl extends
 	}
 	
 	private Map<String, String> extraContentPanel = new HashMap<String, String>();{
-		extraContentPanel.put("irb-prereview", "<panels><panel xtype=\"clarareviewernewsubirbprereviewpanel\" id=\"IRBPrereviewFinalReviewPanel\"><formdata>");
-		extraContentPanel.put("irb-expedited-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.irb.expedited.review.panel\" id=\"NewSubmissionIRBExpeditedFinalReviewPanel\"><formdata>");
-		extraContentPanel.put("irb-exempt-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.irb.exempt.review.panel\" id=\"NewSubmissionIRBExemptFinalReviewPanel\"><formdata>");
-		extraContentPanel.put("regulatory-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.ragulatory.review.panel\" id=\"RagulatoryFinalReviewPanel\"><formdata>");
-		extraContentPanel.put("coverage-review", "<panels><panel xtype=\"clarareviewercoveragepanel\" id=\"CoverageFinalReviewPanel\"><formdata>");
-		extraContentPanel.put("gatekeeper-review", "<panels><panel xtype=\"clarareviewergatekeeperassigncommitteepanel\" id=\"GatekeeperAssignCommitteePanel\"><formdata><committees>");
-		extraContentPanel.put("budget-review", "<panels><panel xtype=\"clarareviewerbudgetmanagerassigncommitteepanel\" id=\"BudgetManagerAssignCommitteePanel\"><formdata><committees>");
-		extraContentPanel.put("ach-gatekeeper-review", "<panels><panel xtype=\"clarareviewerachriassigncommitteepanel\" id=\"ACHRIAssignCommitteePanel\"><formdata><committees>");
+		extraContentPanel.put("irb-prereview", "<panels><panel xtype=\"clarareviewernewsubirbprereviewpanel\" id=\"IRBPrereviewFinalReviewPanel\"></panel><panel xtype=\"clarareviewerirbprereviewassigncommitteepanel\" id=\"IRBPrereviewAssignCommitteePanel\">{extraFormData}</panel></panels>");
+		extraContentPanel.put("irb-expedited-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.irb.expedited.review.panel\" id=\"NewSubmissionIRBExpeditedFinalReviewPanel\"></panel></panels>");
+		extraContentPanel.put("irb-exempt-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.irb.exempt.review.panel\" id=\"NewSubmissionIRBExemptFinalReviewPanel\"></panel></panels>");
+		extraContentPanel.put("regulatory-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.ragulatory.review.panel\" id=\"RagulatoryFinalReviewPanel\">{extraFormData}</panel></panels>");
+		extraContentPanel.put("coverage-review", "<panels><panel xtype=\"clarareviewercoveragepanel\" id=\"CoverageFinalReviewPanel\">{extraFormData}</panel></panels>");
+		extraContentPanel.put("gatekeeper-review", "<panels><panel xtype=\"clarareviewergatekeeperassigncommitteepanel\" id=\"GatekeeperAssignCommitteePanel\">{extraFormData}</panel></panels>");
+		extraContentPanel.put("budget-review", "<panels><panel xtype=\"clarareviewerbudgetmanagerassigncommitteepanel\" id=\"BudgetManagerAssignCommitteePanel\">{extraFormData}</panel></panels>");
+		extraContentPanel.put("ach-gatekeeper-review", "<panels><panel xtype=\"clarareviewerachriassigncommitteepanel\" id=\"ACHRIAssignCommitteePanel\">{extraFormData}</panel></panels>");
 		extraContentPanel.put("irb-office-review", "<panels><panel xtype=\"clarareviewerirbofficeassigncommitteepanel\" id=\"IRBOfficeAssignCommitteePanel\"><formdata><committees>");
-		extraContentPanel.put("audit-irb-office-review", "<panels><panel xtype=\"clarareviewerauditirbofficepanel\" id=\"AuditIRBOfficeFinalReviewPanel\"><formdata><committees>");
-		extraContentPanel.put("clinicaltrials-review", "<panels><panel xtype=\"clarareviewerclinicaltrialsreviewpanel\" id=\"ClinicalTrialsReviewPanel\"><formdata>");
+		extraContentPanel.put("audit-irb-office-review", "<panels><panel xtype=\"clarareviewerauditirbofficepanel\" id=\"AuditIRBOfficeFinalReviewPanel\"><committees>");
+		extraContentPanel.put("clinicaltrials-review", "<panels><panel xtype=\"clarareviewerclinicaltrialsreviewpanel\" id=\"ClinicalTrialsReviewPanel\"></panel></panels>");
 	}
 	
 	private Set<String> extraContentAnswerPaths = new HashSet<String>();{
@@ -109,6 +110,8 @@ public class NewSubmissionReviewLogicServiceImpl extends
 		
 		resultXml = extraContentPanel.get(reviewFormIdentifier);
 		
+		String extraFormData = "<formdata>";
+		
 		if (reviewFormIdentifier.equals("regulatory-review") || reviewFormIdentifier.equals("coverage-review")){
 			Map<String, List<String>> answers = getExtraContentValues(protocolFormId, extraContentAnswerPaths);
 
@@ -116,7 +119,7 @@ public class NewSubmissionReviewLogicServiceImpl extends
 				if (reviewFormIdentifier.equals("regulatory-review")){
 					String ind = (answers.get("/protocol/summary/drugs-and-devices/ind") != null && answers.get("/protocol/summary/drugs-and-devices/ind").size() > 0)?answers.get("/protocol/summary/drugs-and-devices/ind").get(0):"";
 					String ide = (answers.get("/protocol/summary/drugs-and-devices/ide") != null && answers.get("/protocol/summary/drugs-and-devices/ide").size() > 0)?answers.get("/protocol/summary/drugs-and-devices/ide").get(0):"";
-					resultXml += "<ind>" + ind + "</ind><ide>" + ide + "</ide>";
+					extraFormData += "<ind>" + ind + "</ind><ide>" + ide + "</ide>";
 				}
 			
 			
@@ -125,7 +128,7 @@ public class NewSubmissionReviewLogicServiceImpl extends
 					String theraputicIntent = (answers.get("/protocol/summary/coverage-determination/theraputic-intent") != null && answers.get("/protocol/summary/coverage-determination/theraputic-intent").size() > 0)?answers.get("/protocol/summary/coverage-determination/theraputic-intent").get(0):"";
 					String enrolledDiagnosed = (answers.get("/protocol/summary/coverage-determination/enrolled-diagnosed") != null && answers.get("/protocol/summary/coverage-determination/enrolled-diagnosed").size() > 0)?answers.get("/protocol/summary/coverage-determination/enrolled-diagnosed").get(0):"";
 					String trialCategory = (answers.get("/protocol/summary/coverage-determination/trial-category") != null && answers.get("/protocol/summary/coverage-determination/trial-category").size() > 0)?answers.get("/protocol/summary/coverage-determination/trial-category").get(0):"";
-					resultXml += "<medicare-benefit>" + medicareBenefit + "</medicare-benefit><theraputic-intent>" + theraputicIntent + "</theraputic-intent><enrolled-diagnosed>" + enrolledDiagnosed + "</enrolled-diagnosed><trial-category>" + trialCategory + "</trial-category>";
+					extraFormData += "<medicare-benefit>" + medicareBenefit + "</medicare-benefit><theraputic-intent>" + theraputicIntent + "</theraputic-intent><enrolled-diagnosed>" + enrolledDiagnosed + "</enrolled-diagnosed><trial-category>" + trialCategory + "</trial-category>";
 				}
 			} catch (Exception e){
 				e.printStackTrace();
@@ -133,8 +136,10 @@ public class NewSubmissionReviewLogicServiceImpl extends
 			
 		}
 		
-		resultXml += "</formdata></panel></panels>";
+		extraFormData += "</formdata>";
 		
+		resultXml = resultXml.replace("{extraFormData}", extraFormData);
+
 		return resultXml;
 	}
 	
@@ -143,6 +148,7 @@ public class NewSubmissionReviewLogicServiceImpl extends
 		committeeLookupPaths.put("budget-review", "/committees/committee[@assigned-by[contains(., \"BUDGET\")]]");
 		committeeLookupPaths.put("ach-gatekeeper-review", "/committees/committee[@assigned-by[contains(., \"ACHRI\")]]");
 		committeeLookupPaths.put("irb-office-review", "/committees/committee[@assigned-by[contains(., \"IRB\")]]");
+		committeeLookupPaths.put("irb-prereview", "/committees/committee[@assigned-by[contains(., \"IRB_PREREVIEW\")]]");
 	}
 
 	private String getCommitteesList(long protocolFormId,
@@ -197,6 +203,9 @@ public class NewSubmissionReviewLogicServiceImpl extends
 		}	
 		
 		String resultXml = extraContentPanel.get(reviewFormIdentifier);
+
+		String extraFormData = "<formdata><committees>";
+		
 		String lookupPath = committeeLookupPaths.get(reviewFormIdentifier);
 
 		String checked = "";
@@ -239,18 +248,18 @@ public class NewSubmissionReviewLogicServiceImpl extends
 						assigned = "false";
 					}
 
-					resultXml += "<committee><name>"
+					extraFormData += "<committee><name>"
 							+ currentCommitteeElement.getAttribute("name")
 							+ "</name>";
-					resultXml += "<desc>"
+					extraFormData += "<desc>"
 							+ currentCommitteeElement.getAttribute("desc")
 							+ "</desc>";
-					resultXml += "<checked>" + checked
+					extraFormData += "<checked>" + checked
 							+ "</checked>";
-					resultXml += "<individual-assignment>" + currentCommitteeElement.getAttribute("individual-assignment")
+					extraFormData += "<individual-assignment>" + currentCommitteeElement.getAttribute("individual-assignment")
 							+ "</individual-assignment>";
-					resultXml += "<assigned>"+ assigned + "</assigned>";
-					resultXml += "<status>"+ status + "</status></committee>";
+					extraFormData += "<assigned>"+ assigned + "</assigned>";
+					extraFormData += "<status>"+ status + "</status></committee>";
 					
 					logger.debug("resultXml: " + resultXml);
 				}
@@ -259,8 +268,10 @@ public class NewSubmissionReviewLogicServiceImpl extends
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		extraFormData += "</committees></formdata>";
 
-		resultXml += "</committees></formdata></panel></panels>";
+		resultXml = resultXml.replace("{extraFormData}", extraFormData);
 
 		return resultXml;
 	}

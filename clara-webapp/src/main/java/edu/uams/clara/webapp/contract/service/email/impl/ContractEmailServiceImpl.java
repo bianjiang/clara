@@ -82,7 +82,7 @@ public class ContractEmailServiceImpl implements ContractEmailService {
 	@Override
 	public EmailTemplate sendNotification(ContractForm contractForm, Committee committee, Map<String, Object> attributeRawValues, User user, String emailTemplateIdentifier,
 			String emailComment, String mailTo, String cc) {
-		EmailTemplate emailTemplate = notify(contractForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment);
+		EmailTemplate emailTemplate = notify(contractForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment, mailTo, cc);
 		
 		sendEmail(emailTemplate, attributeRawValues, user, emailComment, mailTo, cc);
 		
@@ -94,7 +94,7 @@ public class ContractEmailServiceImpl implements ContractEmailService {
 			Committee committee, Map<String, Object> attributeRawValues, User user, String emailTemplateIdentifier,
 			String emailComment, String letterName, String docType, String mailTo, String cc)
 			throws IOException {
-		EmailTemplate emailTemplate = notify(contractForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment);
+		EmailTemplate emailTemplate = notify(contractForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment, mailTo, cc);
 		
 		UploadedFile uploadedFile = fileGenerateAndSaveService
 				.processFileGenerateAndSave(contractForm.getContract(),
@@ -110,10 +110,11 @@ public class ContractEmailServiceImpl implements ContractEmailService {
 		return emailTemplate;
 	}
 	
-	public EmailTemplate notify(ContractForm contractForm, Committee committee, Map<String, Object> attributeRawValues, User user, String emailTemplateIdentifier, String emailComment){
+	public EmailTemplate notify(ContractForm contractForm, Committee committee, Map<String, Object> attributeRawValues, User user, String emailTemplateIdentifier, String emailComment, String mailTo, String cc){
 		
 		//String identifier = contractF//contractFormStatus.getContractFormStatus() + "_" + committee.toString() + "_" + action;
-		
+		attributeRawValues = emailService.addInputRecipentsToRawAttributes(attributeRawValues, mailTo, cc);
+
 		EmailTemplate emailTemplate = contractEmailDataService.loadEmailTemplate(emailTemplateIdentifier, contractForm, committee, attributeRawValues, user, emailComment);
 		
 		/*

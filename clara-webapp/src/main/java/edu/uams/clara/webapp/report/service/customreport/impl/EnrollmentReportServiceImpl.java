@@ -25,6 +25,7 @@ import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
+import edu.uams.clara.webapp.common.util.RawvalueLookupService;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
@@ -43,6 +44,7 @@ public class EnrollmentReportServiceImpl extends CustomReportService{
 	private ProtocolFormXmlDataDao protocolFormXmlDataDao;
 	private ProtocolFormStatusDao protocolFormStatusDao;
 	private UserDao userDao;
+	private RawvalueLookupService rawvalueLookupService;
 	@Override
 	public String generateReportResult(ReportTemplate reportTemplate) {
 		List<ReportCriteria> criterias = reportTemplate.getReportCriterias();
@@ -201,6 +203,8 @@ public class EnrollmentReportServiceImpl extends CustomReportService{
 						queryCriteriasValueMap.put(
 								"Approved Time Range",
 								"BETWEEN: " + date1+"~"+date2);
+						
+						date2 = DateFormatUtil.formateDateToMDY(currentDate);
 					}
 					
 					//date range donot need to add query conditions here
@@ -254,11 +258,11 @@ public class EnrollmentReportServiceImpl extends CustomReportService{
 	}
 	
 	private List<BigInteger> getCRApprovedBetweenTimeRange(String beginTime, String endTime){
-		String queryStr = "select id from protocol_form where retired = 0 and protocol_form_type = 'CONTINUING_REVIEW' and id in (select distinct protocol_form_id from protocol_form_status where retired = 0 and id in (select max(id) from protocol_form_status where retired = 0 group by protocol_form_id)  and protocol_form_status in ('IRB_APPROVED','EXPEDITED_APPROVED')  and modified>"
+		String queryStr = "select id from protocol_form where retired = 0 and protocol_form_type = 'CONTINUING_REVIEW' and id in (select distinct protocol_form_id from protocol_form_status where retired = 0 and id in (select max(id) from protocol_form_status where retired = 0 group by protocol_form_id)  and protocol_form_status in ('IRB_APPROVED','EXPEDITED_APPROVED') and id not in (select distinct protocol_form_id from protocol_form_xml_data where retired = 0 and protocol_form_xml_data_type = 'CONTINUING_REVIEW' and xml_data.value('(/continuing-review/subject-accrual/chart-review-study-only/text())[1]','varchar(50)') = 'y')  and modified>"
 				+ "'"+beginTime+ "'"
 				+ " and modified <"
 				+ "'"+ endTime+ "')";
-		
+		logger.debug(queryStr);
 		Query query = em.createNativeQuery(queryStr);
 		List<BigInteger> pfidsBig = query.getResultList();
 		
@@ -281,7 +285,16 @@ public class EnrollmentReportServiceImpl extends CustomReportService{
 			String piuserId = xmlHandler.getSingleStringValueByXPath(protocolXml, "/protocol/staffs/staff/user[roles/role/text()=\"Principal Investigator\"]/@id");
 			String title = xmlHandler.getSingleStringValueByXPath(protocolXml, "/protocol/title/text()");
 			String primaryLocation = xmlHandler.getSingleStringValueByXPath(protocolXml, "/protocol/site-responsible/text()");
+			String currentApprovalStatus =  xmlHandler.getSingleStringValueByXPath(protocolXml, "/protocol/most-recent-study/approval-status/text()");
 			String originalApprovedDate = xmlHandler.getSingleStringValueByXPath(protocolXml, "/protocol/original-study/approval-date/text()");
+			String generalstudyinfo = xmlHandler.getSingleStringValueByXPath(pfxdXml, "//general-study-info/keep-study-open");
+			if(generalstudyinfo.equals("n")){
+				generalstudyinfo = "Study Does Not Kepp Open";
+			}else if(generalstudyinfo.equals("y")){
+				generalstudyinfo = xmlHandler.getSingleStringValueByXPath(pfxdXml, "//general-study-info/study-status/statuses/status/text()");
+				generalstudyinfo = rawvalueLookupService.rawvalueLookUp(generalstudyinfo);
+			}
+			
 			String totalSubUAMSOversight = xmlHandler.getSingleStringValueByXPath(protocolXml, "/protocol/accural-goal-local/text()");
 			String subjectsSinceActivation = xmlHandler.getSingleStringValueByXPath(pfxdXml, "//subject-accrual/enrollment/local/since-activation/text()");
 			String subjectsSinceApproval = xmlHandler.getSingleStringValueByXPath(pfxdXml, "//subject-accrual/enrollment/local/since-approval/text()");
@@ -323,8 +336,16 @@ public class EnrollmentReportServiceImpl extends CustomReportService{
 			resultXmlForCR += primaryLocation;
 			resultXmlForCR += "</field>";
 			
+			resultXmlForCR += "<field id=\"currentapprovalstatus\">";
+			resultXmlForCR += currentApprovalStatus;
+			resultXmlForCR += "</field>";
+			
 			resultXmlForCR += "<field id=\"originalapproveddate\">";
 			resultXmlForCR += originalApprovedDate;
+			resultXmlForCR += "</field>";
+			
+			resultXmlForCR += "<field id=\"generalstudyinfo\">";
+			resultXmlForCR += generalstudyinfo;
 			resultXmlForCR += "</field>";
 			
 			resultXmlForCR += "<field id=\"totalsubUAMSoversight\">";
@@ -357,7 +378,9 @@ public class EnrollmentReportServiceImpl extends CustomReportService{
 		finalResultXml += "<field id=\"piname\" desc=\"PI Name\" hidden=\"false\" />";
 		finalResultXml += "<field id=\"picollege\" desc=\"PI's College & Department\" hidden=\"false\" />";
 		finalResultXml += "<field id=\"primaryLocation\" desc=\"Primay Location\" hidden=\"false\" />";
+		finalResultXml += "<field id=\"currentapprovalstatus\" desc=\"Current Approval Status \" hidden=\"false\" />";
 		finalResultXml += "<field id=\"originalApprovedDate\" desc=\"Original Approval Date \" hidden=\"false\" />";
+		finalResultXml += "<field id=\"generalstudyinfo\" desc=\"General Study Information \" hidden=\"false\" />";
 		finalResultXml += "<field id=\"totalSubUAMSOversight\" desc=\"Total Subjects under UAMS Oversight\" hidden=\"false\" />";
 		finalResultXml += "<field id=\"subjectsSinceActivation\" desc=\"Number of Subjects Enrolled Since Activation\" hidden=\"false\" />";
 		finalResultXml += "<field id=\"subjectsSinceApproval\" desc=\"Number of Subjects Enrolled Since Last Approval\" hidden=\"false\" />";
@@ -422,6 +445,15 @@ public class EnrollmentReportServiceImpl extends CustomReportService{
 	@Autowired(required = true)
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
+	}
+
+	public RawvalueLookupService getRawvalueLookupService() {
+		return rawvalueLookupService;
+	}
+
+	@Autowired(required = true)
+	public void setRawvalueLookupService(RawvalueLookupService rawvalueLookupService) {
+		this.rawvalueLookupService = rawvalueLookupService;
 	}
 
 }

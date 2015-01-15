@@ -532,6 +532,12 @@
 				<form type="MODIFICATION" status="ANY">
 					<form-committee-status>IN_REVIEW</form-committee-status>
 				</form>
+				<form type="NEW_SUBMISSION" status="ANY">
+					<form-committee-status>PENDING_OUTCOME_OF_OTHER_COMMITTEE</form-committee-status>
+				</form>
+				<form type="MODIFICATION" status="ANY">
+					<form-committee-status>PENDING_OUTCOME_OF_OTHER_COMMITTEE</form-committee-status>
+				</form>
 			</role>			
 		</roles>
 	</queue>
@@ -664,25 +670,25 @@
 				<form type="NEW_CONTRACT" status="UNDER_CONTRACT_REVIEW">
 					<form-committee-status>OUTSIDE_IRB</form-committee-status>
 				</form>
-				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
-					<form-committee-status>FINAL_LEGAL_APPROVAL</form-committee-status>
+				<form type="NEW_CONTRACT" status="LEGAL_REVIEW_COMPLETE">
+					<form-committee-status>LEGAL_REVIEW_COMPLETE</form-committee-status>
 				</form>
-				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+				<form type="NEW_CONTRACT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>PENDING_PI</form-committee-status>
 				</form>
-				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+				<form type="NEW_CONTRACT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
 				</form>
-				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+				<form type="NEW_CONTRACT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>PENDING_BUDGET</form-committee-status>
 				</form>
-				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+				<form type="NEW_CONTRACT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>PENDING_COVERAGE</form-committee-status>
 				</form>
-				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+				<form type="NEW_CONTRACT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>PENDING_IRB</form-committee-status>
 				</form>
-				<form type="NEW_CONTRACT" status="FINAL_LEGAL_APPROVAL">
+				<form type="NEW_CONTRACT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>OUTSIDE_IRB</form-committee-status>
 				</form>
 				<form type="NEW_CONTRACT" status="PENDING_SIGNATURE">
@@ -712,25 +718,25 @@
 				<form type="AMENDMENT" status="UNDER_CONTRACT_REVIEW">
 					<form-committee-status>OUTSIDE_IRB</form-committee-status>
 				</form>
-				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
-					<form-committee-status>FINAL_LEGAL_APPROVAL</form-committee-status>
+				<form type="AMENDMENT" status="LEGAL_REVIEW_COMPLETE">
+					<form-committee-status>LEGAL_REVIEW_COMPLETE</form-committee-status>
 				</form>
-				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+				<form type="AMENDMENT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>PENDING_PI</form-committee-status>
 				</form>
-				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+				<form type="AMENDMENT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>PENDING_SPONSOR_RESPONSE</form-committee-status>
 				</form>
-				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+				<form type="AMENDMENT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>PENDING_BUDGET</form-committee-status>
 				</form>
-				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+				<form type="AMENDMENT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>PENDING_COVERAGE</form-committee-status>
 				</form>
-				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+				<form type="AMENDMENT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>PENDING_IRB</form-committee-status>
 				</form>
-				<form type="AMENDMENT" status="FINAL_LEGAL_APPROVAL">
+				<form type="AMENDMENT" status="LEGAL_REVIEW_COMPLETE">
 					<form-committee-status>OUTSIDE_IRB</form-committee-status>
 				</form>
 				<form type="AMENDMENT" status="PENDING_SIGNATURE">

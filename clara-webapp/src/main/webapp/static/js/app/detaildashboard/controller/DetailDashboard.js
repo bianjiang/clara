@@ -126,6 +126,9 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
         	},
         	'#btnPrintHistory':{
         		click:me.onPrintHistory
+        	},
+        	'#btnPrintLetters':{
+        		click:me.onPrintLetters
         	}
     	});
     },
@@ -342,6 +345,16 @@ Ext.define('Clara.DetailDashboard.controller.DetailDashboard', {
 			}
 	},
     
+	onPrintLetters : function() {
+		var me = this;
+		Ext.ux.grid.Printer.title = "Letters";
+		Ext.ux.grid.Printer.printAutomatically = false;
+		Ext.ux.grid.Printer.print(me.getLetterPanel());
+		if (piwik_enabled()){
+				_paq.push(['trackEvent', 'PRINT', 'Print window opened: Letters']);
+			}
+	},
+	
     onToggleGroupHistory: function(btn,pressed){
     	var historyStore = Ext.data.StoreManager.lookup('Clara.DetailDashboard.store.History');
     	if (pressed){

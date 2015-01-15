@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.transform.Source;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.slf4j.Logger;
@@ -26,11 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.Maps;
-import edu.uams.clara.core.util.xml.DomUtils;
+
+import edu.uams.clara.core.util.xml.XmlHandler;
+import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.businesslogic.BusinessObjectStatusHelperContainer;
 import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.relation.RelatedObject;
@@ -285,70 +284,6 @@ public class ProtocolFormXmlDataAjaxController {
 		return XMLResponseHelper.newSuccessResponseStube("Succed...");
 	}
 	
-	private void updateBudgetExpenses(ProtocolForm protocolForm, String irbFeeXml){
-		logger.debug("Updating budget expenses ...");
-		try{
-			ProtocolFormXmlData budgetXmlData = protocolForm.getTypedProtocolFormXmlDatas().get(ProtocolFormXmlDataType.BUDGET);
-			
-			if (budgetXmlData != null && budgetXmlData.getXmlData() != null && !budgetXmlData.getXmlData().isEmpty()){
-				Document irbFeesDom = xmlProcessor.loadXmlStringToDOM(irbFeeXml);
-				XPath xPath = xmlProcessor.getXPathInstance();
-				NodeList categoriesList = (NodeList) (xPath.evaluate("/protocol/irb-fees/category",
-						irbFeesDom, XPathConstants.NODESET));
-				
-				Document budgetXmlDom = xmlProcessor.loadXmlStringToDOM(budgetXmlData.getXmlData());
-				xPath.reset();
-				
-				for (int i=0; i<categoriesList.getLength(); i++){
-					Element currentCategoryElement = (Element) categoriesList
-							.item(i);
-					String nameValue = currentCategoryElement.getFirstChild().getTextContent();
-					String feeValue = currentCategoryElement.getLastChild().getTextContent();
-					
-					String externalOrNot = "true";
-					if (feeValue.isEmpty() || feeValue.equals("0")){
-						externalOrNot = "false";
-					}
-					
-					String expenseType = "Initial Cost";
-					if (!nameValue.contains("New Submission")){
-						expenseType = "Invoicable";
-					}
-
-					Element expensesEl = (Element) (xPath.evaluate("/budget/expenses", budgetXmlDom, XPathConstants.NODE));
-					
-					Element expenseEl = (Element) (xPath.evaluate("/budget/expenses/expense[@type=\""+ expenseType +"\" and @subtype=\"IRB Fee\"]",
-							budgetXmlDom, XPathConstants.NODE));
-
-					if (expenseEl != null){
-						expenseEl.setAttribute("cost", feeValue);
-						expenseEl.setAttribute("external", externalOrNot);
-						//expenseEl.setAttribute("notes", nameValue);
-					} else {
-						Element newExpenseNode = budgetXmlDom.createElement("expense");
-						newExpenseNode.setAttribute("type", expenseType);
-						newExpenseNode.setAttribute("subtype", "IRB Fee");
-						newExpenseNode.setAttribute("cost", feeValue);
-						newExpenseNode.setAttribute("fa", "0");
-						newExpenseNode.setAttribute("faenabled", "false");
-						newExpenseNode.setAttribute("external", externalOrNot);
-						newExpenseNode.setAttribute("count", "1");
-						newExpenseNode.setAttribute("description", "IRB Fee");
-						newExpenseNode.setAttribute("notes", nameValue);
-						
-						expensesEl.appendChild(newExpenseNode);
-					}
-				}
-				
-				budgetXmlData.setXmlData(DomUtils.elementToString(budgetXmlDom));
-				protocolFormXmlDataDao.saveOrUpdate(budgetXmlData);
-				
-			}
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-	}
-	
 	/*
 	private void updateBudgetInfoByDepartment(ProtocolFormXmlData protocolFormXmlData, String xmlData){
 		String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
@@ -445,6 +380,48 @@ public class ProtocolFormXmlDataAjaxController {
 					e1.printStackTrace();
 				}
 			}
+			
+			if (xmlData.contains("<any-adverse-events>")) {
+				try {
+					XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+					
+					protocolFormXmlDataString = xmlHandler.replaceOrAddNodeValueByPath("/continuing-review/study-report/any-adverse-events/extra-condition", protocolFormXmlDataString, "n");
+					
+					String anyInternalOrLocal = xmlHandler.getSingleStringValueByXPath(protocolFormXmlDataString, "/continuing-review/study-report/any-adverse-events");
+					String accurAtFrequency = xmlHandler.getSingleStringValueByXPath(protocolFormXmlDataString, "/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency");
+					String changeRisk = xmlHandler.getSingleStringValueByXPath(protocolFormXmlDataString, "/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk");
+					String sponsorProvideInfo = xmlHandler.getSingleStringValueByXPath(protocolFormXmlDataString, "/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information");
+					
+					if (anyInternalOrLocal.equals("y")) {
+						if ((accurAtFrequency.equals("y") && changeRisk.equals("y")) || sponsorProvideInfo.equals("y")) {
+							protocolFormXmlDataString = xmlHandler.replaceOrAddNodeValueByPath("/continuing-review/study-report/any-adverse-events/extra-condition", protocolFormXmlDataString, "y");
+						}
+					}
+				} catch (Exception e) {
+					
+				}
+			}
+			
+			if (xmlData.contains("<any-deviations>")) {
+				try {
+					XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+					
+					protocolFormXmlDataString = xmlHandler.replaceOrAddNodeValueByPath("/continuing-review/study-report/any-deviations/extra-condition", protocolFormXmlDataString, "n");
+					
+					String anyDeviations = xmlHandler.getSingleStringValueByXPath(protocolFormXmlDataString, "/continuing-review/study-report/any-deviations");
+					String accurInPattern = xmlHandler.getSingleStringValueByXPath(protocolFormXmlDataString, "/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern");
+					String negativelyImpact = xmlHandler.getSingleStringValueByXPath(protocolFormXmlDataString, "/continuing-review/study-report/any-deviations/y/deviations-negatively-impact");
+
+					if (anyDeviations.equals("y")) {
+						if (accurInPattern.equals("y") || negativelyImpact.equals("y")) {
+							protocolFormXmlDataString = xmlHandler.replaceOrAddNodeValueByPath("/continuing-review/study-report/any-deviations/any-deviations-extra-condition", protocolFormXmlDataString, "y");
+						}
+					}
+				} catch (Exception e) {
+					
+				}
+			}
+			
 		}
 		
 		protocolFormXmlData.setXmlData(protocolFormXmlDataString);
@@ -494,7 +471,7 @@ public class ProtocolFormXmlDataAjaxController {
 					protocolFormXmlDataString = xmlProcessor.merge(protocolFormXmlDataString, xmldata);
 				} else {
 					protocolFormXmlDataString = updateIRBFee(protocolFormXmlDataString, xmldata);
-					updateBudgetExpenses(protocolForm, xmldata);
+					protocolFormService.updateIRBExpensesInBudget(protocolForm, xmldata);
 				}
 				
 			} catch (SAXException e) {
@@ -529,7 +506,7 @@ public class ProtocolFormXmlDataAjaxController {
 				} catch (Exception e){
 					e.printStackTrace();
 				}
-				updateBudgetExpenses(protocolForm, protocolFormXmlData.getXmlData());
+				protocolFormService.updateIRBExpensesInBudget(protocolForm, protocolFormXmlData.getXmlData());
 			}
 			
 			processXmlData(protocolFormXmlData, xmldata);
@@ -537,7 +514,7 @@ public class ProtocolFormXmlDataAjaxController {
 			logger.debug("elementXml: " + xmldata);
 			if(xmldata.contains("</staffs>")){
 				logger.debug("update user acl based on staff xml");
-				objectAclService.updateObjectAclByStaffXml(Protocol.class, protocolForm.getProtocol().getId(), xmldata);
+				objectAclService.updateObjectAclByStaffXml(Protocol.class, protocolForm.getProtocol().getId(), xmldata, true);
 			}
 			
 			/* staff will never be updated... in ACL...
@@ -608,7 +585,7 @@ public class ProtocolFormXmlDataAjaxController {
 
 			if(elementXml.contains("</staff>")){
 				logger.debug("update user acl based on staff xml");
-				objectAclService.updateObjectAclByStaffXml(Protocol.class, protocolForm.getProtocol().getId(), elementXml);
+				objectAclService.updateObjectAclByStaffXml(Protocol.class, protocolForm.getProtocol().getId(), elementXml, true);
 			}
 			
 			processedElementXml = resultMap.get("elementXml").toString();
@@ -871,7 +848,7 @@ public class ProtocolFormXmlDataAjaxController {
 			
 			if(elementXml.contains("</staff>")){
 				logger.debug("update user acl based on staff xml");
-				objectAclService.updateObjectAclByStaffXml(Protocol.class, protocolForm.getProtocol().getId(), elementXml);
+				objectAclService.updateObjectAclByStaffXml(Protocol.class, protocolForm.getProtocol().getId(), elementXml, true);
 			}
 			
 			//finalXml = xmlProcessor.escapeText(protocolFormXmlData.getXmlData());

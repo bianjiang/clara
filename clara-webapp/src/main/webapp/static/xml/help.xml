@@ -242,11 +242,11 @@
 		<helpcontent>
 		 <![CDATA[
 		 		<span>
-                	<li><strong>Protected Health Information (PHI):</strong> Information that identifies an individual, or that could reasonably be used to identify an 
-                	individual, and that 
+                	<li><strong>PHI: Information that</strong>
                 	<br/>(i) relates to the past, present or future physical or mental health or condition of the individual; 
                 	<br/>(ii) relates to the provision of health care services to the individual; or 
-                	<br/>(iii) relates to the past, present, or future payment for the provision of health care services to an individual.</li>
+                	<br/>(iii) relates to the past, present, or future payment for the provision of health care services to an individual</li>
+                	<br/>And that identifies an individual, or could reasonably be used to identify an individual. 
                 </span> 
                 ]]>
 		</helpcontent>
@@ -942,8 +942,11 @@
 		<helpcontent>
 		 <![CDATA[
                 <span>
-                	<li>Please upload a copy of the data collection form(s) to be used in the Documents section. 
-					</li>
+                	<li><strong>PHI: Information that</strong>
+                	<br/>(i) relates to the past, present or future physical or mental health or condition of the individual; 
+                	<br/>(ii) relates to the provision of health care services to the individual; or 
+                	<br/>(iii) relates to the past, present, or future payment for the provision of health care services to an individual</li>
+                	<br/>And that identifies an individual, or could reasonably be used to identify an individual. 
                 </span>
                 ]]>
 		</helpcontent>
@@ -1117,4 +1120,22 @@
                 ]]>
 		</helpcontent>
 	</describe-phi-accessed>
+	<min-necessary-informaiton-required>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+					Please provide specific confirmation that you are NOT using/recording unnecessary PHI (in relation to your research question).
+                </span>
+                ]]>
+		</helpcontent>
+	</min-necessary-informaiton-required>
+	<study-status>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+					<li>Studies must meet one of the above criteria to be eligible for closure.</li>
+                </span>
+                ]]>
+		</helpcontent>
+	</study-status>
 </help>

@@ -16,8 +16,8 @@ public class ScheduledMutexLockUnlock extends AbstractTask{
 	
 	private MutexLockServiceImpl mutexlockService;
 
-	@Scheduled(cron = "0 0 5  * * ?")
-	// run at 05:00 every day
+	@Scheduled(cron = "0 10 5  * * ?")
+	// run at 05:10 every day
 	public void runDailyReport() {
 		try {
 			log(TaskEvent.STARTED, "RUN MUTEXLOCK UNLOCK");

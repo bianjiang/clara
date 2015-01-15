@@ -296,7 +296,51 @@ public class CommitteeActions {
 		List<ProtocolFormCommitteeStatusEnum> achriList = Lists.newArrayList();
 		achriList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
 		startCommitteeStatusMap.put(Committee.ACHRI, achriList);
-
+		
+		// PROTOCOL_LEGAL_REVIEW
+		List<ProtocolFormCommitteeStatusEnum> protocolLegalReviewList = Lists.newArrayList();
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.IN_LEGAL_REVIEW);
+		startCommitteeStatusMap.put(Committee.PROTOCOL_LEGAL_REVIEW, protocolLegalReviewList);
+		
+		// BIOSAFETY
+		List<ProtocolFormCommitteeStatusEnum> biosafetyList = Lists.newArrayList();
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		startCommitteeStatusMap.put(Committee.BIOSAFETY, biosafetyList);
+		
+		// PRMC
+		List<ProtocolFormCommitteeStatusEnum> prmcList = Lists.newArrayList();
+		prmcList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		startCommitteeStatusMap.put(Committee.PRMC, prmcList);		
+		
+		// RADIATION_SAFETY
+		List<ProtocolFormCommitteeStatusEnum> radiationSafetyList = Lists.newArrayList();
+		radiationSafetyList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		startCommitteeStatusMap.put(Committee.RADIATION_SAFETY, radiationSafetyList);	
+		
+		// COI
+		List<ProtocolFormCommitteeStatusEnum> coiList = Lists.newArrayList();
+		coiList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		startCommitteeStatusMap.put(Committee.COI, coiList);	
+		
+		//MONITORING_REGULATORY_QA
+		List<ProtocolFormCommitteeStatusEnum> monitoringList = Lists.newArrayList();
+		monitoringList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		startCommitteeStatusMap.put(Committee.MONITORING_REGULATORY_QA, monitoringList);	
+		
+		//CLINICAL_TRIALS_REVIEW
+		List<ProtocolFormCommitteeStatusEnum> clinicalTrialsList = Lists.newArrayList();
+		clinicalTrialsList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		startCommitteeStatusMap.put(Committee.CLINICAL_TRIALS_REVIEW, clinicalTrialsList);	
 	}
 	private  Map<Committee, List<ProtocolFormCommitteeStatusEnum>> endCommitteeStatusMap = Maps
 			.newHashMap();
@@ -454,6 +498,292 @@ public class CommitteeActions {
 		achriList.add(ProtocolFormCommitteeStatusEnum.REVISION_REQUESTED);
 		achriList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
 		endCommitteeStatusMap.put(Committee.ACHRI, achriList);
+		
+		// PROTOCOL_LEGAL_REVIEW
+		List<ProtocolFormCommitteeStatusEnum> protocolLegalReviewList = Lists.newArrayList();
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.CONTRACT_REQUIRED);
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.CONTRACT_NOT_REQUIRED);
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.PENDING_IRB_DETERMINATION);
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.PENDING_SPONSOR_RESPONSE);
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.COMPLETED);
+		endCommitteeStatusMap.put(Committee.PROTOCOL_LEGAL_REVIEW, protocolLegalReviewList);
+		
+		// BIOSAFETY
+		List<ProtocolFormCommitteeStatusEnum> biosafetyList = Lists.newArrayList();
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.COMMITTEE_REVIEW_NOT_APPLICABLE);
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		
+		endCommitteeStatusMap.put(Committee.BIOSAFETY, biosafetyList);
+		
+		// PRMC
+		List<ProtocolFormCommitteeStatusEnum> prmcList = Lists.newArrayList();
+		prmcList.add(ProtocolFormCommitteeStatusEnum.COMMITTEE_REVIEW_NOT_APPLICABLE);
+		prmcList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		prmcList.add(ProtocolFormCommitteeStatusEnum.ACKNOWLEDGED);
+		prmcList.add(ProtocolFormCommitteeStatusEnum.APPROVE_WITH_CONTINGENCIES);
+		prmcList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		
+		endCommitteeStatusMap.put(Committee.PRMC, prmcList);
+		
+		// RADIATION_SAFETY
+		List<ProtocolFormCommitteeStatusEnum> radiationSafetyList = Lists.newArrayList();
+		radiationSafetyList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		radiationSafetyList.add(ProtocolFormCommitteeStatusEnum.COMMITTEE_REVIEW_NOT_APPLICABLE);
+		radiationSafetyList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		
+		endCommitteeStatusMap.put(Committee.RADIATION_SAFETY, radiationSafetyList);	
+
+		// COI
+		List<ProtocolFormCommitteeStatusEnum> coiList = Lists.newArrayList();
+		coiList.add(ProtocolFormCommitteeStatusEnum.COMMITTEE_REVIEW_NOT_APPLICABLE);
+		coiList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		coiList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		
+		endCommitteeStatusMap.put(Committee.COI, coiList);
+		
+		//MONITORING_REGULATORY_QA
+		List<ProtocolFormCommitteeStatusEnum> monitoringList = Lists.newArrayList();
+		monitoringList.add(ProtocolFormCommitteeStatusEnum.EXEMPT_FROM_IND_IDE_REGULATIONS);
+		monitoringList.add(ProtocolFormCommitteeStatusEnum.REGULATORY_AFFAIRS_INVOLVEMENT_NOT_REQUIRED);
+		monitoringList.add(ProtocolFormCommitteeStatusEnum.COMPLETED);
+		
+		endCommitteeStatusMap.put(Committee.MONITORING_REGULATORY_QA, monitoringList);	
+		
+		//CLINICAL_TRIALS_REVIEW
+		List<ProtocolFormCommitteeStatusEnum> clinicalTrialsList = Lists.newArrayList();
+		clinicalTrialsList.add(ProtocolFormCommitteeStatusEnum.COMMITTEE_REVIEW_NOT_APPLICABLE);
+		clinicalTrialsList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		clinicalTrialsList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		
+		endCommitteeStatusMap.put(Committee.CLINICAL_TRIALS_REVIEW, clinicalTrialsList);	
+	}
+	
+	private  Map<Committee, List<ProtocolFormCommitteeStatusEnum>> gateKeeperAssignedstartCommitteeStatusMap = Maps
+			.newHashMap();
+	{
+	
+		// irbAssigner
+		List<ProtocolFormCommitteeStatusEnum> irbAssignerList = Lists
+				.newArrayList();
+		irbAssignerList
+				.add(ProtocolFormCommitteeStatusEnum.PENDING_REVIEWER_ASSIGNMENT);
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.IRB_ASSIGNER, irbAssignerList);
+		
+		// budgetManager
+		List<ProtocolFormCommitteeStatusEnum> budgetManagerList = Lists
+						.newArrayList();
+		budgetManagerList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		budgetManagerList.add(ProtocolFormCommitteeStatusEnum.PENDING_REVIEWER_ASSIGNMENT);
+		gateKeeperAssignedstartCommitteeStatusMap
+						.put(Committee.BUDGET_MANAGER, budgetManagerList);
+		
+		
+		
+		// budgetReview
+		List<ProtocolFormCommitteeStatusEnum> budgetReviewList = Lists
+				.newArrayList();
+		budgetReviewList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.BUDGET_REVIEW, budgetReviewList);
+
+		
+
+		// pharmacyReview
+		List<ProtocolFormCommitteeStatusEnum> pharmacyReviewList = Lists
+				.newArrayList();
+		pharmacyReviewList
+				.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW_REQUESTED);
+		pharmacyReviewList
+				.add(ProtocolFormCommitteeStatusEnum.IN_WAIVER_REQUESTED);
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.PHARMACY_REVIEW,
+				pharmacyReviewList);
+
+		// gatekeeper
+		List<ProtocolFormCommitteeStatusEnum> gatekeeperList = Lists
+				.newArrayList();
+		gatekeeperList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.GATEKEEPER, gatekeeperList);
+
+		
+
+		// achri
+		List<ProtocolFormCommitteeStatusEnum> achriList = Lists.newArrayList();
+		achriList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.ACHRI, achriList);
+		
+		// PROTOCOL_LEGAL_REVIEW
+		List<ProtocolFormCommitteeStatusEnum> protocolLegalReviewList = Lists.newArrayList();
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.IN_LEGAL_REVIEW);
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.PROTOCOL_LEGAL_REVIEW, protocolLegalReviewList);
+		
+		// BIOSAFETY
+		List<ProtocolFormCommitteeStatusEnum> biosafetyList = Lists.newArrayList();
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.BIOSAFETY, biosafetyList);
+		
+		// PRMC
+		List<ProtocolFormCommitteeStatusEnum> prmcList = Lists.newArrayList();
+		prmcList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.PRMC, prmcList);		
+		
+		// RADIATION_SAFETY
+		List<ProtocolFormCommitteeStatusEnum> radiationSafetyList = Lists.newArrayList();
+		radiationSafetyList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.RADIATION_SAFETY, radiationSafetyList);	
+		
+		// COI
+		List<ProtocolFormCommitteeStatusEnum> coiList = Lists.newArrayList();
+		coiList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.COI, coiList);	
+		
+		//MONITORING_REGULATORY_QA
+		List<ProtocolFormCommitteeStatusEnum> monitoringList = Lists.newArrayList();
+		monitoringList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.MONITORING_REGULATORY_QA, monitoringList);	
+		
+		//CLINICAL_TRIALS_REVIEW
+		List<ProtocolFormCommitteeStatusEnum> clinicalTrialsList = Lists.newArrayList();
+		clinicalTrialsList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.CLINICAL_TRIALS_REVIEW, clinicalTrialsList);	
+		
+		//REGULATORY_MANAGER
+		List<ProtocolFormCommitteeStatusEnum> regulatoryManagerTrialsList = Lists.newArrayList();
+		regulatoryManagerTrialsList.add(ProtocolFormCommitteeStatusEnum.PENDING_REVIEWER_ASSIGNMENT);
+		
+		gateKeeperAssignedstartCommitteeStatusMap.put(Committee.REGULATORY_MANAGER, regulatoryManagerTrialsList);	
+		
+	}
+	private  Map<Committee, List<ProtocolFormCommitteeStatusEnum>> gateKeeperAssignedendCommitteeStatusMap = Maps
+			.newHashMap();
+	{
+		// irbAssigner
+		List<ProtocolFormCommitteeStatusEnum> irbAssignerList = Lists
+						.newArrayList();
+		irbAssignerList.add(ProtocolFormCommitteeStatusEnum.REVIEWER_ASSIGNED);
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.IRB_ASSIGNER, irbAssignerList);		
+		
+		// budgetManager
+		List<ProtocolFormCommitteeStatusEnum> budgetManagerList = Lists
+						.newArrayList();
+		budgetManagerList
+						.add(ProtocolFormCommitteeStatusEnum.REVIEWER_ASSIGNED);
+		budgetManagerList
+						.add(ProtocolFormCommitteeStatusEnum.REVISION_REQUESTED);
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.BUDGET_MANAGER, budgetManagerList);
+
+		// budgetReview
+		List<ProtocolFormCommitteeStatusEnum> budgetReviewList = Lists
+				.newArrayList();
+		budgetReviewList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		budgetReviewList.add(ProtocolFormCommitteeStatusEnum.COMPLETED);
+		budgetReviewList
+				.add(ProtocolFormCommitteeStatusEnum.REVISION_REQUESTED);
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.BUDGET_REVIEW, budgetReviewList);
+
+	
+
+		// pharmacyReview
+		List<ProtocolFormCommitteeStatusEnum> pharmacyReviewList = Lists
+				.newArrayList();
+		pharmacyReviewList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		pharmacyReviewList
+				.add(ProtocolFormCommitteeStatusEnum.WAIVER_REQUEST_APPROVED);
+		gateKeeperAssignedendCommitteeStatusMap
+				.put(Committee.PHARMACY_REVIEW, pharmacyReviewList);
+
+	
+
+		// gatekeeper
+		List<ProtocolFormCommitteeStatusEnum> gatekeeperList = Lists
+				.newArrayList();
+		gatekeeperList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		gatekeeperList.add(ProtocolFormCommitteeStatusEnum.REVISION_REQUESTED);
+		gatekeeperList.add(ProtocolFormCommitteeStatusEnum.PENDING_PTL_DEVELOP);
+		gatekeeperList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.GATEKEEPER, gatekeeperList);
+
+	
+
+		// achri
+		List<ProtocolFormCommitteeStatusEnum> achriList = Lists.newArrayList();
+		achriList.add(ProtocolFormCommitteeStatusEnum.REVISION_REQUESTED);
+		achriList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.ACHRI, achriList);
+		
+		// PROTOCOL_LEGAL_REVIEW
+		List<ProtocolFormCommitteeStatusEnum> protocolLegalReviewList = Lists.newArrayList();
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.CONTRACT_REQUIRED);
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.CONTRACT_NOT_REQUIRED);
+		//protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.PENDING_IRB_DETERMINATION);
+		//protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.PENDING_SPONSOR_RESPONSE);
+		protocolLegalReviewList.add(ProtocolFormCommitteeStatusEnum.COMPLETED);
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.PROTOCOL_LEGAL_REVIEW, protocolLegalReviewList);
+		
+		// BIOSAFETY
+		List<ProtocolFormCommitteeStatusEnum> biosafetyList = Lists.newArrayList();
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.COMMITTEE_REVIEW_NOT_APPLICABLE);
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		biosafetyList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.BIOSAFETY, biosafetyList);
+		
+		// PRMC
+		List<ProtocolFormCommitteeStatusEnum> prmcList = Lists.newArrayList();
+		prmcList.add(ProtocolFormCommitteeStatusEnum.COMMITTEE_REVIEW_NOT_APPLICABLE);
+		prmcList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		prmcList.add(ProtocolFormCommitteeStatusEnum.ACKNOWLEDGED);
+		prmcList.add(ProtocolFormCommitteeStatusEnum.APPROVE_WITH_CONTINGENCIES);
+		prmcList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.PRMC, prmcList);
+		
+		// RADIATION_SAFETY
+		List<ProtocolFormCommitteeStatusEnum> radiationSafetyList = Lists.newArrayList();
+		radiationSafetyList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		radiationSafetyList.add(ProtocolFormCommitteeStatusEnum.COMMITTEE_REVIEW_NOT_APPLICABLE);
+		radiationSafetyList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.RADIATION_SAFETY, radiationSafetyList);	
+
+		// COI
+		List<ProtocolFormCommitteeStatusEnum> coiList = Lists.newArrayList();
+		coiList.add(ProtocolFormCommitteeStatusEnum.COMMITTEE_REVIEW_NOT_APPLICABLE);
+		coiList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		coiList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.COI, coiList);
+		
+		//MONITORING_REGULATORY_QA
+		List<ProtocolFormCommitteeStatusEnum> monitoringList = Lists.newArrayList();
+		monitoringList.add(ProtocolFormCommitteeStatusEnum.EXEMPT_FROM_IND_IDE_REGULATIONS);
+		monitoringList.add(ProtocolFormCommitteeStatusEnum.REGULATORY_AFFAIRS_INVOLVEMENT_NOT_REQUIRED);
+		monitoringList.add(ProtocolFormCommitteeStatusEnum.COMPLETED);
+		
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.MONITORING_REGULATORY_QA, monitoringList);	
+		
+		//CLINICAL_TRIALS_REVIEW
+		List<ProtocolFormCommitteeStatusEnum> clinicalTrialsList = Lists.newArrayList();
+		clinicalTrialsList.add(ProtocolFormCommitteeStatusEnum.COMMITTEE_REVIEW_NOT_APPLICABLE);
+		clinicalTrialsList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		clinicalTrialsList.add(ProtocolFormCommitteeStatusEnum.REJECTED);
+		
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.CLINICAL_TRIALS_REVIEW, clinicalTrialsList);	
+		
+		//REGULATORY_MANAGER
+		List<ProtocolFormCommitteeStatusEnum> regulatoryManagerTrialsList = Lists.newArrayList();
+		regulatoryManagerTrialsList.add(ProtocolFormCommitteeStatusEnum.REVIEWER_ASSIGNED);
+		
+		gateKeeperAssignedendCommitteeStatusMap.put(Committee.REGULATORY_MANAGER, regulatoryManagerTrialsList);	
 	}
 	
 	private  List<ProtocolFormStatusEnum> draftFormStatus = Lists.newArrayList();
@@ -629,6 +959,24 @@ public class CommitteeActions {
 
 	public Map<Committee, List<ContractFormCommitteeStatusEnum>> getStartContractCommitteeStatusMap() {
 		return startContractCommitteeStatusMap;
+	}
+
+	public Map<Committee, List<ProtocolFormCommitteeStatusEnum>> getGateKeeperAssignedendCommitteeStatusMap() {
+		return gateKeeperAssignedendCommitteeStatusMap;
+	}
+
+	public void setGateKeeperAssignedendCommitteeStatusMap(
+			Map<Committee, List<ProtocolFormCommitteeStatusEnum>> gateKeeperAssignedendCommitteeStatusMap) {
+		this.gateKeeperAssignedendCommitteeStatusMap = gateKeeperAssignedendCommitteeStatusMap;
+	}
+
+	public Map<Committee, List<ProtocolFormCommitteeStatusEnum>> getGateKeeperAssignedstartCommitteeStatusMap() {
+		return gateKeeperAssignedstartCommitteeStatusMap;
+	}
+
+	public void setGateKeeperAssignedstartCommitteeStatusMap(
+			Map<Committee, List<ProtocolFormCommitteeStatusEnum>> gateKeeperAssignedstartCommitteeStatusMap) {
+		this.gateKeeperAssignedstartCommitteeStatusMap = gateKeeperAssignedstartCommitteeStatusMap;
 	}
 
 }

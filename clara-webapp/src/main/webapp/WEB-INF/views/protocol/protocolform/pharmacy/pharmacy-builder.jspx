@@ -7,7 +7,9 @@
 			
 	<div id="pharmacy-builder"><!-- // --></div>
 	
-		
+	<c:if test="${not empty isLockedUserString}">
+		<div id="locked-message" style="margin:100px auto;color:white;background-color:#990000;padding:20px;font-size:1.3em;">This pharmacy form cannot be opened because the corresponding budget is opened by <strong>${isLockedUserString}</strong>.</div>
+	</c:if>	
 
 	<script type="text/javascript">
 	
@@ -27,14 +29,16 @@
 			claraInstance.addUserPermission('${permission}');
 		]]>
 	</c:forEach>	
-	
+
 	<![CDATA[
-			jQuery(document).ready(function() {		
-				pharmacy	= new Clara.Pharmacy.Form({});
-				pharmacy.load();
-				clog(pharmacy);
-				clog(pharmacy.total+" IS THE TOTAL");
-				var vp = new Clara.Pharmacy.Viewport();
+			jQuery(document).ready(function() {	
+				if (!jQuery("#locked-message").length){
+					pharmacy	= new Clara.Pharmacy.Form({});
+					pharmacy.load();
+					clog(pharmacy);
+					clog(pharmacy.total+" IS THE TOTAL");
+					var vp = new Clara.Pharmacy.Viewport();
+				}
 			});
 			]]>
 	</script>	

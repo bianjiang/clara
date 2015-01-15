@@ -9,6 +9,11 @@
 				<question-label>Title</question-label>
 				<question-value instance-path="/protocol/title" value-type="string" />
 			</question>
+
+			<question id="question-study-nature" parent-id="" parent-value="" header="">
+				<question-label>What is the nature of the study?</question-label>
+				<question-value editable="false" instance-path="/protocol/study-nature" lookup-path="study-natures" value-type="select" />
+			</question>
 			
 			<question id="question-is-invistigator-init" parent-id="" parent-value="" header="">
 				<question-label>Investigator-Initiated?</question-label>
@@ -133,6 +138,26 @@
 			<question id="question-consent-document-waived" parent-id="" parent-value="" header="">
 				<question-label>Consent Documentation Waived?</question-label>
 				<question-value instance-path="/protocol/summary/irb-determination/consent-document-waived" value-type="radio"  editable="true">
+					<possible-values>
+						<value id="yes">Yes</value>
+						<value id="no">No</value>
+						<value id="na">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-assent-waived" parent-id="" parent-value="" header="">
+				<question-label>Assent Waived?</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/assent-waived" value-type="radio"  editable="true">
+					<possible-values>
+						<value id="yes">Yes</value>
+						<value id="no">No</value>
+						<value id="na">N/A</value>
+					</possible-values>
+				</question-value>
+			</question>
+			<question id="question-assent-document-waived" parent-id="" parent-value="" header="">
+				<question-label>Assent Documentation Waived?</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/assent-document-waived" value-type="radio"  editable="true">
 					<possible-values>
 						<value id="yes">Yes</value>
 						<value id="no">No</value>

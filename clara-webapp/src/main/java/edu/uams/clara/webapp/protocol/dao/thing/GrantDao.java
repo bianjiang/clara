@@ -30,8 +30,7 @@ public class GrantDao extends AbstractDomainDao<Grant> {
 	 */
 	@Transactional(readOnly = true)
 	public Grant findAwardedGrantByPRN(String prn) {
-
-		String qry = "SELECT click_grant.* FROM click_grant WHERE click_grant.retired = :retired AND SUBSTRING(click_grant.prn, PATINDEX('%[1-9]%', click_grant.prn), len(click_grant.prn)) LIKE :prn AND click_grant.status = :status";
+		String qry = "SELECT click_grant.* FROM click_grant WHERE click_grant.retired = :retired AND SUBSTRING(click_grant.prn, PATINDEX('%[1-9]%', click_grant.prn), len(:prn)) LIKE :prn AND click_grant.status = :status order by click_grant.start_date desc ";
 
 		TypedQuery<Grant> query = (TypedQuery<Grant>)getEntityManager()
 				.createNativeQuery(qry, Grant.class)
@@ -41,15 +40,14 @@ public class GrantDao extends AbstractDomainDao<Grant> {
 
 		//query.setHint("org.hibernate.cacheable", true);
 
-		return query.getSingleResult();
+		return query.getResultList().get(0);
 		
 		
 	}
 
 	@Transactional(readOnly = true)
-	public Grant findGrantByPRN(String PRN) {
-
-		String qry = "SELECT g FROM Grant g WHERE g.retired = :retired AND g.prn LIKE :PRN";
+	public Grant findGrantByFullPRN(String PRN) {
+		String qry = "SELECT g FROM Grant g WHERE g.retired = :retired AND g.fullprn = :PRN";
 
 		TypedQuery<Grant> query = getEntityManager()
 				.createQuery(qry, Grant.class)

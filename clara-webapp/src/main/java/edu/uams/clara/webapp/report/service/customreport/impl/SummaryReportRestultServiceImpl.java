@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,83 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 		return(((double)a/(double)b)>(a/b)?a/b+1:a/b);
 	}
 	
-	private Map<String, Map<String,Long>> getTimeInEachQueueByProtocolId(Set<ProtocolForm> pfms,
+	private Map<String,Long> getTotalTimeForPI(Set<ProtocolForm> pfms) {
+		List<ProtocolFormStatusEnum> startActions = committeeActions
+				.getPiStartActions();
+		//we do not need the time form draft to submission
+		startActions.remove(ProtocolFormStatusEnum.DRAFT);
+		Map<String, Long> results = Maps.newTreeMap();
+		List<Long> timeList = Lists.newArrayList();
+		
+		long pitotaltime = 0;
+		
+		for(ProtocolForm pfm : pfms){
+		
+		long protocolFormId = pfm.getFormId();
+		long totalTime = 0;
+		long startTime = 0;
+		long endTime = 0;
+		List<ProtocolFormStatus> pfss = protocolFormStatusDao
+				.getAllProtocolFormStatusByParentFormId(protocolFormId);
+
+		// because the query order by modified desc, we use i-- for for loop
+		for (int i = 0; i < pfss.size(); i++) {
+			ProtocolFormStatus pfs = pfss.get(i);
+			if (startActions.contains(pfs.getProtocolFormStatus())
+					&& startTime == 0) {
+				startTime = pfs.getModified().getTime();
+			} else if (startActions.contains(pfs.getProtocolFormStatus())
+					&& startTime > 0 && endTime == 0) {
+				endTime = pfs.getModified().getTime();
+				i--;
+			} else if (startTime > 0 && endTime == 0) {
+				endTime = pfs.getModified().getTime();
+			}
+
+			if (startTime > 0 && endTime == 0 && i == pfss.size() - 1) {
+				endTime = new Date().getTime();
+			}
+
+			if (startTime > 0 && endTime > 0) {
+
+				totalTime += endTime - startTime;
+				startTime = 0;
+				endTime = 0;
+				if (totalTime < 0) {
+					logger.debug(protocolFormId + "#######" + totalTime);
+				}
+			}
+
+		}
+		timeList.add(totalTime);
+		Collections.sort(timeList);
+		pitotaltime += totalTime;
+		
+		}
+		int medianIndex= timeList.size()/2;
+		int quterIndex= timeList.size()/4;
+		int quter3Index= timeList.size()*3/4;
+		long medianValue = 0;
+		if(timeList.size()%2!=0){
+			medianIndex= (timeList.size()-1)/2;
+			medianValue = timeList.get(medianIndex);
+		}else{
+			medianValue = roundUp(timeList.get(medianIndex)+timeList.get(medianIndex-1),2);
+		}
+		long meanTime=0;
+		meanTime = pitotaltime/timeList.size();
+		
+		results.put("min", 1 +timeList.get(0) / (24 * 60 * 60 * 1000));
+		results.put("max", 1 +timeList.get(timeList.size()-1) / (24 * 60 * 60 * 1000));
+		results.put("median",1 + medianValue / (24 * 60 * 60 * 1000));
+		results.put("quter", 1 +timeList.get(quterIndex) / (24 * 60 * 60 * 1000));
+		results.put("3quter",1 + timeList.get(quter3Index) / (24 * 60 * 60 * 1000));
+		results.put("mean", 1 +meanTime / (24 * 60 * 60 * 1000));
+		
+		return results;
+	}
+	
+	private Map<String, Map<String,Long>> getTimeInEachQueue(Set<ProtocolForm> pfms,
 			List<Committee> committees) {
 		Map<String, Map<String,Long>> resultMap = Maps.newTreeMap();
 		Map<String, Long> finalTimeMap = Maps.newTreeMap();
@@ -460,7 +537,9 @@ public class SummaryReportRestultServiceImpl extends CustomReportService {
 			}
 		}
 		List<Committee> committees = Arrays.asList(Committee.values());
-		Map<String,Map<String,Long>> averageTimeInQueueSummary = getTimeInEachQueueByProtocolId(pfms,committees);
+		Map<String,Map<String,Long>> averageTimeInQueueSummary = getTimeInEachQueue(pfms,committees);
+		averageTimeInQueueSummary.put("PI", getTotalTimeForPI(pfms));
+		
 		Map<String,Integer> createToSubmissionSummary = getSummaryTimeFromCreateToSubmission(pfms);
 		Map<String,Integer> submissionToCompleteSummary = getSummaryTimeFromSubmissionToComplete(pfms);
 		int submittedNumber = createToSubmissionSummary.get("submittedNum");

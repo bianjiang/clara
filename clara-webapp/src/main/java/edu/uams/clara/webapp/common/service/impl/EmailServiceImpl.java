@@ -2,12 +2,15 @@ package edu.uams.clara.webapp.common.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 
 import org.apache.velocity.app.VelocityEngine;
+import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -216,6 +219,28 @@ public class EmailServiceImpl implements EmailService {
 
 		return realEmailAddresses;
 	}
+	
+	@Override
+	public Map<String, Object> addInputRecipentsToRawAttributes(Map<String, Object> attributeRawValues, String mailTo, String cc) {
+		List<String> mailToList = (!mailTo.isEmpty())?Arrays.asList(mailTo.split(",")):null;
+
+		List<String> ccList = (!cc.isEmpty())?Arrays.asList(cc.split(",")):null;
+
+		if (mailToList != null && !mailToList.isEmpty()) {
+			try {
+				attributeRawValues.put("MAIL_TO", this.setRealReceiptByEmailAddress(mailToList).toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		if (ccList != null && !ccList.isEmpty()) {
+			attributeRawValues.put("MAIL_CC", this.setRealReceiptByEmailAddress(ccList).toString());
+		}
+		
+		return attributeRawValues;
+	}
 
 	@Override
 	public List<String> getRecipientsAddress(List<String> recipientLst) {
@@ -252,17 +277,26 @@ public class EmailServiceImpl implements EmailService {
 
 		for (String mailTo : mailToList) {
 			if (mailTo.contains("GROUP")) {
-				Committee committee = Committee.valueOf(mailTo.substring(6));
-				// Role role = roleDao.getRoleByCommittee(committee);
-				// Permission p = role.getRolePermissionIdentifier();
-				// List<User> userList = userDao.getUsersByUserRole(p);
+				String group = "";
+				
+				try {
+					Committee committee = Committee.valueOf(mailTo.substring(6));
+					// Role role = roleDao.getRoleByCommittee(committee);
+					// Permission p = role.getRolePermissionIdentifier();
+					// List<User> userList = userDao.getUsersByUserRole(p);
 
-				String group = "{\"address\":\"GROUP_" + committee.toString()
-						+ "\",\"type\":\"GROUP\",\"desc\":\""
-						+ committee.getDescription() + "\"}";
+					group = "{\"address\":\"GROUP_" + committee.toString()
+							+ "\",\"type\":\"GROUP\",\"desc\":\""
+							+ committee.getDescription() + "\"}";
+				} catch (Exception e) {
+					group = "{\"address\":\"GROUP_" + mailTo.substring(6)
+							+ "\",\"type\":\"GROUP\",\"desc\":\""
+							+ mailTo.substring(6) + "\"}";
+				}
+				
 				realReceiptLst.add(group);
 			} else {
-				User u = userDao.getUserByEmail(mailTo);
+				User u = userDao.getUserByEmail(mailTo.replace("INDIVIDUAL_", ""));
 
 				String individual = "{\"address\":\"INDIVIDUAL_" + mailTo
 						+ "\",\"type\":\"INDIVIDUAL\",\"desc\":\""

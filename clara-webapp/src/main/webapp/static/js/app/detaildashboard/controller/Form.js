@@ -21,13 +21,26 @@ Ext.define('Clara.DetailDashboard.controller.Form', {
     			click: function(){
     				Ext.create("Clara.DetailDashboard.view.CreateFormWindow",{}).show();
     			}
-    		}
+    		},
+        	'#btnPrintForms':{
+        		click:me.onPrintForms
+        	}
     		
     	});
     },
     
     // Form action functions
    
+    onPrintForms: function(){
+    	var me = this;
+		Ext.ux.grid.Printer.title = "Forms";
+		Ext.ux.grid.Printer.printAutomatically = false;
+		Ext.ux.grid.Printer.print(me.getFormGridPanel());
+		if (piwik_enabled()){
+				_paq.push(['trackEvent', 'PRINT', 'Print window opened: Forms']);
+			}
+    },
+    
     ShowWarningMessage: function(options){
     	Ext.Msg.show({
     	     title:'Warning',

@@ -392,6 +392,122 @@ Clara.Reviewer.GatekeeperAssignCommitteePanel = Ext
 Ext.reg('clarareviewergatekeeperassigncommitteepanel',
 		Clara.Reviewer.GatekeeperAssignCommitteePanel);
 
+Clara.Reviewer.IRBPrereviewAssignCommitteePanel = Ext
+.extend(
+		Ext.FormPanel,
+		{
+
+			id : 'IRBPrereviewAssignCommitteePanel',
+			reviewPanelXml : {},
+			title : 'IRB Prereview: Assign committees for this protocol',
+			reviewFormType : 'protocol', // or 'contract'
+			constructor : function(config) {
+				Clara.Reviewer.IRBPrereviewAssignCommitteePanel.superclass.constructor
+						.call(this, config);
+			},
+			validate : function() {
+				return true;
+			},
+			getXML : function() {
+				var t = this;
+				//var xml = "<" + t.id + ">";
+				//xml += t.getFormXMLString();
+				//xml += "</" + t.id + ">";
+				return t.getFormXMLString();
+			},
+
+			getFormXMLString : function() {
+				var t = this;
+				var xml = "<invovled-committees>";
+				var cbs = Ext.getCmp("cbcommitteegroup").getValue();
+				for ( var i = 0; i < cbs.length; i++) {
+					if (!cbs[i].disabled) xml += "<committee>" + cbs[i].getName() + "</committee>";
+				}
+				xml += "</invovled-committees>";
+				return xml;
+			},
+
+			initComponent : function() {
+				var t = this;
+				var config = {};
+
+				if (t.reviewPanelXml) {
+					var xml = t.reviewPanelXml;
+
+					var cbItems = [];
+
+					jQuery(xml)
+							.find("committees")
+							.find("committee")
+							.each(
+									function() {
+										var checked = (jQuery(this)
+												.find("checked").text() == "true") ? true
+												: false;
+										var recommended = (jQuery(this)
+												.find("recommended")
+												.text() == "true") ? true
+												: false;
+										var desc = jQuery(this).find(
+												"desc").text();
+										var name = jQuery(this).find(
+												"name").text();
+
+										var disabled = (jQuery(this)
+												.find("assigned").text() == "true") ? true
+														: false;
+										if (disabled){
+											var assignedStatus = jQuery(this).find("status").text();
+											if (jQuery.trim(assignedStatus) != ""){
+												desc += " ("+assignedStatus+")";
+											}
+										} else {
+											if (jQuery(this).find("individual-assignment").text() == "true") desc += " - <a href='javascript:;' onClick='Clara.Reviewer.GatekeeperSendNow(\""+name+"\",\""+desc+"\");'>Send now</a>";
+										}
+										
+										// add to form
+										cbItems
+												.push({
+													boxLabel : desc,
+													name : name,
+													id : 'fldAssign_'
+															+ name,
+													checked : checked,
+													disabled:disabled,
+													cls : (recommended) ? "cb-recommended"
+															: ""
+												});
+									});
+
+					clog("cbItems", cbItems);
+
+					t.items = {
+						xtype : 'checkboxgroup',
+						hideLabel : true,
+						id : 'cbcommitteegroup',
+						itemCls : 'x-check-group-alt',
+						columns : 1,
+						items : cbItems
+					};
+
+				} else {
+					clog(
+							"[ERROR] Clara.Reviewer.IRBPrereviewAssignCommitteePanel.initComponent(): reviewPanelXml not defined",
+							t);
+				}
+
+				// apply config
+				Ext.apply(this, Ext.apply(this.initialConfig, config));
+
+				// call parent
+				Clara.Reviewer.IRBPrereviewAssignCommitteePanel.superclass.initComponent
+						.apply(this, arguments);
+			}
+
+		});
+Ext.reg('clarareviewerirbprereviewassigncommitteepanel',
+Clara.Reviewer.IRBPrereviewAssignCommitteePanel);
+
 Clara.Reviewer.BudgetManagerAssignCommitteePanel = Ext
 .extend(
 		Ext.FormPanel,

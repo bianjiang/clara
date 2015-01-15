@@ -75,8 +75,10 @@ public class MeetingServiceImpl implements MeetingService {
 			motionRelatedValues.put("review-period", maxTsEl.getAttribute("reviewperiod"));
 			motionRelatedValues.put("adult-risk", maxTsEl.getAttribute("adultrisk"));
 			motionRelatedValues.put("ped-risk", maxTsEl.getAttribute("pedrisk"));
-			motionRelatedValues.put("consent-waived", maxTsEl.getAttribute("consentdocumentationwaived"));
-			motionRelatedValues.put("consent-document-waived", maxTsEl.getAttribute("consentwaived"));
+			motionRelatedValues.put("consent-waived", maxTsEl.getAttribute("consentwaived"));
+			motionRelatedValues.put("consent-document-waived", maxTsEl.getAttribute("consentdocumentationwaived"));
+			motionRelatedValues.put("assent-waived", maxTsEl.getAttribute("assentwaived"));
+			motionRelatedValues.put("assent-document-waived", maxTsEl.getAttribute("assentdocumentationwaived"));
 			motionRelatedValues.put("hipaa-waived", maxTsEl.getAttribute("hipaawaived"));
 			motionRelatedValues.put("hipaa-applicable", maxTsEl.getAttribute("hipaa"));
 			motionRelatedValues.put("suggested-next-review-type", maxTsEl.getAttribute("reviewtype"));
@@ -161,6 +163,8 @@ public class MeetingServiceImpl implements MeetingService {
 		String pedRisk = getMotion(protocolForm.getProtocolFormType(), xmlData, agendaItemId).get("ped-risk");
 		String consentWaived = getMotion(protocolForm.getProtocolFormType(), xmlData, agendaItemId).get("consent-waived");
 		String consentDocumentWaived = getMotion(protocolForm.getProtocolFormType(), xmlData, agendaItemId).get("consent-document-waived");
+		String assentWaived = getMotion(protocolForm.getProtocolFormType(), xmlData, agendaItemId).get("assent-waived");
+		String assentDocumentWaived = getMotion(protocolForm.getProtocolFormType(), xmlData, agendaItemId).get("assent-document-waived");
 		String hippaWaived = getMotion(protocolForm.getProtocolFormType(), xmlData, agendaItemId).get("hipaa-waived");
 		String hippaNotApplicable = getMotion(protocolForm.getProtocolFormType(), xmlData, agendaItemId).get("hipaa-applicable");
 		String suggestedReviewType = getMotion(protocolForm.getProtocolFormType(), xmlData, agendaItemId).get("suggested-next-review-type");
@@ -177,6 +181,8 @@ public class MeetingServiceImpl implements MeetingService {
 			protocolFormMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/ped-risk", protocolFormMetaData, pedRisk);
 			protocolFormMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/consent-waived", protocolFormMetaData, consentWaived);
 			protocolFormMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/consent-document-waived", protocolFormMetaData, consentDocumentWaived);
+			protocolFormMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/assent-waived", protocolFormMetaData, assentWaived);
+			protocolFormMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/assent-document-waived", protocolFormMetaData, assentDocumentWaived);
 			protocolFormMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/hipaa-waived", protocolFormMetaData, hippaWaived);
 			protocolFormMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/hipaa-applicable", protocolFormMetaData, hippaNotApplicable);
 			protocolFormMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/suggested-next-review-type", protocolFormMetaData, suggestedReviewType);
@@ -202,6 +208,8 @@ public class MeetingServiceImpl implements MeetingService {
 			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/irb-determination/ped-risk", protocolMetaData, pedRisk);
 			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/irb-determination/consent-waived", protocolMetaData, consentWaived);
 			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/irb-determination/consent-document-waived", protocolMetaData, consentDocumentWaived);
+			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/irb-determination/assent-waived", protocolMetaData, assentWaived);
+			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/irb-determination/assent-document-waived", protocolMetaData, assentDocumentWaived);
 			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/irb-determination/hipaa-waived", protocolMetaData, hippaWaived);
 			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/irb-determination/hipaa-applicable", protocolMetaData, hippaNotApplicable);
 			protocolMetaData = xmlProcessor.replaceOrAddNodeValueByPath("/protocol/summary/irb-determination/suggested-next-review-type", protocolMetaData, suggestedReviewType);

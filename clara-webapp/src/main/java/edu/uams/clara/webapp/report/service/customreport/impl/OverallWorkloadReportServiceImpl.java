@@ -344,6 +344,7 @@ public class OverallWorkloadReportServiceImpl extends CustomReportService {
 		finalResultXml =finalResultXml.replace("<![CDATA[null]]>", "");
 		finalResultXml =finalResultXml.replace("null&lt;br&gt;", "");
 		finalResultXml =finalResultXml.replace("null&lt;", "");
+		finalResultXml =finalResultXml.replace("&gt;null", "&gt;");
 		
 		
 		finalResultXml = finalResultXml.replace("Approved by IRB", "Full Board");

@@ -2,6 +2,7 @@ package edu.uams.clara.webapp.common.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonParseException;
 
@@ -16,4 +17,5 @@ public interface EmailService{
 	List<String> getRecipientsAddress(List<String> recipientLst);
 	List<String> getTemplateRecipientsAddress(List<EmailRecipient> EmailRecipientLst);
 	List<String> setRealReceiptByEmailAddress(List<String> mailToList);
+	Map<String, Object> addInputRecipentsToRawAttributes(Map<String, Object> attributeRawValues, String mailTo, String cc);
 }

@@ -163,7 +163,7 @@ public class ObjectAclServiceImpl implements ObjectAclService {
 	
 	
 	@Override
-	public void updateObjectAclByStaffXml(Class<?> objectClass, long objectId, String staffXml) {
+	public void updateObjectAclByStaffXml(Class<?> objectClass, long objectId, String staffXml, Boolean ifConsiderEditPermission) {
 		List<String> userIds = null;
 		List<String> roles = null;
 		List<String> responsibilities = null;
@@ -184,6 +184,16 @@ public class ObjectAclServiceImpl implements ObjectAclService {
 				
 				long ownerObjectId = Long.parseLong(userId);
 				
+				updateOrSaveSecurableObjectAcl(thisObject, User.class, ownerObjectId, Permission.READ);
+				
+				if (ifConsiderEditPermission) {
+					if (roles.contains("Principal Investigator") || roles.contains("Treating Physician") || roles.contains("Study Coordinator")){
+						updateOrSaveSecurableObjectAcl(thisObject, User.class, ownerObjectId, Permission.WRITE);
+					} else if (responsibilities.contains("Managing CLARA submission")){
+						updateOrSaveSecurableObjectAcl(thisObject, User.class, ownerObjectId, Permission.WRITE);
+					}
+				}
+				/*
 				if (roles.contains("Principal Investigator") || roles.contains("Treating Physician") || roles.contains("Study Coordinator")){
 					updateOrSaveSecurableObjectAcl(thisObject, User.class, ownerObjectId, Permission.WRITE);
 					updateOrSaveSecurableObjectAcl(thisObject, User.class, ownerObjectId, Permission.READ);
@@ -193,7 +203,7 @@ public class ObjectAclServiceImpl implements ObjectAclService {
 				} else {
 					updateOrSaveSecurableObjectAcl(thisObject, User.class, ownerObjectId, Permission.READ);
 				}
-				
+				*/
 				//updateOrSaveSecurableObjectAcl(thisObject, User.class, ownerObjectId, Permission.READ);
 
 			}

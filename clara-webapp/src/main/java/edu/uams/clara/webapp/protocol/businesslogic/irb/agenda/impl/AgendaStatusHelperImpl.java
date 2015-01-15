@@ -177,7 +177,7 @@ public class AgendaStatusHelperImpl implements AgendaStatusHelper {
 				protocolFormStatusDao.saveOrUpdate(protocolFormStatus);
 				
 				ProtocolFormCommitteeStatus protocolFormCommitteeStatus = new ProtocolFormCommitteeStatus();
-				protocolFormCommitteeStatus.setCauseByUser(user);
+				protocolFormCommitteeStatus.setCausedByUserId(user.getId());
 				protocolFormCommitteeStatus.setCausedByCommittee(Committee.IRB_OFFICE);
 				protocolFormCommitteeStatus.setCommittee(Committee.IRB_OFFICE);
 				protocolFormCommitteeStatus.setModified(new Date());

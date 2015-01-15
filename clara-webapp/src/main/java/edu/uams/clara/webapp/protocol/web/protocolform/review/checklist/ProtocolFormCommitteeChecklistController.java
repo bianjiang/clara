@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -85,6 +84,14 @@ public class ProtocolFormCommitteeChecklistController {
 					+ protocolFormCommitteeStatus
 							.getProtocolFormCommitteeStatus().toString()
 					+ "\"]]";
+			
+			if (readOnly.equals("true")) {
+				path = "/checklists/checklist-group[conditions/condition[@protocol-form-type=\""
+						+ protocolFormType.toString()
+						+ "\" and @committee-name=\""
+						+ committee.toString()
+						+ "\"]]";
+			}
 
 			// Element checkListGroupEl = (Element) xPath.evaluate(path,
 			// checkListDoc, XPathConstants.NODE);

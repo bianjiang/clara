@@ -164,7 +164,7 @@ public class ContractServiceImpl implements ContractService {
 				
 				
 				if (path.equals("/protocol/staffs")){
-					objectAclService.updateObjectAclByStaffXml(Contract.class, contractFormXmlData.getContractForm().getContract().getId(), pulledXmlString);
+					objectAclService.updateObjectAclByStaffXml(Contract.class, contractFormXmlData.getContractForm().getContract().getId(), pulledXmlString, false);
 				}
 			}
 			

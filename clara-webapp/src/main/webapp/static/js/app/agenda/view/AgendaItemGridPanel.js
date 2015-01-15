@@ -52,7 +52,7 @@ Ext.define('Clara.Agenda.view.AgendaItemGridPanel', {
 				else return (r.get("protocolFormStatus") != 'Assigned to an IRB Agenda')?("<div class='agenda-list-row wrap'><h1>"+v+"</h1><h2>Status: "+r.get("protocolFormStatus")+"</h2></div>"):("<div class='agenda-list-row wrap'><h1>"+v+"</h1></div>");
 				}
 			},
-			{header: 'Reviewers', hidden:!(claraInstance.HasAnyPermissions(['ROLE_RESEARCH_COMPLIANCE','ROLE_ACHRI_REVIEWER','ROLE_IRB_REVIEWER','ROLE_IRB_OFFICE','ROLE_IRB_CHAIR','ROLE_SYSTEM_ADMIN','ROLE_IRB_COMMITTEE_CHAIR'])),width:190, sortable: true, dataIndex:'protocolFormStatus', renderer:function(value, p, record){
+			{header: 'Reviewers', hidden:!(claraInstance.HasAnyPermissions(['EDIT_AGENDA','ROLE_RESEARCH_COMPLIANCE','ROLE_ACHRI_REVIEWER','ROLE_IRB_REVIEWER','ROLE_IRB_OFFICE','ROLE_IRB_CHAIR','ROLE_SYSTEM_ADMIN','ROLE_IRB_COMMITTEE_CHAIR'])),width:190, sortable: true, dataIndex:'protocolFormStatus', renderer:function(value, p, record){
 				var st = record.assignedReviewers();
 				var html = "<div class='agenda-list-row agenda-row-reviewers'>";
 				if (st.count() == 0){

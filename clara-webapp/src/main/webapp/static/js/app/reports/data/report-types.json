@@ -236,6 +236,62 @@
             "forceQueue": false,
             "hasUserSelectableCriteria":true,
             "hasUserSelectableResultFields":false
+        },
+        {
+            "id": 22, 
+            "type":"Reviewer Workload Report",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"reviewworkloadreport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
+        },
+        {
+            "id": 23, 
+            "type":"Gatekeeper Action Report",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"gatekeeperactionreport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":false,
+            "hasUserSelectableResultFields":false
+        }
+        ,
+        {
+            "id": 24, 
+            "type":"Budget Approval Report",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"budgetapprovalreport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":false,
+            "hasUserSelectableResultFields":false
+        },
+        {
+            "id": 25, 
+            "type":"Clinical Trail In Queue Report",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"clinicaltrailinqueuereport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":false,
+            "hasUserSelectableResultFields":false
+        },
+        {
+            "id": 26, 
+            "type":"IRB Reviewer Workload Report",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"irbreviewworkloadreport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         }
         
         ]

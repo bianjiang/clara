@@ -200,6 +200,11 @@
 											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_SUBMITTED_TO_BUDGET_MANAGER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has submitted the study to Budget Review Manager for pre-review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_TO_COI">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMITTED_TO_COI" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has submitted the study to COI for review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
 									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
@@ -422,6 +427,11 @@
 											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_SUBMITTED_TO_BUDGET_MANAGER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has submitted the study to Budget Review Manager for pre-review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_TO_COI">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMITTED_TO_COI" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has submitted the study to COI for review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
 									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
@@ -632,6 +642,11 @@
 											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_SUBMITTED_TO_BUDGET_MANAGER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has submitted the study to Budget Review Manager for pre-review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_TO_COI">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMITTED_TO_COI" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has submitted the study to COI for review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
 									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
@@ -1786,7 +1801,7 @@
 							</decision> -->
 							<decision>
 								<value>ASSIGN_TO_COMMITTEES</value>
-								<desc>Protocol Developed (Assign To Committees)</desc>
+								<desc>Route to Reviewers</desc>
 							</decision>
 							<decision>
 								<value>REVISION_REQUESTED</value>
@@ -1880,9 +1895,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_GATEKEEPER_APPROVED_NO_BUDGET">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_ASSIGN_TO_COMMITTEE">
 										<logs>
-											<log log-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_GATEKEEPER_APPROVED_NO_BUDGET" event-type="GATEKEEPER_ASSIGN_COMMITTEE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Gatekeeper ({USER_WITH_EMAIL_LINK}) has assigned study to individual committee for review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_ASSIGN_TO_COMMITTEE" event-type="GATEKEEPER_ASSIGN_COMMITTEE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Gatekeeper ({USER_WITH_EMAIL_LINK}) has assigned study to individual committee for review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -2515,8 +2530,6 @@
 									<form-status status="REVISION_REQUESTED" />
 									<form-committee-statuses>
 										<form-committee-status
-											involved-committee="SELECTED_COMMITTEES" status="IN_REVIEW" />
-										<form-committee-status
 											involved-committee="BUDGET_MANAGER" status="REVISION_REQUESTED" />
 									</form-committee-statuses>
 								</change-status>
@@ -3088,6 +3101,10 @@
 								<value>PENDING_IRB_DETERMINATION</value>
 								<desc>Pending IRB Determination</desc>
 							</decision>
+							<decision>
+								<value>SAVE</value>
+								<desc>Save Committee Note</desc>
+							</decision>
 						</decisions>
 						<actions>
 							<action type="APPROVE" condition="">
@@ -3134,6 +3151,11 @@
 									<log log-type="ACTION" event-type="PROTOCOL_LEGAL_REVIEW_PENDING_IRB_DETERMINATION" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Legal Review has determined that it's pending IRB determination.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
 								</logs>
 							</action>
+							<action type="SAVE" condition="">
+								<logs>
+									<log log-type="ACTION" event-type="PROTOCOL_LEGAL_SAVE_NOTE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Protocol Legal Reviewer has updated the committee note.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
+								</logs>
+							</action>
 						</actions>
 					</review-page>
 				</committee>
@@ -3149,6 +3171,10 @@
 							<decision>
 								<value>CONTRACT_NOT_REQUIRED</value>
 								<desc>Contract is Not Required</desc>
+							</decision>
+							<decision>
+								<value>SAVE</value>
+								<desc>Save Committee Note</desc>
 							</decision>
 						</decisions>
 						<actions>
@@ -3184,6 +3210,11 @@
 										</logs>
 									</notification>										
 								</notifications>
+							</action>
+							<action type="SAVE" condition="">
+								<logs>
+									<log log-type="ACTION" event-type="PROTOCOL_LEGAL_SAVE_NOTE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Protocol Legal Reviewer has updated the committee note.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
+								</logs>
 							</action>
 						</actions>
 					</review-page>
@@ -3864,6 +3895,92 @@
 								<desc>Not Applicable</desc>
 							</decision>
 							<decision>
+								<value>PENDING_OUTCOME</value>
+								<desc>Determination is pending the outcome of other committee reviews</desc>
+							</decision>
+							<decision>
+								<value>APPROVE</value>
+								<desc>Registration Required Under the Law</desc>
+							</decision>
+							<decision>
+								<value>REJECT</value>
+								<desc>Registration Not Required Under the Law (But recommended under the ICMJE requirements)</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="NOT_APPLICABLE" condition="">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="CLINICAL_TRIALS_REVIEW" status="COMMITTEE_REVIEW_NOT_APPLICABLE" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="COMMITTEE_REVIEW_NOT_APPLICABLE">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="COMMITTEE_REVIEW_NOT_APPLICABLE" event-type="CLINICAL_TRIALS_REVIEW_NOT_APPLICABLE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The modification has been determined as not applicable by the ClinicalTrials.gov.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="APPROVE" condition="">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="CLINICAL_TRIALS_REVIEW" status="APPROVED" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" letter-name="ClinicalTrials.gov Approval" doc-type="ClinicalTrials.gov Approval" email-template-identifier="COMMITTEE_APPROVAL">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="COMMITTEE_APPROVAL" event-type="CLINICAL_TRIALS_REVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">ClinicalTrials.gov has determined that Registration Is Required Under the Law.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="PENDING_OUTCOME" condition="">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="CLINICAL_TRIALS_REVIEW" status="PENDING_OUTCOME_OF_OTHER_COMMITTEE" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_PENDING_OUTCOME_OF_REVIEWS">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_PENDING_OUTCOME_OF_REVIEWS" event-type="CLINICAL_TRIALS_REVIEW_PENDING_OUTCOME" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">ClinicalTrials.gov has determined that it's pending outcome of other committee reviews.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="REJECT" condition="">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="CLINICAL_TRIALS_REVIEW" status="REJECTED" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" letter-name="ClinicalTrials.gov Rejection Letter" doc-type="ClinicalTrials.gov Rejection Letter" email-template-identifier="GENERIC_CLINICAL_TRIAL_REJECT">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_CLINICAL_TRIAL_REJECT" event-type="CLINICAL_TRIALS_REVIEW_REJECTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">ClinicalTrials.gov has determined that Registration Is Not Required Under the Law (But recommended under the ICMJE requirements).  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="ANY" form-committee-status="PENDING_OUTCOME_OF_OTHER_COMMITTEE">
+				<committee name="CLINICAL_TRIALS_REVIEW">
+					<review-page page-name="committee-review" review-form-name="clinicaltrials-review">
+						<decisions>
+							<decision>
+								<value>NOT_APPLICABLE</value>
+								<desc>Not Applicable</desc>
+							</decision>
+							<decision>
 								<value>APPROVE</value>
 								<desc>Registration Required Under the Law</desc>
 							</decision>
@@ -4523,6 +4640,25 @@
 							</decision>
 						</decisions>
 						<actions>
+							<action type="ASSIGN_TO_INDIVIDUAL_COMMITTEE">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="SELECTED_COMMITTEES" status="IN_REVIEW">
+											<selected-committees>
+												<selected-committee committee="REGULATORY_MANAGER" belong-to-committee="MONITORING_REGULATORY_QA" status="PENDING_REVIEWER_ASSIGNMENT" />
+											</selected-committees>
+										</form-committee-status>
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_ASSIGN_TO_COMMITTEE">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_ASSIGN_TO_COMMITTEE" event-type="IRB_PREREVIEW_ASSIGN_COMMITTEE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB Prereviewer ({USER_WITH_EMAIL_LINK}) has assigned study to individual committee for review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
 							<action type="APPROVED" store-meta-data="True" workflow="INVESTIGATOR">
 								<change-status>				
 									<status status="PENDING_IRB_REVIEW_ASSIGNMENT" />
@@ -4542,7 +4678,7 @@
 							</action>
 							<action type="IS_NOT_HSR" condition="" email-template-identifier="NOT_HSR_DETERMINATION_LETTER" update-approval-date-or-status="true">
 								<change-status>
-									<status status="CLOSED" />
+									<status status="DETERMINED_NOT_HUMAN_SUBJECT_RESEARCH" />
 									<form-status status="DETERMINED_NOT_HUMAN_SUBJECT_RESEARCH" />
 									<form-committee-statuses>
 										<form-committee-status
@@ -5049,7 +5185,149 @@
 			-->
 			<form-status value="PENDING_EXPEDITED_IRB_REVIEW" form-committee-status="ANY">
 				<committee name="IRB_EXPEDITED_REVIEWER">
-					<review-page page-name="committee-review" review-form-name="irb-expedited-review">
+					<review-page page-name="committee-review" review-form-name="irb-expedited-review" form-xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)">
+						<decisions>
+							<decision>
+								<value>APPROVE</value>
+								<desc>Approve</desc>
+								<email-template-identifiers>
+									<email-template-identifier form-xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)">NEW_SUBMISSION_EXPEDITED_APPROVED_LETTER</email-template-identifier>
+									<email-template-identifier form-xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])>0)">NEW_SUBMISSION_FULL_BOARD_APPROVED_MINOR_MET_LETTER</email-template-identifier>
+								</email-template-identifiers>
+							</decision>
+							<decision>
+								<value>REVISION_REQUESTED</value>
+								<desc>Revision Requested</desc>
+								<email-template-identifiers>
+									<email-template-identifier>NEW_SUBMISSION_EXPEDITED_REVIEW_REVISION_REQUESTED_LETTER</email-template-identifier>
+								</email-template-identifiers>
+							</decision>
+							<decision>
+								<value>RETURN_BACK</value>
+								<desc>Propose New Review Type (return to IRB Review Assignment)</desc>
+							</decision>
+						</decisions>						
+						<actions>
+							<action type="APPROVE" condition="">
+								<change-status>
+									<!-- <status status="EXPEDITED_APPROVED" /> -->
+									<status status="OPEN" />
+									<form-status status="EXPEDITED_APPROVED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXPEDITED_REVIEWER" status="APPROVED"
+											note="" />
+									</form-committee-statuses>
+									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
+								</change-status>
+								<events>
+									<event>ASSIGN_TO_AGENDA</event>
+									<!-- <event>CLEAN_RECENT_MOTION</event> -->
+									<event clock-start="Expedited">UPDATE_APPROVAL_DATE_STATUS</event>
+									<event>PUSH_TO_EPIC</event>
+									<!-- <event>GENERATE_EPIC_CDM</event> -->
+								</events>
+								<notifications>
+									<notification form-xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)" notification-type="LETTER" letter-name="New Submission Expedited Approved Letter" doc-type="New Submission Expedited Approved Letter" email-template-identifier="NEW_SUBMISSION_EXPEDITED_APPROVED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="NEW_SUBMISSION_EXPEDITED_APPROVED_LETTER" event-type="IRB_EXPEDITED_REVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by the IRB Expedited Review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  A New Submission Expedited Approved Letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/extra/has-contract-or-not[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_IRB_EXPEDITED_APPROVED_TO_CONTRACT">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_IRB_EXPEDITED_APPROVED_TO_CONTRACT" event-type="NEW_SUBMISSION_IRB_EXPEDITED_APPROVED_TO_CONTRACT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The study has been approved by IRB Expedited Review and a notification has been send to the Legal.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>		
+									<notification xpath-condition="boolean(count(/protocol/extra/has-budget-or-not[text()='y'])>0)" notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_IRB_EXPEDITED_APPROVED_TO_HOSPITAL_SERVICE">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_IRB_EXPEDITED_APPROVED_TO_HOSPITAL_SERVICE" event-type="NEW_SUBMISSION_IRB_EXPEDITED_APPROVED_TO_HOSPITAL_SERVICE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The study has been approved by IRB Expedited Review and a notification has been send to the Hospital Service.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification form-xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])>0)" notification-type="LETTER" letter-name="New Submission Full Board Approved Minor Met Letter" doc-type="New Submission Full Board Approved Minor Met Letter" email-template-identifier="NEW_SUBMISSION_FULL_BOARD_APPROVED_MINOR_MET_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="NEW_SUBMISSION_FULL_BOARD_APPROVED_MINOR_MET_LETTER" event-type="NEW_SUBMISSION_FULL_BOARD_APPROVED_MINOR_MET_LETTER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The study has been approved by IRB Expedited Review of Minor met.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  A New Submission Minor Contingency Met Letter ({LETTER_LINK}) has been sent to the PI.  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0)" notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_IRB_EXPEDITED_APPROVED_TO_ACH">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_IRB_EXPEDITED_APPROVED_TO_ACH" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Expedited Review and a notification has been sent to ACH.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; </span></log>
+										</logs>
+									</notification>	
+									<notification xpath-condition="boolean(count(/protocol/study-type[text()='investigator-initiated'])>0 and (count(/drug[@status[.=&quot;FDA-Approved Drug for Non-Approved Use&quot;]])>0 or count(/drug[@status[.=&quot;Investigational New Drug&quot;]])>0 or count(/device[@status[.=&quot;FDA-Approved Device for Non-approved Use&quot;]])>0 or count(/device[@status[.=&quot;Investigational New Device&quot;]])>0))" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_REGULATORY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_REGULATORY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Expedited Review and Regulatory group is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
+									<notification xpath-condition="boolean(count(/protocol/extra/has-budget-or-not[text()='y'])>0 and count(/protocol/study-nature[text()='hud-use'])=0)" notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_FULL_BOARD_APPROVE_TO_PBS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_FULL_BOARD_APPROVE_TO_PBS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Expedited Review and PBS is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
+									<!-- <notification xpath-condition="boolean(count(/protocol/drugs/drug[@type[.=&quot;investigational&quot;]])>0 and (count(/protocol/site-responsible[text()='ach-achri'])>0  or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0))" notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_FULL_BOARD_APPROVE_TO_ACH_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_FULL_BOARD_APPROVE_TO_ACH_PHARMACY" event-type="NEW_SUBMISSION_FULL_BOARD_APPROVE_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Expedited Review and ACH research pharmacist is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	 -->	
+									<notification xpath-condition="boolean((count(/protocol/site-responsible[text()='ach-achri'])>0 or count(/protocol/study-sites/site[@site-id=&quot;2&quot; or @site-id=&quot;1&quot;])>0) and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENENRIC_APROVAL_TO_ACH_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENENRIC_APROVAL_TO_ACH_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Expedited Review and ACH Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>
+									<notification xpath-condition="boolean(count(/protocol/site-responsible[text()='uams'])>0 and count(/protocol/drugs/drug)>0)" notification-type="NOTIFICATION" email-template-identifier="GENERIC_APPROVE_TO_PHARMACY">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_APPROVE_TO_PHARMACY" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been approved by IRB Expedited Review and Pharmacy is notified.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="REVISION_REQUESTED" condition="">
+								<change-status>
+									<status status="REVISION_REQUESTED" />
+									<form-status status="REVISION_REQUESTED" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_EXPEDITED_REVIEWER" status="REVISION_REQUESTED"
+											note="" />
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event>SET_MINOR_CONTINGENCY_FLAG</event>
+								</events>
+								<notifications>
+									<notification notification-type="LETTER" letter-name="IRB Expedited Review Revision Requested Letter" doc-type="Letter" email-template-identifier="NEW_SUBMISSION_EXPEDITED_REVIEW_REVISION_REQUESTED_LETTER">
+										<logs>
+											<log log-type="LETTER" email-template-identifier="NEW_SUBMISSION_EXPEDITED_REVIEW_REVISION_REQUESTED_LETTER" event-type="IRB_EXPEDITED_REVIEW_REVISION_REQUESTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The IRB Expedited Reviewer has requested changes to IRB# {PROTOCOL_IDENTIFIER}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  A letter ({LETTER_LINK}) containing requested changes has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="RETURN_BACK" condition="">
+								<change-status>
+									<status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-status status="PENDING_IRB_REVIEW_RE_ASSIGNMENT" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="IRB_OFFICE" status="PENDING_IRB_REVIEW_RE_ASSIGNMENT"
+											note="" />
+										<form-committee-status
+											involved-committee="IRB_EXPEDITED_REVIEWER" status="NOT_APPLICABLE_TO_EXPEDITED_IRB_REVIEW"
+											note="" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="IRB_EXPEDITED_REVIEWER_RETURN_BACK" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">The study has been sent back to IRB Office for agenda assignment by the IRB Expedtied Review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>	
+								</logs>
+								<!-- <notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_EXPEDITED_REVIEW_SEND_BACK">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_EXPEDITED_REVIEW_SEND_BACK" event-type="IRB_EXPEDITED_REVIEW_RETURN_BACK" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been sent back to IRB Office for agenda assignment by the IRB Expedtied Review.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+										</logs>
+									</notification>										
+								</notifications> -->
+							</action>
+						</actions>
+					</review-page>
+					<review-page page-name="committee-review" form-xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])>0)">
 						<decisions>
 							<decision>
 								<value>APPROVE</value>

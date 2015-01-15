@@ -189,6 +189,74 @@ public class SendExpirationOfApprovalLetterService {
 			}
 		}
 	}
+	
+	public void sendSecondNotice(){
+		if(!this.isShouldRun()) return;
+		
+		try {
+			List<Protocol> protocolList = protocolDao.listExpiredForSixteenDaysProtocol();
+			
+			if (protocolList.size() > 0) {
+				for (Protocol p : protocolList) {
+					EmailTemplate emailTemplate = protocolEmailService.sendProtocolLetter(p, null, null, null, "EXPIRATION_OF_APPROVAL_SECOND_NOTICE_LETTER", "", "Expiration of Approval Second Notice Letter", "Letter", null, null, "Expiration of Approval Second Notice Letter");
+					
+					Date now = new Date();
+					
+					Track track = protocolTrackService.getOrCreateTrack("PROTOCOL",
+							p.getId());
+
+					Document logsDoc = protocolTrackService.getLogsDocument(track);
+
+					Element logEl = logsDoc.createElement("log");
+					
+					String logId = UUID.randomUUID().toString();
+
+					logEl.setAttribute("action-user-id", "0");
+					logEl.setAttribute("actor", "System");
+					logEl.setAttribute("date-time", DateFormatUtil.formateDate(now));
+					logEl.setAttribute("date", DateFormatUtil.formateDateToMDY(now));
+					logEl.setAttribute("event-type", "SEND_EXPIRATION_OF_APPROVAL_SECOND_NOTICE_LETTER");
+					logEl.setAttribute("form-id", "0");
+					logEl.setAttribute("parent-form-id", "0");
+					logEl.setAttribute("form-type", "PROTOCOL");
+					logEl.setAttribute("log-type", "LETTER");
+					logEl.setAttribute("email-template-identifier", "EXPIRATION_OF_APPROVAL_SECOND_NOTICE_LETTER");
+					logEl.setAttribute("timestamp", String.valueOf(now.getTime()));
+					logEl.setAttribute("id", logId);
+					logEl.setAttribute("parent-id",logId);
+
+					List<EmailRecipient> emailRecipients = emailService
+							.getEmailRecipients(
+									(emailTemplate.getRealRecipient() != null) ? emailTemplate
+											.getRealRecipient() : emailTemplate
+											.getTo());
+
+					String recipents = "";
+					for (EmailRecipient emailRecipient : emailRecipients) {
+						// emailRecipient.getType().equals(EmailRecipient.RecipientType.)
+						recipents += "<b>" + emailRecipient.getDesc() + "</b>; ";
+					}
+					
+					UploadedFile uploadedFile = emailTemplate.getUploadedFile();
+					String emailLog = "<a target=\"_blank\" href=\"" + this.getFileServer()
+							+ uploadedFile.getPath()
+							+ uploadedFile.getIdentifier() + "."
+							+ uploadedFile.getExtension()
+							+ "\">View Letter</a>";
+
+					String message = "System has send an Expiration of Approval Second Notice Letter"+ emailLog +" <br/>The following committees/groups/individuals were notified:<br/>"+ recipents +"";
+
+					logEl.setTextContent(message);
+
+					logsDoc.getDocumentElement().appendChild(logEl);
+
+					track = protocolTrackService.updateTrack(track, logsDoc);
+				}
+			}
+		} catch (Exception e) {
+			
+		}
+	}
 
 	public TrackDao getTrackDao() {
 		return trackDao;

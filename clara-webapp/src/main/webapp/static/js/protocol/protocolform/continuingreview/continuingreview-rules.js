@@ -51,6 +51,7 @@ Clara.ProtocolForm.Rules
 			                           "/continuing-review/original-study/approval-status" ],
 			execute : function(answers) {
 				var hide = true;
+				/*
 				if (answers['/continuing-review/general-study-info/keep-study-open'] == 'y') {
 					if ((answers['/continuing-review/most-recent-study/approval-status'] && answers['/continuing-review/most-recent-study/approval-status'].length > 0 
 							&& answers['/continuing-review/most-recent-study/approval-status'] == 'Exempt')
@@ -62,7 +63,26 @@ Clara.ProtocolForm.Rules
 							claraInstance.navigation.disablePage("conflict-of-interest");
 							claraInstance.navigation.disablePage("documents");
 					}
-					
+				}*/
+				
+				var isExemptStudy = false;
+				
+				if (answers['/continuing-review/most-recent-study/approval-status'] && answers['/continuing-review/most-recent-study/approval-status'].length > 0) {
+					if (answers['/continuing-review/most-recent-study/approval-status'] == 'Exempt') {
+						isExemptStudy = true;
+					} else {
+						isExemptStudy = false;
+					}
+				} else if (answers['/continuing-review/original-study/approval-status'] == 'Exempt') {
+					isExemptStudy = true;
+				}
+				
+				if (isExemptStudy) {
+					hide = false;
+					claraInstance.navigation.disablePage("accrual-of-subjects");
+					claraInstance.navigation.disablePage("study-report");
+					claraInstance.navigation.disablePage("conflict-of-interest");
+					claraInstance.navigation.disablePage("documents");
 				}
 
 				this.hide(hide);
@@ -196,10 +216,12 @@ Clara.ProtocolForm.Rules
 			                           "/continuing-review/has-external-sponsor" ],
 			execute : function(answers) {
 				var hide = true;
+				
 				if (answers['/continuing-review/study-report/any-adverse-events'] == 'y' && 
 						answers['/continuing-review/has-external-sponsor'] == 'n') {
 					hide = false;
 				}
+				
 				this.hide(hide);
 			}
 		}));
@@ -225,11 +247,48 @@ Clara.ProtocolForm.Rules
 .addRule(new Clara.ProtocolForm.Rule(
 		{
 			id : Ext.id(),
-			questionIds : [ 'question-deviations-how-many', 'question-deviations-occur-in-pattern','question-deviations-negatively-impact' ],
+			questionIds : [ 'question-describe-local-adverse-events' ],
+			dependantQuestionPaths : [ "/continuing-review/study-report/any-adverse-events",
+			                           "/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency",
+			                           "/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk",
+			                           "/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information" ],
+			execute : function(answers) {
+				var hide = true;
+				if (answers['/continuing-review/study-report/any-adverse-events'] == 'y') {
+					if ((answers['/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency'] == 'y' && answers['/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk'] == 'y') || answers['/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information'] == 'y')
+					hide = false;
+				}
+				this.hide(hide);
+			}
+		}));
+
+Clara.ProtocolForm.Rules
+.addRule(new Clara.ProtocolForm.Rule(
+		{
+			id : Ext.id(),
+			questionIds : [ 'question-deviations-occur-in-pattern','question-deviations-negatively-impact' ],
 			dependantQuestionPaths : [ "/continuing-review/study-report/any-deviations" ],
 			execute : function(answers) {
 				var hide = true;
 				if (answers['/continuing-review/study-report/any-deviations'] == 'y') {
+					hide = false;
+				}
+				this.hide(hide);
+			}
+		}));
+
+Clara.ProtocolForm.Rules
+.addRule(new Clara.ProtocolForm.Rule(
+		{
+			id : Ext.id(),
+			questionIds : [ 'question-describe-deviations' ],
+			dependantQuestionPaths : [ "/continuing-review/study-report/any-deviations",
+			                           "/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern",
+			                           "/continuing-review/study-report/any-deviations/y/deviations-negatively-impact" ],
+			execute : function(answers) {
+				var hide = true;
+				if (answers['/continuing-review/study-report/any-deviations'] == 'y') {
+					if (answers['/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern'] == 'y' || answers['/continuing-review/study-report/any-deviations/y/deviations-negatively-impact'] == 'y')
 					hide = false;
 				}
 				this.hide(hide);

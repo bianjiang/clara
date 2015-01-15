@@ -493,7 +493,29 @@ public class ProtocolBusinessObjectStatusHelper extends
 
 			protocolFormStatusDao.saveOrUpdate(protocolFormStatus);
 			
-			if (status.equals(ProtocolFormStatusEnum.PENDING_PI_SIGN_OFF.toString())){
+			boolean needToChangeStatus = false;
+			
+			//since PI sign off is optional in budget modification, we need to check before it goes to IRB
+			if (protocolForm.getProtocolFormType().equals(ProtocolFormType.MODIFICATION)) {
+				try {
+					List<String> attrs = getXmlProcessor().getAttributeValuesByPathAndAttributeName("/protocol/workflow-control/recorded-workflow-path/step", protocolForm.getMetaDataXml(), "next-form-status");
+					
+					if (attrs.size() > 0) {
+						if (status.equals(ProtocolFormStatusEnum.UNDER_IRB_PREREVIEW.toString())){
+							needToChangeStatus = true;
+						}
+					}
+				} catch (Exception e) {
+					
+				}
+			}
+			
+			
+			if (protocolForm.getProtocolFormType().equals(ProtocolFormType.NEW_SUBMISSION) && status.equals(ProtocolFormStatusEnum.PENDING_PI_SIGN_OFF.toString())){
+				needToChangeStatus = true;
+			}
+			
+			if (needToChangeStatus){
 				logger.debug("change document stastus");
 				this.changeObjectFormDocumentStatus(protocolForm, now, committee, user, Status.RSC_APPROVED.toString(), null);
 				
@@ -538,7 +560,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 			ProtocolFormCommitteeStatus protocolFormCommitteeStatus = new ProtocolFormCommitteeStatus();
 			protocolFormCommitteeStatus.setProtocolForm(protocolForm);
 			protocolFormCommitteeStatus.setModified(now);
-			protocolFormCommitteeStatus.setCauseByUser(user);
+			protocolFormCommitteeStatus.setCausedByUserId(user.getId());
 			protocolFormCommitteeStatus.setCausedByCommittee(committee);
 			
 			if (committee.equals(involvedCommittee)) {
@@ -1202,6 +1224,17 @@ public class ProtocolBusinessObjectStatusHelper extends
 						
 						NodeList pharmacyExpensesLst = (NodeList) (xPath.evaluate(otherPharmacyExpensesXPath,
 								currentPharmacyXmlDataDom, XPathConstants.NODESET));
+						
+						NodeList budgetPharmacyInvoicableExpenses = (NodeList) (xPath.evaluate("/budget/expenses/expense[@type=\"Invoicable\" and @subtype=\"Pharmacy Fee\"]",
+								currentBudgetXmlDataDom, XPathConstants.NODESET));
+						
+						if (budgetPharmacyInvoicableExpenses.getLength() > 0) {
+							for (int j = 0; j < budgetPharmacyInvoicableExpenses.getLength(); j++){
+								Node budgetPharmacyInvoicableNode = budgetPharmacyInvoicableExpenses.item(j);
+								
+								budgetPharmacyInvoicableNode.getParentNode().removeChild(budgetPharmacyInvoicableNode);
+							}
+						}
 										
 						if (pharmacyExpensesLst.getLength() > 0){
 							for (int i=0; i<pharmacyExpensesLst.getLength(); i++){
@@ -1217,6 +1250,23 @@ public class ProtocolBusinessObjectStatusHelper extends
 									cost = 0;
 								}
 								
+								maxId++;
+								
+								Element newInvoicableExpenseNode = currentBudgetXmlDataDom.createElement("expense");
+								newInvoicableExpenseNode.setAttribute("type", "Invoicable");
+								newInvoicableExpenseNode.setAttribute("subtype", "Pharmacy Fee");
+								newInvoicableExpenseNode.setAttribute("cost", String.valueOf(cost));
+								newInvoicableExpenseNode.setAttribute("fa", "0");
+								newInvoicableExpenseNode.setAttribute("faenabled", "false");
+								newInvoicableExpenseNode.setAttribute("external", "true");
+								newInvoicableExpenseNode.setAttribute("count", "1");
+								newInvoicableExpenseNode.setAttribute("description", "" + otherPharmacyFeeEl.getAttribute("description") + otherWaivedOrNot);
+								newInvoicableExpenseNode.setAttribute("notes", "");
+								newInvoicableExpenseNode.setAttribute("id", String.valueOf(maxId));
+								
+								expensesEl.appendChild(newInvoicableExpenseNode);
+								
+								/*need to remove all the existing pharmacy invoicable expenses in budget first, then add new ones, no need to update
 								Element invoicableExpenseEl = (Element) (xPath.evaluate("/budget/expenses/expense[@type=\"Invoicable\" and @subtype=\"Pharmacy Fee\" and @description[contains(.,\""+ otherPharmacyFeeEl.getAttribute("description") +"\")]]",
 										currentBudgetXmlDataDom, XPathConstants.NODE));
 
@@ -1241,6 +1291,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 									
 									expensesEl.appendChild(newInvoicableExpenseNode);
 								}
+								*/
 							}
 						}
 						

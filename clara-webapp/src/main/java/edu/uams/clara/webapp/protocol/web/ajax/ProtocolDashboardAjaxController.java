@@ -877,6 +877,8 @@ public class ProtocolDashboardAjaxController {
 			
 			try {
 				for (UserRole ur : userRoles) {
+					if (ur.getRole().getCommitee().toString().equals("IRB_REVIEWER")) continue;
+					
 					committeeXml += "<committee name=\"" + ur.getRole().getCommitee().toString()
 							+ "\" desc=\"" + ur.getRole().getCommitee().getDescription() + "\" />";
 				}
@@ -1115,7 +1117,7 @@ public class ProtocolDashboardAjaxController {
 			auditService.auditEvent("PROTOCOL_SUMMARY_UPDATED", currentUser
 					.getPerson().getFullname()
 					+ " has updated answer of "
-					+ path + " to " + value);
+					+ path + " to " + value + " of study: " + protocolId);
 			
 			if (path.equals("/protocol/summary/hospital-service-determinations/corporate-gurantor-code") || path.equals("/protocol/summary/hospital-service-determinations/insurance-plan-code")){
 				if (value != null && !value.isEmpty()){

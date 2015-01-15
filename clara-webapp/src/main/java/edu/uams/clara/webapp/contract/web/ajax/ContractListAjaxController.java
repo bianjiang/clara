@@ -38,6 +38,7 @@ import edu.uams.clara.webapp.contract.domain.contractform.ContractForm;
 import edu.uams.clara.webapp.contract.domain.search.ContractSearchBookmark;
 import edu.uams.clara.webapp.contract.objectwrapper.ContractSearchCriteria;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
+import edu.uams.clara.webapp.protocol.objectwrapper.ProtocolSearchCriteria;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
 
 @Controller
@@ -273,6 +274,56 @@ public class ContractListAjaxController {
 			return new JsonResponse(true, "Saving search bookmarks is encounting an error!", "", false, null);
 		}
 
+	}
+	
+	@RequestMapping(value = "/ajax/contracts/search-bookmarks/export", method = RequestMethod.POST)
+	public @ResponseBody
+	String exportBookmakrSearch(
+			@RequestParam(value = "searchCriterias", required = false) String searchCriteriasJsonString
+			) //@RequestParam(value = "searchCriterias[]", required = false) List<ProtocolSearchCriteria> searchCriterias
+			throws XPathExpressionException, SAXException, IOException { 
+
+		User u = (User) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+
+		PagedList<ContractForm> pagedContractMetaDatas = null;
+
+		List<ContractSearchCriteria> searchCriterias = null;
+		
+		if(searchCriteriasJsonString != null && searchCriteriasJsonString.length() > 0){
+			
+			logger.debug("searchCriteriasJsonString :" + searchCriteriasJsonString);
+			JavaType listOfContractSearchCriteria = TypeFactory.defaultInstance().constructCollectionType(ArrayList.class, ContractSearchCriteria.class);
+			
+			//ContractSearchCriteria contractSearchCriteria = objectMapper.readValue(searchCriteriasJsonString, ContractSearchCriteria.class);
+			//logger.debug("ContractSearchCriteria: " + contractSearchCriteria.getSearchField());
+			searchCriterias = objectMapper.readValue(searchCriteriasJsonString, listOfContractSearchCriteria);
+			
+		}
+		logger.debug("searchCriterias: "+searchCriterias);
+		/*pagedContractMetaDatas = contractDao
+				.listPagedContractMetaDatasByUserAndSearchCriteriaAndContractStatusFilter(
+						u, s, l, searchCriterias, filter);*/
+		pagedContractMetaDatas = contractFormDao
+				.listPagedContractMetaDatasByUserAndSearchCriteriaAndContractStatusFilter(
+						u, 0, 10000000, searchCriterias, null, null);
+
+		String finalResultXml = "<list total=\""
+				+ pagedContractMetaDatas.getTotal() + "\">";
+
+		if (pagedContractMetaDatas.getList() != null
+				&& !pagedContractMetaDatas.getList().isEmpty()) {
+			for (ContractForm cf: pagedContractMetaDatas.getList()) {
+				//logger.debug("" + p.getId());
+				finalResultXml += (cf.getMetaDataXml() != null ? cf
+						.getMetaDataXml() : "");
+			}
+		}
+		finalResultXml += "</list>";
+		//logger.debug(finalResultXml);
+		String fileUrl = contractFormDao.exportBookmarkSearchResultFile(finalResultXml,u);
+		
+		return fileUrl;
 	}
 	
 	@RequestMapping(value = "/ajax/contracts/search-bookmarks/{searchBookmarkId}/update", method = RequestMethod.POST)

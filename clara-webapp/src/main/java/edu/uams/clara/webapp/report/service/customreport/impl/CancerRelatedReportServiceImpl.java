@@ -251,7 +251,7 @@ private  List<String> reviewTypes = Lists.newArrayList();
 							value="";
 						}
 						if(!value.equals(valueExist)&&!alias.equals("protocolId")){
-							existingXml=xmlHandler.replaceOrAddNodeValueByPath("//report-item/field[@id=\""+identifier+"\"]", existingXml, valueExist+"<br>"+value);
+							existingXml=xmlHandler.replaceOrAddNodeValueByPath("//report-item/field[@id=\""+identifier+"\"]", existingXml, valueExist+"\n"+value);
 						}
 					}
 					resultXmls.put(protocolId,existingXml);
@@ -277,6 +277,7 @@ private  List<String> reviewTypes = Lists.newArrayList();
 		
 		finalResultXml =finalResultXml.replace("<![CDATA[null]]>", "");
 		finalResultXml =finalResultXml.replace("null&lt;br&gt;", "");
+		finalResultXml =finalResultXml.replace("&gt;null", "&gt;");
 		if(finalResultXml.contains("&")){
 			finalResultXml=finalResultXml.replaceAll("&", "&amp;");
 		}

@@ -25,6 +25,13 @@ Ext.define('Clara.Super.view.LiveUsersPanel', {
                         window.location = "/clara-webapp/super/j_spring_security_switch_user?j_username=" + rec.get("username");
                         
                     }
+                },{
+                	icon:appContext+'/static/images/icn/dashboard.png',
+                	tooltip:'View user activity',
+                	handler: function(grid,rowIndex,colIdx){
+                		var rec = grid.getStore().getAt(rowIndex);
+                		Ext.create("Clara.Admin.view.UserVisitHistoryWindow", { user:rec }).show();
+                	}
                 },
                     {
                         icon:appContext + '/static/images/icn/cross.png',

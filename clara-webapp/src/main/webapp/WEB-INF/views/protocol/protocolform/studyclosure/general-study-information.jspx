@@ -12,10 +12,12 @@
 	<jsp:output omit-xml-declaration="yes" />
 
 	<c:import url="/static/xml/lookup.xml" var="lookupxml" />
+	<c:import var="helpxml" url="/static/xml/help.xml" />
 
 	<x:parse doc="${protocolFormXmlData.xmlData}" var="scInstance" />
 	<x:parse doc="${protocolFormXmlData.protocolForm.protocol.metaDataXml}" var="protocolInstance" />
 	<x:parse doc="${lookupxml}" var="lookup" scope="application" />
+	<x:parse doc="${helpxml}" var="help" scope="application" />
 
 	<x:set var="protocolTitle" select="string($protocolInstance/protocol/title)" />
 
@@ -35,16 +37,16 @@
 				<div class="questionValue">
 					<x:set var="studyStatus"
 						select="string($scInstance/study-closure/study-status/text())" />
-					<x:set var="otherStudyStatusExplain"
-						select="string($scInstance/study-closure/study-status/other/explain/text())" />
 					<uams:radio value="${studyStatus}"
 						lookuppath="study-closure-study-status"
 						instancepath="/study-closure/study-status"
-						validation="required"
-						allowOther="true"
-						otherTextInstancePath="/study-closure/study-status/other/explain"
-						otherTextValue="${otherStudyStatusExplain} "
-						otherTextValidation="required" />
+						validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="study-status" />
 				</div>
 			</div>
 			

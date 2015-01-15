@@ -1,6 +1,6 @@
 Ext.define('Clara.Super.view.Viewport',{
 	extend: 'Ext.container.Viewport',
-	requires:['Clara.Super.view.LiveUsersPanel', 'Clara.Super.view.ImpersonateUserPanel', 'Clara.Super.view.NewsPanel'],
+	requires:['Clara.Super.view.LiveUsersPanel', 'Clara.Super.view.ImpersonateUserPanel', 'Clara.Super.view.ServerLogPanel', 'Clara.Super.view.NewsPanel','Clara.Admin.view.UserVisitHistoryWindow'],
 	layout:'border',
 	border:false,
 	defaults:{
@@ -20,6 +20,16 @@ Ext.define('Clara.Super.view.Viewport',{
 			xtype:'tabpanel',
 			region:'center',
 			items:[{
+				xtype:'serverlogpanel',
+				title:'Server logs',
+				id:'serverlogpanel',
+				iconCls:'icn-database'
+			},{
+				xtype:'newspanel',
+				title:'Site News',
+				id:'siteNewsPanel',
+				iconCls:'icn-newspaper'
+			},{
 				xtype:'liveuserspanel',
 				title:'Live Users',
 				id:'liveuserspanel',
@@ -29,11 +39,6 @@ Ext.define('Clara.Super.view.Viewport',{
 				title:'Impersonate',
 				id:'impersonateUserPanel',
 				iconCls:'icn-users'
-			},{
-				xtype:'newspanel',
-				title:'Site News',
-				id:'siteNewsPanel',
-				iconCls:'icn-newspaper'
 			}]
 		}];
 		this.callParent();

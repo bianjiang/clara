@@ -287,11 +287,14 @@ public class ProtocolFormReviewLogicAjaxController {
 			@RequestParam("isPrivate") boolean isPrivate,
 			@RequestParam(value = "version", required = false) boolean version,
 			@RequestParam(value = "agendaItemId", required = false) Long agendaItemId) {
+		User currentUser = (User) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+		
 		User user = userDao.findById(userId);
 		try{
 			if (version && agendaItemId != null){
 				String message = "New Comment: \""+ text +"\" has been added by "
-						+ user.getPerson().getFullname() +"";
+						+ user.getPerson().getFullname() +".  Operator is "+ currentUser.getPerson().getFullname() +".";
 				updateAgendaItemlog(user, agendaItemId, "ADD_COMMENT", message);
 			}
 		} catch (Exception e){
@@ -391,7 +394,10 @@ public class ProtocolFormReviewLogicAjaxController {
 			protocolFormCommitteeComment.setModified(new Date());
 			
 			if (version){
-				String message = "Comment: \""+ protocolFormCommitteeComment.getText() +"\" has been updated to \""+ text +"\" by "
+				String oldCommentStatus = (protocolFormCommitteeComment.getCommentStatus() != null)?protocolFormCommitteeComment.getCommentStatus().toString():"NO_STATUS";
+				String newCommentStatus = (commentStatus != null)?commentStatus.toString():"NO_STATUS";
+				
+				String message = "Comment: \""+ protocolFormCommitteeComment.getText() +"\"("+ protocolFormCommitteeComment.getCommentType().getDescription() +", "+ oldCommentStatus +") has been updated to \""+ text +"\"("+ commentType.getDescription() +", "+ newCommentStatus +") by "
 						+ user.getPerson().getFullname() + "";
 				updateAgendaItemlog(user, agendaItemId, "UPDATE_COMMENT", message);
 

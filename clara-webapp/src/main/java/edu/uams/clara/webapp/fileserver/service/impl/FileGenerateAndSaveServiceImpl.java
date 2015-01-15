@@ -115,7 +115,7 @@ public class FileGenerateAndSaveServiceImpl implements FileGenerateAndSaveServic
 					sFTPService.uploadLocalUploadedFileToRemote(object, uploadedFile);
 				}
 				catch(Exception ex){
-					logger.error("failed to sftp the file to file server; uploadedFile.id: " + uploadedFile.getId(), ex);
+					logger.error("failed to sftp the file to file server; uploadedFile.id: " + uploadedFile.getId() + "; object id: " + object.getId(), ex);
 
 				}
 			}

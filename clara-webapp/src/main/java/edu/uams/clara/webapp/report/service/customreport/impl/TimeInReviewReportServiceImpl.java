@@ -1068,6 +1068,10 @@ public class TimeInReviewReportServiceImpl extends CustomReportService {
 
 		finalResultXml = finalResultXml.replace("<![CDATA[null]]>", "");
 		finalResultXml = finalResultXml.replace("null&lt;br&gt;", "");
+		finalResultXml =finalResultXml.replace("&gt;null", "&gt;");
+		if(finalResultXml.contains("&")){
+			finalResultXml=finalResultXml.replaceAll("&", "&amp;");
+		}
 		return finalResultXml;
 	}
 

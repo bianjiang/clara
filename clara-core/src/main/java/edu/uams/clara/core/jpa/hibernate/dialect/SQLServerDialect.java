@@ -9,7 +9,7 @@ import java.sql.Types;
  * @author Jiang Bian
  */
 public class SQLServerDialect extends
-		org.hibernate.dialect.SQLServer2008Dialect {
+		org.hibernate.dialect.SQLServer2012Dialect {
 	public SQLServerDialect() {
 		super();
 		//registerColumnType(Types.BIGINT, "BIGINT"); // Overwrite SQL Server

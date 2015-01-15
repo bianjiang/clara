@@ -57,7 +57,8 @@ Clara.ContractStatusStore = new Ext.data.SimpleStore({
 		['UNDER_CONTRACT_REVIEW','Under Contract Review'],
 		['UNDER_LEGAL_REVIEW','Under Legal Review'],
 		['NOT_APPLICABLE','Not Applicable'],
-		['FINAL_LEGAL_APPROVAL','Final Legal Approval'],
+		//['FINAL_LEGAL_APPROVAL','Final Legal Approval'],
+		['LEGAL_REVIEW_COMPLETE','Legal Review Complete'],
 		['UNDER_CONTRACT_MANAGER_REVIEW','Under Contract Manager Review'],
 		['CONTRACT_EXECUTED','Contract Executed'],
 		['PENDING_REVIEWER_ASSIGNMENT','Pending Reviewer Assignment'],
@@ -188,7 +189,7 @@ Clara.Dashboard.ContractSearchFieldStore = new Ext.data.SimpleStore({
 	fields: ['value', 'name', 'type', 'optionStore'],
     data:[['TITLE','Title','string',null],['STAFF_USERID','Staff Name','user','Clara.UserStore'], ['PI_USERID','PI Name','user','Clara.UserStore'], 
           ['ENTITY_NAME','Entity Name','string',null], ['CONTRACT_TYPE','Contract Type','option','Clara.ContractTypeStore'],['CONTRACT_STATUS','Status','option','Clara.ContractStatusStore'],
-          ['ASSIGNED_REVIEWER_USERID', 'Assigned Reviewer','user','Clara.UserStore']] //
+          ['ASSIGNED_REVIEWER_USERID', 'Assigned Reviewer','user','Clara.UserStore'],['CONTRACT_ADMIN_USERID', 'Contract Admin','user','Clara.UserStore'],['CONTRACT_LEGAL_REVIEW_USERID', 'Contract Legal Review','user','Clara.UserStore']] //
 });
 
 Clara.Dashboard.ProtocolSearchFieldStore = new Ext.data.SimpleStore({ 

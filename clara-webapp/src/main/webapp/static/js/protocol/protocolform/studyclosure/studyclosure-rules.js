@@ -9,7 +9,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	                           '/study-closure/general-study-info/any-change-affect-study-exempt-review-classification' ],
 	execute : function(answers) {
 		
-		if (answers['/study-closure/study-status'] == 'permanently-closed-to-enrollment' || answers['/study-closure/study-status'] == 'other'){			
+		if (answers['/study-closure/study-status'] == 'permanently-closed-to-enrollment'){			
 			// Enable tabs
 			claraInstance.navigation.enablePage("accrual-of-subjects");
 			claraInstance.navigation.enablePage("study-report");

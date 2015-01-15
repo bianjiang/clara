@@ -129,9 +129,7 @@
 		
 		
 		<!-- from CRIMSON -->
-		<class>edu.uams.clara.integration.incoming.crimson.domain.CRIMSONProject</class>
-		<class>edu.uams.clara.integration.incoming.crimson.domain.CRIMSONSponsor</class>
-		<class>edu.uams.clara.integration.incoming.crimson.domain.ARIAUser</class>
+		<class>edu.uams.clara.integration.outgoing.ctms.domain.AriaUser</class>
 		
 		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraUser</class>
 		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraProtocol</class>

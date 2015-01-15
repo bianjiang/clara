@@ -1683,7 +1683,7 @@
 	<study-closure-study-status>
 		<option>
 			<value>never-initiated</value>
-			<desc>Study never initiated.</desc>
+			<desc>Study never initiated.(sponsored studies only)</desc>
 		</option>
 		<option>
 			<value>no-subject-no-risk</value>
@@ -1692,10 +1692,6 @@
 		<option>
 			<value>permanently-closed-to-enrollment</value>
 			<desc>The research is permanently closed to the enrollment of new subjects, all subjects have completed all research related interventions, and collection and analysis of private identifiable information is completed.</desc>
-		</option>
-		<option>
-			<value>other</value>
-			<desc>Other</desc>
 		</option>
 	</study-closure-study-status>
 	<study-closure-reason>
@@ -1709,7 +1705,7 @@
 		</option>
 		<option>
 			<value>terminated-early-due-to-slow-accrual</value>
-			<desc>Study terminated early due to slow accrual</desc>
+			<desc>Study terminated early due to slow accrual or other non-safety related issues</desc>
 		</option>
 		<option>
 			<value>due-to-sponsor-withdrawal</value>

@@ -1,6 +1,6 @@
 Ext.define('Clara.Admin.view.UsersPanel', {
 	extend: 'Ext.grid.Panel',
-	requires: ['Ext.ux.form.SearchField'],
+	requires: ['Ext.ux.form.SearchField','Clara.Admin.view.UserVisitHistoryWindow'],
 	alias: 'widget.userspanel',
 	title:'User Accounts',
 	iconCls:'icn-user',
@@ -16,6 +16,7 @@ Ext.define('Clara.Admin.view.UsersPanel', {
 			var isClaraUser = (adminGlobals.selectedUser.get("id") > 0);
 			Ext.getCmp("btnCreateUserAccount").setDisabled(isClaraUser);
 			Ext.getCmp("btnRoles").setDisabled(!isClaraUser);
+			Ext.getCmp("btnShowVisitHistory").setDisabled(!isClaraUser);
 		},
 		itemdblclick: function(gp,rec){
 			var w = Ext.create("Clara.Admin.view.UserRolesWindow", { user:rec }).show();
@@ -37,6 +38,16 @@ Ext.define('Clara.Admin.view.UsersPanel', {
 				reloadAllAsClear:false,
 				flex:1
 			},'->', {
+				xtype: 'button',
+				id:'btnShowVisitHistory',
+				text: 'Show visit activity',
+				disabled:true,
+				iconCls:'icn-dashboard',
+				handler: function(){
+					Ext.create("Clara.Admin.view.UserVisitHistoryWindow", { user:adminGlobals.selectedUser }).show();
+				}
+			},
+			{
 				xtype: 'button',
 				id:'btnRoles',
 				text: 'Edit Roles',

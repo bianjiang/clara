@@ -55,4 +55,8 @@ public interface XmlHandler {
 	Document newDocument();
 
 	String replaceOrAddNodeValueByPath(String path, String xmlData, String value) throws SAXException, IOException, XPathExpressionException;
+	
+	String getAttributeValueByPathAndAttributeName(String path,
+			final String originalXml, String attributeName)
+			throws XPathExpressionException, SAXException, IOException;
 }

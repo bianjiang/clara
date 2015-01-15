@@ -166,6 +166,7 @@ public class BudgetController {
 			budgetXmlData.setCreated(new Date());
 			budgetXmlData.setProtocolForm(protocolForm);
 			budgetXmlData.setProtocolFormXmlDataType(ProtocolFormXmlDataType.BUDGET);
+			budgetXmlData.setXmlData("<budget></budget>");
 
 			budgetXmlData = protocolFormXmlDataDao.saveOrUpdate(budgetXmlData);
 			

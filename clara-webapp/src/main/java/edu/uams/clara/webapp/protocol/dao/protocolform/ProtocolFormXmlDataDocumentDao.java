@@ -292,7 +292,7 @@ public class ProtocolFormXmlDataDocumentDao extends
 						+ " AND pff.parent_id = pf.parent_id"
 						+ " AND pff.created <= pf.created)"
 						+ " AND pfd.category NOT IN :excludedDocTypes"
-						+ " GROUP BY pfdd.parent_id ) ORDER BY pfd.id DESC";
+						+ " GROUP BY pfdd.parent_id ) AND pfd.status <> 'RETIRED' ORDER BY pfd.id DESC";
 
 		TypedQuery<ProtocolFormXmlDataDocument> q = (TypedQuery<ProtocolFormXmlDataDocument>) getEntityManager()
 				.createNativeQuery(nativeQuery, ProtocolFormXmlDataDocument.class);

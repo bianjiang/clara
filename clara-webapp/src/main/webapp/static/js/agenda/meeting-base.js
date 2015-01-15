@@ -425,6 +425,8 @@ Clara.IRBMeeting.Meeting = function(o){
 					madebyname:Encoder.htmlDecode(jQuery(this).attr('mname')),
 					secondbyid:parseFloat(jQuery(this).attr('sid')),
 					secondbyname:Encoder.htmlDecode(jQuery(this).attr('sname')),
+					assentwaived:Encoder.htmlDecode(jQuery(this).attr('assentwaived')),
+					assentdocumentationwaived:Encoder.htmlDecode(jQuery(this).attr('assentdocumentationwaived')),
 					consentwaived:Encoder.htmlDecode(jQuery(this).attr('consentwaived')),
 					consentdocumentationwaived:Encoder.htmlDecode(jQuery(this).attr('consentdocumentationwaived')),
 					hipaawaived:Encoder.htmlDecode(jQuery(this).attr('hipaawaived')),
@@ -513,7 +515,7 @@ Clara.IRBMeeting.Activity = function(o){
 				if (m.votes[k].value == Clara.IRBMeeting.Types.Vote.NOT_VOTING) vnv++;
 			}
 			
-			data.push([m.timestamp,m.value,m.adultrisk,m.pediatricrisk,m.reviewtype,m.reviewperiod,m.madebyname,m.secondbyname,m.madebyid,m.secondbyid,vy,vn,va,vnv,m.consentwaived,m.consentdocumentationwaived,m.hipaa,m.hipaawaived,m.ncdetermination,m.ncreportable,m.UPIRTSO]);
+			data.push([m.timestamp,m.value,m.adultrisk,m.pediatricrisk,m.reviewtype,m.reviewperiod,m.madebyname,m.secondbyname,m.madebyid,m.secondbyid,vy,vn,va,vnv,m.assentwaived,m.assentdocumentationwaived,m.consentwaived,m.consentdocumentationwaived,m.hipaa,m.hipaawaived,m.ncdetermination,m.ncreportable,m.UPIRTSO]);
 			vy = 0;
 			vn = 0;
 			va = 0;
@@ -522,7 +524,7 @@ Clara.IRBMeeting.Activity = function(o){
 		clog("Clara.IRBMeeting.Activity.getMotionStore(): returning data",data);
 		return new Ext.data.ArrayStore({
 			idIndex: 0,
-			fields: ['timestamp','motion','adultrisk','pediatricrisk','reviewtype','reviewperiod','madeby','secondedby','madebyid','secondedbyid','yesvotes','novotes','abstainvotes','notvotingvotes','consentwaived','consentdocumentationwaived','hipaa','hipaawaived','ncdetermination','ncreportable','UPIRTSO'],
+			fields: ['timestamp','motion','adultrisk','pediatricrisk','reviewtype','reviewperiod','madeby','secondedby','madebyid','secondedbyid','yesvotes','novotes','abstainvotes','notvotingvotes','assentwaived','assentdocumentationwaived','consentwaived','consentdocumentationwaived','hipaa','hipaawaived','ncdetermination','ncreportable','UPIRTSO'],
 			data: data
 		});
 	};
@@ -548,6 +550,8 @@ Clara.IRBMeeting.Motion = function(o){
 	this.reviewtype = 			(o.reviewtype || '');
 	this.adultrisk = 			(o.adultrisk || '');
 	this.pediatricrisk = 		(o.pediatricrisk || '');
+	this.assentwaived = 		(o.assentwaived || '');
+	this.assentdocumentationwaived = 		(o.assentdocumentationwaived || '');
 	this.consentwaived = 		(o.consentwaived || '');
 	this.consentdocumentationwaived = 		(o.consentdocumentationwaived || '');
 	this.hipaawaived =	 		(o.hipaawaived || '');
@@ -635,7 +639,7 @@ Clara.IRBMeeting.Motion = function(o){
 	};
 	
 	this.toXML= function(){
-		var xml = "<motion ts='"+this.timestamp+"' value='"+Encoder.htmlEncode(this.value)+"' reviewtype='"+this.reviewtype+"' UPIRTSO='"+this.UPIRTSO+"' ncdetermination='"+this.ncdetermination+"' ncreportable='"+this.ncreportable+"' reviewperiod='"+this.reviewperiod+"' adultrisk='"+this.adultrisk+"' pedrisk='"+this.pediatricrisk+"' mid='"+this.madebyid+"' consentwaived='"+this.consentwaived+"' consentdocumentationwaived='"+this.consentdocumentationwaived+"' hipaawaived='"+this.hipaawaived+"' hipaa='" + this.hipaa + "' mname='"+Encoder.htmlEncode(this.madebyname)+"' sid='"+this.secondbyid+"' sname='"+Encoder.htmlEncode(this.secondbyname)+"'>";
+		var xml = "<motion ts='"+this.timestamp+"' value='"+Encoder.htmlEncode(this.value)+"' reviewtype='"+this.reviewtype+"' UPIRTSO='"+this.UPIRTSO+"' ncdetermination='"+this.ncdetermination+"' ncreportable='"+this.ncreportable+"' reviewperiod='"+this.reviewperiod+"' adultrisk='"+this.adultrisk+"' pedrisk='"+this.pediatricrisk+"' mid='"+this.madebyid+"' assentwaived='"+this.assentwaived+"' assentdocumentationwaived='"+this.assentdocumentationwaived+"' consentwaived='"+this.consentwaived+"' consentdocumentationwaived='"+this.consentdocumentationwaived+"' hipaawaived='"+this.hipaawaived+"' hipaa='" + this.hipaa + "' mname='"+Encoder.htmlEncode(this.madebyname)+"' sid='"+this.secondbyid+"' sname='"+Encoder.htmlEncode(this.secondbyname)+"'>";
 		if (this.votes.length > 0){
 			xml = xml + "<votes>";
 			for (var i=0; i<this.votes.length;i++){

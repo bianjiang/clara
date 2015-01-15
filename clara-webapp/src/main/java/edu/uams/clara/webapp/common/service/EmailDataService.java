@@ -113,6 +113,7 @@ public abstract class EmailDataService<T> {
 		committeeMatchMap.put("realWillowTeam", Committee.WILLOW_TEAM);
 		committeeMatchMap.put("realLegalReviewer", Committee.CONTRACT_LEGAL_REVIEW);
 		committeeMatchMap.put("realContractReviewer", Committee.CONTRACT_ADMIN);
+		committeeMatchMap.put("realCOIReviewer", Committee.COI);
 	}
 	
 	protected static Map<String, String> realRecipientMatchMap = new HashMap<String, String>();{
@@ -213,7 +214,7 @@ public abstract class EmailDataService<T> {
 		Map<String, List<EmailRecipient>> receipientsMap = Maps.newHashMap();
 		
 		try{
-			toEmailRecipients = getEmailService().getEmailRecipients(emailTemplate.getTo());
+			toEmailRecipients = getEmailService().getEmailRecipients((!emailTemplate.getTo().isEmpty())?emailTemplate.getTo():attributeRawValues.get("MAIL_TO").toString());
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -221,7 +222,7 @@ public abstract class EmailDataService<T> {
 		receipientsMap.put("to", toEmailRecipients);
 		
 		try{
-			ccEmailRecipients = getEmailService().getEmailRecipients(emailTemplate.getCc());
+			ccEmailRecipients = getEmailService().getEmailRecipients((!emailTemplate.getCc().isEmpty())?emailTemplate.getCc():attributeRawValues.get("MAIL_CC").toString());
 		} catch (Exception e){
 			e.printStackTrace();
 		}

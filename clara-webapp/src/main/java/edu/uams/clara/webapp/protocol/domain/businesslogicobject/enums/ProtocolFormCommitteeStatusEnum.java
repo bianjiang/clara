@@ -60,7 +60,8 @@ public enum ProtocolFormCommitteeStatusEnum{
 	REGULATORY_AFFAIRS_INVOLVEMENT_NOT_REQUIRED("Regulatory Affairs Involvement not required", "INFO", "END"),
 	CONTRACT_REQUIRED("Contract is Required", "INFO", "END"),
 	CONTRACT_NOT_REQUIRED("Contract is NOT Required", "INFO", "END"),
-	BUDGET_NOT_REVIEWED("Budget Not Reviewed", "INFO", "END");
+	BUDGET_NOT_REVIEWED("Budget Not Reviewed", "INFO", "END"),
+	PENDING_OUTCOME_OF_OTHER_COMMITTEE("Pending Outcome of Other Committee Reviews", "WARN", "END");
 	
 	private String description;
 	private String priorityLevel;

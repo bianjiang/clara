@@ -505,7 +505,7 @@
 				<question-value instance-path="/protocol/hipaa/is-phi-obtained" value-type="yesNo" />
 			</question>
 			<question id="question-describe-phi" parent-id="question-hipaa-is-phi-obtained" parent-value="y" header="PHI is being obtained">
-				<question-label>Describe the PHI that will be obtained/recorded for the research.</question-label>
+				<question-label>Describe the specific PHI data elements that will be used/recorded for the research.</question-label>
 				<question-value instance-path="/protocol/hipaa/is-phi-obtained/y/desc" value-type="textarea" />
 			</question>
 			<question id="question-hipaa-phi-details" parent-id="question-hipaa-is-phi-obtained" parent-value="y" header="PHI is being obtained">
@@ -534,11 +534,11 @@
 				</sub-questions>
 			</question>
 			<question id="question-describe-phi-accessed" parent-id="question-access-existing-phi" parent-value="y" header="Existing PHI is being accessed">
-				<question-label>Describe the PHI that will be accessed for the research.</question-label>
+				<question-label>Describe the specific PHI data elements that will be used/recoreded for the research.</question-label>
 				<question-value instance-path="/protocol/hipaa/access-existing-phi/y/desc" value-type="textarea" />
 			</question>
 			<question id="question-existing-hipaa-phi-details" parent-id="question-access-existing-phi" parent-value="y" header="Existing PHI is being accessed">
-				<question-label>Select the identifiers that will be recorded for this study.</question-label>
+				<question-label>Select the identifiers that will be used/recorded for this study.</question-label>
 				<question-value instance-path="/protocol/hipaa/access-existing-phi/y/existing-hipaa-phi-details" value-type="select" />
 				<sub-questions>
 					<question id="question-existing-hipaa-phi-details-other" parent-id="" parent-value="" header="Other">
@@ -571,18 +571,17 @@
 				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/type" lookup-path="hipaa-authorization-waiver-type" value-type="checkbox" />
 			</question>
 			<question id="question-reason-to-access-phi" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
-				<question-label>Explain why access to and/or use of the PHI is essential to conduct
-					the research.</question-label>
+				<question-label>Explain why use/recording of the PHI is essential to conduct the research.</question-label>
 				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-to-access-phi" value-type="textarea" />
 			</question>
 			<question id="question-min-necessary-informaiton-required" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
-				<question-label>Explain how the PHI described above represents the minimum
-					necessary information to accomplish the objectives of the research.</question-label>
+				<question-label>Explain how the PHI is the minimum necessary information to
+						accomplish the objectives of the research.</question-label>
 				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/min-necessary-informaiton-required" value-type="textarea" />
 			</question>
 			<question id="question-no-more-than-minimal-risk-to-privacy" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
-				<question-label>Explain how the access, use, or disclosure of PHI presents no more
-					than a minimal risk to the privacy of the individual.</question-label>
+				<question-label>Explain the privacy risks associated with the access to,
+						use of, or disclosure of the PHI.</question-label>
 				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/no-more-than-minimal-risk-to-privacy" value-type="textarea" />
 			</question>
 			<question id="question-identifiers-protection-plan" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
@@ -612,7 +611,7 @@
 				<question-value instance-path="/protocol/hipaa/is-authorization-waiver/y/will-identifiers-be-destroyed/n/justification" value-type="textarea" />
 			</question>
 			<question id="question-reason-for-waiver" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
-				<question-label>Explain why the research could not practicably be conducted without the waiver/alteration:</question-label>
+				<question-label>Explain why the research could not practicably if a written HIPAA waiver were required for the PHI.</question-label>
 				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-for-waiver" value-type="textarea" />
 			</question>
 		</section>

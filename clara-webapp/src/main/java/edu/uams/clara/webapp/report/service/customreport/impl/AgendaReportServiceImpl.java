@@ -152,10 +152,7 @@ public class AgendaReportServiceImpl extends CustomReportService{
 				
 				long agendaId = ((BigInteger) rowObject.get("id")).longValue();
 				Agenda agenda = agendaDao.findById(agendaId);
-				finalResultXml += "<report-item>";
-				finalResultXml += "<field id=\"agendadate\">";
-				finalResultXml += agenda.getDate();
-				finalResultXml += "</field>";
+				
 				
 				List<AgendaItemWrapper> agendaItems = agendaItemDao.listByAgendaId(agendaId);
 				String tempXmlForPid = "";
@@ -228,12 +225,30 @@ public class AgendaReportServiceImpl extends CustomReportService{
 						//do nothing, incase some protocol has issue
 					}
 				}
-				tempXmlForPid += "</field>";
-				tempXmlForFormType += "</field>";
-				tempXmlForPI += "</field>";
-				tempXmlForCollege += "</field>";
-				tempXmlForDept += "</field>";
-				tempXmlForAgendaItemType += "</field>";
+				
+				if(!tempXmlForPid.isEmpty()){
+					tempXmlForPid += "</field>";
+				}
+				if(!tempXmlForFormType.isEmpty()){
+					tempXmlForFormType += "</field>";
+				}
+				if(!tempXmlForPI.isEmpty()){
+					tempXmlForPI += "</field>";
+				}
+				if(!tempXmlForCollege.isEmpty()){
+					tempXmlForCollege += "</field>";
+				}
+				if(!tempXmlForDept.isEmpty()){
+					tempXmlForDept += "</field>";
+				}
+				if(!tempXmlForAgendaItemType.isEmpty()){
+					tempXmlForAgendaItemType += "</field>";
+				}
+				
+				finalResultXml += "<report-item>";
+				finalResultXml += "<field id=\"agendadate\">";
+				finalResultXml += agenda.getDate();
+				finalResultXml += "</field>";
 				finalResultXml = finalResultXml+tempXmlForPid+tempXmlForAgendaItemType+tempXmlForFormType+tempXmlForPI+tempXmlForCollege+tempXmlForDept;
 				finalResultXml += "</report-item>";
 			} 
@@ -246,7 +261,9 @@ public class AgendaReportServiceImpl extends CustomReportService{
 		finalResultXml += "</report-results>";
 		finalResultXml =finalResultXml.replace("<![CDATA[null]]>", "");
 		finalResultXml =finalResultXml.replace("null&lt;br&gt;", "");
+		finalResultXml =finalResultXml.replace("&gt;null", "&gt;");
 		//logger.debug(finalResultXml);
+		
 		return finalResultXml;
 	}
 

@@ -1,5 +1,7 @@
 Ext.ns('Clara.Documents');
 
+var VERBOSE_REMOTE_LOGGING = true;
+
 Clara.Documents.Document = function(o){
 	this.id=											(o.id || '');	
 	this.hashid=										(o.hashid || '');
@@ -131,8 +133,13 @@ Clara.Documents.DocumentTypeStore = new Ext.data.XmlStore({
 	});
 
 Clara.Documents.SendMetadata= function(doc){ 
-
+		clog("Clara.Documents.SendMetadata(): doc=",doc);
 		var url = appContext + "/ajax/"+claraInstance.type+"s/"+claraInstance.id+"/"+claraInstance.type+"-forms/" + claraInstance.form.id + "/"+claraInstance.type+"-form-xml-datas/" + claraInstance.form.xmlDataId + "/documents/add";
+		
+		
+		
+		
+		
 		jQuery.ajax({
 			url: url,
 			type: "POST",
@@ -144,13 +151,21 @@ Clara.Documents.SendMetadata= function(doc){
 				"userId": claraInstance.user.id,
 				"committee":claraInstance.user.committee,
 				"title": doc.title,
-				"uploadedFileId": doc.id,
+				"uploadedFileId": doc.uploadedFileId,
 				"category": doc.category,
 				"categoryDescription": Clara.Documents.DocumentTypes[doc.category.toLowerCase()],
 				"parentFormXmlDataDocumentId": (doc.parentFormXmlDataDocumentId || 0)
 			},
 			success: function(data){
+				if (piwik_enabled() && VERBOSE_REMOTE_LOGGING){
+					_paq.push(['trackEvent', 'DOCUMENTS', 'Clara.Documents.SendMetadata: SUCCESS - (uploadFileID='+doc.uploadedFileId+', parentFormXmlDataDocId='+doc.parentFormXmlDataDocumentId+' URL='+url+')']);
+				}
 				Clara.Documents.MessageBus.fireEvent('filemetadatasaved', data);
+			},
+			failure: function(){
+				if (piwik_enabled()){
+					   _paq.push(['trackEvent', 'DOCUMENTS', 'Clara.Documents.SendMetadata: FAILURE - (uploadedFileId: '+doc.uploadedFileId+')']);
+					}
 			}
 		});
 	
@@ -173,6 +188,7 @@ Clara.Documents.RenameWindow = Ext.extend(Ext.Window, {
 	},	
 	initComponent: function(){
 		var t = this;
+		clog("Rename window init: t.doc",t.doc);
 		var config = {
 				listeners:{},
 				items:[{
@@ -198,12 +214,15 @@ Clara.Documents.RenameWindow = Ext.extend(Ext.Window, {
 											   method:'POST',
 											   success: function(response,opts){
 												   if (piwik_enabled()){
-														_paq.push(['trackEvent', 'DOCUMENTS', 'Renamed Document: '+Ext.getCmp("fldFilename").getValue()+' ('+t.doc.id+')']);
+														_paq.push(['trackEvent', 'DOCUMENTS', 'Clara.Documents.RenameWindow: SUCCESS - '+Ext.getCmp("fldFilename").getValue()+' (ID: '+t.doc.id+')']);
 													}
 												   Clara.Documents.MessageBus.fireEvent('filerenamed');
 												   t.close();
 											   },
 											   failure: function(){
+												   if (piwik_enabled()){
+													   _paq.push(['trackEvent', 'DOCUMENTS', 'Clara.Documents.RenameWindow: FAILURE - '+Ext.getCmp("fldFilename").getValue()+' (ID: '+t.doc.id+')']);
+													}
 												   cwarn("Error renaming file.",response, opts);
 												   alert("Error renaming file. Please try again in a few moments.");
 											   },
@@ -220,6 +239,9 @@ Clara.Documents.RenameWindow = Ext.extend(Ext.Window, {
 								text:'Cancel',
 								disabled:false,
 								handler: function(){
+									if (piwik_enabled() && VERBOSE_REMOTE_LOGGING){
+										_paq.push(['trackEvent', 'DOCUMENTS', 'Clara.Documents.RenameWindow: CANCEL rename (uploadFileID='+t.doc.id+')']);
+									}
 									t.close();
 								}
 							}]
@@ -303,13 +325,16 @@ Clara.Documents.StatusWindow = Ext.extend(Ext.Window, {
 											   method:'POST',
 											   success: function(response,opts){
 												   if (piwik_enabled()){
-														_paq.push(['trackEvent', 'DOCUMENTS', 'Status Change for Document: '+Ext.getCmp("fldDocumentStatus").getValue()+' ('+t.doc.id+')']);
+														_paq.push(['trackEvent', 'DOCUMENTS', 'Clara.Documents.StatusWindow: SUCCESS - CHANGE status: '+Ext.getCmp("fldDocumentStatus").getValue()+' ('+t.doc.id+')']);
 													}
 												   Clara.Documents.MessageBus.fireEvent('filerenamed');
 												   t.close();
 											   },
 											   failure: function(){
 												   cwarn("Error changing status.",response, opts);
+												   if (piwik_enabled()){
+														_paq.push(['trackEvent', 'DOCUMENTS', 'Clara.Documents.RenameWindow: FAILURE - CHANGE status ('+t.doc.id+')']);
+													}
 												   alert("Error changing status. Please try again in a few moments.");
 											   },
 											   params: { userId: claraInstance.user.id, status: Ext.getCmp("fldDocumentStatus").getValue()}
@@ -354,6 +379,9 @@ Clara.Documents.TypeWindow = Ext.extend(Ext.Window, {
 				listeners:{
 					show: function(w){
 						clog("SHOW: doctypes",Clara.Documents.DocumentTypes);
+						if (piwik_enabled() && VERBOSE_REMOTE_LOGGING){
+							_paq.push(['trackEvent', 'DOCUMENTS', 'Clara.Documents.TypeWindow: SHOW ('+t.doc.id+')']);
+						}
 						// Ext.getCmp("fldDocumentChangeToType").getStore().loadData(Clara.Documents.DocumentTypes);
 					}
 				},
@@ -412,7 +440,7 @@ Clara.Documents.TypeWindow = Ext.extend(Ext.Window, {
 											   method:'POST',
 											   success: function(response,opts){
 												   if (piwik_enabled()){
-														_paq.push(['trackEvent', 'DOCUMENTS', 'Type Change for Document: '+Ext.getCmp("clara-documents-changetypewindow-details-type").getValue()+' ('+t.doc.id+')']);
+														_paq.push(['trackEvent', 'DOCUMENTS', 'Clara.Documents.TypeWindow: SUCCESS - CHANGE '+Ext.getCmp("clara-documents-changetypewindow-details-type").getValue()+' ('+t.doc.id+')']);
 													}
 												   Clara.Documents.MessageBus.fireEvent('filerenamed');
 												   t.close();
@@ -610,7 +638,7 @@ Clara.Documents.UploadWindow = Ext.extend(Ext.Window, {
 					                			   } else {
 					                				   
 					                				    var d = Ext.getCmp('clara-documents-uploadwindow').doc;
-					                				    d.id = fileObj.id;
+					                				    d.uploadedFileId = fileObj.id;
 					                				    d.hashid = fileObj.identifier;
 					                				    d.title = jQuery("#clara-documents-uploadwindow-details-title").val();
 					                				    // d.category = jQuery("#clara-documents-uploadwindow-details-type").val(); // to get machine-readable type, use Ext.getCmp("clara-documents-uploadwindow-details-type").getValue();
@@ -750,9 +778,11 @@ Clara.Documents.VersionWindow = Ext.extend(Ext.Window, {
 				    listeners:{
 						scope:this,
 					    rowclick: function(grid, rowI, event)   {
+					    	
 							var docdata = grid.getStore().getAt(rowI).data;
 
-							var doc = new Clara.Documents.Document({
+							t.selecteddoc = undefined;	// Clear it
+							t.selecteddoc = new Clara.Documents.Document({
 								id:docdata.id,
 								hashid:docdata.hashid,
 								uploadedFileId: docdata.uploadedFileId,
@@ -766,8 +796,7 @@ Clara.Documents.VersionWindow = Ext.extend(Ext.Window, {
 								extension:docdata.extension,
 								parentFormXmlDataDocumentId:docdata.parentid
 							});
-							
-							t.selecteddoc = doc;
+							clog("rowclick",t.selecteddoc);
 							Ext.getCmp("btn-clara-documents-version-download").enable();
 							
 					    }

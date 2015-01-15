@@ -63,9 +63,8 @@ public class ContractFormCommitteeStatus extends AbstractDomainEntity {
 	@Column(name="action", nullable=true)
 	private String action;
 	
-	@ManyToOne
-	@JoinColumn(name="caused_by_user_id", nullable=true)
-	private User causeByUser;
+	@Column(name="caused_by_user_id", nullable=true)
+	private long causedByUserId;
 	
 	@Column(name="cause_by_committee", nullable=true)
 	@Enumerated(EnumType.STRING)
@@ -142,14 +141,6 @@ public class ContractFormCommitteeStatus extends AbstractDomainEntity {
 		return note;
 	}
 
-	public void setCauseByUser(User causeByUser) {
-		this.causeByUser = causeByUser;
-	}
-
-	public User getCauseByUser() {
-		return causeByUser;
-	}
-
 	public void setCausedByCommittee(Committee causedByCommittee) {
 		this.causedByCommittee = causedByCommittee;
 	}
@@ -172,5 +163,13 @@ public class ContractFormCommitteeStatus extends AbstractDomainEntity {
 
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+	public long getCausedByUserId() {
+		return causedByUserId;
+	}
+
+	public void setCausedByUserId(long causedByUserId) {
+		this.causedByUserId = causedByUserId;
 	}
 }

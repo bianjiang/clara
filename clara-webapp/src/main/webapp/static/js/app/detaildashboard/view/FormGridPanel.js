@@ -18,7 +18,13 @@ Ext.define('Clara.DetailDashboard.view.FormGridPanel', {
 			iconCls:'icn-application--plus',
 			text:'New Form..',
 			id:'btnNewForm'
-		}]
+		},'->','-',{
+    		xtype:'button',
+    		id:'btnPrintForms',
+    		tooltip:'Print list (opens new window)',
+    		tooltipType:'title',
+    		iconCls:'icn-printer'
+    	}]
 	}],
 	
 	initComponent: function() { 

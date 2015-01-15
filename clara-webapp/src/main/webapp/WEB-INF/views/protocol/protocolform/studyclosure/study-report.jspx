@@ -297,7 +297,7 @@
 						textValue="${anyAdverseEventsExplainText}"
 						textValidation="required"
 						otherType="textarea"
-						textAreaTitle="Please provide a summary:"
+						textAreaTitle="Please briefly describe these local adverse events here and upload a summary table in the Document section of this form. The IRB encourages use of our Events and Deviations Table for summary reporting:"
 						valueToShowTextArea="y" />
 				</div>
 			</div>
@@ -320,7 +320,7 @@
 						textValue="${anyDeviationsExplainText}"
 						textValidation="required"
 						otherType="textarea"
-						textAreaTitle="Please provide a summary:"
+						textAreaTitle="Please briefly describe these deviations/violations here and upload a summary table in the Document section of this form. The IRB encourages use of our Events and Deviations Table for summary reporting:"
 						valueToShowTextArea="y" />
 				</div>
 			</div>

@@ -2,6 +2,7 @@ package edu.uams.clara.webapp.protocol.web.protocolform.studyclosure.ajax;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,9 +22,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.xml.sax.SAXException;
 
 
+
+
+
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationResponse;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationRuleContainer;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationRuleHandler;
+import edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.Constraint;
+import edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.enums.ConstraintLevel;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.rule.Rule;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDocumentDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
@@ -88,7 +94,7 @@ public class StudyClosureValidationAjaxController {
 			
 			validationResponses = validationRuleHandler.validate(reportableNewInformationValidationRules, values);
 			
-			//Redmine #2972
+			//Redmine #3123 Redmine #3141
 			/*
 			List<String> statusValues = new ArrayList<String>();
 			try{
@@ -116,7 +122,8 @@ public class StudyClosureValidationAjaxController {
 				ValidationResponse scQualifiedVP = new ValidationResponse(scQualfiedConstraint, scQualifiedAdditionalData);
 
 				validationResponses.add(scQualifiedVP);
-			}*/
+			}
+			*/
 
 		}
 		return validationResponses;

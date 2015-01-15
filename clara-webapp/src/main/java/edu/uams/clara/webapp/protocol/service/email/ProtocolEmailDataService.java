@@ -123,6 +123,8 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		protocolMetaXPaths.add("/protocol/summary/hospital-service-determinations/corporate-gurantor-code");
 		protocolMetaXPaths.add("/protocol/subjects/age-ranges/age-range");
 		protocolMetaXPaths.add("/protocol/epic/involve-chemotherapy");
+		protocolMetaXPaths.add("/protocol/summary/irb-determination/adult-risk");
+		protocolMetaXPaths.add("/protocol/summary/irb-determination/ped-risk");
 		
 		return protocolMetaXPaths;
 	}
@@ -463,8 +465,25 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		
 		finalTemplateValues.put("expeditedCategory", getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/expedited-category", "N/A"));
 		finalTemplateValues.put("exemptCategory", getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/exempt-category", "N/A"));
-		finalTemplateValues.put("adultRisk", riskPairMap.get(getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/adult-risk", "N/A")));
-		finalTemplateValues.put("pedRisk", riskPairMap.get(getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/ped-risk", "N/A")));
+		
+		String adultRisk = getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/adult-risk", "");
+		
+		if (adultRisk.isEmpty()) {
+			adultRisk = riskPairMap.get(getFormService().getSafeStringValueByKey(metaDataValues, "/protocol/summary/irb-determination/adult-risk", "N/A"));
+		} else {
+			adultRisk = riskPairMap.get(getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/adult-risk", ""));
+		}
+		
+		String pedRisk = getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/ped-risk", "");
+		
+		if (pedRisk.isEmpty()) {
+			pedRisk = riskPairMap.get(getFormService().getSafeStringValueByKey(metaDataValues, "/protocol/summary/irb-determination/ped-risk", "N/A"));
+		} else {
+			pedRisk = riskPairMap.get(getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/ped-risk", ""));
+		}
+		
+		finalTemplateValues.put("adultRisk", adultRisk);
+		finalTemplateValues.put("pedRisk", pedRisk);
 		finalTemplateValues.put("nextReviewType", getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/suggested-next-review-type", "N/A"));
 		finalTemplateValues.put("hipaaWaiver", (!getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/hipaa-waived", "").isEmpty())?getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/hipaa-waived", "").toLowerCase():"");
 		finalTemplateValues.put("consentWaiver", (!getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/consent-waived", "").isEmpty())?getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/consent-waived", "").toLowerCase():"");
@@ -669,7 +688,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		Map<String, List<EmailRecipient>> receipientsMap = Maps.newHashMap();
 		
 		try{
-			toEmailRecipients = getEmailService().getEmailRecipients(emailTemplate.getTo());
+			toEmailRecipients = getEmailService().getEmailRecipients((!emailTemplate.getTo().isEmpty())?emailTemplate.getTo():attributeRawValues.get("MAIL_TO").toString());
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -677,7 +696,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		receipientsMap.put("to", toEmailRecipients);
 		
 		try{
-			ccEmailRecipients = getEmailService().getEmailRecipients(emailTemplate.getCc());
+			ccEmailRecipients = getEmailService().getEmailRecipients((!emailTemplate.getCc().isEmpty())?emailTemplate.getCc():attributeRawValues.get("MAIL_CC").toString());
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -820,7 +839,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		
 		try{
 			if (!emailTemplate.getTo().isEmpty())
-				toEmailRecipients = getEmailService().getEmailRecipients(emailTemplate.getTo());
+				toEmailRecipients = getEmailService().getEmailRecipients((!emailTemplate.getTo().isEmpty())?emailTemplate.getTo():attributeRawValues.get("MAIL_TO").toString());
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -829,7 +848,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		
 		try{
 			if (!emailTemplate.getCc().isEmpty())
-			ccEmailRecipients = getEmailService().getEmailRecipients(emailTemplate.getCc());
+			ccEmailRecipients = getEmailService().getEmailRecipients((!emailTemplate.getCc().isEmpty())?emailTemplate.getCc():attributeRawValues.get("MAIL_CC").toString());
 		} catch (Exception e){
 			e.printStackTrace();
 		}

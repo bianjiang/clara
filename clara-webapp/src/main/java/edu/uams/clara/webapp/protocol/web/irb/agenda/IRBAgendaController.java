@@ -453,7 +453,7 @@ public class IRBAgendaController {
 		Set<Permission> objectPermissions = protocolFormReviewService.getObjectPermissions(agendaItem.getProtocolForm(), currentUser, Committee.IRB_REVIEWER);
 		
 		if (!currentUser.getAuthorities().contains(Permission.ROLE_IRB_CHAIR)) {
-			if (latestAgendaStatus.getAgendaStatus().isAgendaApproved()) {
+			if (latestAgendaStatus.getAgendaStatus().isAgendaApproved() && !latestAgendaStatus.getAgendaStatus().isMeetingCompleted()) {
 				Boolean isThisWeekIRBRoster = irbReviewerDao.checkIfOnIRBRosterByIRBRosterAndUserId(agenda.getIrbRoster(), currentUser.getId());
 
 				if (!isThisWeekIRBRoster) {

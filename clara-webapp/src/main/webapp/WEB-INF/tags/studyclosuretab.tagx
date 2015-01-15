@@ -16,7 +16,7 @@
 
 	<c:set var="clickable" value="false" />	
 						
-	<c:if test="${needUpdateOrNot eq 'permanently-closed-to-enrollment' or needUpdateOrNot eq 'other'}">
+	<c:if test="${needUpdateOrNot eq 'permanently-closed-to-enrollment'}">
 		<c:set var="clickable" value="true" />		
 	</c:if>
 

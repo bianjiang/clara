@@ -352,6 +352,24 @@ public class XmlHandlerImpl implements XmlHandler {
 		}
 
 	}
+	
+	private static String getFirstLevelTextContent(Node node) {
+	    NodeList list = node.getChildNodes();
+
+	    StringBuilder textContent = new StringBuilder();
+	    
+	    if (list.getLength() > 0) {
+	    	 for (int i = 0; i < list.getLength(); ++i) {
+	 	        Node child = list.item(i);
+	 	        if (child.getNodeType() == Node.TEXT_NODE)
+	 	            textContent.append(child.getTextContent());
+	 	    }
+	    } else {
+	    	return node.getTextContent();
+	    }
+	   
+	    return textContent.toString();
+	}
 
 	private String getSingleStringValueByXPath(final Node parentNode,
 			final String xPathExpression) throws XPathExpressionException {
@@ -363,7 +381,7 @@ public class XmlHandlerImpl implements XmlHandler {
 			return "";
 		}
 
-		return node.getTextContent();
+		return getFirstLevelTextContent(node);
 
 	}
 
@@ -567,5 +585,28 @@ public class XmlHandlerImpl implements XmlHandler {
 
 		return results;
 
+	}
+	
+	@Override
+	public String getAttributeValueByPathAndAttributeName(String path,
+			String originalXml, String attributeName)
+			throws XPathExpressionException, SAXException, IOException {
+		Document document = parse(originalXml);
+		
+		XPath xPath = newXPathInstance();
+		
+		Element element = (Element) (xPath.evaluate(
+				path, document,
+				XPathConstants.NODE));
+		
+		String attributeValue = "";
+		
+		if (element != null){
+			if (element.getAttribute(attributeName) != null){
+				attributeValue = element.getAttribute(attributeName);
+			}
+		}
+		
+		return attributeValue;
 	}
 }

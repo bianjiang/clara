@@ -1,7 +1,6 @@
 Ext.define('Clara.Admin.controller.Admin', {
     extend: 'Ext.app.Controller',
     models: ['UserRole'],
-    refs: [],
     stores: ['UserRoles'],
     
     init: function() {
@@ -34,6 +33,7 @@ Ext.define('Clara.Admin.controller.Admin', {
         	}
         });
     },
+    
     
     onLockedFormsUpdate: function(){
     	clog("onLockedFormsUpdate");

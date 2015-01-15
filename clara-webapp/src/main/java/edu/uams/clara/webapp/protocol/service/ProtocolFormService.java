@@ -42,6 +42,8 @@ public interface ProtocolFormService {
 
 	String generateExternalExpenses(long protocolFormId);
 	
+	void updateIRBExpensesInBudget(ProtocolForm protocolForm, String xmlData);
+	
 	String finalSignOffDetermination(ProtocolForm protocolForm, User user);
 	
 	ProtocolForm consolidateProtocolForm(ProtocolForm protocolForm, List<String> xPathList);

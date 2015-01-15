@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.xml.sax.SAXException;
 
 import edu.uams.clara.webapp.common.dao.usercontext.RoleDao;
+import edu.uams.clara.webapp.common.domain.security.MutexLock;
 import edu.uams.clara.webapp.common.domain.usercontext.Role;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
+import edu.uams.clara.webapp.common.security.MutexLockService;
 import edu.uams.clara.webapp.common.security.ObjectAclService;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao;
@@ -48,9 +52,13 @@ public class PharmacyController {
 	
 	private ObjectAclService objectAclService;
 	
+	private MutexLockService mutexLockService;
+	
 	private RoleDao roleDao;
 	
 	private XmlProcessor xmlProcessor;
+	
+	private static final int timeOutPeriod = 45;
 	
 	private Set<Permission> getUserObjectSpecificPermissions(
 			long objectId, User user) {
@@ -147,6 +155,45 @@ public class PharmacyController {
 			}
 			
 		}
+		
+		MutexLock mutexLock = mutexLockService.getLockedByObjectClassAndId(
+				ProtocolForm.class, protocolForm.getId());
+
+		Date currentDate = new Date();
+		Date lastModifiedDate = (mutexLock != null) ? mutexLock.getModified()
+				: null;
+		DateTime currentDateTime = new DateTime(currentDate);
+		DateTime lastModifiedDateTime = (mutexLock != null) ? new DateTime(
+				lastModifiedDate) : null;
+
+		String isLocked = "true";
+		String isLockedUserString = "";
+		long isLockedUserId = 0;
+
+		if (!mutexLockService.isLockedByObjectClassAndIdForCurrentUser(
+				ProtocolForm.class, protocolForm.getId(), user)) {
+			isLocked = "false";
+		} else {
+			if (mutexLock != null) {
+
+				logger.debug("time period after last access: "
+						+ Minutes.minutesBetween(lastModifiedDateTime,
+								currentDateTime).getMinutes());
+				if (Minutes.minutesBetween(lastModifiedDateTime,
+						currentDateTime).getMinutes() > timeOutPeriod) {
+					isLocked = "false";
+				} else {
+					isLocked = "true";
+					isLockedUserString = mutexLock.getUser().getPerson()
+							.getFullname();
+					isLockedUserId = mutexLock.getUser().getId();
+				}
+			}
+		}
+		
+		modelMap.put("isLocked", isLocked);
+		modelMap.put("isLockedUserString", isLockedUserString);
+		modelMap.put("isLockedUserId", isLockedUserId);
 		modelMap.put("protocolForm", pharmacyXmlData.getProtocolForm());
 		modelMap.put("protocolXmlData", protocolXmlData);
 		
@@ -202,5 +249,14 @@ public class PharmacyController {
 	@Autowired(required=true)
 	public void setRoleDao(RoleDao roleDao) {
 		this.roleDao = roleDao;
+	}
+
+	public MutexLockService getMutexLockService() {
+		return mutexLockService;
+	}
+	
+	@Autowired(required=true)
+	public void setMutexLockService(MutexLockService mutexLockService) {
+		this.mutexLockService = mutexLockService;
 	}
 }

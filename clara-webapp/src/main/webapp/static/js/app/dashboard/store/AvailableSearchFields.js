@@ -23,5 +23,7 @@ Ext.define('Clara.Dashboard.store.AvailableSearchFields', {
           ['protocol','FUNDING_SOURCE', 'Funding Source',null,'clarafield.combo.fundingsource'],
           ['contract','CONTRACT_TYPE','Contract Type','clarafield.combo.contract.type','clarafield.combo.criteria'],
           ['contract','CONTRACT_STATUS','Status','clarafield.combo.contract.status','clarafield.combo.criteria'],
-          ['contract','ASSIGNED_REVIEWER_USERID', 'Assigned Reviewer',null,'clarafield.combo.user']]
+          ['contract','ASSIGNED_REVIEWER_USERID', 'Assigned Reviewer',null,'clarafield.combo.user'],
+          ['contract','CONTRACT_ADMIN_USERID', 'Contract Admin',null,'clarafield.combo.user'],
+          ['contract','CONTRACT_LEGAL_REVIEW_USERID', 'Contract Legal Review',null,'clarafield.combo.user']]
 });

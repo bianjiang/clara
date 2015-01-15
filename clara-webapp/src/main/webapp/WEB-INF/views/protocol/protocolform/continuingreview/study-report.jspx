@@ -294,13 +294,7 @@
 					<uams:yesno
 						id="any-adverse-events"
 						instancepath="/continuing-review/study-report/any-adverse-events"
-						value="${anyAdverseEvents}" validation="required" 
-						showTextArea="true"
-						textValue="${anyAdverseEventsExplainText}"
-						textValidation="required"
-						otherType="textarea"
-						textAreaTitle="Please provide a summary:"
-						valueToShowTextArea="y" />
+						value="${anyAdverseEvents}" validation="required"  />
 				</div>
 				<div style="clear: both;">
 					<!-- // -->
@@ -315,6 +309,7 @@
 				<div class="questionLabel">
 					<h1 class="conditional-question-label">Since there have been any internal or local adverse events in the research, please answer the
 						following question:</h1>
+					<h1 class="conditional-question-label">Without External sponsor,</h1>
 					<span class="question-label-text">Did these adverse events occur at the frequency and level of severity expected, as documented in the current research protocol, the informed consent document, and any investigator brochure/device manual?</span>       
 				</div>
 				<div class="questionValue">
@@ -325,16 +320,6 @@
 						instancepath="/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency"
 						value="${adverseEventsAccurAtFrequency}" validation="required" />
 				</div>
-				<br /> <br />
-				<div class="questionLabel">Please explain why or why not</div>
-				<div class="questionValue">
-					<textarea class="question-el"
-						name="/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency/explain"
-						rows="4" id="adverse-events-accur-at-frequency-explain">
-						<x:out
-							select="$crInstance/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency/explain" />
-					</textarea>
-				</div>
 			</div>
 			
 			<div class="question"
@@ -342,6 +327,7 @@
 				<div class="questionLabel">
 					<h1 class="conditional-question-label">Since there have been any internal or local adverse events in the research, please answer the
 						following question:</h1>
+					<h1 class="conditional-question-label">Without External sponsor,</h1>
 					<span class="question-label-text">Did these adverse events change the risk/benefit ratio for local subjects, or reflect a discernible pattern that would indicate an impact on human subject protections?</span>
 				</div>
 				<div class="questionValue">
@@ -352,16 +338,6 @@
 						instancepath="/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk"
 						value="${adverseEventsChangeRisk}" validation="required" />
 				</div>
-				<br /> <br />
-				<div class="questionLabel">Please explain why or why not</div>
-				<div class="questionValue">
-					<textarea class="question-el"
-						name="/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk/explain"
-						rows="4" id="adverse-events-change-risk-explain">
-						<x:out
-							select="$crInstance/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk/explain" />
-					</textarea>
-				</div>
 			</div>
 			
 			<div class="question"
@@ -369,7 +345,8 @@
 				<div class="questionLabel">
 					<h1 class="conditional-question-label">Since there have been any internal or local adverse events in the research, please answer the
 						following question:</h1>
-					<span class="question-label-text">The study sponsor has provided information indicating that these events represent a change in the risk/benefit ratio for local subjects,and that amended study documents and/or procedures are expected?</span>      
+					<h1 class="conditional-question-label">With External sponsor,</h1>
+					<span class="question-label-text">Has the study sponsor provided information indicating that these events represent a change in the risk/benefit ratio for local subjects,and that amended study documents and/or procedures are expected?</span>      
 				</div>
 				<div class="questionValue">
 					<x:set var="sponsorProvideInformation"
@@ -379,14 +356,19 @@
 						instancepath="/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information"
 						value="${sponsorProvideInformation}" validation="required" />
 				</div>
-				<br /> <br />
-				<div class="questionLabel">Please explain why or why not</div>
+			</div>
+			
+			<div class="question"
+				id="question-describe-local-adverse-events">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since there have been any internal or local adverse events in the research, please answer the
+						following question:</h1>
+					<span class="question-label-text">Please briefly describe these local adverse events here and upload a summary table in the Document section of this form. The IRB encourages use of our Events and Deviations Table for summary reporting.</span>      
+				</div>
 				<div class="questionValue">
-					<textarea class="question-el"
-						name="/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information/explain"
-						rows="4" id="sponsor-provide-information-explain">
-						<x:out
-							select="$crInstance/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information/explain" />
+					<textarea class="question-el" name="/continuing-review/study-report/any-adverse-events/y/describe-local-adverse-events" rows="4"
+						id="describe-local-adverse-events">
+						<x:out escapeXml="false" select="$crInstance/continuing-review/study-report/any-adverse-events/y/describe-local-adverse-events" />
 					</textarea>
 				</div>
 			</div>
@@ -404,13 +386,7 @@
 					<uams:yesno
 						id="any-deviations"
 						instancepath="/continuing-review/study-report/any-deviations"
-						value="${anyDeviations}" validation="required" 
-						showTextArea="true"
-						textValue="${anyDeviationsExplainText}"
-						textValidation="required"
-						otherType="textarea"
-						textAreaTitle="Please provide a summary:"
-						valueToShowTextArea="y" />
+						value="${anyDeviations}" validation="required" />
 				</div>
 				<div style="clear: both;">
 					<!-- // -->
@@ -420,7 +396,7 @@
 				</div> -->
 			</div>
 			
-			<div class="question"
+			<!-- ><div class="question"
 				id="question-deviations-how-many">
 				<div class="questionLabel">
 					<h1 class="conditional-question-label">Since some protocol deviations or violations have occurred in this study, please answer the
@@ -434,7 +410,7 @@
 							instancepath="/continuing-review/study-report/any-deviations/y/deviations-how-many"
 							validation="number required" value="${deviationsHowMany}" />
 				</div>
-			</div>
+			</div> -->
 			
 			<div class="question"
 				id="question-deviations-occur-in-pattern">
@@ -450,16 +426,6 @@
 						id="deviations-occur-in-pattern"
 						instancepath="/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern"
 						value="${deviationsOccurInPattern}" validation="required" />
-				</div>
-				<br /> <br />
-				<div class="questionLabel">Please explain why or why not</div>
-				<div class="questionValue">
-					<textarea class="question-el"
-						name="/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern/explain"
-						rows="4" id="deviations-occur-in-pattern-explain">
-						<x:out
-							select="$crInstance/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern/explain" />
-					</textarea>
 				</div>
 			</div>
 			
@@ -478,14 +444,19 @@
 						instancepath="/continuing-review/study-report/any-deviations/y/deviations-negatively-impact"
 						value="${deviationsNegativelyImpact}" validation="required" />
 				</div>
-				<br /> <br />
-				<div class="questionLabel">Please explain why or why not</div>
+			</div>
+			
+			<div class="question"
+				id="question-describe-deviations">
+				<div class="questionLabel">
+					<h1 class="conditional-question-label">Since some protocol deviations or violations have occurred in this study, please answer the
+						following question:</h1>
+					<span class="question-label-text">Please briefly describe these deviations/violations here and upload a summary table in the Document section of this form. The IRB encourages use of our Events and Deviations Table for summary reporting.</span>      
+				</div>
 				<div class="questionValue">
-					<textarea class="question-el"
-						name="/continuing-review/study-report/any-deviations/y/deviations-negatively-impact/explain"
-						rows="4" id="deviations-negatively-impact-explain">
-						<x:out
-							select="$crInstance/continuing-review/study-report/any-deviations/y/deviations-negatively-impact/explain" />
+					<textarea class="question-el" name="/continuing-review/study-report/any-deviations/y/describe-deviations" rows="4"
+						id="describe-deviations">
+						<x:out escapeXml="false" select="$crInstance/continuing-review/study-report/any-deviations/y/describe-deviations" />
 					</textarea>
 				</div>
 			</div>

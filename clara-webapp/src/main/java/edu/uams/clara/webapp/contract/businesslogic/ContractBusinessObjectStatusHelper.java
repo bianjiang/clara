@@ -247,7 +247,7 @@ BusinessObjectStatusHelper {
 		ContractFormCommitteeStatus contractFormCommitteeStatus = new ContractFormCommitteeStatus();
 		contractFormCommitteeStatus.setContractForm(contractForm);
 		contractFormCommitteeStatus.setModified(now);
-		contractFormCommitteeStatus.setCauseByUser(user);
+		contractFormCommitteeStatus.setCausedByUserId(user.getId());
 		contractFormCommitteeStatus.setCausedByCommittee(committee);
 		
 		if (committee.equals(involvedCommittee)) {

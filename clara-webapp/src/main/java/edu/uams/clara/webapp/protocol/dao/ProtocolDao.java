@@ -805,6 +805,55 @@ public class ProtocolDao extends AbstractDomainDao<Protocol> {
 	}
 	
 	@Transactional(readOnly = true)
+	public List<Protocol> listExpiredForSixteenDaysProtocol() {
+		// String query =
+		// "SELECT pf FROM ProtocolForm pf WHERE pf.retired = :retired AND pf.id IN ("
+		// + " SELECT MAX(ppf.id) FROM ProtocolForm ppf "
+		// + " WHERE ppf.retired = :retired AND ppf.protocol.id = :protocolId "
+		// + " GROUP BY ppf.parent.id ) ";
+
+		String query = "SELECT * from protocol WHERE id IN ("
+				+ " SELECT DISTINCT protocol_id FROM protocol_status WHERE id IN("
+				+ " SELECT MAX(id) FROM protocol_status WHERE retired = :retired"
+				+ " GROUP BY protocol_id)"
+				+ " AND protocol_status = 'EXPIRED'"
+				+ " AND DATEDIFF(DAY, modified, GETDATE()) = 16)"
+				+ " AND retired = :retired";
+
+		TypedQuery<Protocol> q = (TypedQuery<Protocol>) getEntityManager()
+				.createNativeQuery(query, Protocol.class);
+		q.setHint("org.hibernate.cacheable", true);
+		q.setParameter("retired", Boolean.FALSE);
+
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Protocol> listExpiredMoreThanOneMonthProtocol() {
+		// String query =
+		// "SELECT pf FROM ProtocolForm pf WHERE pf.retired = :retired AND pf.id IN ("
+		// + " SELECT MAX(ppf.id) FROM ProtocolForm ppf "
+		// + " WHERE ppf.retired = :retired AND ppf.protocol.id = :protocolId "
+		// + " GROUP BY ppf.parent.id ) ";
+
+		String query = "SELECT * from protocol WHERE id IN ("
+				+ " SELECT DISTINCT protocol_id FROM protocol_status WHERE id IN("
+				+ " SELECT MAX(id) FROM protocol_status WHERE retired = :retired"
+				+ " GROUP BY protocol_id)"
+				+ " AND protocol_status = 'EXPIRED'"
+				//+ " AND modified <= DATEADD(D,-30,GETDATE()))"
+				+ " AND modified <= DATEADD(M,-1,GETDATE()))"
+				+ " AND retired = :retired";
+
+		TypedQuery<Protocol> q = (TypedQuery<Protocol>) getEntityManager()
+				.createNativeQuery(query, Protocol.class);
+		q.setHint("org.hibernate.cacheable", true);
+		q.setParameter("retired", Boolean.FALSE);
+
+		return q.getResultList();
+	}
+	
+	@Transactional(readOnly = true)
 	public List<Protocol> listOpenProtocol() {
 		// String query =
 		// "SELECT pf FROM ProtocolForm pf WHERE pf.retired = :retired AND pf.id IN ("

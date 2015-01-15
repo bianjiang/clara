@@ -51,7 +51,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
 			authenticated = result.isAuthenticated();
 		} catch (AuthenticationException ex) {
 			logger.warn("unauthenticated user; username: " + username
-					+ "; password: " + password);
+					+ ";");
 			authenticated = false;
 		}
 

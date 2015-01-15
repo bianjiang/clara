@@ -29,7 +29,6 @@ public class GrantAjaxController {
 			grant = grantDao.findAwardedGrantByPRN(prn);
 			return JsonResponseHelper.newDataResponseStub(grant);
 		} catch (Exception e){
-			
 			return JsonResponseHelper.newErrorResponseStub("No Awarded Grant Found!");
 		}
 		

@@ -86,7 +86,7 @@ public class ProtocolEmailServiceImpl implements ProtocolEmailService {
 	@Override
 	public EmailTemplate sendLetter(ProtocolForm protocolForm, Committee committee, Map<String, Object> attributeRawValues, User user, String emailTemplateIdentifier, String emailComment, String letterName, String docType, String mailTo, String cc) throws IOException{
 		
-		EmailTemplate emailTemplate = notify(protocolForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment);
+		EmailTemplate emailTemplate = notify(protocolForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment, mailTo, cc);
 		
 		UploadedFile uploadedFile = fileGenerateAndSaveService
 				.processFileGenerateAndSave(protocolForm.getProtocol(),
@@ -106,6 +106,8 @@ public class ProtocolEmailServiceImpl implements ProtocolEmailService {
 			Committee committee, Map<String, Object> attributeRawValues,
 			User user, String emailTemplateIdentifier, String emailComment,
 			String letterName, String docType, String mailTo, String cc, String subject) throws IOException{
+		//attributeRawValues = emailService.addInputRecipentsToRawAttributes(attributeRawValues, mailTo, cc);
+		
 		EmailTemplate emailTemplate = protocolEmailDataService.loadObjectEmailTemplate(emailTemplateIdentifier, protocol, agenda, committee, attributeRawValues, user, emailComment);
 		
 		UploadedFile uploadedFile = null;
@@ -130,6 +132,8 @@ public class ProtocolEmailServiceImpl implements ProtocolEmailService {
 			Committee committee, Map<String, Object> attributeRawValues,
 			User user, String emailTemplateIdentifier, String emailComment,
 			String letterName, String docType, String mailTo, String cc, String subject) throws IOException{
+		//attributeRawValues = emailService.addInputRecipentsToRawAttributes(attributeRawValues, mailTo, cc);
+		
 		EmailTemplate emailTemplate = protocolEmailDataService.loadObjectEmailTemplate(emailTemplateIdentifier, protocol, null, committee, attributeRawValues, user, emailComment);
 		
 		sendEmail(emailTemplate, attributeRawValues, user, emailComment, mailTo, cc);
@@ -170,16 +174,17 @@ public class ProtocolEmailServiceImpl implements ProtocolEmailService {
 	
 	@Override
 	public EmailTemplate sendNotification(ProtocolForm protocolForm, Committee committee, Map<String, Object> attributeRawValues, User user, String emailTemplateIdentifier, String emailComment, String mailTo, String cc){
-		EmailTemplate emailTemplate = notify(protocolForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment);
+		EmailTemplate emailTemplate = notify(protocolForm, committee, attributeRawValues, user, emailTemplateIdentifier, emailComment, mailTo, cc);
 		
 		sendEmail(emailTemplate, attributeRawValues, user, emailComment, mailTo, cc);
 		
 		return emailTemplate;
 	}
 	
-	public EmailTemplate notify(ProtocolForm protocolForm, Committee committee, Map<String, Object> attributeRawValues, User user, String emailTemplateIdentifier, String emailComment){
+	public EmailTemplate notify(ProtocolForm protocolForm, Committee committee, Map<String, Object> attributeRawValues, User user, String emailTemplateIdentifier, String emailComment, String mailTo, String cc){
 		
 		//String identifier = protocolF//protocolFormStatus.getProtocolFormStatus() + "_" + committee.toString() + "_" + action;
+		attributeRawValues = emailService.addInputRecipentsToRawAttributes(attributeRawValues, mailTo, cc);
 		
 		EmailTemplate emailTemplate = null;
 		

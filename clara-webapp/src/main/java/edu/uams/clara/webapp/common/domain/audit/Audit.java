@@ -8,11 +8,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import edu.uams.clara.core.domain.AbstractDomainEntity;
 
 
 @Entity
 @Table(name="audit")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class Audit extends AbstractDomainEntity {
 
 	private static final long serialVersionUID = 4132309560170402139L;

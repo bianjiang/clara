@@ -328,6 +328,7 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 		finalResultXml += "</report-results>";
 		finalResultXml =finalResultXml.replace("<![CDATA[null]]>", "");
 		finalResultXml =finalResultXml.replace("null&lt;br&gt;", "");
+		finalResultXml =finalResultXml.replace("&gt;null", "&gt;");
 		if(finalResultXml.contains("&")){
 			finalResultXml=finalResultXml.replaceAll("&", "&amp;");
 			}
@@ -515,6 +516,7 @@ public class IRBBillingReportServiceImpl extends CustomReportService{
 		finalResultXml = processTitleLineInfo(finalResultXml,reportTemplate);
 		finalResultXml = processIRBBillingInfo(finalResultXml,date1,date2);
 		finalResultXml =finalResultXml.replace("<![CDATA[null]]>", "");
+		finalResultXml =finalResultXml.replace("&gt;null", "&gt;");
 		finalResultXml =finalResultXml.replace("null&lt;br&gt;", "");
 		logger.debug(finalResultXml);
 		return finalResultXml;

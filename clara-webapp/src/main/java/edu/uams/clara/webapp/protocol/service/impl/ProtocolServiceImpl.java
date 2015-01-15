@@ -12,6 +12,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,7 +147,7 @@ public class ProtocolServiceImpl implements ProtocolService {
 		List<User> piUserLst = formService.getUsersByKeywordAndSearchField("Principal Investigator", xmlData, UserSearchField.ROLE);
 		List<User> emrStudyContactUserLst = formService.getUsersByKeywordAndSearchField("EMR Study Contact", xmlData, UserSearchField.RESPONSIBILITY);
 		
-		String epicDescription = String.format("For study protocol and drug information, please go to trialsearch.uams.edu%n");
+		String epicDescription = "";
 		
 		if (piUserLst.size() > 0){
 			epicDescription += String.format("Principal Investigator: ");
@@ -393,7 +394,7 @@ public class ProtocolServiceImpl implements ProtocolService {
 	@Override
 	public void pushToEpic(Protocol protocol) {		
 		String protocolMetaData = protocol.getMetaDataXml();
-		
+
 		if (canPushToEpic(protocolMetaData)) {
 			try {
 				XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
@@ -408,6 +409,11 @@ public class ProtocolServiceImpl implements ProtocolService {
 					epicSummary = populateEpicDesc(protocolMetaData);
 				}
 				
+				//add trialsearch hyperlink
+				String trialSearchHyperlink = "For study protocol and drug information, please go to trialsearch.uams.edu. <a href=\"http://trialsearch.uams.edu/trialsearch/index.php?b=IRB&a=detail&key="+ protocol.getId() +"\">Visit Trialsearch for this study</a>";
+				
+				epicSummary = epicSummary + trialSearchHyperlink;
+
 				studyDefinitionWSClient.retrieveProtocolDefResponse("" + protocol.getId(), epicTitle, epicSummary, protocolMetaData);
 				
 				//add flag to meta data

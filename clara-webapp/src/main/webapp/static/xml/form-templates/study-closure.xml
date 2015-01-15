@@ -161,7 +161,7 @@
 				<question-value  instance-path="/study-closure/study-report/any-adverse-events" value-type="yesNo" />
 				<sub-questions>
 					<question id="question-any-adverse-events-other" parent-id="" parent-value="" header="">
-						<question-label>Please provide a summary</question-label>
+						<question-label>Please briefly describe these local adverse events here and upload a summary table in the Document section of this form. The IRB encourages use of our Events and Deviations Table for summary reporting</question-label>
 						<question-value  instance-path="/study-closure/study-report/any-adverse-events/y/explain" value-type="textarea" />
 					</question>
 				</sub-questions>
@@ -171,7 +171,7 @@
 				<question-value  instance-path="/study-closure/study-report/any-deviations" value-type="yesNo" />
 				<sub-questions>
 					<question id="question-any-deviations-other" parent-id="" parent-value="" header="">
-						<question-label>Please provide a summary</question-label>
+						<question-label>Please briefly describe these deviations/violations here and upload a summary table in the Document section of this form. The IRB encourages use of our Events and Deviations Table for summary reporting</question-label>
 						<question-value  instance-path="/study-closure/study-report/any-deviations/y/explain" value-type="textarea" />
 					</question>
 				</sub-questions>

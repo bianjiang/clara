@@ -2222,8 +2222,17 @@ Clara.BudgetBuilder.Cycle = function(o){
 		
 		this.sortVisits= function(){
 			this.visits.sort(function(a,b){
-				var x = a.cycleindex - b.cycleindex;
-				return x?x:(a.name > b.name);
+				if (a.cycleindex && b.cycleindex) return a.cycleindex - b.cycleindex;
+				else {
+					if (a.name > b.name) {
+					    return 1;
+					  }
+					  if (a.name < b.name) {
+					    return -1;
+					  }
+					  // a must be equal to b
+					  return 0;
+				}
 			});
 		};
 		
@@ -3022,7 +3031,11 @@ Clara.BudgetBuilder.Epoch = function(o){
 				}
 				
 				var procDiffClass = (proc.diff != '')?"proc-diff-"+proc.diff:"";
-				var desc = "<div class='procrow-desc' id='procrow-desc-"+proc.id+"'>";
+				var qTipText = "<strong>Expense Category:</strong> "+proc.expensecategory
+				+((proc.location != "")?("<br/><strong>Location:</strong> "+proc.location):"")
+				+"<br/><strong>Conditional:</strong> "+(proc.conditional?"Yes":"No")
+				+"<br/><strong>Alternative:</strong> "+(proc.alternative?"Yes":"No");
+				var desc = "<div ext:qtip='"+qTipText+"' class='procrow-desc' id='procrow-desc-"+proc.id+"'>";
 				desc += Clara.BudgetBuilder.canEdit()?("<a href='javascript:;' onclick='Clara.BudgetBuilder.ConfirmRemoveProcedure("+proc.id+");'><img style='float:left;margin-right:8px;' src='"+appContext+"/static/images/icn/minus-circle.png' border='0'/></a>"+notes+subproc+condProc+altProc+"<span class='"+descClass+" "+procDiffClass+"'><a href='javascript:;' class='"+procDiffClass+"' style='line-height:17px;' onclick='Clara.BudgetBuilder.EditActiveEpochProcedure("+proc.id+");'>"+proc.getDescription()+"</a></span>"):(notes+subproc+condProc+altProc+"<span class='"+descClass+" "+procDiffClass+"'>"+proc.getDescription()+"</span>");
 				desc += "</div>";
 				var pdesc = (plaintext)?proc.getDescription():desc;

@@ -328,6 +328,7 @@ public class StudyDefinitionWSClientImpl implements StudyDefinitionWSClient {
 
 	@Override
 	public void retrieveProtocolDefResponse(String irbNumber, String epicTitle,
+<<<<<<< HEAD
 			String epicSummary, String protocolMetaData) throws Exception {
 		
 		if (!shouldRun) return;
@@ -545,3 +546,222 @@ public class StudyDefinitionWSClientImpl implements StudyDefinitionWSClient {
 		this.shouldRun = shouldRun;
 	}
 }
+=======
+			String epicSummary, String protocolMetaData) throws Exception {
+		
+		if (!shouldRun) return;
+
+		final String messageUUID = UUID.randomUUID().toString();
+		final String uri = this.uri;
+		epicTitle = epicTitle.trim();
+		epicSummary = epicSummary.trim();
+
+		try {
+			Source requestPayload = createRetrieveProtocolDefResponseRequestPayload(
+					irbNumber, epicTitle, epicSummary, this.getProtocolUserInfoXml(protocolMetaData));
+
+			Writer outWriter = new StringWriter();
+			StreamResult result = new StreamResult(outWriter);
+			
+			webServiceTemplate.sendSourceAndReceiveToResult(requestPayload,
+					new WebServiceMessageCallback() {
+
+						/***
+						 * <soap:Header
+						 * xmlns:wsa="http://www.w3.org/2005/08/addressing">
+						 * <wsa:Action>urn:ihe:qrph:rpe:2009:
+						 * RetrieveProtocolDefResponse</wsa:Action>
+						 * <wsa:MessageID
+						 * >uuid:008fb54c-5ade-440d-ba64-e8289cc584cd
+						 * </wsa:MessageID>
+						 * <wsa:To>http://144.30.0.133/Interconnect
+						 * -POC-EDI/wcf/Epic
+						 * .EDI.IHEWcf.Services/ProtocolExecutor.svc</wsa:To>
+						 * </soap:Header>
+						 */
+						@Override
+						public void doWithMessage(WebServiceMessage message)
+								throws IOException, TransformerException {
+							SoapMessage soapMessage = ((SoapMessage) message);
+							// SoapEnvelope envelope =
+							// soapMessage.getEnvelope();
+
+							// envelope.addNamespaceDeclaration("xsi",
+							// "http://www.w3.org/2001/XMLSchema-instance");
+							// envelope.addNamespaceDeclaration("xsd",
+							// "http://www.w3.org/2001/XMLSchema");
+
+							SoapHeader header = soapMessage.getSoapHeader();
+
+							header.addNamespaceDeclaration("wsa",
+									"http://www.w3.org/2005/08/addressing");
+
+							SoapHeaderElement action = header
+									.addHeaderElement(new QName(
+											"http://www.w3.org/2005/08/addressing",
+											"Action", "wsa"));
+							action.setText("urn:ihe:qrph:rpe:2009:RetrieveProtocolDefResponse");
+
+							SoapHeaderElement messageID = header
+									.addHeaderElement(new QName(
+											"http://www.w3.org/2005/08/addressing",
+											"MessageID", "wsa"));
+							messageID.setText(messageUUID);
+
+							SoapHeaderElement to = header
+									.addHeaderElement(new QName(
+											"http://www.w3.org/2005/08/addressing",
+											"To", "wsa"));
+							to.setText(uri);
+
+							auditService.auditEvent(
+									AuditService.AuditEvent.EPIC_WS_SENT
+											.toString(),
+									"sent message with MessageID: "
+											+ messageUUID, DomUtils
+											.elementToString(soapMessage
+													.getDocument()));
+
+							logger.debug("sent message with MessageID: "
+									+ messageUUID
+									+ "; "
+									+ DomUtils.elementToString(soapMessage
+											.getDocument()));
+						}
+
+					}, result);
+
+			auditService.auditEvent(
+					AuditService.AuditEvent.EPIC_WS_SUCCEED.toString(),
+					"EPIC_WS_SUCCEED: MessageID: " + messageUUID
+							+ "; irbNumber: " + irbNumber + "; epicTitle: "
+							+ epicTitle + "; epicSummary: " + epicSummary,
+					outWriter.toString());
+
+			logger.debug("EPIC_WS_SUCCEED: MessageID: " + messageUUID
+					+ "; irbNumber: " + irbNumber + "; epicTitle: " + epicTitle
+					+ "; epicSummary: " + epicSummary + "; "
+					+ outWriter.toString());
+
+		} catch (Exception ex) {
+			auditService.auditEvent(
+					AuditService.AuditEvent.EPIC_WS_FAILED.toString(),
+					"failed to send message to epic with MessageID: "
+							+ messageUUID + "; irbNumber: " + irbNumber
+							+ "; epicTitle: " + epicTitle + "; epicSummary: "
+							+ epicSummary);
+			logger.error("failed to send message to epic with MessageID: "
+					+ messageUUID + "; irbNumber: " + irbNumber
+					+ "; epicTitle: " + epicTitle + "; epicSummary: "
+					+ epicSummary, ex);
+			throw ex;
+
+		}
+	}
+
+	public WebServiceTemplate getWebServiceTemplate() {
+		return webServiceTemplate;
+	}
+
+	public void setWebServiceTemplate(WebServiceTemplate webServiceTemplate) {
+		this.webServiceTemplate = webServiceTemplate;
+	}
+
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	public AuditService getAuditService() {
+		return auditService;
+	}
+
+	@Autowired(required = true)
+	public void setAuditService(AuditService auditService) {
+		this.auditService = auditService;
+	}
+
+	public ResourceLoader getResourceLoader() {
+		return resourceLoader;
+	}
+
+	@Autowired(required = true)
+	public void setResourceLoader(ResourceLoader resourceLoader) {
+		this.resourceLoader = resourceLoader;
+	}
+
+	public String getRetrieveProtocolDefResponseRequestXmlTemplateUri() {
+		return retrieveProtocolDefResponseRequestXmlTemplateUri;
+	}
+
+	public void setRetrieveProtocolDefResponseRequestXmlTemplateUri(
+			String retrieveProtocolDefResponseRequestXmlTemplateUri) {
+		this.retrieveProtocolDefResponseRequestXmlTemplateUri = retrieveProtocolDefResponseRequestXmlTemplateUri;
+	}
+
+	public String getHl7RootId() {
+		return hl7RootId;
+	}
+
+	public void setHl7RootId(String hl7RootId) {
+		this.hl7RootId = hl7RootId;
+	}
+
+	public String getRetrieveProtocolPIXmlTemplateUri() {
+		return retrieveProtocolPIXmlTemplateUri;
+	}
+
+	public void setRetrieveProtocolPIXmlTemplateUri(
+			String retrieveProtocolPIXmlTemplateUri) {
+		this.retrieveProtocolPIXmlTemplateUri = retrieveProtocolPIXmlTemplateUri;
+	}
+
+	public String getRetrieveProtocolNoPIUserXmlTemplateUri() {
+		return retrieveProtocolNoPIUserXmlTemplateUri;
+	}
+
+	public void setRetrieveProtocolNoPIUserXmlTemplateUri(
+			String retrieveProtocolNoPIUserXmlTemplateUri) {
+		this.retrieveProtocolNoPIUserXmlTemplateUri = retrieveProtocolNoPIUserXmlTemplateUri;
+	}
+
+	public EntityManager getEm() {
+		return em;
+	}
+
+	@PersistenceContext(unitName = "defaultPersistenceUnit")
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+	
+	@Autowired(required = true)
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public String getRetrieveProtocolNctNumberTemplateUri() {
+		return retrieveProtocolNctNumberTemplateUri;
+	}
+
+	public void setRetrieveProtocolNctNumberTemplateUri(
+			String retrieveProtocolNctNumberTemplateUri) {
+		this.retrieveProtocolNctNumberTemplateUri = retrieveProtocolNctNumberTemplateUri;
+	}
+	
+	public boolean isShouldRun() {
+		return shouldRun;
+	}
+
+	@Value("${scheduler.task.outgoing.should.run}")
+	public void setShouldRun(boolean shouldRun) {
+		this.shouldRun = shouldRun;
+	}
+}
+>>>>>>> claraoriginal/master

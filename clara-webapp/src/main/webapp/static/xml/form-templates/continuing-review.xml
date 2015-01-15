@@ -160,76 +160,38 @@
 			<question id="question-any-adverse-events" parent-id="" parent-value="" header="">
 				<question-label>Since the last report, have there been any internal or local adverse events in the research?</question-label>
 				<question-value instance-path="/continuing-review/study-report/any-adverse-events" value-type="yesNo" />
-				<sub-questions>
-					<question id="question-any-adverse-events-other" parent-id="" parent-value="" header="Yes">
-						<question-label>Please provide a summary</question-label>
-						<question-value instance-path="/continuing-review/study-report/any-adverse-events/y/explain" value-type="textarea" />
-					</question>
-				</sub-questions>
 			</question>
 			<question id="question-adverse-events-accur-at-frequency" parent-id="question-any-adverse-events" parent-value="y" header="Yes">
 				<question-label>Did these adverse events occur at the frequency and level of severity expected, as documented in the current research protocol, the informed consent document, and any investigator brochure/device manual?</question-label>
 				<question-value instance-path="/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency" value-type="yesNo" />
-				<sub-questions>
-					<question id="question-adverse-events-accur-at-frequency-explain" parent-id="" parent-value="" header="">
-						<question-label>Please explain why or why not</question-label>
-						<question-value instance-path="/continuing-review/study-report/any-adverse-events/y/adverse-events-accur-at-frequency/explain" value-type="textarea" />
-					</question>
-				</sub-questions>
 			</question>
 			<question id="question-adverse-events-change-risk" parent-id="question-any-adverse-events" parent-value="y" header="Yes">
 				<question-label>Did these adverse events change the risk/benefit ratio for local subjects, or reflect a discernible pattern that would indicate an impact on human subject protections?</question-label>
 				<question-value instance-path="/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk" value-type="yesNo" />
-				<sub-questions>
-					<question id="question-adverse-events-change-risk-explain" parent-id="" parent-value="" header="">
-						<question-label>Please explain why or why not</question-label>
-						<question-value instance-path="/continuing-review/study-report/any-adverse-events/y/adverse-events-change-risk/explain" value-type="textarea" />
-					</question>
-				</sub-questions>
 			</question>
 			<question id="question-sponsor-provide-information" parent-id="question-any-adverse-events" parent-value="y" header="Yes">
-				<question-label>The study sponsor has provided information indicating that these events represent a change in the risk/benefit ratio for local subjects,and that amended study documents and/or procedures are expected?</question-label>
+				<question-label>Has the study sponsor provided information indicating that these events represent a change in the risk/benefit ratio for local subjects,and that amended study documents and/or procedures are expected?</question-label>
 				<question-value instance-path="/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information" value-type="yesNo" />
-				<sub-questions>
-					<question id="question-sponsor-provide-information-explain" parent-id="" parent-value="" header="">
-						<question-label>Please explain why or why not</question-label>
-						<question-value instance-path="/continuing-review/study-report/any-adverse-events/y/sponsor-provide-information/explain" value-type="textarea" />
-					</question>
-				</sub-questions>
+			</question>
+			<question id="question-describe-local-adverse-events" parent-id="question-any-adverse-events" parent-value="y" header="Yes">
+				<question-label>Please briefly describe these local adverse events here and upload a summary table in the Document section of this form. The IRB encourages use of our Events and Deviations Table for summary reporting.</question-label>
+				<question-value instance-path="/continuing-review/study-report/any-adverse-events/y/describe-local-adverse-events" value-type="textarea" />
 			</question>
 			<question id="question-any-deviations" parent-id="" parent-value="" header="">
 				<question-label>Since the last report, have any protocol deviations or violations occurred in this study?</question-label>
 				<question-value instance-path="/continuing-review/study-report/any-deviations" value-type="yesNo" />
-				<sub-questions>
-					<question id="question-any-deviations-other" parent-id="" parent-value="" header="Yes">
-						<question-label>Please provide a summary</question-label>
-						<question-value instance-path="/continuing-review/study-report/any-deviations/y/explain" value-type="textarea" />
-					</question>
-				</sub-questions>
-			</question>
-			<question id="question-deviations-how-many" parent-id="question-any-deviations" parent-value="y" header="Yes">
-				<question-label>How many?</question-label>
-				<question-value instance-path="/continuing-review/study-report/any-deviations/y/deviations-how-many" value-type="textarea" />
 			</question>
 			<question id="question-deviations-occur-in-pattern" parent-id="question-any-deviations" parent-value="y" header="Yes">
 				<question-label>Did the protocol deviations/violations occur in a pattern that indicates a need to revise study processes?</question-label>
 				<question-value instance-path="/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern" value-type="yesNo" />
-				<sub-questions>
-					<question id="question-deviations-occur-in-pattern-explain" parent-id="" parent-value="" header="">
-						<question-label>Please explain why or why not</question-label>
-						<question-value instance-path="/continuing-review/study-report/any-deviations/y/deviations-occur-in-pattern/explain" value-type="textarea" />
-					</question>
-				</sub-questions>
 			</question>
 			<question id="question-deviations-negatively-impact" parent-id="question-any-deviations" parent-value="y" header="Yes">
 				<question-label>Did the protocol deviations/violations negatively impact the ability to use the data?</question-label>
 				<question-value instance-path="/continuing-review/study-report/any-deviations/y/deviations-negatively-impact" value-type="yesNo" />
-				<sub-questions>
-					<question id="question-deviations-negatively-impact-explain" parent-id="" parent-value="" header="">
-						<question-label>Please explain why or why not</question-label>
-						<question-value instance-path="/continuing-review/study-report/any-deviations/y/deviations-negatively-impact/explain" value-type="textarea" />
-					</question>
-				</sub-questions>
+			</question>
+			<question id="question-describe-deviations" parent-id="question-any-deviations" parent-value="y" header="Yes">
+				<question-label>Please briefly describe these deviations/violations here and upload a summary table in the Document section of this form. The IRB encourages use of our Events and Deviations Table for summary reporting.</question-label>
+				<question-value instance-path="/continuing-review/study-report/any-deviations/y/describe-deviations" value-type="textarea" />
 			</question>
 			<question id="question-is-audited-by-federal-agency" parent-id="" parent-value="" header="">
 				<question-label>Has this study been audited by the FDA, NIH, NCI OR other federal agency since your last report?</question-label>

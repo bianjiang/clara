@@ -89,12 +89,17 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 	private Map<String,Element> getIndexElementMap(NodeList nodeList, List<String> indexes){
 		Map<String,Element> elementMap = Maps.newHashMap();
 		for(int i=0;i<nodeList.getLength();i++){
-			Element epoch = (Element) nodeList.item(i);
+			Element element = (Element) nodeList.item(i);
 			String key = "";
 			for(String index:indexes){
-				key+= epoch.getAttribute(index);
+				key+= element.getAttribute(index);
 			}
-			elementMap.put(key, epoch);
+			if(element.getNodeName().equals("procedure")){
+				Element miscCost = (Element) element.getElementsByTagName("misc").item(0);
+				key += miscCost.getTextContent();
+				logger.debug(key);
+			}
+			elementMap.put(key, element);
 		}
 		return elementMap;
 	}
@@ -282,14 +287,16 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 		for (int i = 0; i < compProcedures.getLength(); i++) {
 					
 			Element compProcedure = (Element) compProcedures.item(i);
+			Element miscCost = (Element) compProcedure.getElementsByTagName("misc").item(0);
 					
-			compProceduresMap.put(compProcedure.getAttribute("id"), compProcedure.getAttribute("cptcode")+compProcedure.getAttribute("description"));
+			compProceduresMap.put(compProcedure.getAttribute("id"), compProcedure.getAttribute("cptcode")+compProcedure.getAttribute("description")+miscCost.getTextContent());
 		}
 				
 		for (int i = 0; i < currProcedures.getLength(); i++) {
 					
 			Element currProcedure = (Element) currProcedures.item(i);
-			currProceduresMap.put(currProcedure.getAttribute("id"), currProcedure.getAttribute("cptcode")+currProcedure.getAttribute("description"));
+			Element miscCost = (Element) currProcedure.getElementsByTagName("misc").item(0);
+			currProceduresMap.put(currProcedure.getAttribute("id"), currProcedure.getAttribute("cptcode")+currProcedure.getAttribute("description")+miscCost.getTextContent());
 		}		
 		
 		//check added arms
