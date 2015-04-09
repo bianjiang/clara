@@ -3031,7 +3031,8 @@ Clara.BudgetBuilder.Epoch = function(o){
 				}
 				
 				var procDiffClass = (proc.diff != '')?"proc-diff-"+proc.diff:"";
-				var qTipText = "<strong>Expense Category:</strong> "+proc.expensecategory
+				var qTipText = "<strong>"+proc.getDescription()+"</strong>"
+				+"<br/><strong>Expense Category:</strong> "+proc.expensecategory
 				+((proc.location != "")?("<br/><strong>Location:</strong> "+proc.location):"")
 				+"<br/><strong>Conditional:</strong> "+(proc.conditional?"Yes":"No")
 				+"<br/><strong>Alternative:</strong> "+(proc.alternative?"Yes":"No");
@@ -3101,9 +3102,6 @@ Clara.BudgetBuilder.Epoch = function(o){
 								}
 								if (proc.diff =='D' || proc.diff =='A'){
 									vpDiffClass = "vp-diff-"+proc.diff;
-								}
-								else if (v[j].diff !=''){
-									vpDiffClass = "vp-diff-"+v[j].diff;
 								} else if (visitProcedure.diff !=''){
 									vpDiffClass = "vp-diff-"+visitProcedure.diff;
 								}

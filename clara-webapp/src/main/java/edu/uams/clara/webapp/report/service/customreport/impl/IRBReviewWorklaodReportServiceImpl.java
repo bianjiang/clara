@@ -70,7 +70,7 @@ private String processResult(List<Object[]> resultObjs){
 		String reviewType = protocol_form_type+"-"+committee;
 		
 		if(minorCondition!=null&&minorCondition.trim().equals("Defer with minor contingencies")){
-			reviewType = protocol_form_type+"-Minor Met";
+			reviewType = protocol_form_type+"-Minor Met-"+committee;
 		}
 		
 		if(resultMap.keySet().contains(reviewType)){
@@ -328,7 +328,7 @@ public String generateReportResult(ReportTemplate reportTemplate) {
 	
 	try {
 		ce.setTime(sdf.parse(date2));
-		cs.add(Calendar.DATE, 1);
+		ce.add(Calendar.DATE, 1);
 		cs.setTime(sdf.parse(date2));
 		cs.add(Calendar.DATE, -6);
 		cEndDisplay.setTime(sdf.parse(date2));

@@ -584,6 +584,7 @@ public class ProtocolFormController {
 	
 	private List<ProtocolFormStatusEnum> toCreateRevisionFormList = Lists.newArrayList();{
 		toCreateRevisionFormList.add(ProtocolFormStatusEnum.REVISION_REQUESTED);
+		toCreateRevisionFormList.add(ProtocolFormStatusEnum.RETURN_FOR_BUDGET_NEGOTIATIONS);
 		toCreateRevisionFormList.add(ProtocolFormStatusEnum.IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES);
 		toCreateRevisionFormList.add(ProtocolFormStatusEnum.IRB_DEFERRED_WITH_MINOR_CONTINGENCIES);
 		toCreateRevisionFormList.add(ProtocolFormStatusEnum.IRB_TABLED);

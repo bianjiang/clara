@@ -61,7 +61,8 @@ public enum ProtocolFormCommitteeStatusEnum{
 	CONTRACT_REQUIRED("Contract is Required", "INFO", "END"),
 	CONTRACT_NOT_REQUIRED("Contract is NOT Required", "INFO", "END"),
 	BUDGET_NOT_REVIEWED("Budget Not Reviewed", "INFO", "END"),
-	PENDING_OUTCOME_OF_OTHER_COMMITTEE("Pending Outcome of Other Committee Reviews", "WARN", "END");
+	PENDING_OUTCOME_OF_OTHER_COMMITTEE("Pending Outcome of Other Committee Reviews", "WARN", "END"),
+	RETURN_FOR_BUDGET_NEGOTIATIONS("Return for Budget Negotiations", "WARN", "END");
 	
 	private String description;
 	private String priorityLevel;

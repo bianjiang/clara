@@ -1,7 +1,6 @@
 package edu.uams.clara.webapp.xml.processor.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -1437,7 +1436,7 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 						
 						cellForCpt.setCellStyle(cptCodeCellStyle);
 
-						BigDecimal hostpitalChargeDec = null;
+						//BigDecimal hostpitalChargeDec = null;
 						String hostpitalChargeStr = "";
 						String description = "";
 
@@ -1445,6 +1444,7 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 								|| budgetDocumentType
 										.equals(BudgetDocumentType.NO_NOTES)) {
 							if (!procedure.getAttribute("cptcode").isEmpty()) {
+								/* should read the cost of procedure from budget xml instead of database
 								if (hospitalChargeProcedureDao.findByCptCode(
 										procedure.getAttribute("cptcode"))
 										.size() > 0)
@@ -1453,10 +1453,15 @@ public class BudgetXmlExportServiceImpl implements BudgetXmlExportService {
 													procedure
 															.getAttribute("cptcode"))
 											.get(0).getCost();
+								*/
+								Element hospEl = (Element) procedure.getElementsByTagName("hosp").item(0);
+								hostpitalChargeStr = hospEl.getAttribute("cost");
+								
+								/*
 								if (hostpitalChargeDec != null)
 									hostpitalChargeStr = hostpitalChargeDec
 											.toString();
-
+								*/
 							}
 
 							if (!hostpitalChargeStr.isEmpty())

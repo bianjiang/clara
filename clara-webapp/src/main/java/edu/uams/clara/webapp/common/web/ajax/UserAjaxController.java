@@ -632,6 +632,20 @@ public class UserAjaxController {
 			@RequestParam(value = "isDelegate", required = false) Boolean isDelegate,
 			@RequestParam(value = "isBusinessAdmin", required = false) Boolean isBusinessAdmin) {
 
+		User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//check if the user has the system admin role to add roles
+		boolean noPermission = true;
+		for(UserRole userRole :currentUser.getUserRoles()) {
+			if(userRole.getRole().getDisplayName().trim().equals("System Admin")){
+				noPermission = false;
+				break;
+			}
+		}
+		// do not have system admin role, go back to index page.
+		if(noPermission){
+			return null;
+		}
+		
 		UserRole userRole = null;
 		try {
 			userRole = userRoleDao.getUserRoleByUserIdAndRoleId(userId, roleId);

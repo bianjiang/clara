@@ -332,7 +332,7 @@
 						<actions>
 							<action type="APPROVE" update-meta-data="true">
 								<change-status>
-									<status status="OPEN" />
+									<status status="BEFORE_CLOSED_STATUS" />
 									<form-status status="IRB_APPROVED" />
 									<form-committee-statuses>
 										<form-committee-status

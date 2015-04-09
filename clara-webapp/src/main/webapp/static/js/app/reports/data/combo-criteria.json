@@ -109,6 +109,7 @@
 		{"comboId":"clarafield.combo.protocol.formtype","value":"MODIFICATION","name":"Modification"},
 		{"comboId":"clarafield.combo.protocol.formtype","value":"CONTINUING_REVIEW","name":"Continuing Review"},
 		{"comboId":"clarafield.combo.protocol.formtype","value":"STUDY_CLOSURE","name":"Study Closure"},
+		{"comboId":"clarafield.combo.protocol.formtype","value":"STUDY_RESUMPTION","name":"Study Resumption"},
 		{"comboId":"clarafield.combo.protocol.formtype","value":"ARCHIVE","name":"Archive (from ARIA/CRIMSON)"},
 		{"comboId":"clarafield.combo.protocol.formtype","value":"REPORTABLE_NEW_INFORMATION","name":"Reportable New Information"},
 		{"comboId":"clarafield.combo.protocol.formtype","value":"EMERGENCY_USE","name":"Emergency Use"},

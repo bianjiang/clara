@@ -812,6 +812,9 @@ public class CommitteeActions {
 		piStartActions.add(ProtocolFormStatusEnum.UNDER_REVISION);
 		piStartActions.add(ProtocolFormStatusEnum.REVISION_REQUESTED);
 		piStartActions.add(ProtocolFormStatusEnum.REVISION_PENDING_PI_ENDORSEMENT);
+		piStartActions.add(ProtocolFormStatusEnum.PENDING_BUDGET_NEGOTIATIONS);
+		piStartActions.add(ProtocolFormStatusEnum.RETURN_FOR_BUDGET_NEGOTIATIONS);
+		piStartActions.add(ProtocolFormStatusEnum.PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT);
 		piStartActions.add(ProtocolFormStatusEnum.PENDING_PI_ENDORSEMENT);
 		piStartActions.add(ProtocolFormStatusEnum.PENDING_PI_SIGN_OFF);
 		piStartActions.add(ProtocolFormStatusEnum.PENDING_PL_ENDORSEMENT);

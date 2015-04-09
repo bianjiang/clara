@@ -226,6 +226,11 @@ ul.sidebar-list li.x-list-selected{
 	font-weight:800;	
 }
 
+.reviewnote-dd-over{
+	border:3px solid red;
+	background-color:yellow;
+}
+
 #clara-header {
 	margin-top:0px;
 	color:white;

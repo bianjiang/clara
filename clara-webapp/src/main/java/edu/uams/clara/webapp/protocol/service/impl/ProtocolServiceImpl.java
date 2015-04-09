@@ -175,6 +175,16 @@ public class ProtocolServiceImpl implements ProtocolService {
 			ProtocolStatusEnum protocolStatusEnum, User user,
 			Committee committee, String note) {
 		try {
+			String previousStatus = "";
+			try {
+				ProtocolStatus currentProtocolStatus = protocolStatusDao.findProtocolStatusByProtocolId(protocol.getId());
+				
+				previousStatus = currentProtocolStatus.getProtocolStatus().toString();
+			} catch (Exception e) {
+				previousStatus = "";
+			}
+			
+			
 			ProtocolStatus protocolStatus = new ProtocolStatus();
 			protocolStatus.setCauseByUser(user);
 			protocolStatus.setCausedByCommittee(committee);
@@ -187,6 +197,11 @@ public class ProtocolServiceImpl implements ProtocolService {
 			protocolStatusDao.saveOrUpdate(protocolStatus);
 			
 			String protocolMetaDataXml = protocol.getMetaDataXml();
+			
+			protocolMetaDataXml = xmlProcessor.replaceOrAddNodeValueByPath(
+					"/protocol/previous-status", protocolMetaDataXml,
+					org.apache.commons.lang.StringEscapeUtils
+							.escapeXml(previousStatus));
 			
 			protocolMetaDataXml = xmlProcessor.replaceOrAddNodeValueByPath(
 					"/protocol/status", protocolMetaDataXml,

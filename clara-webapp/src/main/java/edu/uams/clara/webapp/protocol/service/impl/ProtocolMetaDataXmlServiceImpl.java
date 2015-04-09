@@ -1064,7 +1064,8 @@ public class ProtocolMetaDataXmlServiceImpl implements
 					toUpdateMap);
 			logger.debug("after mergeByXPaths -> protocol.metadataxml: "
 					+ protocolMetaDataXml);
-
+			
+			/*
 			ProtocolStatus protocolStatus = protocolDao
 					.getLatestProtocolStatusByProtocolId(p.getId());
 			logger.debug("protocolStatus: "
@@ -1080,6 +1081,7 @@ public class ProtocolMetaDataXmlServiceImpl implements
 
 			protocolMetaDataXml = xmlProcessor.addAttributesByPath(
 					"/protocol/status", protocolMetaDataXml, attributes);
+			*/
 
 			logger.debug("final protocolMetaDataXml: " + protocolMetaDataXml);
 

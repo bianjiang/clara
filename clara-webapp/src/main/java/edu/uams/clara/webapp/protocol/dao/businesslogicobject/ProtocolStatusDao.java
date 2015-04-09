@@ -1,5 +1,7 @@
 package edu.uams.clara.webapp.protocol.dao.businesslogicobject;
 
+import java.util.List;
+
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -50,6 +52,24 @@ public class ProtocolStatusDao extends AbstractDomainDao<ProtocolStatus> {
 		q.setParameter("retired", Boolean.FALSE);
 		
 		return q.getSingleResult();
+
+		
+	}
+	
+	@Transactional
+	public List<ProtocolStatus> listProtocolStatusesByProtocolId(long protocolId){
+		
+		String query ="SELECT ps FROM ProtocolStatus ps "
+				+ " WHERE ps.protocol.id = :protocolId AND ps.retired = :retired ORDER BY ps.id DESC";
+		
+		TypedQuery<ProtocolStatus> q = getEntityManager()
+				.createQuery(query, ProtocolStatus.class);
+		q.setHint("org.hibernate.cacheable", true);
+
+		q.setParameter("protocolId", protocolId);
+		q.setParameter("retired", Boolean.FALSE);
+		
+		return q.getResultList();
 
 		
 	}

@@ -34,7 +34,8 @@ Ext.define('Clara.Common.view.ContractGridPanel', {
 			s += " "+Clara_HumanReadableType(r.get("contractEntityTypeDesc").replace(/-/gi," "));
 			return "<div class='wrap'>"+s+"</div>";
 		} else if (r.get("contractType") == "Amendment"){
-			return "<div class='contractgridpanel-amendment'>"+v + " " +r.get("formIndex")+"</div>";
+			var s = (me.clickableRows)?("<a href='"+appContext+"/contracts/"+r.get("id")+"/dashboard' >"+r.get("identifier")+"</a>"):r.get("identifier");
+			return "<div class='contractgridpanel-amendment'>"+v + " " +r.get("formIndex")+" for "+s+"</div>";
 		} 
 		else {
 			return v;

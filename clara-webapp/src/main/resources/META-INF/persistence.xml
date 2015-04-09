@@ -138,6 +138,7 @@
 		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraFunding</class>
 		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraProtocolDisease</class>
 		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraBudget</class>
+		<class>edu.uams.clara.integration.outgoing.ctms.domain.ClaraTrack</class>
 		
 		<class>edu.uams.clara.integration.outgoing.webchart.domain.WebChartARIAUser</class>
 		<class>edu.uams.clara.integration.outgoing.webchart.domain.WebChartARIAProtocol</class>

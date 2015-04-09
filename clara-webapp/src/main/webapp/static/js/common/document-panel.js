@@ -995,7 +995,7 @@ clog("DOC OBJ",doc);
 			
 			Ext.getCmp("btn-clara-document-changestatus").setVisible(Ext.getCmp("clara-documents-gridpanel").readOnly == false && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_SYSTEM_ADMIN','ROLE_BUDGET_REVIEWER']));
 			
-			Ext.getCmp("btn-clara-document-changetype").setVisible(Ext.getCmp("clara-documents-gridpanel").readOnly == false && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_IRB_PREREVIEW','ROLE_SYSTEM_ADMIN']));
+			Ext.getCmp("btn-clara-document-changetype").setVisible(Ext.getCmp("clara-documents-gridpanel").readOnly == false && claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE','ROLE_IRB_PREREVIEW','ROLE_SYSTEM_ADMIN','ROLE_CONTRACT_ADMIN','ROLE_CONTRACT_MANAGER','ROLE_CONTRACT_LEGAL_REVIEW']));
 			
 
 		});

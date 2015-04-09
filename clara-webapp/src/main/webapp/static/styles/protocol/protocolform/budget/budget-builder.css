@@ -250,28 +250,35 @@
 	text-decoration:overline;
 }
 
-.vp-diff-A,.vp-diff-M,.vp-diff-D{
+
+.vp-diff-A,.vp-diff-M,.vp-diff-D, .visit-diff-M,.visit-diff-A,.visit-diff-D{
 	font-weight:800;
 	font-style:italic;
 	font-size:16px;
 	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkmGhuDAACXgD9lQje3QAAAABJRU5ErkJggg==) repeat;
 }
+
+.visit-diff-M,.visit-diff-A,.visit-diff-D{
+	font-size:11px;
+}
+
+
 .proc-diff-A,.proc-diff-M,.proc-diff-D,.expense-diff-A,.expense-diff-M,.expense-diff-D{
 	font-weight:800;
 	font-style:italic;
 	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkmGhuDAACXgD9lQje3QAAAABJRU5ErkJggg==) repeat;
 }
 
-.epoch-diff-A,.epoch-diff-M,.epoch-diff-D{
+.epoch-diff-A,.epoch-diff-M,.epoch-diff-D,.visit-diff-A{
 	font-style:italic;
 	color:green;
 	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkmGhuDAACXgD9lQje3QAAAABJRU5ErkJggg==) repeat;
 }
-.epoch-diff-M,.expense-diff-M{
+.epoch-diff-M,.expense-diff-M,.visit-diff-M{
 	color:#000;
 	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGAwBgAAPQA1zJXiFgAAAABJRU5ErkJggg==) repeat;
 }
-.epoch-diff-D,.expense-diff-D{
+.epoch-diff-D,.expense-diff-D,.visit-diff-D{
 	color:red;
 	text-decoration:line-through;
 	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2P8z8BgDAAEOQE064B0NwAAAABJRU5ErkJggg==) repeat;

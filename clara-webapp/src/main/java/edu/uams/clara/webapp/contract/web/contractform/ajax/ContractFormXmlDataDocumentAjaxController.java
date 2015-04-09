@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.collect.Lists;
+
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
 import edu.uams.clara.webapp.common.security.ObjectAclService;
+import edu.uams.clara.webapp.common.service.audit.AuditService;
 import edu.uams.clara.webapp.common.util.JsonResponseHelper;
 import edu.uams.clara.webapp.common.util.response.JsonResponse;
 import edu.uams.clara.webapp.contract.dao.ContractDao;
@@ -60,6 +63,8 @@ public class ContractFormXmlDataDocumentAjaxController {
 	private XmlProcessor xmlProcessor;
 	
 	private SFTPService sftpService;
+	
+	private AuditService auditService;
 	
 	private ContractFormXmlDataDocumentService contractFormXmlDataDocumentService;
 	
@@ -195,6 +200,39 @@ public class ContractFormXmlDataDocumentAjaxController {
 		return contractFormXmlDataDocumentVersions;
 	}
 
+	
+	@RequestMapping(value = "/ajax/contracts/{contractId}/contract-forms/{contractFormId}/contract-form-xml-datas/{contractFormXmlDataId}/documents/{contractFormXmlDataDocumentId}/change-type", method = RequestMethod.POST, produces="application/json")
+	public @ResponseBody
+	JsonResponse changeContractFormXmlDataDocumentType(@PathVariable("contractId") long contractId,
+			@PathVariable("contractFormId") long contractFormId,
+			@PathVariable("contractFormXmlDataDocumentId") long contractFormXmlDataDocumentId,
+			@RequestParam("userId") long userId,
+			@RequestParam("category") String category,
+			@RequestParam("categoryDescription") String categoryDesc) throws Exception{
+		List<ContractFormXmlDataDocument> finalDocumentLst = Lists.newArrayList();
+				
+		try{
+			List<ContractFormXmlDataDocument> documentLst = contractFormXmlDataDocumentDao.listDocumentRevisionsByContractFormXmlDataDocumentId(contractFormXmlDataDocumentId);
+			
+			for (ContractFormXmlDataDocument cfxdd : documentLst) {
+				cfxdd.setCategory(category);
+				cfxdd.setCategoryDesc(categoryDesc);
+				
+				cfxdd = contractFormXmlDataDocumentDao.saveOrUpdate(cfxdd);
+				
+				finalDocumentLst.add(cfxdd);
+			}
+			
+			auditService.auditEvent("DOCUMENT_TYPE_UPDATE",
+					"User: " + userId + " has changed document: "+ contractFormXmlDataDocumentId +" type to: "+ categoryDesc);
+			
+			return JsonResponseHelper.newDataResponseStub(finalDocumentLst);
+		}catch(Exception ex){
+			logger.error("failed change contractDocument type: " + contractFormXmlDataDocumentId,  ex);
+			return JsonResponseHelper.newErrorResponseStub("failed to change the document's type, do you have the permission to do so?");
+		}
+	}
+	
 	@RequestMapping(value = "/ajax/contracts/{contractId}/contract-forms/{contractFormId}/contract-form-xml-datas/{contractFormXmlDataId}/documents/{contractFormXmlDataDocumentId}/delete", method = RequestMethod.POST)
 	public @ResponseBody 
 	JsonResponse deleteContractFormXmlDataDocument(@PathVariable("contractId") long contractId,
@@ -361,6 +399,13 @@ public class ContractFormXmlDataDocumentAjaxController {
 		this.contractDao = contractDao;
 	}
 	
+	public AuditService getAuditService() {
+		return auditService;
+	}
 	
+	@Autowired(required=true)
+	public void setAuditService(AuditService auditService) {
+		this.auditService = auditService;
+	}
 	
 }

@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import com.google.common.collect.Lists;
+
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
+import edu.uams.clara.webapp.common.domain.usercontext.UserRole;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.common.service.CommitteeGroupService;
 import edu.uams.clara.webapp.common.service.audit.AuditService;
@@ -321,10 +325,23 @@ public class ProtocolFormReviewLogicAjaxController {
 			protocolFormCommitteeComment.setInLetter(inLetter);
 			protocolFormCommitteeComment.setPrivate(isPrivate);
 			if (replyToId != null) {
-				parent = new ProtocolFormCommitteeComment();
-				parent.setId(replyToId);
+				//parent = new ProtocolFormCommitteeComment();
+				//parent.setId(replyToId);
+				parent = protocolFormCommitteeCommentDao.findById(replyToId);
+
+				protocolFormCommitteeComment.setDisplayOrder(parent.getDisplayOrder());
 			} else {
 				parent = protocolFormCommitteeComment;
+				
+				long maxDisplayOrder = 0;
+				
+				try {
+					maxDisplayOrder = protocolFormCommitteeCommentDao.getMaxDisplayOrderByProtocolFormId(protocolFormId);
+				} catch (Exception e) {
+					//e.printStackTrace();
+				}
+				
+				protocolFormCommitteeComment.setDisplayOrder(maxDisplayOrder + 1);
 			}
 
 			protocolFormCommitteeComment.setReplyTo(parent);
@@ -362,6 +379,23 @@ public class ProtocolFormReviewLogicAjaxController {
 		protocolFormCommitteeCommentDao
 				.saveOrUpdate(protocolFormCommitteeComment);
 
+		return XMLResponseHelper.xmlResult(Boolean.TRUE);
+	}
+	
+	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/review/committee-comments/set-order", method = RequestMethod.POST)
+	public @ResponseBody String reOrderComments(
+			@PathVariable("protocolFormId") long protocolFormId,
+			@RequestParam("protocolFormCommitteeCommentIds") List<String> protocolFormCommitteeCommentIds) {
+		long order = 1;
+		
+		for (String commentId : protocolFormCommitteeCommentIds) {
+			try {
+				protocolFormCommitteeCommentDao.updateProtocolFormCommitteeCommentOrder(Long.parseLong(commentId), order ++);
+			} catch (Exception e) {
+				return XMLResponseHelper.xmlResult(Boolean.FALSE);
+			}
+		}
+		
 		return XMLResponseHelper.xmlResult(Boolean.TRUE);
 	}
 
@@ -475,6 +509,24 @@ public class ProtocolFormReviewLogicAjaxController {
 
 		return XMLResponseHelper.xmlResult(Boolean.TRUE);
 	}
+	
+	// added for note and contingency exchange redmine 3129
+	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/review/committee-comments/{protocolFormCommitteeCommentId}/type/changetype", method = RequestMethod.POST)
+	public @ResponseBody
+	String changeProtocolFormCommitteeCommentType(
+			@PathVariable("protocolFormCommitteeCommentId") long protocolFormCommitteeCommentId,
+			@RequestParam(value = "commentType", required = false) CommentType commentType) {
+		ProtocolFormCommitteeComment protocolFormCommitteeComment = protocolFormCommitteeCommentDao
+				.findById(protocolFormCommitteeCommentId);
+		protocolFormCommitteeComment.setCommentType(commentType);
+
+		// protocolFormCommitteeComment.setContingencySeverity(contingencySeverity);
+
+		protocolFormCommitteeCommentDao
+				.saveOrUpdate(protocolFormCommitteeComment);
+
+		return XMLResponseHelper.xmlResult(Boolean.TRUE);
+	}
 
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/review/committee-comments/{protocolFormCommitteeCommentId}/statuses/change", method = RequestMethod.POST)
 	public @ResponseBody
@@ -501,9 +553,33 @@ public class ProtocolFormReviewLogicAjaxController {
 			@PathVariable("protocolFormId") long protocolFormId) {
 		User currentUser = userDao.findById(userId);
 		
+		
+		
 		List<ProtocolFormCommitteeComment> protocolFormCommitteeComments = protocolFormCommitteeCommentDao
 				.listAllParentsByProtocolFormIdExcludingByUserId(
 						protocolFormId, currentUser);
+		
+		List<ProtocolFormCommitteeComment> returnComments = Lists.newArrayList();
+		
+		for(ProtocolFormCommitteeComment comment : protocolFormCommitteeComments){
+			boolean showComment = false;
+			if(comment.getCommentType().equals(CommentType.STUDYWIDE)){
+				for(UserRole userRole : currentUser.getUserRoles()){
+					logger.debug(userRole.getRole().getName());
+					if(userRole.getRole().getName().contains("IRB")){
+						showComment = true;
+						break;
+					}
+				}
+			}else{
+				showComment = true;
+			}
+			
+			if(showComment){
+				returnComments.add(comment);
+			}
+		}
+		
 		/*
 		boolean showIRBComments = false;
 		
@@ -524,8 +600,7 @@ public class ProtocolFormReviewLogicAjaxController {
 			}
 		}*/
 		
-		
-		return protocolFormCommitteeComments;
+		return returnComments;
 	}
 
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/review/review-status", method = RequestMethod.GET)

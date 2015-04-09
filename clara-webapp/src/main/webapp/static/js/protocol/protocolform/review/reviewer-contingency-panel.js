@@ -3,7 +3,7 @@ Ext.ns('Clara.Reviewer');
 Clara.Reviewer.SelectedComment = {};
 
 Clara.Reviewer.showReplyBoxForCommentId = function(id) {
-	// jQuery("#review-reply-for-comment-"+id).toggle();
+
 	
 	win = new Ext.Window({
 	    title: 'Please enter your comment:',
@@ -11,7 +11,7 @@ Clara.Reviewer.showReplyBoxForCommentId = function(id) {
 	    width: 600,
 	    modal:true,
 	    layout: 'fit',
-	    items: {  // Let's put an empty grid in just to illustrate fit layout
+	    items: {  
 	        xtype: 'textarea',
 	        name: 'fldReplyCommentTextArea',
 	        id: 'fldReplyCommentTextArea'
@@ -43,6 +43,44 @@ Clara.Reviewer.showReplyBoxForCommentId = function(id) {
 	
 	
 };
+
+//added for note and contingency exchange redmine 3129
+Clara.Reviewer.changeNotesToContingency = function(id,gridPanelId){
+	var gp = Ext.getCmp(gridPanelId);
+	var rec = gp.getStore().getById(id);
+	//rec.data.commentType = "CONTINGENCY";
+	var data = {
+			committee:claraInstance.user.committee,
+			protocolFormId: claraInstance.form.id,
+			userId: claraInstance.user.id,
+			isPrivate:false
+		};
+	
+	if (rec.data.commentStatus != null) data.commentStatus = rec.data.commentStatus;
+	if (rec.data.commentType != null &&rec.data.commentType.indexOf("NOTE") > -1){
+		data.commentType = "CONTINGENCY_MINOR";
+	}else if(rec.data.commentType != null &&rec.data.commentType.indexOf("CONTINGENCY") > -1){
+		data.commentType = "NOTE_MINOR";
+	}
+	
+	jQuery.ajax({
+		url: appContext + "/ajax/"+claraInstance.type+"s/" + claraInstance.id + "/"+claraInstance.type+"-forms/"+claraInstance.form.id+"/review/committee-comments/"+rec.data.id+"/type/changetype",
+		type: "POST",
+		async: false,
+		data: data,    								
+		success: function(data){
+			if(Clara.Reviewer.MessageBus){
+				Clara.Reviewer.MessageBus.fireEvent('contingenciesupdated', this);
+			}
+			return true;
+		},
+		error: function(){
+			return false;
+		}
+	});
+};
+
+
 
 Clara.Reviewer.editComment = function(id, gridPanelId){
     var gp = Ext.getCmp(gridPanelId);
@@ -273,6 +311,20 @@ Clara.Reviewer.CommentRenderer = function(v,p,r,options){
             html += " - <a href='javascript:;' onClick='Clara.Reviewer.editComment("+r.data.id+", \""+gpid+"\");'>Edit</a> - <a href='javascript:;' onClick='Clara.Reviewer.removeComment("+r.data.id+");'>Delete</a>";
         }
 
+        // added for note and contingency exchange redmine 3129
+        if (!options.meetingView && typeof(t) != "undefined" && typeof(t.isActingAsIRB) != "undefined" && Clara.IsUser(r.data.userId) && t.isMyList()){
+        	if(claraInstance.HasAnyPermissions(['ROLE_IRB_EXPEDITED_REVIEWER','ROLE_IRB_PREREVIEW'])){
+        		
+        		
+        		if(r.get("commentType") == "NOTE_MINOR"||r.get("commentType") == "NOTE_MAJOR"||r.get("commentType") == "NOTE"){
+        			html += " - <a href='javascript:;' onClick='Clara.Reviewer.changeNotesToContingency("+r.data.id+", \""+gpid+"\");'>Change to Contingency</a>";
+        		}else if(r.get("commentType") == "CONTINGENCY_MINOR"||r.get("commentType") == "CONTINGENCY_MAJOR"||r.get("commentType") == "CONTINGENCY"){
+        			html += " - <a href='javascript:;' onClick='Clara.Reviewer.changeNotesToContingency("+r.data.id+", \""+gpid+"\");'>Change to Note</a> ";
+        		}
+        	}
+        	
+        }
+
 
         // Add copy/move to "other committees" list
         var canMove = claraInstance.HasAnyPermissions(requiredRoles.moveComments);
@@ -381,6 +433,9 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
     onReviewPage:false,
     reviewAsPI: false,
     readOnly:false,
+    
+    ddGroup:'reviewnote-dd',
+	ddText:'Reorder this item.',
     viewConfig:{
     	selectedRowClass:''
     },
@@ -396,6 +451,9 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			Clara.Reviewer.MessageBus.on('contingenciesupdated', this.onContigenciesUpdated, this);
 		}
 	},
+	
+
+	
 	isMyList: function(){
 		if (typeof claraInstance.user.committee == "undefined" || claraInstance.user.committee == null) return false;
 		else return (jQuery.inArray(claraInstance.user.committee, this.committeeIncludeFilter) > -1);
@@ -423,6 +481,7 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	initComponent: function() {
 		var t = this;
 		
+		
 		clog("COMMENT PANEL, INIT. readOnly?",t.readOnly);
 		if (!t.readOnly)	{	// if readOnly isnt set to true by the server variable on jspx..
 			t.readOnly = (t.agendaItemView == true && (claraInstance.HasAnyPermissions(requiredRoles.addComments) == true || claraInstance.HasAnyPermissions(['ROLE_IRB_OFFICE']) == true))?false:true;
@@ -444,6 +503,58 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		}
 		
 		var config = {
+				plugins: [new Ext.ux.dd.GridDragDropRowOrder(
+					    {
+					    	dragDropEnabled:(claraInstance.HasAnyPermissions(['CAN_REORDER_COMMENTS']) && t.isMyList()),
+					        copy: false, // false by default
+					        scrollable: true, // enable scrolling support (default is false)
+					        ddGroup:'reviewnote-dd',
+					        targetCfg: { 
+							    notifyDrop:function(dd,e,data){
+					    			var grid = t;
+					    			var ds = grid.store;
+					    			var sm = grid.getSelectionModel();
+					                var rows = sm.getSelections();
+					                if(dd.getDragData(e)) {
+					                    var cindex=dd.getDragData(e).rowIndex;
+					                    if(typeof(cindex) != "undefined") {
+					                        for(var i = 0; i <  rows.length; i++) {
+					                        ds.remove(ds.getById(rows[i].id));
+					                        }
+					                        ds.insert(cindex,data.selections);
+					                        sm.clearSelections();
+					                       
+					                     }
+					                    grid.getView().refresh(false);
+					                    // SORT, THEN UPDATE EPOCH HERE.
+										var protocolFormCommitteeCommentIds = [];
+										ds.each(function(rec){
+											protocolFormCommitteeCommentIds.push(rec.get("id")); 
+										});
+										
+										// AJAX CALL HERE
+									
+										Ext.Ajax.request({
+											method : 'POST',
+											url : appContext + "/ajax/protocols/"+claraInstance.id+"/protocol-forms/"+claraInstance.form.id+"/review/committee-comments/set-order",
+											params : {
+												protocolFormCommitteeCommentIds : protocolFormCommitteeCommentIds
+											},
+											success : function(response) {
+												clog('reorder Review notes: Ext.Ajax success',
+														response);
+											},
+											failure : function(error) {
+												cwarn('reorder Review notes: Ext.Ajax failure',
+														error);
+											}
+										});
+										
+										 sm.selectRecords(rows);  
+					                 }
+					    		}
+					    	} // any properties to apply to the actual DropTarget
+					    })],
 				title:(t.title != "" && t.title != null)?t.title:(t.isMyList()?"My committee":"Other committees"),
 				iconCls:t.isMyList()?"icn-sticky-note":"icn-sticky-notes-stack",
 				view: new Ext.grid.GroupingView({
@@ -461,10 +572,11 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 						method:"GET",
 						headers:{'Accept':'application/json;charset=UTF-8'}
 					}),
-					sortInfo: {
-						field:'id',
-						direction: 'DESC'
-					},
+					multiSortInfo:{ 
+	                       sorters: [{field: 'displayOrder', direction: "ASC"}
+	                                    ,{field: 'id', direction: "DESC"}], 
+	                       direction: 'ASC'},
+
 					baseParams: {
 						userId:claraInstance.user.id,
 						committee:claraInstance.user.committee
@@ -495,6 +607,7 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 						idProperty: 'id',
 						fields: [
 						         {name:'id', mapping:'id'},
+						         {name:'displayOrder', mapping:'displayOrder'},
 						         {name:'committee', mapping:'committee'},
 						         {name:'committeeDescription'},
 						         {name:'modified', mapping:'modifiedDate', type: 'date', dateFormat: 'm/d/Y H:i:s'},
@@ -529,14 +642,45 @@ Clara.Reviewer.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				}),
 
 				listeners:{
-		    		//rowdblclick:function(t,ridx,e){
-		    		//	var rec = t.getStore().getAt(ridx);
-                    //    clog("opening window with rec",rec);
-		    		//	if (!t.readOnly) new Clara.Reviewer.AddNoteWindow({commentType:rec.get("commentType"),editing:true, record:rec, isActingAsIRB: t.isActingAsIRB(), isMyList: t.isMyList()}).show();
-		    		//},
+
 		    		show:function(g){
 		    			if (g.getStore().getCount() == 0) g.getStore().load();
-		    		}
+		    		}/*,
+		    		render: function(grid){
+						var ddrow = new Ext.dd.DropTarget(grid.container, {
+							ddGroup : 'reviewnote-dd',
+							copy:false,
+
+							notifyDrop : function(dd, e, data){
+								
+							
+								var ds = grid.store;
+
+								var sm = grid.getSelectionModel();
+								var rows = sm.getSelections();
+								if(dd.getDragData(e)) {
+									var cindex=dd.getDragData(e).rowIndex;
+									if(typeof(cindex) != "undefined") {
+										for(i = 0; i <  rows.length; i++) {
+											ds.remove(ds.getById(rows[i].id));
+										}
+										ds.insert(cindex,data.selections);
+										//sm.clearSelections();
+									}
+									// SORT, THEN UPDATE EPOCH HERE.
+									var commentIds = [];
+									ds.each(function(rec){
+										commentIds.push(rec.get("id")); 
+									});
+									
+									// AJAX CALL HERE
+									clog("AJAX, REORDER: ",commentIds);
+
+								}
+
+							}
+						});
+					} */
 		    	},
 				
 				tbar:new Ext.Toolbar({

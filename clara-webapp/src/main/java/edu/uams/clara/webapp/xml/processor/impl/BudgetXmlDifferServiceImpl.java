@@ -547,10 +547,57 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 					addingNotesEle.setTextContent(currSubPros
 							.get(procedureIndex).getElementsByTagName("notes")
 							.item(0).getTextContent());
-
+					
+					Element addingCovNotesEle = compDoc.createElement("coverage-notes");
+					addingCovNotesEle.setTextContent(currSubPros
+							.get(procedureIndex).getElementsByTagName("coverage-notes")
+							.item(0).getTextContent());
+					
+					Element addingCliNotesEle = compDoc.createElement("clinical-notes");
+					addingCliNotesEle.setTextContent(currSubPros
+							.get(procedureIndex).getElementsByTagName("clinical-notes")
+							.item(0).getTextContent());
+					
+					Element addingCostEle = compDoc.createElement("cost");
+					Element targetCostEle = (Element) currSubPros
+							.get(procedureIndex).getElementsByTagName("cost")
+							.item(0);
+					
+					Element addingCostMiscEle = compDoc.createElement("misc");
+					addingCostMiscEle.setTextContent(targetCostEle.getElementsByTagName("misc")
+							.item(0).getTextContent());
+					Element addingCostSponsorEle = compDoc.createElement("sponsor");
+					addingCostSponsorEle.setTextContent(targetCostEle.getElementsByTagName("sponsor")
+							.item(0).getTextContent());
+					Element addingCostPriceEle = compDoc.createElement("price");
+					addingCostPriceEle.setTextContent(targetCostEle.getElementsByTagName("price")
+							.item(0).getTextContent());
+					Element addingCostResidualEle = compDoc.createElement("residual");
+					addingCostResidualEle.setTextContent(targetCostEle.getElementsByTagName("residual")
+							.item(0).getTextContent());
+					addingCostEle.appendChild(addingCostMiscEle);
+					addingCostEle.appendChild(addingCostSponsorEle);
+					addingCostEle.appendChild(addingCostPriceEle);
+					addingCostEle.appendChild(addingCostResidualEle);
+					
+					
+					Element addingHospEle = compDoc.createElement("hosp");
+					Element addingPhysEle = compDoc.createElement("phys");
+					
+					addingHospEle = copyElement(addingHospEle,
+							(Element)currSubPros.get(procedureIndex).getElementsByTagName("hosp").item(0), false);
+					addingPhysEle = copyElement(addingPhysEle,
+							(Element)currSubPros.get(procedureIndex).getElementsByTagName("phys").item(0), false);
+					
+					
 					addingProceudreEle = copyElement(addingProceudreEle,
 							currSubPros.get(procedureIndex), false);
 					addingProceudreEle.appendChild(addingNotesEle);
+					addingProceudreEle.appendChild(addingCliNotesEle);
+					addingProceudreEle.appendChild(addingCostEle);
+					addingProceudreEle.appendChild(addingCovNotesEle);
+					addingProceudreEle.appendChild(addingHospEle);
+					addingProceudreEle.appendChild(addingPhysEle);
 					addingProceudreEle.setAttribute("diff", "A");
 
 					subproceduresEle.appendChild(addingProceudreEle);
@@ -612,10 +659,56 @@ public class BudgetXmlDifferServiceImpl implements BudgetXmlDifferService{
 					addingNotesEle.setTextContent(currPros.get(procedureIndex)
 							.getElementsByTagName("notes").item(0)
 							.getTextContent());
+					
+					
+					Element addingCliNotesEle = compDoc.createElement("clinical-notes");
+					addingCliNotesEle.setTextContent(currPros
+							.get(procedureIndex).getElementsByTagName("clinical-notes")
+							.item(0).getTextContent());
+					
+					Element addingCostEle = compDoc.createElement("cost");
+					Element targetCostEle = (Element) currPros
+							.get(procedureIndex).getElementsByTagName("cost")
+							.item(0);
+					
+					Element addingCostMiscEle = compDoc.createElement("misc");
+					addingCostMiscEle.setTextContent(targetCostEle.getElementsByTagName("misc")
+							.item(0).getTextContent());
+					Element addingCostSponsorEle = compDoc.createElement("sponsor");
+					addingCostSponsorEle.setTextContent(targetCostEle.getElementsByTagName("sponsor")
+							.item(0).getTextContent());
+					Element addingCostPriceEle = compDoc.createElement("price");
+					addingCostPriceEle.setTextContent(targetCostEle.getElementsByTagName("price")
+							.item(0).getTextContent());
+					Element addingCostResidualEle = compDoc.createElement("residual");
+					addingCostResidualEle.setTextContent(targetCostEle.getElementsByTagName("residual")
+							.item(0).getTextContent());
+					addingCostEle.appendChild(addingCostMiscEle);
+					addingCostEle.appendChild(addingCostSponsorEle);
+					addingCostEle.appendChild(addingCostPriceEle);
+					addingCostEle.appendChild(addingCostResidualEle);
+					
+					Element addingCovNotesEle = compDoc.createElement("coverage-notes");
+					addingCovNotesEle.setTextContent(currPros
+							.get(procedureIndex).getElementsByTagName("coverage-notes")
+							.item(0).getTextContent());
+					
+					Element addingHospEle = compDoc.createElement("hosp");
+					Element addingPhysEle = compDoc.createElement("phys");
+					
+					addingHospEle = copyElement(addingHospEle,
+							(Element)currPros.get(procedureIndex).getElementsByTagName("hosp").item(0), false);
+					addingPhysEle = copyElement(addingPhysEle,
+							(Element)currPros.get(procedureIndex).getElementsByTagName("phys").item(0), false);
 
 					addingProceudreEle = copyElement(addingProceudreEle,
 							currPros.get(procedureIndex),false);
 					addingProceudreEle.appendChild(addingNotesEle);
+					addingProceudreEle.appendChild(addingCliNotesEle);
+					addingProceudreEle.appendChild(addingCovNotesEle);
+					addingProceudreEle.appendChild(addingCostEle);
+					addingProceudreEle.appendChild(addingHospEle);
+					addingProceudreEle.appendChild(addingPhysEle);
 					addingProceudreEle.setAttribute("diff", "A");
 
 					proceduresEle.appendChild(addingProceudreEle);

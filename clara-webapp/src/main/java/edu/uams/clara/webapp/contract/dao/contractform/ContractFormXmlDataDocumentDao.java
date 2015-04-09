@@ -13,7 +13,6 @@ import edu.uams.clara.core.dao.AbstractDomainDao;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
 import edu.uams.clara.webapp.contract.domain.contractform.ContractFormXmlDataDocument;
 import edu.uams.clara.webapp.contract.domain.contractform.ContractFormXmlDataDocumentWrapper;
-import edu.uams.clara.webapp.fileserver.domain.UploadedFile;
 
 @Repository
 public class ContractFormXmlDataDocumentDao extends
@@ -235,6 +234,25 @@ public class ContractFormXmlDataDocumentDao extends
 		return q.getResultList();
 	}
 	
+	
+	@Transactional(readOnly = true)
+	public List<ContractFormXmlDataDocument> listDocumentRevisionsByContractFormXmlDataDocumentId(
+			long contractFormXmlDataId) {
+		
+		
+		String nativeQuery = "SELECT cfd.* FROM contract_form_xml_data_document cfd"
+						+ " WHERE cfd.parent_id IN (SELECT cfxd.parent_id FROM contract_form_xml_data_document cfxd WHERE cfxd.id = :contractFormXmlDataId AND cfxd.retired = :retired) "
+						+ " AND cfd.retired = :retired";
+
+		TypedQuery<ContractFormXmlDataDocument> q = (TypedQuery<ContractFormXmlDataDocument>) getEntityManager()
+				.createNativeQuery(nativeQuery, ContractFormXmlDataDocument.class);
+
+		q.setHint("org.hibernate.cacheable", false);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("contractFormXmlDataId", contractFormXmlDataId);
+
+		return q.getResultList();
+	}
 	
 
 	/**

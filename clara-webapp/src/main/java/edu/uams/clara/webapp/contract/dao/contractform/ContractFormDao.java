@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Query;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Element;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import edu.uams.clara.core.dao.AbstractDomainDao;
@@ -569,8 +571,16 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 	    return true;
 	}
 	
+	private Map<String, String> sortFieldMap = Maps.newHashMap();{
+		sortFieldMap.put("id", "id");
+		sortFieldMap.put("contractType", "id");
+		sortFieldMap.put("status", "meta_data_xml.value('(//status/text())[1]', 'varchar(100)')");
+		sortFieldMap.put("entity", "meta_data_xml.value('(//sponsors/sponsor/company/text())[1]', 'varchar(100)')");
+		sortFieldMap.put("studyIdentifier", "meta_data_xml.value('(//protocol/text())[1]', 'varchar(100)')");
+	} 
+	
 	@Transactional(readOnly = true)
-	public PagedList<ContractForm> listPagedContractMetaDatasByUserAndSearchCriteriaAndContractStatusFilter(User user, int start, int limit, List<ContractSearchCriteria> searchCriterias, ContractFormStatusEnum filter, String quickSearchKeyword) {
+	public PagedList<ContractForm> listPagedContractMetaDatasByUserAndSearchCriteriaAndContractStatusFilter(User user, int start, int limit, List<ContractSearchCriteria> searchCriterias, ContractFormStatusEnum filter, String quickSearchKeyword, String sortField, String dir) {
 		PagedList<ContractForm> pagedList = new PagedList<ContractForm>();
 		pagedList.setStart(start);
 		pagedList.setLimit(limit);
@@ -637,7 +647,8 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 					+ (filter !=  null?" AND cs.id = (SELECT MAX(cs.id) FROM contract_form_status cs WHERE cs.contract_form_id = c.id AND cs.contract_form_status = :contractFormStatus) ":"")
 					+ ((searchCriterias != null)?" AND  (" + xpathWhereClause + ") ": "")
 					+ " GROUP BY c.parent_id) "
-					+ " AND cf.contract_form_type = 'NEW_CONTRACT' ORDER BY cf.id DESC ";
+					+ " AND cf.contract_form_type = 'NEW_CONTRACT'"
+					+ ((sortField != null)?" ORDER BY "+ sortFieldMap.get(sortField) + " " + dir + ";":" ORDER BY cf.id DESC");
 		} else {
 			/*
 			queryTotal = " SELECT COUNT(*) FROM contract cl WHERE cl.id IN ("
@@ -699,7 +710,8 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 			logger.debug("query:" + queryTotal);
 
 			query = " SELECT cform.* FROM contract_form cform WHERE cform.id IN ("
-					+ permissionPIDQuery + ")" + (searchPIDQuery == null?"":" AND cform.id IN (" + searchPIDQuery + ")") + " ORDER BY cform.id DESC";
+					+ permissionPIDQuery + ")" + (searchPIDQuery == null?"":" AND cform.id IN (" + searchPIDQuery + ")") 
+					+ ((sortField != null)?" ORDER BY "+ sortFieldMap.get(sortField) + " " + dir + ";":" ORDER BY cf.id DESC");
 			
 			/*
 			queryTotal = " SELECT COUNT(DISTINCT cf.contract_id) FROM contract_form cf WHERE cf.id IN ("
@@ -749,7 +761,7 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 
 		long total = Long.valueOf(tq.getSingleResult().toString());
 		pagedList.setTotal(total);
-
+		
 		TypedQuery<ContractForm> q = (TypedQuery<ContractForm>) getEntityManager().createNativeQuery(query,
 				ContractForm.class);
 		q.setFirstResult(start).setMaxResults(limit);

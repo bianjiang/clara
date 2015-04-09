@@ -30,6 +30,7 @@ import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.protocol.businesslogic.ProtocolBusinessObjectStatusHelper;
 import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
+import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
@@ -289,6 +290,7 @@ public class ModificationBusinessObjectStatusHelperImpl extends
 		case UNDER_REVISION_MAJOR_CONTINGENCIES:
 		case UNDER_REVISION_MINOR_CONTINGENCIES:
 		case UNDER_REVISION:
+		case PENDING_BUDGET_NEGOTIATIONS:
 			if (committee.equals(Committee.PI) && action.equals("SIGN_SUBMIT")){
 				condition = formService.isCurrentUserSpecificRoleOrNot(protocolForm, user, "Principal Investigator")?"IS_PI":"IS_NOT_PI";
 			}
@@ -407,7 +409,7 @@ public class ModificationBusinessObjectStatusHelperImpl extends
 			}
 			break;
 		case UNDER_PHARMACY_REVIEW:
-			if (committee.equals(Committee.PHARMACY_REVIEW) && action.equals("APPROVE")) {
+			if (committee.equals(Committee.PHARMACY_REVIEW) && (action.equals("APPROVE") || action.equals("NOT_APPLICABLE"))) {
 				try {
 					XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
 					
@@ -542,6 +544,17 @@ public class ModificationBusinessObjectStatusHelperImpl extends
 			actionXmlDoc = getProtocolTrackService().addNewNotification(actionXmlDoc, "NOTIFICATION", "GENERIC_APPROVE_TO_BEACON", null, "boolean(count(/protocol/epic/involve-chemotherapy[text()='y'])>0)", "NOTIFICATION", "GENERIC_APPROVE_TO_BEACON", "Budget modification has been approved and Beacon team is notified. <div class=\"history-log-email\">{EMAIL_NOTIFICATION_LOG}</div>");
 			
 			actionXmlDoc = getProtocolTrackService().addNewNotification(actionXmlDoc, "NOTIFICATION", "BUDGET_APPROVED_NOTIFICATION_FOR_HB", null, null, "NOTIFICATION", "BUDGET_APPROVED_NOTIFICATION_FOR_HB", "Budget modification has been approved and HB team is notified. <div class=\"history-log-email\">{EMAIL_NOTIFICATION_LOG}</div>");
+			
+			try {
+				ProtocolFormStatus protocolFormStatus = getProtocolFormStatusDao().getProtocolFormStatusByFormIdAndProtocolFormStatus(protocolForm.getId(), ProtocolFormStatusEnum.UNDER_PHARMACY_REVIEW);
+				
+				if (protocolFormStatus != null) {
+					actionXmlDoc = getProtocolTrackService().addNewNotification(actionXmlDoc, "NOTIFICATION", "GENERIC_BUDGET_APPROVE_TO_PHARMACY", null, null, "NOTIFICATION", "GENERIC_BUDGET_APPROVE_TO_PHARMACY", "Budget modification has been approved and Pharmacy is notified. <div class=\"history-log-email\">{EMAIL_NOTIFICATION_LOG}</div>");
+				}
+			} catch (Exception e) {
+				//don't care
+			}
+			
 			/*
 			Element notificationsEl = (Element) (xPath.evaluate(
 					"//notifications", actionXmlDoc,

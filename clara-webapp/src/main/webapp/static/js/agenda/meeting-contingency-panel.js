@@ -348,6 +348,8 @@ Clara.IRBMeeting.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
     border: false,
     currentAgendaItem: {},
     readOnly:false,
+    ddGroup:'reviewnote-dd',
+	ddText:'Reorder this item.',
     bodyCssClass:'gridpanel-contingencies',
 	stripeRows: true,
 	constructor:function(config){		
@@ -407,6 +409,61 @@ Clara.IRBMeeting.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	initComponent: function() {
 		var t = this;
 		var config = {
+				plugins: [new Ext.ux.dd.GridDragDropRowOrder(
+					    {
+					    	dragDropEnabled:(claraInstance.HasAnyPermissions(['CAN_REORDER_COMMENTS']) && meeting.status != "SENT_TO_TRANSCRIBER"),
+					        copy: false, // false by default
+					        scrollable: true, // enable scrolling support (default is false)
+					        ddGroup:'reviewnote-dd',
+					        targetCfg: { 
+							    notifyDrop:function(dd,e,data){
+					    			var grid = t;
+					    			var ds = grid.store;
+					    			var sm = grid.getSelectionModel();
+					                var rows = sm.getSelections();
+					                if(dd.getDragData(e)) {
+					                    var cindex=dd.getDragData(e).rowIndex;
+					                    if(typeof(cindex) != "undefined") {
+					                        for(var i = 0; i <  rows.length; i++) {
+					                        ds.remove(ds.getById(rows[i].id));
+					                        }
+					                        ds.insert(cindex,data.selections);
+					                        sm.clearSelections();
+					                       
+					                     }
+					                    grid.getView().refresh(false);
+					                    // SORT, THEN UPDATE EPOCH HERE.
+										var protocolFormCommitteeCommentIds = [];
+										ds.each(function(rec){
+											protocolFormCommitteeCommentIds.push(rec.get("id")); 
+										});
+										
+										// AJAX CALL HERE
+									
+										var protocolId;
+										var protocolFormId;
+										
+										Ext.Ajax.request({
+											method : 'POST',
+											url : appContext + "/ajax/protocols/"+t.currentAgendaItem.protocolId+"/protocol-forms/"+t.currentAgendaItem.protocolFormId +"/review/committee-comments/set-order",
+											params : {
+												protocolFormCommitteeCommentIds : protocolFormCommitteeCommentIds
+											},
+											success : function(response) {
+												clog('reorder Review notes: Ext.Ajax success',
+														response);
+											},
+											failure : function(error) {
+												cwarn('reorder Review notes: Ext.Ajax failure',
+														error);
+											}
+										});
+										
+										 sm.selectRecords(rows);  
+					                 }
+					    		}
+					    	} // any properties to apply to the actual DropTarget
+					    })],
 			    view: new Ext.grid.GroupingView({
 			    	forceFit: true,
 					rowOverCls:'',
@@ -423,10 +480,11 @@ Clara.IRBMeeting.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 						method:"GET",
 						headers:{'Accept':'application/json;charset=UTF-8'}
 					}),
-					sortInfo: {
-						field:'id',
-						direction: 'DESC'
-					},
+					multiSortInfo:{ 
+	                       sorters: [{field: 'displayOrder', direction: "ASC"}
+	                                    ,{field: 'id', direction: "DESC"}], 
+	                       direction: 'ASC'},
+
 					baseParams: {
 						userId:this.currentAgendaItem.userId,
 						committee:this.currentAgendaItem.committee
@@ -441,6 +499,7 @@ Clara.IRBMeeting.ContingencyGridPanel = Ext.extend(Ext.grid.GridPanel, {
 						idProperty: 'id',
 						fields: [
 						         {name:'id', mapping:'id'},
+						         {name:'displayOrder', mapping:'displayOrder'},
 						         {name:'committee', mapping:'committee'},
 						         {name:'committeeDescription'},
 						         {name:'modified', mapping:'modifiedDate', type: 'date', dateFormat: 'm/d/Y H:i:s'},

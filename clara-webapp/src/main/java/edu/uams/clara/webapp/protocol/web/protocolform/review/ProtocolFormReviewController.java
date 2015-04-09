@@ -60,9 +60,16 @@ public class ProtocolFormReviewController {
 		
 		boolean readOnly = false;
 		
-		if (cannotEditProtocolFormStatusList.contains(latestProtocolFormStatus.getProtocolFormStatus())){
+		//reviewer can make notes when study is in draft, but only pharmacy reviewer can edit study
+		if (latestProtocolFormStatus.getProtocolFormStatus().equals(ProtocolFormStatusEnum.DRAFT) || latestProtocolFormStatus.getProtocolFormStatus().equals(ProtocolFormStatusEnum.PENDING_PI_ENDORSEMENT)) {
+			if (!committee.toString().equals("PHARMACY_REVIEW")) {
+				readOnly = true;
+			}
+		} else if (cannotEditProtocolFormStatusList.contains(latestProtocolFormStatus.getProtocolFormStatus())){
 			readOnly = true;
 		}
+		
+		
 		
 		Set<Permission> objectPermissions = protocolFormReviewService.getObjectPermissions(protocolForm, currentUser, committee);
 

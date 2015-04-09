@@ -180,6 +180,7 @@
 					<possible-values>
 						<value id="yes">Yes</value>
 						<value id="no">No</value>
+						<value id="partial">Partial Waiver (recruitment purposes only)</value>
 					</possible-values>
 				</question-value>
 			</question>

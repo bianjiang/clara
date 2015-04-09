@@ -320,6 +320,7 @@ public class NewSubmssionBusinessObjectStatusHelperImpl extends
 		case UNDER_REVISION_MAJOR_CONTINGENCIES:
 		case UNDER_REVISION_MINOR_CONTINGENCIES:
 		case UNDER_REVISION:
+		case PENDING_BUDGET_NEGOTIATIONS:
 			if (committee.equals(Committee.PI) && action.equals("SIGN_SUBMIT")){
 				condition = formService.isCurrentUserSpecificRoleOrNot(protocolForm, user, "Principal Investigator")?"IS_PI":"IS_NOT_PI";
 			}
@@ -462,7 +463,7 @@ public class NewSubmssionBusinessObjectStatusHelperImpl extends
 			}
 			break;
 		case UNDER_PHARMACY_REVIEW:
-			if (committee.equals(Committee.PHARMACY_REVIEW) && action.equals("APPROVE")) {
+			if (committee.equals(Committee.PHARMACY_REVIEW) && (action.equals("APPROVE") || action.equals("NOT_APPLICABLE"))) {
 				try {
 					XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
 					

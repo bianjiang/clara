@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import edu.uams.clara.webapp.common.domain.usercontext.User;
+import edu.uams.clara.webapp.common.domain.usercontext.UserRole;
+import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
 
 @Controller
 public class AdminController {
@@ -31,13 +33,29 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin")
 	public String getAdminDashboard(ModelMap modelMap){
-		modelMap.put("user", (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		return "admin/index";
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		for(UserRole userRole :user.getUserRoles()) {
+			if(userRole.getRole().getDisplayName().trim().equals("System Admin")){
+				modelMap.put("user", (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+				return "admin/index";
+			}
+		}
+		// do not have system admin role, go back to index page.
+		return "index";
+		
 	}
 	
 	
 	@RequestMapping(value="/super")
 	public String getSecretAdmin(ModelMap modelMap){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if(!user.getUserPermissions().contains(Permission.ROLE_SECRET_ADMIN)){
+			// do not have permission, go back to index page.
+			return "index";
+		}
+		
 		
 		logger.debug("beans:" + applicationContext.getBeanDefinitionCount());
 		for(Entry<String, RequestMappingHandlerAdapter> entry:applicationContext.getBeansOfType(RequestMappingHandlerAdapter.class).entrySet()){
@@ -58,7 +76,6 @@ public class AdminController {
 			}
 		}
 		*/
-		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		modelMap.put("user", user);
 		return "admin/secret";

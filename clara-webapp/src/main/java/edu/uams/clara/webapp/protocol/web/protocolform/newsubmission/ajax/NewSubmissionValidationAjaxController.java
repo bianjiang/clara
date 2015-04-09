@@ -84,6 +84,12 @@ public class NewSubmissionValidationAjaxController {
 		ignoreValidationQuestionSet.add("/protocol/site-responsible/enroll-subject-in-uams");
 		ignoreValidationQuestionSet.add("/protocol/study-type/investigator-initiate/support-type-describe");
 	}
+	
+	private List<Committee> validationIgnoreCommitteeList = Lists.newArrayList();{
+		validationIgnoreCommitteeList.add(Committee.PHARMACY_REVIEW);
+		validationIgnoreCommitteeList.add(Committee.BUDGET_REVIEW);
+		validationIgnoreCommitteeList.add(Committee.COVERAGE_REVIEW);
+	}
 
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/new-submission/protocol-form-xml-datas/{protocolFormXmlDataId}/validate", method = RequestMethod.GET)
 	public @ResponseBody
@@ -97,7 +103,7 @@ public class NewSubmissionValidationAjaxController {
 		
 		List<ValidationResponse> validationResponses = new ArrayList<ValidationResponse>();
 		
-		if (!committee.equals(Committee.PHARMACY_REVIEW)){
+		if (!validationIgnoreCommitteeList.contains(committee)){
 			
 			if(StringUtils.hasText(xmldata)){
 

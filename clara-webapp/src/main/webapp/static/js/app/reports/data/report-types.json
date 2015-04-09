@@ -292,6 +292,17 @@
             "forceQueue": false,
             "hasUserSelectableCriteria":true,
             "hasUserSelectableResultFields":false
+        },
+        {
+            "id": 27, 
+            "type":"Contract Review Time Summary Report",
+            "category":"Contract",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"contractreviewtimesummaryreport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         }
         
         ]

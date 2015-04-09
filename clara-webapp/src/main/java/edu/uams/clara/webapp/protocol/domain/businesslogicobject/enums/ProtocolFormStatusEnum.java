@@ -82,7 +82,10 @@ public enum ProtocolFormStatusEnum {
 	IRB_REVIEW_NOT_NEEDED("IRB Review Not Needed", "INFO", false),
 	BUDGET_NOT_REVIEWED("Budget Not Reviewed", "INFO", false),
 	UNDER_REVISION_RESPONSE_TO_TABLED("Under Revision Response to Tabled", "INFO", false),
-	RESPONSE_TO_TABLED_PENDING_PI_ENDORSEMENT("Response to Tabled Pending PI Endorsement", "WARN", true);
+	RESPONSE_TO_TABLED_PENDING_PI_ENDORSEMENT("Response to Tabled Pending PI Endorsement", "WARN", true),
+	RETURN_FOR_BUDGET_NEGOTIATIONS("Return for Budget Negotiations", "WARN", false),
+	PENDING_BUDGET_NEGOTIATIONS("Pending Budget Negotiations", "WARN", false),
+	PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT("Pending Budget Negotiations Pending PI Endorsement", "WARN", true);
 	
 	private String description;
 	private String priorityLevel;

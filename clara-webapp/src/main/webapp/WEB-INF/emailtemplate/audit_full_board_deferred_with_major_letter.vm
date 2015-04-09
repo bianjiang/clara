@@ -51,6 +51,12 @@
 	<br/><br/>
 	<strong>Committee Notes/Comments:</strong>
 	<br/>
+	#if ($inLetterComments.size() > 0)
+		<ul>
+		#foreach($comment in ${inLetterComments}) 
+		<li>$comment.text</li>#end
+		</ul>
+	#end
 	$emailComment
 	{0}
 	

@@ -87,7 +87,9 @@ public class ContractListAjaxController {
 			@RequestParam(value = "start", required = false) Integer start,
 			@RequestParam(value = "limit", required = false) Integer limit,
 			@RequestParam(value = "keyword", required = false) String quickSearchKeyword,
-			@RequestParam(value = "searchCriterias", required = false) String searchCriteriasJsonString
+			@RequestParam(value = "searchCriterias", required = false) String searchCriteriasJsonString,
+			@RequestParam(value = "sort", required = false) String sortField,
+			@RequestParam(value = "dir", required = false) String dir
 			) //@RequestParam(value = "searchCriterias[]", required = false) List<ContractSearchCriteria> searchCriterias
 			throws XPathExpressionException, SAXException, IOException { 
 
@@ -125,7 +127,7 @@ public class ContractListAjaxController {
 						u, s, l, searchCriterias, filter);*/
 		pagedContractMetaDatas = contractFormDao
 				.listPagedContractMetaDatasByUserAndSearchCriteriaAndContractStatusFilter(
-						u, s, l, searchCriterias, filter, quickSearchKeyword);
+						u, s, l, searchCriterias, filter, quickSearchKeyword, sortField, dir);
 
 		String finalResultXml = "<list total=\""
 				+ pagedContractMetaDatas.getTotal() + "\">";
@@ -306,7 +308,7 @@ public class ContractListAjaxController {
 						u, s, l, searchCriterias, filter);*/
 		pagedContractMetaDatas = contractFormDao
 				.listPagedContractMetaDatasByUserAndSearchCriteriaAndContractStatusFilter(
-						u, 0, 10000000, searchCriterias, null, null);
+						u, 0, 10000000, searchCriterias, null, null, null, null);
 
 		String finalResultXml = "<list total=\""
 				+ pagedContractMetaDatas.getTotal() + "\">";

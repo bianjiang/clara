@@ -10,7 +10,7 @@
             "typeDescription": "Time in Review On Action",
             "description": "LOCAL Protocol: Time in Review On Action",
             "created": 1391795749720,
-            "parameters": "<metadata><email>MBaker@uams.edu,JBian@uams.edu,FYu2@uams.edu</email></metadata>",
+            "parameters": "<metadata><email>MBaker@uams.edu,FYu2@uams.edu</email></metadata>",
             "user": {
                 "id": 3,
                 "concurrentVersion": 11,
@@ -70,7 +70,6 @@
             "scheduleType": "NONE",
             "recipients":[
             	{"address":"mbaker@uams.edu","type":"INDIVIDUAL","desc":"Matt Baker"},
-            	{"address":"jbian@uams.edu","type":"INDIVIDUAL","desc":"Jiang Bian"},
             	{"address":"fyu2@uams.edu","type":"INDIVIDUAL","desc":"Fan Yu"}
             ],
             "reportCriterias": [

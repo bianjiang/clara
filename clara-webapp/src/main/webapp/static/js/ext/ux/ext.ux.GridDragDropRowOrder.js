@@ -5,7 +5,8 @@ Ext.ux.dd.GridDragDropRowOrder = Ext.extend(Ext.util.Observable,
     copy: false,
 
     scrollable: false,
-
+    dragDropEnabled: true,
+    
     constructor : function(config)
     {
         if (config)
@@ -25,7 +26,7 @@ Ext.ux.dd.GridDragDropRowOrder = Ext.extend(Ext.util.Observable,
     init : function (grid)
     {
         this.grid = grid;
-        grid.enableDragDrop = true;
+        grid.enableDragDrop = this.dragDropEnabled;
 
         grid.on({
             render: { fn: this.onGridRender, scope: this, single: true }

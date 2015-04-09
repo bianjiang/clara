@@ -5,6 +5,7 @@
     <definition extends="contract/contractform/review/contract-form-review-template" name="contract/contractform/review">
         <put-attribute name="body" value="/WEB-INF/views/contract/contractform/review/review.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
+        <add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" />
         	<add-attribute value="/static/js/ext/ux/ext.ux.statusbar.js" />
         	<add-attribute value="/static/js/ext/ux/ext.ux.rowexpander.js" />
         	<add-attribute value="/static/js/ext/ux/Ext.ux.grid.RowPanelExpander.js" />        	

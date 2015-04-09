@@ -700,6 +700,220 @@
 					</review-page>
 				</committee>
 			</form-status>
+			<form-status value="RETURN_FOR_BUDGET_NEGOTIATIONS" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="">
+						<actions>
+							<action type="REVISE">
+								<change-status>							
+									<form-status status="PENDING_BUDGET_NEGOTIATIONS" />
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="PROTOCOL_BEING_REVISED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI {USER_WITH_EMAIL_LINK} is revising the study.</span></log>
+								</logs>
+							</action>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="PENDING_BUDGET_NEGOTIATIONS" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>SIGN_SUBMIT</value>
+								<desc>Sign and Submit</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="REQUEST_REVIEW">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="PHARMACY_REVIEW" status="IN_REVIEW_REQUESTED" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_REQUEST_PHARMACY_REVIEW">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_REQUEST_PHARMACY_REVIEW" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has requested Pharmacy Review. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Request Pharmacy Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="REQUEST_WAIVER">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="PHARMACY_REVIEW" status="IN_WAIVER_REQUESTED" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_REQUEST_PHARMACY_WAIVER">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_REQUEST_PHARMACY_WAIVER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has requested Pharmacy Waiver. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Request Pharmacy Waiver Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_PI" email-template-identifier="MODIFICATION_REVISION_SUBMITTED">
+								<change-status>
+									<form-status status="BEFORE_REVISION_REQUESTED_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="">
+											<revision-request-committee committee="BUDGET_REVIEW" involved-committee="COVERAGE_REVIEW" status="NOTIFIED" />
+										</form-committee-status>
+									</form-committee-statuses>
+								</change-status>
+								<events>
+									<event submission-type="revision">GENERATE_BUDGET_DOCUMENT</event>
+								</events>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_REVISION_SUBMITTED">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_REVISION_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has re-submitted the study to {REVISION_REQUEST_COMMITTEE} for review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+								<change-status>
+									<form-status status="PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has re-submitted the study to the PI for endorsement. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
+			<form-status value="PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT" form-committee-status="ANY">
+				<committee name="PI">
+					<review-page page-name="committee-review">
+						<decisions>
+							<decision>
+								<value>SIGN_SUBMIT</value>
+								<desc>Sign and Submit</desc>
+							</decision>
+						</decisions>
+						<actions>
+							<action type="REQUEST_REVIEW">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="PHARMACY_REVIEW" status="IN_REVIEW_REQUESTED" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_REQUEST_PHARMACY_REVIEW">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_REQUEST_PHARMACY_REVIEW" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has requested Pharmacy Review. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Request Pharmacy Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="REQUEST_WAIVER">
+								<change-status>
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="PHARMACY_REVIEW" status="IN_WAIVER_REQUESTED" note="" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_REQUEST_PHARMACY_WAIVER">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_REQUEST_PHARMACY_WAIVER" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has requested Pharmacy Waiver. &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Request Pharmacy Waiver Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt; <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="CANCEL_PROTOCOL_FORM" condition="">
+								<change-status>
+									<form-status status="CANCELLED" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="PI_CANCEL_PROTOCOL_FORM">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="PI_CANCEL_PROTOCOL_FORM" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{COMMITTEE_DESC}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been cancelled by ({USER_WITH_EMAIL_LINK}).  Cancel Reason: {CANCEL_REASON}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>									
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_PI" set-form-submit-date="true" email-template-identifier="NEW_SUBMISSION_REVISION_SUBMITTED">
+								<change-status>
+									<form-status status="BEFORE_REVISION_REQUESTED_STATUS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="REVISION_REQUEST_COMMITTEE" status="ORIGINAL_FORM_COMMITTEE_STATUS" note="">
+											<revision-request-committee committee="BUDGET_REVIEW" involved-committee="COVERAGE_REVIEW" status="NOTIFIED" />
+										</form-committee-status>
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="NEW_SUBMISSION_REVISION_SUBMITTED">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_REVISION_SUBMITTED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">PI ({USER_WITH_EMAIL_LINK}) has re-submitted the study to {REVISION_REQUEST_COMMITTEE} for review. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+									<notification notification-type="NOTIFICATION" email-template-identifier="STUDY_SUBMITTED_TO_STAFFS">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="STUDY_SUBMITTED_TO_STAFFS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Study has been submitted by PI ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+								<change-status>
+									<form-status status="PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT" />
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+										<logs>
+											<log log-type="NOTIFICATION" event-type="NEW_SUBMISSION_REVISION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">({USER_WITH_EMAIL_LINK}) has re-submitted the study to the PI for endorsement. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>										
+								</notifications>
+							</action>
+						</actions>
+					</review-page>
+				</committee>
+			</form-status>
 			<form-status value="IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES" form-committee-status="ANY">
 				<committee name="PI">
 					<review-page page-name="">
@@ -1135,8 +1349,7 @@
 							</action>
 							<action type="ASSIGN_TO_COMMITTEES" condition="BUDGET_REVIEW">
 								<change-status>
-									<!-- <status status="PENDING_REVIEWER_ASSIGNMENT" /> -->
-									<form-status status="PENDING_REVIEWER_ASSIGNMENT" />
+									<form-status status="UNDER_BUDGET_MANAGER_REVIEW" />
 									<form-committee-statuses>
 										<form-committee-status
 											involved-committee="SELECTED_COMMITTEES" status="IN_REVIEW">
@@ -1146,7 +1359,7 @@
 											</selected-committees>
 										</form-committee-status>
 										<form-committee-status
-											involved-committee="BUDGET_MANAGER" status="PENDING_REVIEWER_ASSIGNMENT" />
+											involved-committee="BUDGET_MANAGER" status="IN_REVIEW" />
 										<form-committee-status
 											involved-committee="GATEKEEPER" status="APPROVED" />
 									</form-committee-statuses>
@@ -1608,6 +1821,10 @@
 								<desc>Approve (Route to the next committee)</desc>
 							</decision>
 							<decision>
+								<value>RETURN_FOR_BUDGET_NEGOTIATIONS</value>
+								<desc>Return for Budget Negotiations</desc>
+							</decision>
+							<decision>
 								<value>REVISION_REQUESTED</value>
 								<desc>Revision requested</desc>
 							</decision>
@@ -1649,6 +1866,22 @@
 									<notification notification-type="NOTIFICATION" email-template-identifier="APPROVED_TO_NEXT_COMMITTEE">
 										<logs>
 											<log log-type="NOTIFICATION" email-template-identifier="APPROVED_TO_NEXT_COMMITTEE" event-type="MODIFICATION_BUDGET_REVIEW_APPROVE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Budget Reviewer ({USER_WITH_EMAIL_LINK}) has temporarily approved the budget and forwarded the study to {NEXT_COMMITTEE}.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+										</logs>
+									</notification>	
+								</notifications>
+							</action>
+							<action type="RETURN_FOR_BUDGET_NEGOTIATIONS" condition="">
+								<change-status>
+									<form-status status="RETURN_FOR_BUDGET_NEGOTIATIONS" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="BUDGET_REVIEW" status="RETURN_FOR_BUDGET_NEGOTIATIONS" />
+									</form-committee-statuses>
+								</change-status>
+								<notifications>
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_BUDGET_REVIEW_RETURN_FOR_BUDGET_NEGOTIATIONS">
+										<logs>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_BUDGET_REVIEW_RETURN_FOR_BUDGET_NEGOTIATIONS" event-type="NEW_SUBMISSION_BUDGET_REVIEW_RETURN_FOR_BUDGET_NEGOTIATIONS" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Budget Reviewer ({USER_WITH_EMAIL_LINK}) has returned the study to PI for budget negotiations.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;  <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>	
 								</notifications>
@@ -3477,13 +3710,47 @@
 									<log log-type="ACTION" event-type="PHAMACY_REVIEW_APPROVED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Pharmacy Review ({USER_WITH_EMAIL_LINK}) has completed review of the study.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
 								</logs>
 							</action>
-							<action type="NOT_APPLICABLE" condition="">
+							<action type="NOT_APPLICABLE" condition="BUDGET_MANAGER">
 								<change-status>
+									<form-status status="PENDING_REVIEWER_ASSIGNMENT" />
 									<form-committee-statuses>
 										<form-committee-status
 											involved-committee="PHARMACY_REVIEW" status="COMMITTEE_REVIEW_NOT_APPLICABLE" />
+										<form-committee-status
+											involved-committee="BUDGET_MANAGER" status="PENDING_REVIEWER_ASSIGNMENT" />
 									</form-committee-statuses>
 								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="PHAMACY_REVIEW_NOT_APPLICABLE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Pharmacy Review ({USER_WITH_EMAIL_LINK}) is not applicable.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
+								</logs>
+							</action>
+							<action type="NOT_APPLICABLE" condition="BUDGET_REVIEW">
+								<change-status>
+									<form-status status="UNDER_BUDGET_REVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="PHARMACY_REVIEW" status="COMMITTEE_REVIEW_NOT_APPLICABLE" />
+										<form-committee-status
+											involved-committee="BUDGET_REVIEW" status="IN_REVIEW" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="PHAMACY_REVIEW_NOT_APPLICABLE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Pharmacy Review ({USER_WITH_EMAIL_LINK}) is not applicable.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
+								</logs>
+							</action>
+							<action type="NOT_APPLICABLE" condition="NO_BUDGET_REVIEW">
+								<change-status>
+									<form-status status="UNDER_IRB_PREREVIEW" />
+									<form-committee-statuses>
+										<form-committee-status
+											involved-committee="PHARMACY_REVIEW" status="COMMITTEE_REVIEW_NOT_APPLICABLE" />
+										<form-committee-status
+											involved-committee="IRB_ASSIGNER" status="PENDING_REVIEWER_ASSIGNMENT" />
+									</form-committee-statuses>
+								</change-status>
+								<logs>
+									<log log-type="ACTION" event-type="PHAMACY_REVIEW_NOT_APPLICABLE" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Pharmacy Review ({USER_WITH_EMAIL_LINK}) is not applicable.  &lt;div class=&quot;log-committee-note&quot;&gt; &lt;h1&gt;Review Note &lt;span class=&quot;history-note-user&quot;&gt;by {USER_NAME}&lt;/span&gt;&lt;/h1&gt;&lt;span class=&quot;log-committee-note-body&quot;&gt;{COMMITTEE_NOTE}&lt;/span&gt;&lt;/div&gt;</span></log>
+								</logs>
 							</action>
 							<action type="REVISION_REQUESTED" condition="">
 								<change-status>
@@ -3505,7 +3772,7 @@
 					</review-page>
 				</committee>
 			</form-status>
-			<form-status value="UNDER_PHARMACY_REVIEW" form-committee-status="IN_REVIEW">
+			<!-- <form-status value="UNDER_PHARMACY_REVIEW" form-committee-status="IN_REVIEW">
  				<committee name="PHARMACY_REVIEW" xpath-condition="boolean(count(/protocol/study-type[text()='industry-sponsored' or text()='cooperative-group'])>0)">
 					<review-page page-name="committee-review">
 						<decisions>
@@ -3566,7 +3833,7 @@
 						</actions>
 					</review-page>
 				</committee>
-			</form-status>			
+			</form-status> -->			
 			<form-status value="ANY" form-committee-status="ANY">
 				<committee name="ANY" default="true">
 					<review-page page-name="committee-review" >

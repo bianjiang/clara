@@ -233,6 +233,8 @@ public class ProtocolDashboardAjaxController {
 		//canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.REVISED);
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION);
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.REVISION_PENDING_PI_ENDORSEMENT);
+		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_BUDGET_NEGOTIATIONS);
+		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT);
 		//canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.REVISION_REQUESTED);
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_TP_ENDORSEMENT);
 		canEditProtocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_PI_ENDORSEMENT);
@@ -253,6 +255,8 @@ public class ProtocolDashboardAjaxController {
 		switch (protocolFormStatus.getProtocolFormStatus()) {
 		case REVISION_PENDING_PI_ENDORSEMENT:
 		case UNDER_REVISION:
+		case PENDING_BUDGET_NEGOTIATIONS:
+		case PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT:
 		case UNDER_REVISION_MAJOR_CONTINGENCIES:
 		case UNDER_REVISION_MINOR_CONTINGENCIES:
 		case REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT:
@@ -290,6 +294,7 @@ public class ProtocolDashboardAjaxController {
 
 			break;
 		case REVISION_REQUESTED:
+		case RETURN_FOR_BUDGET_NEGOTIATIONS:
 		case IRB_DEFERRED:
 		case IRB_DEFERRED_WITH_MINOR_CONTINGENCIES:
 		case IRB_DEFERRED_WITH_MAJOR_CONTINGENCIES:
@@ -646,9 +651,10 @@ public class ProtocolDashboardAjaxController {
 					List<ProtocolFormCommitteeStatus> protocolFormCommitteeStatusLst = protocolFormCommitteeStatusDao
 							.listLatestByProtocolFormId(protocolFormId);
 					
+					boolean canUpdateNote = true;
+					
 					if (protocolFormCommitteeStatusLst != null
 							&& !protocolFormCommitteeStatusLst.isEmpty()) {
-						boolean canUpdateNote = true;
 						
 						boolean budgetCanReAssign = false;
 						boolean regulatoryCanReAssign = false;
@@ -721,11 +727,11 @@ public class ProtocolDashboardAjaxController {
 									+ protocolFormId
 									+ ",committee:'IRB_ASSIGNER'},{objectType:'Protocol'});</url></action>";
 						}
-						
-						if (canUpdateNote){
-							xmlResult += "<action cls='blue'><name>Update Committee Review Note</name><url type='javascript'>Clara.Application.FormController.ChooseReviewRole({formId:"
-									+ protocolFormId + "});</url></action>";
-						}
+					}
+					
+					if (canUpdateNote){
+						xmlResult += "<action cls='blue'><name>Update Committee Review Note</name><url type='javascript'>Clara.Application.FormController.ChooseReviewRole({formId:"
+								+ protocolFormId + "});</url></action>";
 					}
 					
 				}
@@ -864,9 +870,11 @@ public class ProtocolDashboardAjaxController {
 		
 		ProtocolForm protocolForm = protocolFormDao.findById(protocolFormId);
 		
+		ProtocolFormStatus latestFormStatus = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(protocolFormId);
+		
 		String finalCommitteeXml = "<committees>";
 		
-		if (protocolForm.getProtocolFormType().equals(ProtocolFormType.ARCHIVE)) {
+		if (protocolForm.getProtocolFormType().equals(ProtocolFormType.ARCHIVE) || latestFormStatus.getProtocolFormStatus().equals(ProtocolFormStatusEnum.DRAFT) || latestFormStatus.getProtocolFormStatus().equals(ProtocolFormStatusEnum.PENDING_PI_ENDORSEMENT)) {
 			Set<UserRole> userRoles = currentUser.getUserRoles();
 			
 			if (userRoles == null || userRoles.isEmpty()) {

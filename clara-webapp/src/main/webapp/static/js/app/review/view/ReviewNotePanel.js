@@ -109,7 +109,7 @@ Ext.define('Clara.Review.view.ReviewNotePanel', {
 			    html += "<p class='review-comment-row-text'> "+r.get("text")+"</p>";
 			    html += "<div class='review-comment-row-metadata'>";
 			    html += "<span class='review-comment-row-time-ago'>";
-			    html += moment(r.get("modified")).format("M/DD/YYYY, h:ma");
+			    html += moment(r.get("modified")).format("M/DD/YYYY, h:mma");
 			    html += "</span>";
 
 			    if (r.get('inLetter')){

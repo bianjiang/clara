@@ -14,6 +14,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.google.common.collect.Lists;
+
 import edu.uams.clara.webapp.common.businesslogic.form.validator.ValidationResponse;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.Constraint;
 import edu.uams.clara.webapp.common.businesslogic.form.validator.constraint.enums.ConstraintLevel;
@@ -221,6 +222,37 @@ public class ProtocolFormValidationServiceImpl implements
 		return fsValidationVP;
 	}
 	
+	private ValidationResponse budgetValidation(String budgetXmlData, Map<String, List<String>> values){
+		Constraint budgetValidationConstraint = new Constraint();
+		Map<String, Object> budgetValidationAdditionalData = new HashMap<String, Object>();
+		
+		ValidationResponse budgetValidationVP = null;
+		
+		try{
+			String needBudget = formService.getSafeStringValueByKey(values, "/protocol/need-budget", "");
+			
+			List<String> ids = xmlProcessor.getAttributeValuesByPathAndAttributeName("/budget/epochs/epoch", budgetXmlData, "id");
+			
+			if (needBudget.equals("y")) {
+				if (ids.size() == 0) {
+					budgetValidationConstraint.setConstraintLevel(ConstraintLevel.ERROR);
+					budgetValidationConstraint.setErrorMessage("At least 1 visit is required in budget matrix!");
+					
+					budgetValidationAdditionalData.put("pagename", "Budget and Coverage");
+					budgetValidationAdditionalData.put("pageref", "budget");
+				}
+			}
+			
+			if (budgetValidationConstraint != null && (budgetValidationAdditionalData != null && !budgetValidationAdditionalData.isEmpty())){
+				budgetValidationVP = new ValidationResponse(budgetValidationConstraint, budgetValidationAdditionalData);
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return budgetValidationVP;
+	}
+	
 	private ValidationResponse departmentValidation(String xmlDataString){
 		Constraint departmentValidationConstraint = new Constraint();
 		Map<String, Object> departmentValidationAdditionalData = new HashMap<String, Object>();
@@ -387,6 +419,23 @@ public class ProtocolFormValidationServiceImpl implements
 				if (pharmacyValidation != null) {
 					validationResponses.add(pharmacyValidation);
 				}
+				
+				ProtocolFormXmlData budgetXmlData = null;
+				
+				try {
+					budgetXmlData = protocolFormXmlData.getProtocolForm().getTypedProtocolFormXmlDatas().get(ProtocolFormXmlDataType.BUDGET);
+				} catch (Exception e) {
+					//don't care
+				}
+				
+				if (budgetXmlData != null && !budgetXmlData.isRetired()) {
+					ValidationResponse budgetValidation = this.budgetValidation(budgetXmlData.getXmlData(), xmlDataValues);
+					
+					if (budgetValidation != null) {
+						validationResponses.add(budgetValidation);
+					}
+				}
+				
 			}
 			
 			ValidationResponse fundingSourceValidation = this.fundingSourceValidation(xmlData, xmlDataValues);

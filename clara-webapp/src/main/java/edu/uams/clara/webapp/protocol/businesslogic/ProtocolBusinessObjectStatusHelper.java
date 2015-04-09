@@ -442,9 +442,11 @@ public class ProtocolBusinessObjectStatusHelper extends
 		logger.debug("changing ObjectStatus to " + status);
 		ProtocolForm protocolForm = (ProtocolForm) form;
 		
+		Protocol protocol = protocolForm.getProtocol();
+		
 		if (status.equals("REMOVE_CURRENT_OBJECT_STATUS")) {
 			try {
-				ProtocolStatus latestObjectStatus = protocolStatusDao.findProtocolStatusByProtocolId(protocolForm.getProtocol().getId());
+				ProtocolStatus latestObjectStatus = protocolStatusDao.findProtocolStatusByProtocolId(protocol.getId());
 				
 				latestObjectStatus.setRetired(true);
 				latestObjectStatus = protocolStatusDao.saveOrUpdate(latestObjectStatus);
@@ -453,6 +455,20 @@ public class ProtocolBusinessObjectStatusHelper extends
 			}
 			
 		} else {
+			if (status.equals("BEFORE_CLOSED_STATUS")) {
+				try {
+					XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+					
+					status = xmlHandler.getSingleStringValueByXPath(protocol.getMetaDataXml(), "/protocol/previous-status");
+				} catch (Exception e) {
+					status = "";
+				}
+			}
+			
+			if (!status.equals(""))
+				protocolService.setProtocolStatus(protocol, ProtocolStatusEnum.valueOf(status), user, committee, "");
+			
+			/*
 			ProtocolStatus protocolStatus = new ProtocolStatus();
 			protocolStatus.setProtocol(protocolForm.getProtocol());
 			protocolStatus.setModified(now);
@@ -461,6 +477,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 			protocolStatus.setProtocolStatus(ProtocolStatusEnum.valueOf(status));
 
 			protocolStatusDao.saveOrUpdate(protocolStatus);
+			*/
 		}
 	}
 
@@ -857,6 +874,24 @@ public class ProtocolBusinessObjectStatusHelper extends
 			
 			String approvalDate = "";
 			
+			LocalDate localDate = new LocalDate(date);
+			
+			if (clockStart.equals("None") && action.equals("APPROVE_RETAIN_CURRENT_APPROVAL_STATUS")) {
+				try {
+					clockStart = xmlHandler.getSingleStringValueByXPath(protocolMetaDataXml, "/protocol/original-study/approval-status");
+					
+					reviewPeriod = Integer.valueOf(xmlHandler.getSingleStringValueByXPath(protocolMetaDataXml, "//irb-determination/review-period"));
+					
+					reviewEndDate = DateFormatUtil
+							.formateDateToMDY(localDate.plusMonths(reviewPeriod).minusDays(1).toDate());
+					
+					approvalDate = currentDate;
+				} catch (Exception e) {
+					
+				}
+				
+			}
+			
 			/*
 			 * If Full Board approval, set approval date as agenda date and review end date as agenda date + review period - 1 day
 			 * */
@@ -889,7 +924,6 @@ public class ProtocolBusinessObjectStatusHelper extends
 			
 			String recentMotion = xmlHandler.getSingleStringValueByXPath(protocolFormMetaData, "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/recent-motion");
 			
-			LocalDate localDate = new LocalDate(date);
 			
 			/*
 			 * If Expedited approval, check if normal approval or minor met approval.

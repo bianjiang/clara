@@ -249,18 +249,29 @@
 							<x:set var="v" select="string($value/text())" />
 							<c:choose>	
 								<c:when test="${hasEditValues eq true}">
+										<c:set var="foundPossibleValue" value="false"/>
 										<x:forEach var="pv" select="$editPossibleValues/value">
 											<x:set var="pvtext" select="string($pv/text())" />
 											<x:set var="pvid" select="string($pv/@id)" />
 											
+											
+											
 											<c:choose>
 											  	<c:when test="${v eq pvid}">
+											  		<c:set var="foundPossibleValue" value="true"/>
 											  		<strong class="muted"><i class="icon-list"><!-- // --></i><em> ${pvtext} </em></strong>
-											  		<!--  <div class="summary-value-id" id="value-${path}">VALUE: ${v}</div> -->
 											  	</c:when>
 										  	</c:choose>
 			
+
 										</x:forEach>
+										
+										<c:choose>
+											  <c:when test="${foundPossibleValue eq 'false'}">
+											  	<strong class="text-warning"><i class="icon-list"><!-- // --></i><em> ${v} </em></strong> <span class="text-warning">(outdated value)</span>
+											  </c:when>
+									    </c:choose>
+										<c:set var="foundPossibleValue" value="false"/>
 									
 								</c:when>
 								<c:otherwise>

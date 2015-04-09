@@ -22,6 +22,10 @@
 					<x:set var="identifier" select="string($m/protocol/@identifier)" />
 					<x:set var="level" select="string($m/protocol/status/@priority)" />
 					<x:set var="status" select="string($m/protocol/status/text())" />
+					<x:set var="latestIrbDecision" select="string($m/protocol/most-recent-study/approval-status/text())" />
+					<c:if test="${latestIrbDecision ne ''}">
+						<c:set var="status" value="${status} (IRB Status: ${latestIrbDecision})"/>
+					</c:if>
 					<x:forEach select="$m/protocol/staffs/staff" var="staff">
 						<x:forEach select="$staff/user/roles/role" var="xrole">
 							<x:set var="role" select="string($xrole/text())" />

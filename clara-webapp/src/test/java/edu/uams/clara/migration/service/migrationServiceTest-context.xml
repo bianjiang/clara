@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+
+	<context:annotation-config />
+
+	<context:property-placeholder
+		location="file:src/main/resources/META-INF/spring/*.properties,file:src/main/resources/META-INF/spring/clara/*.properties" />
+
+	<import
+		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
+
+	<bean id="migrationServiceImpl"
+		class="edu.uams.clara.migration.service.impl.MigrationServiceImpl">
+		<property name="fileServerHost" value="${fileserver.host}" />
+		<property name="localDirectory" value="${fileserver.local.dir.path}" />
+	</bean>
+	<bean id="protocolFormUserElementTemplateDao"
+		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormUserElementTemplateDao">
+	</bean>
+	<bean id="crimsonStudyDao"
+		class="edu.uams.clara.integration.incoming.crimson.dao.CrimsonStudyDao" />
+	<bean id="userService"
+		class="edu.uams.clara.webapp.common.service.impl.UserServiceImpl" />
+		
+	<bean id="ldapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="${ldap.provider-url}" />
+		<property name="userDn" value="${ldap.manager-dn}" />
+		<property name="password" value="${ldap.manager-password}" />
+		<property name="base" value="${ldap.user-search-base}" />
+	</bean>
+
+	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<property name="ignorePartialResultException" value="true" />
+		<property name="ignoreNameNotFoundException" value="true" />
+		<property name="contextSource" ref="ldapContextSource" />
+	</bean>
+		
+	<bean id="ldapPersonLookupService" class="edu.uams.clara.webapp.common.service.impl.LdapPersonLookupServiceImpl">
+		<constructor-arg index="0" ref="ldapTemplate" />
+		<constructor-arg index="1" ref="personDao" />
+	</bean>	
+		
+	<bean id="sFTPService"
+		class="edu.uams.clara.webapp.fileserver.service.impl.SFTPServiceImpl">
+		<property name="localDirectory" value="${fileserver.local.dir.path}" />
+		<property name="remoteDirectory" value="${fileserver.remote.dir.path}" />
+		<property name="knownHostsFilename" value="${fileserver.known_hosts}" />
+		<property name="user" value="${fileserver.sftp.user}" />
+		<property name="password" value="${fileserver.sftp.password}" />
+		<property name="host" value="${fileserver.host}" />
+		<property name="port" value="22" />
+		<!-- <property name="jsch"> <bean class="com.jcraft.jsch.JSch"> <property 
+			name="knownHosts" value="${fileserver.known_hosts}" /> </bean> </property> -->
+	</bean>
+	
+		<bean id="md5PasswordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+	<bean id="roleDao" class="edu.uams.clara.webapp.common.dao.usercontext.RoleDao" />
+		
+		 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="webmail.uams.edu"/>
+        <property name="port" value="25"/>
+        <property name="javaMailProperties">
+            <props>
+                <!-- Use SMTP transport protocol -->
+                <prop key="mail.transport.protocol">smtp</prop>
+                <!-- Use SMTP-AUTH to authenticate to SMTP server -->
+                <prop key="mail.smtp.auth">false</prop>
+                <!-- Use TLS to encrypt communication with SMTP server -->
+                <prop key="mail.smtp.starttls.enable">false</prop>
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
+    </bean>
+    
+     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+      <property name="velocityProperties">
+         <value>
+            resource.loader=class
+            class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+         </value>
+      </property>
+   </bean>
+   
+   <bean id="emailService" class="edu.uams.clara.webapp.common.service.impl.EmailServiceImpl" />
+   
+   <bean id="personDao" class="edu.uams.clara.webapp.common.dao.usercontext.PersonDao" />
+
+	<bean id="userRoleDao"
+		class="edu.uams.clara.webapp.common.dao.usercontext.UserRoleDao" />
+		
+		<bean id="fileGenerateAndSaveService"
+		class="edu.uams.clara.webapp.fileserver.service.impl.FileGenerateAndSaveServiceImpl" />
+		<bean id="auditService" class="edu.uams.clara.webapp.common.service.audit.impl.AuditServiceImpl"/>
+			<bean id="auditDao" class="edu.uams.clara.webapp.common.dao.audit.AuditDao" />
+<bean id="uploadedFileDao"
+		class="edu.uams.clara.webapp.fileserver.dao.UploadedFileDao" />
+   
+	<bean id="xmlProcessor"
+		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
+		
+	<bean id="xmlHandler" class="edu.uams.clara.core.util.xml.impl.XmlHandlerImpl" />
+	
+	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
+	
+	<bean id="protocolDao" class="edu.uams.clara.webapp.protocol.dao.ProtocolDao" />
+	
+	<bean id="protocolFormDao"
+		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao" />
+		
+	<bean id="protocolFormXmlDataDao"
+		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao" />
+		
+	<bean id="trackDao" class="edu.uams.clara.webapp.common.dao.history.TrackDao" />
+	
+	<bean id="contractFormDao"
+		class="edu.uams.clara.webapp.contract.dao.contractform.ContractFormDao" />
+		
+	<bean id="miagrationDao" class="edu.uams.clara.webapp.protocol.dao.etl.MiagrationDao"/>
+	
+	<bean id="protocolFormStatusDao" class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao"/>
+	
+	<bean id="protocolFormCommitteeStatusDao" class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormCommitteeStatusDao"/>
+	
+	<bean id="departmentDao"
+		class="edu.uams.clara.webapp.common.dao.department.DepartmentDao" />
+	<bean id="collegeDao" class="edu.uams.clara.webapp.common.dao.department.CollegeDao" />
+	
+	<bean id="rawvalueLookupService" class="edu.uams.clara.webapp.common.util.RawvalueLookupService"/>
+	
+	<bean id="protocolStatusDao"
+		class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolStatusDao" />
+		
+		<bean id="protocolMetaDataXmlService" class="edu.uams.clara.webapp.protocol.service.impl.ProtocolMetaDataXmlServiceImpl" />
+   
+    <bean id="protocolAndFormStatusService" class="edu.uams.clara.webapp.protocol.service.impl.ProtocolAndFormStatusServiceImpl" />
+</beans>

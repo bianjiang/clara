@@ -402,7 +402,7 @@ public class IRBAgendaAjaxController {
 	 */
 	@RequestMapping(value = "/ajax/agendas/{agendaId}/cancel", method = RequestMethod.POST)
 	public @ResponseBody
-	Boolean cancelAgenda(@PathVariable("agendaId") long agendaId,
+	JsonResponse cancelAgenda(@PathVariable("agendaId") long agendaId,
 			@RequestParam("reason") String reason,
 			@RequestParam("userId") long userId) {
 
@@ -416,28 +416,63 @@ public class IRBAgendaAjaxController {
 			List<AgendaItemWrapper> agendaItems = agendaItemDao.listByAgendaId(agendaId);
 			
 			if (agendaItems != null && !agendaItems.isEmpty()){
-				for (AgendaItemWrapper agendaItemWrapper : agendaItems){
-					businessObjectStatusHelperContainer
-					.getBusinessObjectStatusHelper("AGENDA_ITEM")
-					.triggerAction(
-							agendaItemWrapper.getProtocolForm(),
-							Committee.IRB_OFFICE,
-							user,
-							"REMOVED_FROM_AGENDA",
-							null, null);
+				Agenda nextAvailabeAgenda = null;
+				
+				try {
+					nextAvailabeAgenda = agendaDao
+							.getNextAvailableAgendaByAgendaId(availableAgendaStatuses, agendaId);
 					
+					if (nextAvailabeAgenda.getId() == agenda.getId()) {
+						return JsonResponseHelper.newErrorResponseStub("There is no next available agenda!  Please create a new agenda!");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					return JsonResponseHelper.newErrorResponseStub("There is no next available agenda!  Please create a new agenda!");
+				}
+				
+				for (AgendaItemWrapper agendaItemWrapper : agendaItems){
 					AgendaItem agendaItem = agendaItemDao.findById(agendaItemWrapper.getId());
-					agendaItem.setAgendaItemStatus(AgendaItemStatus.REMOVED);
+
+					if (agendaItemWrapper.getAgendaItemCategory().equals(AgendaItemCategory.FULL_BOARD)) {
+						businessObjectStatusHelperContainer
+						.getBusinessObjectStatusHelper("AGENDA_ITEM")
+						.triggerAction(
+								agendaItemWrapper.getProtocolForm(),
+								Committee.IRB_OFFICE,
+								user,
+								"REMOVED_FROM_AGENDA",
+								null, null);
+								
+						
+						agendaItem.setAgendaItemStatus(AgendaItemStatus.REMOVED);
+					} else {
+						 agendaItem.setAgenda(nextAvailabeAgenda);
+						 //agendaItem.setProtocolForm(agendaItem.getProtocolForm());
+						 //agendaItem.setAgendaItemStatus(AgendaItemStatus.NEW);
+						 //agendaItem.setAgendaItemCategory(agendaItem.getAgendaItemCategory());
+						 //agendaItem.setOrder(0);
+						 
+						 auditService.auditEvent("AGENDA_ITEM_PUSHED_TO_NEXT_AGENDA", "Agenda Item: ProtocolForm "+ agendaItem.getProtocolFormId() +" has been moved to next available agenda.");
+					}
 					
 					agendaItem = agendaItemDao.saveOrUpdate(agendaItem);
+				}
+				
+				try {
+					auditService.auditEvent("AGENDA_CANCELLED", user
+							.getPerson().getFullname()
+							+ " has cancelled the agenda of "+ DateFormatUtil.formateDateToMDY(agenda.getDate()) +"");
+				} catch (Exception e) {
+					
 				}
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Boolean.FALSE;
+			return JsonResponseHelper.newErrorResponseStub("Failed to cancel agenda!");
 		}
-		return Boolean.TRUE;
+		
+		return JsonResponseHelper.newSuccessResponseStube("Successfull!");
 	}
 	
 	@RequestMapping(value = "/ajax/agendas/{agendaId}/meeting-start", method = RequestMethod.GET)

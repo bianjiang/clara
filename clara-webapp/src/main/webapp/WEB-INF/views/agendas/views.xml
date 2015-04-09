@@ -29,6 +29,7 @@
         <put-attribute name="body" value="/WEB-INF/views/agendas/meeting-view.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<!--<add-attribute value="/static/js/encoder.js" />-->  
+        	<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
     		<add-attribute value="/static/js/ext/ux/ext.ux.statusbar.js" />
     		<add-attribute value="/static/js/ext/ux/Ext.ux.ComboColumn.js" />

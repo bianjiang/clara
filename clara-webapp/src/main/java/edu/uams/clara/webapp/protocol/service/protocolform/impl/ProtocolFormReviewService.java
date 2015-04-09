@@ -51,11 +51,19 @@ public class ProtocolFormReviewService {
 			
 			ProtocolFormStatus latestFormStatus = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(protocolForm.getId());
 			
+			String latestFormStatusStr = latestFormStatus.getProtocolFormStatus().toString();
+			
 			ProtocolFormCommitteeStatus latestFormCommitteeStatus = protocolFormCommitteeStatusDao.getLatestByCommitteeAndProtocolFormId(committee, protocolForm.getFormId());
+			
+			String latestCommitteeStatusStr = "";
+			
+			if (latestFormCommitteeStatus != null) {
+				latestCommitteeStatusStr = latestFormCommitteeStatus.getProtocolFormCommitteeStatus().toString();
+			}
 			
 			XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
 			
-			String lookupPath = "/notes-permission/form[@type='"+ protocolForm.getProtocolFormType().toString() +"']/status[@form-status='"+ latestFormStatus.getProtocolFormStatus().toString() +"' or @form-status='ANY']/commmittees/committee[@name='"+ committee.toString() +"'][@status='"+ latestFormCommitteeStatus.getProtocolFormCommitteeStatus().toString() +"' or @status='']/permissions-to-add/permission";
+			String lookupPath = "/notes-permission/form[@type='"+ protocolForm.getProtocolFormType().toString() +"']/status[@form-status='"+ latestFormStatusStr +"' or @form-status='ANY']/commmittees/committee[@name='"+ committee.toString() +"'][@status='"+ latestCommitteeStatusStr +"' or @status='']/permissions-to-add/permission";
 			
 			String addNotePermissionXmlString = xmlProcessor.loadXmlFile(addNotePermissionXmlResource.getFile());
 			
@@ -69,7 +77,7 @@ public class ProtocolFormReviewService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return objectPermissions;
 	}
 

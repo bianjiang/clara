@@ -865,7 +865,7 @@ public abstract class BusinessObjectStatusHelper {
 				Boolean needToUpdateRevisionRequestedInfo = (actionXmlEl
 						.getAttribute("update-revision-requested-info").equals("false"))?false:true;
 
-				if (action.equals("REVISION_REQUESTED") && needToUpdateRevisionRequestedInfo) {
+				if ((action.equals("REVISION_REQUESTED") || action.equals("RETURN_FOR_BUDGET_NEGOTIATIONS")) && needToUpdateRevisionRequestedInfo) {
 					/*
 					if (committee.equals(Committee.IRB_EXPEDITED_REVIEWER)) {
 						setMinorContingencyFlag(form);

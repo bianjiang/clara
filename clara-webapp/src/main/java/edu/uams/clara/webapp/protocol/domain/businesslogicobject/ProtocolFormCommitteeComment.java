@@ -90,6 +90,9 @@ public class ProtocolFormCommitteeComment extends AbstractDomainEntity {
 	@Column(name="in_letter")
 	private boolean inLetter;
 	
+	@Column(name="display_order")
+    private long displayOrder;
+	
 	public void setCommittee(Committee committee) {
 		this.committee = committee;
 	}
@@ -271,6 +274,14 @@ public class ProtocolFormCommitteeComment extends AbstractDomainEntity {
 
 	public void setPrivate(boolean isPrivate) {
 		this.isPrivate = isPrivate;
+	}
+
+	public long getDisplayOrder() {
+		return displayOrder;
+	}
+
+	public void setDisplayOrder(long displayOrder) {
+		this.displayOrder = displayOrder;
 	}
 	
 }

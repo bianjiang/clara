@@ -320,6 +320,11 @@
 						class="edu.uams.clara.webapp.report.service.customreport.impl.IRBReviewWorklaodReportServiceImpl">
 					</bean>	
 				</entry>		
+				<entry key="Contract Review Time Summary Report">
+					<bean
+						class="edu.uams.clara.webapp.report.service.customreport.impl.ContractSummaryReportServiceImpl">
+					</bean>	
+				</entry>	
 			</map>
 		</property>
 	</bean>

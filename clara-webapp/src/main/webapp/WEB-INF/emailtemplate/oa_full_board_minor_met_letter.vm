@@ -71,6 +71,8 @@
 		</ul>
 		<br/>
 		Reminder: All other HIPAA requirements, including Minimum Necessary Rule, still apply.
+	#elseif($hipaaWaiver == "partial")
+		The IRB granted a partial waiver of HIPAA authorization.
 	#elseif ($hipaaWaiver == "no")
 		The IRB did not grant a waiver of HIPAA authorization.
 	#end

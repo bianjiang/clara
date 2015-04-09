@@ -91,7 +91,7 @@ public class EmailServiceImpl implements EmailService {
 		}
 		*/
 
-		final String[] bccTo = { "JBian@uams.edu", "FYu2@uams.edu", "JYuan@uams.edu", "MBaker@uams.edu" };
+		final String[] bccTo = {"FYu2@uams.edu", "JYuan@uams.edu"};
 
 		// for (final User user: mailTo){
 		if (mailToString != null && mailToString.length > 0) {

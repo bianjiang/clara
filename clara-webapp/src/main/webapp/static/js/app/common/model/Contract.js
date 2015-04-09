@@ -53,12 +53,12 @@ Ext.define('Clara.Common.model.Contract', {
 	sorters: [{
         property: 'id',
         direction: 'DESC'
-    }],
+    }], 
 	fields: [
 	         {name:'id', mapping:'@id'},
 	         {name:'index', mapping:'@id'},
 	         {name:'formIndex',mapping:'@index'},
-	         {name:'groupedIndex', convert: function(v,r){ return ""+r.get("id")+"-"+Ext.String.leftPad(r.get("formIndex"),5,0);}},		// Provides sortable id for contracts and amendments, since the "id" field is not unique
+	         {name:'groupedIndex', convert: function(v,r){ return ""+r.get("id")+"-"+Ext.String.leftPad(r.get("formIndex"),8,0);}},		// Provides sortable id for contracts and amendments, since the "id" field is not unique
 	         {name:'identifier', mapping:'@identifier', type:'string'},
 	         {name:'title', mapping:'title', type:'string'},
 	         {name:'created', mapping:'@created',type:'date',dateFormat:'m/d/Y'},
@@ -117,6 +117,7 @@ Ext.define('Clara.Common.model.Contract', {
 	        	 actionMethods: {
 	        	        read: 'POST'
 	        	 },
+	        	 simpleSortMode: true,
 	        	 reader: {
 	        		 type: 'xml',
 	        		 totalProperty:'@total',

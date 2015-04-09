@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+
+	<context:annotation-config />
+
+	<context:property-placeholder
+		location="file:src/main/resources/META-INF/spring/*.properties,file:src/main/resources/META-INF/spring/clara/*.properties" />
+
+	<import
+		resource="file:src/test/resources/META-INF/spring/test-datasources-config.xml" />
+
+	<bean id="claraUserDao"
+		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraUserDao" />
+		
+	<bean id="trackDao" class="edu.uams.clara.webapp.common.dao.history.TrackDao" />
+		
+	<bean id="claraProtocolDao"
+		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolDao" />
+
+	<bean id="claraProtocolUserDao"
+		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolUserDao" />
+		
+	<bean id="claraProtocolDrugDao"
+		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolDrugDao" />
+		
+	<bean id="claraProtocolDiseaseDao"
+		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraProtocolDiseaseDao" />
+		
+	<bean id="claraFundingDao"
+		class="edu.uams.clara.integration.outgoing.ctms.dao.ClaraFundingDao" />
+
+	<bean id="userDao" class="edu.uams.clara.webapp.common.dao.usercontext.UserDao" />
+
+	<bean id="protocolDao" class="edu.uams.clara.webapp.protocol.dao.ProtocolDao" />
+	
+
+	<bean id="xmlProcessor"
+		class="edu.uams.clara.webapp.xml.processor.impl.DefaultXmlProcessorImpl" />
+
+	<bean id="protocolStatusDao"
+		class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolStatusDao" />
+
+		
+	<bean id="protocolFormStatusDao"
+		class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao" />
+		
+	<bean id="protocolFormDao"
+		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao" />
+		
+	<bean id="protocolFormXmlDataDao"
+		class="edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormXmlDataDao" />
+		
+	<bean id="exportProtocolsToCTMSService" class="edu.uams.clara.integration.outgoing.ctms.ExportProtocolsToCTMSService">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="url" value="jdbc:sqlserver://crissql.ad.uams.edu;DatabaseName=ctms_integration"/>
+        <property name="username" value="cabigdump"/>
+        <property name="password" value="H1v5.Q"/>
+    </bean>
+    
+    <bean id="fileGenerateAndSaveService"
+		class="edu.uams.clara.webapp.fileserver.service.impl.FileGenerateAndSaveServiceImpl" />
+		
+	<bean id="uploadedFileDao" class="edu.uams.clara.webapp.fileserver.dao.UploadedFileDao"/>
+	
+	<bean id="auditService" class="edu.uams.clara.webapp.common.service.audit.impl.AuditServiceImpl"/>
+	
+	<bean id="sFTPService" class="edu.uams.clara.webapp.fileserver.service.impl.SFTPServiceImpl">
+        <property name="localDirectory" value="${fileserver.local.dir.path}"/>
+        <property name="remoteDirectory" value="${fileserver.remote.dir.path}"/>
+        <property name="knownHostsFilename" value="${fileserver.known_hosts}"/>
+        <property name="user" value="${fileserver.sftp.user}"/>
+        <property name="password" value="${fileserver.sftp.password}"/>
+        <property name="host" value="${fileserver.host}"/>
+        <property name="port" value="22"/>        
+    </bean>
+	
+	<bean id="auditDao" class="edu.uams.clara.webapp.common.dao.audit.AuditDao" />
+	
+	<bean id="agendaStatusDao" class="edu.uams.clara.webapp.protocol.dao.businesslogicobject.AgendaStatusDao"/>
+	
+	<bean id="departmentDao" class="edu.uams.clara.webapp.common.dao.department.DepartmentDao"/>
+	
+	<bean id="ariaUserDao"
+		class="edu.uams.clara.integration.outgoing.ctms.dao.AriaUserDao" />
+	
+</beans>

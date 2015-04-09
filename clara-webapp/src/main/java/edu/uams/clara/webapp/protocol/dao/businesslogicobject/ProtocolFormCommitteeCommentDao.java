@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
@@ -110,7 +111,7 @@ public class ProtocolFormCommitteeCommentDao extends AbstractDomainDao<ProtocolF
 				+ " AND pfcc.protocolForm.id IN (SELECT pf.id FROM ProtocolForm pf WHERE pf.parent.id IN (SELECT pfm.parent.id FROM ProtocolForm pfm WHERE pfm.id = :protocolFormId)) "
 				+ " AND (pfcc.commentStatus is NULL OR pfcc.commentStatus = 'NOT_MET')"
 				+ " AND pfcc.inLetter = :inLetter "
-				+ " ORDER BY pfcc.commentType ASC, pfcc.modified DESC";
+				+ " ORDER BY pfcc.displayOrder ASC, pfcc.commentType ASC, pfcc.modified DESC";
 
 		TypedQuery<ProtocolFormCommitteeComment> q = getEntityManager().createQuery(query,
 				ProtocolFormCommitteeComment.class);
@@ -133,7 +134,7 @@ public class ProtocolFormCommitteeCommentDao extends AbstractDomainDao<ProtocolF
 				+ " AND pfcc.protocolForm.id IN (SELECT pf.id FROM ProtocolForm pf WHERE pf.parent.id IN (SELECT pfm.parent.id FROM ProtocolForm pfm WHERE pfm.id = :protocolFormId)) "
 				+ " AND (pfcc.commentStatus is NULL OR pfcc.commentStatus = 'NOT_MET')"
 				+ " AND pfcc.inLetter = :inLetter "
-				+ " ORDER BY pfcc.commentType ASC, pfcc.modified DESC";
+				+ " ORDER BY pfcc.displayOrder ASC, pfcc.commentType ASC, pfcc.modified DESC";
 
 		TypedQuery<ProtocolFormCommitteeComment> q = getEntityManager().createQuery(query,
 				ProtocolFormCommitteeComment.class);
@@ -203,7 +204,8 @@ public class ProtocolFormCommitteeCommentDao extends AbstractDomainDao<ProtocolF
 				+ (showIRBComments?" OR (pfcc.committee IN :irbRelatedCommitteeLst AND pfcc.isPrivate = :isPrivate) ":" OR (pfcc.committee IN :irbRelatedCommitteeLst AND pfcc.inLetter = :inLetter) "
 				+ (committeeLst.size()>0?"OR (pfcc.committee IN :committeeLst AND pfcc.isPrivate = :isPrivate) ":""))
 				+ " OR (pfcc.isPrivate <> :isPrivate "+ (showIRBComments?" AND pfcc.committee <> 'BUDGET_REVIEW' AND pfcc.committee <> 'COVERAGE_REVIEW'":"") +")) AND (pfcc.protocolForm.parent.id = pf.parent.id) AND pfcc.retired = :retired "
-				+ " ORDER BY pfcc.commentType ASC, pfcc.modified DESC";
+				+ (currentUser.getAuthorities().contains(Permission.CAN_REORDER_COMMENTS)?" ORDER BY pfcc.displayOrder ASC, pfcc.commentType ASC, pfcc.modified DESC":" ORDER BY pfcc.commentType ASC, pfcc.modified DESC");
+				//+ " ORDER BY pfcc.displayOrder ASC, pfcc.commentType ASC, pfcc.modified DESC";
 
 		TypedQuery<ProtocolFormCommitteeComment> q = getEntityManager().createQuery(query,
 				ProtocolFormCommitteeComment.class);
@@ -228,6 +230,42 @@ public class ProtocolFormCommitteeCommentDao extends AbstractDomainDao<ProtocolF
 		return q.getResultList();
 	}
 	
+	@Transactional(readOnly = true)
+	public long getMaxDisplayOrderByProtocolFormId(
+			long protocolFormId) {
+		
+		/*String nativeQuery = "SELECT MAX(pfcc.display_order) FROM protocol_form_committee_comment pfcc"
+					+ " WHERE pfcc.retired = :retired"
+					+ " AND pfcc.protocol_form_id IN (SELECT id FROM protocol_form WHERE parent_id IN (SELECT pf.parent_id FROM protocol_form pf WHERE id = :protocolFormId)) ";
+		*/
+		
+		String query = "SELECT MAX(pfcc.displayOrder) FROM ProtocolFormCommitteeComment pfcc, ProtocolForm pf"
+					+ " WHERE pfcc.retired = :retired AND pf.retired = :retired"
+					+ " AND pf.id = :protocolFormId"
+					+ " AND pfcc.protocolForm.parent.id = pf.parent.id";
+				
+		//Query q = getEntityManager()
+				//.createNativeQuery(nativeQuery, Long.class);
+		TypedQuery<Long> q = getEntityManager().createQuery(query, Long.class);
+		
+		q.setFirstResult(0);
+		q.setMaxResults(1);
+		q.setHint("org.hibernate.cacheable", true);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("protocolFormId", protocolFormId);
+
+		return q.getSingleResult();
+	}
 	
+	@Transactional
+	public void updateProtocolFormCommitteeCommentOrder(long protocolFormCommitteeCommentId, long order) {
+		String query = "UPDATE protocol_form_committee_comment SET display_order = :order WHERE reply_to_id = :protocolFormCommitteeCommentId";
+		
+		Query q = getEntityManager().createNativeQuery(query);
+		q.setParameter("order", order);
+		q.setParameter("protocolFormCommitteeCommentId", protocolFormCommitteeCommentId);
+		
+		q.executeUpdate();
+	}
 	
 }

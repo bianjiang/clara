@@ -90,6 +90,9 @@ public class BudgetController {
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION);
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.REVISION_PENDING_PI_ENDORSEMENT);
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.REVISION_REQUESTED);
+		protocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_BUDGET_NEGOTIATIONS);
+		protocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT);
+		protocolFormStatusLst.add(ProtocolFormStatusEnum.RETURN_FOR_BUDGET_NEGOTIATIONS);
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_TP_ENDORSEMENT);
 		protocolFormStatusLst.add(ProtocolFormStatusEnum.PENDING_PI_ENDORSEMENT);
 		//protocolFormStatusLst.add(ProtocolFormStatusEnum.REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT);

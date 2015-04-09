@@ -130,6 +130,8 @@
 				<condition involve="{staffname.search-xpath}">{staffname.search-xpath}</condition>
 				<condition involve="{originalapprovaldate.search-xpath}">{originalapprovaldate.search-xpath}
 				</condition>
+				<condition involve="{originalapprovalstatus.search-xpath}">{originalapprovalstatus.search-xpath}
+				</condition>
 				<condition involve="{recentapprovaldate.search-xpath}">{recentapprovaldate.search-xpath}
 				</condition>
 				<condition involve="{drug.search-xpath}">{drug.search-xpath}</condition>
@@ -811,6 +813,20 @@
 			<field identifier="reviewtimerage" />
 			<field identifier="reviewinlastxdays" />
 			<field identifier="reviewinlastxmonths" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+			</query>
+			<conditions>
+			</conditions>
+		</queries>
+	</report>
+	
+	<report type="Contract Review Time Summary Report">
+		<fields>
+			<field identifier="submissiontimespan" />
 		</fields>
 		<results>
 		</results>

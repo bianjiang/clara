@@ -20,20 +20,12 @@ import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolStatusDao;
 import edu.uams.clara.webapp.protocol.dao.irb.AgendaItemDao;
 import edu.uams.clara.webapp.protocol.dao.irb.AgendaItemReviewerDao;
 import edu.uams.clara.webapp.protocol.dao.protocolform.ProtocolFormDao;
-import edu.uams.clara.webapp.protocol.domain.Protocol;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.AgendaStatus;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormCommitteeStatus;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolFormStatus;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.ProtocolStatus;
 import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.AgendaStatusEnum;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormCommitteeStatusEnum;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolFormStatusEnum;
-import edu.uams.clara.webapp.protocol.domain.businesslogicobject.enums.ProtocolStatusEnum;
 import edu.uams.clara.webapp.protocol.domain.irb.Agenda;
 import edu.uams.clara.webapp.protocol.domain.irb.AgendaItemReviewerWrapper;
 import edu.uams.clara.webapp.protocol.domain.irb.AgendaItemWrapper;
 import edu.uams.clara.webapp.protocol.domain.protocolform.ProtocolForm;
-import edu.uams.clara.webapp.protocol.domain.protocolform.enums.ProtocolFormType;
 import edu.uams.clara.webapp.protocol.service.email.ProtocolEmailDataService;
 import edu.uams.clara.webapp.queue.service.QueueServiceContainer;
 import edu.uams.clara.webapp.xml.processor.XmlProcessor;
@@ -150,6 +142,7 @@ public class AgendaStatusHelperImpl implements AgendaStatusHelper {
 			break;
 		case CANCEL:
 			agendaStatus.setAgendaStatus(AgendaStatusEnum.CANCELLED);
+			/*
 			for (AgendaItemWrapper agendaItemWrapper : agendaItemLst){
 				
 				ProtocolForm protocolForm = agendaItemWrapper.getProtocolForm();
@@ -185,7 +178,7 @@ public class AgendaStatusHelperImpl implements AgendaStatusHelper {
 				protocolFormCommitteeStatus.setProtocolFormCommitteeStatus(ProtocolFormCommitteeStatusEnum.PENDING_IRB_REVIEW_RE_ASSIGNMENT);
 				
 				protocolFormCommitteeStatusDao.saveOrUpdate(protocolFormCommitteeStatus);
-			}
+			}*/
 			break;
 		case START_MEETING:
 			agendaStatus.setAgendaStatus(AgendaStatusEnum.MEETING_IN_PROGRESS);

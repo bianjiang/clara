@@ -393,8 +393,14 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 			newSubmissionPulledXml += formService.pullFromOtherForm("/protocol/original-study", p.getMetaDataXml());
 			newSubmissionPulledXml += formService.pullFromOtherForm("/protocol/most-recent-study", p.getMetaDataXml());
 			newSubmissionPulledXml += formService.pullFromOtherForm("/protocol/funding", p.getMetaDataXml());
+			
+			String adultRisk = formService.pullFromOtherForm("/protocol/summary/irb-determination/adult-risk", p.getMetaDataXml());
+			String pedRisk = formService.pullFromOtherForm("/protocol/summary/irb-determination/ped-risk", p.getMetaDataXml());
+			
+			String risk = "<summary><irb-determination>" + adultRisk + pedRisk + "</irb-determination></summary>";
+			//newSubmissionPulledXml += formService.pullFromOtherForm("/protocol/summary", p.getMetaDataXml());
 
-			protocolFormXmlString += newSubmissionPulledXml;
+			protocolFormXmlString += newSubmissionPulledXml + risk;
 			break;
 		case MODIFICATION:
 			protocolFormXmlString += "<committee-review>" + formService.pullFromOtherForm("//committee-review/committee", originalProtocolForm.getMetaDataXml()) + "</committee-review>";
@@ -542,7 +548,7 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 		} else {		
 			f.setMetaDataXml(finalXmlString);
 		}*/
-		
+
 		f.setMetaDataXml(finalXmlString);
 		f.setParent(f);
 		f.setCreated(created);
@@ -1341,6 +1347,8 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 				List<ProtocolFormStatusEnum> needToCheckRevisionRequestCommitteeStatusLst = Lists.newArrayList();		
 				needToCheckRevisionRequestCommitteeStatusLst.add(ProtocolFormStatusEnum.UNDER_REVISION);
 				needToCheckRevisionRequestCommitteeStatusLst.add(ProtocolFormStatusEnum.REVISION_PENDING_PI_ENDORSEMENT);
+				needToCheckRevisionRequestCommitteeStatusLst.add(ProtocolFormStatusEnum.PENDING_BUDGET_NEGOTIATIONS);
+				needToCheckRevisionRequestCommitteeStatusLst.add(ProtocolFormStatusEnum.PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT);
 				
 				if (needToCheckRevisionRequestCommitteeStatusLst.contains(latestFormStatus.getProtocolFormStatus()) && (requestedCommittee.equals("BUDGET_REVIEW") || requestedCommittee.equals("BUDGET_MANAGER") || requestedCommittee.equals("GATEKEEPER"))) {
 					isSpecficRole = "IS_PI";

@@ -333,8 +333,9 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	private Set<String> profileXpathSet = Sets.newHashSet();{
-		profileXpathSet.add("/metadata/citi-training-complete");
+		//profileXpathSet.add("/metadata/citi-training-complete");
 		profileXpathSet.add("/metadata/notes");
+		profileXpathSet.add("/metadata/citi-training-expiredate");
 	}
 	
 	@Override
@@ -346,7 +347,8 @@ public class UserServiceImpl implements UserService {
 			
 			Map<String, String> values = xmlHandler.getFirstStringValuesByXPaths(profile, profileXpathSet);
 			
-			result.put("citiTrainingComplete", values.get("/metadata/citi-training-complete"));
+			result.put("citiTrainingExpiredate", values.get("/metadata/citi-training-expiredate"));
+			//result.put("citiTrainingComplete", values.get("/metadata/citi-training-complete"));
 			result.put("notes", values.get("/metadata/notes"));
 			
 		} catch (Exception e) {

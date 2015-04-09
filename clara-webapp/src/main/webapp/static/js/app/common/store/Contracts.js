@@ -5,11 +5,9 @@ Ext.define('Clara.Common.store.Contracts', {
     groupField: 'id',
     groupDir:'DESC',
     autoLoad: false,
+    remoteSort: true,
     sorters:[{
         property: 'id',
         direction: 'DESC'
-    },{
-    	property: 'groupedIndex',
-        direction: 'ASC'
     }]
 });

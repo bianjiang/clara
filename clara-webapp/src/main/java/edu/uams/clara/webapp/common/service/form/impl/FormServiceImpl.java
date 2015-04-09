@@ -24,11 +24,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
 import edu.uams.clara.core.util.xml.DomUtils;
-import edu.uams.clara.core.util.xml.XmlHandler;
-import edu.uams.clara.core.util.xml.XmlHandlerFactory;
 import edu.uams.clara.webapp.common.dao.usercontext.CitiMemberDao;
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.form.Form;
@@ -262,17 +258,27 @@ public class FormServiceImpl implements FormService {
 		
 		String profile = user.getProfile();
 		
-		String citiCompleted = "";
+		String citiTrainingExpireDate = "";
 		
 		if (profile != null && !profile.isEmpty()) {
 			Map<String, String> profileValues = userService.getUserProfileInfo(profile);
 			
-			citiCompleted = profileValues.get("citiTrainingComplete");
+			citiTrainingExpireDate = profileValues.get("citiTrainingExpiredate");
 			notes = "<notes>" + profileValues.get("notes") + "</notes>";
 		}
 		
-		if (citiCompleted.equals("true")) {
-			citiInfo = "<citi-training-complete>y</citi-training-complete>";
+		if (!citiTrainingExpireDate.isEmpty()) {
+			try {
+				Date citiExpireDate = df.parse(citiTrainingExpireDate);
+				
+				if (!citiExpireDate.before(now)) {
+					citiInfo = "<citi-training-complete>y</citi-training-complete>";
+				}
+			} catch (ParseException pe) {
+				
+			}
+			
+			//citiInfo = "<citi-training-complete>y</citi-training-complete>";
 		} else {
 			try {
 				List<CitiMember> citiMembers = citiMemberDao

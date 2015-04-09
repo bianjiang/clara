@@ -85,7 +85,7 @@ public class ProtocolFormCommitteeChecklistController {
 							.getProtocolFormCommitteeStatus().toString()
 					+ "\"]]";
 			
-			if (readOnly.equals("true")) {
+			if (readOnly != null && readOnly.equals("true")) {
 				path = "/checklists/checklist-group[conditions/condition[@protocol-form-type=\""
 						+ protocolFormType.toString()
 						+ "\" and @committee-name=\""
