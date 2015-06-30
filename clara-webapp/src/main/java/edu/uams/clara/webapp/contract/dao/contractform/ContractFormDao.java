@@ -573,6 +573,7 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 	
 	private Map<String, String> sortFieldMap = Maps.newHashMap();{
 		sortFieldMap.put("id", "id");
+		sortFieldMap.put("created", "created");
 		sortFieldMap.put("contractType", "id");
 		sortFieldMap.put("status", "meta_data_xml.value('(//status/text())[1]', 'varchar(100)')");
 		sortFieldMap.put("entity", "meta_data_xml.value('(//sponsors/sponsor/company/text())[1]', 'varchar(100)')");
@@ -648,7 +649,7 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 					+ ((searchCriterias != null)?" AND  (" + xpathWhereClause + ") ": "")
 					+ " GROUP BY c.parent_id) "
 					+ " AND cf.contract_form_type = 'NEW_CONTRACT'"
-					+ ((sortField != null)?" ORDER BY "+ sortFieldMap.get(sortField) + " " + dir + ";":" ORDER BY cf.id DESC");
+					+ ((sortField != null)?" ORDER BY "+ sortFieldMap.get(sortField) + " " + dir + ";":" ORDER BY cf.created DESC");
 		} else {
 			/*
 			queryTotal = " SELECT COUNT(*) FROM contract cl WHERE cl.id IN ("
@@ -711,7 +712,7 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 
 			query = " SELECT cform.* FROM contract_form cform WHERE cform.id IN ("
 					+ permissionPIDQuery + ")" + (searchPIDQuery == null?"":" AND cform.id IN (" + searchPIDQuery + ")") 
-					+ ((sortField != null)?" ORDER BY "+ sortFieldMap.get(sortField) + " " + dir + ";":" ORDER BY cf.id DESC");
+					+ ((sortField != null)?" ORDER BY "+ sortFieldMap.get(sortField) + " " + dir + ";":" ORDER BY cf.created DESC");
 			
 			/*
 			queryTotal = " SELECT COUNT(DISTINCT cf.contract_id) FROM contract_form cf WHERE cf.id IN ("
@@ -761,7 +762,7 @@ public class ContractFormDao extends AbstractDomainDao<ContractForm> {
 
 		long total = Long.valueOf(tq.getSingleResult().toString());
 		pagedList.setTotal(total);
-		
+
 		TypedQuery<ContractForm> q = (TypedQuery<ContractForm>) getEntityManager().createNativeQuery(query,
 				ContractForm.class);
 		q.setFirstResult(start).setMaxResults(limit);

@@ -325,6 +325,11 @@
 						class="edu.uams.clara.webapp.report.service.customreport.impl.ContractSummaryReportServiceImpl">
 					</bean>	
 				</entry>	
+				<entry key="Budget and Coverage Review Process Report">
+					<bean
+						class="edu.uams.clara.webapp.report.service.customreport.impl.BudgetReviewSubmittedReportImpl">
+					</bean>	
+				</entry>
 			</map>
 		</property>
 	</bean>

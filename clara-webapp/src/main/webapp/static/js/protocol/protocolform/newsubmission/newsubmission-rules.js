@@ -349,7 +349,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 
 Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 	id : Ext.id(),
-	questionIds : [ 'question-investigator-description' ],
+	questionIds : [ 'question-investigator-description', 'question-tri-involved' ],
 	dependantQuestionPaths : [ "/protocol/study-nature", "/protocol/study-type", "/protocol/site-responsible", "/protocol/study-type/investigator-initiated/investigator-description" ],
 	execute : function(answers) {
 		

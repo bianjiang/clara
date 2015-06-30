@@ -67,9 +67,9 @@
 									<form-status status="PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="HUD_RENEWAL_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
-											<log log-type="NOTIFICATION" email-template-identifier="HUD_RENEWAL_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="STUDY_CLOSURE_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">HUD Renewal Form has bee submitted to PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="STUDY_CLOSURE_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">HUD Renewal Form has bee submitted to PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -126,9 +126,9 @@
 									<form-status status="PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="HUD_RENEWAL_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
-											<log log-type="NOTIFICATION" email-template-identifier="HUD_RENEWAL_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="STUDY_CLOSURE_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">HUD Renewal Form has bee submitted to PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="STUDY_CLOSURE_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">HUD Renewal Form has bee submitted to PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -876,7 +876,7 @@
 							</decision>
 						</decisions>						
 						<actions>
-							<action type="APPROVE" condition="" update-meta-data="true">
+							<action type="APPROVE" condition="" update-meta-data="true" assign-to-agenda="true">
 								<change-status>
 									<status status="OPEN" />
 									<form-status status="EXPEDITED_APPROVED" />
@@ -888,7 +888,7 @@
 									<document-status status="APPROVED" />
 								</change-status>
 								<events>
-									<event>ASSIGN_TO_AGENDA</event>
+									<!-- <event>ASSIGN_TO_AGENDA</event> -->
 									<event clock-start="Expedited">UPDATE_APPROVAL_DATE_STATUS</event>
 								</events>
 								<notifications>

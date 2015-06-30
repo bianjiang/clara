@@ -23,6 +23,7 @@
 			<field identifier="submissiontimespan" />
 			<field identifier="completetimespan" />
 			<field identifier="approvalstatus" />
+			<field identifier="crapprovalstatus" />
 			<field identifier="queuecommittee" />
 			<field identifier="studysubmissionstatus" />
 			<field identifier="reviewedcommittee" />
@@ -143,6 +144,8 @@
 				<condition involve="{creationtimespan.search-xpath}">{creationtimespan.search-xpath}
 				</condition>
 				<condition involve="{approvalstatus.search-xpath}">{approvalstatus.search-xpath}
+				</condition>
+				<condition involve="{crapprovalstatus.search-xpath}">{crapprovalstatus.search-xpath}
 				</condition>
 				<condition involve="{queuecommittee.search-xpath}">{queuecommittee.search-xpath}
 				</condition>
@@ -825,6 +828,20 @@
 	</report>
 	
 	<report type="Contract Review Time Summary Report">
+		<fields>
+			<field identifier="submissiontimespan" />
+		</fields>
+		<results>
+		</results>
+		<queries>
+			<query type="main">
+			</query>
+			<conditions>
+			</conditions>
+		</queries>
+	</report>
+	
+		<report type="Budget and Coverage Review Process Report">
 		<fields>
 			<field identifier="submissiontimespan" />
 		</fields>

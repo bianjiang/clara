@@ -183,6 +183,26 @@
 					<uams:textarea validation="required" instancepath="/protocol/study-type/investigator-initiate/support-type-describe" value="${supportTypeDescribe}" id="support-type-describe" hasNA="false"/>
 				</div>
 			</div>
+			
+			<div class="question" id="question-tri-involved">
+				<div class="questionIdentifier">Basic-Details-2.2.4</div>
+				<div class="questionLabel">
+					<span class="question-label-text">Would you like the Portal Facilitator to perform FREE protocol review and editing services offered by the UAMS Translational Research Institute?</span>
+				</div>
+				<div class="questionValue">
+					<x:set var="triInvolved"
+						select="string($protocolInstance/protocol/study-type/investigator-initiate/is-tri-involved/text())" />
+					<uams:yesno id="triInvolved"
+						instancepath="/protocol/study-type/investigator-initiate/is-tri-involved"
+						value="${triInvolved}" validation="required" />
+				</div>
+				<div style="clear: both;">
+					<!-- // -->
+				</div>
+				<div class="questionHelp">
+					<uams:helpinfo lookupid="tri-involved" />
+				</div>
+			</div>
 
 			<div class="question clearfix" id="question-patient-locations">
 				<div class="questionIdentifier">Basic-Details-3</div>

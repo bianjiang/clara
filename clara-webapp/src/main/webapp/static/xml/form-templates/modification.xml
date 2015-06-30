@@ -151,9 +151,13 @@
 					</question>
 				</sub-questions>
 			</question>
-			<question id="question-support-type-describe" parent-id="" parent-value="" header="">
+			<question id="question-support-type-describe" parent-id="question-study-type" parent-value="investigator-initiated" header="Investigator">
 				<question-label>Please describe your study support:</question-label>
 				<question-value instance-path="/protocol/study-type/investigator-initiate/support-type-describe" value-type="textarea" />
+			</question>
+			<question id="question-tri-involved" parent-id="question-study-type" parent-value="investigator-initiated" header="Investigator">
+				<question-label>Would you like the Portal Facilitator to perform FREE protocol review and editing services offered by the UAMS Translational Research Institute?</question-label>
+				<question-value instance-path="/protocol/study-type/investigator-initiate/is-tri-involved" value-type="yesNo" />
 			</question>
 			<question id="question-patient-locations" parent-id="" parent-value="" header="">
 				<question-label>In which of the following settings will this study take place?</question-label>
@@ -619,7 +623,7 @@
 				</sub-questions>
 			</question>
 			<question id="question-describe-phi-accessed" parent-id="question-access-existing-phi" parent-value="y" header="Existing PHI is being accessed">
-				<question-label>Describe the specific PHI data elements that will be used/recoreded for the research.</question-label>
+				<question-label>Describe the specific PHI data elements that will be used/recorded for the research.</question-label>
 				<question-value instance-path="/protocol/hipaa/access-existing-phi/y/desc" value-type="textarea" />
 			</question>
 			<question id="question-existing-hipaa-phi-details" parent-id="question-access-existing-phi" parent-value="y" header="Existing PHI is being accessed">
@@ -696,7 +700,7 @@
 				<question-value instance-path="/protocol/hipaa/is-authorization-waiver/y/will-identifiers-be-destroyed/n/justification" value-type="textarea" />
 			</question>
 			<question id="question-reason-for-waiver" parent-id="question-requesting-hipaa-waiver" parent-value="y" header="HIPAA authorization waiver/alteration is being requested">
-				<question-label>Explain why the research could not practicably if a written HIPAA waiver were required for the PHI.</question-label>
+				<question-label>Explain why the research could not practicably be conducted if a written HIPAA waiver were required for the PHI.</question-label>
 				<question-value instance-path="/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-for-waiver" value-type="textarea" />
 			</question>
 		</section>
@@ -1177,12 +1181,12 @@
 	</page>
 	<page name="MISC" id="misc">
 		<section>
-			<question id="question-tri-involved" parent-id="" parent-value="" header="">
+			<!-- <question id="question-tri-involved" parent-id="" parent-value="" header="">
 				<question-label>Will this research be
 						conducted in conjunction with the Translational Research Institute
 						(TRI) Clinical Research Services Core (CRSC)?</question-label>
 				<question-value instance-path="/protocol/misc/is-tri-involved" value-type="yesNo" />
-			</question>
+			</question> -->
 			<question id="question-is-registered-at-clinicaltrials" parent-id="" parent-value="" header="">
 				<question-label>Does this study require
 						registration with ClinicalTrials.gov?</question-label>

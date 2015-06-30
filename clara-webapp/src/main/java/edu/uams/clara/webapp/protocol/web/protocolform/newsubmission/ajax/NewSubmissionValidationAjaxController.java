@@ -83,12 +83,14 @@ public class NewSubmissionValidationAjaxController {
 		ignoreValidationQuestionSet.add("/protocol/epic/involve-chemotherapy");
 		ignoreValidationQuestionSet.add("/protocol/site-responsible/enroll-subject-in-uams");
 		ignoreValidationQuestionSet.add("/protocol/study-type/investigator-initiate/support-type-describe");
+		ignoreValidationQuestionSet.add("/protocol/study-type/investigator-initiate/is-tri-involved");
 	}
 	
 	private List<Committee> validationIgnoreCommitteeList = Lists.newArrayList();{
 		validationIgnoreCommitteeList.add(Committee.PHARMACY_REVIEW);
 		validationIgnoreCommitteeList.add(Committee.BUDGET_REVIEW);
 		validationIgnoreCommitteeList.add(Committee.COVERAGE_REVIEW);
+		validationIgnoreCommitteeList.add(Committee.PRECOVERAGE_REVIEW);
 	}
 
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/new-submission/protocol-form-xml-datas/{protocolFormXmlDataId}/validate", method = RequestMethod.GET)

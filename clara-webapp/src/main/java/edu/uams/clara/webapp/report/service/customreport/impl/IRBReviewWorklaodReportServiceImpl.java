@@ -39,7 +39,7 @@ private List<Object[]> getPfcsWithUidAndTimeRange(String beginTime, String endTi
 	String queryStr = "select  pf.id, pf.meta_data_xml.value('(//summary/irb-determination/recent-motion)[1]','varchar(max)'), pf.protocol_form_type, pfcs.committee, pfcs.modified from protocol_form_committee_status pfcs inner join protocol_form pf on pfcs.protocol_form_id = pf.id inner join protocol p on pf.protocol_id = p.id  "
 			+ " where pfcs.retired = 0 and p.retired = 0 "
 			+ " and pfcs.modified between '"+beginTime+ "' and '"+endTime+ "' "
-			+ " and pfcs.action in ('APPROVE','ACKNOWLEDGED','ACKNOWLEDGE','APPROVED','DECLINE','DECLINED','IS_HSR','IS_NOT_HSR','NOT_RNI','CHECK_CONSENT_FORMS','ASSIGN_REVIEWER','DEFER_WITH_MAJOR','TABLE','DEFER_WITH_MINOR') "
+			+ " and pfcs.protocol_form_committee_status in ('APPROVE','ACKNOWLEDGED','ACKNOWLEDGE','APPROVED','DECLINE','DECLINED','IS_HSR','IS_NOT_HSR','NOT_RNI','CHECK_CONSENT_FORMS','ASSIGN_REVIEWER','DEFER_WITH_MAJOR','TABLE','DEFER_WITH_MINOR') "
 			+ " and pfcs.committee = pfcs.cause_by_committee ";
 			if(!committee.isEmpty()){
 				queryStr +=" and pf.retired = 0 and pfcs.committee = '"+committee+"' ";

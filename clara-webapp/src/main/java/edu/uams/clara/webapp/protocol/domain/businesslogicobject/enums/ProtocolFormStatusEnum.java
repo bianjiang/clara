@@ -85,7 +85,8 @@ public enum ProtocolFormStatusEnum {
 	RESPONSE_TO_TABLED_PENDING_PI_ENDORSEMENT("Response to Tabled Pending PI Endorsement", "WARN", true),
 	RETURN_FOR_BUDGET_NEGOTIATIONS("Return for Budget Negotiations", "WARN", false),
 	PENDING_BUDGET_NEGOTIATIONS("Pending Budget Negotiations", "WARN", false),
-	PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT("Pending Budget Negotiations Pending PI Endorsement", "WARN", true);
+	PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT("Pending Budget Negotiations Pending PI Endorsement", "WARN", true),
+	UNDER_PRECOVERAGE_REVIEW("Pending Pre-Coverage Review", "INFO", false);
 	
 	private String description;
 	private String priorityLevel;

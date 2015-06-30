@@ -153,7 +153,7 @@
 				<div class="questionLabel">
 					<h1 class="conditional-question-label">Since you will access
 						existing PHI please answer the following:</h1>
-					<span class="question-label-text">Describe the specific PHI data elements that will be used/recoreded for the research.</span>
+					<span class="question-label-text">Describe the specific PHI data elements that will be used/recorded for the research.</span>
 				</div>
 				<div class="questionValue">
 					<x:set var="describePhiAccessed" select="string($protocolInstance/protocol/hipaa/access-existing-phi/y/desc/text())" />
@@ -518,7 +518,7 @@
 						number, health history, diagnosis, test results, etc.). Be as
 						specific as possible.</h1>
 					<span class="question-label-text">Explain why the research
-						could not practicably if a written HIPAA waiver were required for the PHI.</span>
+						could not practicably be conducted if a written HIPAA waiver were required for the PHI.</span>
 				</div>
 				<div class="questionValue">
 					<x:set var="reasonForWaiver" select="string($protocolInstance/protocol/hipaa/is-requesting-hipaa-waiver/y/reason-for-waiver/text())" />

@@ -68,6 +68,18 @@
 				<question-label>What is the original approval date?</question-label>
 				<question-value instance-path="/protocol/original-study/approval-date" value-type="date" />
 			</question>
+			<question id="question-expedited-category" parent-id="" parent-value="" header="">
+				<question-label>Original Expedited Categories:</question-label>
+				<question-value editable="false" instance-path="/protocol/summary/irb-determination/expedited-category/category/value" value-type="checkbox" />
+			</question>
+			<question id="question-exempt-category" parent-id="" parent-value="" header="">
+				<question-label>Original Exempt Categories:</question-label>
+				<question-value editable="false" instance-path="/protocol/summary/irb-determination/exempt-category/category/value" value-type="checkbox" />
+			</question>
+			<question id="question-irb-review-period" parent-id="" parent-value="" header="">
+				<question-label>IRB Review Period (months)</question-label>
+				<question-value instance-path="/protocol/summary/irb-determination/review-period" value-type="string" />
+			</question>
 			<question id="question-current-approval-status" parent-id="" parent-value="" header="">
 				<question-label>What is the current approval status of this study?</question-label>
 				<question-value instance-path="/protocol/most-recent-study/approval-status" value-type="radio">
@@ -82,13 +94,17 @@
 				<question-label>What is the latest approval start date?</question-label>
 				<question-value instance-path="/protocol/most-recent-study/approval-date" value-type="date" />
 			</question>
-			<question id="question-irb-review-period" parent-id="" parent-value="" header="">
-				<question-label>IRB Review Period (months)</question-label>
-				<question-value instance-path="/protocol/summary/irb-determination/review-period" value-type="string" />
-			</question>
 			<question id="question-current-approval-end-date" parent-id="" parent-value="" header="">
 				<question-label>What is the latest approval end date?</question-label>
 				<question-value instance-path="/protocol/most-recent-study/approval-end-date" value-type="date" />
+			</question>
+			<question id="question-expedited-category" parent-id="" parent-value="" header="">
+				<question-label>Current Expedited Categories:</question-label>
+				<question-value editable="false" instance-path="/protocol/most-recent-study/expedited-category/category/value" value-type="checkbox" />
+			</question>
+			<question id="question-exempt-category" parent-id="" parent-value="" header="">
+				<question-label>Current Exempt Categories:</question-label>
+				<question-value editable="false" instance-path="/protocol/most-recent-study/exempt-category/category/value" value-type="checkbox" />
 			</question>
 			
 			<question id="question-fda" parent-id="" parent-value="" header="">

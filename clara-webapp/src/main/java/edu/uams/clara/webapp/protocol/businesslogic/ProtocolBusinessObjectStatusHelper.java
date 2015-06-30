@@ -599,15 +599,20 @@ public class ProtocolBusinessObjectStatusHelper extends
 				ProtocolFormXmlData protocolFormXmlData = protocolForm.getTypedProtocolFormXmlDatas().get(protocolForm.getProtocolFormType().getDefaultProtocolFormXmlDataType());
 				
 				String protocolFormXmlDataString = protocolFormXmlData.getXmlData();
+				String protocolFormMetaData = protocolForm.getMetaDataXml();
 				
 				try{
 					protocolFormXmlDataString = getXmlProcessor().replaceOrAddNodeValueByPath("/protocol/pharmacy-created", protocolFormXmlDataString, "y");
+					protocolFormMetaData = getXmlProcessor().replaceOrAddNodeValueByPath("/protocol/pharmacy-review-requested", protocolFormMetaData, "y");
 				} catch (Exception e){
 					//don't care
 				}
 				
+				protocolForm.setMetaDataXml(protocolFormMetaData);
+				protocolForm = protocolFormDao.saveOrUpdate(protocolForm);
+				
 				protocolFormXmlData.setXmlData(protocolFormXmlDataString);
-				protocolFormXmlDataDao.saveOrUpdate(protocolFormXmlData);
+				protocolFormXmlData = protocolFormXmlDataDao.saveOrUpdate(protocolFormXmlData);
 			}
 		}
 
@@ -750,8 +755,11 @@ public class ProtocolBusinessObjectStatusHelper extends
 				.add(AgendaStatusEnum.AGENDA_PENDING_CHAIR_APPROVAL);
 		availableAgendaStatuses.add(AgendaStatusEnum.AGENDA_APPROVED);
 	}
-
-	protected void assignToAgenda(ProtocolForm protocolForm) {
+	
+	@Override
+	public void assignToAgenda(Form form) {
+		ProtocolForm protocolForm = (ProtocolForm) form;
+				
 		AgendaItem agendaItem = new AgendaItem();
 		try {
 			Agenda nextAvailabeAgenda = agendaDao
@@ -770,6 +778,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 			e.printStackTrace();
 			throw new ClaraRunTimeException(ClaraRunTimeException.ErrorType.NO_AGENDA_ASSIGNED.getMessage(), ClaraRunTimeException.ErrorType.NO_AGENDA_ASSIGNED);
 		}
+		
 	}
 	
 	/*
@@ -880,10 +889,18 @@ public class ProtocolBusinessObjectStatusHelper extends
 				try {
 					clockStart = xmlHandler.getSingleStringValueByXPath(protocolMetaDataXml, "/protocol/original-study/approval-status");
 					
-					reviewPeriod = Integer.valueOf(xmlHandler.getSingleStringValueByXPath(protocolMetaDataXml, "//irb-determination/review-period"));
-					
-					reviewEndDate = DateFormatUtil
-							.formateDateToMDY(localDate.plusMonths(reviewPeriod).minusDays(1).toDate());
+					if (clockStart.equals("Full Board")) {
+						reviewPeriod = Integer.valueOf(xmlHandler.getSingleStringValueByXPath(protocolMetaDataXml, "//irb-determination/review-period"));
+						
+						reviewEndDate = DateFormatUtil
+								.formateDateToMDY(localDate.plusMonths(reviewPeriod).minusDays(1).toDate());
+					} else if (clockStart.equals("Expedited")) {
+						reviewEndDate = DateFormatUtil
+								.formateDateToMDY(localDate.plusYears(1).minusDays(1).toDate());
+					} else if (clockStart.equals("Exempt")) {
+						reviewEndDate = DateFormatUtil
+								.formateDateToMDY(localDate.plusYears(3).toDate());
+					}
 					
 					approvalDate = currentDate;
 				} catch (Exception e) {
@@ -1000,7 +1017,7 @@ public class ProtocolBusinessObjectStatusHelper extends
 								protocolMetaDataXml, currentDate);
 			}
 			
-			if ((protocolForm.getProtocolFormType().equals(ProtocolFormType.CONTINUING_REVIEW) || protocolForm.getProtocolFormType().equals(ProtocolFormType.REPORTABLE_NEW_INFORMATION)) && action.equals("SUSPENDED_FOR_CAUSE")){
+			if ((protocolForm.getProtocolFormType().equals(ProtocolFormType.CONTINUING_REVIEW) || protocolForm.getProtocolFormType().equals(ProtocolFormType.REPORTABLE_NEW_INFORMATION) || protocolForm.getProtocolFormType().equals(ProtocolFormType.OFFICE_ACTION)) && action.equals("SUSPENDED_FOR_CAUSE")){
 				protocolMetaDataXml = getXmlProcessor()
 						.replaceOrAddNodeValueByPath(
 								"/protocol/original-study/suspend-date",
@@ -1620,9 +1637,6 @@ public class ProtocolBusinessObjectStatusHelper extends
 				break;
 			case "GENERATE_EPIC_CDM":
 				this.generateEpicCDM(protocolForm);
-				break;
-			case "ASSIGN_TO_AGENDA":
-				this.assignToAgenda(protocolForm);
 				break;
 			case "GENERATE_BUDGET_DOCUMENT":
 				this.generateBudgetDocuement(protocolForm,attributeRawValues, currentEventEl.getAttribute("submission-type"));

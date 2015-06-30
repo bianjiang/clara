@@ -579,6 +579,21 @@ public class ContractDao extends AbstractDomainDao<Contract> {
 
 		return q.getSingleResult();
 	}
+	
+	@Transactional(readOnly = true)
+	public Contract getContractByIdentifier(String identifier){
+		String query = "SELECT c FROM Contract c "
+				+ " WHERE c.contractIdentifier LIKE :identifier AND c.retired = :retired";
+		TypedQuery<Contract> q = getEntityManager().createQuery(query,
+				Contract.class);
+		q.setFirstResult(0);
+		q.setMaxResults(1);
+		q.setHint("org.hibernate.cacheable", true);
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("identifier", identifier);
+
+		return q.getSingleResult();
+	}
 
 	@Transactional(readOnly = true)
 	public Contract getContractByProtocolId(long protocolId) {

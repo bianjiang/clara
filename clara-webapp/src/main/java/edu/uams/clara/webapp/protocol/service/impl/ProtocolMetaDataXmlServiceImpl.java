@@ -27,10 +27,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import edu.uams.clara.core.util.xml.DomUtils;
 import edu.uams.clara.core.util.xml.XmlHandler;
 import edu.uams.clara.core.util.xml.XmlHandlerFactory;
+import edu.uams.clara.webapp.common.service.form.FormService;
 import edu.uams.clara.webapp.common.util.DateFormatUtil;
 import edu.uams.clara.webapp.protocol.dao.ProtocolDao;
 import edu.uams.clara.webapp.protocol.dao.businesslogicobject.ProtocolFormStatusDao;
@@ -70,6 +72,8 @@ public class ProtocolMetaDataXmlServiceImpl implements
 	private ResourceLoader resourceLoader;
 
 	private ProtocolAndFormStatusService protocolAndFormStatusService;
+	
+	private FormService formService;
 	
 	@Value("${validationXmlPath}")
 	private String validationXmlPath;
@@ -219,10 +223,17 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/summary/irb-determination/reportable-to-ohrp");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/hipaa-waived-date",
 				"/protocol/summary/irb-determination/hipaa-waived-date");
+		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/hipaa-waived-date",
+				"/protocol/summary/irb-determination/hipaa-waived-date");
+		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/expedited-category/category",
+				"/protocol/most-recent-study/expedited-category/category");
+		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/exempt-category/category",
+				"/protocol/most-recent-study/exempt-category/category");
 		continuingReviewXPathPairs.put("/continuing-review/staffs", "/protocol/staffs");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/first-subject-enrolled-date", "/protocol/summary/irb-determination/first-subject-enrolled-date");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-approval", "/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-approval");
 		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-activation", "/protocol/summary/irb-determination/subject-accrual/enrollment/local/since-activation");
+		continuingReviewXPathPairs.put("/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-activation", "/protocol/summary/irb-determination/subject-accrual/enrollment/local/multi-site-since-activation");
 
 		
 		//continuingReviewXPathPairs.put("/continuing-review/most-recent-study/approval-end-date",
@@ -547,6 +558,10 @@ public class ProtocolMetaDataXmlServiceImpl implements
 				"/protocol/contract/require-contract-before-irb");
 		newSubmissionXPathPairs.put("/protocol/misc/is-registered-at-clinical-trials/nct-number",
 				"/protocol/summary/clinical-trials-determinations/nct-number");
+		newSubmissionXPathPairs.put("/protocol/pharmacy-created",
+				"/protocol/pharmacy-created");
+		newSubmissionXPathPairs.put("/protocol/pharmacy-review-requested",
+				"/protocol/pharmacy-review-requested");
 		
 		//newSubmissionXPathPairs.put("/protocol/related-contract",
 				//"/protocol/related-contract");
@@ -567,6 +582,7 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		continuingReviewXPathPairs.put("/continuing-review/subject-accrual/first-subject-enrolled-date", "/continuing-review/summary/irb-determination/first-subject-enrolled-date");
 		continuingReviewXPathPairs.put("/continuing-review/subject-accrual/enrollment/local/since-approval", "/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-approval");
 		continuingReviewXPathPairs.put("/continuing-review/subject-accrual/enrollment/local/since-activation", "/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/since-activation");
+		continuingReviewXPathPairs.put("/continuing-review/subject-accrual/enrollment/local/multi-site-since-activation", "/continuing-review/summary/irb-determination/subject-accrual/enrollment/local/multi-site-since-activation");
 		protocolFormXPathPairMap.put(ProtocolFormXmlDataType.CONTINUING_REVIEW,
 				continuingReviewXPathPairs);
 
@@ -645,6 +661,10 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		modificationXPathPairs.put("/protocol/misc/is-registered-at-clinical-trials/nct-number",
 				"/protocol/summary/clinical-trials-determinations/nct-number");
 		modificationXPathPairs.put("/protocol/compliance-approved","/protocol/compliance-approved");
+		modificationXPathPairs.put("/protocol/pharmacy-created",
+				"/protocol/pharmacy-created");
+		modificationXPathPairs.put("/protocol/pharmacy-review-requested",
+				"/protocol/pharmacy-review-requested");
 		//modificationXPathPairs.put("/protocol/related-contract",
 				//"/protocol/related-contract");
 		
@@ -728,8 +748,8 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		studyResumptionXPathPairs.put("/study-resumption/activities-during-close", "/study-resumption/activities-during-close");
 
 		protocolFormXPathPairMap.put(
-				ProtocolFormXmlDataType.PRIVACY_BOARD,
-				privacyBoardXPathPairs);
+				ProtocolFormXmlDataType.STUDY_RESUMPTION,
+				studyResumptionXPathPairs);
 	}
 
 	@Override
@@ -968,14 +988,14 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		
 		pairMap.put("/committee-review/committee/extra-content/fda", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/fda");
 		pairMap.put("/committee-review/committee/extra-content/suggested-type", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/suggested-type");
-		pairMap.put("/committee-review/committee/extra-content/expedited/category", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/expedited-category");
+		
 		pairMap.put("/committee-review/committee/extra-content/expedited/consent-waived", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/consent-waived");
 		pairMap.put("/committee-review/committee/extra-content/expedited/consent-documentation-waived", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/consent-document-waived");
 		//pairMap.put("/committee-review/committee/extra-content/expedited/adult-risk", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/committee-review/irb-determination/adult-risk");
 		pairMap.put("/committee-review/committee/extra-content/expedited/hipaa-waived", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/hipaa-waived");
 		pairMap.put("/committee-review/committee/extra-content/expedited/adult-risk", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/adult-risk");
 		pairMap.put("/committee-review/committee/extra-content/expedited/ped-risk", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/ped-risk");
-		pairMap.put("/committee-review/committee/extra-content/exempt/category", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/exempt-category");
+		
 		pairMap.put("/committee-review/committee/extra-content/exempt/consent-waived", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/consent-waived");
 		pairMap.put("/committee-review/committee/extra-content/exempt/consent-documentation-waived", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/consent-document-waived");
 		pairMap.put("/committee-review/committee/extra-content/exempt/hipaa-waived", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/hipaa-waived");
@@ -997,6 +1017,10 @@ public class ProtocolMetaDataXmlServiceImpl implements
 		pairMap.put("/committee-review/committee/extra-content/nct-number", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/clinical-trials-determinations/nct-number");
 		
 		pairMap.put("/committee-review/committee/cancel-reason", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/cancel-reason");
+		
+		Map<String, String> multipleChosePairMap = new HashMap<String, String>();
+		multipleChosePairMap.put("/committee-review/committee/extra-content/expedited/category", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/expedited-category/category");
+		multipleChosePairMap.put("/committee-review/committee/extra-content/exempt/category", "/"+ protocolForm.getProtocolFormType().getBaseTag() +"/summary/irb-determination/exempt-category/category");
 		
 		List<String> values = null;
 		try{			
@@ -1025,6 +1049,33 @@ public class ProtocolMetaDataXmlServiceImpl implements
 			
 		} catch (Exception e){
 			e.printStackTrace();
+		}
+		
+		for (Map.Entry<String, String> entry : multipleChosePairMap.entrySet()) {
+			try {
+				String multiValues = formService.pullFromOtherForm(entry.getKey(), extraDataXml);
+
+				if (multiValues != null && !multiValues.isEmpty()) {
+					Map<String, Object> finalResultMap = Maps.newHashMap();
+					
+					String afterDeletionMetaData = protocolFormMetaDataXml;
+					
+					try {
+						finalResultMap = xmlProcessor.deleteElementByPath(entry.getValue(), protocolFormMetaDataXml);
+						
+						afterDeletionMetaData = finalResultMap.get("finalXml").toString();
+					} catch (Exception e) {
+						//don't care
+					}
+					
+					finalResultMap = xmlProcessor.addElementByPath(entry.getValue(), afterDeletionMetaData, multiValues, false);
+					
+					protocolFormMetaDataXml = finalResultMap.get("finalXml").toString();
+					
+				}
+			} catch (Exception e) {
+				
+			}
 		}
 		
 		return protocolFormMetaDataXml;
@@ -1057,7 +1108,8 @@ public class ProtocolMetaDataXmlServiceImpl implements
 					toUpdateMap.remove(path);
 				}
 			}
-			
+			logger.debug("before mergeByXPaths -> protocol.metadataxml: "
+					+ p.getMetaDataXml());
 			String protocolMetaDataXml = xmlProcessor.mergeByXPaths(
 					p.getMetaDataXml(), protocolForm.getMetaDataXml(),
 					XmlProcessor.Operation.UPDATE_IF_EXIST,
@@ -1449,5 +1501,14 @@ public class ProtocolMetaDataXmlServiceImpl implements
 	public void setProtocolAndFormStatusService(
 			ProtocolAndFormStatusService protocolAndFormStatusService) {
 		this.protocolAndFormStatusService = protocolAndFormStatusService;
+	}
+
+	public FormService getFormService() {
+		return formService;
+	}
+	
+	@Autowired(required = true)
+	public void setFormService(FormService formService) {
+		this.formService = formService;
 	}
 }

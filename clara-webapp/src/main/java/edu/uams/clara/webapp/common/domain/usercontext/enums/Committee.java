@@ -6,7 +6,7 @@ import java.util.Map;
 
 public enum Committee {
 	PI("Principal Investigator", Permission.ROLE_PI, "pi", false), //PI is not a real committee, it's a place holder for anyone who is on the protocol's staff list.. we might need more security rules on this.
-	GATEKEEPER("Gatekeeper", Permission.ROLE_GATEKEEPER, "gatekeeper", true),
+	GATEKEEPER("Portal Facilitator", Permission.ROLE_GATEKEEPER, "gatekeeper", true),
 	IRB_PREREVIEW("IRB Prereview", Permission.ROLE_IRB_PREREVIEW, "irb-prereview", true),
 	IRB_OFFICE("IRB Office", Permission.ROLE_IRB_OFFICE, "irb-office", true),
 	IRB_CHAIR("IRB Chair", Permission.ROLE_IRB_CHAIR, "irb-chair", false),
@@ -49,7 +49,8 @@ public enum Committee {
 	CCTO("Cancer Clinical Trials Office", Permission.ROLE_CCTO, "ccto", false),
 	PBS("Patient Business Services", Permission.ROLE_PBS, "pbs", false),
 	BEACON_TEAM("Beacon Team", Permission.ROLE_BEACON_TEAM, "beacon-team", false),
-	WILLOW_TEAM("Willow Team", Permission.ROLE_WILLOW_TEAM, "willow-team", false);
+	WILLOW_TEAM("Willow Team", Permission.ROLE_WILLOW_TEAM, "willow-team", false),
+	PRECOVERAGE_REVIEW("Pre-Coverage Review", Permission.ROLE_PRECOVERAGE_REVIEWER, "pre-coverage-review", true);
 	
 	private String description;
 	

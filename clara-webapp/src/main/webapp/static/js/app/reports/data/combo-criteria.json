@@ -40,6 +40,8 @@
 		{"comboId":"clarafield.combo.protocol.formstatus","value":"REVISION_WITH_MAJOR_PENDING_PI_ENDORSEMENT","name":"Revision With Major Contingencies Pending PI Endorsement"},
 		{"comboId":"clarafield.combo.protocol.formstatus","value":"REVISION_WITH_MINOR_PENDING_PI_ENDORSEMENT","name":"Revision With Minor Contingencies Pending PI Endorsement"},
 		{"comboId":"clarafield.combo.protocol.formstatus","value":"POTENTIAL_NON_COMPLIANCE","name":"Potential Noncompliance Pending IRB Review Assignment"},
+		{"comboId":"clarafield.combo.protocol.formstatus","value":"RETURN_FOR_BUDGET_NEGOTIATIONS","name":"Return for Budget Negotiations"},
+		{"comboId":"clarafield.combo.protocol.formstatus","value":"PENDING_BUDGET_NEGOTIATIONS","name":"Pending Budget Negotiations"},
 		{"comboId":"clarafield.combo.protocol.committee","value":"GATEKEEPER","name":"Gatekeeper"},
 		{"comboId":"clarafield.combo.protocol.committee","value":"IRB_PREREVIEW","name":"IRB Prereview"},
 		{"comboId":"clarafield.combo.protocol.committee","value":"IRB_OFFICE","name":"IRB Office"},

@@ -150,6 +150,25 @@ public class ProtocolFormCommitteeCommentDao extends AbstractDomainDao<ProtocolF
 		return q.getResultList();
 	}
 	
+	@Transactional(readOnly = true)
+	public List<ProtocolFormCommitteeComment> listCommentsByProtocoIdAndCommentType(long protocolId, CommentType commentType){
+		String query = "SELECT pfcc FROM ProtocolFormCommitteeComment pfcc "
+				+ " WHERE pfcc.retired = :retired AND pfcc.commentType = :commentType"
+				+ " AND pfcc.protocolForm.id IN (SELECT pf.id FROM ProtocolForm pf WHERE pf.protocol.id = :protocolId AND pf.retired = :retired) "
+				+ " ORDER BY pfcc.displayOrder ASC, pfcc.commentType ASC, pfcc.modified DESC";
+
+		TypedQuery<ProtocolFormCommitteeComment> q = getEntityManager().createQuery(query,
+				ProtocolFormCommitteeComment.class);
+
+		q.setHint("org.hibernate.cacheable", true);
+		
+		q.setParameter("retired", Boolean.FALSE);
+		q.setParameter("protocolId", protocolId);
+		q.setParameter("commentType", commentType);
+	
+		return q.getResultList();
+	}
+	
 	private List<Committee> irbRelatedCommitteeLst = Lists.newArrayList();{
 		irbRelatedCommitteeLst.add(Committee.IRB_CONSENT_REVIEWER);
 		irbRelatedCommitteeLst.add(Committee.IRB_EXEMPT_REVIEWER);
@@ -193,9 +212,10 @@ public class ProtocolFormCommitteeCommentDao extends AbstractDomainDao<ProtocolF
 			}*/
 			
 			//Budget review and coverage should be able to see each's comments 
-			if (committeeLst.contains(Committee.BUDGET_REVIEW) || committeeLst.contains(Committee.COVERAGE_REVIEW)) {
+			if (committeeLst.contains(Committee.BUDGET_REVIEW) || committeeLst.contains(Committee.COVERAGE_REVIEW) || committeeLst.contains(Committee.PRECOVERAGE_REVIEW)) {
 				committeeLst.add(Committee.COVERAGE_REVIEW);
 				committeeLst.add(Committee.BUDGET_REVIEW);
+				committeeLst.add(Committee.PRECOVERAGE_REVIEW);
 			}
 		}
 
@@ -203,7 +223,7 @@ public class ProtocolFormCommitteeCommentDao extends AbstractDomainDao<ProtocolF
 				+ " WHERE pf.id = :protocolFormId AND pfcc.replyTo.id = pfcc.id AND ((pfcc.user.id = :userId) "
 				+ (showIRBComments?" OR (pfcc.committee IN :irbRelatedCommitteeLst AND pfcc.isPrivate = :isPrivate) ":" OR (pfcc.committee IN :irbRelatedCommitteeLst AND pfcc.inLetter = :inLetter) "
 				+ (committeeLst.size()>0?"OR (pfcc.committee IN :committeeLst AND pfcc.isPrivate = :isPrivate) ":""))
-				+ " OR (pfcc.isPrivate <> :isPrivate "+ (showIRBComments?" AND pfcc.committee <> 'BUDGET_REVIEW' AND pfcc.committee <> 'COVERAGE_REVIEW'":"") +")) AND (pfcc.protocolForm.parent.id = pf.parent.id) AND pfcc.retired = :retired "
+				+ " OR (pfcc.isPrivate <> :isPrivate "+ (showIRBComments?" AND pfcc.committee <> 'PRECOVERAGE_REVIEW' AND pfcc.committee <> 'BUDGET_REVIEW' AND pfcc.committee <> 'COVERAGE_REVIEW'":"") +")) AND (pfcc.protocolForm.parent.id = pf.parent.id) AND pfcc.retired = :retired "
 				+ (currentUser.getAuthorities().contains(Permission.CAN_REORDER_COMMENTS)?" ORDER BY pfcc.displayOrder ASC, pfcc.commentType ASC, pfcc.modified DESC":" ORDER BY pfcc.commentType ASC, pfcc.modified DESC");
 				//+ " ORDER BY pfcc.displayOrder ASC, pfcc.commentType ASC, pfcc.modified DESC";
 

@@ -66,9 +66,9 @@
 									<form-status status="PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
-											<log log-type="NOTIFICATION" event-type="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PL for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PL for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -124,7 +124,7 @@
 									<form-status status="PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
 											<log log-type="NOTIFICATION" event-type="HUMAN_SUBJECT_RESEARCH_DETERMINATION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PL for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>

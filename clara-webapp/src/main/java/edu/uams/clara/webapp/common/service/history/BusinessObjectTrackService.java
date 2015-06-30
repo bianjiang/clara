@@ -342,19 +342,21 @@ public abstract class BusinessObjectTrackService<T> extends
 			Element notificationLogsEl = actionXmlDoc.createElement("logs");
 			notificationEl.appendChild(notificationLogsEl);
 			
-			Element notificationLogEl = actionXmlDoc.createElement("log");
-			notificationLogEl.setAttribute("log-type", logType);
-			notificationLogEl.setAttribute("event-type", eventType);
-			notificationLogEl.setAttribute("form-type", "{FORM_TYPE}");
-			notificationLogEl.setAttribute("form-id", "{FORM_ID}");
-			notificationLogEl.setAttribute("parent-form-id", "{PARENT_FORM_ID}");
-			notificationLogEl.setAttribute("action-user-id", "{USER_ID}");
-			notificationLogEl.setAttribute("actor", "{COMMITTEE_DESC}");
-			notificationLogEl.setAttribute("timestamp", "{NOW_TIMESTAMP}");
-			notificationLogEl.setAttribute("date-time", "{NOW_DATETIME}");
-			notificationLogEl.setTextContent("<span class=\"history-log-message\">" + logText + "</span>");
-			
-			notificationLogsEl.appendChild(notificationLogEl);
+			if (logText != null && !logText.isEmpty()) {
+				Element notificationLogEl = actionXmlDoc.createElement("log");
+				notificationLogEl.setAttribute("log-type", logType);
+				notificationLogEl.setAttribute("event-type", eventType);
+				notificationLogEl.setAttribute("form-type", "{FORM_TYPE}");
+				notificationLogEl.setAttribute("form-id", "{FORM_ID}");
+				notificationLogEl.setAttribute("parent-form-id", "{PARENT_FORM_ID}");
+				notificationLogEl.setAttribute("action-user-id", "{USER_ID}");
+				notificationLogEl.setAttribute("actor", "{COMMITTEE_DESC}");
+				notificationLogEl.setAttribute("timestamp", "{NOW_TIMESTAMP}");
+				notificationLogEl.setAttribute("date-time", "{NOW_DATETIME}");
+				notificationLogEl.setTextContent("<span class=\"history-log-message\">" + logText + "</span>");
+				
+				notificationLogsEl.appendChild(notificationLogEl);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

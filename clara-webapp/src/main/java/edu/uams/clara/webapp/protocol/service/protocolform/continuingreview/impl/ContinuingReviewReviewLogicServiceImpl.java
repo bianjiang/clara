@@ -40,8 +40,8 @@ public class ContinuingReviewReviewLogicServiceImpl extends
 	
 	private Map<String, String> extraContentPanel = new HashMap<String, String>();{
 		extraContentPanel.put("cr-irb-prereview", "<panels><panel xtype=\"clarareviewercrirbprereviewpanel\" id=\"IRBPrereviewFinalReviewPanel\"><formdata>");
-		extraContentPanel.put("irb-expedited-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.irb.expedited.review.panel\" id=\"NewSubmissionIRBExpeditedFinalReviewPanel\"><formdata>");
-		extraContentPanel.put("irb-exempt-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.irb.exempt.review.panel\" id=\"NewSubmissionIRBExemptFinalReviewPanel\"><formdata>");
+		extraContentPanel.put("irb-cr-expedited-review", "<panels><panel xtype=\"clara.reviewer.continuingreview.irb.expedited.review.panel\" id=\"ContinuingReviewIRBExpeditedFinalReviewPanel\"><formdata>");
+		extraContentPanel.put("irb-cr-exempt-review", "<panels><panel xtype=\"clara.reviewer.continuingreview.irb.exempt.review.panel\" id=\"ContinuingReviewIRBExemptFinalReviewPanel\"><formdata>");
 	}
 	
 	private String getFinalReviewExtralContentPanel(long protocolFormId, String reviewFormIdentifier){

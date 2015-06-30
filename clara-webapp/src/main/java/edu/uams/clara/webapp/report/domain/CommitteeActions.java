@@ -246,6 +246,13 @@ public class CommitteeActions {
 		coverageReviewList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
 		startCommitteeStatusMap.put(Committee.COVERAGE_REVIEW,
 				coverageReviewList);
+		
+		// preCoverageReview
+		List<ProtocolFormCommitteeStatusEnum> preCoverageReviewList = Lists
+				.newArrayList();
+		preCoverageReviewList.add(ProtocolFormCommitteeStatusEnum.IN_REVIEW);
+		startCommitteeStatusMap.put(Committee.PRECOVERAGE_REVIEW,
+				preCoverageReviewList);
 
 		// pharmacyReview
 		List<ProtocolFormCommitteeStatusEnum> pharmacyReviewList = Lists
@@ -445,6 +452,15 @@ public class CommitteeActions {
 				.add(ProtocolFormCommitteeStatusEnum.PENDING_CONSENT_LEGAL_REVIEW);
 		endCommitteeStatusMap
 				.put(Committee.COVERAGE_REVIEW, coverageReviewList);
+		
+		// preCoverageReview
+		List<ProtocolFormCommitteeStatusEnum> preCoverageReviewList = Lists
+				.newArrayList();
+		preCoverageReviewList.add(ProtocolFormCommitteeStatusEnum.APPROVED);
+		preCoverageReviewList
+				.add(ProtocolFormCommitteeStatusEnum.REVISION_REQUESTED);
+		endCommitteeStatusMap
+				.put(Committee.PRECOVERAGE_REVIEW, preCoverageReviewList);
 
 		// pharmacyReview
 		List<ProtocolFormCommitteeStatusEnum> pharmacyReviewList = Lists
@@ -832,6 +848,7 @@ public class CommitteeActions {
 		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_PREREVIEW);
 		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_ACH_PREREVIEW);
 		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_BUDGET_MANAGER_REVIEW);
+		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_PRECOVERAGE_REVIEW);
 		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_BUDGET_REVIEW);
 		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_COVERAGE_REVIEW);
 		reviewTypeBeforeIRB.add(ProtocolFormStatusEnum.UNDER_HOSPITAL_SERVICES_REVIEW);

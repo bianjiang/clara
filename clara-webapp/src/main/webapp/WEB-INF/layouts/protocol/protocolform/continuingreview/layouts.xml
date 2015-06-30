@@ -18,6 +18,7 @@
 			<add-attribute value="/static/js/common/uams-forms.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/rules.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/continuingreview/continuingreview-rules.js" type="string" />	
+			<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" type="string" />
 		</put-list-attribute>
 	</definition>
 	
@@ -34,6 +35,7 @@
 			<add-attribute value="/static/js/common/uams-forms.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/rules.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/continuingreview/continuingreview-rules.js" type="string" />
+			<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" type="string" />
 		</put-list-attribute>
 	</definition>
 

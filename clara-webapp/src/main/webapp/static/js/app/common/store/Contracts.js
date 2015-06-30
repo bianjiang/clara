@@ -7,7 +7,7 @@ Ext.define('Clara.Common.store.Contracts', {
     autoLoad: false,
     remoteSort: true,
     sorters:[{
-        property: 'id',
+        property: 'created',
         direction: 'DESC'
     }]
 });

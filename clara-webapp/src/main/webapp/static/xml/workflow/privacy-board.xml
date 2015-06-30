@@ -612,7 +612,7 @@
 							</decision>
 						</decisions>						
 						<actions>
-							<action type="APPROVE" condition="">
+							<action type="APPROVE" condition="" assign-to-agenda="true">
 								<change-status>
 									<!-- <status status="EXPEDITED_APPROVED" /> -->
 									<status status="IRB_APPROVED" />
@@ -625,7 +625,7 @@
 									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<events>
-									<event>ASSIGN_TO_AGENDA</event>
+									<!-- <event>ASSIGN_TO_AGENDA</event> -->
 									<!-- <event>CLEAN_RECENT_MOTION</event> -->
 									<event clock-start="Expedited">UPDATE_APPROVAL_DATE_STATUS</event>
 								</events>

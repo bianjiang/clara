@@ -470,4 +470,10 @@ BusinessObjectStatusHelper {
 		return null;
 	}
 
+	@Override
+	public void assignToAgenda(Form form) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

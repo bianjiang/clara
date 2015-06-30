@@ -18,6 +18,7 @@
 			<add-attribute value="/static/js/common/uams-forms.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/rules.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/studyresumption/study-resumption-rules.js" type="string" />
+			<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" type="string" />
 			<!-- <add-attribute value="/static/js/protocol/protocolform/emergencyuse/validate.js" type="string" /> -->
 			
 		</put-list-attribute>
@@ -36,6 +37,7 @@
 			<add-attribute value="/static/js/common/uams-forms.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/rules.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/studyresumption/study-resumption-rules.js" type="string" />
+			<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" type="string" />
 			<!-- <add-attribute value="/static/js/protocol/protocolform/emergencyuse/validate.js" type="string" /> -->
 		</put-list-attribute>
 	</definition>

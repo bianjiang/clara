@@ -83,7 +83,8 @@ public class NewSubmissionReviewLogicServiceImpl extends
 	}
 	
 	private Map<String, String> extraContentPanel = new HashMap<String, String>();{
-		extraContentPanel.put("irb-prereview", "<panels><panel xtype=\"clarareviewernewsubirbprereviewpanel\" id=\"IRBPrereviewFinalReviewPanel\"></panel><panel xtype=\"clarareviewerirbprereviewassigncommitteepanel\" id=\"IRBPrereviewAssignCommitteePanel\">{extraFormData}</panel></panels>");
+		//extraContentPanel.put("irb-prereview", "<panels><panel xtype=\"clarareviewernewsubirbprereviewpanel\" id=\"IRBPrereviewFinalReviewPanel\"></panel><panel xtype=\"clarareviewerirbprereviewassigncommitteepanel\" id=\"IRBPrereviewAssignCommitteePanel\">{extraFormData}</panel></panels>");
+		extraContentPanel.put("irb-prereview", "<panels><panel xtype=\"clarareviewernewsubirbprereviewpanel\" id=\"IRBPrereviewFinalReviewPanel\"></panel></panels>");
 		extraContentPanel.put("irb-expedited-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.irb.expedited.review.panel\" id=\"NewSubmissionIRBExpeditedFinalReviewPanel\"></panel></panels>");
 		extraContentPanel.put("irb-exempt-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.irb.exempt.review.panel\" id=\"NewSubmissionIRBExemptFinalReviewPanel\"></panel></panels>");
 		extraContentPanel.put("regulatory-review", "<panels><panel xtype=\"clara.reviewer.newsubmission.ragulatory.review.panel\" id=\"RagulatoryFinalReviewPanel\">{extraFormData}</panel></panels>");
@@ -160,6 +161,7 @@ public class NewSubmissionReviewLogicServiceImpl extends
 				&& isInvolvedByType(protocolForm,
 						"Budget")) {
 			//checkedCommittees.add(Committee.PHARMACY_REVIEW);
+			checkedCommittees.add(Committee.PRECOVERAGE_REVIEW);
 			checkedCommittees.add(Committee.BUDGET_REVIEW);
 			checkedCommittees.add(Committee.COVERAGE_REVIEW);
 			checkedCommittees.add(Committee.SUB_DEPARTMENT_CHIEF);

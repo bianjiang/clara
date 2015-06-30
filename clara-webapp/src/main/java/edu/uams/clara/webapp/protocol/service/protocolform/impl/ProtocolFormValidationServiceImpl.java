@@ -72,13 +72,15 @@ public class ProtocolFormValidationServiceImpl implements
 			
 			List<String> sitesId = xmlProcessor.getAttributeValuesByPathAndAttributeName("/protocol/study-sites/site", protocolForm.getMetaDataXml(), "site-id");
 			
+			List<String> studyInvolves = xmlProcessor.listElementStringValuesByPath("/protocol/study-nature/biomedical-clinical/study-involves/involve", protocolForm.getMetaDataXml());
+			
 			if (siteResponsible.equals("uams") || (siteResponsible.equals("ach-achri") && sitesId.contains("7"))){
 
 				ProtocolFormCommitteeStatus pfcs = protocolFormCommitteeStatusDao.getLatestByCommitteeAndProtocolFormId(Committee.PHARMACY_REVIEW, protocolForm.getId());
 				
 				if (pfcs == null){
 					
-					if (protocolFormReviewLogicServiceContainer.getProtocolFormReviewLogicService("NEW_SUBMISSION").isInvolvedByType(protocolForm, "Drug")){
+					if (protocolFormReviewLogicServiceContainer.getProtocolFormReviewLogicService("NEW_SUBMISSION").isInvolvedByType(protocolForm, "Drug") || studyInvolves.contains("drugs") || studyInvolves.contains("dietary-supplement")){
 						pharmacyValidationConstraint.setConstraintLevel(ConstraintLevel.ERROR);
 						pharmacyValidationConstraint.setErrorMessage("Need to request Pharmacy Review before submit the form!");
 						
@@ -88,6 +90,12 @@ public class ProtocolFormValidationServiceImpl implements
 				} else if (pfcs.getProtocolFormCommitteeStatus().equals(ProtocolFormCommitteeStatusEnum.IN_REVIEW_REQUESTED) || pfcs.getProtocolFormCommitteeStatus().equals(ProtocolFormCommitteeStatusEnum.IN_WAIVER_REQUESTED)){
 					pharmacyValidationConstraint.setConstraintLevel(ConstraintLevel.ERROR);
 					pharmacyValidationConstraint.setErrorMessage("Need to wait for Pharmacy to complete Review!");
+					
+					pharmacyValidationAdditionalData.put("pagename", "Review");
+					pharmacyValidationAdditionalData.put("pageref", "review");
+				} else if (pfcs.getProtocolFormCommitteeStatus().equals(ProtocolFormCommitteeStatusEnum.REVISION_REQUESTED)){
+					pharmacyValidationConstraint.setConstraintLevel(ConstraintLevel.ERROR);
+					pharmacyValidationConstraint.setErrorMessage("Need to re-submit to Pharmacy to complete revision!");
 					
 					pharmacyValidationAdditionalData.put("pagename", "Review");
 					pharmacyValidationAdditionalData.put("pageref", "review");

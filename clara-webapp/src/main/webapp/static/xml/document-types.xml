@@ -26,6 +26,7 @@
 <document-type update="false" write="false" read="true" enabled="true" category="Contract Document" value="related-grant" desc="Related Grant Award" protocol="false" default-visible="true" contract="true"/>
 <document-type update="false" write="false" read="true" enabled="true" category="Correspondence" value="letter-to-irb" desc="Letter to IRB" protocol="true" default-visible="true" contract="true"/>
 <document-type update="false" write="false" read="true" enabled="true" category="Correspondence" value="letter-to-participants" desc="Letter to Participants" protocol="true" default-visible="true" contract="true"/>
+<document-type update="false" write="false" read="true" enabled="true" category="Correspondence" value="irb-letter" desc="IRB Letter" protocol="true" default-visible="true" contract="true"/>
 <document-type update="false" write="false" read="true" enabled="true" category="Correspondence" value="project-cancellation-email" desc="Project Cancellation Email" protocol="true" default-visible="true" contract="true"/>
 <document-type update="false" write="false" read="true" enabled="true" category="Correspondence" value="project-initiation-email" desc="Project Initiation Email" protocol="true" default-visible="true" contract="true"/>
 <document-type update="false" write="false" read="true" enabled="true" category="Data Collection" value="case-report-form" desc="Case Report Form" protocol="true" default-visible="true" contract="false"/>

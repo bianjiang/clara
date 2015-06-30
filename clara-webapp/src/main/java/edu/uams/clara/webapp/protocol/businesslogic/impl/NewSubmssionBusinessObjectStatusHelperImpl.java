@@ -173,7 +173,7 @@ public class NewSubmssionBusinessObjectStatusHelperImpl extends
 					selectedCommittees.remove(Committee.BUDGET_REVIEW);
 					//selectedCommittees.remove(Committee.BUDGET_DEVELOP);
 					
-					
+					selectedCommittees.remove(Committee.PRECOVERAGE_REVIEW);
 					selectedCommittees.remove(Committee.COVERAGE_REVIEW);
 					selectedCommittees.remove(Committee.SUB_DEPARTMENT_CHIEF);
 					selectedCommittees.remove(Committee.DEPARTMENT_CHAIR);
@@ -566,11 +566,6 @@ public class NewSubmssionBusinessObjectStatusHelperImpl extends
 		
 	}
 	
-	@Override
-	public void assignToAgenda(ProtocolForm protocolForm){
-		super.assignToAgenda(protocolForm);
-	}
-
 	public ProtocolFormService getProtocolFormService() {
 		return protocolFormService;
 	}

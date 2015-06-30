@@ -951,6 +951,13 @@ public abstract class BusinessObjectStatusHelper {
 				
 				extraDataXml = DomUtils.elementToString(extraDataXmlDocument);
 				
+				boolean assignToAgenda = Boolean.valueOf(actionXmlEl
+						.getAttribute("assign-to-agenda"));
+
+				if (assignToAgenda) {
+					assignToAgenda(form);
+				}
+				
 				boolean updateMetaData = Boolean.valueOf(actionXmlEl
 						.getAttribute("update-meta-data"));
 				
@@ -1382,8 +1389,8 @@ public abstract class BusinessObjectStatusHelper {
 				if (eventsEl != null) {
 					try {
 						this.triggerEvents(form, user, committee, DomUtils.elementToString(eventsEl), action, condition,attributeRawValues);
-					} catch (Exception e) {
-						e.printStackTrace();
+					} catch (Exception ex) {
+						ex.printStackTrace();
 					}
 				}
 
@@ -1527,6 +1534,8 @@ public abstract class BusinessObjectStatusHelper {
 	public abstract void updateAssignedCommittees(Form form, List<Committee> selectedCommittees);
 	
 	public abstract Node processActionXmlNode(Form form, Node actionXmlNode);
+	
+	public abstract void assignToAgenda(Form form);
 
 	public String getWorkflowXmlFilePath() {
 		return workflowXmlFilePath;

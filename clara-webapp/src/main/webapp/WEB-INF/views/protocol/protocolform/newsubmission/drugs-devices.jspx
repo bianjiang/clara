@@ -49,7 +49,7 @@
 			var tp = new Ext.TabPanel({id:'question-drugs-devices',region:'center',border:false, activeTab:0,items:[dp,dvp]});
 
 			
-			var p = new Ext.Panel({id:'question-drugs-devices-panelwrapper',items:[{xtype:'panel',region:'north',padding:6,border:false,html:'<h1>Please list the drugs and devices for your protocol below.</h1><span style="color:red;font-weight:800;">NOTE: Please click "Request Pharmacy Review" button on the right side after you are done adding drugs.</span>'}
+			var p = new Ext.Panel({id:'question-drugs-devices-panelwrapper',items:[{xtype:'panel',region:'north',padding:6,border:false,html:'<h1>Please list the drugs and devices below.</h1><span style="color:red;font-weight:800;">PLEASE NOTE: <br/>ONLY Pharmacy Reviewer can enter drug information. <br/>Please click "Notify Pharmacy" button to send for drug input and review if your study involves Drugs/Biologics or Nutritional Products. <br/>Failure to do so might cause delay of your submission!</span>'}
 			            ,tp],layout:'border',border:false,
 			tbar: new Ext.Toolbar({
 			items:[{xtype:'button',iconCls:'icn-arrow-180',text:'Back',handler:function(){gotoPage('misc');}},'->',{xtype:'button',iconCls:'icn-arrow',text:'Next',handler:function(){gotoPage('funding-sources');}}]

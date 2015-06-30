@@ -19,6 +19,7 @@
 			<add-attribute value="/static/js/protocol/protocolform/rules.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/modification/modification-rules.js" type="string" />	
 			<add-attribute value="/static/js/protocol/protocolform/newsubmission/newsubmission-rules.js" type="string" />
+			<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" type="string" />
 		</put-list-attribute>
 	</definition>
 	
@@ -36,6 +37,7 @@
 			<add-attribute value="/static/js/protocol/protocolform/rules.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/modification/modification-rules.js" type="string" />
 			<add-attribute value="/static/js/protocol/protocolform/newsubmission/newsubmission-rules.js" type="string" />
+			<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" type="string" />
 		</put-list-attribute>
 	</definition>
 

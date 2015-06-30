@@ -56,7 +56,7 @@ public class SendRevisionRequestedReminderNotificationService {
 	public void sendRevisionReminder() {
 		if(!this.isShouldRun()) return;
 		
-		String qry = "select protocol_form_id from protocol_form_status where protocol_form_id in (SELECT max (id) FROM protocol_form  where  retired  =0 group by parent_id) and protocol_form_status in ('UNDER_REVISION','REVISION_REQUESTED', 'PENDING_BUDGET_NEGOTIATIONS', 'RETURN_FOR_BUDGET_NEGOTIATIONS') and caused_by_committee in('BUDGET_MANAGER','BUDGET_REVIEW','COVERAGE_REVIEW','DEPARTMENT_CHAIR','COLLEGE_DEAN','HOSPITAL_SERVICES','GATEKEEPER') and id in (select max(id) from protocol_form_status where protocol_form_id in (SELECT max (id) FROM protocol_form  where  retired  =0 group by parent_id)) and retired =0 and  DATEDIFF(day, 0,GETDATE()-modified )>7";
+		String qry = "select protocol_form_id from protocol_form_status where protocol_form_id in (SELECT max (id) FROM protocol_form  where  retired  =0 group by parent_id) and protocol_form_status in ('UNDER_REVISION','REVISION_REQUESTED', 'PENDING_BUDGET_NEGOTIATIONS', 'RETURN_FOR_BUDGET_NEGOTIATIONS') and caused_by_committee in('BUDGET_MANAGER','PRECOVERAGE_REVIEW','BUDGET_REVIEW','COVERAGE_REVIEW','DEPARTMENT_CHAIR','COLLEGE_DEAN','HOSPITAL_SERVICES','GATEKEEPER') and id in (select max(id) from protocol_form_status where protocol_form_id in (SELECT max (id) FROM protocol_form  where  retired  =0 group by parent_id)) and retired =0 and  DATEDIFF(day, 0,GETDATE()-modified )>7";
 		Query query = em.createNativeQuery(qry);
 		List<BigInteger> formIds = Lists.newArrayList();
 		try {

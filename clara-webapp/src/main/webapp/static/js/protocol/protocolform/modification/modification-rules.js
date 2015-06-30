@@ -65,7 +65,7 @@ Clara.ProtocolForm.Rules.addRule(new Clara.ProtocolForm.Rule({
 			hide = true;
 		}
 
-		if (answers['/protocol/modification/to-modify-section/complete-migration'] == 'y'){ hide = true; }
+		//if (answers['/protocol/modification/to-modify-section/complete-migration'] == 'y'){ hide = true; }
 
 		this.hide(hide);
 	}

@@ -93,8 +93,8 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 	public List<String> getFormMetaDataXpathList(String formBaseTag) {
 		List<String> protocolFormMetaXPaths = new ArrayList<String>(0);
 		
-		protocolFormMetaXPaths.add("/"+ formBaseTag +"/summary/irb-determination/expedited-category");
-		protocolFormMetaXPaths.add("/"+ formBaseTag +"/summary/irb-determination/exempt-category");
+		protocolFormMetaXPaths.add("/"+ formBaseTag +"/summary/irb-determination/expedited-category/category/value");
+		protocolFormMetaXPaths.add("/"+ formBaseTag +"/summary/irb-determination/exempt-category/category/value");
 		protocolFormMetaXPaths.add("/"+ formBaseTag +"/summary/irb-determination/adult-risk");
 		protocolFormMetaXPaths.add("/"+ formBaseTag +"/summary/irb-determination/ped-risk");
 		protocolFormMetaXPaths.add("/"+ formBaseTag +"/summary/irb-determination/hipaa-waived");
@@ -447,6 +447,7 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		finalTemplateValues.put("approvalEndDateMinusOneDay", getApprovalRelatedDate(protocolForm).get("approvalEndDateMinusOneDay"));
 		finalTemplateValues.put("approvalDate", getApprovalRelatedDate(protocolForm).get("approvalDate"));
 		finalTemplateValues.put("assignedBudgetReviewer", getReviewers(protocolformMetaData, Permission.ROLE_BUDGET_REVIEWER));
+		finalTemplateValues.put("assignedPreCoverageReviewer", getReviewers(protocolformMetaData, Permission.ROLE_PRECOVERAGE_REVIEWER));
 		finalTemplateValues.put("assignedCoverageReviewer", getReviewers(protocolformMetaData, Permission.ROLE_COVERAGE_REVIEWER));
 		
 		finalTemplateValues.put("originalReviewDate", (getApprovalRelatedDate(protocolForm).get("originalReviewDate")!=null)?getApprovalRelatedDate(protocolForm).get("originalReviewDate").toString():"N/A");
@@ -463,9 +464,11 @@ public class ProtocolEmailDataService extends EmailDataService<Protocol>{
 		
 		finalTemplateValues.put("cancelReason", getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/cancel-reason", ""));
 		
-		finalTemplateValues.put("expeditedCategory", getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/expedited-category", "N/A"));
-		finalTemplateValues.put("exemptCategory", getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/exempt-category", "N/A"));
-		
+		//finalTemplateValues.put("expeditedCategory", getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/expedited-category", "N/A"));
+		finalTemplateValues.put("expeditedCategory", formMetaDatavalues.get("/"+ protocolFormBaseTag +"/summary/irb-determination/expedited-category/category/value"));
+		//finalTemplateValues.put("exemptCategory", getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/exempt-category", "N/A"));
+		finalTemplateValues.put("exemptCategory", formMetaDatavalues.get("/"+ protocolFormBaseTag +"/summary/irb-determination/exempt-category/category/value"));
+
 		String adultRisk = getFormService().getSafeStringValueByKey(formMetaDatavalues, "/"+ protocolFormBaseTag +"/summary/irb-determination/adult-risk", "");
 		
 		if (adultRisk.isEmpty()) {

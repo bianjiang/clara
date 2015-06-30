@@ -32,8 +32,8 @@ Clara.BudgetBuilder.GetPharmacyStatus= function(){
 			  committee: "PHARMACY_REVIEW"
 		  },
 		  success: function(data){
-			  clog("PHARMSTAT SUCCESS:",data,jQuery(data).find("result").text().toLowerCase());
-			  status = jQuery(data).find("result").text().toLowerCase();
+			  clog("PHARMSTAT SUCCESS:",data,jQuery(data).find("data").text().toLowerCase());
+			  status = jQuery(data).find("data").text().toLowerCase();
 		  },
 		  error: function(){
 			  status = "errorLoadingPharmacyStatus";
@@ -485,7 +485,7 @@ Clara.BudgetBuilder.PromptNewBudget = function(callback){
 	Ext.Msg.show({
 		title:"New budget",
 		closable:false,
-		msg:"<h1>How would you like to enter the budget for this study?</h1><p><strong>Basic Budget</strong> is for visit-only budgets.</p><p><strong>Complex Budget</strong> enables all options, including adding arms, phases, cycles and visits.</p>", 
+		msg:"<h1>How would you like to enter the budget for this study?</h1><p><strong>Basic Budget</strong> is for visit-only budgets.  If used for feasibility, budget is not considered final until submitted and reviewed.</p><p><strong>Complex Budget</strong> enables all options, including adding arms, phases, cycles and visits.</p>", 
 		buttons:{
 			yes: "Basic Budget",
 			no: "Complex Budget",

@@ -75,6 +75,17 @@
 			</rule>
 		</prerequisites>
 	</rule>	
+	<rule path="/protocol/study-type/investigator-initiate/is-tri-involved" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+		<constraint type="REQUIRED" data="" error-msg="To indicate if you'd like the Portal Facilitator to perform FREE protocol review and editing services offered by the UAMS Translational Research Institute is required!" level="ERROR"/>
+		<prerequisites>
+			<rule path="/protocol/study-nature" value-type="java.lang.String" pagename="First Page" pageref="first-page">
+				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+			<rule path="/protocol/study-type" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
+				<constraint type="EQUAL" data="investigator-initiated" error-msg="Since you choose, ..." level="ERROR"/>		
+			</rule>
+		</prerequisites>
+	</rule>	
 	<rule path="/protocol/study-type/investigator-initiated/investigator-description/other/explain" value-type="java.lang.String" pagename="Basic Details" pageref="basic-details">
 		<constraint type="REQUIRED" data="" error-msg="To describe the other investigator who initiated this study is required!" level="ERROR"/>
 		<prerequisites>
@@ -2823,7 +2834,7 @@
 			</rule>
 		</prerequisites>
 	</rule>
-	<rule path="/protocol/misc/is-tri-involved" value-type="java.lang.String" pagename="MISC" pageref="misc">
+	<!-- <rule path="/protocol/misc/is-tri-involved" value-type="java.lang.String" pagename="MISC" pageref="misc">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if this research will be
 						conducted in conjunction with the Translational Research Institute
 						(TRI) Clinical Research Services Core (CRSC) is required!" level="ERROR"/>
@@ -2832,7 +2843,7 @@
 				<constraint type="NOTEQUAL" data="hud-use" error-msg="Since you choose, ..." level="ERROR"/>		
 			</rule>
 		</prerequisites>
-	</rule>
+	</rule> -->
 	<rule path="/protocol/misc/is-registered-at-clinical-trials" value-type="java.lang.String" pagename="MISC" pageref="misc">
 		<constraint type="REQUIRED" data="" error-msg="To indicate if this study requires
 						registration with ClinicalTrials.gov is required!" level="ERROR"/>

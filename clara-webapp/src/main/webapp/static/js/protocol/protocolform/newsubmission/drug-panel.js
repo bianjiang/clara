@@ -84,9 +84,10 @@ Clara.NewSubmission.ProtocolDrugPanel = Ext.extend(Ext.grid.GridPanel, {
 		var disableButton = (status == "IN_REVIEW_REQUESTED" || status == "IN_WAIVER_REQUESTED");
 		jQuery("#pharmacy-review-status").text(prettyStatus);
 		var btn = Ext.getCmp("btnRequestPharmacy");
-		var label = (disableButton)?prettyStatus:"Request Pharmacy Review";
+		var label = (disableButton)?prettyStatus:"Notify Pharmacy";
 		btn.setDisabled(disableButton);
-		this.setEditable((status == "") || (status == "NO_PHARMACY_REVIEW") || claraInstance.user.committee == "PHARMACY_REVIEW");
+		//this.setEditable((status == "") || (status == "NO_PHARMACY_REVIEW") || claraInstance.user.committee == "PHARMACY_REVIEW");
+		this.setEditable(claraInstance.user.committee == "PHARMACY_REVIEW");
 		btn.setText(label);
 		btn.setVisible((status != "NO_PHARMACY_REVIEW"));
 	},
@@ -178,7 +179,7 @@ Clara.NewSubmission.ProtocolDrugPanel = Ext.extend(Ext.grid.GridPanel, {
 			url:url,
 			success: function(response){
 				var statusmxl = jQuery.parseXML(response.responseText);
-				status = jQuery(statusmxl).find("result").text().toLowerCase();
+				status = jQuery(statusmxl).find("data").text().toLowerCase();
 				clog("checkPharmacyStatus: returned status",statusmxl,status);
 				Clara.NewSubmission.DDMessageBus.fireEvent('pharmacystatusupdated', status);
 			},
@@ -196,7 +197,20 @@ Clara.NewSubmission.ProtocolDrugPanel = Ext.extend(Ext.grid.GridPanel, {
 					forceFit:true
 				},
 				tbar: new Ext.Toolbar({
-					items:[{
+					items:[
+				    {
+				    	text: 'Notify Pharmacy',
+				    	id:'btnRequestPharmacy',
+				    	ctCls: 'x-btn-over',
+				    	iconCls:'icn-user-gray',
+				    	hidden:true,
+				    	handler: function(){
+				    			t.confirmRequestPharmacyReviewWindow();
+				    	}
+				    },{
+				    	xtype:'tbtext',
+				    	text:'Pharmacy review status: <span id="pharmacy-review-status" style="font-weight:800;">Checking...</span>'
+				    },'->',{
 						id:'btnAddInvDrug',
 				    	text: 'Add Investigational Drug..',
 				    	iconCls:'icn-pill--plus',
@@ -220,19 +234,7 @@ Clara.NewSubmission.ProtocolDrugPanel = Ext.extend(Ext.grid.GridPanel, {
 					    	iconCls:'icn-pill--minus',
 					    	handler: function(){
 				    			Clara.NewSubmission.ConfirmRemoveDrug(Ext.getCmp("protocol-drug-panel").selectedDrug);
-					    }},'->',{
-					    	xtype:'tbtext',
-					    	text:'Pharmacy status: <span id="pharmacy-review-status" style="font-weight:800;">Checking...</span>'
-					    },
-					    {
-					    	text: 'Request Pharmacy Review',
-					    	id:'btnRequestPharmacy',
-					    	iconCls:'icn-user-gray',
-					    	hidden:true,
-					    	handler: function(){
-					    			t.confirmRequestPharmacyReviewWindow();
-					    	}
-					    }
+					    }}
 					]
 				}),
 				sm: new Ext.grid.RowSelectionModel({singleSelect: true}),

@@ -99,6 +99,7 @@ public class ModificationValidationAjaxController {
 		ignoreValidationQuestionSet.add("/protocol/budget/involves/industry-support");
 		ignoreValidationQuestionSet.add("/protocol/epic/involve-chemotherapy");
 		ignoreValidationQuestionSet.add("/protocol/study-type/investigator-initiate/support-type-describe");
+		ignoreValidationQuestionSet.add("/protocol/study-type/investigator-initiate/is-tri-involved");
 	}
 	
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/modification/protocol-form-xml-datas/{protocolFormXmlDataId}/validate", method = RequestMethod.GET)

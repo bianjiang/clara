@@ -81,9 +81,9 @@
 									<form-status status="PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="REPORTABLE_NEW_INFORMATION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
-											<log log-type="NOTIFICATION" email-template-identifier="REPORTABLE_NEW_INFORMATION_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="REPORTABLE_NEW_INFORMATION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="REPORTABLE_NEW_INFORMATION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -154,9 +154,9 @@
 									<form-status status="PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="REPORTABLE_NEW_INFORMATION_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
-											<log log-type="NOTIFICATION" email-template-identifier="REPORTABLE_NEW_INFORMATION_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="REPORTABLE_NEW_INFORMATION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="REPORTABLE_NEW_INFORMATION_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -888,7 +888,7 @@
 									</notification>										
 								</notifications>
 							</action>
-							<action type="SUSPENDED_FOR_CAUSE" email-template-identifier="REPORTABLE_NEW_INFORMATION_SUSPENDED_FOR_CAUSE_LETTER">
+							<action type="SUSPENDED_FOR_CAUSE" email-template-identifier="GENERIC_FULL_BOARD_SUSPENDED_FOR_CAUSE_LETTER">
 								<change-status>
 									<!-- <status status="IRB_SUSPENDED" /> -->
 									<status status="SUSPENDED" />
@@ -898,9 +898,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Reportable New Information Full Board Suspended Letter" doc-type="Reportable New Information Full Board Suspended Letter" email-template-identifier="REPORTABLE_NEW_INFORMATION_SUSPENDED_FOR_CAUSE_LETTER">
+									<notification notification-type="LETTER" letter-name="Reportable New Information Full Board Suspended Letter" doc-type="Reportable New Information Full Board Suspended Letter" email-template-identifier="GENERIC_FULL_BOARD_SUSPENDED_FOR_CAUSE_LETTER">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="REPORTABLE_NEW_INFORMATION_SUSPENDED_FOR_CAUSE_LETTER" event-type="IRB_SUSPENDED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been suspended by the IRB. An IRB Full Board Suspend for Cause letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="LETTER" email-template-identifier="GENERIC_FULL_BOARD_SUSPENDED_FOR_CAUSE_LETTER" event-type="IRB_SUSPENDED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been suspended by the IRB. An IRB Full Board Suspend for Cause letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>	
 									<notification xpath-condition="boolean(count(/protocol/drugs/drug[.=&quot;investigational&quot;]])>0 and (count(/protocol/site-responsible[text()='uams'])>0 or count(/protocol/study-sites/site[@site-id=&quot;7&quot;])>0))" notification-type="NOTIFICATION" email-template-identifier="FULL_BOARD_SUSPENDED_FOR_CAUSE_TO_PHARMACY">
@@ -915,7 +915,7 @@
 									</notification>										
 								</notifications>
 							</action>
-							<action type="TERMINATED_FOR_CAUSE" email-template-identifier="REPORTABLE_NEW_INFORMATION_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER">
+							<action type="TERMINATED_FOR_CAUSE" email-template-identifier="GENERIC_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER">
 								<change-status>
 									<!-- <status status="IRB_TERMINATED" /> -->
 									<status status="TERMINATED" />
@@ -925,9 +925,9 @@
 									</form-committee-statuses>
 								</change-status>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Reportable New Information Full Board Terminated for Cause Letter" doc-type="Reportable New Information Full Board Terminated for Cause Letter" email-template-identifier="REPORTABLE_NEW_INFORMATION_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER">
+									<notification notification-type="LETTER" letter-name="Reportable New Information Full Board Terminated for Cause Letter" doc-type="Reportable New Information Full Board Terminated for Cause Letter" email-template-identifier="GENERIC_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="REPORTABLE_NEW_INFORMATION_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER" event-type="IRB_TERMINATED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been terminated by the IRB. An IRB Full Board Study Closed for Cause letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="LETTER" email-template-identifier="GENERIC_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER" event-type="IRB_TERMINATED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been terminated by the IRB. An IRB Full Board Study Closed for Cause letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -999,7 +999,7 @@
 							</decision>
 						</decisions>						
 						<actions>
-							<action type="APPROVE" condition="" update-meta-data="true">
+							<action type="APPROVE" condition="" update-meta-data="true" assign-to-agenda="true">
 								<change-status>
 									<!-- <status status="EXPEDITED_APPROVED" /> -->
 									<!-- <status status="OPEN" /> -->
@@ -1011,9 +1011,9 @@
 									</form-committee-statuses>
 									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
-								<events>
+								<!-- <events>
 									<event>ASSIGN_TO_AGENDA</event>
-								</events>
+								</events> -->
 								<notifications>
 									<notification form-xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)" notification-type="LETTER" letter-name="Reportable New Information Expedited Approved Letter" doc-type="Reportable New Information Expedited Approved Letter" email-template-identifier="REPORTABLE_NEW_INFORMATION_EXPEDITED_APPROVED_LETTER">
 										<logs>
@@ -1099,7 +1099,7 @@
 							</decision>
 						</decisions>						
 						<actions>
-							<action type="APPROVE" condition="" update-meta-data="true">
+							<action type="APPROVE" condition="" update-meta-data="true" assign-to-agenda="true">
 								<change-status>
 									<!-- <status status="EXPEDITED_APPROVED" /> -->
 									<!-- <status status="OPEN" /> -->
@@ -1111,9 +1111,9 @@
 									</form-committee-statuses>
 									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
-								<events>
+								<!-- <events>
 									<event>ASSIGN_TO_AGENDA</event>
-								</events>
+								</events> -->
 								<notifications>
 									<notification form-xpath-condition="boolean(count(/protocol/summary/irb-determination/recent-motion[text()='Defer with minor contingencies'])=0)" notification-type="LETTER" letter-name="Reportable New Information Expedited Approved Letter" doc-type="Reportable New Information Expedited Approved Letter" email-template-identifier="REPORTABLE_NEW_INFORMATION_EXPEDITED_APPROVED_LETTER">
 										<logs>

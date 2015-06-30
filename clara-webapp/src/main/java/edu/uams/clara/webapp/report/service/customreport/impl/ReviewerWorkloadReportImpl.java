@@ -46,7 +46,7 @@ public class ReviewerWorkloadReportImpl extends CustomReportService{
 	}
 	
 	private List<Object[]> getPfcsWithUidAndTimeRange(String beginTime, String endTime, String committee, long userId){
-		String queryStr = "select  p.id, p.meta_data_xml.value('(/protocol/title/text())[1]','varchar(max)'), pf.protocol_form_type, pfcs.action, pfcs.modified from protocol_form_committee_status pfcs inner join protocol_form pf on pfcs.protocol_form_id = pf.id inner join protocol p on pf.protocol_id = p.id  "
+		String queryStr = "select  p.id, p.meta_data_xml.value('(/protocol/title/text())[1]','varchar(max)'), pf.protocol_form_type, pfcs.protocol_form_committee_status, pfcs.modified from protocol_form_committee_status pfcs inner join protocol_form pf on pfcs.protocol_form_id = pf.id inner join protocol p on pf.protocol_id = p.id  "
 				+ " where pfcs.retired = 0 and p.retired = 0 "
 				+ " and pfcs.modified between '"+beginTime+ "' and '"+endTime+ "' ";
 				

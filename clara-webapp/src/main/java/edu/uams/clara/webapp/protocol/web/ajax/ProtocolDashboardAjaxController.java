@@ -579,7 +579,7 @@ public class ProtocolDashboardAjaxController {
 						if (piCanEditBudget) {
 							canEditBudget = true;
 						} else {
-							if (u.getAuthorities().contains(Permission.ROLE_BUDGET_REVIEWER) || u.getAuthorities().contains(Permission.ROLE_COVERAGE_REVIEWER)) {
+							if (u.getAuthorities().contains(Permission.ROLE_BUDGET_REVIEWER) || u.getAuthorities().contains(Permission.ROLE_COVERAGE_REVIEWER) || u.getAuthorities().contains(Permission.ROLE_PRECOVERAGE_REVIEWER)) {
 								if (assignAgendaDate == null || assignAgendaDate.isEmpty()) {
 									canEditBudget = true; 
 								} else {
@@ -629,7 +629,7 @@ public class ProtocolDashboardAjaxController {
 						if (u.getAuthorities().contains(Permission.PUSH_TO_PSC)) {
 							boolean pushed= protocolService.isPushedToPSC(protocolXml);
 							boolean cancelledForm = protocolFormStatusDao.getLatestProtocolFormStatusByFormId(protocolFormId).getProtocolFormStatus().equals(ProtocolFormStatusEnum.CANCELLED);
-							if (!pushed&&!cancelledForm) {
+							if (!pushed && !cancelledForm) {
 								xmlResult += "<action cls='rose'><name>Push to PSC</name><url response='json' type='ajax'>/ajax/protocols/"
 										+ protocolId
 										+ "/transform-budget-xml-to-psc</url></action>";

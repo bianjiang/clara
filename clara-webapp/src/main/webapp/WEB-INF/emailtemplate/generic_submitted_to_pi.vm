@@ -7,6 +7,7 @@
 <div class="email-template">
 <div class="uamslogo" style="width:100px;height:57px;"><img style="width:100px;height:57px;" src="https://clara.uams.edu/clara-webapp/static/images/uams-logo-medium.png"/></div>
 	<br/><br/>The $protocolFormType form has been entered in CLARA, and it is pending your signature since you are listed as the PI. Please click the link below to access the study in CLARA.
+	<br/>Please go to the Forms TAB to enter your signature.
 	
 	#if ($hudOrNot == 'hud-use')
 		<br/><br/><strong>TP Name:</strong>  $treatingPhysicianUser.person.getFullname()<br/>

@@ -241,7 +241,7 @@ public class ProtocolFormCommitteeStatusDao extends
 		//default completed item period is one month
 		String completeItemPeriod = "DATEADD(MONTH, -1, GETDATE())";
 		
-		if (committee.equals(Committee.BUDGET_REVIEW) || committee.equals(Committee.COVERAGE_REVIEW)) {
+		if (committee.equals(Committee.BUDGET_REVIEW) || committee.equals(Committee.COVERAGE_REVIEW) || committee.equals(Committee.PRECOVERAGE_REVIEW)) {
 			completeItemPeriod = "DATEADD(MONTH, -3, GETDATE())";
 		}
 

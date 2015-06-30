@@ -317,7 +317,7 @@ Ext.define('Clara.Queue.controller.QueueAssign', {
 		var assignmentRules = [{
 			actor:"ROLE_BUDGET_MANAGER",
 			forms:['new-submission','modification'],
-			canAssignTo:[["Budget Reviewer", "ROLE_BUDGET_REVIEWER"],["Coverage Reviewer","ROLE_COVERAGE_REVIEWER"]]
+			canAssignTo:[["Pre-Coverage Reviewer", "ROLE_PRECOVERAGE_REVIEWER"],["Budget Reviewer", "ROLE_BUDGET_REVIEWER"],["Coverage Reviewer","ROLE_COVERAGE_REVIEWER"]]
 		},
 		{
 			actor:"ROLE_CONTRACT_MANAGER",

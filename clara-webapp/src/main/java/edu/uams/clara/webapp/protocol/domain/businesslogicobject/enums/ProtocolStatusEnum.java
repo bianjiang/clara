@@ -95,7 +95,8 @@ public enum ProtocolStatusEnum {
 	RESPONSE_TO_TABLED_PENDING_PI_ENDORSEMENT("Response to Tabled Pending PI Endorsement", "WARN"),
 	RETURN_FOR_BUDGET_NEGOTIATIONS("Return for Budget Negotiations", "WARN"),
 	PENDING_BUDGET_NEGOTIATIONS("Pending Budget Negotiations", "WARN"),
-	PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT("Pending Budget Negotiations Pending PI Endorsement", "WARN");
+	PENDING_BUDGET_NEGOTIATIONS_PENDING_PI_ENDORSEMENT("Pending Budget Negotiations Pending PI Endorsement", "WARN"),
+	UNDER_PRECOVERAGE_REVIEW("Under Pre-Coverage Review", "INFO");
 	
 	private String description;
 	private String priorityLevel;

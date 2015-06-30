@@ -70,15 +70,15 @@
 									</notification>										
 								</notifications>
 							</action>
-							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT">
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 								<change-status>
 									<!-- <status status="PENDING_PI_ENDORSEMENT" /> -->
 									<form-status status="PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
-											<log log-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -138,15 +138,15 @@
 									</notification>									
 								</notifications>
 							</action>
-							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT">
+							<action type="SIGN_SUBMIT" condition="IS_NOT_PI" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 								<change-status>
 									<!-- <status status="PENDING_PI_ENDORSEMENT" /> -->
 									<form-status status="PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
-											<log log-type="NOTIFICATION" email-template-identifier="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT"  event-type="CONTINUING_REVIEW_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been submitted to the PI for endorsement by {USER_WITH_EMAIL_LINK}. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -971,7 +971,7 @@
 									</notification>										
 								</notifications>
 							</action>
-							<action type="SUSPENDED_FOR_CAUSE" email-template-identifier="CONTINUING_REVIEW_SUSPENDED_FOR_CAUSE_LETTER">
+							<action type="SUSPENDED_FOR_CAUSE" email-template-identifier="GENERIC_FULL_BOARD_SUSPENDED_FOR_CAUSE_LETTER">
 								<change-status>
 									<status status="SUSPENDED" />
 									<form-status status="IRB_SUSPENDED" />
@@ -984,9 +984,9 @@
 									<event>UPDATE_APPROVAL_DATE_STATUS</event>
 								</events>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Continuing Review Full Board Suspended Letter" doc-type="Continuing Review Full Board Suspended Letter" email-template-identifier="CONTINUING_REVIEW_SUSPENDED_FOR_CAUSE_LETTER">
+									<notification notification-type="LETTER" letter-name="Continuing Review Full Board Suspended Letter" doc-type="Continuing Review Full Board Suspended Letter" email-template-identifier="GENERIC_FULL_BOARD_SUSPENDED_FOR_CAUSE_LETTER">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_SUSPENDED_FOR_CAUSE_LETTER" event-type="IRB_SUSPENDED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been suspended by the IRB. An IRB Full Board Suspend for Cause letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="LETTER" email-template-identifier="GENERIC_FULL_BOARD_SUSPENDED_FOR_CAUSE_LETTER" event-type="IRB_SUSPENDED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been suspended by the IRB. An IRB Full Board Suspend for Cause letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>	
 									<notification xpath-condition="boolean(count(/protocol/drugs/drug[@type[.=&quot;investigational&quot;]])>0 and (count(/protocol/site-responsible[text()='uams'])>0 or count(/protocol/study-sites/site[@site-id=&quot;7&quot;])>0))" notification-type="NOTIFICATION" email-template-identifier="FULL_BOARD_SUSPENDED_FOR_CAUSE_TO_PHARMACY">
@@ -1001,7 +1001,7 @@
 									</notification>							
 								</notifications>
 							</action>
-							<action type="TERMINATED_FOR_CAUSE" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER">
+							<action type="TERMINATED_FOR_CAUSE" email-template-identifier="GENERIC_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER">
 								<change-status>
 									<!-- <status status="IRB_TERMINATED" /> -->
 									<status status="TERMINATED" />
@@ -1015,9 +1015,9 @@
 									<event>UPDATE_APPROVAL_DATE_STATUS</event>
 								</events>
 								<notifications>
-									<notification notification-type="LETTER" letter-name="Continuing Review Full Board Terminated for Cause Letter" doc-type="Continuing Review Full Board Terminated for Cause Letter" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER">
+									<notification notification-type="LETTER" letter-name="Continuing Review Full Board Terminated for Cause Letter" doc-type="Continuing Review Full Board Terminated for Cause Letter" email-template-identifier="GENERIC_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER">
 										<logs>
-											<log log-type="LETTER" email-template-identifier="CONTINUING_REVIEW_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER" event-type="IRB_TERMINATED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been terminated by the IRB. An IRB Full Board Study Closed for Cause letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
+											<log log-type="LETTER" email-template-identifier="GENERIC_FULL_BOARD_CLOSED_FOR_CAUSE_LETTER" event-type="IRB_TERMINATED" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{COMMITTEE_DESC}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">IRB# {PROTOCOL_IDENTIFIER} has been terminated by the IRB. An IRB Full Board Study Closed for Cause letter ({LETTER_LINK}) has been sent to the PI. <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>								
 										</logs>
 									</notification>										
 								</notifications>
@@ -1048,7 +1048,7 @@
 			<form-status value="PENDING_EXPEDITED_IRB_REVIEW" form-committee-status="ANY">
 				<committee name="IRB_EXPEDITED_REVIEWER">
 					<!-- <review-page page-name="committee-review" review-form-name="irb-expedited-review"> -->
-					<review-page page-name="committee-review">
+					<review-page page-name="committee-review" review-form-name="irb-cr-expedited-review">
 						<decisions>
 							<decision>
 								<value>APPROVE</value>
@@ -1079,7 +1079,7 @@
 							</decision>
 						</decisions>						
 						<actions>
-							<action type="APPROVE" condition="" update-meta-data="true">
+							<action type="APPROVE" condition="" update-meta-data="true" assign-to-agenda="true">
 								<change-status>
 									<!-- <status status="EXPEDITED_APPROVED" /> -->
 									<status status="OPEN" />
@@ -1092,7 +1092,7 @@
 									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<events>
-									<event>ASSIGN_TO_AGENDA</event>
+									<!-- <event>ASSIGN_TO_AGENDA</event> -->
 									<!-- <event>CLEAN_RECENT_MOTION</event> -->
 									<event clock-start="Expedited">UPDATE_APPROVAL_DATE_STATUS</event>
 									<event>PUSH_TO_EPIC</event>
@@ -1125,7 +1125,7 @@
 									</notification>								
 								</notifications>
 							</action>
-							<action type="APPROVE_RETAIN_CURRENT_APPROVAL_STATUS" condition="" update-meta-data="true">
+							<action type="APPROVE_RETAIN_CURRENT_APPROVAL_STATUS" condition="" update-meta-data="true" assign-to-agenda="true">
 								<change-status>
 									<!-- <status status="EXPEDITED_APPROVED" /> -->
 									<status status="OPEN" />
@@ -1138,7 +1138,7 @@
 									<document-status status="APPROVED" change-budget-doc-status="false" change-protocol-doc-status="true" change-consent-doc-status="true" change-epic-doc-status="false" />
 								</change-status>
 								<events>
-									<event>ASSIGN_TO_AGENDA</event>
+									<!-- <event>ASSIGN_TO_AGENDA</event> -->
 									<!-- <event>CLEAN_RECENT_MOTION</event> -->
 									<event clock-start="None">UPDATE_APPROVAL_DATE_STATUS</event>
 									<event>PUSH_TO_EPIC</event>
@@ -1220,7 +1220,7 @@
 			<form-status value="PENDING_EXEMPT_IRB_REVIEW" form-committee-status="ANY">
 				<committee name="IRB_EXEMPT_REVIEWER">
 					<!-- <review-page page-name="committee-review" review-form-name="irb-exempt-review"> -->
-					<review-page page-name="committee-review">
+					<review-page page-name="committee-review" review-form-name="irb-cr-exempt-review">
 						<decisions>
 							<decision>
 								<value>APPROVE</value>

@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.xml.transform.Source;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.google.common.collect.Lists;
-
 import edu.uams.clara.webapp.common.dao.usercontext.UserDao;
 import edu.uams.clara.webapp.common.domain.history.Track;
 import edu.uams.clara.webapp.common.domain.usercontext.User;
-import edu.uams.clara.webapp.common.domain.usercontext.UserRole;
 import edu.uams.clara.webapp.common.domain.usercontext.enums.Committee;
+import edu.uams.clara.webapp.common.domain.usercontext.enums.Permission;
 import edu.uams.clara.webapp.common.service.CommitteeGroupService;
 import edu.uams.clara.webapp.common.service.audit.AuditService;
 import edu.uams.clara.webapp.common.service.history.AgendaItemTrackService;
@@ -550,6 +550,7 @@ public class ProtocolFormReviewLogicAjaxController {
 	List<ProtocolFormCommitteeComment> listProtocolFormCommitteeComment(
 			//@RequestParam("committee") Committee committee,
 			@RequestParam("userId") long userId,
+			@PathVariable("protocolId") long protocolId,
 			@PathVariable("protocolFormId") long protocolFormId) {
 		User currentUser = userDao.findById(userId);
 		
@@ -559,8 +560,21 @@ public class ProtocolFormReviewLogicAjaxController {
 				.listAllParentsByProtocolFormIdExcludingByUserId(
 						protocolFormId, currentUser);
 		
-		List<ProtocolFormCommitteeComment> returnComments = Lists.newArrayList();
+		//add study wide comments
+		if (currentUser.getAuthorities().contains(Permission.VIEW_IRB_COMMENTS)) {
+			try {
+				List<ProtocolFormCommitteeComment> studyWideProtocolFormCommitteeComments = protocolFormCommitteeCommentDao.listCommentsByProtocoIdAndCommentType(protocolId, CommentType.STUDYWIDE);
+				
+				if (studyWideProtocolFormCommitteeComments != null) {
+					protocolFormCommitteeComments.addAll(studyWideProtocolFormCommitteeComments);
+				}
+			} catch (Exception e) {
+				//don't care
+			}
+		}
 		
+		//List<ProtocolFormCommitteeComment> returnComments = Lists.newArrayList();
+		/*
 		for(ProtocolFormCommitteeComment comment : protocolFormCommitteeComments){
 			boolean showComment = false;
 			if(comment.getCommentType().equals(CommentType.STUDYWIDE)){
@@ -579,6 +593,7 @@ public class ProtocolFormReviewLogicAjaxController {
 				returnComments.add(comment);
 			}
 		}
+		*/
 		
 		/*
 		boolean showIRBComments = false;
@@ -600,13 +615,22 @@ public class ProtocolFormReviewLogicAjaxController {
 			}
 		}*/
 		
-		return returnComments;
+		return protocolFormCommitteeComments;
 	}
 
 	@RequestMapping(value = "/ajax/protocols/{protocolId}/protocol-forms/{protocolFormId}/review/review-status", method = RequestMethod.GET)
 	public @ResponseBody
-	String getReviewStatus(@PathVariable("protocolFormId") long protocolFormId,
+	Source getReviewStatus(@PathVariable("protocolFormId") long protocolFormId,
 			@RequestParam("committee") Committee committee) {
+		ProtocolFormCommitteeStatus protocolFormCommitteeStatus = null;
+		
+		try {
+			protocolFormCommitteeStatus = protocolFormCommitteeStatusDao
+					.getLatestByCommitteeAndProtocolFormId(committee,
+							protocolFormId);
+		} catch (Exception e) {
+			protocolFormCommitteeStatus = null;
+		}
 
 		try {
 			if (committee.equals(Committee.PHARMACY_REVIEW)){
@@ -617,24 +641,47 @@ public class ProtocolFormReviewLogicAjaxController {
 				
 				List<String> sitesId = xmlProcessor.getAttributeValuesByPathAndAttributeName("/protocol/study-sites/site", protocolForm.getMetaDataXml(), "site-id");
 
-				if (responsibleSite.equals("ach-achri") && !sitesId.contains("7")){
-					return XMLResponseHelper.xmlResult("NO_PHARMACY_REVIEW");
+				/*if (responsibleSite.equals("ach-achri") && !sitesId.contains("7")){
+					//return XMLResponseHelper.xmlResult("NO_PHARMACY_REVIEW");
+					return XMLResponseHelper.newDataResponseStub("NO_PHARMACY_REVIEW");
+				}*/
+				
+				if (responsibleSite.equals("uams") || sitesId.contains("7")){
+					List<String> studyInvolves = xmlProcessor.listElementStringValuesByPath("/protocol/study-nature/biomedical-clinical/study-involves/involve", protocolForm.getMetaDataXml());
+					
+					if (studyInvolves.contains("drugs") || studyInvolves.contains("dietary-supplement")) {
+						try {
+							//XmlHandler xmlHandler = XmlHandlerFactory.newXmlHandler();
+							
+							//String ifRequestPharmacy = xmlHandler.getSingleStringValueByXPath(protocolForm.getMetaDataXml(), "/protocol/pharmacy-review-requested");
+							
+							//ProtocolFormCommitteeStatus pfcs = protocolFormCommitteeStatusDao.getLatestByCommitteeAndProtocolFormId(Committee.PHARMACY_REVIEW, protocolFormId);
+							
+							if (protocolFormCommitteeStatus == null) {
+								return XMLResponseHelper.newErrorResponseStub("Since your study involves Drugs/Biologics or Nutritional Products, you MUST click \"Notify Pharmacy\" button for Pharmacy Reviewer to enter drug info.  <br/>If it is already in Pharmacy review, you can ignore this message.");
+							}
+						} catch (Exception e) {
+							
+						}
+					}
+				} else {
+					return XMLResponseHelper.newDataResponseStub("NO_PHARMACY_REVIEW");
 				}
 			}
 			
-			ProtocolFormCommitteeStatus protocolFormCommitteeStatus = protocolFormCommitteeStatusDao
-					.getLatestByCommitteeAndProtocolFormId(committee,
-							protocolFormId);
 			if (protocolFormCommitteeStatus != null) {
 				// return
 				// XMLResponseHelper.xmlResult(protocolFormCommitteeStatus.getProtocolFormCommitteeStatus());
-				return XMLResponseHelper.xmlResult(protocolFormCommitteeStatus.getProtocolFormCommitteeStatus());
+				//return XMLResponseHelper.xmlResult(protocolFormCommitteeStatus.getProtocolFormCommitteeStatus());
+				return XMLResponseHelper.newDataResponseStub(protocolFormCommitteeStatus.getProtocolFormCommitteeStatus().toString());
 			} else {
-				return XMLResponseHelper.xmlResult("");
+				//return XMLResponseHelper.xmlResult("");
+				return XMLResponseHelper.newDataResponseStub("");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			return XMLResponseHelper.xmlResult("");
+			//return XMLResponseHelper.xmlResult("");
+			return XMLResponseHelper.newDataResponseStub("");
 		}
 	}
 

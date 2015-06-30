@@ -127,6 +127,7 @@ public abstract class EmailDataService<T> {
 	
 	protected static Map<String, Permission> assignedReviewerMatchMap = new HashMap<String, Permission>();{
 		assignedReviewerMatchMap.put("AssignedCoverageReviewer", Permission.ROLE_COVERAGE_REVIEWER);
+		assignedReviewerMatchMap.put("AssignedPreCoverageReviewer", Permission.ROLE_PRECOVERAGE_REVIEWER);
 		assignedReviewerMatchMap.put("AssignedBudgetReviewer", Permission.ROLE_BUDGET_REVIEWER);
 		assignedReviewerMatchMap.put("AssignedRegulatoryReviewer", Permission.ROLE_MONITORING_REGULATORY_QA_REVIEWER);
 		assignedReviewerMatchMap.put("AssignedIRBOfficeReviewer", Permission.ROLE_IRB_OFFICE);

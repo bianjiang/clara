@@ -303,7 +303,17 @@
             "forceQueue": false,
             "hasUserSelectableCriteria":true,
             "hasUserSelectableResultFields":false
+        },
+        {
+            "id": 28, 
+            "type":"Budget and Coverage Review Process Report",
+            "category":"Protocol",
+            "icnCls":"",
+            "environments": "development,training,production",
+            "formid":"budgetandcoveragereviewprocessreport",
+            "forceQueue": false,
+            "hasUserSelectableCriteria":true,
+            "hasUserSelectableResultFields":false
         }
-        
         ]
 }

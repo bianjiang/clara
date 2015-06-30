@@ -1720,6 +1720,8 @@ Clara.Documents.GridPanel = Ext.extend(Ext.grid.GridPanel, {
 			              	    		return "<div style='float:left;'><div class='icn-box-small' style='color:red;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>Epic</div></div>";
 			              	    	} else if (r.get("status") == "FINAL_LEGAL_APPROVED") {
 			              	    		return "<div style='float:left;'><div class='icn-box-small' style='color:red;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>LEGAL</div></div>";
+			              	    	} else if (r.get("status") == "NAR") {
+			              	    		return "<div style='float:left;'><div class='icn-box-small' style='color:red;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'>NAR</div></div>";
 			              	    	} else {
 			              	    		return "<div style='float:left;'><div class='icn-ui-check-box-uncheck-disabled' style='color:#999;background-repeat:no-repeat;background-position:left right;width:32px;height:24px;padding-left:15px;'></div></div>";
 			              	    	}

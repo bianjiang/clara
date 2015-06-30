@@ -37,6 +37,8 @@
 			value="${epic.webservice.studydefinition.retrieveProtocolNonPIUserXmlTemplate.uri}" />
 		<property name="retrieveProtocolNctNumberTemplateUri"
 			value="${epic.webservice.studydefinition.retrieveProtocolNctNumberTemplateUri.uri}" />
+		<property name="retrieveProtocolMedicalQTStatusTemplateUri"
+			value="${epic.webservice.studydefinition.retrieveProtocolMedicalQTStatusTemplateUri.uri}" />
     </bean>
     
     <!-- 

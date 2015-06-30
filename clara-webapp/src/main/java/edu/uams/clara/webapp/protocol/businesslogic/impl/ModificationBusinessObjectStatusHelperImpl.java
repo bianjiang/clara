@@ -541,6 +541,8 @@ public class ModificationBusinessObjectStatusHelperImpl extends
 			
 			actionXmlDoc = getProtocolTrackService().addNewEvent(actionXmlDoc, "GENERATE_EPIC_CDM");
 			
+			actionXmlDoc = getProtocolTrackService().addNewNotification(actionXmlDoc, "NOTIFICATION", "GENERIC_BUDGET_APPROVED_TO_RSC", null, null, "NOTIFICATION", "GENERIC_BUDGET_APPROVED_TO_RSC", null);
+			
 			actionXmlDoc = getProtocolTrackService().addNewNotification(actionXmlDoc, "NOTIFICATION", "GENERIC_APPROVE_TO_BEACON", null, "boolean(count(/protocol/epic/involve-chemotherapy[text()='y'])>0)", "NOTIFICATION", "GENERIC_APPROVE_TO_BEACON", "Budget modification has been approved and Beacon team is notified. <div class=\"history-log-email\">{EMAIL_NOTIFICATION_LOG}</div>");
 			
 			actionXmlDoc = getProtocolTrackService().addNewNotification(actionXmlDoc, "NOTIFICATION", "BUDGET_APPROVED_NOTIFICATION_FOR_HB", null, null, "NOTIFICATION", "BUDGET_APPROVED_NOTIFICATION_FOR_HB", "Budget modification has been approved and HB team is notified. <div class=\"history-log-email\">{EMAIL_NOTIFICATION_LOG}</div>");

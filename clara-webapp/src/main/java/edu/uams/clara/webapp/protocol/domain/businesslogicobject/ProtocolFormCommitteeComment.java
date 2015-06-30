@@ -42,7 +42,7 @@ public class ProtocolFormCommitteeComment extends AbstractDomainEntity {
 
 	private static final long serialVersionUID = -6208501447184921108L;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="protocol_form_id")
 	private ProtocolForm protocolForm;
 
@@ -50,7 +50,7 @@ public class ProtocolFormCommitteeComment extends AbstractDomainEntity {
 	@Enumerated(EnumType.STRING)
 	private Committee committee;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User user;
 	
@@ -58,7 +58,7 @@ public class ProtocolFormCommitteeComment extends AbstractDomainEntity {
 	@Column(name="text", length=8000)
 	private String text;
 		
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="reply_to_id")
 	private ProtocolFormCommitteeComment replyTo;		
 	

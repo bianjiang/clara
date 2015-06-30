@@ -1393,7 +1393,7 @@ Clara.Reviewer.CoverageFinalReviewPanel);
 
 
 
-Ext.ns('Clara.Reviewer.NewSubmission','Clara.Reviewer.Modification');
+Ext.ns('Clara.Reviewer.NewSubmission','Clara.Reviewer.Modification','Clara.Reviewer.ContinuingReview');
 
 
 Clara.Reviewer.NewSubmission.IRBExpeditedFinalReviewPanel = Ext
@@ -1426,9 +1426,14 @@ Clara.Reviewer.NewSubmission.IRBExpeditedFinalReviewPanel = Ext
 					getFormXMLString : function() {
 						var t = this;
 						var xml = "";
-						xml += "<expedited><category>"
-								+ Ext.getCmp("fldExpeditedCategory").getValue()
-								+ "</category>";
+						xml += "<expedited><category>";
+								//+ Ext.getCmp("fldExpeditedCategory").getValue()
+								//+ "</category>";
+						var categories = Ext.getCmp("fldExpeditedCategory").getValue();
+						for ( var i = 0; i < categories.length; i++) {
+							if (!categories[i].disabled) xml += "<value>" + categories[i].getName() + "</value>";
+						}
+						xml += "</category>";
 						xml += "<consent-waived>"+Ext.getCmp("fldQ1").getValue().inputValue+"</consent-waived>";
 						xml += "<consent-documentation-waived>"+Ext.getCmp("fldQ2").getValue().inputValue+"</consent-documentation-waived>";
 						xml += "<hipaa-waived>"+Ext.getCmp("fldQ3").getValue().inputValue+"</hipaa-waived>";
@@ -1442,7 +1447,7 @@ Clara.Reviewer.NewSubmission.IRBExpeditedFinalReviewPanel = Ext
 						if (t.reviewPanelXml) {
 							var xml = t.reviewPanelXml;
 							
-							var expeditedCategories = [
+							/*var expeditedCategories = [
 							                 ['1'],
 							                 ['2'],
 							                 ['3'],
@@ -1452,9 +1457,9 @@ Clara.Reviewer.NewSubmission.IRBExpeditedFinalReviewPanel = Ext
 							                 ['7'],
 							                 ['N/A'],
 							                 ['Not yet determined']
-							             ];
+							             ];*/
 
-							t.items = [ new Ext.form.ComboBox({
+							t.items = [ /*new Ext.form.ComboBox({
 								id: 'fldExpeditedCategory',
 								labelStyle:'font-weight:800;',
 								fieldLabel : 'Expedited Category',
@@ -1469,7 +1474,28 @@ Clara.Reviewer.NewSubmission.IRBExpeditedFinalReviewPanel = Ext
 								mode : 'local',
 								triggerAction : 'all',
 								emptyText : 'Choose a category...',
-								selectOnFocus : true
+								selectOnFocus : true*/
+					            new Ext.form.CheckboxGroup({
+									   id:'fldExpeditedCategory',
+									   hideLabel:false,
+									   labelStyle:'font-weight:800;',
+									   fieldLabel:'Choose a category:',
+									   xtype:'checkboxgroup',
+									   name:'categorylist',
+									   itemCls: 'x-check-group-alt',
+									   columns:3,
+									   vertical:true,
+									   items:[
+				    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'1', inputValue:'1', name:'1'}),
+				    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'2', inputValue:'2', name:'2'}),
+				    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'3', inputValue:'3', name:'3'}),
+				    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'4', inputValue:'4', name:'4'}),
+				    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'5', inputValue:'5', name:'5'}),
+				    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'6', inputValue:'6', name:'6'}),
+				    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'7', inputValue:'7', name:'7'}),
+				    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'N/A', inputValue:'N/A', name:'N/A'}),
+				    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'Not yet determined', inputValue:'Not yet determined', name:'Not yet determined'})
+				    	    	        ]
 							}),
 							new Ext.form.RadioGroup({
 								id: 'fldQ1',
@@ -1528,6 +1554,107 @@ Clara.Reviewer.NewSubmission.IRBExpeditedFinalReviewPanel = Ext
 Ext.reg('clara.reviewer.newsubmission.irb.expedited.review.panel',
 		Clara.Reviewer.NewSubmission.IRBExpeditedFinalReviewPanel);
 
+Clara.Reviewer.ContinuingReview.IRBExpeditedFinalReviewPanel = Ext
+.extend(
+		Ext.FormPanel,
+		{
+			id : 'ContinuingReviewIRBExpeditedFinalReviewPanel',
+			reviewPanelXml : {},
+			title : 'IRB Expedited Review: Please provide the following information',
+			reviewFormType : 'protocol', // or 'contract'
+			constructor : function(config) {
+				Clara.Reviewer.ContinuingReview.IRBExpeditedFinalReviewPanel.superclass.constructor
+						.call(this, config);
+			},
+			validate : function() {
+				var t = this;
+				var valid = true;
+				clog(t.items.items);
+				for ( var i = 0; i < t.items.items.length; i++) {
+					valid = valid && t.items.items[i].validate();
+				}
+				return valid;
+			},
+			getXML : function() {
+				var t = this;
+				
+				return t.getFormXMLString();
+			},
+
+			getFormXMLString : function() {
+				var t = this;
+				var xml = "";
+				xml += "<expedited><category>";
+						//+ Ext.getCmp("fldExpeditedCategory").getValue()
+						//+ "</category>";
+				var categories = Ext.getCmp("fldExpeditedCategory").getValue();
+				for ( var i = 0; i < categories.length; i++) {
+					if (!categories[i].disabled) xml += "<value>" + categories[i].getName() + "</value>";
+				}
+				xml += "</category>";
+				xml += "</expedited>";
+				return xml;
+			},
+
+			initComponent : function() {
+				var t = this;
+
+				if (t.reviewPanelXml) {
+					var xml = t.reviewPanelXml;
+
+					t.items = [ /*new Ext.form.ComboBox({
+						id: 'fldExpeditedCategory',
+						labelStyle:'font-weight:800;',
+						fieldLabel : 'Expedited Category',
+						hiddenName : 'fldExpeditedCategory',
+						store : new Ext.data.SimpleStore({
+							fields : [ 'category' ],
+							data : expeditedCategories
+						}),
+						displayField : 'category',
+						allowBlank:false,
+						typeAhead : true,
+						mode : 'local',
+						triggerAction : 'all',
+						emptyText : 'Choose a category...',
+						selectOnFocus : true*/
+			            new Ext.form.CheckboxGroup({
+							   id:'fldExpeditedCategory',
+							   hideLabel:false,
+							   labelStyle:'font-weight:800;',
+							   fieldLabel:'Choose a category:',
+							   xtype:'checkboxgroup',
+							   name:'categorylist',
+							   itemCls: 'x-check-group-alt',
+							   columns:3,
+							   vertical:true,
+							   items:[
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'8', inputValue:'8', name:'8'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'8b', inputValue:'8b', name:'8b'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'8c', inputValue:'8c', name:'8c'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'9', inputValue:'9', name:'9'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'N/A', inputValue:'N/A', name:'N/A'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'Not yet determined', inputValue:'Not yet determined', name:'Not yet determined'})
+		    	    	        ]
+					})
+					
+					];
+
+				} else {
+					clog(
+							"[ERROR] Clara.Reviewer.ContinuingReview.IRBExpeditedFinalReviewPanel.initComponent(): reviewPanelXml not defined",
+							t);
+				}
+
+				// call parent
+				Clara.Reviewer.ContinuingReview.IRBExpeditedFinalReviewPanel.superclass.initComponent
+						.apply(this, arguments);
+			}
+
+		});
+Ext.reg('clara.reviewer.continuingreview.irb.expedited.review.panel',
+Clara.Reviewer.ContinuingReview.IRBExpeditedFinalReviewPanel);
+
 Clara.Reviewer.NewSubmission.IRBExemptFinalReviewPanel = Ext
 .extend(
 		Ext.FormPanel,
@@ -1560,9 +1687,14 @@ Clara.Reviewer.NewSubmission.IRBExemptFinalReviewPanel = Ext
 			getFormXMLString : function() {
 				var t = this;
 				var xml = "";
-				xml += "<exempt><category>"
-						+ Ext.getCmp("fldExemptCategory").getValue()
-						+ "</category>";
+				xml += "<exempt><category>";
+						//+ Ext.getCmp("fldExemptCategory").getValue()
+						//+ "</category>";
+				var exemptcategories = Ext.getCmp("fldExemptCategory").getValue();
+				for ( var i = 0; i < exemptcategories.length; i++) {
+					if (!exemptcategories[i].disabled) xml += "<value>" + exemptcategories[i].getName() + "</value>";
+				}
+				xml += "</category>";
 				xml += "<hipaa-waived>"+Ext.getCmp("fldQ3").getValue().inputValue+"</hipaa-waived>";
 				xml += "</exempt>";
 				return xml;
@@ -1574,7 +1706,7 @@ Clara.Reviewer.NewSubmission.IRBExemptFinalReviewPanel = Ext
 				if (t.reviewPanelXml) {
 					var xml = t.reviewPanelXml;
 					
-					var exemptCategories = [
+					/*var exemptCategories = [
 					                 ['1'],
 					                 ['2'],
 					                 ['3'],
@@ -1582,9 +1714,9 @@ Clara.Reviewer.NewSubmission.IRBExemptFinalReviewPanel = Ext
 					                 ['5'],
 					                 ['6'],
 					                 ['N/A']
-					             ];
+					             ];*/
 
-					t.items = [ new Ext.form.ComboBox({
+					t.items = [ /*new Ext.form.ComboBox({
 						id : 'fldExemptCategory',
 						fieldLabel : 'Exempt Category',
 						hiddenName : 'fldExemptCategory',
@@ -1599,7 +1731,26 @@ Clara.Reviewer.NewSubmission.IRBExemptFinalReviewPanel = Ext
 						triggerAction : 'all',
 						emptyText : 'Choose a category...',
 						selectOnFocus : true,
-						labelStyle:'font-weight:800;'
+						labelStyle:'font-weight:800;'*/
+			            new Ext.form.CheckboxGroup({
+							   id:'fldExemptCategory',
+							   hideLabel:false,
+							   labelStyle:'font-weight:800;',
+							   fieldLabel:'Choose a category:',
+							   xtype:'checkboxgroup',
+							   name:'exemptcategorylist',
+							   itemCls: 'x-check-group-alt',
+							   columns:2,
+							   vertical:true,
+							   items:[
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'1', inputValue:'1', name:'1'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'2', inputValue:'2', name:'2'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'3', inputValue:'3', name:'3'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'4', inputValue:'4', name:'4'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'5', inputValue:'5', name:'5'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'6', inputValue:'6', name:'6'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'N/A', inputValue:'N/A', name:'N/A'})
+		    	    	        ]
 					}),
 					new Ext.form.RadioGroup({
 						id: 'fldQ3',
@@ -1629,6 +1780,109 @@ Clara.Reviewer.NewSubmission.IRBExemptFinalReviewPanel = Ext
 		});
 Ext.reg('clara.reviewer.newsubmission.irb.exempt.review.panel',
 Clara.Reviewer.NewSubmission.IRBExemptFinalReviewPanel);
+
+Clara.Reviewer.ContinuingReview.IRBExemptFinalReviewPanel = Ext
+.extend(
+		Ext.FormPanel,
+		{
+			id : 'ContinuingReviewIRBExemptFinalReviewPanel',
+			reviewPanelXml : {},
+			title : 'IRB Exempt Review: Please provide the following information',
+			reviewFormType : 'protocol', // or 'contract'
+			constructor : function(config) {
+				Clara.Reviewer.ContinuingReview.IRBExemptFinalReviewPanel.superclass.constructor
+						.call(this, config);
+			},
+			validate : function() {
+				var t = this;
+				var valid = true;
+				clog(t.items.items);
+				for ( var i = 0; i < t.items.items.length; i++) {
+					valid = valid && t.items.items[i].validate();
+				}
+				return valid;
+			},
+			getXML : function() {
+				var t = this;
+				//var xml = "<" + t.id + ">";
+				//xml += t.getFormXMLString();
+				//xml += "</" + t.id + ">";
+				return t.getFormXMLString();
+			},
+
+			getFormXMLString : function() {
+				var t = this;
+				var xml = "";
+				xml += "<exempt><category>";
+						//+ Ext.getCmp("fldExemptCategory").getValue()
+						//+ "</category>";
+				var exemptcategories = Ext.getCmp("fldExemptCategory").getValue();
+				for ( var i = 0; i < exemptcategories.length; i++) {
+					if (!exemptcategories[i].disabled) xml += "<value>" + exemptcategories[i].getName() + "</value>";
+				}
+				xml += "</category>";
+				xml += "</exempt>";
+				return xml;
+			},
+
+			initComponent : function() {
+				var t = this;
+
+				if (t.reviewPanelXml) {
+					var xml = t.reviewPanelXml;
+
+					t.items = [ /*new Ext.form.ComboBox({
+						id : 'fldExemptCategory',
+						fieldLabel : 'Exempt Category',
+						hiddenName : 'fldExemptCategory',
+						store : new Ext.data.SimpleStore({
+							fields : [ 'category' ],
+							data : exemptCategories
+						}),
+						displayField : 'category',
+						allowBlank:false,
+						typeAhead : true,
+						mode : 'local',
+						triggerAction : 'all',
+						emptyText : 'Choose a category...',
+						selectOnFocus : true,
+						labelStyle:'font-weight:800;'*/
+			            new Ext.form.CheckboxGroup({
+							   id:'fldExemptCategory',
+							   hideLabel:false,
+							   labelStyle:'font-weight:800;',
+							   fieldLabel:'Choose a category:',
+							   xtype:'checkboxgroup',
+							   name:'exemptcategorylist',
+							   itemCls: 'x-check-group-alt',
+							   columns:2,
+							   vertical:true,
+							   items:[
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'1', inputValue:'1', name:'1'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'2', inputValue:'2', name:'2'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'3', inputValue:'3', name:'3'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'4', inputValue:'4', name:'4'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'5', inputValue:'5', name:'5'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'6', inputValue:'6', name:'6'}),
+		    	    	        new Ext.form.Checkbox({hideLabel:true, boxLabel:'N/A', inputValue:'N/A', name:'N/A'})
+		    	    	        ]
+					})
+					];
+
+				} else {
+					clog(
+							"[ERROR] Clara.Reviewer.ContinuingReview.IRBExemptFinalReviewPanel.initComponent(): reviewPanelXml not defined",
+							t);
+				}
+
+				// call parent
+				Clara.Reviewer.ContinuingReview.IRBExemptFinalReviewPanel.superclass.initComponent
+						.apply(this, arguments);
+			}
+
+		});
+Ext.reg('clara.reviewer.continuingreview.irb.exempt.review.panel',
+Clara.Reviewer.ContinuingReview.IRBExemptFinalReviewPanel);
 
 Clara.Reviewer.NewSubmission.RagulatoryFinalReviewPanel = Ext
 .extend(

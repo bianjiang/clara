@@ -801,18 +801,20 @@ public class ProtocolFormServiceImpl implements ProtocolFormService {
 					String conductUnderUams = (values.get("/protocol/modification/to-modify-section/conduct-under-uams") != null && !values.get("/protocol/modification/to-modify-section/conduct-under-uams").isEmpty())?values.get("/protocol/modification/to-modify-section/conduct-under-uams").get(0):"";
 					String studyType = (values.get("/protocol/study-type") != null && !values.get("/protocol/study-type").isEmpty())?values.get("/protocol/study-type").get(0):"";
 					String respSite = (values.get("/protocol/site-responsible") != null && !values.get("/protocol/site-responsible").isEmpty())?values.get("/protocol/site-responsible").get(0):"";
-					String migrated = (values.get("/protocol/migrated") != null && !values.get("/protocol/migrated").isEmpty())?values.get("/protocol/migrated").get(0):"";
+					//String migrated = (values.get("/protocol/migrated") != null && !values.get("/protocol/migrated").isEmpty())?values.get("/protocol/migrated").get(0):"";
 					String budgetConvert = (values.get("/protocol/modification/to-modify-section/complete-budget-migration") != null && !values.get("/protocol/modification/to-modify-section/complete-budget-migration").isEmpty())?values.get("/protocol/modification/to-modify-section/complete-budget-migration").get(0):"";
 					String needBudget = (values.get("/protocol/need-budget") != null && !values.get("/protocol/need-budget").isEmpty())?values.get("/protocol/need-budget").get(0):"";
 					
 					if (isAudit.equals("y")) {
 						workflow = "IRB";
-					} else if (migrated.equals("y")) {
+					} /*else if (migrated.equals("y")) {
 						if (budgetConvert.equals("y")) {
 							workflow = "COMPLIANCE";
 						} else {
 							workflow = "IRB";
 						}
+					}*/ else if (budgetConvert.equals("y")) {
+						workflow = "COMPLIANCE";
 					} else {
 						//if (budgetModified.equals("y") || contractModified.equals("y") || piModified.equals("y") || procedureDeleted.equals("y") || pharmacyDeleted.equals("y") || subjectDeleted.equals("y") || amendToInjury.equals("y") || submitToMedicare.equals("y")) {
 						if (budgetModified.equals("y") || procedureDeleted.equals("y") || pharmacyDeleted.equals("y")) {

@@ -104,9 +104,9 @@
 									<form-status status="PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="EMERGENCY_USE_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
-											<log log-type="NOTIFICATION" event-type="EMERGENCY_USE_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Emergency Use form has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Emergency Use form has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -200,9 +200,9 @@
 									<form-status status="PENDING_PI_ENDORSEMENT" />
 								</change-status>
 								<notifications>
-									<notification notification-type="NOTIFICATION" email-template-identifier="EMERGENCY_USE_SUBMITTED_PENDING_PI_ENDORSEMENT">
+									<notification notification-type="NOTIFICATION" email-template-identifier="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT">
 										<logs>
-											<log log-type="NOTIFICATION" event-type="EMERGENCY_USE_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Emergency Use form has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
+											<log log-type="NOTIFICATION" event-type="GENERIC_SUBMITTED_PENDING_PI_ENDORSEMENT" form-type="{FORM_TYPE}" form-id="{FORM_ID}" parent-form-id="{PARENT_FORM_ID}" action-user-id="{USER_ID}" actor="{USER_NAME}" timestamp="{NOW_TIMESTAMP}" date-time="{NOW_DATETIME}"><span class="history-log-message">Emergency Use form has been submitted to the PI for endorsement by ({USER_WITH_EMAIL_LINK}). <div class="history-log-email">{EMAIL_NOTIFICATION_LOG}</div></span></log>
 										</logs>
 									</notification>										
 								</notifications>
@@ -377,7 +377,7 @@
 							</decision> -->
 						</decisions>
 						<actions>
-							<action type="ACKNOWLEDGED" workflow="INTENDED" email-template-identifier="EMERGENCY_USE_ACKNOWLEDGED_LETTER">
+							<action type="ACKNOWLEDGED" workflow="INTENDED" email-template-identifier="EMERGENCY_USE_ACKNOWLEDGED_LETTER" assign-to-agenda="true">
 								<change-status>
 									<status status="EMERGENCY_USE_INTENDED_IRB_ACKNOWLEDGED" />
 									<form-status status="EMERGENCY_USE_INTENDED_IRB_ACKNOWLEDGED" />
@@ -387,9 +387,9 @@
 									</form-committee-statuses>
 									<document-status status="ACKNOWLEDGED" />
 								</change-status>
-								<events>
+								<!-- <events>
 									<event>ASSIGN_TO_AGENDA</event>
-								</events>
+								</events> -->
 								<notifications>
 									<notification notification-type="LETTER" letter-name="Emergency Use Acknowledged Letter" doc-type="Emergency Use Acknowledged Letter" email-template-identifier="EMERGENCY_USE_ACKNOWLEDGED_LETTER">
 										<logs>
@@ -398,7 +398,7 @@
 									</notification>										
 								</notifications>
 							</action>
-							<action type="ACKNOWLEDGED" workflow="FOLLOW-UP" email-template-identifier="EMERGENCY_USE_ACKNOWLEDGED_LETTER">
+							<action type="ACKNOWLEDGED" workflow="FOLLOW-UP" email-template-identifier="EMERGENCY_USE_ACKNOWLEDGED_LETTER" assign-to-agenda="true">
 								<change-status>
 									<status status="EMERGENCY_USE_FOLLOW_UP_IRB_ACKNOWLEDGED" />
 									<form-status status="EMERGENCY_USE_FOLLOW_UP_IRB_ACKNOWLEDGED" />
@@ -408,9 +408,9 @@
 									</form-committee-statuses>
 									<document-status status="ACKNOWLEDGED" />
 								</change-status>
-								<events>
+								<!-- <events>
 									<event>ASSIGN_TO_AGENDA</event>
-								</events>
+								</events> -->
 								<notifications>
 									<notification notification-type="LETTER" letter-name="Emergency Use Acknowledged Letter" doc-type="Emergency Use Acknowledged Letter" email-template-identifier="EMERGENCY_USE_ACKNOWLEDGED_LETTER">
 										<logs>

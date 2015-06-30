@@ -130,7 +130,6 @@
             value="/WEB-INF/views/protocol/protocolform/newsubmission/misc.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
-        	<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" />
     		
     		<!--<add-attribute value="/static/js/encoder.js" />--> 
     		<add-attribute value="/static/js/protocol/protocolform/template-base.js" />
@@ -361,7 +360,6 @@
             value="/WEB-INF/views/protocol/protocolform/newsubmission/misc.jspx"/>
         <put-list-attribute name="javascripts" inherit="true">
         	<add-attribute value="/static/js/ext/ux/ext.ux.searchfield.js" />
-        	<add-attribute value="/static/js/ext/ux/ext.ux.GridDragDropRowOrder.js" />
     		
     		<!--<add-attribute value="/static/js/encoder.js" />--> 
     		<add-attribute value="/static/js/protocol/protocolform/template-base.js" />

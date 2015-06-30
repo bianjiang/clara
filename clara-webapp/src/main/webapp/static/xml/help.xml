@@ -716,12 +716,21 @@
                 ]]>
 		</helpcontent>
 	</sufficient-time-obtain-irb-approval>
-	<tri-involved>
+	<!-- <tri-involved>
 		<helpcontent>
 		 <![CDATA[
                 <span>
                 	<li>CRSC provides infrastructure for investigators conducting human-based research, including specialized research space, nursing support, lab processing, dietary consultation, regulatory assistance, subject recruitment and more. </li>
                 	<li>Investigators seeking CRSC services should complete and submit a CRSC Resource Request Form at <a href="https://ucore.uams.edu/" target="_blank">UAMS UCORE</a></li>
+                </span>
+                ]]>
+		</helpcontent>
+	</tri-involved> -->
+	<tri-involved>
+		<helpcontent>
+		 <![CDATA[
+                <span>
+                	<li>The Translational Research Institute (TRI) provides free protocol development assistance to investigators conducting human-based research upon request, including reviewing the protocol for content, consistency among documents and completeness of essential sections; TRI staff will provide tracked documents with suggested edits.</li>
                 </span>
                 ]]>
 		</helpcontent>
